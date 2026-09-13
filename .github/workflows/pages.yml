@@ -1,4 +1,4 @@
-name: Deploy EXPEDIENTE to GitHub Pages
+name: Deploy EXPEDIENTES to GitHub Pages
 
 on:
   push:
@@ -24,19 +24,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prepare site
-        run: |
-          mkdir -p _site
-          curl -fL "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/expediente-web/index.html" -o _site/index.html
-          cp README.md _site/README.md || true
-
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "_site"
+          path: "."
 
       - name: Deploy to GitHub Pages
         id: deployment
