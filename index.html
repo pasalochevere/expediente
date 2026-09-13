@@ -134,9 +134,25 @@ button,select,input{font:inherit;border-radius:10px;border:1px solid #4b3e31;bac
   body.printing *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 }
 
+/* ===== ACCESO V1 · LICENCIA 24H ===== */
+.license-card{margin:18px 0 20px;padding:18px;border:1px solid #76552f;border-radius:16px;background:linear-gradient(150deg,#19130e,#0d0c0a);box-shadow:0 14px 32px rgba(0,0,0,.26)}
+.license-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.license-head h3{margin:.15em 0;color:#f2d197}.license-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;border:1px solid #6f5b42;background:#12100d;color:#d5c2a5;font-size:.76rem;font-weight:900;letter-spacing:.04em}.license-pill.active{border-color:#4c8b62;color:#a8e8ba;background:#102017}.license-pill.expired{border-color:#8f3e3a;color:#ffb2ae;background:#241211}.license-row{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:10px;margin-top:14px}.license-row input{text-transform:uppercase;letter-spacing:.1em;font-weight:900}.license-meta{margin-top:10px;color:#bba990;font-size:.86rem;line-height:1.5}.license-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.license-active-box{margin-top:12px;padding:12px;border:1px solid #315e42;border-radius:12px;background:#0e1a13;color:#c7ebd1}.license-lock-note{margin-top:10px;padding:10px 12px;border-left:3px solid #d09a4d;background:#17120d;color:#cbb89f}.locked-action{opacity:.58}.collection-strip{margin-top:18px;padding:14px;border:1px solid #4b3c2c;border-radius:14px;background:#100e0c}.collection-strip h3{margin:.2em 0;color:#f1d29a}.collection-cases{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}.case-chip{padding:10px;border:1px solid #5a4935;border-radius:10px;background:#15110d}.case-chip b{display:block;color:#e7c98f}.case-chip span{font-size:.78rem;color:#a99b87}.case-chip.current{border-color:#9b6d34;background:#1d150d}.case-chip.soon{opacity:.7}@media(max-width:760px){.license-row{grid-template-columns:1fr}.collection-cases{grid-template-columns:1fr}}
+
 </style></head><body><div class="wrap">
 <div class="brandbar"><div><div class="logo">EXPEDIENTES</div><div class="tag">CASOS SIN RESOLVER · PasaloChevere</div></div><div class="stamp">CASO 001</div></div>
 <section id="home" class="hero"><div class="tag">CASOS SIN RESOLVER</div><h1>EXPEDIENTES</h1><div class="case-cover"><div class="eyebrow">CASO 001</div><h2>LA ÚLTIMA REUNIÓN</h2><p class="case-tagline">La verdad está en la mesa.</p></div><p><b>Central de Investigación.</b> Usás las cartas impresas sobre la mesa y este celular como sistema de investigación: controla el tiempo, entrega pistas y guarda información secreta.</p>
+<div id="licenseCard" class="license-card">
+  <div class="license-head"><div><div class="eyebrow">ACCESO AL CASO</div><h3>Activá Caso 001</h3><div class="sub">La clave habilita el caso durante 24 horas desde la primera activación. Tus invitados entran por QR o código de sala sin comprar otra clave.</div></div><div id="licensePill" class="license-pill">● Sin activar</div></div>
+  <div id="licenseEntry">
+    <div class="license-row"><input id="licenseKey" maxlength="20" placeholder="EXP-XXXX-XXXX" autocomplete="off"><button class="primary" onclick="activateCaseLicense()">Activar acceso</button></div>
+    <div id="licenseMessage" class="license-meta">Ingresá la clave recibida con tu compra. La vigencia comienza recién al activarla.</div>
+  </div>
+  <div id="licenseActiveBox" class="license-active-box hidden"></div>
+  <div class="license-actions"><button class="ghost" onclick="showMultiSetup()">🔗 Unirme a una sala</button><button class="ghost" onclick="forgetCaseLicense()">Cambiar clave</button></div>
+  <div class="license-lock-note"><b>Importante:</b> crear partidas, jugar solo y descargar/imprimir el material requiere una clave activa. Entrar como invitado a una sala no requiere clave.</div>
+</div>
+<div class="collection-strip"><div class="eyebrow">COLECCIÓN EXPEDIENTES</div><h3>Más casos, una misma Central de Investigación</h3><div class="sub">El Caso 001 es el primero de una colección. Los próximos casos podrán activarse desde este mismo ecosistema.</div><div class="collection-cases"><div class="case-chip current"><b>Caso 001</b><span>La Última Reunión · disponible</span></div><div class="case-chip soon"><b>Caso 002</b><span>Próximamente</span></div><div class="case-chip soon"><b>Caso 003</b><span>Próximamente</span></div></div></div>
+
 <div class="onboarding">
   <div class="onboarding-head"><div><div class="eyebrow">ANTES DE EMPEZAR</div><h2>Tres formas de jugar</h2></div><p>La regla central es la misma: durante la investigación conectás <b>solo dos elementos</b>. Persona + Lugar, Lugar + Objeto o Persona + Objeto. La combinación completa se reserva para la acusación final.</p></div>
   <div class="table-kit">
@@ -510,4 +526,69 @@ async function downloadPackPDF(kind,bw,btn){
     if(btn){btn.disabled=false;btn.innerHTML=original;}
   }
 }
+
+
+/* ===== ACCESO V1 · CLAVE 24H ===== */
+const CASE_LICENSE_STORAGE='expedientes_case001_license_v1';
+let caseLicense=null;
+let caseLicenseTimer=null;
+function licenseKeyNorm(v){return String(v||'').trim().toUpperCase().replace(/[^A-Z0-9-]/g,'')}
+function licenseSecondsLeft(){return caseLicense?.expires_at?Math.max(0,Math.floor((new Date(caseLicense.expires_at).getTime()-Date.now())/1000)):0}
+function hasActiveCaseLicense(){return !!(caseLicense?.active && licenseSecondsLeft()>0)}
+function licenseTimeLabel(sec){sec=Math.max(0,Number(sec||0));let h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);return `${h} h ${String(m).padStart(2,'0')} min`}
+function setLicenseMessage(msg,bad=false){let el=$('licenseMessage');if(el){el.textContent=msg;el.style.color=bad?'#ffaaa4':'#bba990'}}
+function renderCaseLicense(){
+  let pill=$('licensePill'),entry=$('licenseEntry'),box=$('licenseActiveBox');
+  if(!pill||!entry||!box)return;
+  if(hasActiveCaseLicense()){let left=licenseSecondsLeft();pill.className='license-pill active';pill.textContent='● Acceso activo';entry.classList.add('hidden');box.classList.remove('hidden');box.innerHTML=`<b>✅ Caso 001 habilitado</b><br>Tiempo restante: <b>${licenseTimeLabel(left)}</b><br><small>Vence: ${new Date(caseLicense.expires_at).toLocaleString()}</small>`}
+  else{if(caseLicense?.expires_at){pill.className='license-pill expired';pill.textContent='● Acceso vencido';setLicenseMessage('Esta clave ya completó su período de acceso.',true)}else{pill.className='license-pill';pill.textContent='● Sin activar'}entry.classList.remove('hidden');box.classList.add('hidden')}
+  let createBtn=document.querySelector('#multiSetup .multi-card:first-child button.primary');if(createBtn){createBtn.classList.toggle('locked-action',!hasActiveCaseLicense());createBtn.textContent=hasActiveCaseLicense()?'Crear sala':'🔒 Activá tu clave para crear sala'}
+}
+async function invokeLicense(action,key){
+  await ensureExpSession();
+  let {data,error}=await expSb.functions.invoke('expediente-license',{body:{action,license_key:licenseKeyNorm(key)}});
+  if(error)throw new Error(await functionErrorText(error));
+  if(!data?.ok)throw new Error(data?.error||'No se pudo validar la clave.');
+  return data;
+}
+async function activateCaseLicense(){
+  let input=$('licenseKey'),key=licenseKeyNorm(input?.value);if(!key){setLicenseMessage('Ingresá la clave de acceso.',true);input?.focus();return}
+  try{setLicenseMessage('Validando clave...');let data=await invokeLicense('activate',key);caseLicense={...data,license_key:key};localStorage.setItem(CASE_LICENSE_STORAGE,key);renderCaseLicense();setLicenseMessage('Acceso activado correctamente.')}catch(e){setLicenseMessage(backendErrorText(e),true)}
+}
+async function restoreCaseLicense(){
+  let key=licenseKeyNorm(localStorage.getItem(CASE_LICENSE_STORAGE)||'');if(!key){renderCaseLicense();return}
+  if($('licenseKey'))$('licenseKey').value=key;
+  try{let data=await invokeLicense('status',key);if(data?.active){caseLicense={...data,license_key:key}}else caseLicense=null}catch(e){caseLicense={active:false,license_key:key,expires_at:null};setLicenseMessage(backendErrorText(e),true)}
+  renderCaseLicense();
+}
+function forgetCaseLicense(){localStorage.removeItem(CASE_LICENSE_STORAGE);caseLicense=null;if($('licenseKey'))$('licenseKey').value='';renderCaseLicense();setLicenseMessage('Ingresá otra clave. La vigencia comienza al activarla.')}
+function requireCaseLicense(){if(hasActiveCaseLicense())return true;goHome();renderCaseLicense();setLicenseMessage('Activá tu clave para usar esta función.',true);setTimeout(()=>$('licenseKey')?.focus(),80);return false}
+
+const _accessShowDigital=showDigitalSetup,_accessShowDetective=showDetectiveSetup,_accessShowImpostor=showImpostorSetup,_accessShowPrint=showPrintCenter;
+showDigitalSetup=function(){if(!requireCaseLicense())return;_accessShowDigital()};
+showDetectiveSetup=function(){if(!requireCaseLicense())return;_accessShowDetective()};
+showImpostorSetup=function(){if(!requireCaseLicense())return;_accessShowImpostor()};
+showPrintCenter=function(){if(!requireCaseLicense())return;_accessShowPrint()};
+
+createDemoRoom=async function(){
+  if(!requireCaseLicense())return;
+  try{
+    await ensureExpSession();
+    let name=$('mhName').value.trim()||'Jugador 1',char=+$('mhChar').value,roomMode=$('mhMode').value;
+    let {data,error}=await expSb.functions.invoke('expediente-create-room',{body:{license_key:caseLicense.license_key,display_name:name,character_index:char,mode:roomMode}});
+    if(error)throw new Error(await functionErrorText(error));if(!data?.ok)throw new Error(data?.error||'No se pudo crear la sala.');
+    let room=data.room,pl=data.player;multiRoomId=room.id;multiPlayerId=pl.id;multiIsHost=true;saveLastRoom(room.code);await subscribeRealRoom(room.id);await refreshRealRoom();openLobby();startMultiFallback();
+  }catch(e){alert('No pude crear la sala. '+backendErrorText(e))}
+};
+
+const _accessPrintPack=printPack,_accessDownloadPDF=downloadPackPDF;
+printPack=function(kind,bw){if(!requireCaseLicense())return;return _accessPrintPack(kind,bw)};
+downloadPackPDF=async function(kind,bw,btn){if(!requireCaseLicense())return;return await _accessDownloadPDF(kind,bw,btn)};
+
+async function initAccessV1(){
+  await restoreCaseLicense();
+  if(caseLicenseTimer)clearInterval(caseLicenseTimer);caseLicenseTimer=setInterval(()=>{if(caseLicense?.active && licenseSecondsLeft()<=0){caseLicense.active=false;renderCaseLicense()}else if(caseLicense?.active)renderCaseLicense()},60000);
+}
+setTimeout(initAccessV1,0);
+
 </script></body></html>
