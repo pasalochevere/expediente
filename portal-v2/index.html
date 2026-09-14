@@ -30,7 +30,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 .heroPanel{background:linear-gradient(145deg,#1d1819,#0f0e10);border:1px solid #44383a;border-radius:24px;padding:22px;box-shadow:0 22px 54px rgba(0,0,0,.35);position:relative;overflow:hidden}
 .heroPanel:before{content:"";position:absolute;inset:-40px -100px auto auto;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(247,148,29,.18),transparent 66%)}
 .heroPanel h2{margin:7px 0 8px;font-size:1.7rem}.heroPanel p{font-size:.92rem;margin:0 0 15px}.heroStats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.heroStat{padding:13px;border:1px solid #43393a;border-radius:14px;background:#111013}.heroStat b{display:block;color:#fff;font-size:1.2rem}.heroStat span{font-size:.72rem;color:var(--muted)}
-.categoryStrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:6px 0 24px}.catChip{border:1px solid #3d3638;background:linear-gradient(180deg,#171519,#111013);border-radius:16px;padding:13px;min-height:92px}.catChip i{font-style:normal;font-size:1.25rem}.catChip b{display:block;margin:7px 0 2px;font-size:.82rem}.catChip span{color:#9f958d;font-size:.7rem;line-height:1.25}.catChip.adult{box-shadow:inset 0 2px 0 #9d3852}.catChip.family{box-shadow:inset 0 2px 0 var(--blue)}.catChip.mystery{box-shadow:inset 0 2px 0 var(--gold)}.catChip.wellbeing{box-shadow:inset 0 2px 0 var(--green)}.catChip.creative{box-shadow:inset 0 2px 0 var(--orange)}
+.categoryStrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:6px 0 24px}.catChip{border:1px solid #3d3638;background:linear-gradient(180deg,#171519,#111013);border-radius:16px;padding:13px;min-height:92px;text-decoration:none;color:inherit;transition:.16s transform,.16s border-color,.16s box-shadow}.catChip:hover{transform:translateY(-2px);border-color:#5b4e4f;box-shadow:0 12px 24px rgba(0,0,0,.2)}.catChip i{font-style:normal;font-size:1.25rem}.catChip b{display:block;margin:7px 0 2px;font-size:.82rem}.catChip span{color:#9f958d;font-size:.7rem;line-height:1.25}.catChip.adult{box-shadow:inset 0 2px 0 #9d3852}.catChip.family{box-shadow:inset 0 2px 0 var(--blue)}.catChip.mystery{box-shadow:inset 0 2px 0 var(--gold)}.catChip.wellbeing{box-shadow:inset 0 2px 0 var(--green)}.catChip.creative{box-shadow:inset 0 2px 0 var(--orange)}
 .box{background:linear-gradient(180deg,#181619,#111012);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 16px 42px rgba(0,0,0,.28);margin:14px 0}.box h2,.box h3{margin:0 0 8px}.sub{color:var(--muted);line-height:1.5}
 .authrow{display:grid;grid-template-columns:1fr auto;gap:9px;margin-top:14px}.authrow input,.codeinput{width:100%;border:1px solid #51484a;background:#0d0c0e;color:#fff;border-radius:11px;padding:13px 14px}
 .btn{border:1px solid #51484a;border-radius:11px;padding:12px 15px;font-weight:900;background:#19171a;color:#fff;cursor:pointer;transition:.16s transform,.16s box-shadow}.btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(0,0,0,.22)}
@@ -45,7 +45,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 .card h3{font-size:1.38rem;margin:12px 0 4px}.card .accent{color:var(--gold);font-size:.86rem;font-weight:850}.card p{color:var(--muted);font-size:.9rem;line-height:1.46}.card .actions{position:absolute;left:18px;right:18px;bottom:17px;display:flex;gap:8px;z-index:2}.actions .btn{flex:1;text-decoration:none;text-align:center}
 .license{border:1px solid #59462e;background:#12100d;border-radius:13px;padding:13px;margin-top:12px}.license code{color:#f0cc88;font-weight:900;letter-spacing:.08em}.license small{color:var(--muted)}
 .catalog-title{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:32px 0 12px}.catalog-title h2{margin:0;font-size:1.7rem}.catalog-title span{color:var(--muted);font-size:.84rem}
-.familyHead{display:flex;align-items:center;gap:10px;margin:26px 0 10px;padding-top:8px}.familyHead b{font-size:1.05rem}.familyHead span{height:1px;background:#3c3538;flex:1}.familyHead small{color:#8f857c;font-size:.72rem}
+.familyHead{display:flex;align-items:center;gap:10px;margin:26px 0 10px;padding-top:8px}.familyHead b{font-size:1.05rem}.familyHead span{height:1px;background:#3c3538;flex:1}.familyHead small{color:#8f857c;font-size:.72rem}.categorySection{scroll-margin-top:18px;margin:32px 0 0}.categorySection .categoryIntro{display:flex;justify-content:space-between;align-items:end;gap:18px;margin:0 0 12px;padding:0 2px}.categorySection .categoryIntro h3{margin:3px 0 0;font-size:1.55rem}.categorySection .categoryIntro p{margin:0;color:var(--muted);font-size:.84rem;max-width:520px;text-align:right}.categorySection.empty .grid{grid-template-columns:1fr}.emptyCard{min-height:150px}.emptyCard .actions{position:static;margin-top:14px}.libraryGroups{display:grid;gap:22px}.libraryGroup .grid{margin-top:10px}.libraryGroupTitle{display:flex;align-items:center;gap:10px;margin:4px 0 0}.libraryGroupTitle span{height:1px;background:#3b3436;flex:1}.libraryGroupTitle b{font-size:.9rem;letter-spacing:.05em}
 .support{display:grid;grid-template-columns:1fr auto;gap:15px;align-items:center}.support-actions{display:flex;gap:8px;flex-wrap:wrap}.note{color:#a99e92;font-size:.82rem;line-height:1.45}.copy{border:0;background:transparent;color:#d9b76d;cursor:pointer;font-weight:800}.soon{opacity:.78}
 @media(max-width:920px){.hero{grid-template-columns:1fr}.categoryStrip{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr 1fr}.support{grid-template-columns:1fr}}
 @media(max-width:560px){.wrap{padding:15px}.grid,.categoryStrip{grid-template-columns:1fr}.authrow{grid-template-columns:1fr}.hero{padding-top:30px}.account{align-items:flex-start;flex-direction:column}.top{align-items:flex-start}.seal{width:58px;height:58px}.pill{display:none}}
@@ -56,12 +56,12 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
   <div class="heroCopy"><div class="eyebrow">TODOS TUS JUEGOS, UN SOLO ACCESO</div><h1>ENTRÁ.<br><em>ELEGÍ.</em><br>JUGÁ.</h1><p>Una sola biblioteca para activar, abrir y volver a tus experiencias PasaloChevere. Juegos de pareja, misterio, familia, aprendizaje y vínculos, cada uno con su propia identidad.</p></div>
   <div class="heroPanel"><div class="eyebrow">TU BIBLIOTECA PERSONAL</div><h2>Menos mezcla. Más ganas de jugar.</h2><p>Cada producto vive dentro de una familia clara, sin perder la estética original de su juego.</p><div class="heroStats"><div class="heroStat"><b>5</b><span>familias de experiencias</span></div><div class="heroStat"><b>1</b><span>acceso personal</span></div><div class="heroStat"><b>12m</b><span>desde activación</span></div><div class="heroStat"><b>2</b><span>dispositivos</span></div></div></div>
 </section>
-<section class="categoryStrip">
-  <div class="catChip adult"><i>♥</i><b>PAREJA & ADULTOS</b><span>Conexión, humor e intensidad.</span></div>
-  <div class="catChip family"><i>★</i><b>FAMILIA & KIDS</b><span>Jugar, aprender y compartir.</span></div>
-  <div class="catChip mystery"><i>⌕</i><b>MISTERIO & GRUPO</b><span>Casos, pistas y roles.</span></div>
-  <div class="catChip wellbeing"><i>✦</i><b>BIENESTAR & VÍNCULOS</b><span>Explorar relaciones y emociones.</span></div>
-  <div class="catChip creative"><i>✂</i><b>CREATIVOS & DIDÁCTICOS</b><span>Construir, crear y descubrir.</span></div>
+<section class="categoryStrip" aria-label="Categorías de juegos">
+  <a class="catChip adult" href="#cat-adult"><i>♥</i><b>PAREJA & ADULTOS</b><span>Conexión, humor e intensidad.</span></a>
+  <a class="catChip family" href="#cat-family"><i>★</i><b>FAMILIA & KIDS</b><span>Jugar, aprender y compartir.</span></a>
+  <a class="catChip mystery" href="#cat-mystery"><i>⌕</i><b>MISTERIO & GRUPO</b><span>Casos, pistas y roles.</span></a>
+  <a class="catChip wellbeing" href="#cat-wellbeing"><i>✦</i><b>BIENESTAR & VÍNCULOS</b><span>Explorar relaciones y emociones.</span></a>
+  <a class="catChip creative" href="#cat-creative"><i>✂</i><b>CREATIVOS & DIDÁCTICOS</b><span>Construir, crear y descubrir.</span></a>
 </section>
 
 <section id="loginBox" class="box">
@@ -81,19 +81,49 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 
 <section id="myGames" class="hidden">
   <div class="catalog-title"><div><div class="eyebrow">MI BIBLIOTECA</div><h2>Mis juegos</h2></div><span>Accesos vinculados a tu cuenta</span></div>
-  <div id="myGamesGrid" class="grid"></div>
+  <div id="myGamesGrid" class="libraryGroups"></div>
 </section>
 
 <section id="paymentNotice" class="box hidden"><div class="eyebrow">ESTADO DE COMPRA</div><h3 id="paymentTitle">Mercado Pago</h3><div id="paymentText" class="sub"></div></section>
 
-<div class="catalog-title"><div><div class="eyebrow">PASALOCHEVERE</div><h2>Catálogo de juegos</h2></div><span>Nuevos títulos se sumarán acá</span></div>
-<section class="grid">
-  <article class="card"><span class="status live">● DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 001 · La Última Reunión</div><p>Investigación multijugador, QR, roles privados, pistas y kit imprimible.</p><div class="note" id="exp001Price" style="margin-top:8px">Precio online a definir</div><div class="actions"><button class="btn primary" id="exp001Buy" onclick="buyNow('EXP-001')" disabled>COMPRAR AHORA</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20comprar%20EXPEDIENTES%20%E2%80%94%20Caso%20001." target="_blank" rel="noopener">WHATSAPP</a></div></article><article class="card" data-cat="adult"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18</div><p>Un solo código desbloquea las tres ediciones, el juego digital y el material descargable. Acceso por 12 meses y hasta 2 dispositivos.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-  <article class="card soon" data-cat="mystery"><span class="status">PRÓXIMAMENTE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002</div><p>Un nuevo caso dentro de la misma Central de Investigación.</p><div class="actions"><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20que%20me%20avisen%20cuando%20est%C3%A9%20disponible%20EXPEDIENTES%20%E2%80%94%20Caso%20002." target="_blank" rel="noopener">AVISARME POR WHATSAPP</a></div></article>
-  <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · FÍSICA + DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>54 piezas numeradas, 6 colores, dados y portal digital con niveles, estrellas, desafíos y material imprimible.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-  <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · SOLO DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>La misma experiencia educativa sin torre física: el portal sortea piezas virtuales, colores y desafíos desde el celular.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-  <article class="card soon" data-cat="wellbeing"><span class="status">EN PREPARACIÓN</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Mesa interactiva</div><p>Dinámicas visuales y prácticas a distancia.</p></article>
-  <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE 5 EN 1 DIGITAL</h3><div class="accent">KIDS · GENERAL · FIESTA · SIN FILTRO</div><p>Mega Pack con 4 versiones y más de 800 contenidos para jugar desde el celular, con Torre o Solo Digital.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+<div class="catalog-title"><div><div class="eyebrow">PASALOCHEVERE</div><h2>Catálogo por categorías</h2></div><span>Elegí una familia y después el juego</span></div>
+
+<section class="categorySection" id="cat-adult">
+  <div class="categoryIntro"><div><div class="eyebrow">♥ PAREJA & ADULTOS</div><h3>Conexión, humor e intensidad</h3></div><p>Experiencias pensadas para parejas y adultos, con una identidad visual propia y reglas claras de consentimiento.</p></div>
+  <div class="grid">
+    <article class="card" data-cat="adult"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18</div><p>Un solo código desbloquea las tres ediciones, el juego digital y el material descargable. Acceso por 12 meses y hasta 2 dispositivos.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+  </div>
+</section>
+
+<section class="categorySection" id="cat-family">
+  <div class="categoryIntro"><div><div class="eyebrow">★ FAMILIA & KIDS</div><h3>Jugar, aprender y compartir</h3></div><p>Juegos familiares y educativos para usar con la torre física o directamente desde el celular.</p></div>
+  <div class="grid">
+    <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · FÍSICA + DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>54 piezas numeradas, 6 colores, dados y portal digital con niveles, estrellas, desafíos y material imprimible.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+    <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · SOLO DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>La misma experiencia educativa sin torre física: el portal sortea piezas virtuales, colores y desafíos desde el celular.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+    <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE 5 EN 1 DIGITAL</h3><div class="accent">KIDS · GENERAL · FIESTA · SIN FILTRO</div><p>Mega Pack con 4 versiones y más de 800 contenidos para jugar desde el celular, con Torre o Solo Digital.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+  </div>
+</section>
+
+<section class="categorySection" id="cat-mystery">
+  <div class="categoryIntro"><div><div class="eyebrow">⌕ MISTERIO & GRUPO</div><h3>Casos, pistas y roles</h3></div><p>Investigación multijugador, narrativa, roles privados y material imprimible para resolver en equipo.</p></div>
+  <div class="grid">
+    <article class="card" data-cat="mystery"><span class="status live">● DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 001 · La Última Reunión</div><p>Investigación multijugador, QR, roles privados, pistas y kit imprimible.</p><div class="note" id="exp001Price" style="margin-top:8px">Precio online a definir</div><div class="actions"><button class="btn primary" id="exp001Buy" onclick="buyNow('EXP-001')" disabled>COMPRAR AHORA</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20comprar%20EXPEDIENTES%20%E2%80%94%20Caso%20001." target="_blank" rel="noopener">WHATSAPP</a></div></article>
+    <article class="card soon" data-cat="mystery"><span class="status">PRÓXIMAMENTE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002</div><p>Un nuevo caso dentro de la misma Central de Investigación.</p><div class="actions"><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20que%20me%20avisen%20cuando%20est%C3%A9%20disponible%20EXPEDIENTES%20%E2%80%94%20Caso%20002." target="_blank" rel="noopener">AVISARME POR WHATSAPP</a></div></article>
+  </div>
+</section>
+
+<section class="categorySection" id="cat-wellbeing">
+  <div class="categoryIntro"><div><div class="eyebrow">✦ BIENESTAR & VÍNCULOS</div><h3>Explorar relaciones y emociones</h3></div><p>Herramientas visuales para representar vínculos, roles, emociones y dinámicas de una forma simple y acompañada.</p></div>
+  <div class="grid">
+    <article class="card soon" data-cat="wellbeing"><span class="status">BETA · EN PRUEBA</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Campo de constelación interactivo</div><p>Representá personas, roles, emociones y escenas relacionales en un campo visual personalizable.</p><div class="actions"><span class="btn" style="opacity:.72">ACCESO EN INTEGRACIÓN</span></div></article>
+  </div>
+</section>
+
+<section class="categorySection empty" id="cat-creative">
+  <div class="categoryIntro"><div><div class="eyebrow">✂ CREATIVOS & DIDÁCTICOS</div><h3>Construir, crear y descubrir</h3></div><p>Esta familia queda reservada para los próximos kits creativos, imprimibles y experiencias de construcción.</p></div>
+  <div class="grid">
+    <article class="card emptyCard" data-cat="creative"><span class="status">PRÓXIMAMENTE</span><h3>NUEVOS TÍTULOS</h3><div class="accent">CREATIVOS · IMPRIMIBLES · DIDÁCTICOS</div><p>Acá van a vivir las propuestas creativas sin mezclarse con los juegos de familia, misterio o bienestar.</p></article>
+  </div>
 </section>
 
 <section class="box support" id="soporte"><div><div class="eyebrow">SOPORTE OFICIAL PASALOCHEVERE</div><h3>¿Necesitás ayuda?</h3><div class="sub">Soporte para activaciones, códigos, dispositivos, acceso a juegos y consultas sobre nuevos casos.</div><div class="note" style="margin-top:10px">WhatsApp: <b>11 5377-4769</b> · Correo: <b>pasalochevere@gmail.com</b></div></div><div class="support-actions"><a class="btn primary" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20necesito%20ayuda%20con%20mi%20acceso%20o%20juego." target="_blank" rel="noopener">WHATSAPP</a><a class="btn" href="mailto:pasalochevere@gmail.com?subject=Soporte%20PasaloChevere">CORREO</a></div></section>
@@ -150,23 +180,39 @@ async function openGame(code,url){
    location.href=url;
  }catch(e){alert(e.message||'No se pudo validar este dispositivo.')}
 }
+function licenseCategory(l){
+ const code=String(l.product_code||'').toUpperCase(),name=String(l.product_name||'').toUpperCase();
+ if(code.startsWith('DI-')||name.includes('DOBLE INTENCIÓN')||name.includes('DOBLE INTENCION'))return {key:'adult',label:'♥ PAREJA & ADULTOS'};
+ if(code.startsWith('EXP-')||name.includes('EXPEDIENTES'))return {key:'mystery',label:'⌕ MISTERIO & GRUPO'};
+ if(code.startsWith('TK-')||code.includes('TORRE')||name.includes('TORRE'))return {key:'family',label:'★ FAMILIA & KIDS'};
+ if(code.includes('VINC')||name.includes('VÍNCORES')||name.includes('VINCORES'))return {key:'wellbeing',label:'✦ BIENESTAR & VÍNCULOS'};
+ return {key:'other',label:'OTROS ACCESOS'};
+}
 function renderLicenses(list){
  list=(list||[]).filter(l=>l.product_code!=='TOWER-JAM');
  const sec=document.getElementById('myGames'),g=document.getElementById('myGamesGrid');
  if(!list.length){sec.classList.add('hidden');g.innerHTML='';return}
- sec.classList.remove('hidden');g.innerHTML=list.map(l=>{
-   const active=l.status==='active'&&l.expires_at&&new Date(l.expires_at).getTime()>Date.now();
-   const pending=!!l.can_activate;
-   const date=l.expires_at?new Date(l.expires_at).toLocaleDateString():'Empieza al activar';
-   const badge=active?'● ACTIVO':pending?'● COMPRA APROBADA':'VENCIDO';
-   const badgeClass=(active||pending)?'live':'';
-   const code=l.activation_code||'Se genera al activar';
-   let action='';
-   if(pending) action='<button class="btn primary" onclick="activateOwned(\''+escapeHtml(l.product_code)+'\')">ACTIVAR 12 MESES</button>';
-   else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a>';
-   else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span>';
-   else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
-   return '<article class="card"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(code)+'</code></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>'
+ sec.classList.remove('hidden');
+ const groups={};
+ list.forEach(l=>{const c=licenseCategory(l);(groups[c.key]||(groups[c.key]={label:c.label,items:[]})).items.push(l)});
+ const order=['adult','family','mystery','wellbeing','other'];
+ g.innerHTML=order.filter(k=>groups[k]).map(k=>{
+   const group=groups[k];
+   const cards=group.items.map(l=>{
+     const active=l.status==='active'&&l.expires_at&&new Date(l.expires_at).getTime()>Date.now();
+     const pending=!!l.can_activate;
+     const date=l.expires_at?new Date(l.expires_at).toLocaleDateString():'Empieza al activar';
+     const badge=active?'● ACTIVO':pending?'● COMPRA APROBADA':'VENCIDO';
+     const badgeClass=(active||pending)?'live':'';
+     const code=l.activation_code||'Se genera al activar';
+     let action='';
+     if(pending) action='<button class="btn primary" onclick="activateOwned(\''+escapeHtml(l.product_code)+'\')">ACTIVAR 12 MESES</button>';
+     else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a>';
+     else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span>';
+     else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
+     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(code)+'</code></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>';
+   }).join('');
+   return '<section class="libraryGroup"><div class="libraryGroupTitle"><b>'+group.label+'</b><span></span></div><div class="grid">'+cards+'</div></section>';
  }).join('');
 }
 async function activateOwned(productCode){
