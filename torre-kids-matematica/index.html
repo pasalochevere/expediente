@@ -54,6 +54,7 @@ a{color:inherit}
 .mode-card{position:relative;overflow:hidden;min-height:220px;text-align:left;padding:24px;border-radius:22px;border:1px solid var(--line);background:#fffaf2;box-shadow:var(--shadow)}
 .mode-card:hover{transform:translateY(-2px)}
 .mode-card .icon{font-size:2rem}.mode-card h3{font-size:1.55rem;margin:14px 0 7px}.mode-card p{color:var(--muted);line-height:1.45}.mode-card strong{display:block;margin-top:14px;color:#9b6638}
+.mode-card .btn{margin-top:16px}
 .mode-card.digital{background:linear-gradient(145deg,#15282c,#1f3a3f);color:white;border-color:#28484d}.mode-card.digital p{color:#c7d8d8}.mode-card.digital strong{color:#f5bd6a}
 .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#eee6da;font-size:.77rem;font-weight:900}
 .game-shell{max-width:720px;margin:0 auto}
@@ -177,7 +178,16 @@ let S={style:'tower',mode:'clasico',level:2,players:['Jugador 1','Jugador 2'],sc
 const home=document.getElementById('home'),screen=document.getElementById('screen');
 function view(h){home.classList.add('hidden');screen.classList.remove('hidden');screen.innerHTML='<div class="game-head"><div class="kidslogo"><div class="blockmark">TK</div><div><b>TORRE KIDS</b><span>MATEMÁTICA</span></div></div><button class="btn light" style="padding:9px 12px" onclick="backHome()">INICIO</button></div>'+h;window.scrollTo(0,0)}
 function backHome(){screen.classList.add('hidden');home.classList.remove('hidden');window.scrollTo(0,0)}
-function showPlayStyle(){view('<div class="eyebrow">ELEGÍ CÓMO JUGAR</div><h2>¿Tenés la torre?</h2><div class="mode-grid"><button class="mode-card" onclick="setStyle(\'tower\')"><div class="icon">🧱</div><h3>Con Torre</h3><p>Usá las 54 piezas físicas, colores y dados.</p><strong>FÍSICO + DIGITAL →</strong></button><button class="mode-card digital" onclick="setStyle(\'digital\')"><div class="icon">📱</div><h3>Sin Torre</h3><p>El portal sortea todo y el juego funciona 100% desde el celular.</p><strong>SOLO DIGITAL →</strong></button></div>')}
+function showPlayStyle(){
+ view('<div class="eyebrow">ELEGÍ CÓMO JUGAR</div><h2>¿Tenés la torre?</h2><div class="mode-grid">'+
+   '<article class="mode-card"><div class="icon">🧱</div><h3>Con Torre</h3><p>Usá las 54 piezas físicas, colores y dados.</p><button id="playWithTower" class="btn wood full" type="button">JUGAR CON TORRE</button></article>'+
+   '<article class="mode-card digital"><div class="icon">📱</div><h3>Sin Torre</h3><p>El portal sortea todo y el juego funciona 100% desde el celular.</p><button id="playDigitalOnly" class="btn full" type="button" style="background:#f5bd6a;color:#17242b">JUGAR SIN TORRE</button></article>'+
+ '</div>');
+ const withTower=document.getElementById('playWithTower');
+ const digitalOnly=document.getElementById('playDigitalOnly');
+ if(withTower) withTower.addEventListener('click',()=>setStyle('tower'));
+ if(digitalOnly) digitalOnly.addEventListener('click',()=>setStyle('digital'));
+}
 function setStyle(s){S.style=s;s==='tower'?chooseTowerMode():chooseDigitalMode()}
 function chooseTowerMode(){view('<div class="eyebrow">CON TORRE</div><h2>Elegí la modalidad</h2><div class="choice-grid">'+[
 ['🎯 Clásico','Sacá cualquier pieza','clasico'],['🎨 Dado de colores','El dado físico elige el color','colores'],['🎲 El que te toca','Los dados indican la pieza','te_toca'],['⭐ Misión','Todos contra la torre','mision']
