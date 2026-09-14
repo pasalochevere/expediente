@@ -56,13 +56,14 @@ const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
 const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
 const DEVICE_KEY='pc_device_id';
+const ACCESS_REDIRECT='https://pasalochevere.github.io/expediente/portal/';
 function deviceId(){let v=localStorage.getItem(DEVICE_KEY);if(!v){v=(crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2));localStorage.setItem(DEVICE_KEY,v)}return v}
 function deviceLabel(){return [navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150)}
 function msg(id,text,type=''){let el=document.getElementById(id);el.textContent=text;el.className='msg '+type}
 async function sendMagicLink(){
  const email=document.getElementById('email').value.trim();if(!email){msg('authMsg','Ingresá tu correo.','bad');return}
  const b=document.getElementById('sendBtn');b.disabled=true;msg('authMsg','Enviando enlace…');
- const redirect=location.origin+location.pathname;
+ const redirect=ACCESS_REDIRECT;
  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:redirect,shouldCreateUser:true}});
  b.disabled=false;if(error)msg('authMsg',error.message,'bad');else msg('authMsg','✅ Te enviamos un enlace. Revisá tu correo y abrilo para continuar.','good');
 }
