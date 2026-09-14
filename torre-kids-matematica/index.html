@@ -167,6 +167,34 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
   .sticker{font-size:.72rem}.category-strip{grid-template-columns:repeat(2,1fr)}.action-row .btn{width:100%}
 }
 
+
+/* === P0.8.1 · AUDIO + FEEDBACK + CONTROL ADULTO === */
+.floating-tools{position:fixed;right:18px;bottom:18px;z-index:80;display:flex;gap:10px}
+.floating-tool{width:48px;height:48px;border-radius:50%;border:1px solid #e1d3bd;background:#fffaf1;color:#253238;font-size:1.15rem;font-weight:900;box-shadow:0 12px 28px #5d3d1b2b;display:grid;place-items:center}
+.floating-tool:hover{transform:translateY(-2px)}
+.adult-overlay{position:fixed;inset:0;z-index:100;background:#17242bcc;display:grid;place-items:center;padding:18px;backdrop-filter:blur(5px)}
+.adult-panel{width:min(520px,96vw);max-height:88vh;overflow:auto;background:#fffaf1;border:1px solid #dfcfb7;border-radius:26px;padding:22px;box-shadow:0 26px 70px #0a111780}
+.adult-panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.adult-panel-head h2{margin:0;font-size:1.55rem}
+.close-x{width:38px;height:38px;border-radius:50%;border:1px solid #e0d2bd;background:#fff;font-size:1.15rem;font-weight:900}
+.setting-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:14px 0;border-bottom:1px solid #eadfce}
+.setting-copy b{display:block}.setting-copy span{color:#7a746c;font-size:.82rem}
+.switch{position:relative;width:54px;height:30px;flex:0 0 auto}.switch input{opacity:0;width:0;height:0}
+.slider-switch{position:absolute;inset:0;background:#d7d3cc;border-radius:999px;transition:.2s}
+.slider-switch:before{content:"";position:absolute;width:24px;height:24px;left:3px;top:3px;background:#fff;border-radius:50%;box-shadow:0 2px 7px #0002;transition:.2s}
+.switch input:checked + .slider-switch{background:#2bb673}.switch input:checked + .slider-switch:before{transform:translateX(24px)}
+.volume-wrap{padding:14px 0}.volume-wrap input{width:100%;accent-color:#2d87e8}
+.adult-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.adult-actions .btn{min-height:46px}
+.adult-note{font-size:.78rem;color:#777168;line-height:1.4;margin:12px 0 0}
+.feedback-pop{animation:feedbackPop .45s cubic-bezier(.18,.89,.32,1.28)}
+@keyframes feedbackPop{0%{transform:scale(.92);opacity:.2}100%{transform:scale(1);opacity:1}}
+.star-burst{animation:starBurst .65s ease-out}
+@keyframes starBurst{0%{transform:scale(.5) rotate(-8deg);opacity:.2}60%{transform:scale(1.18) rotate(4deg)}100%{transform:scale(1);opacity:1}}
+.mascot-bob{animation:mascotBob 1.2s ease-in-out 1}
+@keyframes mascotBob{0%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}70%{transform:translateY(-3px)}}
+.turn-phrase{display:inline-block;margin-top:8px;background:#fff7cf;border:1px solid #ecd06a;border-radius:999px;padding:7px 11px;font-size:.78rem;font-weight:900;color:#4c3a1f}
+@media(max-width:520px){.floating-tools{right:12px;bottom:12px}.floating-tool{width:44px;height:44px}.adult-actions{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -189,6 +217,39 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
     <div class="brandlock"><div class="pcmark">PC</div><div class="brandtext">PASALOCHÉVERE<small>JUEGOS QUE CONECTAN</small></div></div>
     <a class="library" href="../portal/">MI BIBLIOTECA</a>
   </header>
+
+  <div class="floating-tools" aria-label="Controles rápidos">
+    <button id="audioQuick" class="floating-tool" type="button" onclick="toggleQuickAudio()" title="Sonido">🔊</button>
+    <button class="floating-tool" type="button" onclick="openAdultPanel()" title="Ajustes para adultos">⚙️</button>
+  </div>
+
+  <div id="adultOverlay" class="adult-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="adultTitle">
+    <section class="adult-panel">
+      <div class="adult-panel-head">
+        <div><div class="eyebrow">CONTROL ADULTO</div><h2 id="adultTitle">Ajustes del juego</h2></div>
+        <button class="close-x" type="button" onclick="closeAdultPanel()" aria-label="Cerrar">×</button>
+      </div>
+      <div class="setting-row">
+        <div class="setting-copy"><b>🎵 Música ambiente</b><span>Loop suave durante la partida.</span></div>
+        <label class="switch"><input id="musicToggle" type="checkbox" onchange="setMusic(this.checked)"><span class="slider-switch"></span></label>
+      </div>
+      <div class="setting-row">
+        <div class="setting-copy"><b>🔔 Efectos de juego</b><span>Aciertos, estrellas y súper desafíos.</span></div>
+        <label class="switch"><input id="sfxToggle" type="checkbox" onchange="setSfx(this.checked)"><span class="slider-switch"></span></label>
+      </div>
+      <div class="volume-wrap">
+        <div class="setting-copy"><b>🔉 Volumen</b><span>Se recuerda en este dispositivo.</span></div>
+        <input id="volumeRange" type="range" min="0" max="100" step="5" oninput="setVolume(this.value)">
+      </div>
+      <div class="adult-actions">
+        <button class="btn light" onclick="adultChangeLevel()">📊 CAMBIAR NIVEL</button>
+        <button class="btn light" onclick="adultChangePlayers()">👥 CAMBIAR JUGADORES</button>
+        <button class="btn light" onclick="closeAdultPanel();showPrint()">🖨 IMPRIMIBLES</button>
+        <button class="btn light" onclick="adultRestart()">↻ REINICIAR PARTIDA</button>
+      </div>
+      <p class="adult-note">El audio empieza únicamente después de la primera interacción con la página. Podés silenciarlo en cualquier momento.</p>
+    </section>
+  </div>
 
   <section id="home">
     <section class="kid-hero">
@@ -293,9 +354,85 @@ const BASE=[
 ].map(x=>({piece:x[0],color:x[1],category:LABEL[x[1]],level:x[2],prompt:x[3],answer:x[4],hint:x[5]}));
 
 let S={style:'tower',mode:'clasico',level:2,players:['Jugador 1','Jugador 2'],scores:[0,0],p:0,color:null,piece:null,challenge:null,hinted:false,mission:20};
+const AUDIO_PREF_KEY='tk_audio_pref_v1';
+function loadAudioPrefs(){
+  try{const v=JSON.parse(localStorage.getItem(AUDIO_PREF_KEY)||'{}');return {music:v.music!==false,sfx:v.sfx!==false,volume:Number.isFinite(v.volume)?v.volume:.36};}
+  catch(e){return {music:true,sfx:true,volume:.36};}
+}
+const AP=loadAudioPrefs();
+const A={ctx:null,music:AP.music,sfx:AP.sfx,volume:AP.volume,musicTimer:null,musicStep:0,unlocked:false};
+const PHRASES={
+ turn:['¡Vamos, te toca!','¡A jugar!','Elegí tu desafío.','¡Vamos por otra estrella!'],
+ challenge:['¡Vos podés!','Pensalo con calma.','¡Desafío en marcha!','¡A usar esa cabeza!'],
+ hint:['Te doy una ayudita…','Mirá esta pista.','Pensalo de otra manera.','¡Una pista y seguimos!'],
+ good:['¡Lo lograste!','¡Excelente!','¡Muy bien!','¡Genial!'],
+ close:['¡Casi!','No pasa nada.','Probemos otra vez.','¡Seguimos aprendiendo!'],
+ mission:['¡Misión cumplida!','¡Lo lograron!','¡Gran trabajo en equipo!']
+};
+function phrase(type){const a=PHRASES[type]||['¡Vamos!'];return a[Math.floor(Math.random()*a.length)]}
+function saveAudioPrefs(){localStorage.setItem(AUDIO_PREF_KEY,JSON.stringify({music:A.music,sfx:A.sfx,volume:A.volume}))}
+function ensureAudio(){
+  if(!A.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;A.ctx=new C();}
+  if(A.ctx.state==='suspended')A.ctx.resume();
+  A.unlocked=true;return A.ctx;
+}
+function tone(freq,dur=.18,vol=.08,type='sine',delay=0){
+  if(!A.sfx && vol>.025)return;
+  const ctx=ensureAudio();if(!ctx)return;
+  const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=freq;
+  const t=ctx.currentTime+delay;const v=Math.max(.0001,vol*A.volume);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+dur+.03);
+}
+function musicNote(freq){
+  const ctx=ensureAudio();if(!ctx||!A.music)return;
+  const o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.value=freq;
+  const t=ctx.currentTime,v=.028*A.volume;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,v),t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+.52);
+  o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+.58);
+}
+function startMusic(){
+  if(!A.music||A.musicTimer)return;ensureAudio();
+  const notes=[523.25,659.25,783.99,659.25,587.33,698.46,783.99,698.46];
+  musicNote(notes[A.musicStep++%notes.length]);
+  A.musicTimer=setInterval(()=>{if(A.music)musicNote(notes[A.musicStep++%notes.length]);},950);
+}
+function stopMusic(){if(A.musicTimer){clearInterval(A.musicTimer);A.musicTimer=null}}
+function playSfx(kind){
+  if(!A.sfx)return;
+  if(kind==='success'){tone(659,.16,.11,'sine');tone(784,.2,.1,'sine',.12);tone(988,.25,.09,'sine',.25)}
+  else if(kind==='star'){tone(880,.12,.1,'triangle');tone(1175,.18,.08,'triangle',.1)}
+  else if(kind==='super'){tone(220,.18,.1,'square');tone(440,.18,.08,'triangle',.14);tone(660,.22,.08,'triangle',.28)}
+  else if(kind==='close'){tone(392,.16,.07,'sine');tone(330,.22,.06,'sine',.14)}
+  else if(kind==='hint'){tone(523,.12,.06,'triangle');tone(659,.15,.05,'triangle',.1)}
+  else if(kind==='mission'){[523,659,784,1047].forEach((f,i)=>tone(f,.25,.1,'sine',i*.13))}
+}
+function setMusic(v){A.music=!!v;saveAudioPrefs();if(A.music){ensureAudio();startMusic()}else stopMusic();syncAudioUI()}
+function setSfx(v){A.sfx=!!v;saveAudioPrefs();if(A.sfx)playSfx('star');syncAudioUI()}
+function setVolume(v){A.volume=Math.max(0,Math.min(1,Number(v)/100));saveAudioPrefs();syncAudioUI(false)}
+function toggleQuickAudio(){
+  const any=A.music||A.sfx;
+  A.music=!any;A.sfx=!any;saveAudioPrefs();
+  if(A.music){ensureAudio();startMusic()}else stopMusic();
+  if(A.sfx)playSfx('star');syncAudioUI();
+}
+function syncAudioUI(updateRange=true){
+  const q=document.getElementById('audioQuick'),mt=document.getElementById('musicToggle'),st=document.getElementById('sfxToggle'),vr=document.getElementById('volumeRange');
+  if(q){q.textContent=(A.music||A.sfx)?'🔊':'🔇';q.title=(A.music||A.sfx)?'Silenciar':'Activar sonido'}
+  if(mt)mt.checked=A.music;if(st)st.checked=A.sfx;if(vr&&updateRange)vr.value=Math.round(A.volume*100);
+}
+function openAdultPanel(){const o=document.getElementById('adultOverlay');if(o)o.classList.remove('hidden');syncAudioUI()}
+function closeAdultPanel(){const o=document.getElementById('adultOverlay');if(o)o.classList.add('hidden')}
+function adultRestart(){
+  if(!confirm('¿Reiniciar la partida y poner las estrellas en cero?'))return;
+  closeAdultPanel();S.scores=S.players.map(()=>0);S.p=0;S.color=null;S.piece=null;S.challenge=null;S.hinted=false;turn();
+}
+function adultChangeLevel(){closeAdultPanel();chooseLevel()}
+function adultChangePlayers(){closeAdultPanel();setLevel(S.level)}
+document.addEventListener('pointerdown',()=>{ensureAudio();if(A.music)startMusic();},{once:true,capture:true});
+
 const home=document.getElementById('home'),screen=document.getElementById('screen');
-function view(h){home.classList.add('hidden');screen.classList.remove('hidden');screen.innerHTML='<div class="game-head"><div class="kidslogo"><div class="blockmark">TK</div><div><b>TORRE KIDS</b><span>MATEMÁTICA</span></div></div><button class="btn light" style="padding:9px 12px" onclick="backHome()">INICIO</button></div>'+h;window.scrollTo(0,0)}
-function backHome(){screen.classList.add('hidden');home.classList.remove('hidden');window.scrollTo(0,0)}
+function view(h){home.classList.add('hidden');screen.classList.remove('hidden');screen.innerHTML='<div class="game-head"><img class="tk-logo small" src="assets/torre-kids-logo.svg" alt="Torre Kids Matemática"><button class="btn light" style="padding:9px 12px" onclick="backHome()">INICIO</button></div>'+h;syncAudioUI();window.scrollTo(0,0)}
+function backHome(){closeAdultPanel();screen.classList.add('hidden');home.classList.remove('hidden');syncAudioUI();window.scrollTo(0,0)}
 function showPlayStyle(){
  view('<div class="mode-title"><div class="eyebrow">ELEGÍ CÓMO JUGAR</div><h2>¿Tenés la torre?</h2><p>Podés vivir la experiencia completa o jugar 100% digital.</p></div>'+
  '<div class="mode-grid">'+
@@ -318,7 +455,7 @@ function turn(){S.color=null;S.piece=null;S.challenge=null;S.hinted=false;const 
  if(S.style==='digital'){body='<div class="big-random card"><div><div class="eyebrow">JUGADA DIGITAL</div><div style="font-size:3rem;margin:8px">🎲</div><h2>Que el portal elija</h2><button class="btn wood" onclick="virtualDraw()">SORTEAR DESAFÍO</button></div></div>'}
  else if(S.mode==='colores')body='<div class="card"><h3>🎲 Tiren el dado de colores</h3><p class="note">Después marcá el color que salió.</p><button class="btn" onclick="pickColor()">YA LO TIRÉ</button></div>';
  else body='<div class="card"><h3>🧱 Retirá la pieza</h3><p class="note">'+(S.mode==='te_toca'?'Usá los dados físicos para saber qué número retirar.':'Elegí una pieza de la torre.')+'</p><button class="btn" onclick="pickPiece()">YA TENGO LA PIEZA</button></div>';
- view('<div class="score">'+n+' · ⭐ '+S.scores[S.p]+(S.mode.includes('mision')?' · MISIÓN '+sum+'/'+S.mission:'')+'</div><div class="hero" style="min-height:0;padding:24px 0"><h2 style="margin:0">Turno de '+n+'</h2></div>'+body+'<button class="btn light full" onclick="finish()">🧱 TERMINAR PARTIDA</button>')}
+ view('<div class="score">'+n+' · ⭐ '+S.scores[S.p]+(S.mode.includes('mision')?' · MISIÓN '+sum+'/'+S.mission:'')+'</div><div class="hero" style="min-height:0;padding:24px 0"><h2 style="margin:0">Turno de '+n+'</h2><span class="turn-phrase">'+phrase('turn')+'</span></div>'+body+'<button class="btn light full" onclick="finish()">🧱 TERMINAR PARTIDA</button>')}
 function virtualDraw(){const color=(S.mode==='color_virtual')?COLORS[Math.floor(Math.random()*6)]:COLORS[Math.floor(Math.random()*6)];const pool=BASE.filter(x=>x.color===color&&x.level===S.level);const x=pool[Math.floor(Math.random()*pool.length)];S.color=color;S.piece=1+Math.floor(Math.random()*54);S.challenge=x;view('<div class="big-random card"><div><div class="badge">'+EMOJI[color]+' '+LABEL[color]+'</div><div class="virtual-number">'+String(S.piece).padStart(2,'0')+'</div><p class="note">Pieza virtual</p><button class="btn wood" onclick="showChallenge()">VER DESAFÍO</button></div></div>')}
 function pickColor(){view('<h2>¿Qué color salió?</h2><div class="colors">'+COLORS.map(c=>'<button class="color '+c+'" onclick="selectColor(\''+c+'\')">'+EMOJI[c]+'<br>'+LABEL[c]+'</button>').join('')+'</div>')}
 function selectColor(c){S.color=c;pickPiece(c)}
@@ -326,33 +463,33 @@ function colorOf(n){return COLORS[(n-1)%6]}
 function pickPiece(c=null){const nums=[...Array(54)].map((_,i)=>i+1).filter(n=>!c||colorOf(n)===c);view('<h2>¿Qué número sacaste?</h2><div class="pieces">'+nums.map(n=>'<button class="piece" onclick="openPiece('+n+')">'+String(n).padStart(2,'0')+'</button>').join('')+'</div>')}
 function openPiece(n){S.piece=n;if(!S.color)S.color=colorOf(n);const pool=BASE.filter(x=>x.color===S.color&&x.level===S.level);S.challenge=pool[Math.floor(Math.random()*pool.length)];showChallenge()}
 function showChallenge(){
- const x=S.challenge;
+ const x=S.challenge;if(x.color==='negro')playSfx('super');
  view('<div class="challenge-shell">'+
  '<div class="challenge-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div>'+
  '<div class="note">Nivel '+S.level+(S.style==='digital'?' · Solo Digital':' · Con Torre')+'</div><div class="challenge">'+x.prompt+'</div>'+
  '<button class="btn light full" onclick="hint()">🔎 VER PISTA</button><button class="btn full" onclick="answer()">VER RESPUESTA</button></div>'+
- '<aside class="challenge-side"><div class="speech">¡Vos podés!</div>'+kidMascot('mascot mini')+'<b>Pequeños desafíos,<br>grandes logros.</b></aside></div>');
+ '<aside class="challenge-side feedback-pop"><div class="speech">'+phrase('challenge')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>Pequeños desafíos,<br>grandes logros.</b></aside></div>');
 }
 function hint(){
- S.hinted=true;const x=S.challenge;
- view('<div class="challenge-shell"><div class="challenge-card hint-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><div class="challenge">'+x.prompt+'</div><div class="card" style="box-shadow:none;background:#fff"><b>🔎 PISTA</b><p>'+x.hint+'</p></div><button class="btn full" onclick="answer()">VER RESPUESTA</button></div><aside class="challenge-side"><div class="speech">Pensalo un poquito…</div>'+kidMascot('mascot mini')+'<b>¡Tu cabeza puede!</b></aside></div>');
+ S.hinted=true;playSfx('hint');const x=S.challenge;
+ view('<div class="challenge-shell"><div class="challenge-card hint-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><div class="challenge">'+x.prompt+'</div><div class="card" style="box-shadow:none;background:#fff"><b>🔎 PISTA</b><p>'+x.hint+'</p></div><button class="btn full" onclick="answer()">VER RESPUESTA</button></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('hint')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>¡Tu cabeza puede!</b></aside></div>');
 }
 function answer(){
  const x=S.challenge;
  view('<div class="challenge-shell"><div class="challenge-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><h2>Respuesta</h2><div class="answer">'+x.answer+'</div><h3>¿Acertó?</h3><div class="choice-grid"><button class="btn" onclick="ok()">✅ SÍ</button><button class="btn light" onclick="no()">TODAVÍA NO</button></div></div><aside class="challenge-side">'+kidMascot('mascot mini')+'<div class="speech">¡Vamos!</div></aside></div>');
 }
 function ok(){
- const pts=S.hinted?1:(S.color==='negro'?3:2);S.scores[S.p]+=pts;const sum=S.scores.reduce((a,b)=>a+b,0);if(S.mode.includes('mision')&&sum>=S.mission)return missionWin();
- view('<div class="challenge-shell"><div class="challenge-card result-good"><h1 style="font-size:3rem;margin:8px 0">¡GENIAL!</h1><div class="stars">'+'⭐'.repeat(pts)+'</div><p>Ganaste '+pts+' estrella'+(pts===1?'':'s')+'.</p>'+(S.style==='tower'?'<div class="card" style="box-shadow:none"><b>🧱 Ahora colocá la pieza arriba de la torre.</b></div>':'')+'<button class="btn full" onclick="next()">SIGUIENTE TURNO</button></div><aside class="challenge-side"><div class="speech">¡Lo lograste!</div>'+kidMascot('mascot mini')+'<b>Seguí así 💛</b></aside></div>');
+ playSfx('success');const pts=S.hinted?1:(S.color==='negro'?3:2);S.scores[S.p]+=pts;const sum=S.scores.reduce((a,b)=>a+b,0);if(S.mode.includes('mision')&&sum>=S.mission)return missionWin();
+ view('<div class="challenge-shell"><div class="challenge-card result-good feedback-pop"><h1 style="font-size:3rem;margin:8px 0">'+phrase('good')+'</h1><div class="stars star-burst">'+'⭐'.repeat(pts)+'</div><p>Ganaste '+pts+' estrella'+(pts===1?'':'s')+'.</p>'+(S.style==='tower'?'<div class="card" style="box-shadow:none"><b>🧱 Ahora colocá la pieza arriba de la torre.</b></div>':'')+'<button class="btn full" onclick="next()">SIGUIENTE TURNO</button></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('good')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>Seguí así 💛</b></aside></div>');
 }
 function no(){
- view('<div class="challenge-shell"><div class="challenge-card result-close"><h1 style="font-size:3rem;margin:8px 0">¡CASI!</h1><p>La respuesta era:</p><div class="answer">'+S.challenge.answer+'</div><button class="btn full" onclick="recover()">⚡ MINI RETO</button><button class="btn light full" onclick="next()">SEGUIR</button></div><aside class="challenge-side"><div class="speech">¡No pasa nada!</div>'+kidMascot('mascot mini')+'<b>Probemos otra vez.</b></aside></div>');
+ playSfx('close');view('<div class="challenge-shell"><div class="challenge-card result-close"><h1 style="font-size:3rem;margin:8px 0">¡CASI!</h1><p>La respuesta era:</p><div class="answer">'+S.challenge.answer+'</div><button class="btn full" onclick="recover()">⚡ MINI RETO</button><button class="btn light full" onclick="next()">SEGUIR</button></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('close')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>Probemos otra vez.</b></aside></div>');
 }
 function recover(){const a=['Decí tres números pares.','Decí dos sumas que den 10.','Contá de 5 a 1 hacia atrás.','Nombrá tres números mayores que 20.'];view('<div class="card"><div class="eyebrow">RECUPERACIÓN</div><div class="challenge">'+a[Math.floor(Math.random()*a.length)]+'</div></div><button class="btn full" onclick="recOK()">✅ LO HIZO</button><button class="btn light full" onclick="next()">NO ESTA VEZ</button>')}
-function recOK(){S.scores[S.p]++;view('<div class="hero" style="min-height:0"><h1 style="font-size:3.2rem">⭐ ¡RECUPERADA!</h1></div><button class="btn full" onclick="next()">SIGUIENTE TURNO</button>')}
+function recOK(){playSfx('star');S.scores[S.p]++;view('<div class="hero feedback-pop" style="min-height:0"><h1 style="font-size:3.2rem">⭐ ¡RECUPERADA!</h1><span class="turn-phrase">'+phrase('good')+'</span></div><button class="btn full" onclick="next()">SIGUIENTE TURNO</button>')}
 function next(){S.p=(S.p+1)%S.players.length;turn()}
-function missionWin(){view('<div class="hero" style="min-height:0"><h1 style="font-size:3.2rem">🎉 ¡MISIÓN CUMPLIDA!</h1><p>Consiguieron '+S.scores.reduce((a,b)=>a+b,0)+' estrellas.</p></div><button class="btn full" onclick="backHome()">VOLVER AL INICIO</button>')}
-function finish(){const a=S.players.map((p,i)=>({p,s:S.scores[i]})).sort((x,y)=>y.s-x.s);view('<div class="hero" style="min-height:0"><h1 style="font-size:3.2rem">PARTIDA TERMINADA</h1><h2>🏆 '+a[0].p+'</h2><p>'+a[0].s+' estrellas</p></div><div class="card">'+a.map((x,i)=>'<p><b>'+(i+1)+'. '+x.p+'</b> — ⭐ '+x.s+'</p>').join('')+'</div><button class="btn full" onclick="backHome()">MENÚ PRINCIPAL</button>')}
+function missionWin(){playSfx('mission');view('<div class="hero feedback-pop" style="min-height:0"><h1 style="font-size:3.2rem">'+phrase('mission')+'</h1><div class="stars star-burst">⭐⭐⭐⭐⭐</div><p>Consiguieron '+S.scores.reduce((a,b)=>a+b,0)+' estrellas.</p></div><button class="btn full" onclick="backHome()">VOLVER AL INICIO</button>')}
+function finish(){playSfx('mission');const a=S.players.map((p,i)=>({p,s:S.scores[i]})).sort((x,y)=>y.s-x.s);view('<div class="hero" style="min-height:0"><h1 style="font-size:3.2rem">PARTIDA TERMINADA</h1><h2>🏆 '+a[0].p+'</h2><p>'+a[0].s+' estrellas</p></div><div class="card">'+a.map((x,i)=>'<p><b>'+(i+1)+'. '+x.p+'</b> — ⭐ '+x.s+'</p>').join('')+'</div><button class="btn full" onclick="backHome()">MENÚ PRINCIPAL</button>')}
 function showRules(){
  view('<div class="mode-title"><div class="eyebrow">GUÍA RÁPIDA</div><h2>Aprender también es jugar.</h2><p>Elegí la forma de juego y empezá en menos de un minuto.</p></div>'+
  '<div class="mode-grid"><div class="kid-mode-card" style="min-height:330px"><div class="kid-mode-visual">'+kidMascot('mascot mini')+'<div class="tower mini-tower"><div class="row"><div class="bl"><i></i>24</div><div class="bl g"><i></i>18</div><div class="bl b"><i></i>12</div></div></div></div><h3>🧱 Con Torre</h3><p>Retirá una pieza, buscá su número, resolvé y colocala arriba. Los colores indican la categoría.</p></div>'+
@@ -453,7 +590,7 @@ function downloadAnswersPDF(){
   const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:code,device_id:deviceId(),device_label:label()}});
   if(error)throw error;if(!data?.ok)throw new Error(data?.error||'No se pudo validar el acceso.');
   state.textContent='✅ Acceso validado para '+session.user.email;
-  setTimeout(()=>{gate.classList.add('hidden');app.classList.remove('hidden');window.scrollTo(0,0)},300);
+  setTimeout(()=>{gate.classList.add('hidden');app.classList.remove('hidden');syncAudioUI();window.scrollTo(0,0)},300);
  }catch(e){state.textContent='⚠️ '+(e?.message||'Acceso no válido.')+' Volvé a tu biblioteca y abrí Torre Kids Matemática desde allí.'}
 })();
 </script>
