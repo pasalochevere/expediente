@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" role="img" aria-labelledby="t d">
+<title id="t">Mascota Torre Kids</title><desc id="d">Bloque de madera simpático que acompaña a los chicos durante el juego.</desc>
+<defs>
+  <linearGradient id="w" x1="0" x2="1"><stop stop-color="#f6d9aa"/><stop offset=".52" stop-color="#dda05f"/><stop offset="1" stop-color="#f2c78b"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#5e3b1b" flood-opacity=".25"/></filter>
+</defs>
+<g filter="url(#sh)">
+  <rect x="65" y="55" width="190" height="180" rx="38" fill="url(#w)" stroke="#a76b35" stroke-width="6"/>
+  <path d="M85 93c52-10 95 12 146-5M88 175c45 7 90-4 142 2" opacity=".18" stroke="#7c502d" stroke-width="4" fill="none"/>
+  <ellipse cx="122" cy="127" rx="20" ry="25" fill="#fff"/><ellipse cx="199" cy="127" rx="20" ry="25" fill="#fff"/>
+  <ellipse cx="125" cy="132" rx="9" ry="13" fill="#212121"/><ellipse cx="196" cy="132" rx="9" ry="13" fill="#212121"/>
+  <circle cx="128" cy="127" r="3" fill="#fff"/><circle cx="199" cy="127" r="3" fill="#fff"/>
+  <path d="M125 179c18 22 50 22 69 0" fill="#fff" stroke="#2a211b" stroke-width="5" stroke-linecap="round"/>
+  <path d="M128 178h63" stroke="#2a211b" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="101" cy="161" rx="16" ry="8" fill="#ef8b81" opacity=".6"/><ellipse cx="220" cy="161" rx="16" ry="8" fill="#ef8b81" opacity=".6"/>
+  <path d="M65 138C28 128 23 103 12 89" stroke="#5a3823" stroke-width="13" stroke-linecap="round"/><circle cx="10" cy="86" r="11" fill="#5a3823"/>
+  <path d="M255 138c37-10 42-35 53-49" stroke="#5a3823" stroke-width="13" stroke-linecap="round"/><circle cx="310" cy="86" r="11" fill="#5a3823"/>
+  <path d="M110 235l-13 52M207 235l16 52" stroke="#5a3823" stroke-width="14" stroke-linecap="round"/>
+  <path d="M73 285c26-8 43 0 48 13-2 13-37 20-55 8-8-6-5-17 7-21z" fill="#2387da" stroke="#174b7a" stroke-width="4"/>
+  <path d="M203 297c5-13 22-21 48-13 12 4 15 15 7 21-18 12-53 5-55-8z" fill="#2387da" stroke="#174b7a" stroke-width="4"/>
+</g>
+<g fill="#f5c63d"><path d="M39 38l6 15 16 3-13 10 2 17-11-8-14 8 4-16-12-10 16-3z"/><path d="M278 34l4 10 11 2-9 7 2 11-8-6-10 6 3-11-9-7 11-2z"/></g>
+</svg>
