@@ -135,6 +135,16 @@ button,select,input{font:inherit;border-radius:10px;border:1px solid #4b3e31;bac
 }
 
 
+
+/* ===== IMPRIMIBLE V2 · HISTORIA + CORTE EDITORIAL ===== */
+.story-print-grid{display:grid;grid-template-columns:.85fr 1.6fr;gap:8mm;min-height:164mm}
+.story-print-cover{position:relative;border:1px solid #705b40;border-radius:3mm;padding:10mm;background:linear-gradient(145deg,#231a11,#0e0c09);color:#f4e5cb;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.story-print-cover:after{content:"";position:absolute;inset:8mm;border:1px solid rgba(218,174,103,.25);pointer-events:none}.story-stamp{align-self:flex-start;border:1.5px solid #a84337;color:#d96a59;padding:2mm 3mm;transform:rotate(-2deg);font-size:7pt;letter-spacing:.12em;font-weight:900}.story-case-no{margin-top:11mm;font-size:8pt;letter-spacing:.22em;color:#d1a462;font-weight:900}.story-print-cover h2{font-family:Georgia,serif;font-size:29pt;line-height:.96;margin:3mm 0 4mm}.story-tagline{font-family:Georgia,serif;font-style:italic;color:#e5c38f;font-size:11pt}.story-read{margin-top:16mm;padding-top:4mm;border-top:1px solid #6b5031;font-size:7pt;letter-spacing:.14em;color:#bca98f;font-weight:900}
+.story-print-copy{padding:3mm 2mm;color:#211a13}.story-time{font-size:8pt;letter-spacing:.18em;color:#8d6130;font-weight:900;margin-bottom:3mm}.story-print-copy p{font-family:Georgia,serif;font-size:10.2pt;line-height:1.42;margin:2.6mm 0}.story-print-copy blockquote{margin:4mm 0;padding:3mm 4mm;border-left:1.2mm solid #8b5d2c;background:#e9d8bb;font-family:Georgia,serif;font-size:13pt;font-style:italic;font-weight:700}.story-beats{display:flex;gap:4mm;margin:3mm 0;font-family:Impact,'Arial Narrow',sans-serif;font-size:14pt;letter-spacing:.08em}.story-three{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm;margin:4mm 0}.story-three b{border:1px solid #8d7350;border-radius:2mm;padding:3mm;background:#f8eedb;font-size:8.2pt;line-height:1.25}.story-instruction{border-top:1px solid #8c775c;padding-top:3mm!important;font-family:Arial,sans-serif!important;font-size:8pt!important;color:#675741}
+.classic-card{border:.3pt dashed #ad9e88!important;border-radius:2.5mm!important;padding:4mm!important}.classic-card:before{content:"";position:absolute;left:-1.5mm;top:-1.5mm;width:5mm;height:5mm;border-left:.3pt solid #9c8f7e;border-top:.3pt solid #9c8f7e;color:transparent!important}.classic-card:after{content:"";position:absolute;right:-1.5mm;bottom:-1.5mm;width:5mm;height:5mm;border-right:.3pt solid #9c8f7e;border-bottom:.3pt solid #9c8f7e}.cc-foot{position:absolute;left:4mm;right:4mm;bottom:2mm;border-top:.3pt solid #c2b5a3;padding-top:1mm;font-size:5.7pt;letter-spacing:.08em;color:#8a7a67}.classic-card .cc-copy{padding-bottom:5mm}
+body.print-bw .story-print-cover,.pdf-stage.bw .story-print-cover{background:#fff!important;color:#111!important;border-color:#555!important}
+@media(max-width:900px){.story-print-grid{grid-template-columns:1fr}.story-print-cover{min-height:280px}}
+
 /* ===== CASO 001 · PRÓLOGO CINEMATOGRÁFICO ===== */
 .prologue-gate{margin:20px 0;padding:22px;border:1px solid #8b6537;border-radius:16px;background:linear-gradient(145deg,#1d150e,#0c0b0a);box-shadow:0 16px 40px rgba(0,0,0,.3);display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
 .prologue-gate h2{margin:.18em 0 .35em;font-family:Georgia,serif;font-size:clamp(1.55rem,3vw,2.3rem)}.prologue-gate p{margin:0;color:#c7b9a8;max-width:760px;line-height:1.55}.prologue-gate .primary{min-width:220px;min-height:58px}
@@ -151,6 +161,29 @@ button,select,input{font:inherit;border-radius:10px;border:1px solid #4b3e31;bac
 .prologue-three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}.prologue-three div{border:1px solid #533c29;background:#0e0c0a;border-radius:12px;padding:14px}.prologue-three b{display:block;color:#e5bd75;margin-bottom:4px}.prologue-three span{color:#b5a797;font-size:.9rem}
 .prologue-nav{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 20px;border-top:1px solid #3d2d20;background:#090807}.prologue-dots{display:flex;justify-content:center;gap:7px}.prologue-dot{width:8px;height:8px;border-radius:50%;background:#40372e}.prologue-dot.on{background:#d9aa58;box-shadow:0 0 12px rgba(217,170,88,.5)}.prologue-nav button{min-width:140px}
 @media(max-width:720px){.prologue-gate{grid-template-columns:1fr}.prologue-gate .primary{width:100%}.prologue-shell{padding:0}.prologue-card{border-radius:0;min-height:100vh;border-left:0;border-right:0}.prologue-stage{padding:32px 20px}.prologue-three{grid-template-columns:1fr}.prologue-nav{grid-template-columns:1fr 1fr}.prologue-dots{grid-column:1/-1;grid-row:1}.prologue-nav button{min-width:0}.prologue-top{padding:14px 16px}}
+
+
+/* ===== PRÓLOGO V2 · DRAMATISMO Y RITMO ===== */
+.prologue-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.prologue-sound{padding:7px 10px;border-radius:999px;background:#11100e;border:1px solid #4e402f;color:#d6c3a8;font-size:.68rem;letter-spacing:.08em;font-weight:900}
+.prologue-stage{background-size:cover;background-position:center;isolation:isolate}
+.prologue-stage:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 70% 38%,transparent 0 18%,rgba(0,0,0,.22) 48%,rgba(0,0,0,.58) 100%);pointer-events:none}
+.prologue-stage:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.13;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 4px);pointer-events:none}
+.prologue-stage .prologue-time,.prologue-stage .prologue-title,.prologue-stage .prologue-copy>*{opacity:0;transform:translateY(8px);animation:proLine .55s ease forwards}
+.prologue-stage .prologue-time{animation-delay:.08s}.prologue-stage .prologue-title{animation-delay:.28s}
+.prologue-stage .prologue-copy>:nth-child(1){animation-delay:.62s}.prologue-stage .prologue-copy>:nth-child(2){animation-delay:.95s}.prologue-stage .prologue-copy>:nth-child(3){animation-delay:1.28s}.prologue-stage .prologue-copy>:nth-child(4){animation-delay:1.61s}.prologue-stage .prologue-copy>:nth-child(5){animation-delay:1.94s}.prologue-stage .prologue-copy>:nth-child(6){animation-delay:2.27s}
+@keyframes proLine{to{opacity:1;transform:none}}
+.prologue-kicker{font-size:.8rem!important;letter-spacing:.28em;text-transform:uppercase;color:#d9aa58!important;font-family:Inter,system-ui!important;font-weight:900}
+.scene-cover{background:radial-gradient(circle at 62% 30%,rgba(128,84,34,.18),transparent 30%),linear-gradient(145deg,#17110b,#050505)!important}
+.scene-house{background-position:center 64%!important}.scene-guests{background-position:center 54%!important}.scene-invite{background-position:center 38%!important}.scene-folder{background-position:center 48%!important}.scene-argument{background-position:center 42%!important}.scene-return{background-position:center 50%!important}.scene-evidence{background-position:center 40%!important}
+.scene-blackout{background:#010101!important;animation:proBlackout .28s ease 1}.scene-blackout:before{background:radial-gradient(circle at center,rgba(160,23,16,.035),#000 55%)}
+@keyframes proBlackout{0%{filter:brightness(1)}18%{filter:brightness(.05)}28%{filter:brightness(.8)}36%{filter:brightness(.02)}100%{filter:brightness(1)}}
+.scene-blackout .prologue-title{text-align:center;font-size:clamp(3.5rem,11vw,8rem);letter-spacing:.08em}.scene-blackout .prologue-time{text-align:center}.scene-blackout .prologue-copy{text-align:center;max-width:none}
+.scene-blackout .prologue-hit{margin:.1em 0;font-size:clamp(3rem,9vw,6.5rem);letter-spacing:.14em}.scene-blackout .prologue-hit.metal{font-size:clamp(2rem,6vw,4.2rem);color:#c7b7a2}.prologue-seventy{margin-top:30px!important;letter-spacing:.28em;text-align:center;font-weight:900;color:#b59b75!important}
+.scene-return{animation:proFlicker .9s ease 1}@keyframes proFlicker{0%,16%,24%,36%,100%{filter:brightness(1)}10%,20%,30%{filter:brightness(.25)}}
+.scene-central{background:radial-gradient(circle at 50% 35%,rgba(150,92,28,.18),transparent 32%),linear-gradient(160deg,#181008,#030303)!important}.prologue-final-line{text-transform:uppercase;letter-spacing:.16em;color:#d9aa58!important;font-family:Inter,system-ui!important;font-weight:900}
+.prologue-nav{backdrop-filter:blur(8px)}
+@media(max-width:720px){.prologue-tools{gap:7px}.prologue-sound{font-size:.58rem;padding:6px 8px}.prologue-top{align-items:flex-start}.prologue-counter{font-size:.62rem}.prologue-stage{background-position:center!important}.prologue-title{font-size:clamp(2rem,11vw,3.5rem)}}
 
 /* ===== ACCESO PERSONAL PASALOCHEVERE · 12 MESES ===== */
 .license-card{margin:18px 0 20px;padding:18px;border:1px solid #76552f;border-radius:16px;background:linear-gradient(150deg,#19130e,#0d0c0a);box-shadow:0 14px 32px rgba(0,0,0,.26)}
@@ -213,7 +246,7 @@ button,select,input{font:inherit;border-radius:10px;border:1px solid #4b3e31;bac
 
 <section id="prologue" class="prologue-shell hidden" aria-live="polite">
   <div class="prologue-card">
-    <div class="prologue-top"><div class="prologue-brand">EXPEDIENTES <span>· CASO 001</span></div><div id="prologueCounter" class="prologue-counter">EXPEDIENTE 01 / 07</div></div>
+    <div class="prologue-top"><div class="prologue-brand">EXPEDIENTES <span>· CASO 001</span></div><div class="prologue-tools"><button id="prologueSoundBtn" class="prologue-sound" onclick="togglePrologueAudio()">🔇 ACTIVAR AMBIENTE</button><div id="prologueCounter" class="prologue-counter">EXPEDIENTE 01 / 10</div></div></div>
     <div id="prologueStage" class="prologue-stage"></div>
     <div class="prologue-nav">
       <button id="prologueBack" class="ghost" onclick="prologueBack()">← Anterior</button>
@@ -293,11 +326,11 @@ button,select,input{font:inherit;border-radius:10px;border:1px solid #4b3e31;bac
     <button class="ghost" onclick="goHome()">← Volver</button>
   </div>
   <div class="print-pack-grid">
-    <div class="print-pack"><div class="pack-kicker">RECOMENDADO · 2 HOJAS A4</div><h3>Kit de mesa</h3><p class="sub">Para Digital + Imprimible e Impostor. Dejá las referencias visibles y usá la hoja para anotar hipótesis.</p><ul><li>Tablero visual: 6 personas + 6 lugares + 6 objetos.</li><li>Hoja de investigación, conexiones y acusación final.</li></ul><div class="print-pack-actions"><button class="download-btn" onclick="downloadPackPDF('quick',false,this)">⬇ Descargar PDF color<small>Listo para enviar a imprenta</small></button><button class="download-btn" onclick="downloadPackPDF('quick',true,this)">⬇ Descargar PDF B/N<small>Ideal para impresión económica</small></button><button class="primary" onclick="printPack('quick',false)">🖨 Imprimir color</button><button class="ghost" onclick="printPack('quick',true)">🖨 Imprimir B/N</button></div></div>
-    <div class="print-pack"><div class="pack-kicker">MODO CLÁSICO · 3 HOJAS A4</div><h3>Mazo recortable</h3><p class="sub">Para Clásico + Asistente. Recortá las 18 cartas y ocultá 1 Persona + 1 Lugar + 1 Objeto para crear el caso.</p><ul><li>6 cartas de personas.</li><li>6 cartas de lugares.</li><li>6 cartas de objetos.</li></ul><div class="print-pack-actions"><button class="download-btn" onclick="downloadPackPDF('classic',false,this)">⬇ Descargar PDF color<small>3 hojas A4 listas para recortar</small></button><button class="download-btn" onclick="downloadPackPDF('classic',true,this)">⬇ Descargar PDF B/N<small>Versión económica para imprimir</small></button><button class="primary" onclick="printPack('classic',false)">🖨 Imprimir color</button><button class="ghost" onclick="printPack('classic',true)">🖨 Imprimir B/N</button></div></div>
+    <div class="print-pack"><div class="pack-kicker">RECOMENDADO · 3 HOJAS A4</div><h3>Kit de mesa</h3><p class="sub">Para Digital + Imprimible e Impostor. Incluye la historia para leer en voz alta antes de comenzar.</p><ul><li>Expediente narrativo del Caso 001.</li><li>Tablero visual: 6 personas + 6 lugares + 6 objetos.</li><li>Hoja de investigación, conexiones y acusación final.</li></ul><div class="print-pack-actions"><button class="download-btn" onclick="downloadPackPDF('quick',false,this)">⬇ Descargar PDF color<small>Listo para enviar a imprenta</small></button><button class="download-btn" onclick="downloadPackPDF('quick',true,this)">⬇ Descargar PDF B/N<small>Ideal para impresión económica</small></button><button class="primary" onclick="printPack('quick',false)">🖨 Imprimir color</button><button class="ghost" onclick="printPack('quick',true)">🖨 Imprimir B/N</button></div></div>
+    <div class="print-pack"><div class="pack-kicker">MODO CLÁSICO · 4 HOJAS A4</div><h3>Mazo recortable</h3><p class="sub">Para Clásico + Asistente. Incluye el prólogo y las 18 cartas recortables con guías de corte sutiles.</p><ul><li>Expediente narrativo del Caso 001.</li><li>6 cartas de personas.</li><li>6 cartas de lugares.</li><li>6 cartas de objetos.</li></ul><div class="print-pack-actions"><button class="download-btn" onclick="downloadPackPDF('classic',false,this)">⬇ Descargar PDF color<small>4 hojas A4 · historia + mazo</small></button><button class="download-btn" onclick="downloadPackPDF('classic',true,this)">⬇ Descargar PDF B/N<small>Versión económica para imprimir</small></button><button class="primary" onclick="printPack('classic',false)">🖨 Imprimir color</button><button class="ghost" onclick="printPack('classic',true)">🖨 Imprimir B/N</button></div></div>
   </div>
   <div class="print-screen-tip"><b>Consejo:</b> imprimí al 100% / tamaño real. Para el mazo clásico podés usar papel común y pegar las cartas sobre cartulina. No hace falta imprimir para jugar online.</div>
-  <div class="print-preview-title"><div><div class="eyebrow">VISTA PREVIA</div><h3 style="margin:.2em 0">Material incluido</h3></div><span class="sub">5 hojas A4 en total · elegís qué pack imprimir</span></div>
+  <div class="print-preview-title"><div><div class="eyebrow">VISTA PREVIA</div><h3 style="margin:.2em 0">Material incluido</h3></div><span class="sub">Kit de mesa: 3 hojas · Mazo clásico: 4 hojas</span></div>
   <div id="printPages" class="print-preview-wrap"></div>
   <div class="row" style="margin-top:14px"><button class="ghost" onclick="goHome()">Volver al inicio</button></div>
 </section>
@@ -357,14 +390,64 @@ function hideAll(){['home','prologue','multiSetup','multiLobby','multiGame','dig
 const EXP_PROLOGUE_SEEN='exp001_prologue_seen_v1';
 let prologueIndex=0;
 const prologueSlides=[
-  {tone:'final',time:'EXPEDIENTES · CASOS SIN RESOLVER',title:'LA ÚLTIMA REUNIÓN',html:'<p><strong>Viernes. 22:38.</strong></p><p>La lluvia lleva horas golpeando los ventanales de una antigua casa familiar a las afueras de la ciudad.</p><p>Seis personas esperan alrededor de una mesa.</p><p><strong>Ninguna debería estar allí.</strong></p>'},
-  {tone:'',time:'22:38 · LA INVITACIÓN',title:'Seis invitados. Una misma frase.',html:'<p>Todos recibieron una invitación de <strong>Esteban Valdés</strong>, empresario y fundador de una compañía que convirtió a amigos, familiares y socios en parte de su imperio.</p><div class="prologue-quote">“Esta noche vamos a terminar lo que empezamos.”</div><p>No había explicación. Para quienes conocían a Esteban, no hacía falta.</p>'},
-  {tone:'',time:'23:10 · LA CARPETA NEGRA',title:'Uno de ustedes me estuvo mintiendo.',html:'<p>Esteban entra finalmente en la sala.</p><p>Trae una <strong>carpeta negra</strong>. La deja en el centro de la mesa y no permite que nadie la abra.</p><div class="prologue-quote">“Uno de ustedes me estuvo mintiendo durante años. Y esta noche voy a demostrarlo.”</div>'},
-  {tone:'',time:'23:32 · LA DISCUSIÓN',title:'La reunión deja de ser una reunión.',html:'<p>Las voces ya se escuchan desde el pasillo.</p><p>Alguien exige irse. Alguien amenaza con contar algo. Una copa cae al suelo.</p><p><strong>Esteban abandona la sala llevando la carpeta.</strong></p><p>Nadie admite haberlo seguido.</p>'},
-  {tone:'blackout',time:'23:47 · SETENTA SEGUNDOS',title:'La casa queda a oscuras.',html:'<div class="prologue-hit">GOLPE.</div><p class="prologue-silence">después · metal · silencio</p><p style="text-align:center;margin-top:28px">La electricidad tarda exactamente <strong>70 segundos</strong> en volver.</p>'},
-  {tone:'',time:'23:48 · CUANDO VUELVE LA LUZ',title:'Esteban ya no está en la mesa.',html:'<p>La puerta principal continúa cerrada. Las ventanas están aseguradas desde dentro.</p><p>Los seis invitados siguen en la propiedad.</p><p><strong>Esteban Valdés ha desaparecido.</strong></p><p>La carpeta negra también.</p>'},
-  {tone:'final',time:'CENTRAL DE INVESTIGACIÓN',title:'La verdad está en la mesa.',html:'<p>Esteban no abandonó la casa por su propia voluntad. Alguien entre los presentes sabe qué ocurrió durante aquellos setenta segundos.</p><div class="prologue-three"><div><b>UNA PERSONA</b><span>está mintiendo.</span></div><div><b>UN LUGAR</b><span>guarda la verdad.</span></div><div><b>UN OBJETO</b><span>puede demostrarlo.</span></div></div><div class="prologue-quote">Mirá a los otros jugadores. Escuchá sus historias. Todos tienen algo que perder.</div>'}
+  {scene:'cover',image:null,time:'EXPEDIENTES · CASOS SIN RESOLVER',title:'LA ÚLTIMA REUNIÓN',html:'<p class="prologue-kicker">CASO 001</p><div class="prologue-quote">La verdad está en la mesa.</div><p>Un expediente cerrado. Seis invitados. Setenta segundos que nadie puede explicar.</p>'},
+  {scene:'house',image:4,time:'VIERNES · 22:38',title:'La casa parece vacía. Pero no lo está.',html:'<p>La lluvia golpea los ventanales.</p><p>Una antigua casa familiar permanece iluminada a las afueras de la ciudad.</p><p><strong>Adentro, seis personas esperan alrededor de una mesa.</strong></p>'},
+  {scene:'guests',image:0,time:'SEIS INVITADOS',title:'Ninguno debería estar allí.',html:'<p>Todos conocen al anfitrión.</p><p>Todos tienen una razón diferente para haber aceptado la invitación.</p><p>Y todos recibieron exactamente el mismo mensaje.</p>'},
+  {scene:'invite',image:2,time:'LA INVITACIÓN',title:'Una sola frase.',html:'<p>El remitente fue <strong>Esteban Valdés</strong>.</p><div class="prologue-quote">“Esta noche vamos a terminar lo que empezamos.”</div><p>No había explicación.</p><p><strong>No hacía falta.</strong></p>'},
+  {scene:'folder',image:0,time:'23:10 · LA REUNIÓN EMPIEZA',title:'La carpeta negra.',html:'<p>Esteban entra finalmente en la sala.</p><p>Trae consigo una <strong>carpeta negra</strong>. La deja en el centro de la mesa y no permite que nadie la abra.</p><div class="prologue-quote">“Uno de ustedes me estuvo mintiendo durante años.”<br><br>“Y esta noche voy a demostrarlo.”</div>',fx:'tension'},
+  {scene:'argument',image:5,time:'23:32 · LA NOCHE CAMBIA',title:'La discusión ya se escucha desde el pasillo.',html:'<p>Alguien exige irse.</p><p>Alguien amenaza con hablar.</p><p>Una copa cae al suelo.</p><p><strong>Esteban abandona la sala llevando la carpeta.</strong></p><p>Nadie admite haberlo seguido.</p>',fx:'glass'},
+  {scene:'blackout',image:null,time:'23:47',title:'APAGÓN.',html:'<div class="prologue-hit">GOLPE.</div><div class="prologue-hit metal">METAL.</div><p class="prologue-silence">SILENCIO</p><p class="prologue-seventy">SETENTA SEGUNDOS.</p>',fx:'blackout'},
+  {scene:'return',image:0,time:'23:48 · VUELVE LA ELECTRICIDAD',title:'Esteban ya no está.',html:'<p>La puerta principal continúa cerrada.</p><p>Las ventanas están aseguradas desde dentro.</p><p>Los seis invitados siguen en la propiedad.</p><p><strong>Pero Esteban Valdés ha desaparecido.</strong></p><p>La carpeta negra también.</p>',fx:'flicker'},
+  {scene:'evidence',image:2,time:'HALLAZGO',title:'El expediente se abre.',html:'<p>Esteban no abandonó la casa por su propia voluntad.</p><div class="prologue-three"><div><b>UNA PERSONA</b><span>está mintiendo.</span></div><div><b>UN LUGAR</b><span>guarda la verdad.</span></div><div><b>UN OBJETO</b><span>puede demostrarlo.</span></div></div>'},
+  {scene:'central',image:null,time:'CENTRAL DE INVESTIGACIÓN',title:'La verdad está en la mesa.',html:'<p>La policía está en camino. Hasta entonces, nadie puede abandonar la propiedad.</p><p>Mirá a los otros jugadores.</p><p>Escuchá sus historias.</p><div class="prologue-quote">Todos tienen algo que perder.</div><p class="prologue-final-line">La investigación comienza ahora.</p>'}
 ];
+
+let proAudioCtx=null,proAudioSource=null,proAudioGain=null,proAudioOn=false,proFxTimers=[];
+function clearPrologueFx(){proFxTimers.forEach(clearTimeout);proFxTimers=[]}
+function setPrologueSoundLabel(){let b=$('prologueSoundBtn');if(b)b.textContent=proAudioOn?'🔊 AMBIENTE ACTIVO':'🔇 ACTIVAR AMBIENTE'}
+function startPrologueAmbient(){
+  try{
+    if(!proAudioCtx)proAudioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    if(proAudioCtx.state==='suspended')proAudioCtx.resume();
+    if(proAudioSource)return;
+    const sr=proAudioCtx.sampleRate,buf=proAudioCtx.createBuffer(1,sr*2,sr),d=buf.getChannelData(0);
+    for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(.35+Math.random()*.25);
+    const src=proAudioCtx.createBufferSource(),filter=proAudioCtx.createBiquadFilter(),gain=proAudioCtx.createGain();
+    src.buffer=buf;src.loop=true;filter.type='lowpass';filter.frequency.value=950;gain.gain.value=.025;
+    src.connect(filter);filter.connect(gain);gain.connect(proAudioCtx.destination);src.start();
+    proAudioSource=src;proAudioGain=gain;
+  }catch(e){console.warn('Audio ambiente no disponible',e)}
+}
+function stopPrologueAmbient(){
+  try{if(proAudioSource){proAudioSource.stop();proAudioSource.disconnect()}}catch(e){}
+  proAudioSource=null;proAudioGain=null;
+}
+function togglePrologueAudio(){
+  proAudioOn=!proAudioOn;
+  if(proAudioOn)startPrologueAmbient();else stopPrologueAmbient();
+  setPrologueSoundLabel();
+  if(proAudioOn)schedulePrologueFx(prologueSlides[prologueIndex]?.fx);
+}
+function prologueTone(freq=80,dur=.25,vol=.08,type='sine',delay=0){
+  if(!proAudioOn||!proAudioCtx)return;
+  const o=proAudioCtx.createOscillator(),g=proAudioCtx.createGain(),t=proAudioCtx.currentTime+delay;
+  o.type=type;o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g);g.connect(proAudioCtx.destination);o.start(t);o.stop(t+dur+.05);
+}
+function schedulePrologueFx(fx){
+  clearPrologueFx();
+  if(!proAudioOn)return;
+  if(fx==='glass'){proFxTimers.push(setTimeout(()=>{prologueTone(900,.08,.025,'triangle');prologueTone(1350,.06,.018,'sine',.08)},900))}
+  if(fx==='tension'){proFxTimers.push(setTimeout(()=>prologueTone(55,1.4,.035,'sine'),650))}
+  if(fx==='blackout'){
+    if(proAudioGain)proAudioGain.gain.setTargetAtTime(.001,proAudioCtx.currentTime,.08);
+    proFxTimers.push(setTimeout(()=>prologueTone(48,.34,.13,'sine'),850));
+    proFxTimers.push(setTimeout(()=>prologueTone(420,.18,.055,'square'),1700));
+    proFxTimers.push(setTimeout(()=>{if(proAudioGain)proAudioGain.gain.setTargetAtTime(.025,proAudioCtx.currentTime,.8)},3900));
+  }
+  if(fx==='flicker'){proFxTimers.push(setTimeout(()=>prologueTone(70,.12,.025,'square'),300));proFxTimers.push(setTimeout(()=>prologueTone(70,.08,.018,'square'),620))}
+}
+
 function prologueSeen(){return sessionStorage.getItem(EXP_PROLOGUE_SEEN)==='1'}
 function syncCaseMenu(){
   let menu=$('caseMenu'),gate=$('prologueGate'),btn=$('openPrologueBtn'),seen=prologueSeen();
@@ -372,23 +455,31 @@ function syncCaseMenu(){
   if(gate)gate.classList.remove('hidden');
   if(btn)btn.textContent=seen?'VOLVER A VER PRÓLOGO':'ABRIR EXPEDIENTE';
 }
-function openCasePrologue(){prologueIndex=0;hideAll();$('prologue').classList.remove('hidden');renderPrologue();window.scrollTo({top:0,behavior:'instant'})}
+function openCasePrologue(){
+  prologueIndex=0;hideAll();$('prologue').classList.remove('hidden');renderPrologue();setPrologueSoundLabel();window.scrollTo({top:0,behavior:'instant'});
+}
 function renderPrologue(){
+  clearPrologueFx();
   let s=prologueSlides[prologueIndex],stage=$('prologueStage');
   if(!stage)return;
-  stage.className='prologue-stage '+(s.tone||'');
+  stage.className='prologue-stage scene-'+s.scene;
+  if(Number.isInteger(s.image)&&locationImages?.[s.image]){
+    stage.style.backgroundImage='linear-gradient(90deg,rgba(4,4,4,.94) 0%,rgba(8,6,4,.78) 48%,rgba(3,3,3,.68) 100%),url("'+locationImages[s.image]+'")';
+  }else stage.style.backgroundImage='';
   stage.innerHTML='<div class="prologue-time">'+s.time+'</div><h1 class="prologue-title">'+s.title+'</h1><div class="prologue-copy">'+s.html+'</div>';
   $('prologueCounter').textContent='EXPEDIENTE '+String(prologueIndex+1).padStart(2,'0')+' / '+String(prologueSlides.length).padStart(2,'0');
   $('prologueDots').innerHTML=prologueSlides.map((_,i)=>'<span class="prologue-dot '+(i===prologueIndex?'on':'')+'"></span>').join('');
   $('prologueBack').style.visibility=prologueIndex===0?'hidden':'visible';
-  $('prologueNext').textContent=prologueIndex===prologueSlides.length-1?'ENTRAR A LA CENTRAL':'Continuar →';
+  $('prologueNext').textContent=prologueIndex===prologueSlides.length-1?'ENTRAR A LA INVESTIGACIÓN':'Continuar →';
+  schedulePrologueFx(s.fx);
 }
 function prologueNext(){
   if(prologueIndex<prologueSlides.length-1){prologueIndex++;renderPrologue();return}
+  clearPrologueFx();stopPrologueAmbient();proAudioOn=false;setPrologueSoundLabel();
   sessionStorage.setItem(EXP_PROLOGUE_SEEN,'1');goHome();setTimeout(()=>{let m=$('caseMenu');if(m)m.scrollIntoView({behavior:'smooth',block:'start'})},120);
 }
-function prologueBack(){if(prologueIndex>0){prologueIndex--;renderPrologue()}else goHome()}
-function goHome(){closePrivateView();closePublicView();closePair();hideAll();$('home').classList.remove('hidden');syncCaseMenu()}
+function prologueBack(){if(prologueIndex>0){prologueIndex--;renderPrologue()}else{clearPrologueFx();stopPrologueAmbient();proAudioOn=false;goHome()}}
+function goHome(){clearPrologueFx();if($('prologue')?.classList.contains('hidden')===false){stopPrologueAmbient();proAudioOn=false}closePrivateView();closePublicView();closePair();hideAll();$('home').classList.remove('hidden');syncCaseMenu()}
 function showMultiSetup(){hideAll();$('multiSetup').classList.remove('hidden');buildMultiSelectors()} function showDigitalSetup(){hideAll();$('digitalSetup').classList.remove('hidden');buildDigitalPlayers()} function showDetectiveSetup(){hideAll();$('detectiveSetup').classList.remove('hidden')} function showImpostorSetup(){hideAll();$('impSetup').classList.remove('hidden');buildPlayers()}
 function buildDigitalPlayers(){let n=+$('dcount').value,h='<div class="player-setup-grid">';for(let i=0;i<n;i++){let j=i%suspects.length,s=suspects[j];h+=`<div class="player-setup-card"><div class="player-portrait"><img id="dimg${i}" src="${portraits[j]}" alt="${s[1]}"><div class="badgechar" id="dcode${i}">${s[0]}</div><div class="charname" id="dcharname${i}">${s[1]}</div></div><div class="player-fields"><div class="player-head"><b>Jugador ${i+1}</b><span class="player-tip">Elegí nombre y personaje</span></div><div class="player-controls"><label>Nombre<input id="dn${i}" placeholder="Nombre" value="Jugador ${i+1}"></label><label>Personaje<select id="dc${i}" onchange="syncPlayerPreview('d',${i});validateSetupVisuals('d')">${suspects.map((s,j)=>`<option value="${j}" ${j==i?'selected':''}>${s[0]} · ${s[1]}</option>`).join('')}</select></label></div><div class="setup-status" id="dstatus${i}">✓ Perfil público: ${s[2]}</div></div></div>`}h+='</div>';$('dplayers').innerHTML=h;validateSetupVisuals('d')}
 function syncPlayerPreview(prefix,i){let sel=$(prefix+'c'+i);if(!sel)return;let idx=+sel.value,s=suspects[idx],img=$(prefix+'img'+i),code=$(prefix+'code'+i),name=$(prefix+'charname'+i),status=$(prefix+'status'+i);if(img){img.src=portraits[idx];img.alt=s[1]}if(code)code.textContent=s[0];if(name)name.textContent=s[1];if(status)status.textContent='Perfil público: '+s[2]}
@@ -521,24 +612,44 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('privacyOverl
 
 /* ===== P0.9.3 · KIT IMPRIMIBLE + DESCARGA PDF ===== */
 function printHead(extra=''){
-  return `<div class="pp-head"><div><div class="pp-brand">EXPEDIENTES</div><div class="pp-sub">CASOS SIN RESOLVER</div></div><div class="pp-case">CASO 001 · LA ÚLTIMA REUNIÓN${extra?'<br>'+extra:''}</div></div>`;
+  return \`<div class="pp-head"><div><div class="pp-brand">EXPEDIENTES</div><div class="pp-sub">CASOS SIN RESOLVER</div></div><div class="pp-case">CASO 001 · LA ÚLTIMA REUNIÓN\${extra?'<br>'+extra:''}</div></div>\`;
 }
+function printCode(prefix,i){return prefix+String(i+1).padStart(2,'0')}
 function miniPrintCard(img,code,name,sub){
-  return `<div class="print-mini-card"><img src="${img}" alt="${name}"><div class="print-mini-copy"><span class="print-mini-code">${code}</span><b>${name}</b><span>${sub}</span></div></div>`;
+  return \`<div class="print-mini-card"><img src="\${img}" alt="\${name}"><div class="print-mini-copy"><span class="print-mini-code">\${code}</span><b>\${name}</b><span>\${sub}</span></div></div>\`;
 }
 function checklistBlock(title,items){
-  return `<div class="print-checklist"><h4>${title}</h4>${items.map(x=>`<div class="print-check-row"><span class="print-box"></span><span>${x}</span></div>`).join('')}</div>`;
+  return \`<div class="print-checklist"><h4>\${title}</h4>\${items.map(x=>\`<div class="print-check-row"><span class="print-box"></span><span>\${x}</span></div>\`).join('')}</div>\`;
 }
 function classicCard(img,code,name,sub,quote=''){
-  return `<article class="classic-card"><img src="${img}" alt="${name}"><div class="cc-copy"><div class="cc-code">${code}</div><h3>${name}</h3><p>${sub}</p>${quote?`<p class="quote">“${quote}”</p>`:''}</div></article>`;
+  return \`<article class="classic-card"><img src="\${img}" alt="\${name}"><div class="cc-copy"><div class="cc-code">\${code}</div><h3>\${name}</h3><p>\${sub}</p>\${quote?\`<p class="quote">“\${quote}”</p>\`:''}</div><div class="cc-foot">EXPEDIENTES · CASO 001</div></article>\`;
+}
+function printableStoryPage(){
+  return \`<div class="print-page quick-page classic-page story-page"><div class="print-page-inner">\${printHead('EXPEDIENTE DEL CASO')}
+    <div class="story-print-grid">
+      <div class="story-print-cover"><div class="story-stamp">ARCHIVO CONFIDENCIAL</div><div class="story-case-no">CASO 001</div><h2>LA ÚLTIMA<br>REUNIÓN</h2><div class="story-tagline">La verdad está en la mesa.</div><div class="story-read">LEER EN VOZ ALTA ANTES DE COMENZAR</div></div>
+      <div class="story-print-copy"><div class="story-time">VIERNES · 22:38</div>
+        <p>La lluvia golpea los ventanales de una antigua casa familiar a las afueras de la ciudad.</p>
+        <p>Seis personas han sido convocadas por <b>Esteban Valdés</b>. Todas recibieron la misma frase:</p>
+        <blockquote>“Esta noche vamos a terminar lo que empezamos.”</blockquote>
+        <p>A las <b>23:10</b>, Esteban deja una carpeta negra sobre la mesa y anuncia que uno de los presentes le ha mentido durante años.</p>
+        <p>A las <b>23:47</b>, la casa queda completamente a oscuras.</p>
+        <div class="story-beats"><b>GOLPE.</b><b>METAL.</b><b>SILENCIO.</b></div>
+        <p>Setenta segundos más tarde vuelve la electricidad. Esteban ha desaparecido. La carpeta negra también. Nadie salió de la propiedad.</p>
+        <div class="story-three"><b>Una persona está mintiendo.</b><b>Un lugar guarda la verdad.</b><b>Un objeto puede demostrarlo.</b></div>
+        <p class="story-instruction">Abrí el juego digital para iniciar la asignación de identidades, o usá este expediente como lectura inicial en el modo clásico.</p>
+      </div>
+    </div>
+  </div></div>\`;
 }
 function buildPrintableCenter(){
-  const p1=`<div class="print-page quick-page"><div class="print-page-inner">${printHead('TABLERO DE INVESTIGACIÓN')}<div class="print-section-title"><span>PERSONAS</span><small>6 sospechosos</small></div><div class="print-mini-grid">${suspects.map((s,i)=>miniPrintCard(portraits[i],s[0],s[1],s[2])).join('')}</div><div class="print-section-title"><span>LUGARES</span><small>6 posibles escenas</small></div><div class="print-mini-grid">${locations.map((s,i)=>miniPrintCard(locationImages[i],s[0],s[1],s[3])).join('')}</div><div class="print-section-title"><span>OBJETOS</span><small>6 elementos clave</small></div><div class="print-mini-grid">${weapons.map((s,i)=>miniPrintCard(weaponImages[i],s[0],s[1],s[3])).join('')}</div></div></div>`;
-  const p2=`<div class="print-page quick-page"><div class="print-page-inner">${printHead('HOJA DE INVESTIGACIÓN')}<div class="print-sheet-grid">${checklistBlock('PERSONAS',suspects.map(s=>s[1]))}${checklistBlock('LUGARES',locations.map(s=>s[1]))}${checklistBlock('OBJETOS',weapons.map(s=>s[1]))}</div><div class="print-legend-grid"><div class="print-legend"><b>● PISTA PROMETEDORA</b>Los dos elementos encajan con el caso.</div><div class="print-legend"><b>◐ PISTA PARCIAL</b>Uno de los dos elementos encaja.</div><div class="print-legend"><b>× LÍNEA DÉBIL</b>Ninguno aporta a esa conexión.</div></div><div class="print-rules"><div class="print-rule"><strong>1 · Investigá de a pares</strong>Persona + Lugar, Lugar + Objeto o Persona + Objeto.</div><div class="print-rule"><strong>2 · Marcá descartes</strong>Tachá solo cuando una pista realmente elimine un elemento.</div><div class="print-rule"><strong>3 · Compartí teorías</strong>La información privada puede cambiar la lectura del grupo.</div><div class="print-rule"><strong>4 · Acusación final</strong>Solo al final combiná Persona + Lugar + Objeto.</div></div><div style="display:grid;grid-template-columns:1.2fr .8fr;gap:10px;margin-top:10px"><div class="print-note-area"><b>NOTAS / HIPÓTESIS</b></div><div class="print-final-box"><b>ACUSACIÓN FINAL</b><div class="print-final-grid"><div class="print-final-field">PERSONA</div><div class="print-final-field">LUGAR</div><div class="print-final-field">OBJETO</div></div></div></div></div></div>`;
-  const p3=`<div class="print-page classic-page"><div class="print-page-inner">${printHead('MAZO CLÁSICO · PERSONAS')}<div class="classic-card-grid">${suspects.map((s,i)=>classicCard(portraits[i],s[0],s[1],s[2],s[3])).join('')}</div></div></div>`;
-  const p4=`<div class="print-page classic-page"><div class="print-page-inner">${printHead('MAZO CLÁSICO · LUGARES')}<div class="classic-card-grid">${locations.map((s,i)=>classicCard(locationImages[i],s[0],s[1],s[3])).join('')}</div></div></div>`;
-  const p5=`<div class="print-page classic-page"><div class="print-page-inner">${printHead('MAZO CLÁSICO · OBJETOS')}<div class="classic-card-grid">${weapons.map((s,i)=>classicCard(weaponImages[i],s[0],s[1],s[3])).join('')}</div></div></div>`;
-  $('printPages').innerHTML=p1+p2+p3+p4+p5;
+  const story=printableStoryPage();
+  const qBoard=\`<div class="print-page quick-page"><div class="print-page-inner">\${printHead('TABLERO DE INVESTIGACIÓN')}<div class="print-section-title"><span>PERSONAS</span><small>6 sospechosos</small></div><div class="print-mini-grid">\${suspects.map((s,i)=>miniPrintCard(portraits[i],printCode('P',i),s[1],s[2])).join('')}</div><div class="print-section-title"><span>LUGARES</span><small>6 posibles escenas</small></div><div class="print-mini-grid">\${locations.map((s,i)=>miniPrintCard(locationImages[i],printCode('L',i),s[1],s[3])).join('')}</div><div class="print-section-title"><span>OBJETOS</span><small>6 elementos clave</small></div><div class="print-mini-grid">\${weapons.map((s,i)=>miniPrintCard(weaponImages[i],printCode('O',i),s[1],s[3])).join('')}</div></div></div>\`;
+  const qNotes=\`<div class="print-page quick-page"><div class="print-page-inner">\${printHead('HOJA DE INVESTIGACIÓN')}<div class="print-sheet-grid">\${checklistBlock('PERSONAS',suspects.map(s=>s[1]))}\${checklistBlock('LUGARES',locations.map(s=>s[1]))}\${checklistBlock('OBJETOS',weapons.map(s=>s[1]))}</div><div class="print-legend-grid"><div class="print-legend"><b>● PISTA PROMETEDORA</b>Los dos elementos encajan con el caso.</div><div class="print-legend"><b>◐ PISTA PARCIAL</b>Uno de los dos elementos encaja.</div><div class="print-legend"><b>× LÍNEA DÉBIL</b>Ninguno aporta a esa conexión.</div></div><div class="print-rules"><div class="print-rule"><strong>1 · Investigá de a pares</strong>Persona + Lugar, Lugar + Objeto o Persona + Objeto.</div><div class="print-rule"><strong>2 · Marcá descartes</strong>Tachá solo cuando una pista realmente elimine un elemento.</div><div class="print-rule"><strong>3 · Compartí teorías</strong>La información privada puede cambiar la lectura del grupo.</div><div class="print-rule"><strong>4 · Acusación final</strong>Solo al final combiná Persona + Lugar + Objeto.</div></div><div style="display:grid;grid-template-columns:1.2fr .8fr;gap:10px;margin-top:10px"><div class="print-note-area"><b>NOTAS / HIPÓTESIS</b></div><div class="print-final-box"><b>ACUSACIÓN FINAL</b><div class="print-final-grid"><div class="print-final-field">PERSONA</div><div class="print-final-field">LUGAR</div><div class="print-final-field">OBJETO</div></div></div></div></div></div>\`;
+  const cPeople=\`<div class="print-page classic-page"><div class="print-page-inner">\${printHead('MAZO CLÁSICO · PERSONAS')}<div class="classic-card-grid">\${suspects.map((s,i)=>classicCard(portraits[i],printCode('P',i),s[1],s[2],s[3])).join('')}</div></div></div>\`;
+  const cPlaces=\`<div class="print-page classic-page"><div class="print-page-inner">\${printHead('MAZO CLÁSICO · LUGARES')}<div class="classic-card-grid">\${locations.map((s,i)=>classicCard(locationImages[i],printCode('L',i),s[1],s[3])).join('')}</div></div></div>\`;
+  const cObjects=\`<div class="print-page classic-page"><div class="print-page-inner">\${printHead('MAZO CLÁSICO · OBJETOS')}<div class="classic-card-grid">\${weapons.map((s,i)=>classicCard(weaponImages[i],printCode('O',i),s[1],s[3])).join('')}</div></div></div>\`;
+  $('printPages').innerHTML=story+qBoard+qNotes+cPeople+cPlaces+cObjects;
 }
 function showPrintCenter(){hideAll();$('printCenter').classList.remove('hidden');buildPrintableCenter();window.scrollTo({top:0,behavior:'smooth'});}
 function printPack(kind,bw){
@@ -586,7 +697,7 @@ async function downloadPackPDF(kind,bw,btn){
       stage.removeChild(clone);
       if(btn)btn.innerHTML=`⏳ Preparando PDF... ${i+1}/${pages.length}`;
     }
-    const pack=kind==='classic'?'Mazo_Clasico_3_Hojas':'Kit_de_Mesa_2_Hojas';
+    const pack=kind==='classic'?'Mazo_Clasico_4_Hojas':'Kit_de_Mesa_3_Hojas';
     const tono=bw?'BN':'Color';
     pdf.save(`EXPEDIENTES_Caso001_${pack}_${tono}.pdf`);
   }catch(err){
