@@ -46,9 +46,11 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 .license{border:1px solid #59462e;background:#12100d;border-radius:13px;padding:13px;margin-top:12px}.license code{color:#f0cc88;font-weight:900;letter-spacing:.08em}.license small{color:var(--muted)}
 .catalog-title{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:32px 0 12px}.catalog-title h2{margin:0;font-size:1.7rem}.catalog-title span{color:var(--muted);font-size:.84rem}
 .familyHead{display:flex;align-items:center;gap:10px;margin:26px 0 10px;padding-top:8px}.familyHead b{font-size:1.05rem}.familyHead span{height:1px;background:#3c3538;flex:1}.familyHead small{color:#8f857c;font-size:.72rem}.categorySection{scroll-margin-top:18px;margin:32px 0 0}.categorySection .categoryIntro{display:flex;justify-content:space-between;align-items:end;gap:18px;margin:0 0 12px;padding:0 2px}.categorySection .categoryIntro h3{margin:3px 0 0;font-size:1.55rem}.categorySection .categoryIntro p{margin:0;color:var(--muted);font-size:.84rem;max-width:520px;text-align:right}.categorySection.empty .grid{grid-template-columns:1fr}.emptyCard{min-height:150px}.emptyCard .actions{position:static;margin-top:14px}.libraryGroups{display:grid;gap:22px}.libraryGroup .grid{margin-top:10px}.libraryGroupTitle{display:flex;align-items:center;gap:10px;margin:4px 0 0}.libraryGroupTitle span{height:1px;background:#3b3436;flex:1}.libraryGroupTitle b{font-size:.9rem;letter-spacing:.05em}
+.newsWrap{margin:22px 0 8px}.newsHead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:10px}.newsHead h2{margin:0;font-size:1.45rem}.newsHead span{color:var(--muted);font-size:.78rem}.newsCarousel{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 10px;scroll-snap-type:x mandatory}.newsCard{scroll-snap-align:start;min-width:280px;max-width:340px;flex:0 0 31%;border:1px solid #3c3538;background:linear-gradient(180deg,#181619,#100f11);border-radius:17px;padding:15px;position:relative;overflow:hidden}.newsCard:after{content:"";position:absolute;width:145px;height:145px;border-radius:50%;right:-62px;top:-68px;background:radial-gradient(circle,rgba(201,154,58,.15),transparent 66%)}.newsCard b{display:block;margin:9px 0 4px;font-size:1rem}.newsCard p{margin:0;color:var(--muted);font-size:.79rem;line-height:1.4}.newsTag{display:inline-block;font-size:.62rem;font-weight:950;letter-spacing:.07em;padding:5px 7px;border:1px solid #4a4245;border-radius:999px;color:#d3c8bd}.newsTag.new{color:#c9efac;border-color:#557842;background:#162010}
+.categoryHub{margin:24px 0 30px}.categoryHubTitle{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:11px}.categoryHubTitle h2{margin:0;font-size:1.65rem}.categoryHubTitle span{color:var(--muted);font-size:.8rem}.catChip{cursor:pointer;text-align:left;width:100%}.catChip.active{border-color:#6b585a;transform:translateY(-2px);background:linear-gradient(180deg,#211c20,#131115)}.catCount{display:inline-flex;margin-top:8px;padding:4px 7px;border:1px solid #413a3d;border-radius:999px;font-size:.62rem;color:#b7ada4;font-weight:850}.categoryDrawers{margin-top:12px}.categoryDrawer{display:none;border:1px solid #3f3739;border-radius:20px;padding:18px;background:linear-gradient(180deg,#171519,#0f0e10);box-shadow:0 18px 42px rgba(0,0,0,.24)}.categoryDrawer.active{display:block;animation:drawerIn .18s ease-out}.drawerHead{display:flex;justify-content:space-between;align-items:end;gap:18px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid #383235}.drawerHead h3{margin:4px 0 0;font-size:1.45rem}.drawerHead p{margin:0;max-width:520px;color:var(--muted);font-size:.82rem;line-height:1.45;text-align:right}.drawerClose{border:1px solid #51484a;background:#151316;color:#d1c5ba;border-radius:10px;padding:8px 10px;cursor:pointer;font-weight:850;font-size:.72rem}.drawerGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}@keyframes drawerIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .support{display:grid;grid-template-columns:1fr auto;gap:15px;align-items:center}.support-actions{display:flex;gap:8px;flex-wrap:wrap}.note{color:#a99e92;font-size:.82rem;line-height:1.45}.copy{border:0;background:transparent;color:#d9b76d;cursor:pointer;font-weight:800}.soon{opacity:.78}
-@media(max-width:920px){.hero{grid-template-columns:1fr}.categoryStrip{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr 1fr}.support{grid-template-columns:1fr}}
-@media(max-width:560px){.wrap{padding:15px}.grid,.categoryStrip{grid-template-columns:1fr}.authrow{grid-template-columns:1fr}.hero{padding-top:30px}.account{align-items:flex-start;flex-direction:column}.top{align-items:flex-start}.seal{width:58px;height:58px}.pill{display:none}}
+@media(max-width:920px){.hero{grid-template-columns:1fr}.categoryStrip{grid-template-columns:repeat(2,1fr)}.grid,.drawerGrid{grid-template-columns:1fr 1fr}.support{grid-template-columns:1fr}.newsCard{flex-basis:46%}.drawerHead{align-items:flex-start;flex-direction:column}.drawerHead p{text-align:left}}
+@media(max-width:560px){.wrap{padding:15px}.grid,.categoryStrip,.drawerGrid{grid-template-columns:1fr}.authrow{grid-template-columns:1fr}.hero{padding-top:30px}.account{align-items:flex-start;flex-direction:column}.top{align-items:flex-start}.seal{width:58px;height:58px}.pill{display:none}.newsCard{min-width:84%;flex-basis:84%}.categoryHubTitle,.newsHead{align-items:flex-start;flex-direction:column}}
 </style></head><body><div class="wrap">
 <header class="top"><div class="brandwrap"><div class="seal"><span>PASALO<br>CHEVERE</span></div><div class="brand">PASALOCHEVERE<small>ACCESO PERSONAL · BIBLIOTECA DIGITAL</small></div></div><div class="pill">12 MESES · HASTA 2 DISPOSITIVOS</div></header>
 
@@ -56,12 +58,64 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
   <div class="heroCopy"><div class="eyebrow">TODOS TUS JUEGOS, UN SOLO ACCESO</div><h1>ENTRÁ.<br><em>ELEGÍ.</em><br>JUGÁ.</h1><p>Una sola biblioteca para activar, abrir y volver a tus experiencias PasaloChevere. Juegos de pareja, misterio, familia, aprendizaje y vínculos, cada uno con su propia identidad.</p></div>
   <div class="heroPanel"><div class="eyebrow">TU BIBLIOTECA PERSONAL</div><h2>Menos mezcla. Más ganas de jugar.</h2><p>Cada producto vive dentro de una familia clara, sin perder la estética original de su juego.</p><div class="heroStats"><div class="heroStat"><b>5</b><span>familias de experiencias</span></div><div class="heroStat"><b>1</b><span>acceso personal</span></div><div class="heroStat"><b>12m</b><span>desde activación</span></div><div class="heroStat"><b>2</b><span>dispositivos</span></div></div></div>
 </section>
-<section class="categoryStrip" aria-label="Categorías de juegos">
-  <a class="catChip adult" href="#cat-adult"><i>♥</i><b>PAREJA & ADULTOS</b><span>Conexión, humor e intensidad.</span></a>
-  <a class="catChip family" href="#cat-family"><i>★</i><b>FAMILIA & KIDS</b><span>Jugar, aprender y compartir.</span></a>
-  <a class="catChip mystery" href="#cat-mystery"><i>⌕</i><b>MISTERIO & GRUPO</b><span>Casos, pistas y roles.</span></a>
-  <a class="catChip wellbeing" href="#cat-wellbeing"><i>✦</i><b>BIENESTAR & VÍNCULOS</b><span>Explorar relaciones y emociones.</span></a>
-  <a class="catChip creative" href="#cat-creative"><i>✂</i><b>CREATIVOS & DIDÁCTICOS</b><span>Construir, crear y descubrir.</span></a>
+<section class="categoryHub" aria-label="Categorías de juegos">
+  <div class="categoryHubTitle"><div><div class="eyebrow">ELEGÍ TU EXPERIENCIA</div><h2>Entrá por categoría</h2></div><span>Los juegos viven adentro de cada familia. Abrí sólo la que te interesa.</span></div>
+  <div class="categoryStrip">
+    <button class="catChip adult" type="button" data-category="adult" onclick="openCategory('adult')"><i>♥</i><b>PAREJA & ADULTOS</b><span>Conexión, humor e intensidad.</span><small class="catCount">1 juego</small></button>
+    <button class="catChip family" type="button" data-category="family" onclick="openCategory('family')"><i>★</i><b>FAMILIA & KIDS</b><span>Jugar, aprender y compartir.</span><small class="catCount">3 juegos</small></button>
+    <button class="catChip mystery" type="button" data-category="mystery" onclick="openCategory('mystery')"><i>⌕</i><b>MISTERIO & GRUPO</b><span>Casos, pistas y roles.</span><small class="catCount">2 casos</small></button>
+    <button class="catChip wellbeing" type="button" data-category="wellbeing" onclick="openCategory('wellbeing')"><i>✦</i><b>BIENESTAR & VÍNCULOS</b><span>Explorar relaciones y emociones.</span><small class="catCount">1 herramienta</small></button>
+    <button class="catChip creative" type="button" data-category="creative" onclick="openCategory('creative')"><i>✂</i><b>CREATIVOS & DIDÁCTICOS</b><span>Construir, crear y descubrir.</span><small class="catCount">próximamente</small></button>
+  </div>
+
+  <div class="categoryDrawers">
+    <section class="categoryDrawer" id="drawer-adult">
+      <div class="drawerHead"><div><div class="eyebrow">♥ PAREJA & ADULTOS</div><h3>Conexión, humor e intensidad</h3></div><button class="drawerClose" onclick="closeCategories()">CERRAR ×</button></div>
+      <div class="drawerGrid">
+        <article class="card" data-cat="adult"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18</div><p>Un solo código desbloquea las tres ediciones, el juego digital y el material descargable.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+      </div>
+    </section>
+
+    <section class="categoryDrawer" id="drawer-family">
+      <div class="drawerHead"><div><div class="eyebrow">★ FAMILIA & KIDS</div><h3>Jugar, aprender y compartir</h3></div><button class="drawerClose" onclick="closeCategories()">CERRAR ×</button></div>
+      <div class="drawerGrid">
+        <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · FÍSICA + DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>54 piezas numeradas, dados, niveles, estrellas, desafíos y material imprimible.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+        <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · SOLO DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>La misma experiencia educativa directamente desde el celular, sin torre física.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+        <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE 5 EN 1 DIGITAL</h3><div class="accent">KIDS · GENERAL · FIESTA · SIN FILTRO</div><p>Mega Pack con 4 versiones y más de 800 contenidos para jugar desde el celular.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+      </div>
+    </section>
+
+    <section class="categoryDrawer" id="drawer-mystery">
+      <div class="drawerHead"><div><div class="eyebrow">⌕ MISTERIO & GRUPO</div><h3>Casos, pistas y roles</h3></div><button class="drawerClose" onclick="closeCategories()">CERRAR ×</button></div>
+      <div class="drawerGrid">
+        <article class="card" data-cat="mystery"><span class="status live">● DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 001 · La Última Reunión</div><p>Investigación multijugador, QR, roles privados, pistas y kit imprimible.</p><div class="note" id="exp001Price" style="margin-top:8px">Precio online a definir</div><div class="actions"><button class="btn primary" id="exp001Buy" onclick="buyNow('EXP-001')" disabled>COMPRAR AHORA</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20comprar%20EXPEDIENTES%20%E2%80%94%20Caso%20001." target="_blank" rel="noopener">WHATSAPP</a></div></article>
+        <article class="card soon" data-cat="mystery"><span class="status">PRÓXIMAMENTE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002</div><p>Un nuevo caso dentro de la misma Central de Investigación.</p><div class="actions"><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20que%20me%20avisen%20cuando%20est%C3%A9%20disponible%20EXPEDIENTES%20%E2%80%94%20Caso%20002." target="_blank" rel="noopener">AVISARME</a></div></article>
+      </div>
+    </section>
+
+    <section class="categoryDrawer" id="drawer-wellbeing">
+      <div class="drawerHead"><div><div class="eyebrow">✦ BIENESTAR & VÍNCULOS</div><h3>Explorar relaciones y emociones</h3></div><button class="drawerClose" onclick="closeCategories()">CERRAR ×</button></div>
+      <div class="drawerGrid">
+        <article class="card" data-cat="wellbeing"><span class="status">BETA · EN PRUEBA</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Campo de constelación interactivo</div><p>Representá personas, roles, emociones y escenas relacionales en un campo visual personalizable.</p><div class="actions"><span class="btn" style="opacity:.72">ACCESO EN INTEGRACIÓN</span></div></article>
+      </div>
+    </section>
+
+    <section class="categoryDrawer" id="drawer-creative">
+      <div class="drawerHead"><div><div class="eyebrow">✂ CREATIVOS & DIDÁCTICOS</div><h3>Construir, crear y descubrir</h3></div><button class="drawerClose" onclick="closeCategories()">CERRAR ×</button></div>
+      <div class="drawerGrid">
+        <article class="card emptyCard" data-cat="creative"><span class="status">PRÓXIMAMENTE</span><h3>NUEVOS TÍTULOS</h3><div class="accent">CREATIVOS · IMPRIMIBLES · DIDÁCTICOS</div><p>Esta familia queda lista para sumar los próximos kits creativos sin mezclar públicos.</p></article>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section class="newsWrap">
+  <div class="newsHead"><div><div class="eyebrow">NOVEDADES</div><h2>Lo nuevo de PasaloChevere</h2></div><span>Un vistazo rápido, sin llenar la portada de productos.</span></div>
+  <div class="newsCarousel">
+    <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO · BETA</span><b>VÍNCORES DIGITAL</b><p>Nuevo campo interactivo de vínculos y emociones.</p></article>
+    <article class="newsCard" onclick="openCategory('mystery')" style="cursor:pointer"><span class="newsTag">PRÓXIMAMENTE</span><b>EXPEDIENTES · CASO 002</b><p>Una nueva investigación dentro de la Central.</p></article>
+    <article class="newsCard" onclick="openCategory('family')" style="cursor:pointer"><span class="newsTag">DISPONIBLE</span><b>TORRE KIDS · MATEMÁTICA</b><p>Juego físico + digital y versión solo digital.</p></article>
+  </div>
 </section>
 
 <section id="loginBox" class="box">
@@ -85,46 +139,6 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 </section>
 
 <section id="paymentNotice" class="box hidden"><div class="eyebrow">ESTADO DE COMPRA</div><h3 id="paymentTitle">Mercado Pago</h3><div id="paymentText" class="sub"></div></section>
-
-<div class="catalog-title"><div><div class="eyebrow">PASALOCHEVERE</div><h2>Catálogo por categorías</h2></div><span>Elegí una familia y después el juego</span></div>
-
-<section class="categorySection" id="cat-adult">
-  <div class="categoryIntro"><div><div class="eyebrow">♥ PAREJA & ADULTOS</div><h3>Conexión, humor e intensidad</h3></div><p>Experiencias pensadas para parejas y adultos, con una identidad visual propia y reglas claras de consentimiento.</p></div>
-  <div class="grid">
-    <article class="card" data-cat="adult"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18</div><p>Un solo código desbloquea las tres ediciones, el juego digital y el material descargable. Acceso por 12 meses y hasta 2 dispositivos.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-  </div>
-</section>
-
-<section class="categorySection" id="cat-family">
-  <div class="categoryIntro"><div><div class="eyebrow">★ FAMILIA & KIDS</div><h3>Jugar, aprender y compartir</h3></div><p>Juegos familiares y educativos para usar con la torre física o directamente desde el celular.</p></div>
-  <div class="grid">
-    <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · FÍSICA + DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>54 piezas numeradas, 6 colores, dados y portal digital con niveles, estrellas, desafíos y material imprimible.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-    <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · SOLO DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>La misma experiencia educativa sin torre física: el portal sortea piezas virtuales, colores y desafíos desde el celular.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-    <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE 5 EN 1 DIGITAL</h3><div class="accent">KIDS · GENERAL · FIESTA · SIN FILTRO</div><p>Mega Pack con 4 versiones y más de 800 contenidos para jugar desde el celular, con Torre o Solo Digital.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-  </div>
-</section>
-
-<section class="categorySection" id="cat-mystery">
-  <div class="categoryIntro"><div><div class="eyebrow">⌕ MISTERIO & GRUPO</div><h3>Casos, pistas y roles</h3></div><p>Investigación multijugador, narrativa, roles privados y material imprimible para resolver en equipo.</p></div>
-  <div class="grid">
-    <article class="card" data-cat="mystery"><span class="status live">● DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 001 · La Última Reunión</div><p>Investigación multijugador, QR, roles privados, pistas y kit imprimible.</p><div class="note" id="exp001Price" style="margin-top:8px">Precio online a definir</div><div class="actions"><button class="btn primary" id="exp001Buy" onclick="buyNow('EXP-001')" disabled>COMPRAR AHORA</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20comprar%20EXPEDIENTES%20%E2%80%94%20Caso%20001." target="_blank" rel="noopener">WHATSAPP</a></div></article>
-    <article class="card soon" data-cat="mystery"><span class="status">PRÓXIMAMENTE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002</div><p>Un nuevo caso dentro de la misma Central de Investigación.</p><div class="actions"><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20que%20me%20avisen%20cuando%20est%C3%A9%20disponible%20EXPEDIENTES%20%E2%80%94%20Caso%20002." target="_blank" rel="noopener">AVISARME POR WHATSAPP</a></div></article>
-  </div>
-</section>
-
-<section class="categorySection" id="cat-wellbeing">
-  <div class="categoryIntro"><div><div class="eyebrow">✦ BIENESTAR & VÍNCULOS</div><h3>Explorar relaciones y emociones</h3></div><p>Herramientas visuales para representar vínculos, roles, emociones y dinámicas de una forma simple y acompañada.</p></div>
-  <div class="grid">
-    <article class="card soon" data-cat="wellbeing"><span class="status">BETA · EN PRUEBA</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Campo de constelación interactivo</div><p>Representá personas, roles, emociones y escenas relacionales en un campo visual personalizable.</p><div class="actions"><span class="btn" style="opacity:.72">ACCESO EN INTEGRACIÓN</span></div></article>
-  </div>
-</section>
-
-<section class="categorySection empty" id="cat-creative">
-  <div class="categoryIntro"><div><div class="eyebrow">✂ CREATIVOS & DIDÁCTICOS</div><h3>Construir, crear y descubrir</h3></div><p>Esta familia queda reservada para los próximos kits creativos, imprimibles y experiencias de construcción.</p></div>
-  <div class="grid">
-    <article class="card emptyCard" data-cat="creative"><span class="status">PRÓXIMAMENTE</span><h3>NUEVOS TÍTULOS</h3><div class="accent">CREATIVOS · IMPRIMIBLES · DIDÁCTICOS</div><p>Acá van a vivir las propuestas creativas sin mezclarse con los juegos de familia, misterio o bienestar.</p></article>
-  </div>
-</section>
 
 <section class="box support" id="soporte"><div><div class="eyebrow">SOPORTE OFICIAL PASALOCHEVERE</div><h3>¿Necesitás ayuda?</h3><div class="sub">Soporte para activaciones, códigos, dispositivos, acceso a juegos y consultas sobre nuevos casos.</div><div class="note" style="margin-top:10px">WhatsApp: <b>11 5377-4769</b> · Correo: <b>pasalochevere@gmail.com</b></div></div><div class="support-actions"><a class="btn primary" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20necesito%20ayuda%20con%20mi%20acceso%20o%20juego." target="_blank" rel="noopener">WHATSAPP</a><a class="btn" href="mailto:pasalochevere@gmail.com?subject=Soporte%20PasaloChevere">CORREO</a></div></section>
 <footer class="note" style="padding:18px 0 30px">PasaloChevere · Acceso personal · 12 meses desde la activación · Hasta 2 dispositivos.</footer>
@@ -282,6 +296,17 @@ async function renderSession(){
    await loadMyGames();
  }
 }
+
+function openCategory(key){
+ document.querySelectorAll('.categoryDrawer').forEach(el=>el.classList.toggle('active',el.id==='drawer-'+key));
+ document.querySelectorAll('.catChip').forEach(el=>el.classList.toggle('active',el.dataset.category===key));
+ const active=document.getElementById('drawer-'+key);
+ if(active)active.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function closeCategories(){
+ document.querySelectorAll('.categoryDrawer,.catChip').forEach(el=>el.classList.remove('active'));
+}
+
 sb.auth.onAuthStateChange(()=>setTimeout(renderSession,0));
 setTimeout(renderSession,100);setTimeout(loadCatalog,120);setTimeout(renderPaymentReturn,160);
 </script></body></html>
