@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PasaloChevere · Acceso personal</title>
+<style>
+:root{
+  --bg:#09090b;--bg2:#120e10;--panel:#151316;--panel2:#1d191d;--ink:#f7efe6;--muted:#b6aba0;
+  --gold:#c99a3a;--orange:#f7941d;--blue:#00aeef;--green:#7ac943;--yellow:#ffd447;
+  --copper:#c77d52;--plum:#4a2037;--line:#3b3336;--success:#76cf98;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+background:
+radial-gradient(circle at 10% -10%,rgba(201,154,58,.18),transparent 28%),
+radial-gradient(circle at 90% 0,rgba(199,125,82,.10),transparent 26%),
+linear-gradient(180deg,#0f0c0e 0,#080809 48%,#050506 100%);color:var(--ink)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:
+linear-gradient(90deg,transparent 0 49%,rgba(255,255,255,.025) 50%,transparent 51%),
+linear-gradient(0deg,transparent 0 49%,rgba(255,255,255,.018) 50%,transparent 51%);background-size:42px 42px}
+button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 40px;position:relative}
+.top{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:10px 0 18px;border-bottom:1px solid var(--line)}
+.brandwrap{display:flex;align-items:center;gap:14px}.seal{width:68px;height:68px;border-radius:50%;background:#0d0d0e;border:4px solid var(--gold);display:grid;place-items:center;box-shadow:0 10px 26px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.05)}
+.seal span{color:#ffd447;font-weight:950;font-size:.72rem;line-height:1.02;text-align:center;letter-spacing:.06em}
+.brand{font-weight:950;letter-spacing:.13em;font-size:1rem}.brand small{display:block;color:var(--gold);font-size:.7rem;letter-spacing:.16em;margin-top:5px}
+.pill{border:1px solid #4a4041;border-radius:999px;padding:8px 11px;color:#c6bbb0;font-size:.76rem;background:#121013}
+.hero{display:grid;grid-template-columns:1.12fr .88fr;gap:22px;padding:44px 0 24px;align-items:stretch}
+.heroCopy{padding:10px 0}.eyebrow{color:var(--gold);font-size:.74rem;font-weight:950;letter-spacing:.18em;text-transform:uppercase}
+.hero h1{font-family:Impact,"Arial Narrow",sans-serif;font-size:clamp(3.2rem,8vw,6.2rem);line-height:.88;margin:9px 0 15px;letter-spacing:.01em}
+.hero h1 em{font-style:normal;color:#f6dfb5;text-shadow:0 0 28px rgba(201,154,58,.12)}
+.hero p{max-width:690px;color:var(--muted);line-height:1.65;font-size:1.05rem}
+.heroPanel{background:linear-gradient(145deg,#1d1819,#0f0e10);border:1px solid #44383a;border-radius:24px;padding:22px;box-shadow:0 22px 54px rgba(0,0,0,.35);position:relative;overflow:hidden}
+.heroPanel:before{content:"";position:absolute;inset:-40px -100px auto auto;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(247,148,29,.18),transparent 66%)}
+.heroPanel h2{margin:7px 0 8px;font-size:1.7rem}.heroPanel p{font-size:.92rem;margin:0 0 15px}.heroStats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.heroStat{padding:13px;border:1px solid #43393a;border-radius:14px;background:#111013}.heroStat b{display:block;color:#fff;font-size:1.2rem}.heroStat span{font-size:.72rem;color:var(--muted)}
+.categoryStrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:6px 0 24px}.catChip{border:1px solid #3d3638;background:linear-gradient(180deg,#171519,#111013);border-radius:16px;padding:13px;min-height:92px}.catChip i{font-style:normal;font-size:1.25rem}.catChip b{display:block;margin:7px 0 2px;font-size:.82rem}.catChip span{color:#9f958d;font-size:.7rem;line-height:1.25}.catChip.adult{box-shadow:inset 0 2px 0 #9d3852}.catChip.family{box-shadow:inset 0 2px 0 var(--blue)}.catChip.mystery{box-shadow:inset 0 2px 0 var(--gold)}.catChip.wellbeing{box-shadow:inset 0 2px 0 var(--green)}.catChip.creative{box-shadow:inset 0 2px 0 var(--orange)}
+.box{background:linear-gradient(180deg,#181619,#111012);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 16px 42px rgba(0,0,0,.28);margin:14px 0}.box h2,.box h3{margin:0 0 8px}.sub{color:var(--muted);line-height:1.5}
+.authrow{display:grid;grid-template-columns:1fr auto;gap:9px;margin-top:14px}.authrow input,.codeinput{width:100%;border:1px solid #51484a;background:#0d0c0e;color:#fff;border-radius:11px;padding:13px 14px}
+.btn{border:1px solid #51484a;border-radius:11px;padding:12px 15px;font-weight:900;background:#19171a;color:#fff;cursor:pointer;transition:.16s transform,.16s box-shadow}.btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(0,0,0,.22)}
+.btn.primary{background:linear-gradient(135deg,#b64036,#7d211b);border-color:#c75a50}.btn.gold{background:linear-gradient(135deg,#745421,#473316);border-color:#a27b38}.btn:disabled{opacity:.45;cursor:not-allowed}
+.hidden{display:none!important}.msg{margin-top:10px;color:#c9bbae;font-size:.9rem}.msg.bad{color:#ffaaa4}.msg.good{color:#a9e3bc}
+.account{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;background:#101713;border:1px solid #31563d;border-radius:12px;margin-top:12px}.account b{color:#b9eac8}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{position:relative;min-height:268px;background:linear-gradient(180deg,#19171a,#100f11);border:1px solid #3c3538;border-radius:18px;padding:18px;overflow:hidden;box-shadow:0 16px 34px rgba(0,0,0,.22)}
+.card:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-80px;top:-90px;background:radial-gradient(circle,rgba(212,162,79,.16),transparent 65%)}
+.card[data-cat="adult"]:after{background:radial-gradient(circle,rgba(157,56,82,.22),transparent 65%)}.card[data-cat="family"]:after{background:radial-gradient(circle,rgba(0,174,239,.16),transparent 65%)}.card[data-cat="mystery"]:after{background:radial-gradient(circle,rgba(201,154,58,.18),transparent 65%)}.card[data-cat="wellbeing"]:after{background:radial-gradient(circle,rgba(122,201,67,.16),transparent 65%)}
+.status{display:inline-block;padding:5px 8px;border-radius:999px;border:1px solid #4b464a;color:#cbbfb3;font-size:.67rem;font-weight:950;letter-spacing:.07em}.status.live{color:#b9efcb;border-color:#3f7957;background:#12231a}
+.card h3{font-size:1.38rem;margin:12px 0 4px}.card .accent{color:var(--gold);font-size:.86rem;font-weight:850}.card p{color:var(--muted);font-size:.9rem;line-height:1.46}.card .actions{position:absolute;left:18px;right:18px;bottom:17px;display:flex;gap:8px;z-index:2}.actions .btn{flex:1;text-decoration:none;text-align:center}
+.license{border:1px solid #59462e;background:#12100d;border-radius:13px;padding:13px;margin-top:12px}.license code{color:#f0cc88;font-weight:900;letter-spacing:.08em}.license small{color:var(--muted)}
+.catalog-title{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:32px 0 12px}.catalog-title h2{margin:0;font-size:1.7rem}.catalog-title span{color:var(--muted);font-size:.84rem}
+.familyHead{display:flex;align-items:center;gap:10px;margin:26px 0 10px;padding-top:8px}.familyHead b{font-size:1.05rem}.familyHead span{height:1px;background:#3c3538;flex:1}.familyHead small{color:#8f857c;font-size:.72rem}
+.support{display:grid;grid-template-columns:1fr auto;gap:15px;align-items:center}.support-actions{display:flex;gap:8px;flex-wrap:wrap}.note{color:#a99e92;font-size:.82rem;line-height:1.45}.copy{border:0;background:transparent;color:#d9b76d;cursor:pointer;font-weight:800}.soon{opacity:.78}
+@media(max-width:920px){.hero{grid-template-columns:1fr}.categoryStrip{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr 1fr}.support{grid-template-columns:1fr}}
+@media(max-width:560px){.wrap{padding:15px}.grid,.categoryStrip{grid-template-columns:1fr}.authrow{grid-template-columns:1fr}.hero{padding-top:30px}.account{align-items:flex-start;flex-direction:column}.top{align-items:flex-start}.seal{width:58px;height:58px}.pill{display:none}}
+</style></head><body><div class="wrap">
+<header class="top"><div class="brandwrap"><div class="seal"><span>PASALO<br>CHEVERE</span></div><div class="brand">PASALOCHEVERE<small>ACCESO PERSONAL · BIBLIOTECA DIGITAL</small></div></div><div class="pill">12 MESES · HASTA 2 DISPOSITIVOS</div></header>
+
+<section class="hero">
+  <div class="heroCopy"><div class="eyebrow">TODOS TUS JUEGOS, UN SOLO ACCESO</div><h1>ENTRÁ.<br><em>ELEGÍ.</em><br>JUGÁ.</h1><p>Una sola biblioteca para activar, abrir y volver a tus experiencias PasaloChevere. Juegos de pareja, misterio, familia, aprendizaje y vínculos, cada uno con su propia identidad.</p></div>
+  <div class="heroPanel"><div class="eyebrow">TU BIBLIOTECA PERSONAL</div><h2>Menos mezcla. Más ganas de jugar.</h2><p>Cada producto vive dentro de una familia clara, sin perder la estética original de su juego.</p><div class="heroStats"><div class="heroStat"><b>5</b><span>familias de experiencias</span></div><div class="heroStat"><b>1</b><span>acceso personal</span></div><div class="heroStat"><b>12m</b><span>desde activación</span></div><div class="heroStat"><b>2</b><span>dispositivos</span></div></div></div>
+</section>
+<section class="categoryStrip">
+  <div class="catChip adult"><i>♥</i><b>PAREJA & ADULTOS</b><span>Conexión, humor e intensidad.</span></div>
+  <div class="catChip family"><i>★</i><b>FAMILIA & KIDS</b><span>Jugar, aprender y compartir.</span></div>
+  <div class="catChip mystery"><i>⌕</i><b>MISTERIO & GRUPO</b><span>Casos, pistas y roles.</span></div>
+  <div class="catChip wellbeing"><i>✦</i><b>BIENESTAR & VÍNCULOS</b><span>Explorar relaciones y emociones.</span></div>
+  <div class="catChip creative"><i>✂</i><b>CREATIVOS & DIDÁCTICOS</b><span>Construir, crear y descubrir.</span></div>
+</section>
+
+<section id="loginBox" class="box">
+  <div class="eyebrow">PASO 1 · VERIFICAR CORREO</div><h2>Ingresá tu correo electrónico</h2>
+  <div class="sub">Te enviamos un enlace mágico. Abrilo en el dispositivo donde querés activar tu compra.</div>
+  <div class="authrow"><input id="email" type="email" placeholder="tu@email.com" autocomplete="email"><button class="btn primary" id="sendBtn" onclick="sendMagicLink()">ENVIAR ENLACE</button></div>
+  <div id="authMsg" class="msg">No necesitás crear una contraseña.</div>
+</section>
+
+<section id="accountBox" class="box hidden">
+  <div class="eyebrow">CUENTA VERIFICADA</div>
+  <div class="account"><div><b id="accountEmail"></b><div class="note">Tu acceso queda asociado a este correo.</div></div><button class="btn" onclick="logout()">Cerrar sesión</button></div>
+  <div style="margin-top:18px"><div class="eyebrow">PASO 2 · ACTIVAR COMPRA</div><h2>Generá tu código personal</h2><div class="sub">Ingresá el código que recibiste con tu compra. El sistema generará un código personal y habilitará el juego en esta cuenta.</div></div>
+  <div class="authrow"><input id="purchaseCode" class="codeinput" placeholder="Código de compra" autocomplete="off"><button class="btn gold" id="activateBtn" onclick="activatePurchase()">ACTIVAR Y GENERAR CÓDIGO</button></div>
+  <div id="activateMsg" class="msg">La vigencia empieza solamente cuando activás.</div>
+</section>
+
+<section id="myGames" class="hidden">
+  <div class="catalog-title"><div><div class="eyebrow">MI BIBLIOTECA</div><h2>Mis juegos</h2></div><span>Accesos vinculados a tu cuenta</span></div>
+  <div id="myGamesGrid" class="grid"></div>
+</section>
+
+<section id="paymentNotice" class="box hidden"><div class="eyebrow">ESTADO DE COMPRA</div><h3 id="paymentTitle">Mercado Pago</h3><div id="paymentText" class="sub"></div></section>
+
+<div class="catalog-title"><div><div class="eyebrow">PASALOCHEVERE</div><h2>Catálogo de juegos</h2></div><span>Nuevos títulos se sumarán acá</span></div>
+<section class="grid">
+  <article class="card"><span class="status live">● DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 001 · La Última Reunión</div><p>Investigación multijugador, QR, roles privados, pistas y kit imprimible.</p><div class="note" id="exp001Price" style="margin-top:8px">Precio online a definir</div><div class="actions"><button class="btn primary" id="exp001Buy" onclick="buyNow('EXP-001')" disabled>COMPRAR AHORA</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20comprar%20EXPEDIENTES%20%E2%80%94%20Caso%20001." target="_blank" rel="noopener">WHATSAPP</a></div></article><article class="card" data-cat="adult"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18</div><p>Un solo código desbloquea las tres ediciones, el juego digital y el material descargable. Acceso por 12 meses y hasta 2 dispositivos.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+  <article class="card soon" data-cat="mystery"><span class="status">PRÓXIMAMENTE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002</div><p>Un nuevo caso dentro de la misma Central de Investigación.</p><div class="actions"><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20que%20me%20avisen%20cuando%20est%C3%A9%20disponible%20EXPEDIENTES%20%E2%80%94%20Caso%20002." target="_blank" rel="noopener">AVISARME POR WHATSAPP</a></div></article>
+  <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · FÍSICA + DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>54 piezas numeradas, 6 colores, dados y portal digital con niveles, estrellas, desafíos y material imprimible.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+  <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · SOLO DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>La misma experiencia educativa sin torre física: el portal sortea piezas virtuales, colores y desafíos desde el celular.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+  <article class="card soon" data-cat="wellbeing"><span class="status">EN PREPARACIÓN</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Mesa interactiva</div><p>Dinámicas visuales y prácticas a distancia.</p></article>
+  <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE 5 EN 1 DIGITAL</h3><div class="accent">KIDS · GENERAL · FIESTA · SIN FILTRO</div><p>Mega Pack con 4 versiones y más de 800 contenidos para jugar desde el celular, con Torre o Solo Digital.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+</section>
+
+<section class="box support" id="soporte"><div><div class="eyebrow">SOPORTE OFICIAL PASALOCHEVERE</div><h3>¿Necesitás ayuda?</h3><div class="sub">Soporte para activaciones, códigos, dispositivos, acceso a juegos y consultas sobre nuevos casos.</div><div class="note" style="margin-top:10px">WhatsApp: <b>11 5377-4769</b> · Correo: <b>pasalochevere@gmail.com</b></div></div><div class="support-actions"><a class="btn primary" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20necesito%20ayuda%20con%20mi%20acceso%20o%20juego." target="_blank" rel="noopener">WHATSAPP</a><a class="btn" href="mailto:pasalochevere@gmail.com?subject=Soporte%20PasaloChevere">CORREO</a></div></section>
+<footer class="note" style="padding:18px 0 30px">PasaloChevere · Acceso personal · 12 meses desde la activación · Hasta 2 dispositivos.</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+const DEVICE_KEY='pc_device_id';
+const ACCESS_REDIRECT='https://pasalochevere.github.io/expediente/portal/';
+function deviceId(){let v=localStorage.getItem(DEVICE_KEY);if(!v){v=(crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2));localStorage.setItem(DEVICE_KEY,v)}return v}
+function deviceLabel(){return [navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150)}
+function msg(id,text,type=''){let el=document.getElementById(id);el.textContent=text;el.className='msg '+type}
+async function sendMagicLink(){
+ const email=document.getElementById('email').value.trim();if(!email){msg('authMsg','Ingresá tu correo.','bad');return}
+ const b=document.getElementById('sendBtn');b.disabled=true;msg('authMsg','Enviando enlace…');
+ const redirect=ACCESS_REDIRECT;
+ const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:redirect,shouldCreateUser:true}});
+ b.disabled=false;if(error)msg('authMsg',error.message,'bad');else msg('authMsg','✅ Te enviamos un enlace. Revisá tu correo y abrilo para continuar.','good');
+}
+async function callAccess(body){const {data,error}=await sb.functions.invoke('pasalochevere-access',{body});if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}if(!data?.ok)throw new Error(data?.error||'No se pudo completar la operación.');return data}
+async function activatePurchase(){
+ const code=document.getElementById('purchaseCode').value.trim();if(!code){msg('activateMsg','Ingresá el código recibido con tu compra.','bad');return}
+ const b=document.getElementById('activateBtn');b.disabled=true;msg('activateMsg','Activando compra y generando código…');
+ try{
+   const d=await callAccess({action:'activate',purchase_code:code,device_id:deviceId(),device_label:deviceLabel()});
+   if(d.master) msg('activateMsg','✅ Código maestro activado. Se habilitaron todos los juegos de prueba disponibles.','good');
+   else msg('activateMsg','✅ Compra activada. Tu código personal es '+d.license.activation_code,'good');
+   document.getElementById('purchaseCode').value='';await loadMyGames()
+ }catch(e){msg('activateMsg',e.message,'bad')}finally{b.disabled=false}
+}
+async function reconcilePayment(){
+ try{
+   const {data,error}=await sb.functions.invoke('pasalochevere-payment-status',{body:{}});
+   if(error)return null;
+   return data;
+ }catch(e){console.warn('payment reconcile',e);return null}
+}
+async function loadMyGames(){
+ try{const d=await callAccess({action:'me'});renderLicenses(d.licenses||[])}catch(e){console.warn(e)}
+}
+function gameHref(l){
+ if(!l.game_url)return '#';
+ if(l.product_code==='EXP-001')return '../?access='+encodeURIComponent(l.activation_code);
+ if(l.product_code==='DI-TRILOGIA')return '../doble-intencion/?access='+encodeURIComponent(l.activation_code);
+ if(['TK-MAT-79','TK-MAT-79-PHY','TK-MAT-79-DIG'].includes(l.product_code))return '../torre-kids-matematica/?access='+encodeURIComponent(l.activation_code);
+ return l.game_url;
+}
+async function openGame(code,url){
+ try{
+   await callAccess({action:'register_device',activation_code:code,device_id:deviceId(),device_label:deviceLabel()});
+   location.href=url;
+ }catch(e){alert(e.message||'No se pudo validar este dispositivo.')}
+}
+function renderLicenses(list){
+ list=(list||[]).filter(l=>l.product_code!=='TOWER-JAM');
+ const sec=document.getElementById('myGames'),g=document.getElementById('myGamesGrid');
+ if(!list.length){sec.classList.add('hidden');g.innerHTML='';return}
+ sec.classList.remove('hidden');g.innerHTML=list.map(l=>{
+   const active=l.status==='active'&&l.expires_at&&new Date(l.expires_at).getTime()>Date.now();
+   const pending=!!l.can_activate;
+   const date=l.expires_at?new Date(l.expires_at).toLocaleDateString():'Empieza al activar';
+   const badge=active?'● ACTIVO':pending?'● COMPRA APROBADA':'VENCIDO';
+   const badgeClass=(active||pending)?'live':'';
+   const code=l.activation_code||'Se genera al activar';
+   let action='';
+   if(pending) action='<button class="btn primary" onclick="activateOwned(\''+escapeHtml(l.product_code)+'\')">ACTIVAR 12 MESES</button>';
+   else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a>';
+   else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span>';
+   else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
+   return '<article class="card"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(code)+'</code></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>'
+ }).join('');
+}
+async function activateOwned(productCode){
+ try{
+   const d=await callAccess({action:'activate_owned',product_code:productCode,device_id:deviceId(),device_label:deviceLabel()});
+   alert('✅ Acceso activado. Tu código personal es '+d.license.activation_code);
+   await loadMyGames();
+ }catch(e){alert(e.message||'No pude activar esta compra.')}
+}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+async function copyCode(v){try{await navigator.clipboard.writeText(v);alert('Código copiado.')}catch{prompt('Copiá tu código:',v)}}
+async function logout(){await sb.auth.signOut();location.replace(location.pathname)}
+function scrollToActivation(){document.getElementById(document.getElementById('accountBox').classList.contains('hidden')?'loginBox':'accountBox').scrollIntoView({behavior:'smooth'})}
+let publicCatalog={};
+async function loadCatalog(){
+ try{
+   const {data,error}=await sb.functions.invoke('pasalochevere-catalog',{body:{}});
+   if(error||!data?.ok)return;
+   publicCatalog=Object.fromEntries((data.products||[]).map(p=>[p.product_code,p]));
+   const p=publicCatalog['EXP-001'],price=document.getElementById('exp001Price'),btn=document.getElementById('exp001Buy');
+   if(p&&price&&btn){
+     if(p.sales_enabled&&Number(p.price_ars)>0){
+       price.textContent=new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Number(p.price_ars))+' · acceso 12 meses';
+       btn.disabled=false;btn.textContent='COMPRAR AHORA';
+     }else{
+       price.textContent='Mercado Pago en configuración · también podés comprar por WhatsApp';
+       btn.disabled=true;btn.textContent='MERCADO PAGO · CONFIGURANDO';
+     }
+   }
+ }catch(e){console.warn('catalog',e)}
+}
+async function buyNow(productCode){
+ const {data:{session}}=await sb.auth.getSession();
+ if(!session?.user?.email||session.user.is_anonymous){
+   alert('Primero verificá tu correo. Así la compra queda asociada automáticamente a tu biblioteca.');
+   document.getElementById('loginBox').classList.remove('hidden');
+   document.getElementById('loginBox').scrollIntoView({behavior:'smooth'});
+   return;
+ }
+ try{
+   const {data,error}=await sb.functions.invoke('pasalochevere-checkout',{body:{product_code:productCode}});
+   if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}
+   if(!data?.ok)throw new Error(data?.error||'No se pudo iniciar el pago.');
+   location.href=data.checkout_url;
+ }catch(e){alert(e.message||'No se pudo iniciar Mercado Pago.')}
+}
+function renderPaymentReturn(){
+ const p=new URLSearchParams(location.search).get('payment');if(!p)return;
+ const box=document.getElementById('paymentNotice'),title=document.getElementById('paymentTitle'),txt=document.getElementById('paymentText');
+ box.classList.remove('hidden');
+ if(p==='success'){title.textContent='✅ Pago recibido';txt.textContent='Estamos confirmando el pago con Mercado Pago. En unos segundos tu compra aparecerá en “Mis juegos” lista para activar.';setTimeout(loadMyGames,2500);setTimeout(loadMyGames,7000)}
+ else if(p==='pending'){title.textContent='⏳ Pago pendiente';txt.textContent='Mercado Pago todavía está procesando el pago. Tu juego aparecerá cuando quede aprobado.'}
+ else{title.textContent='Pago no completado';txt.textContent='No se realizó el cobro. Podés intentarlo nuevamente o escribirnos por WhatsApp.'}
+}
+async function renderSession(){
+ const {data:{session}}=await sb.auth.getSession();
+ const logged=!!session?.user?.email&&!session.user.is_anonymous;
+ document.getElementById('loginBox').classList.toggle('hidden',logged);
+ document.getElementById('accountBox').classList.toggle('hidden',!logged);
+ if(logged){
+   document.getElementById('accountEmail').textContent=session.user.email;
+   const rec=await reconcilePayment();
+   if(rec?.status==='approved'){
+     const box=document.getElementById('paymentNotice'),title=document.getElementById('paymentTitle'),txt=document.getElementById('paymentText');
+     if(box&&title&&txt){box.classList.remove('hidden');title.textContent='✅ Pago confirmado';txt.textContent='Mercado Pago aprobó la compra. Tu nuevo acceso ya está disponible en Mis juegos para activar.'}
+   }
+   await loadMyGames();
+ }
+}
+sb.auth.onAuthStateChange(()=>setTimeout(renderSession,0));
+setTimeout(renderSession,100);setTimeout(loadCatalog,120);setTimeout(renderPaymentReturn,160);
+</script></body></html>
