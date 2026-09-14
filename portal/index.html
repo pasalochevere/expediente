@@ -90,6 +90,7 @@ function gameHref(l){
  if(!l.game_url)return '#';
  if(l.product_code==='EXP-001')return '../?access='+encodeURIComponent(l.activation_code);
  if(l.product_code==='DI-TRILOGIA')return '../doble-intencion/?access='+encodeURIComponent(l.activation_code);
+ if(l.product_code==='TK-MAT-79')return '../torre-kids-matematica/?access='+encodeURIComponent(l.activation_code);
  return l.game_url;
 }
 async function openGame(code,url){
