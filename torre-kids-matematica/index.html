@@ -195,6 +195,11 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 .turn-phrase{display:inline-block;margin-top:8px;background:#fff7cf;border:1px solid #ecd06a;border-radius:999px;padding:7px 11px;font-size:.78rem;font-weight:900;color:#4c3a1f}
 @media(max-width:520px){.floating-tools{right:12px;bottom:12px}.floating-tool{width:44px;height:44px}.adult-actions{grid-template-columns:1fr}}
 
+
+/* === ACTIVACIÓN COMERCIAL TK === */
+.entitlement-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid #dfd4c4;color:#625c53;font-size:.76rem;font-weight:900}
+.kid-mode-card.locked{opacity:.42;filter:grayscale(.35);pointer-events:none}
+.digital-only-note{background:#eaf7ff;border:1px solid #acd9f6;border-radius:18px;padding:13px 15px;color:#345260;font-size:.88rem;line-height:1.45;margin-bottom:14px}
 </style>
 </head>
 <body>
@@ -297,7 +302,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
         <p>La misma edición, con torre física o completamente digital.</p>
       </div>
       <div class="mode-grid">
-        <article class="kid-mode-card">
+        <article id="homePhysicalCard" class="kid-mode-card">
           <div class="kid-mode-visual">
             <img class="mascot mini" src="assets/mascota-bloqui.svg" alt="">
             <div class="tower mini-tower">
@@ -309,7 +314,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
           <p>Retirá el bloque real, buscá su número, resolvé el desafío y seguí construyendo.</p>
           <button type="button" class="btn red" onclick="setStyle('tower')">JUGAR CON TORRE →</button>
         </article>
-        <article class="kid-mode-card digital">
+        <article id="homeDigitalCard" class="kid-mode-card digital">
           <div class="kid-mode-visual">
             <img class="mascot mini" src="assets/mascota-bloqui.svg" alt="">
             <div class="phone-illo"><div class="phone-block">24</div></div>
@@ -354,7 +359,7 @@ const BASE=[
 [42,'negro',3,'DUELO: el primero que responda gana. 8 × 5 = ?','40','5 × 8.'],[48,'negro',3,'TODOS JUEGAN: digan por turnos la tabla del 4.','4,8,12,16,20…','Sumen 4 cada vez.'],[54,'negro',3,'SÚPER RETO: 54 ÷ 6 = ?','9','6 × 9 = 54.']
 ].map(x=>({piece:x[0],color:x[1],category:LABEL[x[1]],level:x[2],prompt:x[3],answer:x[4],hint:x[5]}));
 
-let S={style:'tower',mode:'clasico',level:2,players:['Jugador 1','Jugador 2'],scores:[0,0],p:0,color:null,piece:null,challenge:null,hinted:false,mission:20};
+let S={style:'tower',mode:'clasico',level:2,players:['Jugador 1','Jugador 2'],scores:[0,0],p:0,color:null,piece:null,challenge:null,hinted:false,mission:20,entitlement:'full',productCode:null,expiresAt:null};
 const AUDIO_PREF_KEY='tk_audio_pref_v1';
 function loadAudioPrefs(){
   try{const v=JSON.parse(localStorage.getItem(AUDIO_PREF_KEY)||'{}');return {music:v.music!==false,sfx:v.sfx!==false,volume:Number.isFinite(v.volume)?v.volume:.36};}
@@ -475,14 +480,36 @@ document.addEventListener('pointerdown',()=>{ensureAudio();if(A.music)startMusic
 const home=document.getElementById('home'),screen=document.getElementById('screen');
 function view(h){home.classList.add('hidden');screen.classList.remove('hidden');screen.innerHTML='<div class="game-head"><img class="tk-logo small" src="assets/torre-kids-logo.svg" alt="Torre Kids Matemática"><button class="btn light" style="padding:9px 12px" onclick="backHome()">INICIO</button></div>'+h;syncAudioUI();window.scrollTo(0,0)}
 function backHome(){closeAdultPanel();screen.classList.add('hidden');home.classList.remove('hidden');syncAudioUI();window.scrollTo(0,0)}
+function canUseTower(){return S.entitlement!=='digital'}
+function entitlementText(){
+  const exp=S.expiresAt?new Date(S.expiresAt).toLocaleDateString('es-AR'):'';
+  return S.entitlement==='digital'?'📱 SOLO DIGITAL'+(exp?' · vigente hasta '+exp:''):'🧱 FÍSICA + DIGITAL'+(exp?' · vigente hasta '+exp:'');
+}
+function applyEntitlementUI(){
+  const phy=document.getElementById('homePhysicalCard'),dig=document.getElementById('homeDigitalCard');
+  if(phy)phy.style.display=canUseTower()?'':'none';
+  if(dig)dig.style.display='';
+  document.querySelectorAll('.entitlement-badge').forEach(x=>x.remove());
+  const tags=document.querySelector('.kid-chips');
+  if(tags){const b=document.createElement('span');b.className='entitlement-badge';b.textContent=entitlementText();tags.parentNode.insertBefore(b,tags.nextSibling);}
+}
 function showPlayStyle(){
- view('<div class="mode-title"><div class="eyebrow">ELEGÍ CÓMO JUGAR</div><h2>¿Tenés la torre?</h2><p>Podés vivir la experiencia completa o jugar 100% digital.</p></div>'+
+ if(S.entitlement==='digital'){
+   view('<div class="mode-title"><div class="eyebrow">TU ACCESO</div><h2>Edición Solo Digital</h2><p>Este código habilita la experiencia 100% digital.</p></div>'+
+   '<div class="digital-only-note">📱 No necesitás la torre física. El portal sortea piezas, colores y desafíos automáticamente.</div>'+
+   '<div class="mode-grid"><article class="kid-mode-card digital"><div class="kid-mode-visual">'+kidMascot('mascot mini')+'<div class="phone-illo"><div class="phone-block">24</div></div></div><h3>Sin Torre</h3><p>Jugá desde cualquier lugar. Solo necesitás el celular o una tablet.</p><button class="btn blue" type="button" onclick="setStyle(\'digital\')">JUGAR SIN TORRE →</button></article></div>');
+   return;
+ }
+ view('<div class="mode-title"><div class="eyebrow">ELEGÍ CÓMO JUGAR</div><h2>¿Tenés la torre?</h2><p>Tu acceso incluye las dos formas de juego.</p></div>'+
  '<div class="mode-grid">'+
  '<article class="kid-mode-card"><div class="kid-mode-visual">'+kidMascot('mascot mini')+'<div class="tower mini-tower"><div class="row"><div class="bl"><i></i>24</div><div class="bl g"><i></i>18</div><div class="bl b"><i></i>12</div></div></div></div><h3>Con Torre</h3><p>Usá las 54 piezas físicas, colores y dados.</p><button class="btn red" type="button" onclick="setStyle(\'tower\')">JUGAR CON TORRE →</button></article>'+
  '<article class="kid-mode-card digital"><div class="kid-mode-visual">'+kidMascot('mascot mini')+'<div class="phone-illo"><div class="phone-block">24</div></div></div><h3>Sin Torre</h3><p>El portal sortea todo. Solo necesitás el celular.</p><button class="btn blue" type="button" onclick="setStyle(\'digital\')">JUGAR SIN TORRE →</button></article>'+
  '</div>');
 }
-function setStyle(s){S.style=s;s==='tower'?chooseTowerMode():chooseDigitalMode()}
+function setStyle(s){
+ if(s==='tower'&&!canUseTower()){alert('Este código corresponde a Torre Kids · Solo Digital.');return}
+ S.style=s;s==='tower'?chooseTowerMode():chooseDigitalMode()
+}
 function chooseTowerMode(){view('<div class="eyebrow">CON TORRE</div><h2>Elegí la modalidad</h2><div class="choice-grid">'+[
 ['🎯 Clásico','Sacá cualquier pieza','clasico'],['🎨 Dado de colores','El dado físico elige el color','colores'],['🎲 El que te toca','Los dados indican la pieza','te_toca'],['⭐ Misión','Todos contra la torre','mision']
 ].map(x=>'<button class="choice" onclick="setMode(\''+x[2]+'\')"><b>'+x[0]+'</b><span>'+x[1]+'</span></button>').join('')+'</div>')}
@@ -631,8 +658,10 @@ function downloadAnswersPDF(){
   if(!code)throw new Error('No encontré el código personal de Torre Kids Matemática.');
   const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:code,device_id:deviceId(),device_label:label()}});
   if(error)throw error;if(!data?.ok)throw new Error(data?.error||'No se pudo validar el acceso.');
-  state.textContent='✅ Acceso validado para '+session.user.email;
-  setTimeout(()=>{gate.classList.add('hidden');app.classList.remove('hidden');syncAudioUI();window.scrollTo(0,0)},300);
+  const lic=data.license||{};
+  S.productCode=lic.product_code||null;S.expiresAt=lic.expires_at||null;S.entitlement=lic.entitlement||((S.productCode==='TK-MAT-79-DIG')?'digital':'full');
+  state.textContent='✅ Acceso validado · '+(lic.product_name||'Torre Kids Matemática');
+  setTimeout(()=>{gate.classList.add('hidden');app.classList.remove('hidden');applyEntitlementUI();syncAudioUI();window.scrollTo(0,0)},300);
  }catch(e){state.textContent='⚠️ '+(e?.message||'Acceso no válido.')+' Volvé a tu biblioteca y abrí Torre Kids Matemática desde allí.'}
 })();
 </script>
