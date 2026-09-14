@@ -76,6 +76,13 @@ async function activatePurchase(){
  const b=document.getElementById('activateBtn');b.disabled=true;msg('activateMsg','Activando compra y generando código…');
  try{const d=await callAccess({action:'activate',purchase_code:code,device_id:deviceId(),device_label:deviceLabel()});msg('activateMsg','✅ Compra activada. Tu código personal es '+d.license.activation_code,'good');document.getElementById('purchaseCode').value='';await loadMyGames()}catch(e){msg('activateMsg',e.message,'bad')}finally{b.disabled=false}
 }
+async function reconcilePayment(){
+ try{
+   const {data,error}=await sb.functions.invoke('pasalochevere-payment-status',{body:{}});
+   if(error)return null;
+   return data;
+ }catch(e){console.warn('payment reconcile',e);return null}
+}
 async function loadMyGames(){
  try{const d=await callAccess({action:'me'});renderLicenses(d.licenses||[])}catch(e){console.warn(e)}
 }
@@ -166,7 +173,15 @@ async function renderSession(){
  const logged=!!session?.user?.email&&!session.user.is_anonymous;
  document.getElementById('loginBox').classList.toggle('hidden',logged);
  document.getElementById('accountBox').classList.toggle('hidden',!logged);
- if(logged){document.getElementById('accountEmail').textContent=session.user.email;await loadMyGames()}
+ if(logged){
+   document.getElementById('accountEmail').textContent=session.user.email;
+   const rec=await reconcilePayment();
+   if(rec?.status==='approved'){
+     const box=document.getElementById('paymentNotice'),title=document.getElementById('paymentTitle'),txt=document.getElementById('paymentText');
+     if(box&&title&&txt){box.classList.remove('hidden');title.textContent='✅ Pago confirmado';txt.textContent='Mercado Pago aprobó la compra. Tu nuevo acceso ya está disponible en Mis juegos para activar.'}
+   }
+   await loadMyGames();
+ }
 }
 sb.auth.onAuthStateChange(()=>setTimeout(renderSession,0));
 setTimeout(renderSession,100);setTimeout(loadCatalog,120);setTimeout(renderPaymentReturn,160);
