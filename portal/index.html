@@ -41,9 +41,7 @@ button,input{font:inherit}.wrap{max-width:1120px;margin:auto;padding:20px}.top{d
 
 <div class="catalog-title"><div><div class="eyebrow">PASALOCHEVERE</div><h2>Catálogo de juegos</h2></div><span>Nuevos títulos se sumarán acá</span></div>
 <section class="grid">
-  <article class="card"><span class="status live">● DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 001 · La Última Reunión</div><p>Investigación multijugador, QR, roles privados, pistas y kit imprimible.</p><div class="note" id="exp001Price" style="margin-top:8px">Precio online a definir</div><div class="actions"><button class="btn primary" id="exp001Buy" onclick="buyNow('EXP-001')" disabled>COMPRAR AHORA</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20comprar%20EXPEDIENTES%20%E2%80%94%20Caso%20001." target="_blank" rel="noopener">WHATSAPP</a></div></article>
-  <article class="card"><span class="status live">● DISPONIBLE</span><h3>TOWER JAM</h3><div class="accent">Reto rápido · Torre</div><p>Desafíos por número y color para acompañar la experiencia física.</p><div class="actions"><a class="btn" href="https://pasalochevere.app.n8n.cloud/webhook/tower-jam">VER JUEGO</a></div></article>
-  <article class="card"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18</div><p>Un solo código desbloquea las tres ediciones, el juego digital y el material descargable. Acceso por 12 meses y hasta 2 dispositivos.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+  <article class="card"><span class="status live">● DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 001 · La Última Reunión</div><p>Investigación multijugador, QR, roles privados, pistas y kit imprimible.</p><div class="note" id="exp001Price" style="margin-top:8px">Precio online a definir</div><div class="actions"><button class="btn primary" id="exp001Buy" onclick="buyNow('EXP-001')" disabled>COMPRAR AHORA</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20comprar%20EXPEDIENTES%20%E2%80%94%20Caso%20001." target="_blank" rel="noopener">WHATSAPP</a></div></article><article class="card"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18</div><p>Un solo código desbloquea las tres ediciones, el juego digital y el material descargable. Acceso por 12 meses y hasta 2 dispositivos.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
   <article class="card soon"><span class="status">PRÓXIMAMENTE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002</div><p>Un nuevo caso dentro de la misma Central de Investigación.</p><div class="actions"><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20que%20me%20avisen%20cuando%20est%C3%A9%20disponible%20EXPEDIENTES%20%E2%80%94%20Caso%20002." target="_blank" rel="noopener">AVISARME POR WHATSAPP</a></div></article>
   <article class="card"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · FÍSICA + DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>54 piezas numeradas, 6 colores, dados y portal digital con niveles, estrellas, desafíos y material imprimible.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
   <article class="card"><span class="status live">● DISPONIBLE</span><h3>TORRE KIDS · SOLO DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>La misma experiencia educativa sin torre física: el portal sortea piezas virtuales, colores y desafíos desde el celular.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
@@ -75,7 +73,12 @@ async function callAccess(body){const {data,error}=await sb.functions.invoke('pa
 async function activatePurchase(){
  const code=document.getElementById('purchaseCode').value.trim();if(!code){msg('activateMsg','Ingresá el código recibido con tu compra.','bad');return}
  const b=document.getElementById('activateBtn');b.disabled=true;msg('activateMsg','Activando compra y generando código…');
- try{const d=await callAccess({action:'activate',purchase_code:code,device_id:deviceId(),device_label:deviceLabel()});msg('activateMsg','✅ Compra activada. Tu código personal es '+d.license.activation_code,'good');document.getElementById('purchaseCode').value='';await loadMyGames()}catch(e){msg('activateMsg',e.message,'bad')}finally{b.disabled=false}
+ try{
+   const d=await callAccess({action:'activate',purchase_code:code,device_id:deviceId(),device_label:deviceLabel()});
+   if(d.master) msg('activateMsg','✅ Código maestro activado. Se habilitaron todos los juegos de prueba disponibles.','good');
+   else msg('activateMsg','✅ Compra activada. Tu código personal es '+d.license.activation_code,'good');
+   document.getElementById('purchaseCode').value='';await loadMyGames()
+ }catch(e){msg('activateMsg',e.message,'bad')}finally{b.disabled=false}
 }
 async function reconcilePayment(){
  try{
@@ -101,6 +104,7 @@ async function openGame(code,url){
  }catch(e){alert(e.message||'No se pudo validar este dispositivo.')}
 }
 function renderLicenses(list){
+ list=(list||[]).filter(l=>l.product_code!=='TOWER-JAM');
  const sec=document.getElementById('myGames'),g=document.getElementById('myGamesGrid');
  if(!list.length){sec.classList.add('hidden');g.innerHTML='';return}
  sec.classList.remove('hidden');g.innerHTML=list.map(l=>{
