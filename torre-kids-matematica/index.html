@@ -1,84 +1,233 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Torre Kids Matemática · PasaloChévere</title>
 <style>
-:root{--bg:#f5f0e6;--card:#fffdf7;--ink:#222;--muted:#6d675e;--line:#ded5c5;--accent:#d67c38}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f8f3ea,#efe7d8);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-button,input{font:inherit}.wrap{max-width:760px;margin:auto;padding:18px 16px 70px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line)}
-.brand{font-weight:950;letter-spacing:.1em}.pill{font-size:.75rem;color:var(--muted);border:1px solid var(--line);padding:6px 9px;border-radius:999px}
-.hero{text-align:center;padding:30px 0 18px}.hero h1{font-size:clamp(2.2rem,8vw,4.2rem);line-height:.95;margin:8px 0}.hero p{color:var(--muted)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 12px 28px #3c2b1512}
-.btn{width:100%;border:0;border-radius:13px;padding:14px 16px;margin:6px 0;font-weight:850;background:#252525;color:#fff}.btn.alt{background:#ebe4d8;color:#222}.btn.ghost{background:transparent;color:#222;border:1px solid var(--line)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.pieces{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.piece{border:1px solid var(--line);background:white;border-radius:11px;padding:11px 0;font-weight:900}.colors{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.color{border:0;border-radius:16px;padding:20px 8px;font-weight:900}.rojo{background:#ef6b63}.verde{background:#78c978}.azul{background:#79a9e6}.amarillo{background:#efd75d}.fucsia{background:#e67fc5}.negro{background:#303030;color:white}
-.badge{display:inline-block;padding:6px 10px;background:#eee7dc;border-radius:999px;font-size:.78rem;font-weight:850}.challenge{font-size:1.55rem;font-weight:900;line-height:1.25;text-align:center;padding:18px 6px}.answer{text-align:center;font-size:2.2rem;font-weight:950}
-.score{font-weight:900}.hidden{display:none!important}.good{color:#1d7b48}.bad{color:#a63832}.note{color:var(--muted);font-size:.9rem;line-height:1.45}.stars{font-size:2rem;text-align:center}
-#licenseGate{max-width:620px;margin:7vh auto}.access{background:#111;color:#f7efe5}.access body{background:#111}.access .wrap{max-width:620px}.access .card{background:#1a1a1d;border-color:#343438;color:#f7efe5}.access .note{color:#bbb}
-@media(max-width:520px){.pieces{grid-template-columns:repeat(6,1fr)}.grid2{grid-template-columns:1fr}.hero{padding-top:22px}}
-</style></head><body>
-<section id="licenseGate" class="wrap">
-  <div class="top"><div class="brand">PASALOCHEVERE</div><div class="pill">ACCESO PERSONAL</div></div>
-  <div class="card"><div class="badge">TORRE KIDS · MATEMÁTICA</div><h1>Validando tu acceso…</h1><p id="licenseState" class="note">Ingresá siempre desde Mi Biblioteca.</p><a class="btn ghost" style="display:block;text-align:center;text-decoration:none" href="../portal/">VOLVER A MI BIBLIOTECA</a></div>
+:root{
+  --bg:#f5efe4;--paper:#fffdf8;--ink:#1f2529;--muted:#6e6b65;--line:#ddd3c2;
+  --wood:#c68a4b;--wood2:#e5bd84;--dark:#17242b;--accent:#ef8d3a;
+  --shadow:0 18px 55px rgba(74,50,26,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:
+ radial-gradient(circle at 90% 4%,#f2c9784a,transparent 28%),
+ radial-gradient(circle at 4% 70%,#91c9bb33,transparent 30%),var(--bg);
+ color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:auto;padding:18px 18px 72px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:8px 0 18px;border-bottom:1px solid var(--line)}
+.brandlock{display:flex;align-items:center;gap:12px}
+.pcmark{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--dark);font-weight:950;letter-spacing:-.05em;background:#fff8ee}
+.brandtext{font-weight:950;letter-spacing:.12em;font-size:.86rem}
+.brandtext small{display:block;color:var(--muted);font-size:.62rem;letter-spacing:.15em;margin-top:3px}
+.library{border:1px solid var(--line);border-radius:999px;padding:8px 11px;text-decoration:none;font-size:.78rem;color:var(--muted);background:#fff9ef}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;min-height:610px;padding:42px 0 28px}
+.kidslogo{display:inline-flex;align-items:center;gap:11px;padding:8px 12px 8px 9px;border:1px solid #e0c7a6;background:#fff8ec;border-radius:16px;box-shadow:0 8px 26px #633c1714}
+.blockmark{width:48px;height:48px;border-radius:12px;background:linear-gradient(145deg,#efd0a3,#c88b4d);box-shadow:inset 0 0 0 2px #9e6634,0 5px 12px #6f461c22;position:relative;display:grid;place-items:center;font-weight:950}
+.blockmark:after{content:"";position:absolute;bottom:6px;left:8px;right:8px;height:4px;border-radius:99px;background:linear-gradient(90deg,#ef6b63 0 16.6%,#79c979 16.6% 33.2%,#79a9e6 33.2% 49.8%,#efd75d 49.8% 66.4%,#e67fc5 66.4% 83%,#303030 83%)}
+.kidslogo b{font-size:1.12rem;letter-spacing:.04em}.kidslogo span{display:block;color:#7e705e;font-size:.7rem;margin-top:2px}
+.eyebrow{font-size:.74rem;letter-spacing:.15em;font-weight:900;color:#9a6636}
+.hero h1{font-size:clamp(3rem,8vw,6.3rem);line-height:.88;margin:18px 0 16px;letter-spacing:-.055em}
+.hero h1 em{font-style:normal;color:#d47f35}
+.hero p{max-width:630px;color:var(--muted);font-size:1.08rem;line-height:1.55}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn{border:0;border-radius:14px;padding:14px 17px;font-weight:900;background:var(--dark);color:white;box-shadow:none}
+.btn.light{background:#fffaf1;color:var(--ink);border:1px solid var(--line)}
+.btn.wood{background:linear-gradient(135deg,#d49554,#ad6d31)}
+.btn.full{width:100%}.btn:disabled{opacity:.5}
+.tower-stage{min-height:470px;display:grid;place-items:center;position:relative}
+.orbit{position:absolute;width:390px;height:390px;border:1px solid #c68a4b33;border-radius:50%;box-shadow:0 0 0 45px #c68a4b0b,0 0 0 90px #8abdaf08}
+.tower{width:270px;transform:rotate(1deg);filter:drop-shadow(0 28px 28px #6c4b2b24)}
+.row{display:flex;justify-content:center;gap:4px;margin:3px 0}
+.row:nth-child(even){transform:rotate(90deg) scale(.96);margin:34px 0}
+.bl{width:82px;height:31px;border-radius:7px;background:linear-gradient(180deg,#f1d3a9,#c98b4b);border:1px solid #ad7139;box-shadow:inset 0 1px #fff8,0 2px 3px #6e441b22;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900}
+.bl i{width:5px;height:18px;border-radius:5px;margin-right:7px;background:#ef6b63}.bl.g i{background:#79c979}.bl.b i{background:#79a9e6}.bl.y i{background:#efd75d}.bl.p i{background:#e67fc5}.bl.k i{background:#303030}
+.section{padding:28px 0}
+.section h2{font-size:clamp(2rem,4vw,3.2rem);margin:6px 0 16px;letter-spacing:-.04em}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mode-card{position:relative;overflow:hidden;min-height:220px;text-align:left;padding:24px;border-radius:22px;border:1px solid var(--line);background:#fffaf2;box-shadow:var(--shadow)}
+.mode-card:hover{transform:translateY(-2px)}
+.mode-card .icon{font-size:2rem}.mode-card h3{font-size:1.55rem;margin:14px 0 7px}.mode-card p{color:var(--muted);line-height:1.45}.mode-card strong{display:block;margin-top:14px;color:#9b6638}
+.mode-card.digital{background:linear-gradient(145deg,#15282c,#1f3a3f);color:white;border-color:#28484d}.mode-card.digital p{color:#c7d8d8}.mode-card.digital strong{color:#f5bd6a}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#eee6da;font-size:.77rem;font-weight:900}
+.game-shell{max-width:720px;margin:0 auto}
+.game-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.score{font-weight:950}
+.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.choice{border:1px solid var(--line);background:#fffaf2;border-radius:18px;padding:18px;text-align:left}
+.choice b{display:block;font-size:1.05rem;margin-bottom:4px}.choice span{color:var(--muted);font-size:.88rem}
+.colors{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.color{border:0;border-radius:17px;padding:21px 8px;font-weight:950}.rojo{background:#ef6b63}.verde{background:#79c979}.azul{background:#79a9e6}.amarillo{background:#efd75d}.fucsia{background:#e67fc5}.negro{background:#303030;color:white}
+.pieces{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.piece{border:1px solid var(--line);background:white;border-radius:11px;padding:11px 0;font-weight:900}
+.challenge{font-size:clamp(1.55rem,5vw,2.3rem);font-weight:950;line-height:1.2;text-align:center;padding:22px 8px}
+.answer{text-align:center;font-size:2.2rem;font-weight:950}.stars{text-align:center;font-size:2rem;letter-spacing:.08em}
+.note{color:var(--muted);line-height:1.45}.hidden{display:none!important}
+.big-random{min-height:260px;display:grid;place-items:center;text-align:center;background:
+ radial-gradient(circle at 50% 45%,#f0c68444,transparent 38%),#fffaf2}
+.virtual-number{font-size:5rem;font-weight:950;line-height:1}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.level{padding:18px 14px;border:1px solid var(--line);border-radius:18px;background:#fffaf2;text-align:left}
+.level b{display:block;margin-bottom:5px}.level span{color:var(--muted);font-size:.85rem}
+input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:white;margin:5px 0}
+.license-wrap{max-width:680px;margin:7vh auto;padding:18px}
+.license-card{background:#fffaf2;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
+.license-card h1{font-size:2.2rem;margin:14px 0}
+.product-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.product-tags span{font-size:.72rem;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:var(--muted);background:#fff}
+@media(max-width:760px){.hero{grid-template-columns:1fr;min-height:0;padding-top:28px}.tower-stage{min-height:360px;order:-1}.tower{transform:scale(.78)}.orbit{width:280px;height:280px}.mode-grid{grid-template-columns:1fr}.hero h1{text-align:left}.levels{grid-template-columns:1fr}.top{align-items:flex-start}.brandtext{font-size:.75rem}}
+@media(max-width:470px){.wrap{padding:14px 14px 58px}.pieces{grid-template-columns:repeat(6,1fr);gap:6px}.piece{padding:10px 0;font-size:.85rem}.colors{grid-template-columns:repeat(2,1fr)}.choice-grid{grid-template-columns:1fr}.tower-stage{min-height:300px}.tower{transform:scale(.66)}}
+</style>
+</head>
+<body>
+
+<section id="licenseGate" class="license-wrap">
+  <div class="top">
+    <div class="brandlock"><div class="pcmark">PC</div><div class="brandtext">PASALOCHÉVERE<small>JUEGOS QUE CONECTAN</small></div></div>
+    <div class="library">ACCESO PERSONAL</div>
+  </div>
+  <div class="license-card">
+    <div class="kidslogo"><div class="blockmark">TK</div><div><b>TORRE KIDS</b><span>MATEMÁTICA · 7–9</span></div></div>
+    <h1>Validando tu acceso…</h1>
+    <p id="licenseState" class="note">Abrí este juego desde Mi Biblioteca.</p>
+    <a class="btn light full" style="display:block;text-align:center;text-decoration:none;margin-top:15px" href="../portal/">VOLVER A MI BIBLIOTECA</a>
+  </div>
 </section>
+
 <main id="gameApp" class="wrap hidden">
-  <div class="top"><div class="brand">PASALOCHEVERE</div><a href="../portal/" class="pill" style="text-decoration:none;color:inherit">MI BIBLIOTECA</a></div>
-  <section id="home"><div class="hero"><div class="badge">EDICIÓN 01 · 7–9 AÑOS</div><h1>TORRE KIDS<br>MATEMÁTICA</h1><p>Sacá una pieza. Resolvé el desafío. Sumá estrellas.</p></div>
-    <button class="btn" onclick="chooseMode()">▶ JUGAR</button><button class="btn alt" onclick="showRules()">📖 CÓMO SE JUEGA</button><button class="btn alt" onclick="showPrint()">🖨 IMPRIMIBLES</button>
+  <header class="top">
+    <div class="brandlock"><div class="pcmark">PC</div><div class="brandtext">PASALOCHÉVERE<small>JUEGOS QUE CONECTAN</small></div></div>
+    <a class="library" href="../portal/">MI BIBLIOTECA</a>
+  </header>
+
+  <section id="home">
+    <div class="hero">
+      <div>
+        <div class="kidslogo"><div class="blockmark">TK</div><div><b>TORRE KIDS</b><span>EDICIÓN 01 · MATEMÁTICA</span></div></div>
+        <div class="eyebrow" style="margin-top:20px">APRENDER TAMBIÉN ES JUGAR</div>
+        <h1>MATEMÁTICA<br><em>EN MOVIMIENTO</em></h1>
+        <p>54 números, 6 categorías y desafíos que cambian según el nivel. Jugá con tu Torre Kids física o convertí el portal en un juego completo sin torre.</p>
+        <div class="product-tags"><span>7–9 AÑOS</span><span>3 NIVELES</span><span>6 CATEGORÍAS</span><span>FÍSICO + DIGITAL</span></div>
+        <div class="hero-actions">
+          <button class="btn wood" onclick="showPlayStyle()">JUGAR AHORA</button>
+          <button class="btn light" onclick="showRules()">CÓMO SE JUEGA</button>
+          <button class="btn light" onclick="showPrint()">IMPRIMIBLES</button>
+        </div>
+      </div>
+      <div class="tower-stage" aria-hidden="true">
+        <div class="orbit"></div>
+        <div class="tower">
+          <div class="row"><div class="bl "><i></i>01</div><div class="bl g"><i></i>02</div><div class="bl b"><i></i>03</div></div><div class="row"><div class="bl y"><i></i>04</div><div class="bl p"><i></i>05</div><div class="bl k"><i></i>06</div></div><div class="row"><div class="bl "><i></i>07</div><div class="bl g"><i></i>08</div><div class="bl b"><i></i>09</div></div><div class="row"><div class="bl y"><i></i>10</div><div class="bl p"><i></i>11</div><div class="bl k"><i></i>12</div></div><div class="row"><div class="bl "><i></i>13</div><div class="bl g"><i></i>14</div><div class="bl b"><i></i>15</div></div><div class="row"><div class="bl y"><i></i>16</div><div class="bl p"><i></i>17</div><div class="bl k"><i></i>18</div></div><div class="row"><div class="bl "><i></i>19</div><div class="bl g"><i></i>20</div><div class="bl b"><i></i>21</div></div><div class="row"><div class="bl y"><i></i>22</div><div class="bl p"><i></i>23</div><div class="bl k"><i></i>24</div></div><div class="row"><div class="bl "><i></i>25</div><div class="bl g"><i></i>26</div><div class="bl b"><i></i>27</div></div><div class="row"><div class="bl y"><i></i>28</div><div class="bl p"><i></i>29</div><div class="bl k"><i></i>30</div></div><div class="row"><div class="bl "><i></i>31</div><div class="bl g"><i></i>32</div><div class="bl b"><i></i>33</div></div>
+        </div>
+      </div>
+    </div>
+    <section class="section">
+      <div class="eyebrow">DOS FORMAS DE VENDER · DOS FORMAS DE JUGAR</div>
+      <h2>Una edición, dos productos.</h2>
+      <div class="mode-grid">
+        <article class="mode-card">
+          <div class="icon">🧱</div><h3>Con Torre</h3>
+          <p>La experiencia completa: madera, números, colores, dados y portal digital. Cada pieza física dispara un desafío.</p>
+          <strong>Producto físico + acceso digital</strong>
+        </article>
+        <article class="mode-card digital">
+          <div class="icon">📱</div><h3>Sin Torre</h3>
+          <p>El portal sortea colores y piezas virtuales. Ideal para jugar desde el celular sin necesidad de tener el producto físico.</p>
+          <strong>Producto 100% digital</strong>
+        </article>
+      </div>
+    </section>
   </section>
-  <section id="screen" class="hidden"></section>
+
+  <section id="screen" class="game-shell hidden"></section>
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const DATA=[
-[1,'rojo','Cálculo',1,'8 + 7 = ?','15','Pensá en 8 + 2 + 5.'],[19,'rojo','Cálculo',2,'35 − 18 = ?','17','35 − 20 = 15; sumá 2.'],[43,'rojo','Cálculo',3,'70 − 28 = ?','42','70 − 30 = 40; sumá 2.'],
-[2,'verde','Multiplicación',1,'2 × 6 = ?','12','Sumá 6 dos veces.'],[26,'verde','Multiplicación',2,'4 × 6 = ?','24','6 + 6 + 6 + 6.'],[38,'verde','Multiplicación',3,'6 × 7 = ?','42','Pensá 5 × 7 y sumá 7.'],
-[3,'azul','Lógica',1,'¿Qué sigue? 2 – 4 – 6 – 8 – ___','10','Va de 2 en 2.'],[33,'azul','Lógica',2,'10 – 20 – 30 – ___ – 50','40','Aumenta de 10 en 10.'],[51,'azul','Lógica',3,'Tres números consecutivos suman 30. ¿Cuáles son?','9, 10 y 11','El del medio es 10.'],
-[4,'amarillo','Problemas',1,'Tenés 12 figuritas y te regalan 5. ¿Cuántas tenés?','17','12 + 5.'],[34,'amarillo','Problemas',2,'24 alumnos forman 4 equipos iguales. ¿Cuántos por equipo?','6','24 ÷ 4.'],[52,'amarillo','Problemas',3,'Tenías $100. Gastaste $25 y $30. ¿Cuánto quedó?','45','100 − 25 − 30.'],
-[5,'fucsia','Velocidad',1,'En 10 segundos, decí 5 números pares.','Ej.: 2, 4, 6, 8, 10','Los pares terminan en 0, 2, 4, 6 u 8.'],[35,'fucsia','Velocidad',2,'En 15 segundos: 30 + 15 − 5','40','30 + 15 = 45.'],[53,'fucsia','Velocidad',3,'Decí cinco sumas diferentes que den 20.','Ej.: 10+10, 15+5, 12+8, 11+9, 14+6','Cambiá un número y compensá con el otro.'],
-[6,'negro','Súper desafío',1,'Tirá un dado y sumale 10 al número que salió.','Depende del dado','Si sale 4, da 14.'],[36,'negro','Súper desafío',2,'Tirá un dado y multiplicá el resultado por 3.','Depende del dado','Sumá el número tres veces.'],[54,'negro','Súper desafío',3,'SÚPER RETO: 54 ÷ 6 = ?','9','6 × 9 = 54.']
-].map((x,i)=>({id:i+1,piece:x[0],color:x[1],category:x[2],level:x[3],prompt:x[4],answer:x[5],hint:x[6]}));
-const COLORS=['rojo','verde','azul','amarillo','fucsia','negro'], ICON={rojo:'🔴',verde:'🟢',azul:'🔵',amarillo:'🟡',fucsia:'🩷',negro:'⚫'}, LABEL={rojo:'Cálculo',verde:'Multiplicación',azul:'Lógica',amarillo:'Problemas',fucsia:'Velocidad',negro:'Súper desafío'};
-let S={mode:'colores',level:2,players:['Jugador 1','Jugador 2'],p:0,scores:[0,0],color:null,piece:null,challenge:null,hint:false};
+const COLORS=['rojo','verde','azul','amarillo','fucsia','negro'];
+const LABEL={rojo:'Cálculo',verde:'Multiplicación',azul:'Lógica',amarillo:'Problemas',fucsia:'Velocidad',negro:'Súper desafío'};
+const EMOJI={rojo:'🔴',verde:'🟢',azul:'🔵',amarillo:'🟡',fucsia:'🩷',negro:'⚫'};
+const BASE=[
+[1,'rojo',1,'8 + 7 = ?','15','Pensá en 8 + 2 + 5.'],[7,'rojo',1,'20 − 6 = ?','14','Contá 6 hacia atrás desde 20.'],[13,'rojo',1,'12 + 9 = ?','21','12 + 10 = 22; restá 1.'],
+[19,'rojo',2,'35 − 18 = ?','17','35 − 20 = 15; sumá 2.'],[25,'rojo',2,'27 + 16 = ?','43','27 + 10 + 6.'],[31,'rojo',2,'50 − 23 = ?','27','50 − 20 − 3.'],
+[37,'rojo',3,'18 + 17 + 5 = ?','40','18 + 17 = 35.'],[43,'rojo',3,'70 − 28 = ?','42','70 − 30 = 40; sumá 2.'],[49,'rojo',3,'Tenés 100. Restale 35 y después sumale 12.','77','100 − 35 = 65.'],
+[2,'verde',1,'2 × 6 = ?','12','Sumá 6 dos veces.'],[8,'verde',1,'5 × 4 = ?','20','4 + 4 + 4 + 4 + 4.'],[14,'verde',1,'10 × 7 = ?','70','Agregar un cero ayuda.'],
+[20,'verde',2,'3 × 7 = ?','21','7 + 7 + 7.'],[26,'verde',2,'4 × 6 = ?','24','6 + 6 + 6 + 6.'],[32,'verde',2,'¿Cuántos son 5 grupos de 6?','30','5 × 6.'],
+[38,'verde',3,'6 × 7 = ?','42','Pensá 5 × 7 y sumá 7.'],[44,'verde',3,'8 cajas con 4 lápices cada una. ¿Cuántos lápices hay?','32','8 × 4.'],[50,'verde',3,'36 caramelos entre 6 chicos por igual. ¿Cuántos recibe cada uno?','6','36 ÷ 6.'],
+[3,'azul',1,'¿Qué número sigue? 2 – 4 – 6 – 8 – ___','10','Va de 2 en 2.'],[9,'azul',1,'¿Qué número falta? 5 – 10 – ___ – 20','15','Va de 5 en 5.'],[15,'azul',1,'¿Cuál no pertenece? 2 – 4 – 7 – 8','7','Tres números son pares.'],
+[21,'azul',2,'¿Qué número sigue? 3 – 6 – 9 – 12 – ___','15','Sumá 3 cada vez.'],[27,'azul',2,'Soy mayor que 20, menor que 30 y termino en 5. ¿Quién soy?','25','Está justo en el medio.'],[33,'azul',2,'10 – 20 – 30 – ___ – 50','40','Aumenta de 10 en 10.'],
+[39,'azul',3,'¿Qué sigue? 1 – 2 – 4 – 8 – ___','16','Cada número es el doble.'],[45,'azul',3,'Pensé un número. Le sumé 5 y obtuve 18. ¿Cuál era?','13','18 − 5.'],[51,'azul',3,'Tres números consecutivos suman 30. ¿Cuáles son?','9, 10 y 11','El del medio es 10.'],
+[4,'amarillo',1,'Tenés 12 figuritas y te regalan 5. ¿Cuántas tenés?','17','12 + 5.'],[10,'amarillo',1,'Había 18 galletitas y comieron 6. ¿Cuántas quedaron?','12','18 − 6.'],[16,'amarillo',1,'4 bolsas con 5 caramelos cada una. ¿Cuántos caramelos hay?','20','4 × 5.'],
+[22,'amarillo',2,'Un libro tiene 40 páginas. Leíste 17. ¿Cuántas faltan?','23','40 − 17.'],[28,'amarillo',2,'Tenés $50 y comprás algo de $32. ¿Cuánto queda?','18','50 − 32.'],[34,'amarillo',2,'24 alumnos forman 4 equipos iguales. ¿Cuántos por equipo?','6','24 ÷ 4.'],
+[40,'amarillo',3,'Juan tiene 14 bolitas y Ana 9. ¿Cuántas tienen entre los dos?','23','14 + 9.'],[46,'amarillo',3,'3 paquetes con 8 figuritas y regalaste 4. ¿Cuántas quedan?','20','3 × 8 = 24; restá 4.'],[52,'amarillo',3,'Tenías $100. Gastaste $25 y después $30. ¿Cuánto quedó?','45','100 − 25 − 30.'],
+[5,'fucsia',1,'En 10 segundos, decí 5 números pares.','Ej.: 2, 4, 6, 8, 10','Los pares terminan en 0, 2, 4, 6 u 8.'],[11,'fucsia',1,'En 10 segundos, contá de 10 a 0 hacia atrás.','10, 9, 8… 0','Restá 1 cada vez.'],[17,'fucsia',1,'En 10 segundos, decí tres números mayores que 20.','Cualquier 3 números mayores a 20','Podés empezar por 21.'],
+[23,'fucsia',2,'En 15 segundos: 5 + 5 + 5 + 5','20','También es 4 × 5.'],[29,'fucsia',2,'En 10 segundos, decí la tabla del 2 hasta 20.','2,4,6,8,10,12,14,16,18,20','Sumá 2 cada vez.'],[35,'fucsia',2,'En 15 segundos: 30 + 15 − 5','40','30 + 15 = 45.'],
+[41,'fucsia',3,'En 15 segundos, decí la tabla del 5 al revés desde 50.','50,45,40,35,30,25,20,15,10,5','Restá 5 cada vez.'],[47,'fucsia',3,'En 10 segundos: 7 × 4','28','7 + 7 + 7 + 7.'],[53,'fucsia',3,'Decí cinco sumas diferentes que den 20.','Ej.: 10+10, 15+5, 12+8, 11+9, 14+6','Cambiá un número y compensá.'],
+[6,'negro',1,'Tirá un dado y sumale 10 al número que salió.','Depende del dado','Si sale 4, da 14.'],[12,'negro',1,'Tirá un dado y duplicá el resultado.','Depende del dado','Si sale 5, da 10.'],[18,'negro',1,'Mirá el número de tu pieza. ¿Es par o impar?','18 es par','Los pares se dividen por 2 sin resto.'],
+[24,'negro',2,'Tirá un dado dos veces y sumá ambos resultados.','Depende de los dados','Sumá los dos valores.'],[30,'negro',2,'Otro jugador dice un número del 1 al 10. Respondé ese número + 10.','Depende del número elegido','Agregale 10.'],[36,'negro',2,'Tirá un dado y multiplicá el resultado por 3.','Depende del dado','Sumá el número tres veces.'],
+[42,'negro',3,'DUELO: el primero que responda gana. 8 × 5 = ?','40','5 × 8.'],[48,'negro',3,'TODOS JUEGAN: digan por turnos la tabla del 4.','4,8,12,16,20…','Sumen 4 cada vez.'],[54,'negro',3,'SÚPER RETO: 54 ÷ 6 = ?','9','6 × 9 = 54.']
+].map(x=>({piece:x[0],color:x[1],category:LABEL[x[1]],level:x[2],prompt:x[3],answer:x[4],hint:x[5]}));
+
+let S={style:'tower',mode:'clasico',level:2,players:['Jugador 1','Jugador 2'],scores:[0,0],p:0,color:null,piece:null,challenge:null,hinted:false,mission:20};
 const home=document.getElementById('home'),screen=document.getElementById('screen');
-function view(h){home.classList.add('hidden');screen.classList.remove('hidden');screen.innerHTML=h;window.scrollTo(0,0)}
-function back(){screen.classList.add('hidden');home.classList.remove('hidden');window.scrollTo(0,0)}
-function chooseMode(){view('<h2>¿Cómo quieren jugar?</h2><div class="grid2">'+[['🎯 Clásico','clasico'],['🎨 Dado de colores','colores'],['🎲 El que te toca','te_toca'],['⭐ Misión','mision']].map(x=>'<button class="card" onclick="setMode(\''+x[1]+'\')"><b>'+x[0]+'</b></button>').join('')+'</div><button class="btn ghost" onclick="back()">Volver</button>')}
-function setMode(m){S.mode=m;view('<h2>Elegí el nivel</h2><button class="card" onclick="setLevel(1)"><b>🟢 Explorador</b><div class="note">Para empezar</div></button><button class="card" onclick="setLevel(2)"><b>🟡 Aventurero</b><div class="note">Cálculo y lógica</div></button><button class="card" onclick="setLevel(3)"><b>🔴 Maestro</b><div class="note">Más desafío</div></button>')}
-function setLevel(l){S.level=l;view('<h2>¿Quiénes juegan?</h2><input id="p1" placeholder="Jugador 1"><input id="p2" placeholder="Jugador 2" style="margin-top:8px"><button class="btn" onclick="start()">CONTINUAR</button>')}
+function view(h){home.classList.add('hidden');screen.classList.remove('hidden');screen.innerHTML='<div class="game-head"><div class="kidslogo"><div class="blockmark">TK</div><div><b>TORRE KIDS</b><span>MATEMÁTICA</span></div></div><button class="btn light" style="padding:9px 12px" onclick="backHome()">INICIO</button></div>'+h;window.scrollTo(0,0)}
+function backHome(){screen.classList.add('hidden');home.classList.remove('hidden');window.scrollTo(0,0)}
+function showPlayStyle(){view('<div class="eyebrow">ELEGÍ CÓMO JUGAR</div><h2>¿Tenés la torre?</h2><div class="mode-grid"><button class="mode-card" onclick="setStyle(\'tower\')"><div class="icon">🧱</div><h3>Con Torre</h3><p>Usá las 54 piezas físicas, colores y dados.</p><strong>FÍSICO + DIGITAL →</strong></button><button class="mode-card digital" onclick="setStyle(\'digital\')"><div class="icon">📱</div><h3>Sin Torre</h3><p>El portal sortea todo y el juego funciona 100% desde el celular.</p><strong>SOLO DIGITAL →</strong></button></div>')}
+function setStyle(s){S.style=s;s==='tower'?chooseTowerMode():chooseDigitalMode()}
+function chooseTowerMode(){view('<div class="eyebrow">CON TORRE</div><h2>Elegí la modalidad</h2><div class="choice-grid">'+[
+['🎯 Clásico','Sacá cualquier pieza','clasico'],['🎨 Dado de colores','El dado físico elige el color','colores'],['🎲 El que te toca','Los dados indican la pieza','te_toca'],['⭐ Misión','Todos contra la torre','mision']
+].map(x=>'<button class="choice" onclick="setMode(\''+x[2]+'\')"><b>'+x[0]+'</b><span>'+x[1]+'</span></button>').join('')+'</div>')}
+function chooseDigitalMode(){view('<div class="eyebrow">SIN TORRE · SOLO DIGITAL</div><h2>Elegí la modalidad</h2><div class="choice-grid">'+[
+['🎲 Pieza virtual','El portal sortea número y categoría','virtual'],['🎨 Color al azar','El portal elige una categoría','color_virtual'],['⚡ Ronda rápida','Desafíos encadenados','rapida'],['⭐ Misión','Consigan estrellas juntos','mision_digital']
+].map(x=>'<button class="choice" onclick="setMode(\''+x[2]+'\')"><b>'+x[0]+'</b><span>'+x[1]+'</span></button>').join('')+'</div>')}
+function setMode(m){S.mode=m;chooseLevel()}
+function chooseLevel(){view('<div class="eyebrow">NIVEL</div><h2>¿Cuánto desafío quieren?</h2><div class="levels"><button class="level" onclick="setLevel(1)"><b>🟢 Explorador</b><span>Para empezar</span></button><button class="level" onclick="setLevel(2)"><b>🟡 Aventurero</b><span>Cálculo y lógica</span></button><button class="level" onclick="setLevel(3)"><b>🔴 Maestro</b><span>Más velocidad y desafío</span></button></div>')}
+function setLevel(l){S.level=l;view('<div class="eyebrow">JUGADORES</div><h2>¿Quiénes juegan?</h2><div class="card"><input id="p1" placeholder="Jugador 1"><input id="p2" placeholder="Jugador 2"><button class="btn full" onclick="start()">COMENZAR</button></div>')}
 function start(){S.players=[document.getElementById('p1').value||'Jugador 1',document.getElementById('p2').value||'Jugador 2'];S.scores=[0,0];S.p=0;turn()}
-function turn(){const n=S.players[S.p];let act=S.mode==='colores'?'<button class="btn" onclick="pickColor()">🎲 YA TIRÉ EL DADO DE COLORES</button>':'<button class="btn" onclick="pickPiece()">🧱 YA SAQUÉ / TENGO LA PIEZA</button>';view('<div class="score">'+n+' · ⭐ '+S.scores[S.p]+'</div><div class="hero"><h2>Turno de '+n+'</h2></div>'+act+'<button class="btn ghost" onclick="finish()">🧱 SE CAYÓ LA TORRE</button>')}
-function pickColor(){view('<h2>¿Qué color salió?</h2><div class="colors">'+COLORS.map(c=>'<button class="color '+c+'" onclick="selectColor(\''+c+'\')">'+ICON[c]+'<br>'+LABEL[c]+'</button>').join('')+'</div>')}
+function turn(){S.color=null;S.piece=null;S.challenge=null;S.hinted=false;const n=S.players[S.p],sum=S.scores.reduce((a,b)=>a+b,0);let body='';
+ if(S.style==='digital'){body='<div class="big-random card"><div><div class="eyebrow">JUGADA DIGITAL</div><div style="font-size:3rem;margin:8px">🎲</div><h2>Que el portal elija</h2><button class="btn wood" onclick="virtualDraw()">SORTEAR DESAFÍO</button></div></div>'}
+ else if(S.mode==='colores')body='<div class="card"><h3>🎲 Tiren el dado de colores</h3><p class="note">Después marcá el color que salió.</p><button class="btn" onclick="pickColor()">YA LO TIRÉ</button></div>';
+ else body='<div class="card"><h3>🧱 Retirá la pieza</h3><p class="note">'+(S.mode==='te_toca'?'Usá los dados físicos para saber qué número retirar.':'Elegí una pieza de la torre.')+'</p><button class="btn" onclick="pickPiece()">YA TENGO LA PIEZA</button></div>';
+ view('<div class="score">'+n+' · ⭐ '+S.scores[S.p]+(S.mode.includes('mision')?' · MISIÓN '+sum+'/'+S.mission:'')+'</div><div class="hero" style="min-height:0;padding:24px 0"><h2 style="margin:0">Turno de '+n+'</h2></div>'+body+'<button class="btn light full" onclick="finish()">🧱 TERMINAR PARTIDA</button>')}
+function virtualDraw(){const color=(S.mode==='color_virtual')?COLORS[Math.floor(Math.random()*6)]:COLORS[Math.floor(Math.random()*6)];const pool=BASE.filter(x=>x.color===color&&x.level===S.level);const x=pool[Math.floor(Math.random()*pool.length)];S.color=color;S.piece=1+Math.floor(Math.random()*54);S.challenge=x;view('<div class="big-random card"><div><div class="badge">'+EMOJI[color]+' '+LABEL[color]+'</div><div class="virtual-number">'+String(S.piece).padStart(2,'0')+'</div><p class="note">Pieza virtual</p><button class="btn wood" onclick="showChallenge()">VER DESAFÍO</button></div></div>')}
+function pickColor(){view('<h2>¿Qué color salió?</h2><div class="colors">'+COLORS.map(c=>'<button class="color '+c+'" onclick="selectColor(\''+c+'\')">'+EMOJI[c]+'<br>'+LABEL[c]+'</button>').join('')+'</div>')}
 function selectColor(c){S.color=c;pickPiece(c)}
 function colorOf(n){return COLORS[(n-1)%6]}
-function pickPiece(c){let nums=[...Array(54)].map((_,i)=>i+1).filter(n=>!c||colorOf(n)===c);view('<h2>¿Qué número sacaste?</h2><div class="pieces">'+nums.map(n=>'<button class="piece" onclick="openPiece('+n+')">'+String(n).padStart(2,'0')+'</button>').join('')+'</div>')}
-function openPiece(n){S.piece=n;if(!S.color)S.color=colorOf(n);let candidates=DATA.filter(x=>x.piece===n&&x.level===S.level);if(!candidates.length)candidates=DATA.filter(x=>x.color===S.color&&x.level===S.level);if(!candidates.length)candidates=DATA.filter(x=>x.color===S.color);S.challenge=candidates[Math.floor(Math.random()*candidates.length)];S.hint=false;challenge()}
-function challenge(){const x=S.challenge;view('<span class="badge">'+ICON[x.color]+' '+x.category+'</span><div class="note">Pieza '+String(S.piece).padStart(2,'0')+' · Nivel '+S.level+'</div><div class="card"><div class="challenge">'+x.prompt+'</div></div><button class="btn alt" onclick="hint()">💡 PISTA</button><button class="btn" onclick="answer()">👁 VER RESPUESTA</button>')}
-function hint(){S.hint=true;const x=S.challenge;view('<span class="badge">'+ICON[x.color]+' '+x.category+'</span><div class="card"><div class="challenge">'+x.prompt+'</div></div><div class="card"><b>💡 Pista</b><p>'+x.hint+'</p></div><button class="btn" onclick="answer()">👁 VER RESPUESTA</button>')}
-function answer(){view('<h2>Respuesta</h2><div class="card answer">'+S.challenge.answer+'</div><h3 style="text-align:center">¿Acertó?</h3><div class="grid2"><button class="btn" onclick="ok()">✅ SÍ</button><button class="btn alt" onclick="no()">❌ TODAVÍA NO</button></div>')}
-function ok(){let pts=S.hint?1:(S.color==='negro'?3:2);S.scores[S.p]+=pts;view('<div class="hero"><h1>¡GENIAL!</h1><div class="stars">'+'⭐'.repeat(pts)+'</div><p>Ganaste '+pts+' estrella'+(pts===1?'':'s')+'.</p></div><div class="card"><b>Colocá la pieza arriba.</b></div><button class="btn" onclick="next()">SIGUIENTE TURNO</button>')}
-function no(){view('<div class="hero"><h1>¡CASI!</h1><p>La respuesta era:</p><div class="answer">'+S.challenge.answer+'</div></div><button class="btn" onclick="recover()">⭐ MINI RETO</button><button class="btn alt" onclick="next()">SEGUIR</button>')}
-function recover(){view('<div class="card"><h2>Mini reto</h2><div class="challenge">Decí tres números pares.</div></div><button class="btn" onclick="recOK()">✅ LO HIZO</button><button class="btn alt" onclick="next()">NO ESTA VEZ</button>')}
-function recOK(){S.scores[S.p]++;view('<div class="hero"><h1>⭐ ¡RECUPERADA!</h1></div><button class="btn" onclick="next()">SIGUIENTE TURNO</button>')}
-function next(){S.color=null;S.piece=null;S.challenge=null;S.p=(S.p+1)%S.players.length;turn()}
-function finish(){let a=S.players.map((p,i)=>({p,s:S.scores[i]})).sort((x,y)=>y.s-x.s);view('<div class="hero"><h1>¡TORRE ABAJO!</h1><h2>🏆 '+a[0].p+'</h2><p>'+a[0].s+' estrellas</p></div><div class="card">'+a.map((x,i)=>'<p><b>'+(i+1)+'. '+x.p+'</b> — ⭐ '+x.s+'</p>').join('')+'</div><button class="btn" onclick="back()">MENÚ PRINCIPAL</button>')}
-function showRules(){view('<div class="card"><h2>Cómo se juega</h2><p>1. Retirá una pieza.</p><p>2. Buscá su número.</p><p>3. Resolvé el desafío.</p><p>4. Si acertás, ganás estrellas.</p><p>5. Colocá la pieza arriba.</p><p class="note">🔴 Cálculo · 🟢 Multiplicación · 🔵 Lógica · 🟡 Problemas · 🩷 Velocidad · ⚫ Súper desafío</p></div><button class="btn" onclick="back()">VOLVER</button>')}
-function showPrint(){view('<div class="card"><h2>Imprimibles</h2><p>En P0.6 la sección queda conectada al portal. En P0.7 cargaremos el manual imprimible definitivo desde la biblioteca maestra.</p></div><button class="btn" onclick="back()">VOLVER</button>')}
+function pickPiece(c=null){const nums=[...Array(54)].map((_,i)=>i+1).filter(n=>!c||colorOf(n)===c);view('<h2>¿Qué número sacaste?</h2><div class="pieces">'+nums.map(n=>'<button class="piece" onclick="openPiece('+n+')">'+String(n).padStart(2,'0')+'</button>').join('')+'</div>')}
+function openPiece(n){S.piece=n;if(!S.color)S.color=colorOf(n);const pool=BASE.filter(x=>x.color===S.color&&x.level===S.level);S.challenge=pool[Math.floor(Math.random()*pool.length)];showChallenge()}
+function showChallenge(){const x=S.challenge;view('<div class="badge">'+EMOJI[x.color]+' '+x.category+'</div><div class="note">Pieza '+String(S.piece).padStart(2,'0')+' · Nivel '+S.level+(S.style==='digital'?' · Solo Digital':' · Con Torre')+'</div><div class="card"><div class="challenge">'+x.prompt+'</div></div><button class="btn light full" onclick="hint()">💡 PISTA</button><button class="btn full" onclick="answer()">VER RESPUESTA</button>')}
+function hint(){S.hinted=true;const x=S.challenge;view('<div class="badge">'+EMOJI[x.color]+' '+x.category+'</div><div class="card"><div class="challenge">'+x.prompt+'</div></div><div class="card"><b>💡 Pista</b><p>'+x.hint+'</p></div><button class="btn full" onclick="answer()">VER RESPUESTA</button>')}
+function answer(){view('<h2>Respuesta</h2><div class="card answer">'+S.challenge.answer+'</div><h3 style="text-align:center">¿Acertó?</h3><div class="choice-grid"><button class="btn" onclick="ok()">✅ SÍ</button><button class="btn light" onclick="no()">TODAVÍA NO</button></div>')}
+function ok(){const pts=S.hinted?1:(S.color==='negro'?3:2);S.scores[S.p]+=pts;const sum=S.scores.reduce((a,b)=>a+b,0);if(S.mode.includes('mision')&&sum>=S.mission)return missionWin();view('<div class="hero" style="min-height:0"><h1 style="font-size:3.5rem">¡GENIAL!</h1><div class="stars">'+'⭐'.repeat(pts)+'</div><p>Ganaste '+pts+' estrella'+(pts===1?'':'s')+'.</p></div>'+(S.style==='tower'?'<div class="card"><b>Ahora colocá la pieza arriba de la torre.</b></div>':'')+'<button class="btn full" onclick="next()">SIGUIENTE TURNO</button>')}
+function no(){view('<div class="hero" style="min-height:0"><h1 style="font-size:3.2rem">¡CASI!</h1><p>La respuesta era:</p><div class="answer">'+S.challenge.answer+'</div></div><button class="btn full" onclick="recover()">⭐ MINI RETO</button><button class="btn light full" onclick="next()">SEGUIR</button>')}
+function recover(){const a=['Decí tres números pares.','Decí dos sumas que den 10.','Contá de 5 a 1 hacia atrás.','Nombrá tres números mayores que 20.'];view('<div class="card"><div class="eyebrow">RECUPERACIÓN</div><div class="challenge">'+a[Math.floor(Math.random()*a.length)]+'</div></div><button class="btn full" onclick="recOK()">✅ LO HIZO</button><button class="btn light full" onclick="next()">NO ESTA VEZ</button>')}
+function recOK(){S.scores[S.p]++;view('<div class="hero" style="min-height:0"><h1 style="font-size:3.2rem">⭐ ¡RECUPERADA!</h1></div><button class="btn full" onclick="next()">SIGUIENTE TURNO</button>')}
+function next(){S.p=(S.p+1)%S.players.length;turn()}
+function missionWin(){view('<div class="hero" style="min-height:0"><h1 style="font-size:3.2rem">🎉 ¡MISIÓN CUMPLIDA!</h1><p>Consiguieron '+S.scores.reduce((a,b)=>a+b,0)+' estrellas.</p></div><button class="btn full" onclick="backHome()">VOLVER AL INICIO</button>')}
+function finish(){const a=S.players.map((p,i)=>({p,s:S.scores[i]})).sort((x,y)=>y.s-x.s);view('<div class="hero" style="min-height:0"><h1 style="font-size:3.2rem">PARTIDA TERMINADA</h1><h2>🏆 '+a[0].p+'</h2><p>'+a[0].s+' estrellas</p></div><div class="card">'+a.map((x,i)=>'<p><b>'+(i+1)+'. '+x.p+'</b> — ⭐ '+x.s+'</p>').join('')+'</div><button class="btn full" onclick="backHome()">MENÚ PRINCIPAL</button>')}
+function showRules(){view('<div class="eyebrow">GUÍA RÁPIDA</div><h2>Dos maneras de jugar</h2><div class="mode-grid"><div class="card"><h3>🧱 Con Torre</h3><p>Retirá una pieza, buscá el número, resolvé el desafío y colocala arriba. Los colores conectan cada bloque con una categoría matemática.</p></div><div class="card"><h3>📱 Sin Torre</h3><p>El portal sortea una pieza virtual, la categoría y el desafío. No necesitás ningún elemento físico.</p></div></div><button class="btn full" onclick="backHome()">VOLVER</button>')}
+function showPrint(){view('<div class="eyebrow">MATERIAL DESCARGABLE</div><h2>Imprimibles</h2><div class="card"><p><b>Manual de juego</b></p><p class="note">Reglas para jugar con Torre y Sin Torre.</p></div><div class="card"><p><b>54 desafíos base</b></p><p class="note">Versión imprimible para acompañar el producto físico.</p></div><div class="card"><p><b>Hoja de respuestas y estrellas</b></p><p class="note">Material para adulto/docente.</p></div><p class="note">En P0.7 generaremos estos archivos definitivos desde la biblioteca maestra.</p><button class="btn full" onclick="backHome()">VOLVER</button>')}
 
 (async()=>{
- const state=document.getElementById('licenseState'),gate=document.getElementById('licenseGate'),game=document.getElementById('gameApp');
+ const state=document.getElementById('licenseState'),gate=document.getElementById('licenseGate'),app=document.getElementById('gameApp');
  const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co',SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
  const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
  const DK='pc_device_id';const deviceId=()=>{let v=localStorage.getItem(DK);if(!v){v=crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now();localStorage.setItem(DK,v)}return v};
  const label=()=>[navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150);
- const qs=new URLSearchParams(location.search);let code=(qs.get('access')||sessionStorage.getItem('pc_tk_mat_79_access')||'').trim().toUpperCase();if(code)sessionStorage.setItem('pc_tk_mat_79_access',code);
+ const qs=new URLSearchParams(location.search);let code=(qs.get('access')||sessionStorage.getItem('pc_tk_mat_access')||'').trim().toUpperCase();if(code)sessionStorage.setItem('pc_tk_mat_access',code);
  try{
   const {data:{session}}=await sb.auth.getSession();if(!session?.user?.email)throw new Error('Ingresá desde Mi Biblioteca para validar tu cuenta.');
   if(!code)throw new Error('No encontré el código personal de Torre Kids Matemática.');
   const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:code,device_id:deviceId(),device_label:label()}});
   if(error)throw error;if(!data?.ok)throw new Error(data?.error||'No se pudo validar el acceso.');
   state.textContent='✅ Acceso validado para '+session.user.email;
-  setTimeout(()=>{gate.classList.add('hidden');game.classList.remove('hidden');window.scrollTo(0,0)},350);
+  setTimeout(()=>{gate.classList.add('hidden');app.classList.remove('hidden');window.scrollTo(0,0)},300);
  }catch(e){state.textContent='⚠️ '+(e?.message||'Acceso no válido.')+' Volvé a tu biblioteca y abrí Torre Kids Matemática desde allí.'}
 })();
-</script></body></html>
+</script>
+</body></html>
