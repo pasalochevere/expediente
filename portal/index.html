@@ -37,12 +37,14 @@ button,input{font:inherit}.wrap{max-width:1120px;margin:auto;padding:20px}.top{d
   <div id="myGamesGrid" class="grid"></div>
 </section>
 
+<section id="paymentNotice" class="box hidden"><div class="eyebrow">ESTADO DE COMPRA</div><h3 id="paymentTitle">Mercado Pago</h3><div id="paymentText" class="sub"></div></section>
+
 <div class="catalog-title"><div><div class="eyebrow">PASALOCHEVERE</div><h2>Catálogo de juegos</h2></div><span>Nuevos títulos se sumarán acá</span></div>
 <section class="grid">
-  <article class="card"><span class="status live">● DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 001 · La Última Reunión</div><p>Investigación multijugador, QR, roles privados, pistas y kit imprimible.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+  <article class="card"><span class="status live">● DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 001 · La Última Reunión</div><p>Investigación multijugador, QR, roles privados, pistas y kit imprimible.</p><div class="note" id="exp001Price" style="margin-top:8px">Precio online a definir</div><div class="actions"><button class="btn primary" id="exp001Buy" onclick="buyNow('EXP-001')" disabled>COMPRAR AHORA</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20comprar%20EXPEDIENTES%20%E2%80%94%20Caso%20001." target="_blank" rel="noopener">WHATSAPP</a></div></article>
   <article class="card"><span class="status live">● DISPONIBLE</span><h3>TOWER JAM</h3><div class="accent">Reto rápido · Torre</div><p>Desafíos por número y color para acompañar la experiencia física.</p><div class="actions"><a class="btn" href="https://pasalochevere.app.n8n.cloud/webhook/tower-jam">VER JUEGO</a></div></article>
   <article class="card"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">CHISPA · +18</div><p>Activá tu compra y accedé desde tu biblioteca personal. Acceso por 12 meses y hasta 2 dispositivos.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-  <article class="card soon"><span class="status">PRÓXIMAMENTE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002</div><p>Un nuevo caso dentro de la misma Central de Investigación.</p></article>
+  <article class="card soon"><span class="status">PRÓXIMAMENTE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002</div><p>Un nuevo caso dentro de la misma Central de Investigación.</p><div class="actions"><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20que%20me%20avisen%20cuando%20est%C3%A9%20disponible%20EXPEDIENTES%20%E2%80%94%20Caso%20002." target="_blank" rel="noopener">AVISARME POR WHATSAPP</a></div></article>
   <article class="card soon"><span class="status">EN PREPARACIÓN</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Mesa interactiva</div><p>Dinámicas visuales y prácticas a distancia.</p></article>
   <article class="card"><span class="status live">● DISPONIBLE</span><h3>TORRE 5 EN 1 DIGITAL</h3><div class="accent">KIDS · GENERAL · FIESTA · SIN FILTRO</div><p>Mega Pack con 4 versiones y más de 800 contenidos para jugar desde el celular, con Torre o Solo Digital.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
 </section>
@@ -91,15 +93,72 @@ function renderLicenses(list){
  const sec=document.getElementById('myGames'),g=document.getElementById('myGamesGrid');
  if(!list.length){sec.classList.add('hidden');g.innerHTML='';return}
  sec.classList.remove('hidden');g.innerHTML=list.map(l=>{
-   const active=l.status==='active'&&new Date(l.expires_at).getTime()>Date.now();
-   const date=l.expires_at?new Date(l.expires_at).toLocaleDateString():'—';
-   return '<article class="card"><span class="status '+(active?'live':'')+'">'+(active?'● ACTIVO':'VENCIDO')+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(l.activation_code||'—')+'</code> <button class="copy" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\')">copiar</button></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+(active&&l.game_url?'<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a>':active?'<span class="btn" style="opacity:.6">URL PENDIENTE</span>':'<span class="btn" style="opacity:.45">SIN ACCESO</span>')+'</div></article>'
+   const active=l.status==='active'&&l.expires_at&&new Date(l.expires_at).getTime()>Date.now();
+   const pending=!!l.can_activate;
+   const date=l.expires_at?new Date(l.expires_at).toLocaleDateString():'Empieza al activar';
+   const badge=active?'● ACTIVO':pending?'● COMPRA APROBADA':'VENCIDO';
+   const badgeClass=(active||pending)?'live':'';
+   const code=l.activation_code||'Se genera al activar';
+   let action='';
+   if(pending) action='<button class="btn primary" onclick="activateOwned(\''+escapeHtml(l.product_code)+'\')">ACTIVAR 12 MESES</button>';
+   else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a>';
+   else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span>';
+   else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
+   return '<article class="card"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(code)+'</code></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>'
  }).join('');
+}
+async function activateOwned(productCode){
+ try{
+   const d=await callAccess({action:'activate_owned',product_code:productCode,device_id:deviceId(),device_label:deviceLabel()});
+   alert('✅ Acceso activado. Tu código personal es '+d.license.activation_code);
+   await loadMyGames();
+ }catch(e){alert(e.message||'No pude activar esta compra.')}
 }
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 async function copyCode(v){try{await navigator.clipboard.writeText(v);alert('Código copiado.')}catch{prompt('Copiá tu código:',v)}}
 async function logout(){await sb.auth.signOut();location.replace(location.pathname)}
 function scrollToActivation(){document.getElementById(document.getElementById('accountBox').classList.contains('hidden')?'loginBox':'accountBox').scrollIntoView({behavior:'smooth'})}
+let publicCatalog={};
+async function loadCatalog(){
+ try{
+   const {data,error}=await sb.functions.invoke('pasalochevere-catalog',{body:{}});
+   if(error||!data?.ok)return;
+   publicCatalog=Object.fromEntries((data.products||[]).map(p=>[p.product_code,p]));
+   const p=publicCatalog['EXP-001'],price=document.getElementById('exp001Price'),btn=document.getElementById('exp001Buy');
+   if(p&&price&&btn){
+     if(p.sales_enabled&&Number(p.price_ars)>0){
+       price.textContent=new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Number(p.price_ars))+' · acceso 12 meses';
+       btn.disabled=false;btn.textContent='COMPRAR AHORA';
+     }else{
+       price.textContent='Mercado Pago en configuración · también podés comprar por WhatsApp';
+       btn.disabled=true;btn.textContent='MERCADO PAGO · CONFIGURANDO';
+     }
+   }
+ }catch(e){console.warn('catalog',e)}
+}
+async function buyNow(productCode){
+ const {data:{session}}=await sb.auth.getSession();
+ if(!session?.user?.email||session.user.is_anonymous){
+   alert('Primero verificá tu correo. Así la compra queda asociada automáticamente a tu biblioteca.');
+   document.getElementById('loginBox').classList.remove('hidden');
+   document.getElementById('loginBox').scrollIntoView({behavior:'smooth'});
+   return;
+ }
+ try{
+   const {data,error}=await sb.functions.invoke('pasalochevere-checkout',{body:{product_code:productCode}});
+   if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}
+   if(!data?.ok)throw new Error(data?.error||'No se pudo iniciar el pago.');
+   location.href=data.checkout_url;
+ }catch(e){alert(e.message||'No se pudo iniciar Mercado Pago.')}
+}
+function renderPaymentReturn(){
+ const p=new URLSearchParams(location.search).get('payment');if(!p)return;
+ const box=document.getElementById('paymentNotice'),title=document.getElementById('paymentTitle'),txt=document.getElementById('paymentText');
+ box.classList.remove('hidden');
+ if(p==='success'){title.textContent='✅ Pago recibido';txt.textContent='Estamos confirmando el pago con Mercado Pago. En unos segundos tu compra aparecerá en “Mis juegos” lista para activar.';setTimeout(loadMyGames,2500);setTimeout(loadMyGames,7000)}
+ else if(p==='pending'){title.textContent='⏳ Pago pendiente';txt.textContent='Mercado Pago todavía está procesando el pago. Tu juego aparecerá cuando quede aprobado.'}
+ else{title.textContent='Pago no completado';txt.textContent='No se realizó el cobro. Podés intentarlo nuevamente o escribirnos por WhatsApp.'}
+}
 async function renderSession(){
  const {data:{session}}=await sb.auth.getSession();
  const logged=!!session?.user?.email&&!session.user.is_anonymous;
@@ -108,5 +167,5 @@ async function renderSession(){
  if(logged){document.getElementById('accountEmail').textContent=session.user.email;await loadMyGames()}
 }
 sb.auth.onAuthStateChange(()=>setTimeout(renderSession,0));
-setTimeout(renderSession,100);
+setTimeout(renderSession,100);setTimeout(loadCatalog,120);setTimeout(renderPaymentReturn,160);
 </script></body></html>
