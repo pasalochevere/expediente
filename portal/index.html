@@ -44,7 +44,7 @@ button,input{font:inherit}.wrap{max-width:1120px;margin:auto;padding:20px}.top{d
   <article class="card"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">CHISPA · +18</div><p>La experiencia digital para dos que dio origen a este sistema de acceso personal.</p><div class="actions"><a class="btn" href="https://pasalochevere.app.n8n.cloud/webhook/doble-intencion-chispa">VER JUEGO</a></div></article>
   <article class="card soon"><span class="status">PRÓXIMAMENTE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002</div><p>Un nuevo caso dentro de la misma Central de Investigación.</p></article>
   <article class="card soon"><span class="status">EN PREPARACIÓN</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Mesa interactiva</div><p>Dinámicas visuales y prácticas a distancia.</p></article>
-  <article class="card soon"><span class="status">EN PREPARACIÓN</span><h3>TORRE SIN FILTRO</h3><div class="accent">Adultos · +18</div><p>Retos y experiencia móvil para acompañar la torre.</p></article>
+  <article class="card"><span class="status live">● DISPONIBLE</span><h3>TORRE 5 EN 1 DIGITAL</h3><div class="accent">KIDS · GENERAL · FIESTA · SIN FILTRO</div><p>Mega Pack con 4 versiones y más de 800 contenidos para jugar desde el celular, con Torre o Solo Digital.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
 </section>
 
 <section class="box support"><div><div class="eyebrow">SOPORTE OFICIAL</div><h3>¿Necesitás ayuda con una activación?</h3><div class="sub">Desde acá centralizaremos soporte, recuperación de acceso y novedades de nuevos juegos.</div></div><div class="support-actions"><button class="btn" onclick="alert('El canal de WhatsApp se conectará cuando definamos el número oficial.')">WhatsApp</button><button class="btn" onclick="alert('El correo de soporte se conectará cuando definamos la dirección oficial.')">Correo</button></div></section>
@@ -80,13 +80,19 @@ function gameHref(l){
  if(l.product_code==='EXP-001')return '../?access='+encodeURIComponent(l.activation_code);
  return l.game_url;
 }
+async function openGame(code,url){
+ try{
+   await callAccess({action:'register_device',activation_code:code,device_id:deviceId(),device_label:deviceLabel()});
+   location.href=url;
+ }catch(e){alert(e.message||'No se pudo validar este dispositivo.')}
+}
 function renderLicenses(list){
  const sec=document.getElementById('myGames'),g=document.getElementById('myGamesGrid');
  if(!list.length){sec.classList.add('hidden');g.innerHTML='';return}
  sec.classList.remove('hidden');g.innerHTML=list.map(l=>{
    const active=l.status==='active'&&new Date(l.expires_at).getTime()>Date.now();
    const date=l.expires_at?new Date(l.expires_at).toLocaleDateString():'—';
-   return '<article class="card"><span class="status '+(active?'live':'')+'">'+(active?'● ACTIVO':'VENCIDO')+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(l.activation_code||'—')+'</code> <button class="copy" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\')">copiar</button></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+(active&&l.game_url?'<a class="btn primary" href="'+gameHref(l)+'">JUGAR</a>':'<span class="btn" style="opacity:.45">SIN ACCESO</span>')+'</div></article>'
+   return '<article class="card"><span class="status '+(active?'live':'')+'">'+(active?'● ACTIVO':'VENCIDO')+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(l.activation_code||'—')+'</code> <button class="copy" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\')">copiar</button></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+(active&&l.game_url?'<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a>':active?'<span class="btn" style="opacity:.6">URL PENDIENTE</span>':'<span class="btn" style="opacity:.45">SIN ACCESO</span>')+'</div></article>'
  }).join('');
 }
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
