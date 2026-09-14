@@ -53,6 +53,8 @@ a{color:inherit}
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .mode-card{position:relative;overflow:hidden;min-height:220px;text-align:left;padding:24px;border-radius:22px;border:1px solid var(--line);background:#fffaf2;box-shadow:var(--shadow)}
 .mode-card:hover{transform:translateY(-2px)}
+.mode-card.home-mode{width:100%;font:inherit;color:inherit;cursor:pointer}
+.mode-card.home-mode:focus-visible{outline:3px solid #d49554;outline-offset:3px}
 .mode-card .icon{font-size:2rem}.mode-card h3{font-size:1.55rem;margin:14px 0 7px}.mode-card p{color:var(--muted);line-height:1.45}.mode-card strong{display:block;margin-top:14px;color:#9b6638}
 .mode-card .btn{margin-top:16px}
 .mode-card.digital{background:linear-gradient(145deg,#15282c,#1f3a3f);color:white;border-color:#28484d}.mode-card.digital p{color:#c7d8d8}.mode-card.digital strong{color:#f5bd6a}
@@ -131,16 +133,16 @@ input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12
       <div class="eyebrow">DOS FORMAS DE VENDER · DOS FORMAS DE JUGAR</div>
       <h2>Una edición, dos productos.</h2>
       <div class="mode-grid">
-        <article class="mode-card">
+        <button type="button" class="mode-card home-mode" onclick="setStyle('tower')">
           <div class="icon">🧱</div><h3>Con Torre</h3>
           <p>La experiencia completa: madera, números, colores, dados y portal digital. Cada pieza física dispara un desafío.</p>
-          <strong>Producto físico + acceso digital</strong>
-        </article>
-        <article class="mode-card digital">
+          <strong>ENTRAR CON TORRE →</strong>
+        </button>
+        <button type="button" class="mode-card digital home-mode" onclick="setStyle('digital')">
           <div class="icon">📱</div><h3>Sin Torre</h3>
           <p>El portal sortea colores y piezas virtuales. Ideal para jugar desde el celular sin necesidad de tener el producto físico.</p>
-          <strong>Producto 100% digital</strong>
-        </article>
+          <strong>ENTRAR SIN TORRE →</strong>
+        </button>
       </div>
     </section>
   </section>
