@@ -13,17 +13,15 @@ body{background:radial-gradient(ellipse at 95% 20%,#632f5644,transparent 48%),ra
 #licenseGate h1{font:900 clamp(34px,7vw,60px)/1 Arial,sans-serif;letter-spacing:-2px;margin:16px 0}
 #licenseGate .license-state{padding:14px;border-radius:12px;background:#ffffff06;border:1px solid #c77d5235;margin:18px 0;color:#d9c4cd}
 #licenseGate a{display:inline-block;text-decoration:none;padding:13px 18px;border:1px solid #c77d5260;border-radius:12px;font-weight:800}
-.material-actions{display:grid;gap:12px;margin:24px 0}
-.material-actions button{padding:18px;text-align:left}
-.material-actions button small{display:block;margin-top:5px;color:#c7b2bd;font-weight:400}
+.material-actions{display:grid;gap:12px;margin:24px 0}.material-actions button{padding:18px;text-align:left}.material-actions button small{display:block;margin-top:5px;color:#c7b2bd;font-weight:400}
 @media(max-width:760px){#licenseGate{margin:24px 14px;padding:24px}.brandword{font-size:16px}}
 </style>
 <section id="licenseGate">
-  <div class="eyebrow">PASALOCHÉVERE · ACCESO PERSONAL</div>
-  <h1>DOBLE INTENCIÓN<br>TRILOGÍA</h1>
-  <p>CHISPA · FUEGO · DOMINIO</p>
-  <div id="licenseState" class="license-state">Validando tu acceso…</div>
-  <a href="../portal/">VOLVER A MI BIBLIOTECA</a>
+<div class="eyebrow">PASALOCHÉVERE · ACCESO PERSONAL</div>
+<h1>DOBLE INTENCIÓN<br>TRILOGÍA</h1>
+<p>CHISPA · FUEGO · DOMINIO</p>
+<div id="licenseState" class="license-state">Validando tu acceso…</div>
+<a href="../portal/">VOLVER A MI BIBLIOTECA</a>
 </section>
 <main id="gameApp" style="display:none"><header><div class="brandword">DOBLE INTENCIÓN</div><span class="muted">V4 · PARA DOS · +18</span></header>
 <section id="home"><div class="cover"><div class="cover-copy"><p class="eyebrow">JUEGOS QUE ACERCAN</p><h1><span id="coverEdition">CHISPA</span><br><span class="ivory">DIGITAL</span></h1><p id="coverTagline" class="cover-tagline">Todo empieza con una pieza.</p><div id="homeEditions" class="row"></div><div class="cover-links"><button id="homePlay" class="primary">JUGAR AHORA <span aria-hidden="true">→</span></button><button id="homeRules">CÓMO SE JUEGA</button><button id="homeDownloads">DESCARGAR MATERIAL</button></div><p class="eyebrow">42 CONSIGNAS · 42 ALTERNATIVAS</p><p class="muted">Para dos personas adultas. Con torre o sin ella.</p></div><div class="cover-art" aria-hidden="true"><div class="art-orbit"></div><div class="cover-card"><div class="art-monogram">DI</div><p id="artEdition">CHISPA</p><div class="art-symbol">✦</div><div class="art-rule"></div><small>CONEXIÓN<br>JUEGO<br>LIBERTAD</small><span>UNA PIEZA. DOS INTENCIONES.</span></div></div></div></section>
@@ -46,48 +44,19 @@ const DATA=[{"id": "DI-CHI-01", "edition": "CHISPA", "number": 1, "level": 1, "i
 
 function printEsc(v){return String(v??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
 function materialHTML(editions){
-  const title=editions.length===3?'DOBLE INTENCIÓN · TRILOGÍA':('DOBLE INTENCIÓN · '+editions[0]);
-  const sections=editions.map(ed=>{
-    const rows=DATA.filter(x=>x.edition===ed).sort((a,b)=>a.number-b.number).map(x=>
-      '<tr><td>'+String(x.number).padStart(2,'0')+'</td><td>'+printEsc(x.intensity)+'</td><td><b>'+printEsc(x.physical)+'</b></td><td>'+printEsc(x.digital)+'</td></tr>'
-    ).join('');
-    return '<section><h2>'+ed+'</h2><table><thead><tr><th>Nº</th><th>Nivel</th><th>En la pieza</th><th>Alternativa digital</th></tr></thead><tbody>'+rows+'</tbody></table></section>';
-  }).join('');
-  return '<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+' · Material imprimible</title><style>@page{size:A4;margin:12mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#111;margin:0}header{border-bottom:3px solid #111;padding-bottom:12px;margin-bottom:18px}h1{font-size:26px;margin:0 0 6px}h2{page-break-before:always;font-size:22px;margin:0 0 12px}section:first-of-type h2{page-break-before:auto}.meta{font-size:12px;color:#444}.rules{font-size:12px;line-height:1.45;margin:14px 0 20px}table{width:100%;border-collapse:collapse;font-size:10.5px}th,td{border:1px solid #bbb;padding:6px;vertical-align:top}th{background:#eee;text-align:left}td:first-child{width:7%;font-weight:bold}td:nth-child(2){width:11%}td:nth-child(3),td:nth-child(4){width:41%}footer{margin-top:18px;font-size:10px;color:#555}@media print{button{display:none}}</style><body><header><h1>'+title+'</h1><div class="meta">PASALOCHÉVERE · +18 · Material de apoyo</div></header><div class="rules"><b>Cómo jugar:</b> armen la torre, retiren una pieza por turno y usen la consigna de madera o la alternativa digital del mismo número. Todo reto necesita el acuerdo de ambos. Siempre pueden elegir SÍ, MÁS SUAVE o PASO. Verde: seguir; amarillo: bajar intensidad y preguntar; rojo: detener, liberar y cuidar.</div>'+sections+'<footer>PasaloChévere · Doble Intención · Material descargable</footer></body>
-<script>
-(async()=>{
-  const state=document.getElementById('licenseState'),app=document.getElementById('gameApp'),gate=document.getElementById('licenseGate');
-  const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
-  const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
-  const sbAccess=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
-  const DEVICE_KEY='pc_device_id';
-  const deviceId=()=>{let v=localStorage.getItem(DEVICE_KEY);if(!v){v=(crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2));localStorage.setItem(DEVICE_KEY,v)}return v};
-  const label=()=>[navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150);
-  const qs=new URLSearchParams(location.search);
-  let code=(qs.get('access')||sessionStorage.getItem('pc_di_trilogia_access')||'').trim().toUpperCase();
-  if(code)sessionStorage.setItem('pc_di_trilogia_access',code);
-  try{
-    const {data:{session}}=await sbAccess.auth.getSession();
-    if(!session?.user?.email)throw new Error('Ingresá desde Mi Biblioteca para validar tu cuenta.');
-    if(!code)throw new Error('No encontré el código personal de esta trilogía.');
-    const {data,error}=await sbAccess.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:code,device_id:deviceId(),device_label:label()}});
-    if(error)throw error;
-    if(!data?.ok)throw new Error(data?.error||'No se pudo validar el acceso.');
-    state.textContent='✅ Acceso validado para '+session.user.email;
-    setTimeout(()=>{gate.style.display='none';app.style.display='block';window.scrollTo(0,0)},350);
-  }catch(e){
-    state.textContent='⚠️ '+(e?.message||'Acceso no válido.')+' Volvé a tu biblioteca y abrí Doble Intención desde allí.';
-  }
-})();
-</script>
-</html>';
+ const title=editions.length===3?'DOBLE INTENCIÓN · TRILOGÍA':('DOBLE INTENCIÓN · '+editions[0]);
+ const sections=editions.map(ed=>{
+  const rows=DATA.filter(x=>x.edition===ed).sort((a,b)=>a.number-b.number).map(x=>'<tr><td>'+String(x.number).padStart(2,'0')+'</td><td>'+printEsc(x.intensity)+'</td><td><b>'+printEsc(x.physical)+'</b></td><td>'+printEsc(x.digital)+'</td></tr>').join('');
+  return '<section><h2>'+ed+'</h2><table><thead><tr><th>Nº</th><th>Nivel</th><th>En la pieza</th><th>Alternativa digital</th></tr></thead><tbody>'+rows+'</tbody></table></section>';
+ }).join('');
+ return '<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+' · Material imprimible</title><style>@page{size:A4;margin:12mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#111;margin:0}header{border-bottom:3px solid #111;padding-bottom:12px;margin-bottom:18px}h1{font-size:26px;margin:0 0 6px}h2{page-break-before:always;font-size:22px;margin:0 0 12px}section:first-of-type h2{page-break-before:auto}.meta{font-size:12px;color:#444}.rules{font-size:12px;line-height:1.45;margin:14px 0 20px}table{width:100%;border-collapse:collapse;font-size:10.5px}th,td{border:1px solid #bbb;padding:6px;vertical-align:top}th{background:#eee;text-align:left}td:first-child{width:7%;font-weight:bold}td:nth-child(2){width:11%}td:nth-child(3),td:nth-child(4){width:41%}footer{margin-top:18px;font-size:10px;color:#555}@media print{button{display:none}}</style><body><header><h1>'+title+'</h1><div class="meta">PASALOCHÉVERE · +18 · Material de apoyo</div></header><div class="rules"><b>Cómo jugar:</b> armen la torre, retiren una pieza por turno y usen la consigna de madera o la alternativa digital del mismo número. Todo reto necesita el acuerdo de ambos. Siempre pueden elegir SÍ, MÁS SUAVE o PASO. Verde: seguir; amarillo: bajar intensidad y preguntar; rojo: detener, liberar y cuidar.</div>'+sections+'<footer>PasaloChévere · Doble Intención · Material descargable</footer></body></html>';
 }
 function downloadMaterial(all){
-  const eds=all?['CHISPA','FUEGO','DOMINIO']:[edition];
-  const blob=new Blob([materialHTML(eds)],{type:'text/html;charset=utf-8'});
-  const url=URL.createObjectURL(blob),a=document.createElement('a');
-  a.href=url;a.download=all?'Doble_Intencion_Trilogia_Material.html':'Doble_Intencion_'+edition+'_Material.html';
-  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+ const eds=all?['CHISPA','FUEGO','DOMINIO']:[edition];
+ const blob=new Blob([materialHTML(eds)],{type:'text/html;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download=all?'Doble_Intencion_Trilogia_Material.html':'Doble_Intencion_'+edition+'_Material.html';
+ document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
 }
 
 const $=id=>document.getElementById(id);
@@ -141,4 +110,28 @@ $('backHome').onclick=()=>{pause();screen('home')};
 function info(id,from){halt();previousScreen=from;screen(id)}
 $('homeRules').onclick=()=>info('quickGuide','home');$('homeDownloads').onclick=()=>info('downloads','home');$('playRules').onclick=()=>info('quickGuide','play');$('playDownloads').onclick=()=>info('downloads','play');$('closeGuide').onclick=()=>screen(previousScreen);$('closeDownloads').onclick=()=>screen(previousScreen);
 $('downloadEditionMaterial').onclick=()=>downloadMaterial(false);$('downloadTrilogyMaterial').onclick=()=>downloadMaterial(true);$('manual').onclick=()=>info('downloads','play');$('choosePiece').onclick=()=>$('piecePanel').classList.toggle('hidden');$('drawNext').onclick=random;$('nextCard').onclick=random;syncEdition();
-</script></html>
+</script>
+<script>
+(async()=>{
+ const state=document.getElementById('licenseState'),app=document.getElementById('gameApp'),gate=document.getElementById('licenseGate');
+ const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+ const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+ const sbAccess=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+ const DEVICE_KEY='pc_device_id';
+ const deviceId=()=>{let v=localStorage.getItem(DEVICE_KEY);if(!v){v=(crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2));localStorage.setItem(DEVICE_KEY,v)}return v};
+ const label=()=>[navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150);
+ const qs=new URLSearchParams(location.search);
+ let code=(qs.get('access')||sessionStorage.getItem('pc_di_trilogia_access')||'').trim().toUpperCase();
+ if(code)sessionStorage.setItem('pc_di_trilogia_access',code);
+ try{
+  const {data:{session}}=await sbAccess.auth.getSession();
+  if(!session?.user?.email)throw new Error('Ingresá desde Mi Biblioteca para validar tu cuenta.');
+  if(!code)throw new Error('No encontré el código personal de esta trilogía.');
+  const {data,error}=await sbAccess.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:code,device_id:deviceId(),device_label:label()}});
+  if(error)throw error;if(!data?.ok)throw new Error(data?.error||'No se pudo validar el acceso.');
+  state.textContent='✅ Acceso validado para '+session.user.email;
+  setTimeout(()=>{gate.style.display='none';app.style.display='block';window.scrollTo(0,0)},350);
+ }catch(e){state.textContent='⚠️ '+(e?.message||'Acceso no válido.')+' Volvé a tu biblioteca y abrí Doble Intención desde allí.'}
+})();
+</script>
+</html>
