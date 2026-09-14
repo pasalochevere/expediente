@@ -263,7 +263,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
   <section id="screen" class="game-shell hidden"></section>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>\n<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <script>
 const COLORS=['rojo','verde','azul','amarillo','fucsia','negro'];
 const LABEL={rojo:'Cálculo',verde:'Multiplicación',azul:'Lógica',amarillo:'Problemas',fucsia:'Velocidad',negro:'Súper desafío'};
@@ -360,12 +360,84 @@ function showRules(){
  '<button class="btn full" style="margin-top:18px" onclick="backHome()">VOLVER</button>');
 }
 function showPrint(){
- view('<div class="mode-title"><div class="eyebrow">MATERIAL DESCARGABLE</div><h2>Materiales para seguir jugando.</h2><p>La misma identidad del juego, también fuera de la pantalla.</p></div>'+
+ view('<div class="mode-title"><div class="eyebrow">MATERIAL DESCARGABLE</div><h2>Materiales para seguir jugando.</h2><p>Ya podés descargarlos en PDF desde el portal.</p></div>'+
  '<div class="print-grid">'+
- '<article class="print-card"><div class="print-art">'+kidMascot('mascot mini')+'</div><h3>Manual de juego</h3><p>Reglas para jugar Con Torre y Sin Torre.</p><button class="btn light" disabled>PDF EN P0.7</button></article>'+
- '<article class="print-card"><div class="print-art">'+categoryIcon('rojo','pictogram')+categoryIcon('azul','pictogram')+'</div><h3>54 desafíos base</h3><p>Versión imprimible para acompañar el producto físico.</p><button class="btn light" disabled>PDF EN P0.7</button></article>'+
- '<article class="print-card"><div class="print-art"><div class="mini-sheet"><b>⭐ MIS PUNTOS</b><div></div><div></div><div></div><div></div><div></div></div></div><h3>Respuestas y estrellas</h3><p>Hoja de apoyo para adulto, familia o docente.</p><button class="btn light" disabled>PDF EN P0.7</button></article>'+
+ '<article class="print-card"><div class="print-art">'+kidMascot('mascot mini')+'</div><h3>Manual de juego</h3><p>Reglas para jugar Con Torre y Sin Torre.</p><button class="btn play" onclick="downloadManualPDF()">⬇ DESCARGAR PDF</button></article>'+
+ '<article class="print-card"><div class="print-art">'+categoryIcon('rojo','pictogram')+categoryIcon('azul','pictogram')+'</div><h3>54 desafíos base</h3><p>Versión imprimible para acompañar el producto físico.</p><button class="btn" style="background:#2bb673" onclick="downloadChallengesPDF()">⬇ DESCARGAR PDF</button></article>'+
+ '<article class="print-card"><div class="print-art"><div class="mini-sheet"><b>⭐ MIS PUNTOS</b><div></div><div></div><div></div><div></div><div></div></div></div><h3>Respuestas y estrellas</h3><p>Hoja de apoyo para adulto, familia o docente.</p><button class="btn" style="background:#2d87e8" onclick="downloadAnswersPDF()">⬇ DESCARGAR PDF</button></article>'+
  '</div><button class="btn full" style="margin-top:18px" onclick="backHome()">VOLVER</button>');
+}
+
+function pdfSetup(title,subtitle){
+ const {jsPDF}=window.jspdf; const d=new jsPDF({unit:'mm',format:'a4'});
+ const W=210,H=297;
+ function pageHead(t=title,st=subtitle){
+   d.setFillColor(255,249,238);d.rect(0,0,W,H,'F');
+   d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(9);d.text('PASALOCHEVERE · TORRE KIDS · MATEMÁTICA',16,14);
+   d.setTextColor(217,154,88);d.setFontSize(25);d.text(t,16,31);
+   if(st){d.setTextColor(107,103,97);d.setFont('helvetica','normal');d.setFontSize(10.5);d.text(st,16,40);}
+   d.setFillColor(248,232,198);d.circle(186,18,12,'F');
+   d.setFillColor(232,246,255);d.circle(18,50,9,'F');
+ }
+ function foot(n){d.setDrawColor(227,215,198);d.line(16,284,194,284);d.setTextColor(107,103,97);d.setFont('helvetica','normal');d.setFontSize(7.5);d.text('Juega · Piensa · Resuelve · Crece',16,290);d.text('Página '+n,194,290,{align:'right'});}
+ function wrap(text,x,y,w,fs=9.2,lh=4.6,bold=false){d.setFont('helvetica',bold?'bold':'normal');d.setFontSize(fs);const lines=d.splitTextToSize(String(text),w);d.text(lines,x,y);return y+lines.length*lh;}
+ return {d,pageHead,foot,wrap,W,H};
+}
+function roundedCard(d,x,y,w,h,fill=[255,255,255],stroke=[227,215,198]){
+ d.setFillColor(...fill);d.setDrawColor(...stroke);d.roundedRect(x,y,w,h,5,5,'FD');
+}
+function circleBadge(d,x,y,color,glyph){
+ d.setFillColor(...color);d.circle(x,y,6,'F');d.setTextColor(255,255,255);d.setFont('helvetica','bold');d.setFontSize(10);d.text(glyph,x,y+3.2,{align:'center'});
+}
+const PDFCOLORS={
+ rojo:[239,79,79],verde:[43,182,115],azul:[45,135,232],amarillo:[241,190,42],fucsia:[232,78,162],negro:[46,49,52],madera:[217,154,88]
+};
+const PDFGLYPH={rojo:'+',verde:'x',azul:'<>',amarillo:'?',fucsia:'!',negro:'*'};
+
+function downloadManualPDF(){
+ const {d,pageHead,foot,wrap}=pdfSetup('Manual de juego','Edición Matemática 7–9 · Con Torre + Sin Torre');
+ let p=1;pageHead();
+ d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(15);d.text('Una edición, dos formas de jugar',16,59);
+ roundedCard(d,16,72,84,66,[255,243,218]);circleBadge(d,28,87,PDFCOLORS.madera,'T');
+ d.setTextColor(32,39,43);d.setFontSize(14);d.text('CON TORRE',24,104);d.setTextColor(107,103,97);d.setFont('helvetica','normal');d.setFontSize(9.5);d.text(d.splitTextToSize('Retirá una pieza real, buscá su número, resolvé el desafío y colocala arriba. Los colores indican la categoría matemática.',67),24,114);
+ roundedCard(d,110,72,84,66,[234,247,255],[182,221,244]);circleBadge(d,122,87,PDFCOLORS.azul,'24');
+ d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(14);d.text('SIN TORRE',118,104);d.setTextColor(107,103,97);d.setFont('helvetica','normal');d.setFontSize(9.5);d.text(d.splitTextToSize('El portal sortea una pieza virtual, color y desafío. Solo necesitás el celular o una tablet.',67),118,114);
+ d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(13);d.text('Las 6 categorías',16,162);
+ const order=['rojo','verde','azul','amarillo','fucsia','negro'];const names={rojo:'Cálculo',verde:'Multiplicación',azul:'Lógica',amarillo:'Problemas',fucsia:'Velocidad',negro:'Súper desafío'};
+ order.forEach((c,i)=>{const x=24+i*30;circleBadge(d,x,178,PDFCOLORS[c],PDFGLYPH[c]);d.setTextColor(32,39,43);d.setFontSize(7.5);d.text(names[c],x,190,{align:'center'});});
+ foot(p);d.addPage();p++;pageHead('Cómo jugar con la torre','Modalidades para aprovechar el producto físico');
+ const modes=[['Clásico','Sacá cualquier bloque permitido, buscá el número y resolvé.'],['Dado de colores','El color determina qué grupo de bloques podés elegir.'],['El que te toca','Los dados numéricos indican la pieza a retirar.'],['Misión','Todo el grupo intenta conseguir estrellas antes de que caiga la torre.']];
+ modes.forEach((m,i)=>{const y=58+i*45;roundedCard(d,18,y,174,36);circleBadge(d,31,y+18,PDFCOLORS[order[i]],String(i+1));d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(12);d.text(m[0],43,y+13);d.setTextColor(107,103,97);d.setFont('helvetica','normal');d.setFontSize(9.5);d.text(d.splitTextToSize(m[1],138),43,y+22);});
+ foot(p);d.addPage();p++;pageHead('Cómo jugar sin torre','La experiencia digital también se vende por separado');
+ const steps=[['Elegí nivel','Explorador, Aventurero o Maestro.'],['Ingresá jugadores','Los nombres son opcionales.'],['Sorteá desafío','El portal elige pieza virtual, color y consigna.'],['Respondé','Podés pedir una pista. Sin pista ganás más estrellas.'],['Seguí la ronda','Jugá por puntaje o en Misión cooperativa.']];
+ steps.forEach((s,i)=>{const y=58+i*34;roundedCard(d,22,y,166,27);circleBadge(d,34,y+13.5,PDFCOLORS.azul,String(i+1));d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(11);d.text(s[0],47,y+11);d.setTextColor(107,103,97);d.setFont('helvetica','normal');d.setFontSize(9);d.text(s[1],47,y+19);});
+ d.setTextColor(217,154,88);d.setFont('helvetica','bold');d.setFontSize(13);d.text('2 estrellas sin pista · 1 con pista · 3 en súper desafío',22,242);
+ foot(p);d.addPage();p++;pageHead('Consejos para adultos y docentes','Aprender jugando es más importante que responder rápido');
+ const tips=['Leé la consigna en voz alta si lo necesita.','Permití usar papel o material concreto.','La pista forma parte del aprendizaje.','En errores, usá “casi” y seguí con un mini reto.','Ajustá el nivel según la edad y el grupo.','Una partida corta también cuenta.'];
+ tips.forEach((t,i)=>{const y=60+i*30;roundedCard(d,20,y,170,22);circleBadge(d,31,y+11,PDFCOLORS.amarillo,'*');d.setTextColor(32,39,43);d.setFont('helvetica','normal');d.setFontSize(10);d.text(t,43,y+13);});
+ d.setTextColor(217,154,88);d.setFont('helvetica','bold');d.setFontSize(14);d.text('Juega hoy. Construí confianza para mañana.',105,252,{align:'center'});
+ foot(p);d.save('torre-kids-matematica-manual.pdf');
+}
+
+function downloadChallengesPDF(){
+ const {d,pageHead,foot}=pdfSetup('54 desafíos','Edición Matemática 7–9');let p=1;
+ const order=['rojo','verde','azul','amarillo','fucsia','negro'];const names={rojo:'Cálculo',verde:'Multiplicación',azul:'Lógica',amarillo:'Problemas',fucsia:'Velocidad',negro:'Súper desafío'};
+ order.forEach((col,ci)=>{
+   if(ci>0)d.addPage();pageHead('54 desafíos · '+names[col],'9 desafíos base · Edición Matemática 7–9');
+   const items=BASE.filter(x=>x.color===col).sort((a,b)=>a.piece-b.piece);
+   items.forEach((x,i)=>{const cc=i%3,row=Math.floor(i/3),cw=55,ch=59,gx=5,gy=5;const px=16+cc*(cw+gx),py=58+row*(ch+gy);roundedCard(d,px,py,cw,ch);circleBadge(d,px+10,py+11,PDFCOLORS[col],PDFGLYPH[col]);roundedCard(d,px+34,py+5,15,9,[244,214,166],[197,139,78]);d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(8.5);d.text(String(x.piece).padStart(2,'0'),px+41.5,py+11,{align:'center'});d.setTextColor(107,103,97);d.setFontSize(8);d.text('NIVEL '+x.level,px+18,py+12);d.setTextColor(32,39,43);d.setFontSize(8.8);d.text(d.splitTextToSize(x.prompt,cw-12),px+6,py+25);d.setTextColor(107,103,97);d.setFont('helvetica','normal');d.setFontSize(7.5);d.text('Respuesta en hoja de apoyo',px+6,py+53);});
+   foot(p++);
+ });
+ d.save('torre-kids-matematica-54-desafios.pdf');
+}
+
+function downloadAnswersPDF(){
+ const {d,pageHead,foot}=pdfSetup('Respuestas','Hoja de apoyo para adulto, familia o docente');let p=1;
+ for(let start=0;start<54;start+=18){if(start>0)d.addPage();pageHead('Respuestas','Hoja de apoyo para adulto, familia o docente');BASE.slice().sort((a,b)=>a.piece-b.piece).slice(start,start+18).forEach((x,i)=>{const cc=i%3,row=Math.floor(i/3),cw=57,ch=23,gx=4,gy=7;const px=14+cc*(cw+gx),py=58+row*(ch+gy);roundedCard(d,px,py,cw,ch);circleBadge(d,px+7,py+8,PDFCOLORS[x.color],String(x.piece));d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(8.5);d.text(LABEL[x.color],px+14,py+8);d.setTextColor(107,103,97);d.setFont('helvetica','normal');d.setFontSize(8);d.text(d.splitTextToSize(String(x.answer),cw-18),px+14,py+15);});foot(p++);}
+ d.addPage();pageHead('Estrellas de la partida','Marcador reutilizable para familia, aula o talleres');d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(12);d.text('Nombre de la misión o partida: ____________________________',18,60);
+ for(let i=0;i<8;i++){const y=75+i*23;roundedCard(d,18,y,174,17);d.setFontSize(9);d.text('Jugador / Equipo '+(i+1)+':',23,y+10);d.setTextColor(241,190,42);for(let s=0;s<10;s++)d.text('*',91+s*8,y+10);d.setTextColor(107,103,97);d.text('____ puntos',187,y+10,{align:'right'});d.setTextColor(32,39,43);}
+ d.setTextColor(217,154,88);d.setFont('helvetica','bold');d.setFontSize(12);d.text('Objetivo Misión: ______ estrellas',18,269);foot(p);
+ d.save('torre-kids-matematica-respuestas-estrellas.pdf');
 }
 
 (async()=>{
