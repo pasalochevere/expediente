@@ -134,6 +134,24 @@ button,select,input{font:inherit;border-radius:10px;border:1px solid #4b3e31;bac
   body.printing *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 }
 
+
+/* ===== CASO 001 · PRÓLOGO CINEMATOGRÁFICO ===== */
+.prologue-gate{margin:20px 0;padding:22px;border:1px solid #8b6537;border-radius:16px;background:linear-gradient(145deg,#1d150e,#0c0b0a);box-shadow:0 16px 40px rgba(0,0,0,.3);display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+.prologue-gate h2{margin:.18em 0 .35em;font-family:Georgia,serif;font-size:clamp(1.55rem,3vw,2.3rem)}.prologue-gate p{margin:0;color:#c7b9a8;max-width:760px;line-height:1.55}.prologue-gate .primary{min-width:220px;min-height:58px}
+.case-menu{animation:caseMenuIn .45s ease both}@keyframes caseMenuIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.prologue-shell{position:fixed;inset:0;z-index:3000;background:radial-gradient(circle at 50% 32%,#27180d 0,#0a0908 42%,#020202 100%);display:grid;place-items:center;padding:18px;overflow:auto}
+.prologue-shell:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background:repeating-linear-gradient(105deg,transparent 0 34px,rgba(255,255,255,.035) 35px,transparent 37px 64px);animation:proRain 7s linear infinite}
+.prologue-shell:after{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at center,transparent 42%,rgba(0,0,0,.78) 100%)}
+@keyframes proRain{from{transform:translateY(-40px)}to{transform:translateY(40px)}}
+.prologue-card{position:relative;z-index:1;width:min(980px,100%);min-height:min(720px,92vh);border:1px solid #74512d;border-radius:20px;background:linear-gradient(180deg,rgba(20,17,14,.96),rgba(5,5,5,.98));box-shadow:0 30px 90px rgba(0,0,0,.82);overflow:hidden;display:grid;grid-template-rows:auto 1fr auto}
+.prologue-top{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:18px 22px;border-bottom:1px solid #3d2d20;background:rgba(0,0,0,.28)}.prologue-brand{font-family:Impact,'Arial Narrow',sans-serif;font-size:1.45rem;letter-spacing:.09em}.prologue-brand span{color:#d8a652}.prologue-counter{color:#8f8273;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+.prologue-stage{display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,6vw,70px);position:relative;animation:proSlideIn .42s ease both}.prologue-stage.blackout{background:#010101}.prologue-stage.final{background:radial-gradient(circle at 50% 35%,rgba(139,38,30,.15),transparent 45%)}
+@keyframes proSlideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.prologue-time{color:#d9aa58;font-size:.84rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px}.prologue-title{font-family:Georgia,serif;font-size:clamp(2rem,6vw,4.7rem);line-height:.98;margin:0 0 22px;max-width:850px}.prologue-copy{font-family:Georgia,serif;font-size:clamp(1.05rem,2.2vw,1.42rem);line-height:1.7;color:#d7cbbd;max-width:800px}.prologue-copy p{margin:.5em 0}.prologue-copy strong{color:#fff}.prologue-quote{margin:24px 0;padding:18px 20px;border-left:3px solid #c39143;background:#17110c;color:#f0d09a;font-family:Georgia,serif;font-style:italic;font-size:clamp(1.15rem,2.5vw,1.65rem);line-height:1.45}.prologue-hit{font-family:Impact,'Arial Narrow',sans-serif;letter-spacing:.12em;font-size:clamp(2.5rem,9vw,6rem);color:#f1ece5;text-align:center;margin:10px 0}.prologue-silence{text-align:center;color:#837a70;letter-spacing:.35em;text-transform:uppercase}
+.prologue-three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}.prologue-three div{border:1px solid #533c29;background:#0e0c0a;border-radius:12px;padding:14px}.prologue-three b{display:block;color:#e5bd75;margin-bottom:4px}.prologue-three span{color:#b5a797;font-size:.9rem}
+.prologue-nav{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 20px;border-top:1px solid #3d2d20;background:#090807}.prologue-dots{display:flex;justify-content:center;gap:7px}.prologue-dot{width:8px;height:8px;border-radius:50%;background:#40372e}.prologue-dot.on{background:#d9aa58;box-shadow:0 0 12px rgba(217,170,88,.5)}.prologue-nav button{min-width:140px}
+@media(max-width:720px){.prologue-gate{grid-template-columns:1fr}.prologue-gate .primary{width:100%}.prologue-shell{padding:0}.prologue-card{border-radius:0;min-height:100vh;border-left:0;border-right:0}.prologue-stage{padding:32px 20px}.prologue-three{grid-template-columns:1fr}.prologue-nav{grid-template-columns:1fr 1fr}.prologue-dots{grid-column:1/-1;grid-row:1}.prologue-nav button{min-width:0}.prologue-top{padding:14px 16px}}
+
 /* ===== ACCESO PERSONAL PASALOCHEVERE · 12 MESES ===== */
 .license-card{margin:18px 0 20px;padding:18px;border:1px solid #76552f;border-radius:16px;background:linear-gradient(150deg,#19130e,#0d0c0a);box-shadow:0 14px 32px rgba(0,0,0,.26)}
 .license-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.license-head h3{margin:.15em 0;color:#f2d197}.license-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;border:1px solid #6f5b42;background:#12100d;color:#d5c2a5;font-size:.76rem;font-weight:900;letter-spacing:.04em}.license-pill.active{border-color:#4c8b62;color:#a8e8ba;background:#102017}.license-pill.expired{border-color:#8f3e3a;color:#ffb2ae;background:#241211}.license-row{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:10px;margin-top:14px}.license-row input{text-transform:uppercase;letter-spacing:.1em;font-weight:900}.license-meta{margin-top:10px;color:#bba990;font-size:.86rem;line-height:1.5}.license-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.license-active-box{margin-top:12px;padding:12px;border:1px solid #315e42;border-radius:12px;background:#0e1a13;color:#c7ebd1}.license-lock-note{margin-top:10px;padding:10px 12px;border-left:3px solid #d09a4d;background:#17120d;color:#cbb89f}.locked-action{opacity:.58}.collection-strip{margin-top:18px;padding:14px;border:1px solid #4b3c2c;border-radius:14px;background:#100e0c}.collection-strip h3{margin:.2em 0;color:#f1d29a}.collection-cases{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}.case-chip{padding:10px;border:1px solid #5a4935;border-radius:10px;background:#15110d}.case-chip b{display:block;color:#e7c98f}.case-chip span{font-size:.78rem;color:#a99b87}.case-chip.current{border-color:#9b6d34;background:#1d150d}.case-chip.soon{opacity:.7}@media(max-width:760px){.license-row{grid-template-columns:1fr}.collection-cases{grid-template-columns:1fr}}
@@ -153,6 +171,12 @@ button,select,input{font:inherit;border-radius:10px;border:1px solid #4b3e31;bac
 </div>
 <div class="collection-strip"><div class="eyebrow">COLECCIÓN EXPEDIENTES</div><h3>Más casos, una misma Central de Investigación</h3><div class="sub">El Caso 001 es el primero de una colección. Los próximos casos podrán activarse desde este mismo ecosistema.</div><div class="collection-cases"><div class="case-chip current"><b>Caso 001</b><span>La Última Reunión · disponible</span></div><div class="case-chip soon"><b>Caso 002</b><span>Próximamente</span></div><div class="case-chip soon"><b>Caso 003</b><span>Próximamente</span></div></div></div>
 
+
+<div id="prologueGate" class="prologue-gate">
+  <div><div class="eyebrow">EXPEDIENTE NARRATIVO · CASO 001</div><h2>Antes de investigar, entrá en la historia.</h2><p>La Última Reunión comienza antes de elegir modo o personaje. Conocé qué ocurrió aquella noche y recién después abrí la Central de Investigación.</p></div>
+  <button id="openPrologueBtn" class="primary" onclick="openCasePrologue()">ABRIR EXPEDIENTE</button>
+</div>
+<div id="caseMenu" class="case-menu hidden">
 <div class="onboarding">
   <div class="onboarding-head"><div><div class="eyebrow">ANTES DE EMPEZAR</div><h2>Tres formas de jugar</h2></div><p>La regla central es la misma: durante la investigación conectás <b>solo dos elementos</b>. Persona + Lugar, Lugar + Objeto o Persona + Objeto. La combinación completa se reserva para la acusación final.</p></div>
   <div class="table-kit">
@@ -185,7 +209,20 @@ button,select,input{font:inherit;border-radius:10px;border:1px solid #4b3e31;bac
   </div>
   <div class="start-divider">Elegí cómo querés jugar</div>
 </div>
-<div class="cta"><button class="primary" onclick="showDigitalSetup()">📱 DIGITAL + IMPRIMIBLE<br><small>El sistema crea y dirige el caso</small></button><button class="primary" onclick="showDetectiveSetup()">🃏 CLÁSICO + ASISTENTE<br><small>Las cartas crean el misterio</small></button><button class="primary" onclick="showImpostorSetup()">🎭 MODO IMPOSTOR<br><small>El asesino está en la mesa</small></button></div><div class="multiplayer-entry"><button class="multi-btn" onclick="showMultiSetup()">🌐 SALA MULTIJUGADOR<br><small>Cada jugador entra desde su propio celular</small></button></div><div class="print-entry"><button class="ghost" onclick="showPrintCenter()">🖨️ KIT IMPRIMIBLE DEL CASO<br><small>Tablero, hoja de investigación y mazo clásico</small></button></div><div class="print-entry"><button class="ghost" onclick="location.href='portal/'">🎲 MÁS JUEGOS PASALOCHEVERE<br><small>Catálogo digital, próximos casos y soporte</small></button></div><div class="notegrid" style="margin-top:18px"><div class="note"><h4>CRONÓMETRO</h4><div>Mantiene la tensión y activa eventos.</div></div><div class="note"><h4>PISTAS DINÁMICAS</h4><div>La partida cambia en cada juego.</div></div><div class="note"><h4>FICHAS PRIVADAS</h4><div>Rol, secreto, pista y objetivo personal.</div></div></div></section>
+<div class="cta"><button class="primary" onclick="showDigitalSetup()">📱 DIGITAL + IMPRIMIBLE<br><small>El sistema crea y dirige el caso</small></button><button class="primary" onclick="showDetectiveSetup()">🃏 CLÁSICO + ASISTENTE<br><small>Las cartas crean el misterio</small></button><button class="primary" onclick="showImpostorSetup()">🎭 MODO IMPOSTOR<br><small>El asesino está en la mesa</small></button></div><div class="multiplayer-entry"><button class="multi-btn" onclick="showMultiSetup()">🌐 SALA MULTIJUGADOR<br><small>Cada jugador entra desde su propio celular</small></button></div><div class="print-entry"><button class="ghost" onclick="showPrintCenter()">🖨️ KIT IMPRIMIBLE DEL CASO<br><small>Tablero, hoja de investigación y mazo clásico</small></button></div><div class="print-entry"><button class="ghost" onclick="location.href='portal/'">🎲 MÁS JUEGOS PASALOCHEVERE<br><small>Catálogo digital, próximos casos y soporte</small></button></div><div class="notegrid" style="margin-top:18px"><div class="note"><h4>CRONÓMETRO</h4><div>Mantiene la tensión y activa eventos.</div></div><div class="note"><h4>PISTAS DINÁMICAS</h4><div>La partida cambia en cada juego.</div></div><div class="note"><h4>FICHAS PRIVADAS</h4><div>Rol, secreto, pista y objetivo personal.</div></div></div></div></section>
+
+<section id="prologue" class="prologue-shell hidden" aria-live="polite">
+  <div class="prologue-card">
+    <div class="prologue-top"><div class="prologue-brand">EXPEDIENTES <span>· CASO 001</span></div><div id="prologueCounter" class="prologue-counter">EXPEDIENTE 01 / 07</div></div>
+    <div id="prologueStage" class="prologue-stage"></div>
+    <div class="prologue-nav">
+      <button id="prologueBack" class="ghost" onclick="prologueBack()">← Anterior</button>
+      <div id="prologueDots" class="prologue-dots"></div>
+      <button id="prologueNext" class="primary" onclick="prologueNext()">Continuar →</button>
+    </div>
+  </div>
+</section>
+
 
 
 
@@ -316,8 +353,42 @@ const charSecrets=['Santiago ocultó movimientos financieros que podían dañarl
 const objectives=['Evitá que tu situación financiera se vuelva el centro de la conversación.','Protegé a Santiago si podés sin sacrificar tu propia investigación.','Evitá que la relación pasada con la víctima defina todas las sospechas.','Desviá la atención de la zona restringida en la que estuviste.','Conseguí la mayor cantidad de información posible antes de acusar.','Lográ que al menos otro jugador confíe en tu versión de los hechos.'];
 let mode='',players=[],caseData=null,revealIndex=0,remaining=0,timerInt=null,paused=false,triggerMarks=[],eventLog=[],usedClues=new Set(),privateIndex=null,pairType='';let multiRoom=null,multiPlayerId=null,multiChannel=null,multiIsHost=false,multiMode=false;
 const $=id=>document.getElementById(id),rnd=a=>a[Math.floor(Math.random()*a.length)];
-function hideAll(){['home','multiSetup','multiLobby','multiGame','digitalSetup','detectiveSetup','impSetup','reveal','game','final','printCenter'].forEach(x=>$(x).classList.add('hidden'))}
-function goHome(){closePrivateView();closePublicView();closePair();hideAll();$('home').classList.remove('hidden')}
+function hideAll(){['home','prologue','multiSetup','multiLobby','multiGame','digitalSetup','detectiveSetup','impSetup','reveal','game','final','printCenter'].forEach(x=>{let el=$(x);if(el)el.classList.add('hidden')})}
+const EXP_PROLOGUE_SEEN='exp001_prologue_seen_v1';
+let prologueIndex=0;
+const prologueSlides=[
+  {tone:'final',time:'EXPEDIENTES · CASOS SIN RESOLVER',title:'LA ÚLTIMA REUNIÓN',html:'<p><strong>Viernes. 22:38.</strong></p><p>La lluvia lleva horas golpeando los ventanales de una antigua casa familiar a las afueras de la ciudad.</p><p>Seis personas esperan alrededor de una mesa.</p><p><strong>Ninguna debería estar allí.</strong></p>'},
+  {tone:'',time:'22:38 · LA INVITACIÓN',title:'Seis invitados. Una misma frase.',html:'<p>Todos recibieron una invitación de <strong>Esteban Valdés</strong>, empresario y fundador de una compañía que convirtió a amigos, familiares y socios en parte de su imperio.</p><div class="prologue-quote">“Esta noche vamos a terminar lo que empezamos.”</div><p>No había explicación. Para quienes conocían a Esteban, no hacía falta.</p>'},
+  {tone:'',time:'23:10 · LA CARPETA NEGRA',title:'Uno de ustedes me estuvo mintiendo.',html:'<p>Esteban entra finalmente en la sala.</p><p>Trae una <strong>carpeta negra</strong>. La deja en el centro de la mesa y no permite que nadie la abra.</p><div class="prologue-quote">“Uno de ustedes me estuvo mintiendo durante años. Y esta noche voy a demostrarlo.”</div>'},
+  {tone:'',time:'23:32 · LA DISCUSIÓN',title:'La reunión deja de ser una reunión.',html:'<p>Las voces ya se escuchan desde el pasillo.</p><p>Alguien exige irse. Alguien amenaza con contar algo. Una copa cae al suelo.</p><p><strong>Esteban abandona la sala llevando la carpeta.</strong></p><p>Nadie admite haberlo seguido.</p>'},
+  {tone:'blackout',time:'23:47 · SETENTA SEGUNDOS',title:'La casa queda a oscuras.',html:'<div class="prologue-hit">GOLPE.</div><p class="prologue-silence">después · metal · silencio</p><p style="text-align:center;margin-top:28px">La electricidad tarda exactamente <strong>70 segundos</strong> en volver.</p>'},
+  {tone:'',time:'23:48 · CUANDO VUELVE LA LUZ',title:'Esteban ya no está en la mesa.',html:'<p>La puerta principal continúa cerrada. Las ventanas están aseguradas desde dentro.</p><p>Los seis invitados siguen en la propiedad.</p><p><strong>Esteban Valdés ha desaparecido.</strong></p><p>La carpeta negra también.</p>'},
+  {tone:'final',time:'CENTRAL DE INVESTIGACIÓN',title:'La verdad está en la mesa.',html:'<p>Esteban no abandonó la casa por su propia voluntad. Alguien entre los presentes sabe qué ocurrió durante aquellos setenta segundos.</p><div class="prologue-three"><div><b>UNA PERSONA</b><span>está mintiendo.</span></div><div><b>UN LUGAR</b><span>guarda la verdad.</span></div><div><b>UN OBJETO</b><span>puede demostrarlo.</span></div></div><div class="prologue-quote">Mirá a los otros jugadores. Escuchá sus historias. Todos tienen algo que perder.</div>'}
+];
+function prologueSeen(){return sessionStorage.getItem(EXP_PROLOGUE_SEEN)==='1'}
+function syncCaseMenu(){
+  let menu=$('caseMenu'),gate=$('prologueGate'),btn=$('openPrologueBtn'),seen=prologueSeen();
+  if(menu)menu.classList.toggle('hidden',!seen);
+  if(gate)gate.classList.remove('hidden');
+  if(btn)btn.textContent=seen?'VOLVER A VER PRÓLOGO':'ABRIR EXPEDIENTE';
+}
+function openCasePrologue(){prologueIndex=0;hideAll();$('prologue').classList.remove('hidden');renderPrologue();window.scrollTo({top:0,behavior:'instant'})}
+function renderPrologue(){
+  let s=prologueSlides[prologueIndex],stage=$('prologueStage');
+  if(!stage)return;
+  stage.className='prologue-stage '+(s.tone||'');
+  stage.innerHTML='<div class="prologue-time">'+s.time+'</div><h1 class="prologue-title">'+s.title+'</h1><div class="prologue-copy">'+s.html+'</div>';
+  $('prologueCounter').textContent='EXPEDIENTE '+String(prologueIndex+1).padStart(2,'0')+' / '+String(prologueSlides.length).padStart(2,'0');
+  $('prologueDots').innerHTML=prologueSlides.map((_,i)=>'<span class="prologue-dot '+(i===prologueIndex?'on':'')+'"></span>').join('');
+  $('prologueBack').style.visibility=prologueIndex===0?'hidden':'visible';
+  $('prologueNext').textContent=prologueIndex===prologueSlides.length-1?'ENTRAR A LA CENTRAL':'Continuar →';
+}
+function prologueNext(){
+  if(prologueIndex<prologueSlides.length-1){prologueIndex++;renderPrologue();return}
+  sessionStorage.setItem(EXP_PROLOGUE_SEEN,'1');goHome();setTimeout(()=>{let m=$('caseMenu');if(m)m.scrollIntoView({behavior:'smooth',block:'start'})},120);
+}
+function prologueBack(){if(prologueIndex>0){prologueIndex--;renderPrologue()}else goHome()}
+function goHome(){closePrivateView();closePublicView();closePair();hideAll();$('home').classList.remove('hidden');syncCaseMenu()}
 function showMultiSetup(){hideAll();$('multiSetup').classList.remove('hidden');buildMultiSelectors()} function showDigitalSetup(){hideAll();$('digitalSetup').classList.remove('hidden');buildDigitalPlayers()} function showDetectiveSetup(){hideAll();$('detectiveSetup').classList.remove('hidden')} function showImpostorSetup(){hideAll();$('impSetup').classList.remove('hidden');buildPlayers()}
 function buildDigitalPlayers(){let n=+$('dcount').value,h='<div class="player-setup-grid">';for(let i=0;i<n;i++){let j=i%suspects.length,s=suspects[j];h+=`<div class="player-setup-card"><div class="player-portrait"><img id="dimg${i}" src="${portraits[j]}" alt="${s[1]}"><div class="badgechar" id="dcode${i}">${s[0]}</div><div class="charname" id="dcharname${i}">${s[1]}</div></div><div class="player-fields"><div class="player-head"><b>Jugador ${i+1}</b><span class="player-tip">Elegí nombre y personaje</span></div><div class="player-controls"><label>Nombre<input id="dn${i}" placeholder="Nombre" value="Jugador ${i+1}"></label><label>Personaje<select id="dc${i}" onchange="syncPlayerPreview('d',${i});validateSetupVisuals('d')">${suspects.map((s,j)=>`<option value="${j}" ${j==i?'selected':''}>${s[0]} · ${s[1]}</option>`).join('')}</select></label></div><div class="setup-status" id="dstatus${i}">✓ Perfil público: ${s[2]}</div></div></div>`}h+='</div>';$('dplayers').innerHTML=h;validateSetupVisuals('d')}
 function syncPlayerPreview(prefix,i){let sel=$(prefix+'c'+i);if(!sel)return;let idx=+sel.value,s=suspects[idx],img=$(prefix+'img'+i),code=$(prefix+'code'+i),name=$(prefix+'charname'+i),status=$(prefix+'status'+i);if(img){img.src=portraits[idx];img.alt=s[1]}if(code)code.textContent=s[0];if(name)name.textContent=s[1];if(status)status.textContent='Perfil público: '+s[2]}
@@ -605,5 +676,6 @@ async function initAccessPortal(){
   caseLicenseTimer=setInterval(()=>{if(caseLicense?.active && licenseSecondsLeft()<=0){caseLicense.active=false;renderCaseLicense()}else if(caseLicense?.active)renderCaseLicense()},60000);
 }
 setTimeout(initAccessPortal,0);
+setTimeout(syncCaseMenu,0);
 
 </script></body></html>
