@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Torre Kids Matemática · PasaloChévere</title>
+<title>Torre Kids Matemática V1 · PasaloChévere</title>
 <style>
 :root{
   --bg:#f5efe4;--paper:#fffdf8;--ink:#1f2529;--muted:#6e6b65;--line:#ddd3c2;
@@ -223,13 +223,14 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 .final-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}
 @media(max-width:760px){.final-wrap{grid-template-columns:1fr}.final-actions{grid-template-columns:1fr}.challenge-actions{grid-template-columns:1fr}.final-stats{grid-template-columns:1fr 1fr 1fr}}
 </style>
+<!-- TORRE KIDS MATEMÁTICA V1.0 · RELEASE FINAL · 2026-09-14 -->
 </head>
 <body>
 
 <section id="licenseGate" class="license-wrap">
   <div class="top">
     <div class="brandlock"><div class="pcmark">PC</div><div class="brandtext">PASALOCHÉVERE<small>JUEGOS QUE CONECTAN</small></div></div>
-    <div class="library">ACCESO PERSONAL</div>
+    <div class="library">ACCESO PERSONAL · V1.0</div>
   </div>
   <div class="license-card">
     <img class="tk-logo small" src="assets/torre-kids-logo.svg" alt="Torre Kids Matemática">
@@ -289,7 +290,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
           <p class="lead">Matemática en movimiento, dentro y fuera del aula. Con la torre física o en versión 100% digital.</p>
           <div class="kid-chips">
             <span class="kid-chip">👧 7–9 AÑOS</span><span class="kid-chip">📊 3 NIVELES</span>
-            <span class="kid-chip">🧩 6 CATEGORÍAS</span><span class="kid-chip">📱 FÍSICO + DIGITAL</span>
+            <span class="kid-chip">🧩 6 CATEGORÍAS</span><span class="kid-chip">📱 FÍSICO + DIGITAL</span><span class="kid-chip">✓ V1.0 · FINAL</span>
           </div>
           <div class="action-row">
             <button class="btn play" onclick="showPlayStyle()">▶ JUGAR AHORA</button>
@@ -354,6 +355,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>\n<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <script>
+const TK_VERSION='1.0.0';
+const TK_RELEASE='2026-09-14';
 const COLORS=['rojo','verde','azul','amarillo','fucsia','negro'];
 const LABEL={rojo:'Cálculo',verde:'Multiplicación',azul:'Lógica',amarillo:'Problemas',fucsia:'Velocidad',negro:'Súper desafío'};
 const EMOJI={rojo:'🔴',verde:'🟢',azul:'🔵',amarillo:'🟡',fucsia:'🩷',negro:'⚫'};
@@ -576,7 +579,7 @@ function turn(){S.color=null;S.piece=null;S.challenge=null;S.hinted=false;S.reso
  else if(S.mode==='colores')body='<div class="card"><h3>🎲 Tiren el dado de colores</h3><p class="note">Después marcá el color que salió.</p><button class="btn" onclick="pickColor()">YA LO TIRÉ</button></div>';
  else body='<div class="card"><h3>🧱 Retirá la pieza</h3><p class="note">'+(S.mode==='te_toca'?'Usá los dados físicos para saber qué número retirar.':'Elegí una pieza de la torre.')+'</p><button class="btn" onclick="pickPiece()">YA TENGO LA PIEZA</button></div>';
  view('<div class="score">'+n+' · ⭐ '+S.scores[S.p]+'</div>'+missionProgressHTML()+'<div class="hero" style="min-height:0;padding:24px 0"><h2 style="margin:0">Turno de '+n+'</h2><span class="turn-phrase">'+phrase('turn')+'</span></div>'+body+'<button class="btn light full" onclick="finish()">🧱 TERMINAR PARTIDA</button>')}
-function virtualDraw(){const color=(S.mode==='color_virtual')?COLORS[Math.floor(Math.random()*6)]:COLORS[Math.floor(Math.random()*6)];const pool=BASE.filter(x=>x.color===color&&x.level===S.level);const x=pool[Math.floor(Math.random()*pool.length)];S.color=color;S.piece=1+Math.floor(Math.random()*54);S.challenge=x;view('<div class="big-random card"><div><div class="badge">'+EMOJI[color]+' '+LABEL[color]+'</div><div class="virtual-number">'+String(S.piece).padStart(2,'0')+'</div><p class="note">Pieza virtual</p><button class="btn wood" onclick="showChallenge()">VER DESAFÍO</button></div></div>')}
+function virtualDraw(){const color=COLORS[Math.floor(Math.random()*6)];const pool=BASE.filter(x=>x.color===color&&x.level===S.level);const x=pool[Math.floor(Math.random()*pool.length)];const nums=[...Array(54)].map((_,i)=>i+1).filter(n=>colorOf(n)===color);S.color=color;S.piece=nums[Math.floor(Math.random()*nums.length)];S.challenge=x;view(missionProgressHTML()+'<div class="big-random card"><div><div class="badge">'+EMOJI[color]+' '+LABEL[color]+'</div><div class="virtual-number">'+String(S.piece).padStart(2,'0')+'</div><p class="note">Pieza virtual · color coherente con la categoría</p><button class="btn wood" onclick="showChallenge()">VER DESAFÍO</button></div></div>')}
 function pickColor(){view('<h2>¿Qué color salió?</h2><div class="colors">'+COLORS.map(c=>'<button class="color '+c+'" onclick="selectColor(\''+c+'\')">'+EMOJI[c]+'<br>'+LABEL[c]+'</button>').join('')+'</div>')}
 function selectColor(c){S.color=c;pickPiece(c)}
 function colorOf(n){return COLORS[(n-1)%6]}
@@ -592,11 +595,11 @@ function showChallenge(){
 }
 function hint(){
  S.hinted=true;playSfx('hint');const x=S.challenge;
- view('<div class="challenge-shell"><div class="challenge-card hint-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><div class="challenge">'+x.prompt+'</div><div class="card" style="box-shadow:none;background:#fff"><b>🔎 PISTA</b><p>'+x.hint+'</p></div><div class="challenge-actions"><button class="btn alt-challenge" onclick="otherChallenge()">🔄 OTRO DESAFÍO</button><button class="btn" onclick="answer()">VER RESPUESTA</button></div></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('hint')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>¡Tu cabeza puede!</b></aside></div>');
+ view(missionProgressHTML()+'<div class="challenge-shell"><div class="challenge-card hint-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><div class="challenge">'+x.prompt+'</div><div class="card" style="box-shadow:none;background:#fff"><b>🔎 PISTA</b><p>'+x.hint+'</p></div><div class="challenge-actions"><button class="btn alt-challenge" onclick="otherChallenge()">🔄 OTRO DESAFÍO</button><button class="btn" onclick="answer()">VER RESPUESTA</button></div></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('hint')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>¡Tu cabeza puede!</b></aside></div>');
 }
 function answer(){
  const x=S.challenge;
- view('<div class="challenge-shell"><div class="challenge-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><h2>Respuesta</h2><div class="answer">'+x.answer+'</div><h3>¿Acertó?</h3><div class="choice-grid"><button class="btn" onclick="ok()">✅ SÍ</button><button class="btn light" onclick="no()">TODAVÍA NO</button></div></div><aside class="challenge-side">'+kidMascot('mascot mini')+'<div class="speech">¡Vamos!</div></aside></div>');
+ view(missionProgressHTML()+'<div class="challenge-shell"><div class="challenge-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><h2>Respuesta</h2><div class="answer">'+x.answer+'</div><h3>¿Acertó?</h3><div class="choice-grid"><button class="btn" onclick="ok()">✅ SÍ</button><button class="btn light" onclick="no()">TODAVÍA NO</button></div></div><aside class="challenge-side">'+kidMascot('mascot mini')+'<div class="speech">¡Vamos!</div></aside></div>');
 }
 function ok(){
  recordPractice();playSfx('success');const pts=S.hinted?1:(S.color==='negro'?3:2);S.scores[S.p]+=pts;const sum=S.scores.reduce((a,b)=>a+b,0);if(S.mode.includes('mision')&&sum>=S.mission)return missionWin();
@@ -606,7 +609,7 @@ function no(){
  recordPractice();playSfx('close');view('<div class="challenge-shell"><div class="challenge-card result-close"><h1 style="font-size:3rem;margin:8px 0">¡CASI!</h1><p>La respuesta era:</p><div class="answer">'+S.challenge.answer+'</div><button class="btn full" onclick="recover()">⚡ MINI RETO</button><button class="btn light full" onclick="next()">SEGUIR</button></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('close')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>Probemos otra vez.</b></aside></div>');
 }
 function recover(){const a=['Decí tres números pares.','Decí dos sumas que den 10.','Contá de 5 a 1 hacia atrás.','Nombrá tres números mayores que 20.'];view('<div class="card"><div class="eyebrow">RECUPERACIÓN</div><div class="challenge">'+a[Math.floor(Math.random()*a.length)]+'</div></div><button class="btn full" onclick="recOK()">✅ LO HIZO</button><button class="btn light full" onclick="next()">NO ESTA VEZ</button>')}
-function recOK(){playSfx('star');S.scores[S.p]++;view('<div class="hero feedback-pop" style="min-height:0"><h1 style="font-size:3.2rem">⭐ ¡RECUPERADA!</h1><span class="turn-phrase">'+phrase('good')+'</span></div><button class="btn full" onclick="next()">SIGUIENTE TURNO</button>')}
+function recOK(){playSfx('star');S.scores[S.p]++;if(String(S.mode||'').includes('mision')&&totalStars()>=S.mission)return missionWin();view(missionProgressHTML()+'<div class="hero feedback-pop" style="min-height:0"><h1 style="font-size:3.2rem">⭐ ¡RECUPERADA!</h1><span class="turn-phrase">'+phrase('good')+'</span></div><button class="btn full" onclick="next()">SIGUIENTE TURNO</button>')}
 function next(){S.p=(S.p+1)%S.players.length;turn()}
 function finalScreen(title,subtitle){
  const ranking=S.players.map((p,i)=>({p,s:S.scores[i]})).sort((a,b)=>b.s-a.s);
@@ -615,7 +618,7 @@ function finalScreen(title,subtitle){
  '<section class="final-hero feedback-pop"><div class="eyebrow">CIERRE DE PARTIDA</div><h1 style="font-size:clamp(2.4rem,7vw,4rem);margin:8px 0">'+title+'</h1><p>'+subtitle+'</p>'+
  kidMascot('mascot mini mascot-bob')+
  '<div class="final-score">⭐ '+total+'</div><div class="note">estrellas conseguidas</div>'+
- '<div class="final-stats"><div class="final-stat"><b>'+S.completed+'</b><span>desafíos resueltos</span></div><div class="final-stat"><b>'+Object.keys(S.practiced).length+'</b><span>categorías usadas</span></div><div class="final-stat"><b>'+top.s+'</b><span>mejor puntaje</span></div></div>'+
+ '<div class="final-stats"><div class="final-stat"><b>'+S.completed+'</b><span>desafíos jugados</span></div><div class="final-stat"><b>'+Object.keys(S.practiced).length+'</b><span>categorías usadas</span></div><div class="final-stat"><b>'+top.s+'</b><span>mejor puntaje</span></div></div>'+
  '</section>'+
  '<section class="learning-card"><div class="eyebrow">¿QUÉ PRACTICAMOS HOY?</div><h3>Aprendizajes de la partida</h3><p class="note">Un resumen simple para familia o docente.</p><div class="learning-list">'+learningSummaryHTML()+'</div>'+
  '<div class="card" style="box-shadow:none;margin-top:14px"><b>🏆 '+top.p+'</b><div class="note">'+top.s+' estrellas</div></div></section></div>'+
