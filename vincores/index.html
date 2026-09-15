@@ -27,7 +27,7 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
 <body>
 <header class="top">
   <div class="brand">VÍNCORES DIGITAL<small>PASALOCHEVERE · BIENESTAR & VÍNCULOS</small></div>
-  <div class="topActions"><a class="btn dark" href="../portal-v2/">← Portal</a><button class="btn dark" id="introBtn">Presentación</button></div>
+  <div class="topActions"><a class="btn dark" href="../portal-v2/">← Portal</a><button class="btn dark hidden" id="introBtn">Presentación</button></div>
 </header>
 
 <section class="gate" id="accessGate"><div class="gateCard"><div class="gateIcon">🔐</div><div class="eyebrow">ACCESO PERSONAL PASALOCHEVERE</div><h2 id="gateTitle">Validando VÍNCORES…</h2><p id="gateText">Estamos comprobando tu acceso personal.</p><a class="btn primary" id="gatePortal" href="../portal-v2/">Volver al portal</a></div></section>
@@ -132,7 +132,7 @@ async function validateAccess(){
    if(error)throw new Error(error.message||'No pude validar el acceso.');
    if(!data?.ok)throw new Error(data?.error||'Acceso inválido.');
    if(data?.license?.product_code!=='VINC-001')throw new Error('Este código no corresponde a VÍNCORES DIGITAL.');
-   gate.classList.add('hidden');document.getElementById('intro').classList.remove('hidden');
+   gate.classList.add('hidden');document.getElementById('intro').classList.remove('hidden');document.getElementById('introBtn').classList.remove('hidden');
  }catch(e){title.textContent='No pude abrir VÍNCORES';txt.textContent=e.message||'Revisá tu acceso desde el portal.'}
 }
 const COLORS=['#d79aa3','#9eb3d1','#e5b756','#8fc28b','#bd91c9','#ef9c6c','#6fb6b0','#d7c7aa','#8d8f93','#b85d64','#6787a9','#658963'];
