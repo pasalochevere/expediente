@@ -96,7 +96,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
     <section class="categoryDrawer" id="drawer-wellbeing">
       <div class="drawerHead"><div><div class="eyebrow">✦ BIENESTAR & VÍNCULOS</div><h3>Explorar relaciones y emociones</h3></div><button class="drawerClose" onclick="closeCategories()">CERRAR ×</button></div>
       <div class="drawerGrid">
-        <article class="card" data-cat="wellbeing"><span class="status">BETA · EN PRUEBA</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Campo de constelación interactivo</div><p>Representá personas, roles, emociones y escenas relacionales en un campo visual personalizable.</p><div class="actions"><span class="btn" style="opacity:.72">ACCESO EN INTEGRACIÓN</span></div></article>
+        <article class="card" data-cat="wellbeing"><span class="status live">● BETA DISPONIBLE</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Campo de constelación interactivo</div><p>Representá personas, roles, emociones y escenas relacionales en un campo visual personalizable. Incluye guardado local y exportación PNG.</p><div class="actions"><button class="btn primary" onclick="scrollToActivation()">ACTIVAR / PROBAR</button><a class="btn" href="../vincores/" target="_blank" rel="noopener">VER DEMO</a></div></article>
       </div>
     </section>
 
@@ -112,7 +112,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 <section class="newsWrap">
   <div class="newsHead"><div><div class="eyebrow">NOVEDADES</div><h2>Lo nuevo de PasaloChevere</h2></div><span>Un vistazo rápido, sin llenar la portada de productos.</span></div>
   <div class="newsCarousel">
-    <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO · BETA</span><b>VÍNCORES DIGITAL</b><p>Nuevo campo interactivo de vínculos y emociones.</p></article>
+    <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO · BETA</span><b>VÍNCORES DIGITAL</b><p>Campo interactivo de vínculos, roles y emociones. Ya disponible para prueba.</p></article>
     <article class="newsCard" onclick="openCategory('mystery')" style="cursor:pointer"><span class="newsTag">PRÓXIMAMENTE</span><b>EXPEDIENTES · CASO 002</b><p>Una nueva investigación dentro de la Central.</p></article>
     <article class="newsCard" onclick="openCategory('family')" style="cursor:pointer"><span class="newsTag">DISPONIBLE</span><b>TORRE KIDS · MATEMÁTICA</b><p>Juego físico + digital y versión solo digital.</p></article>
   </div>
@@ -186,6 +186,7 @@ function gameHref(l){
  if(l.product_code==='EXP-001')return '../?access='+encodeURIComponent(l.activation_code);
  if(l.product_code==='DI-TRILOGIA')return '../doble-intencion/?access='+encodeURIComponent(l.activation_code);
  if(['TK-MAT-79','TK-MAT-79-PHY','TK-MAT-79-DIG'].includes(l.product_code))return '../torre-kids-matematica/?access='+encodeURIComponent(l.activation_code);
+ if(l.product_code==='VINC-001')return '../vincores/?access='+encodeURIComponent(l.activation_code);
  return l.game_url;
 }
 async function openGame(code,url){
