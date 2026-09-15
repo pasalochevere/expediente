@@ -200,6 +200,28 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 .entitlement-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid #dfd4c4;color:#625c53;font-size:.76rem;font-weight:900}
 .kid-mode-card.locked{opacity:.42;filter:grayscale(.35);pointer-events:none}
 .digital-only-note{background:#eaf7ff;border:1px solid #acd9f6;border-radius:18px;padding:13px 15px;color:#345260;font-size:.88rem;line-height:1.45;margin-bottom:14px}
+
+/* === P0.8.2 · PROGRESO + OTRO DESAFÍO + CIERRE EDUCATIVO === */
+.mission-progress{background:#fff9ec;border:1px solid #e5d4ba;border-radius:18px;padding:12px 14px;margin:10px 0 16px;box-shadow:0 8px 20px #63451f10}
+.mission-progress-top{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:.82rem;font-weight:900;color:#53493e}
+.mission-track{height:12px;border-radius:999px;background:#e9e1d5;overflow:hidden;margin:9px 0 6px}
+.mission-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#f4c23a,#ef6d5b,#e84ea2);transition:width .35s ease}
+.mission-msg{font-size:.78rem;color:#776f66}
+.challenge-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.btn.alt-challenge{background:#fff;color:#2d6f98;border:2px dashed #86c4e8}
+.final-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:start}
+.final-hero{background:linear-gradient(145deg,#fff8dd,#eefaff);border:2px solid #ead8b4;border-radius:28px;padding:24px;text-align:center;box-shadow:0 20px 50px #65461f18}
+.final-score{font-size:3rem;font-weight:950;line-height:1;margin:8px 0}
+.final-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.final-stat{background:#fff;border:1px solid #e8dccb;border-radius:16px;padding:12px 8px}
+.final-stat b{display:block;font-size:1.25rem}.final-stat span{display:block;font-size:.72rem;color:#756e66;margin-top:3px}
+.learning-card{background:#fff;border:1px solid #e1d5c3;border-radius:24px;padding:20px;box-shadow:0 18px 45px #65451e14}
+.learning-card h3{margin:0 0 6px;font-size:1.35rem}
+.learning-list{display:grid;gap:8px;margin-top:12px}
+.learning-item{display:flex;align-items:center;gap:10px;background:#fffaf2;border:1px solid #eadfce;border-radius:14px;padding:10px}
+.learning-item img{width:38px;height:38px}
+.final-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}
+@media(max-width:760px){.final-wrap{grid-template-columns:1fr}.final-actions{grid-template-columns:1fr}.challenge-actions{grid-template-columns:1fr}.final-stats{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
 <body>
@@ -359,7 +381,7 @@ const BASE=[
 [42,'negro',3,'DUELO: el primero que responda gana. 8 × 5 = ?','40','5 × 8.'],[48,'negro',3,'TODOS JUEGAN: digan por turnos la tabla del 4.','4,8,12,16,20…','Sumen 4 cada vez.'],[54,'negro',3,'SÚPER RETO: 54 ÷ 6 = ?','9','6 × 9 = 54.']
 ].map(x=>({piece:x[0],color:x[1],category:LABEL[x[1]],level:x[2],prompt:x[3],answer:x[4],hint:x[5]}));
 
-let S={style:'tower',mode:'clasico',level:2,players:['Jugador 1','Jugador 2'],scores:[0,0],p:0,color:null,piece:null,challenge:null,hinted:false,mission:20,entitlement:'full',productCode:null,expiresAt:null};
+let S={style:'tower',mode:'clasico',level:2,players:['Jugador 1','Jugador 2'],scores:[0,0],p:0,color:null,piece:null,challenge:null,hinted:false,mission:20,entitlement:'full',productCode:null,expiresAt:null,completed:0,practiced:{},resolvedThisTurn:false};
 const AUDIO_PREF_KEY='tk_audio_pref_v1';
 function loadAudioPrefs(){
   try{const v=JSON.parse(localStorage.getItem(AUDIO_PREF_KEY)||'{}');return {music:v.music!==false,sfx:v.sfx!==false,volume:Number.isFinite(v.volume)?v.volume:.36};}
@@ -471,7 +493,7 @@ function openAdultPanel(){const o=document.getElementById('adultOverlay');if(o)o
 function closeAdultPanel(){const o=document.getElementById('adultOverlay');if(o)o.classList.add('hidden')}
 function adultRestart(){
   if(!confirm('¿Reiniciar la partida y poner las estrellas en cero?'))return;
-  closeAdultPanel();S.scores=S.players.map(()=>0);S.p=0;S.color=null;S.piece=null;S.challenge=null;S.hinted=false;turn();
+  closeAdultPanel();S.scores=S.players.map(()=>0);S.p=0;S.color=null;S.piece=null;S.challenge=null;S.hinted=false;S.completed=0;S.practiced={};S.resolvedThisTurn=false;turn();
 }
 function adultChangeLevel(){closeAdultPanel();chooseLevel()}
 function adultChangePlayers(){closeAdultPanel();setLevel(S.level)}
@@ -518,13 +540,42 @@ function chooseDigitalMode(){view('<div class="eyebrow">SIN TORRE · SOLO DIGITA
 ].map(x=>'<button class="choice" onclick="setMode(\''+x[2]+'\')"><b>'+x[0]+'</b><span>'+x[1]+'</span></button>').join('')+'</div>')}
 function setMode(m){S.mode=m;chooseLevel()}
 function chooseLevel(){view('<div class="eyebrow">NIVEL</div><h2>¿Cuánto desafío quieren?</h2><div class="levels"><button class="level" onclick="setLevel(1)"><b>🟢 Explorador</b><span>Para empezar</span></button><button class="level" onclick="setLevel(2)"><b>🟡 Aventurero</b><span>Cálculo y lógica</span></button><button class="level" onclick="setLevel(3)"><b>🔴 Maestro</b><span>Más velocidad y desafío</span></button></div>')}
+function totalStars(){return S.scores.reduce((a,b)=>a+b,0)}
+function missionProgressHTML(){
+ if(!String(S.mode||'').includes('mision'))return '';
+ const total=totalStars(),pct=Math.max(0,Math.min(100,Math.round(total/S.mission*100))),left=Math.max(0,S.mission-total);
+ const msg=left===0?'¡Objetivo alcanzado!':left<=3?'¡Faltan solo '+left+' estrella'+(left===1?'':'s')+'!':pct>=50?'¡Van muy bien!':'Cada estrella acerca al equipo a la misión.';
+ return '<div class="mission-progress"><div class="mission-progress-top"><span>⭐ MISIÓN DEL EQUIPO</span><span>'+total+' / '+S.mission+'</span></div><div class="mission-track"><div class="mission-fill" style="width:'+pct+'%"></div></div><div class="mission-msg">'+msg+'</div></div>';
+}
+function recordPractice(){
+ if(S.resolvedThisTurn)return;
+ S.resolvedThisTurn=true;S.completed++;
+ const c=S.challenge?.color||S.color;if(c)S.practiced[c]=(S.practiced[c]||0)+1;
+}
+function learningSummaryHTML(){
+ const used=Object.entries(S.practiced).filter(([,n])=>n>0).sort((a,b)=>b[1]-a[1]);
+ if(!used.length)return '<div class="learning-item"><span>⭐</span><div><b>Primera partida</b><div class="note">Jugá desafíos para ver qué practicaron.</div></div></div>';
+ const desc={rojo:'sumas y restas',verde:'multiplicación y reparto',azul:'secuencias y razonamiento',amarillo:'resolución de problemas',fucsia:'agilidad mental',negro:'desafíos combinados'};
+ return used.map(([c,n])=>'<div class="learning-item">'+categoryIcon(c,'pictogram')+'<div><b>'+LABEL[c]+'</b><div class="note">'+desc[c]+' · '+n+' desafío'+(n===1?'':'s')+'</div></div></div>').join('');
+}
+function otherChallenge(){
+ if(!S.challenge)return;
+ const current=S.challenge;
+ const pool=BASE.filter(x=>x.color===current.color&&x.level===S.level&&x!==current&&x.prompt!==current.prompt);
+ if(!pool.length)return;
+ S.challenge=pool[Math.floor(Math.random()*pool.length)];S.hinted=false;S.resolvedThisTurn=false;playSfx('hint');showChallenge();
+}
+function rematch(){
+ S.scores=S.players.map(()=>0);S.p=0;S.completed=0;S.practiced={};S.resolvedThisTurn=false;turn();
+}
+function changeLevelFromFinal(){S.scores=S.players.map(()=>0);S.p=0;S.completed=0;S.practiced={};S.resolvedThisTurn=false;chooseLevel()}
 function setLevel(l){S.level=l;view('<div class="eyebrow">JUGADORES</div><h2>¿Quiénes juegan?</h2><div class="card"><input id="p1" placeholder="Jugador 1"><input id="p2" placeholder="Jugador 2"><button class="btn full" onclick="start()">COMENZAR</button></div>')}
-function start(){S.players=[document.getElementById('p1').value||'Jugador 1',document.getElementById('p2').value||'Jugador 2'];S.scores=[0,0];S.p=0;turn()}
-function turn(){S.color=null;S.piece=null;S.challenge=null;S.hinted=false;const n=S.players[S.p],sum=S.scores.reduce((a,b)=>a+b,0);let body='';
+function start(){S.players=[document.getElementById('p1').value||'Jugador 1',document.getElementById('p2').value||'Jugador 2'];S.scores=[0,0];S.p=0;S.completed=0;S.practiced={};S.resolvedThisTurn=false;turn()}
+function turn(){S.color=null;S.piece=null;S.challenge=null;S.hinted=false;S.resolvedThisTurn=false;const n=S.players[S.p],sum=totalStars();let body='';
  if(S.style==='digital'){body='<div class="big-random card"><div><div class="eyebrow">JUGADA DIGITAL</div><div style="font-size:3rem;margin:8px">🎲</div><h2>Que el portal elija</h2><button class="btn wood" onclick="virtualDraw()">SORTEAR DESAFÍO</button></div></div>'}
  else if(S.mode==='colores')body='<div class="card"><h3>🎲 Tiren el dado de colores</h3><p class="note">Después marcá el color que salió.</p><button class="btn" onclick="pickColor()">YA LO TIRÉ</button></div>';
  else body='<div class="card"><h3>🧱 Retirá la pieza</h3><p class="note">'+(S.mode==='te_toca'?'Usá los dados físicos para saber qué número retirar.':'Elegí una pieza de la torre.')+'</p><button class="btn" onclick="pickPiece()">YA TENGO LA PIEZA</button></div>';
- view('<div class="score">'+n+' · ⭐ '+S.scores[S.p]+(S.mode.includes('mision')?' · MISIÓN '+sum+'/'+S.mission:'')+'</div><div class="hero" style="min-height:0;padding:24px 0"><h2 style="margin:0">Turno de '+n+'</h2><span class="turn-phrase">'+phrase('turn')+'</span></div>'+body+'<button class="btn light full" onclick="finish()">🧱 TERMINAR PARTIDA</button>')}
+ view('<div class="score">'+n+' · ⭐ '+S.scores[S.p]+'</div>'+missionProgressHTML()+'<div class="hero" style="min-height:0;padding:24px 0"><h2 style="margin:0">Turno de '+n+'</h2><span class="turn-phrase">'+phrase('turn')+'</span></div>'+body+'<button class="btn light full" onclick="finish()">🧱 TERMINAR PARTIDA</button>')}
 function virtualDraw(){const color=(S.mode==='color_virtual')?COLORS[Math.floor(Math.random()*6)]:COLORS[Math.floor(Math.random()*6)];const pool=BASE.filter(x=>x.color===color&&x.level===S.level);const x=pool[Math.floor(Math.random()*pool.length)];S.color=color;S.piece=1+Math.floor(Math.random()*54);S.challenge=x;view('<div class="big-random card"><div><div class="badge">'+EMOJI[color]+' '+LABEL[color]+'</div><div class="virtual-number">'+String(S.piece).padStart(2,'0')+'</div><p class="note">Pieza virtual</p><button class="btn wood" onclick="showChallenge()">VER DESAFÍO</button></div></div>')}
 function pickColor(){view('<h2>¿Qué color salió?</h2><div class="colors">'+COLORS.map(c=>'<button class="color '+c+'" onclick="selectColor(\''+c+'\')">'+EMOJI[c]+'<br>'+LABEL[c]+'</button>').join('')+'</div>')}
 function selectColor(c){S.color=c;pickPiece(c)}
@@ -533,32 +584,45 @@ function pickPiece(c=null){const nums=[...Array(54)].map((_,i)=>i+1).filter(n=>!
 function openPiece(n){S.piece=n;if(!S.color)S.color=colorOf(n);const pool=BASE.filter(x=>x.color===S.color&&x.level===S.level);S.challenge=pool[Math.floor(Math.random()*pool.length)];showChallenge()}
 function showChallenge(){
  const x=S.challenge;if(x.color==='negro')playSfx('super');
- view('<div class="challenge-shell">'+
+ view(missionProgressHTML()+'<div class="challenge-shell">'+
  '<div class="challenge-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div>'+
  '<div class="note">Nivel '+S.level+(S.style==='digital'?' · Solo Digital':' · Con Torre')+'</div><div class="challenge">'+x.prompt+'</div>'+
- '<button class="btn light full" onclick="hint()">🔎 VER PISTA</button><button class="btn full" onclick="answer()">VER RESPUESTA</button></div>'+
+ '<div class="challenge-actions"><button class="btn light" onclick="hint()">🔎 VER PISTA</button><button class="btn alt-challenge" onclick="otherChallenge()">🔄 OTRO DESAFÍO</button></div><button class="btn full" onclick="answer()">VER RESPUESTA</button></div>'+
  '<aside class="challenge-side feedback-pop"><div class="speech">'+phrase('challenge')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>Pequeños desafíos,<br>grandes logros.</b></aside></div>');
 }
 function hint(){
  S.hinted=true;playSfx('hint');const x=S.challenge;
- view('<div class="challenge-shell"><div class="challenge-card hint-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><div class="challenge">'+x.prompt+'</div><div class="card" style="box-shadow:none;background:#fff"><b>🔎 PISTA</b><p>'+x.hint+'</p></div><button class="btn full" onclick="answer()">VER RESPUESTA</button></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('hint')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>¡Tu cabeza puede!</b></aside></div>');
+ view('<div class="challenge-shell"><div class="challenge-card hint-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><div class="challenge">'+x.prompt+'</div><div class="card" style="box-shadow:none;background:#fff"><b>🔎 PISTA</b><p>'+x.hint+'</p></div><div class="challenge-actions"><button class="btn alt-challenge" onclick="otherChallenge()">🔄 OTRO DESAFÍO</button><button class="btn" onclick="answer()">VER RESPUESTA</button></div></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('hint')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>¡Tu cabeza puede!</b></aside></div>');
 }
 function answer(){
  const x=S.challenge;
  view('<div class="challenge-shell"><div class="challenge-card"><div class="challenge-meta"><span class="piece-badge">🧱 Pieza '+String(S.piece).padStart(2,'0')+'</span><span class="category-badge '+x.color+'">'+categoryIcon(x.color,'pictogram')+x.category+'</span></div><h2>Respuesta</h2><div class="answer">'+x.answer+'</div><h3>¿Acertó?</h3><div class="choice-grid"><button class="btn" onclick="ok()">✅ SÍ</button><button class="btn light" onclick="no()">TODAVÍA NO</button></div></div><aside class="challenge-side">'+kidMascot('mascot mini')+'<div class="speech">¡Vamos!</div></aside></div>');
 }
 function ok(){
- playSfx('success');const pts=S.hinted?1:(S.color==='negro'?3:2);S.scores[S.p]+=pts;const sum=S.scores.reduce((a,b)=>a+b,0);if(S.mode.includes('mision')&&sum>=S.mission)return missionWin();
+ recordPractice();playSfx('success');const pts=S.hinted?1:(S.color==='negro'?3:2);S.scores[S.p]+=pts;const sum=S.scores.reduce((a,b)=>a+b,0);if(S.mode.includes('mision')&&sum>=S.mission)return missionWin();
  view('<div class="challenge-shell"><div class="challenge-card result-good feedback-pop"><h1 style="font-size:3rem;margin:8px 0">'+phrase('good')+'</h1><div class="stars star-burst">'+'⭐'.repeat(pts)+'</div><p>Ganaste '+pts+' estrella'+(pts===1?'':'s')+'.</p>'+(S.style==='tower'?'<div class="card" style="box-shadow:none"><b>🧱 Ahora colocá la pieza arriba de la torre.</b></div>':'')+'<button class="btn full" onclick="next()">SIGUIENTE TURNO</button></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('good')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>Seguí así 💛</b></aside></div>');
 }
 function no(){
- playSfx('close');view('<div class="challenge-shell"><div class="challenge-card result-close"><h1 style="font-size:3rem;margin:8px 0">¡CASI!</h1><p>La respuesta era:</p><div class="answer">'+S.challenge.answer+'</div><button class="btn full" onclick="recover()">⚡ MINI RETO</button><button class="btn light full" onclick="next()">SEGUIR</button></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('close')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>Probemos otra vez.</b></aside></div>');
+ recordPractice();playSfx('close');view('<div class="challenge-shell"><div class="challenge-card result-close"><h1 style="font-size:3rem;margin:8px 0">¡CASI!</h1><p>La respuesta era:</p><div class="answer">'+S.challenge.answer+'</div><button class="btn full" onclick="recover()">⚡ MINI RETO</button><button class="btn light full" onclick="next()">SEGUIR</button></div><aside class="challenge-side feedback-pop"><div class="speech">'+phrase('close')+'</div>'+kidMascot('mascot mini mascot-bob')+'<b>Probemos otra vez.</b></aside></div>');
 }
 function recover(){const a=['Decí tres números pares.','Decí dos sumas que den 10.','Contá de 5 a 1 hacia atrás.','Nombrá tres números mayores que 20.'];view('<div class="card"><div class="eyebrow">RECUPERACIÓN</div><div class="challenge">'+a[Math.floor(Math.random()*a.length)]+'</div></div><button class="btn full" onclick="recOK()">✅ LO HIZO</button><button class="btn light full" onclick="next()">NO ESTA VEZ</button>')}
 function recOK(){playSfx('star');S.scores[S.p]++;view('<div class="hero feedback-pop" style="min-height:0"><h1 style="font-size:3.2rem">⭐ ¡RECUPERADA!</h1><span class="turn-phrase">'+phrase('good')+'</span></div><button class="btn full" onclick="next()">SIGUIENTE TURNO</button>')}
 function next(){S.p=(S.p+1)%S.players.length;turn()}
-function missionWin(){playSfx('mission');view('<div class="hero feedback-pop" style="min-height:0"><h1 style="font-size:3.2rem">'+phrase('mission')+'</h1><div class="stars star-burst">⭐⭐⭐⭐⭐</div><p>Consiguieron '+S.scores.reduce((a,b)=>a+b,0)+' estrellas.</p></div><button class="btn full" onclick="backHome()">VOLVER AL INICIO</button>')}
-function finish(){playSfx('mission');const a=S.players.map((p,i)=>({p,s:S.scores[i]})).sort((x,y)=>y.s-x.s);view('<div class="hero" style="min-height:0"><h1 style="font-size:3.2rem">PARTIDA TERMINADA</h1><h2>🏆 '+a[0].p+'</h2><p>'+a[0].s+' estrellas</p></div><div class="card">'+a.map((x,i)=>'<p><b>'+(i+1)+'. '+x.p+'</b> — ⭐ '+x.s+'</p>').join('')+'</div><button class="btn full" onclick="backHome()">MENÚ PRINCIPAL</button>')}
+function finalScreen(title,subtitle){
+ const ranking=S.players.map((p,i)=>({p,s:S.scores[i]})).sort((a,b)=>b.s-a.s);
+ const top=ranking[0]||{p:'Equipo',s:0};const total=totalStars();
+ view('<div class="final-wrap">'+
+ '<section class="final-hero feedback-pop"><div class="eyebrow">CIERRE DE PARTIDA</div><h1 style="font-size:clamp(2.4rem,7vw,4rem);margin:8px 0">'+title+'</h1><p>'+subtitle+'</p>'+
+ kidMascot('mascot mini mascot-bob')+
+ '<div class="final-score">⭐ '+total+'</div><div class="note">estrellas conseguidas</div>'+
+ '<div class="final-stats"><div class="final-stat"><b>'+S.completed+'</b><span>desafíos resueltos</span></div><div class="final-stat"><b>'+Object.keys(S.practiced).length+'</b><span>categorías usadas</span></div><div class="final-stat"><b>'+top.s+'</b><span>mejor puntaje</span></div></div>'+
+ '</section>'+
+ '<section class="learning-card"><div class="eyebrow">¿QUÉ PRACTICAMOS HOY?</div><h3>Aprendizajes de la partida</h3><p class="note">Un resumen simple para familia o docente.</p><div class="learning-list">'+learningSummaryHTML()+'</div>'+
+ '<div class="card" style="box-shadow:none;margin-top:14px"><b>🏆 '+top.p+'</b><div class="note">'+top.s+' estrellas</div></div></section></div>'+
+ '<div class="final-actions"><button class="btn wood" onclick="rematch()">↻ REVANCHA</button><button class="btn light" onclick="changeLevelFromFinal()">📊 CAMBIAR NIVEL</button><button class="btn" onclick="backHome()">⌂ INICIO</button></div>');
+}
+function missionWin(){playSfx('mission');finalScreen(phrase('mission'),'El equipo llegó al objetivo de '+S.mission+' estrellas.')}
+function finish(){playSfx('mission');finalScreen('¡PARTIDA TERMINADA!','Mirá todo lo que practicaron jugando.')}
 function showRules(){
  view('<div class="mode-title"><div class="eyebrow">GUÍA RÁPIDA</div><h2>Aprender también es jugar.</h2><p>Elegí la forma de juego y empezá en menos de un minuto.</p></div>'+
  '<div class="mode-grid"><div class="kid-mode-card" style="min-height:330px"><div class="kid-mode-visual">'+kidMascot('mascot mini')+'<div class="tower mini-tower"><div class="row"><div class="bl"><i></i>24</div><div class="bl g"><i></i>18</div><div class="bl b"><i></i>12</div></div></div></div><h3>🧱 Con Torre</h3><p>Retirá una pieza, buscá su número, resolvé y colocala arriba. Los colores indican la categoría.</p></div>'+
