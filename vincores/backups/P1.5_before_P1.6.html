@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VÍNCORES DIGITAL · PasaloChevere</title>
+<style>
+:root{--bg:#f1eee8;--paper:#fffdf9;--ink:#252726;--muted:#716f69;--line:#ddd6cc;--teal:#2f8f83;--teal2:#226e66;--wood:#855334;--wood2:#b77b4f;--shadow:0 18px 40px rgba(61,45,32,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#f7f4ee,#ebe5dc);color:var(--ink)}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.top{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:#171617;color:#f6efe5;border-bottom:1px solid #363235;position:sticky;top:0;z-index:50}
+.brand{font-weight:950;letter-spacing:.12em}.brand small{display:block;color:#d5a64f;font-size:.68rem;letter-spacing:.15em;margin-top:3px}.topActions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid #cfc7bd;background:#fff;color:#333;border-radius:11px;padding:9px 12px;font-weight:850}.btn:hover{transform:translateY(-1px)}.btn.dark{background:#242124;border-color:#494248;color:#fff}.btn.primary{background:linear-gradient(135deg,#348f83,#216f67);border-color:#216f67;color:#fff}.btn.danger{background:#fff1ee;border-color:#e9c5bf;color:#a5443b}
+.intro{max-width:1100px;margin:28px auto;padding:0 18px}.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}.heroCard{background:linear-gradient(145deg,#fff,#f6efe6);border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:var(--shadow)}.eyebrow{color:var(--teal2);font-size:.72rem;font-weight:950;letter-spacing:.15em;text-transform:uppercase}.hero h1{font-size:clamp(2.7rem,7vw,5.6rem);line-height:.92;margin:9px 0 14px}.hero p{color:var(--muted);line-height:1.6}.heroArt{min-height:330px;display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(circle at 30% 20%,rgba(47,143,131,.16),transparent 34%),linear-gradient(145deg,#faf5ed,#e8dfd3)}.miniField{width:88%;height:250px;border:12px solid var(--wood);border-radius:22px;background:linear-gradient(#fffdf9,#f3eee7);position:relative;box-shadow:inset 0 0 0 2px #c99a74,0 18px 40px rgba(0,0,0,.12)}.miniPiece{position:absolute;width:52px;border-radius:20px 20px 10px 10px;border:1px solid rgba(70,50,30,.2);box-shadow:0 10px 16px rgba(0,0,0,.13)}.miniPiece.a{height:98px;left:24%;top:70px;background:linear-gradient(90deg,#de9aa2,#f0c6bf)}.miniPiece.b{height:108px;left:53%;top:58px;border-radius:6px;background:linear-gradient(90deg,#93a9c8,#cad7ea)}.miniPiece.c{height:72px;left:40%;top:135px;background:linear-gradient(90deg,#ecc54f,#f3df93)}.miniTag{position:absolute;left:15px;bottom:14px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 9px;font-weight:900;font-size:.74rem}.notice{margin-top:14px;padding:11px 13px;border:1px solid #cfe3df;background:#eff8f6;border-radius:12px;color:#436a64;font-size:.8rem;line-height:1.45}
+.app{display:grid;grid-template-columns:230px minmax(480px,1fr) 280px;gap:12px;max-width:1450px;margin:14px auto;padding:0 12px 24px}.panel{background:rgba(255,253,249,.96);border:1px solid var(--line);border-radius:17px;padding:12px;box-shadow:0 10px 26px rgba(61,45,32,.08)}.panel h3{margin:0 0 9px;font-size:.95rem}.panel h4{margin:13px 0 7px;font-size:.78rem;color:#5d5a55}.hint{font-size:.72rem;color:var(--muted);line-height:1.4}
+.templates{display:grid;grid-template-columns:1fr 1fr;gap:8px}.template{border:1px solid #d6cec3;border-radius:12px;padding:9px;background:#faf7f2;text-align:center}.template .shape{margin:0 auto 7px;width:38px;background:linear-gradient(90deg,#dca69c,#f4d6c8 45%,#c98d7d);height:58px;box-shadow:0 5px 9px rgba(0,0,0,.1)}.template.prism .shape{border-radius:4px;background:linear-gradient(90deg,#9faec4,#d8e0eb 45%,#8996aa)}.template.cylinder .shape{border-radius:20px 20px 10px 10px}.template b{font-size:.72rem}.sizes{display:flex;gap:5px;margin-top:7px}.sizes button{flex:1;border:1px solid #ddd4c8;border-radius:8px;background:#fff;padding:6px 3px;font-size:.68rem}
+.caseList{display:grid;gap:6px}.caseBtn{border:1px solid #d9d0c4;border-radius:10px;background:#fff;padding:8px;text-align:left;font-size:.72rem;font-weight:800}
+.stageWrap{min-width:0}.stageTools{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}.stageTools .leftTools,.stageTools .rightTools{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.sceneName{border:1px solid #d6cec3;border-radius:10px;padding:9px 10px;min-width:210px;background:#fff}
+.boardFrame{background:linear-gradient(135deg,#75472d,#a76d46,#71442b);padding:14px;border-radius:22px;box-shadow:0 22px 45px rgba(61,45,32,.2)}.board{position:relative;height:620px;overflow:hidden;border-radius:14px;background:linear-gradient(rgba(63,95,87,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(63,95,87,.035) 1px,transparent 1px),linear-gradient(#fffefa,#f4efe7);background-size:42px 42px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)}.board:before{content:"CAMPO DE CONSTELACIÓN";position:absolute;left:18px;top:14px;color:#668078;font-weight:900;font-size:.68rem;letter-spacing:.12em}.empty{position:absolute;inset:0;display:grid;place-items:center;color:#aaa29a;text-align:center;pointer-events:none}.empty div{max-width:340px;font-size:.82rem;line-height:1.5}
+.node{position:absolute;transform:translate(-50%,-50%);touch-action:none;user-select:none;z-index:2}.node.selected .figureBody,.node.selected .symbol{outline:3px solid rgba(47,143,131,.35);outline-offset:4px}.figureBody{position:relative;width:66px;height:72px;--tint:rgba(255,255,255,0);background:linear-gradient(0deg,var(--tint),var(--tint)),linear-gradient(90deg,rgba(255,255,255,.36),rgba(255,255,255,.08) 18%,rgba(0,0,0,.03) 55%,rgba(0,0,0,.10)),linear-gradient(90deg,#d9a169,#f2d1a4 45%,#bd7b42);box-shadow:inset -8px -10px 14px rgba(85,55,20,.13),inset 6px 7px 10px rgba(255,255,255,.4),0 8px 16px rgba(0,0,0,.13);border:1px solid rgba(112,76,36,.16)}.figureBody.cylinder{border-radius:27px 27px 14px 14px}.figureBody.prism{border-radius:6px}.figureTop{position:absolute;left:2px;right:2px;top:-5px;height:12px;border-radius:50%;background:rgba(255,255,255,.18);border:1px solid rgba(90,60,30,.14)}.prism .figureTop{border-radius:4px}.face{position:absolute;left:50%;top:13px;transform:translateX(-50%);width:38px;height:30px;display:none}.mode-character .face{display:block}.eyes{position:absolute;top:9px;left:7px;right:7px;display:flex;justify-content:space-between}.eye{width:4px;height:4px;border-radius:50%;background:#332822}.eyes.soft .eye{height:2px;width:8px;border-radius:999px}.eyes.closed .eye{height:0;width:8px;border-top:2px solid #332822;border-radius:0;background:none}.mouth{position:absolute;left:50%;top:20px;transform:translateX(-50%);width:11px;height:4px;border-bottom:2px solid #7b4e45;border-radius:0 0 10px 10px}.mouth.neutral{height:0;border-radius:0}.mouth.open{height:7px;width:7px;border:2px solid #7b4e45;border-top:0}.hair{position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:30px;height:8px;border-radius:12px 12px 6px 6px;background:var(--hair,#5e4435);display:none}.hair.short,.hair.long,.hair.bun,.hair.curly{display:block}.hair.long{height:15px;border-radius:13px}.hair.bun:after{content:"";position:absolute;width:10px;height:10px;border-radius:50%;background:var(--hair,#5e4435);left:10px;top:-7px}.hair.curly{background:transparent;box-shadow:-8px 0 0 var(--hair),0 0 0 var(--hair),8px 0 0 var(--hair)}.figureLabel{margin-top:10px;max-width:140px;padding:5px 8px;border:1px solid #ded6cb;background:rgba(255,255,255,.96);border-radius:9px;font-size:.7rem;font-weight:900;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.direction{position:absolute;top:-27px;left:50%;transform:translateX(-50%);font-size:18px;color:#66716d}.symbol{min-width:92px;min-height:66px;background:#fff;border:2px solid rgba(0,0,0,.06);border-radius:14px;box-shadow:0 7px 14px rgba(0,0,0,.11);display:grid;place-items:center;text-align:center;padding:8px}.symbol b{font-size:.68rem;text-transform:uppercase;max-width:95px}.symbol span{font-size:1.3rem}
+.prop{margin-bottom:10px}.prop label{display:block;font-size:.7rem;font-weight:900;margin-bottom:5px}.prop input[type=text],.prop select{width:100%;border:1px solid #d8d0c5;border-radius:9px;padding:8px;background:#fff}.prop input[type=range]{width:100%}.row{display:grid;grid-template-columns:1fr 1fr;gap:6px}.palette{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.swatch{height:29px;border:1px solid rgba(0,0,0,.13);border-radius:999px;background:var(--c)}.swatch.active{outline:3px solid #fff;box-shadow:0 0 0 2px var(--teal)}.roleGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.roleBtn{border:1px solid #ddd4c8;background:#fff;border-radius:9px;padding:7px;font-size:.68rem;font-weight:850}
+.emotions{max-width:1450px;margin:0 auto 30px;padding:0 12px}.emotionBar{background:#fffdf9;border:1px solid var(--line);border-radius:17px;padding:12px;box-shadow:var(--shadow)}.emotionTop{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}.emotionTop input{border:1px solid #d8d0c5;border-radius:10px;padding:8px 10px;min-width:240px}.emotionGrid{display:flex;gap:7px;overflow-x:auto;padding-bottom:5px}.emotionBtn{flex:0 0 auto;border:1px solid #ddd4c8;background:#faf7f2;border-radius:10px;padding:8px 10px;font-size:.7rem;font-weight:800}.gate{min-height:calc(100vh - 76px);display:grid;place-items:center;padding:28px}.gateCard{width:min(560px,100%);background:linear-gradient(145deg,#fff,#f4eee6);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:var(--shadow);text-align:center}.gateIcon{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;margin:0 auto 14px;background:#171617;color:#d5a64f;font-size:1.5rem}.gateCard h2{margin:0 0 9px;font-size:1.7rem}.gateCard p{color:var(--muted);line-height:1.55}.toast{position:fixed;right:18px;bottom:18px;background:#171617;color:#fff;padding:10px 13px;border-radius:11px;box-shadow:0 14px 30px rgba(0,0,0,.28);opacity:0;transform:translateY(8px);pointer-events:none;transition:.18s}.toast.show{opacity:1;transform:none}.disclaimer{font-size:.68rem;color:#878078;line-height:1.45;margin-top:10px}
+@media(max-width:1050px){.app{grid-template-columns:210px 1fr}.right{grid-column:1/-1}.right .panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.hero{grid-template-columns:1fr}.board{height:560px}}
+@media(max-width:720px){.app{grid-template-columns:1fr}.board{height:520px}.left{order:2}.stageWrap{order:1}.right{order:3}.right .panel{display:block}.templates{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start}.sceneName{min-width:150px}.emotionTop{align-items:flex-start;flex-direction:column}.emotionTop input{width:100%;min-width:0}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">VÍNCORES DIGITAL<small>PASALOCHEVERE · BIENESTAR & VÍNCULOS</small></div>
+  <div class="topActions"><a class="btn dark" href="../portal-v2/">← Portal</a><button class="btn dark hidden" id="introBtn">Presentación</button></div>
+</header>
+
+<section class="gate" id="accessGate"><div class="gateCard"><div class="gateIcon">🔐</div><div class="eyebrow">ACCESO PERSONAL PASALOCHEVERE</div><h2 id="gateTitle">Validando VÍNCORES…</h2><p id="gateText">Estamos comprobando tu acceso personal.</p><a class="btn primary" id="gatePortal" href="../portal-v2/">Volver al portal</a></div></section>
+<section class="intro hidden" id="intro">
+  <div class="hero">
+    <div class="heroCard">
+      <div class="eyebrow">SISTEMA VISUAL INTERACTIVO</div>
+      <h1>VÍNCORES</h1>
+      <p>Representá vínculos, roles, emociones y dinámicas en un campo visual. Podés trabajar de forma libre, partir de un caso básico o personalizar cada figura para identificar mejor a las personas de la escena.</p>
+      <p><strong>Cilindros</strong> y <strong>prismas</strong> conservan el lenguaje del kit físico y pueden personalizarse con color, nombre, dirección y rostro.</p>
+      <button class="btn primary" id="enterBtn">Entrar al Campo de constelación</button>
+      <div class="notice">Herramienta visual de exploración sistémica. No realiza diagnósticos ni reemplaza atención psicológica, médica o profesional.</div>
+    </div>
+    <div class="heroCard heroArt">
+      <div class="miniField"><div class="miniPiece a"></div><div class="miniPiece b"></div><div class="miniPiece c"></div><div class="miniTag">FÍSICO · DIGITAL · REMOTO</div></div>
+    </div>
+  </div>
+</section>
+
+<main class="app hidden" id="app">
+  <aside class="left">
+    <div class="panel">
+      <h3>Figuras</h3><div class="hint">Agregá una figura y después personalizala desde el panel derecho.</div>
+      <div class="templates">
+        <div class="template cylinder"><div class="shape"></div><b>CILINDRO</b><div class="sizes"><button onclick="addFigure('cylinder',46)">S</button><button onclick="addFigure('cylinder',58)">M</button><button onclick="addFigure('cylinder',72)">L</button></div></div>
+        <div class="template prism"><div class="shape"></div><b>PRISMA</b><div class="sizes"><button onclick="addFigure('prism',46)">S</button><button onclick="addFigure('prism',58)">M</button><button onclick="addFigure('prism',72)">L</button></div></div>
+      </div>
+      <h4>Casos básicos</h4>
+      <div class="caseList">
+        <button class="caseBtn" onclick="loadCase('pareja')">❤️ Amor y pareja</button>
+        <button class="caseBtn" onclick="loadCase('familia')">👨‍👩‍👧 Familia</button>
+        <button class="caseBtn" onclick="loadCase('padres')">🧩 Papá y mamá</button>
+        <button class="caseBtn" onclick="loadCase('trabajo')">💼 Dinero y trabajo</button>
+        <button class="caseBtn" onclick="loadCase('libre')">✦ Tema libre</button>
+      </div>
+    </div>
+  </aside>
+
+  <section class="stageWrap">
+    <div class="stageTools">
+      <div class="leftTools"><input class="sceneName" id="sceneName" placeholder="Nombre de la escena"><button class="btn" id="saveBtn">Guardar</button><button class="btn" id="loadBtn">Cargar</button></div>
+      <div class="rightTools"><button class="btn" id="exportBtn">PNG</button><button class="btn danger" id="clearBtn">Limpiar</button></div>
+    </div>
+    <div class="boardFrame"><div class="board" id="board"><div class="empty" id="empty"><div>Agregá figuras desde la izquierda o cargá un caso básico.<br>Después movelas libremente dentro del campo.</div></div></div></div>
+  </section>
+
+  <aside class="right">
+    <div class="panel">
+      <h3>Personalización</h3>
+      <div id="nothing" class="hint">Seleccioná una figura del campo para editarla.</div>
+      <div id="props" class="hidden">
+        <div class="prop"><label>Nombre / rol</label><input type="text" id="nameInput" placeholder="Ej. Mamá, Yo, Pareja"></div>
+        <div class="roleGrid">
+          <button class="roleBtn" onclick="rolePreset('Mamá','cylinder','long')">Mamá</button><button class="roleBtn" onclick="rolePreset('Papá','prism','short')">Papá</button>
+          <button class="roleBtn" onclick="rolePreset('Mujer','cylinder','long')">Mujer</button><button class="roleBtn" onclick="rolePreset('Hombre','prism','short')">Hombre</button>
+          <button class="roleBtn" onclick="rolePreset('Niña','cylinder','bun')">Niña</button><button class="roleBtn" onclick="rolePreset('Niño','prism','short')">Niño</button>
+          <button class="roleBtn" onclick="rolePreset('Abuela','cylinder','bun')">Abuela</button><button class="roleBtn" onclick="rolePreset('Abuelo','prism','short')">Abuelo</button>
+        </div>
+        <div class="prop"><label>Modo visual</label><select id="mode"><option value="neutral">Neutral</option><option value="identified">Identificado</option><option value="character">Personaje</option></select></div>
+        <div class="prop"><label>Color del bloque</label><div class="palette" id="palette"></div></div>
+        <div class="row">
+          <div class="prop"><label>Peinado</label><select id="hair"><option value="none">Sin pelo</option><option value="short">Corto</option><option value="long">Largo</option><option value="bun">Rodete</option><option value="curly">Rizado</option></select></div>
+          <div class="prop"><label>Ojos</label><select id="eyes"><option value="open">Abiertos</option><option value="soft">Suaves</option><option value="closed">Cerrados</option></select></div>
+        </div>
+        <div class="row">
+          <div class="prop"><label>Boca</label><select id="mouth"><option value="soft">Suave</option><option value="neutral">Neutra</option><option value="smile">Sonrisa</option><option value="open">Abierta</option></select></div>
+          <div class="prop"><label>Color cabello</label><input id="hairColor" type="color" value="#654632" style="width:100%;height:38px;border:1px solid #d8d0c5;border-radius:9px;background:#fff"></div>
+        </div>
+        <div class="prop"><label>Rotación <span id="rotVal">0°</span></label><input id="rotation" type="range" min="-180" max="180" value="0"></div>
+        <div class="prop"><label>Escala <span id="scaleVal">100%</span></label><input id="scale" type="range" min="70" max="145" value="100"></div>
+        <button class="btn danger" style="width:100%" id="deleteBtn">Eliminar figura</button>
+      </div>
+      <div class="disclaimer">Las formas y roles son configurables: la representación visual ayuda a trabajar la escena, no define identidad ni diagnóstico.</div>
+    </div>
+  </aside>
+</main>
+
+<section class="emotions hidden" id="emotions">
+  <div class="emotionBar">
+    <div class="emotionTop"><div><div class="eyebrow">BIBLIOTECA DE EMOCIONES Y CONCEPTOS</div><div class="hint">Tocá un concepto para agregarlo al centro del campo.</div></div><input id="search" placeholder="Buscar emoción o concepto"></div>
+    <div class="emotionGrid" id="emotionGrid"></div>
+  </div>
+</section>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+const DEVICE_KEY='pc_device_id';
+function deviceId(){let x=localStorage.getItem(DEVICE_KEY);if(!x){x=(crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2));localStorage.setItem(DEVICE_KEY,x)}return x}
+function deviceLabel(){return [navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150)}
+async function validateAccess(){
+ const gate=document.getElementById('accessGate'),title=document.getElementById('gateTitle'),txt=document.getElementById('gateText');
+ const code=new URLSearchParams(location.search).get('access')||'';
+ if(!code){title.textContent='Abrí VÍNCORES desde tu biblioteca';txt.textContent='Este producto requiere un acceso personal activo. Ingresá al Portal PasaloChevere, activá tu código y abrilo desde “Mis juegos”.';return}
+ try{
+   const {data:{session}}=await sb.auth.getSession();
+   if(!session?.user?.email||session.user.is_anonymous)throw new Error('Primero verificá tu correo desde el Portal PasaloChevere.');
+   const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:code,device_id:deviceId(),device_label:deviceLabel()}});
+   if(error)throw new Error(error.message||'No pude validar el acceso.');
+   if(!data?.ok)throw new Error(data?.error||'Acceso inválido.');
+   if(data?.license?.product_code!=='VINC-001')throw new Error('Este código no corresponde a VÍNCORES DIGITAL.');
+   gate.classList.add('hidden');document.getElementById('intro').classList.remove('hidden');document.getElementById('introBtn').classList.remove('hidden');
+ }catch(e){title.textContent='No pude abrir VÍNCORES';txt.textContent=e.message||'Revisá tu acceso desde el portal.'}
+}
+const COLORS=['#d79aa3','#9eb3d1','#e5b756','#8fc28b','#bd91c9','#ef9c6c','#6fb6b0','#d7c7aa','#8d8f93','#b85d64','#6787a9','#658963'];
+const EMOTIONS=['ENERGIA','CREENCIA','ANCESTROS','ESPIRITUALIDAD','DESARRAIGO','PSICOLOGIA','IMPLICANCIAS','ABUSOS','FANTASIA','PASADO','PRESENTE','FUTURO','PSIQUIATRIA','ABORTO','REALIDAD','FAMILIA','ESFUERZO','FERTILIDAD','MUERTE','AMOR INCONDICIONAL','SECRETOS','CONFUSION','PERTURBACION','SALUD','ENFERMEDAD','DISMINUCION MASC','DISMINUCION FEM','AMOR','VIDA','PAZ','FUERZA','SABIDURIA','PERDON','ODIO'];
+const board=document.getElementById('board'),empty=document.getElementById('empty'),props=document.getElementById('props'),nothing=document.getElementById('nothing'),toast=document.getElementById('toast');
+let selected=null,z=5,counter=0;
+const $=id=>document.getElementById(id);
+function showToast(t){toast.textContent=t;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1500)}
+function rgba(hex,a){let c=hex.replace('#','');if(c.length===3)c=c.split('').map(x=>x+x).join('');let n=parseInt(c,16);return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')'}
+function faceHTML(m){return '<div class="hair '+m.hair+'" style="--hair:'+m.hairColor+'"></div><div class="eyes '+m.eyes+'"><i class="eye"></i><i class="eye"></i></div><div class="mouth '+m.mouth+'"></div>'}
+function updateEmpty(){empty.style.display=board.querySelector('.node')?'none':'grid'}
+function makeFigure(shape,height,x=50,y=50,label='Sin nombre'){
+ const n=document.createElement('div');n.className='node';n.style.left=x+'%';n.style.top=y+'%';n.style.zIndex=++z;
+ n._meta={id:'f'+(++counter),kind:'figure',shape,height,label,rotation:0,scale:1,mode:'neutral',color:shape==='cylinder'?'#d79aa3':'#9eb3d1',hair:shape==='cylinder'?'long':'short',hairColor:'#654632',eyes:'soft',mouth:'soft'};
+ n.innerHTML='<div class="direction">↑</div><div class="figureBody '+shape+'"><div class="figureTop"></div><div class="face"></div></div><div class="figureLabel"></div>';
+ board.appendChild(n);renderFigure(n);bindNode(n);selectNode(n);updateEmpty();return n
+}
+function addFigure(shape,height){makeFigure(shape,height,45+Math.random()*10,42+Math.random()*15)}
+function renderFigure(n){
+ const m=n._meta,b=n.querySelector('.figureBody'),f=n.querySelector('.face'),l=n.querySelector('.figureLabel');
+ b.className='figureBody '+m.shape+(m.mode==='character'?' mode-character':'');
+ b.style.height=m.height+'px';b.style.setProperty('--tint',m.mode==='neutral'?'rgba(255,255,255,0)':rgba(m.color,.48));
+ f.innerHTML=faceHTML(m);l.textContent=m.label||'Sin nombre';n.style.transform='translate(-50%,-50%) rotate('+m.rotation+'deg) scale('+m.scale+')';
+ l.style.transform='rotate('+(-m.rotation)+'deg) scale('+(1/m.scale)+')';l.style.transformOrigin='top center';
+}
+function bindNode(n){
+ let drag=null;n.addEventListener('pointerdown',e=>{if(e.button!==undefined&&e.button!==0)return;selectNode(n);const r=board.getBoundingClientRect();drag={id:e.pointerId,r};n.setPointerCapture?.(e.pointerId);e.preventDefault()});
+ n.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;let x=(e.clientX-drag.r.left)/drag.r.width*100,y=(e.clientY-drag.r.top)/drag.r.height*100;n.style.left=Math.max(3,Math.min(97,x))+'%';n.style.top=Math.max(5,Math.min(95,y))+'%'});
+ n.addEventListener('pointerup',e=>{if(drag&&drag.id===e.pointerId)drag=null});
+}
+function selectNode(n){document.querySelectorAll('.node.selected').forEach(x=>x.classList.remove('selected'));selected=n;if(!n||n._meta.kind!=='figure'){props.classList.add('hidden');nothing.classList.remove('hidden');return}n.classList.add('selected');n.style.zIndex=++z;props.classList.remove('hidden');nothing.classList.add('hidden');const m=n._meta;$('nameInput').value=m.label;$('mode').value=m.mode;$('hair').value=m.hair;$('eyes').value=m.eyes;$('mouth').value=m.mouth;$('hairColor').value=m.hairColor;$('rotation').value=m.rotation;$('scale').value=Math.round(m.scale*100);$('rotVal').textContent=m.rotation+'°';$('scaleVal').textContent=Math.round(m.scale*100)+'%';renderPalette()}
+function renderPalette(){const p=$('palette');p.innerHTML='';COLORS.forEach(c=>{let b=document.createElement('button');b.className='swatch'+(selected&&selected._meta.color===c?' active':'');b.style.setProperty('--c',c);b.onclick=()=>{if(!selected)return;selected._meta.color=c;if(selected._meta.mode==='neutral')selected._meta.mode='identified';$('mode').value=selected._meta.mode;renderFigure(selected);renderPalette()};p.appendChild(b)})}
+function rolePreset(label,shape,hair){if(!selected)return;Object.assign(selected._meta,{label,shape,hair,mode:'character'});renderFigure(selected);selectNode(selected)}
+function makeSymbol(name,x=50,y=50){const n=document.createElement('div');n.className='node';n.style.left=x+'%';n.style.top=y+'%';n.style.zIndex=++z;n._meta={id:'s'+(++counter),kind:'symbol',label:name};n.innerHTML='<div class="symbol"><span>✦</span><b>'+name+'</b></div>';board.appendChild(n);bindNode(n);n.addEventListener('dblclick',()=>n.remove());selectNode(null);updateEmpty()}
+function clearBoard(){board.querySelectorAll('.node').forEach(n=>n.remove());selected=null;selectNode(null);updateEmpty()}
+function loadCase(type){clearBoard();if(type==='pareja'){makeFigure('cylinder',72,35,48,'YO');makeFigure('prism',72,65,48,'PAREJA');makeSymbol('AMOR',50,72)}else if(type==='familia'){makeFigure('cylinder',72,30,38,'MAMÁ');makeFigure('prism',72,70,38,'PAPÁ');makeFigure('cylinder',46,43,66,'HIJA');makeFigure('prism',46,57,66,'HIJO');makeSymbol('FAMILIA',50,82)}else if(type==='padres'){makeFigure('prism',72,35,45,'PAPÁ');makeFigure('cylinder',72,65,45,'MAMÁ');makeFigure('cylinder',58,50,70,'YO')}else if(type==='trabajo'){makeFigure('cylinder',72,35,50,'YO');makeSymbol('ESFUERZO',65,45);makeSymbol('FUERZA',62,68)}else{makeFigure('cylinder',72,50,50,'YO')}showToast('Ejemplo cargado')}
+function serialize(){return [...board.querySelectorAll('.node')].map(n=>({meta:n._meta,left:n.style.left,top:n.style.top}))}
+function hydrate(data){clearBoard();(data||[]).forEach(it=>{if(it.meta.kind==='figure'){let n=makeFigure(it.meta.shape,it.meta.height,parseFloat(it.left),parseFloat(it.top),it.meta.label);n._meta={...n._meta,...it.meta};renderFigure(n)}else makeSymbol(it.meta.label,parseFloat(it.left),parseFloat(it.top))});selectNode(null)}
+$('saveBtn').onclick=()=>{localStorage.setItem('vincores_scene_v1',JSON.stringify({name:$('sceneName').value||'Escena',data:serialize()}));showToast('Escena guardada')};
+$('loadBtn').onclick=()=>{let s=localStorage.getItem('vincores_scene_v1');if(!s)return showToast('No hay escena guardada');let d=JSON.parse(s);$('sceneName').value=d.name||'';hydrate(d.data);showToast('Escena cargada')};
+$('clearBtn').onclick=()=>{if(confirm('¿Limpiar el campo?'))clearBoard()};
+$('deleteBtn').onclick=()=>{if(selected){selected.remove();selected=null;selectNode(null);updateEmpty();showToast('Figura eliminada')}};
+$('nameInput').oninput=e=>{if(selected){selected._meta.label=e.target.value;renderFigure(selected)}};
+$('mode').onchange=e=>{if(selected){selected._meta.mode=e.target.value;renderFigure(selected);renderPalette()}};
+$('hair').onchange=e=>{if(selected){selected._meta.hair=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected)}};
+$('eyes').onchange=e=>{if(selected){selected._meta.eyes=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected)}};
+$('mouth').onchange=e=>{if(selected){selected._meta.mouth=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected)}};
+$('hairColor').oninput=e=>{if(selected){selected._meta.hairColor=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected)}};
+$('rotation').oninput=e=>{if(selected){selected._meta.rotation=+e.target.value;$('rotVal').textContent=e.target.value+'°';renderFigure(selected)}};
+$('scale').oninput=e=>{if(selected){selected._meta.scale=+e.target.value/100;$('scaleVal').textContent=e.target.value+'%';renderFigure(selected)}};
+function renderEmotions(q=''){const g=$('emotionGrid');g.innerHTML='';EMOTIONS.filter(x=>x.toLowerCase().includes(q.toLowerCase())).forEach(x=>{let b=document.createElement('button');b.className='emotionBtn';b.textContent=x;b.onclick=()=>{makeSymbol(x,48+Math.random()*8,48+Math.random()*8);showToast(x+' agregado')};g.appendChild(b)})}
+$('search').oninput=e=>renderEmotions(e.target.value);renderEmotions();
+$('enterBtn').onclick=()=>{$('intro').classList.add('hidden');$('app').classList.remove('hidden');$('emotions').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})};
+$('introBtn').onclick=()=>{$('intro').classList.remove('hidden');$('app').classList.add('hidden');$('emotions').classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'})};
+function rounded(ctx,x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+$('exportBtn').onclick=()=>{const r=board.getBoundingClientRect(),W=1400,H=900,c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');ctx.fillStyle='#855334';ctx.fillRect(0,0,W,H);rounded(ctx,24,24,W-48,H-48,24);ctx.fillStyle='#faf7f1';ctx.fill();ctx.fillStyle='#45665f';ctx.font='800 24px Arial';ctx.fillText('VÍNCORES · '+($('sceneName').value||'Campo de constelación'),55,68);const sx=(W-90)/r.width,sy=(H-100)/r.height;[...board.querySelectorAll('.node')].forEach(n=>{const m=n._meta,x=45+parseFloat(n.style.left)/100*(W-90),y=78+parseFloat(n.style.top)/100*(H-120);if(m.kind==='symbol'){ctx.save();ctx.translate(x,y);ctx.fillStyle='#fff';ctx.strokeStyle='#ddd4c8';rounded(ctx,-55,-30,110,60,14);ctx.fill();ctx.stroke();ctx.fillStyle='#333';ctx.font='bold 14px Arial';ctx.textAlign='center';ctx.fillText(m.label,0,5);ctx.restore();return}ctx.save();ctx.translate(x,y);ctx.rotate(m.rotation*Math.PI/180);ctx.scale(m.scale,m.scale);const w=66,h=m.height;rounded(ctx,-w/2,-h/2,w,h,m.shape==='cylinder'?26:6);ctx.fillStyle=m.mode==='neutral'?(m.shape==='cylinder'?'#e9b9ad':'#b9c7db'):m.color;ctx.fill();ctx.strokeStyle='rgba(80,55,30,.18)';ctx.stroke();if(m.mode==='character'){ctx.fillStyle=m.hairColor;ctx.beginPath();ctx.arc(0,-h/2+18,13,Math.PI,0);ctx.fill();ctx.fillStyle='#30251f';ctx.beginPath();ctx.arc(-6,-h/2+26,1.8,0,Math.PI*2);ctx.arc(6,-h/2+26,1.8,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#7b4e45';ctx.beginPath();ctx.moveTo(-4,-h/2+35);ctx.quadraticCurveTo(0,-h/2+38,4,-h/2+35);ctx.stroke()}ctx.restore();ctx.save();ctx.fillStyle='#fff';ctx.strokeStyle='#ddd4c8';rounded(ctx,x-55,y+m.height*m.scale/2+13,110,28,8);ctx.fill();ctx.stroke();ctx.fillStyle='#222';ctx.font='bold 13px Arial';ctx.textAlign='center';ctx.fillText(m.label||'Sin nombre',x,y+m.height*m.scale/2+32);ctx.restore()});const a=document.createElement('a');a.download='vincores-'+Date.now()+'.png';a.href=c.toDataURL('image/png');a.click();showToast('PNG exportado')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')selectNode(null);if((e.key==='Delete'||e.key==='Backspace')&&selected&&!['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)){selected.remove();selected=null;selectNode(null);updateEmpty()}});
+renderPalette();updateEmpty();validateAccess();
+</script>
+</body></html>
