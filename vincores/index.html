@@ -201,21 +201,29 @@ function loadStage(i){if(!stages[i])return;activeStage=i;restoreState(clone(stag
 function updateStage(){if(activeStage<0||!stages[activeStage])return showToast('Elegí una etapa');const custom=$('stageName').value.trim();if(custom)stages[activeStage].name=custom;stages[activeStage].state=clone(serializeState());$('stageName').value='';renderStages();showToast('Etapa actualizada')}
 function deleteStage(){if(activeStage<0||!stages[activeStage])return showToast('Elegí una etapa');stages.splice(activeStage,1);activeStage=Math.min(activeStage,stages.length-1);renderStages();showToast('Etapa eliminada')}
 
-$('saveBtn').onclick=()=>{localStorage.setItem('vincores_scene_v1',JSON.stringify({name:$('sceneName').value||'Escena',data:serialize()}));showToast('Escena guardada')};
-$('loadBtn').onclick=()=>{let s=localStorage.getItem('vincores_scene_v1');if(!s)return showToast('No hay escena guardada');let d=JSON.parse(s);$('sceneName').value=d.name||'';hydrate(d.data);showToast('Escena cargada')};
-$('clearBtn').onclick=()=>{if(confirm('¿Limpiar el campo?'))clearBoard()};
-$('deleteBtn').onclick=()=>{if(selected){selected.remove();selected=null;selectNode(null);updateEmpty();showToast('Figura eliminada')}};
-$('nameInput').oninput=e=>{if(selected){selected._meta.label=e.target.value;renderFigure(selected)}};
-$('mode').onchange=e=>{if(selected){selected._meta.mode=e.target.value;renderFigure(selected);renderPalette()}};
-$('hair').onchange=e=>{if(selected){selected._meta.hair=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected)}};
-$('eyes').onchange=e=>{if(selected){selected._meta.eyes=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected)}};
-$('mouth').onchange=e=>{if(selected){selected._meta.mouth=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected)}};
+const SCENE_KEY='vincores_scene_v2';
+$('saveBtn').onclick=()=>{localStorage.setItem(SCENE_KEY,JSON.stringify({name:$('sceneName').value||'Escena',state:serializeState(),stages:clone(stages),activeStage,updatedAt:Date.now()}));showToast('Escena guardada')};
+$('loadBtn').onclick=()=>{let raw=localStorage.getItem(SCENE_KEY)||localStorage.getItem('vincores_scene_v1');if(!raw)return showToast('No hay escena guardada');let d=JSON.parse(raw);$('sceneName').value=d.name||'';if(d.state)restoreState(d.state);else restoreState({nodes:d.data||[],relations:[]});stages=clone(d.stages||[]);activeStage=Number.isInteger(d.activeStage)?d.activeStage:-1;renderStages();resetHistory();showToast('Escena cargada')};
+$('clearBtn').onclick=()=>{if(confirm('¿Limpiar el campo?')){clearBoard(true);stages=[];activeStage=-1;renderStages()}};
+$('deleteBtn').onclick=()=>{if(selected){removeNode(selected);commitHistory();showToast('Figura eliminada')}};
+$('duplicateBtn').onclick=duplicateSelected;
+$('undoBtn').onclick=undo;$('redoBtn').onclick=redo;
+$('saveStageBtn').onclick=saveStage;$('updateStageBtn').onclick=updateStage;$('deleteStageBtn').onclick=deleteStage;
+$('nameInput').oninput=e=>{if(selected){selected._meta.label=e.target.value;renderFigure(selected);renderRelationList()}};
+$('nameInput').onchange=()=>commitHistory();
+$('mode').onchange=e=>{if(selected){selected._meta.mode=e.target.value;renderFigure(selected);renderPalette();commitHistory()}};
+$('hair').onchange=e=>{if(selected){selected._meta.hair=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected);commitHistory()}};
+$('eyes').onchange=e=>{if(selected){selected._meta.eyes=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected);commitHistory()}};
+$('mouth').onchange=e=>{if(selected){selected._meta.mouth=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected);commitHistory()}};
 $('hairColor').oninput=e=>{if(selected){selected._meta.hairColor=e.target.value;selected._meta.mode='character';$('mode').value='character';renderFigure(selected)}};
+$('hairColor').onchange=()=>commitHistory();
 $('rotation').oninput=e=>{if(selected){selected._meta.rotation=+e.target.value;$('rotVal').textContent=e.target.value+'°';renderFigure(selected)}};
+$('rotation').onchange=()=>commitHistory();
 $('scale').oninput=e=>{if(selected){selected._meta.scale=+e.target.value/100;$('scaleVal').textContent=e.target.value+'%';renderFigure(selected)}};
-function renderEmotions(q=''){const g=$('emotionGrid');g.innerHTML='';EMOTIONS.filter(x=>x.toLowerCase().includes(q.toLowerCase())).forEach(x=>{let b=document.createElement('button');b.className='emotionBtn';b.textContent=x;b.onclick=()=>{makeSymbol(x,48+Math.random()*8,48+Math.random()*8);showToast(x+' agregado')};g.appendChild(b)})}
+$('scale').onchange=()=>commitHistory();
+function renderEmotions(q=''){const g=$('emotionGrid');g.innerHTML='';EMOTIONS.filter(x=>x.toLowerCase().includes(q.toLowerCase())).forEach(x=>{let b=document.createElement('button');b.className='emotionBtn';b.textContent=x;b.onclick=()=>{makeSymbol(x,48+Math.random()*8,48+Math.random()*8);commitHistory();showToast(x+' agregado')};g.appendChild(b)})}
 $('search').oninput=e=>renderEmotions(e.target.value);renderEmotions();
-$('enterBtn').onclick=()=>{$('intro').classList.add('hidden');$('app').classList.remove('hidden');$('emotions').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})};
+$('enterBtn').onclick=()=>{$('intro').classList.add('hidden');$('app').classList.remove('hidden');$('emotions').classList.remove('hidden');setTimeout(renderRelations,20);window.scrollTo({top:0,behavior:'smooth'})};
 $('introBtn').onclick=()=>{$('intro').classList.remove('hidden');$('app').classList.add('hidden');$('emotions').classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'})};
 function rounded(ctx,x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
 $('exportBtn').onclick=()=>{const r=board.getBoundingClientRect(),W=1400,H=900,c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');ctx.fillStyle='#855334';ctx.fillRect(0,0,W,H);rounded(ctx,24,24,W-48,H-48,24);ctx.fillStyle='#faf7f1';ctx.fill();ctx.fillStyle='#45665f';ctx.font='800 24px Arial';ctx.fillText('VÍNCORES · '+($('sceneName').value||'Campo de constelación'),55,68);const sx=(W-90)/r.width,sy=(H-100)/r.height;[...board.querySelectorAll('.node')].forEach(n=>{const m=n._meta,x=45+parseFloat(n.style.left)/100*(W-90),y=78+parseFloat(n.style.top)/100*(H-120);if(m.kind==='symbol'){ctx.save();ctx.translate(x,y);ctx.fillStyle='#fff';ctx.strokeStyle='#ddd4c8';rounded(ctx,-55,-30,110,60,14);ctx.fill();ctx.stroke();ctx.fillStyle='#333';ctx.font='bold 14px Arial';ctx.textAlign='center';ctx.fillText(m.label,0,5);ctx.restore();return}ctx.save();ctx.translate(x,y);ctx.rotate(m.rotation*Math.PI/180);ctx.scale(m.scale,m.scale);const w=66,h=m.height;rounded(ctx,-w/2,-h/2,w,h,m.shape==='cylinder'?26:6);ctx.fillStyle=m.mode==='neutral'?(m.shape==='cylinder'?'#e9b9ad':'#b9c7db'):m.color;ctx.fill();ctx.strokeStyle='rgba(80,55,30,.18)';ctx.stroke();if(m.mode==='character'){ctx.fillStyle=m.hairColor;ctx.beginPath();ctx.arc(0,-h/2+18,13,Math.PI,0);ctx.fill();ctx.fillStyle='#30251f';ctx.beginPath();ctx.arc(-6,-h/2+26,1.8,0,Math.PI*2);ctx.arc(6,-h/2+26,1.8,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#7b4e45';ctx.beginPath();ctx.moveTo(-4,-h/2+35);ctx.quadraticCurveTo(0,-h/2+38,4,-h/2+35);ctx.stroke()}ctx.restore();ctx.save();ctx.fillStyle='#fff';ctx.strokeStyle='#ddd4c8';rounded(ctx,x-55,y+m.height*m.scale/2+13,110,28,8);ctx.fill();ctx.stroke();ctx.fillStyle='#222';ctx.font='bold 13px Arial';ctx.textAlign='center';ctx.fillText(m.label||'Sin nombre',x,y+m.height*m.scale/2+32);ctx.restore()});const a=document.createElement('a');a.download='vincores-'+Date.now()+'.png';a.href=c.toDataURL('image/png');a.click();showToast('PNG exportado')};
