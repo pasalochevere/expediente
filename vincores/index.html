@@ -141,8 +141,12 @@ async function validateAccess(){
 const COLORS=['#d79aa3','#9eb3d1','#e5b756','#8fc28b','#bd91c9','#ef9c6c','#6fb6b0','#d7c7aa','#8d8f93','#b85d64','#6787a9','#658963'];
 const EMOTIONS=['ENERGIA','CREENCIA','ANCESTROS','ESPIRITUALIDAD','DESARRAIGO','PSICOLOGIA','IMPLICANCIAS','ABUSOS','FANTASIA','PASADO','PRESENTE','FUTURO','PSIQUIATRIA','ABORTO','REALIDAD','FAMILIA','ESFUERZO','FERTILIDAD','MUERTE','AMOR INCONDICIONAL','SECRETOS','CONFUSION','PERTURBACION','SALUD','ENFERMEDAD','DISMINUCION MASC','DISMINUCION FEM','AMOR','VIDA','PAZ','FUERZA','SABIDURIA','PERDON','ODIO'];
 const board=document.getElementById('board'),empty=document.getElementById('empty'),props=document.getElementById('props'),nothing=document.getElementById('nothing'),toast=document.getElementById('toast');
-let selected=null,z=5,counter=0;
+const REL_TYPES={bond:{label:'Vínculo',color:'#2f8f83',dash:'',width:4},support:{label:'Apoyo',color:'#6c9b5d',dash:'',width:6},conflict:{label:'Tensión',color:'#b45550',dash:'10 7',width:4},direction:{label:'Dirección',color:'#c99a3a',dash:'',width:4,arrow:true},cut:{label:'Corte',color:'#77736d',dash:'5 7',width:3,cut:true}};
+let selected=null,z=5,counter=0,relations=[],linkMode=null,linkFirst=null,stages=[],activeStage=-1,history=[],redoStack=[],historyLock=false;
 const $=id=>document.getElementById(id);
+function uid(prefix){return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8)}
+function clone(v){return JSON.parse(JSON.stringify(v))}
+function nodeById(id){return [...board.querySelectorAll('.node')].find(n=>n._meta?.id===id)||null}
 function showToast(t){toast.textContent=t;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1500)}
 function rgba(hex,a){let c=hex.replace('#','');if(c.length===3)c=c.split('').map(x=>x+x).join('');let n=parseInt(c,16);return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')'}
 function faceHTML(m){return '<div class="hair '+m.hair+'" style="--hair:'+m.hairColor+'"></div><div class="eyes '+m.eyes+'"><i class="eye"></i><i class="eye"></i></div><div class="mouth '+m.mouth+'"></div>'}
