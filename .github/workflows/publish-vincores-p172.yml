@@ -39,7 +39,7 @@ jobs:
 
           grep -Fq 'Acompañame paso a paso' vincores/index.html
           grep -Fq 'No sé cómo seguir' vincores/index.html
-          grep -Fq 'Resumen automático a bitácora' vincores/index.html
+          grep -Fq 'Cerrar sesión + guardar resumen' vincores/index.html
           grep -Fq 'Cómo llevar la sesión' vincores/index.html
           grep -Fq 'register_device' vincores/index.html
           grep -Fq 'VINC-001' vincores/index.html
