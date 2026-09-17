@@ -1,0 +1,60 @@
+name: Publish VÍNCORES P1.7.2
+
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-vincores-p172.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Backup current VÍNCORES and publish P1.7.2
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p vincores/backups
+          if [ ! -f vincores/backups/P1.6.1_before_P1.7.2.html ]; then
+            cp vincores/index.html vincores/backups/P1.6.1_before_P1.7.2.html
+          fi
+
+          curl -fL 'https://d2ol7oe51mr4n9.cloudfront.net/user_3HsxoUqhL2jq6HZbpDZ6JgCwUeq/dbdc5184-7b48-40ec-af07-b2fdb6e45315.html' -o vincores/index.html
+
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('vincores/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('P1.7 REVIEW', 'P1.7.2')
+          s = s.replace('P1.7.1 · Práctica guiada', 'P1.7.2 · Facilitador de sesión')
+          p.write_text(s, encoding='utf-8')
+          PY
+
+          grep -Fq 'Acompañame paso a paso' vincores/index.html
+          grep -Fq 'No sé cómo seguir' vincores/index.html
+          grep -Fq 'Resumen automático a bitácora' vincores/index.html
+          grep -Fq 'Cómo llevar la sesión' vincores/index.html
+          grep -Fq 'register_device' vincores/index.html
+          grep -Fq 'VINC-001' vincores/index.html
+          grep -Fq 'height:620px' vincores/index.html
+
+      - name: Commit production update
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'PasaloChevere Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add vincores/index.html vincores/backups/P1.6.1_before_P1.7.2.html
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Publish VÍNCORES P1.7.2 facilitator and journal'
+          git push origin HEAD:main
