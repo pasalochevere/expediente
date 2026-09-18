@@ -15,7 +15,7 @@ body{display:grid;place-items:center}
 </style>
 </head>
 <body>
-<div id="s"><b>EXPEDIENTES · CASO 002</b><small>LA HABITACIÓN QUE NO EXISTE · BETA</small><div class="spin"></div><small>Cargando Hotel Orfeo…</small></div>
+<div id="s"><b>EXPEDIENTES · CASO 002</b><small>LA HABITACIÓN QUE NO EXISTE · BETA AUDIO</small><div class="spin"></div><small>Cargando Hotel Orfeo…</small></div>
 <script>
 (async()=>{
   const names=['payload.part00a1a.correct','payload.part00a1b','payload.part00a2','payload.part00b','payload.part01','payload.part02','payload.part03','payload.part04','payload.part05'];
@@ -29,7 +29,8 @@ body{display:grid;place-items:center}
   for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
   if(!('DecompressionStream' in window))throw new Error('Tu navegador necesita una versión más reciente.');
   const ds=new DecompressionStream('gzip');
-  const html=await new Response(new Blob([u8]).stream().pipeThrough(ds)).text();
+  let html=await new Response(new Blob([u8]).stream().pipeThrough(ds)).text();
+  html=html.replace('</body>','<script src="audio.js?v=181"></'+'script></body>');
   document.open();document.write(html);document.close();
 })().catch(e=>{
   document.getElementById('s').innerHTML='<b>No pude abrir el Caso 002</b><small>'+String(e.message||e)+'</small>';
