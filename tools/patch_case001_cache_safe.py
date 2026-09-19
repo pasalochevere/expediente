@@ -1,4 +1,5 @@
 from pathlib import Path
+# trigger v1
 p=Path('caso001/index.html')
 s=p.read_text(encoding='utf-8')
 old="import {P2MultiplayerAdapter,P2_LABELS,findStoredLicense,saveStoredLicense,lastRoomCode,remainingSeconds,formatClock} from './p2-multiplayer-adapter.js';"
@@ -9,7 +10,6 @@ old="saveStoredLicense(portalAccess);"
 new="localStorage.setItem('pc_exp_license_key',portalAccess);"
 assert s.count(old)==1, f'save mismatch {s.count(old)}'
 s=s.replace(old,new,1)
-# Let backend auto-resolve an active account access when field is empty.
 old="const key=$('#licenseKey').value.trim();if(!key)throw new Error('Ingresá la licencia para crear la sala.');data=await adapter.createRoom({licenseKey:key,displayName:name,characterIndex:selectedCharacter,mode:$('#mode').value})"
 new="const key=$('#licenseKey').value.trim();data=await adapter.createRoom({licenseKey:key,displayName:name,characterIndex:selectedCharacter,mode:$('#mode').value})"
 assert s.count(old)==1, f'enter mismatch {s.count(old)}'
