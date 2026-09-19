@@ -1,4 +1,4 @@
-// CASO 001 · P2.12 · Adaptador multiplayer real
+// CASO 001 · P2.12B · Adaptador multiplayer real
 // Usa Edge Functions P2 y Realtime. No conoce ni carga soluciones.
 
 export const P2_CONFIG = Object.freeze({
@@ -74,6 +74,7 @@ export class P2MultiplayerAdapter{
     this.channel=null;
     this.changeHandler=null;
     this.refreshTimer=null;
+    this.fallbackTickTimer=null;
   }
 
   async init(){
@@ -170,10 +171,19 @@ export class P2MultiplayerAdapter{
       .on('postgres_changes',{event:'*',schema:'public',table:'exp_events',filter:`room_id=eq.${roomId}`},notify)
       .subscribe();
     this.channel=channel;
+    // Failover de pacing: el host sigue haciendo tick cada 15 s desde la UI.
+    // Cualquier cliente conectado hace un tick de respaldo cada 45 s. El backend
+    // valida pertenencia y deduplica los eventos, por lo que es seguro e idempotente.
+    clearInterval(this.fallbackTickTimer);
+    this.fallbackTickTimer=setInterval(()=>{
+      if(this.roomId===roomId) this.action('tick',{},roomId).catch(()=>{});
+    },45000);
   }
 
   async unsubscribe(){
     clearTimeout(this.refreshTimer);
+    clearInterval(this.fallbackTickTimer);
+    this.fallbackTickTimer=null;
     if(this.sb&&this.channel){try{await this.sb.removeChannel(this.channel)}catch{}}
     this.channel=null;
   }
