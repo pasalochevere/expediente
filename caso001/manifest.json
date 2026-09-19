@@ -1,0 +1,10 @@
+{
+  "schemaVersion":"2.0.0",
+  "caseId":"CASO001",
+  "title":"La Última Reunión",
+  "characters":{"SANTIAGO":"Santiago · Socio / Empresario","CLARA":"Clara · Hermana","VERA":"Vera · Expareja","MATEO":"Mateo · Encargado","INES":"Inés · Periodista","TOMAS":"Tomás · Amigo"},
+  "locations":{"L1":"Sala de estar","L2":"Cocina","L3":"Estudio","L4":"Dormitorio","L5":"Jardín / exterior","L6":"Pasillo / acceso"},
+  "keyObjects":{"O1":"Arma","O2":"Cuaderno","O3":"Celular","O4":"Llave","O5":"Memoria USB","O6":"Pañuelo"},
+  "evidenceTypes":["temporal","testimonial","physical","digital","access","motivational"],
+  "packs":["packs/C001-01.json","packs/C001-02.json","packs/C001-03.json","packs/C001-04.json","packs/C001-05.json","packs/C001-06.json","packs/C001-07.json","packs/C001-08.json","packs/C001-09.json","packs/C001-10.json","packs/C001-11.json","packs/C001-12.json"]
+}
