@@ -1,0 +1,118 @@
+name: Build P2 printable embedded art
+
+on:
+  push:
+    branches: ["mejora-caso001-p2"]
+    paths:
+      - ".github/workflows/build-p2-printable-embedded.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: mejora-caso001-p2
+          fetch-depth: 0
+
+      - name: Build self-contained printable
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          root = Path('index.html').read_text(encoding='utf-8')
+          gen_path = Path('caso001/printables/generator-p2.html')
+          gen = gen_path.read_text(encoding='utf-8')
+
+          def extract(name):
+              m = re.search(r'const\s+' + re.escape(name) + r'\s*=\s*(\[[\s\S]*?\]);', root)
+              if not m:
+                  raise SystemExit(f'No se encontró {name} en index.html')
+              return m.group(1)
+
+          portraits = extract('portraits')
+          locations = extract('locationImages')
+          objects = extract('weaponImages')
+
+          # Add embedded art bank immediately before TYPE_LABEL.
+          marker = "const TYPE_LABEL="
+          if marker not in gen:
+              raise SystemExit('No se encontró TYPE_LABEL en generator-p2.html')
+          embedded = (
+              "const ART={\n"
+              f" portraits:{portraits},\n"
+              f" locations:{locations},\n"
+              f" objects:{objects}\n"
+              "};\n"
+              "function artImg(src,alt,fallback){return src?`<img src=\"${src}\" alt=\"${esc(alt)}\">`:`<span class=\"fallback-letter\">${esc(fallback)}</span>`}\n"
+          )
+          gen = gen.replace(marker, embedded + marker, 1)
+
+          # People: letter -> approved portrait.
+          old_people = "${c.name.slice(0,1)}"
+          new_people = "${artImg(ART.portraits[i],c.name,c.name.slice(0,1))}"
+          if old_people not in gen:
+              raise SystemExit('No se encontró placeholder de persona')
+          gen = gen.replace(old_people, new_people, 1)
+
+          # Scenes and objects: symbol -> approved image.
+          old_symbol = '<div class="symbol">${x[2]}</div>'
+          if gen.count(old_symbol) < 2:
+              raise SystemExit('No se encontraron los dos placeholders de símbolo')
+          gen = gen.replace(old_symbol, '<div class="symbol">${artImg(ART.locations[i],x[1],x[2])}</div>', 1)
+          gen = gen.replace(old_symbol, '<div class="symbol">${artImg(ART.objects[i],x[1],x[2])}</div>', 1)
+
+          # Image layout for printable cards.
+          css_marker = '.card-copy{padding:5mm}'
+          if css_marker not in gen:
+              raise SystemExit('No se encontró marcador CSS')
+          css = (
+              '.portrait img{width:100%;height:100%;object-fit:cover;display:block}\n'
+              '.symbol{overflow:hidden;align-self:stretch;min-height:48mm;display:grid;place-items:center;background:var(--paper2)}\n'
+              '.symbol img{width:100%;height:100%;object-fit:cover;display:block}\n'
+              '.eco .portrait img,.eco .symbol img{filter:grayscale(1) contrast(1.05)}\n'
+              '.fallback-letter{font:900 26pt Georgia,serif}\n'
+          )
+          gen = gen.replace(css_marker, css + css_marker, 1)
+
+          gen = gen.replace('Generador imprimible P2 V1', 'Generador imprimible P2 V1 · ARTE EMBEBIDO', 1)
+          gen = gen.replace('Kit base listo. Cargá un Crime Pack para generar evidencias dinámicas.', 'Kit base listo · Arte V1 embebido: 18/18 imágenes · Cargá un Crime Pack para evidencias dinámicas.', 1)
+          gen = gen.replace('<b>QA P2.11F:</b>', '<b>QA P2.11F-FIX2:</b> Arte V1 embebido 18/18 ·', 1)
+
+          out = Path('caso001/printables/generator-p2-embedded.html')
+          out.write_text(gen, encoding='utf-8')
+
+          # Hard gates: 18 real JPEG data URLs, no runtime art fetch.
+          text = out.read_text(encoding='utf-8')
+          count = text.count('data:image/jpeg;base64,')
+          if count < 18:
+              raise SystemExit(f'QA FAIL: solo {count} imágenes JPEG embebidas')
+          if 'LEGACY_ART_URL' in text or 'loadLegacyArt' in text:
+              raise SystemExit('QA FAIL: quedó dependencia runtime de arte')
+          if text.count('ART.portraits[i]') < 1 or text.count('ART.locations[i]') < 1 or text.count('ART.objects[i]') < 1:
+              raise SystemExit('QA FAIL: render no usa los tres bancos')
+          print(f'QA OK: {count} imágenes JPEG embebidas; salida {out.stat().st_size} bytes')
+
+      - name: Commit generated self-contained HTML
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add caso001/printables/generator-p2-embedded.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "fix: embed Caso 001 artwork in P2 printable"
+            git push origin HEAD:mejora-caso001-p2
+          fi
+
+      - name: Upload QA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: caso001-p2-printable-embedded
+          path: caso001/printables/generator-p2-embedded.html
+          if-no-files-found: error
