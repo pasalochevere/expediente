@@ -646,7 +646,7 @@ function pdfSetup(title,subtitle){
  const W=210,H=297;
  function pageHead(t=title,st=subtitle){
    d.setFillColor(255,249,238);d.rect(0,0,W,H,'F');
-   d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(9);d.text('PASALOCHEVERE · TORRE KIDS · MATEMÁTICA',16,14);
+   d.setTextColor(32,39,43);d.setFont('helvetica','bold');d.setFontSize(9);d.text('PASALOCHEVERE · CHÉVERE KIDS · MATEMÁTICA',16,14);
    d.setTextColor(217,154,88);d.setFontSize(25);d.text(t,16,31);
    if(st){d.setTextColor(107,103,97);d.setFont('helvetica','normal');d.setFontSize(10.5);d.text(st,16,40);}
    d.setFillColor(248,232,198);d.circle(186,18,12,'F');
@@ -722,14 +722,14 @@ function downloadAnswersPDF(){
  const qs=new URLSearchParams(location.search);let code=(qs.get('access')||sessionStorage.getItem('pc_tk_mat_access')||'').trim().toUpperCase();if(code)sessionStorage.setItem('pc_tk_mat_access',code);
  try{
   const {data:{session}}=await sb.auth.getSession();if(!session?.user?.email)throw new Error('Ingresá desde Mi Biblioteca para validar tu cuenta.');
-  if(!code)throw new Error('No encontré el código personal de Torre Kids Matemática.');
+  if(!code)throw new Error('No encontré el código personal de Chévere Kids · Matemática.');
   const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:code,device_id:deviceId(),device_label:label()}});
   if(error)throw error;if(!data?.ok)throw new Error(data?.error||'No se pudo validar el acceso.');
   const lic=data.license||{};
   S.productCode=lic.product_code||null;S.expiresAt=lic.expires_at||null;S.entitlement=lic.entitlement||((S.productCode==='TK-MAT-79-DIG')?'digital':'full');
-  state.textContent='✅ Acceso validado · '+(lic.product_name||'Torre Kids Matemática');
+  state.textContent='✅ Acceso validado · '+(lic.product_name||'Chévere Kids · Matemática');
   setTimeout(()=>{gate.classList.add('hidden');app.classList.remove('hidden');applyEntitlementUI();syncAudioUI();window.scrollTo(0,0)},300);
- }catch(e){state.textContent='⚠️ '+(e?.message||'Acceso no válido.')+' Volvé a tu biblioteca y abrí Torre Kids Matemática desde allí.'}
+ }catch(e){state.textContent='⚠️ '+(e?.message||'Acceso no válido.')+' Volvé a tu biblioteca y abrí Chévere Kids · Matemática desde allí.'}
 })();
 </script>
 </body></html>
