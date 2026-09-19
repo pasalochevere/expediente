@@ -1,0 +1,23 @@
+name: Portal account center patch
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "tools/patch_portal_account_center.py"
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch portal account center
+        run: python tools/patch_portal_account_center.py
+      - name: Commit portal update
+        run: |
+          git config user.name "PasaloChevere Release Bot"
+          git config user.email "pasalochevere@gmail.com"
+          git add portal-v2/index.html
+          git diff --cached --check
+          git commit -m "Portal: clarify account center and show previous access codes"
+          git push
