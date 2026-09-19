@@ -32,15 +32,16 @@ new_create="""async function createLicense(){const product=$('product').value,ch
 """
 s=s[:start]+new_create+s[end:]
 
-old="function resetSale(){$('saleRef').value='';$('buyerEmail').value='';$('resultCard').classList.add('hidden');current=null;$('saleRef').focus();msg('createMsg','Listo para una nueva venta.','')}"
-new="function resetSale(){$('saleRef').value='';$('buyerEmail').value='';$('accessKind').value='commercial';$('durationPreset').value='standard';$('customDays').value='7';syncAccess();$('resultCard').classList.add('hidden');current=null;$('saleRef').focus();msg('createMsg','Listo para una nueva venta.','')}"
-assert s.count(old)==1, f'reset anchor mismatch {s.count(old)}'
-s=s.replace(old,new)
+start=s.index('function resetSale(){')
+end=s.index("$('channel').onchange=syncChannel;",start)
+new_reset="""function resetSale(){$('saleRef').value='';$('buyerEmail').value='';$('accessKind').value='commercial';$('durationPreset').value='standard';$('customDays').value='7';syncAccess();$('resultCard').classList.add('hidden');current=null;$('saleRef').focus();msg('createMsg','Listo para una nueva venta.','')}
+"""
+s=s[:start]+new_reset+s[end:]
 
-old="$('channel').onchange=syncChannel;$('saleRef').oninput="
-new="$('channel').onchange=syncChannel;$('accessKind').onchange=syncAccess;$('durationPreset').onchange=syncAccess;$('customDays').oninput=syncAccess;$('saleRef').oninput="
-assert s.count(old)==1, f'listener anchor mismatch {s.count(old)}'
-s=s.replace(old,new)
+old="$('channel').onchange=syncChannel;"
+new="$('channel').onchange=syncChannel;$('accessKind').onchange=syncAccess;$('durationPreset').onchange=syncAccess;$('customDays').oninput=syncAccess;"
+assert old in s, 'listener anchor missing'
+s=s.replace(old,new,1)
 
 s=s.replace('comienza la vigencia de 12 meses y se habilita el límite configurado de dispositivos.','comienza la vigencia configurada para ese código y se habilita el límite de dispositivos.')
 p.write_text(s,encoding='utf-8')
