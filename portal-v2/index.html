@@ -56,7 +56,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 
 <section class="hero">
   <div class="heroCopy"><div class="eyebrow">TODOS TUS JUEGOS, UN SOLO ACCESO</div><h1>ENTRÁ.<br><em>ELEGÍ.</em><br>JUGÁ.</h1><p>Una sola biblioteca para activar, abrir y volver a tus experiencias PasaloChevere. Juegos de pareja, misterio, familia, aprendizaje y vínculos, cada uno con su propia identidad.</p></div>
-  <div class="heroPanel"><div class="eyebrow">TU BIBLIOTECA PERSONAL</div><h2>Menos mezcla. Más ganas de jugar.</h2><p>Cada producto vive dentro de una familia clara, sin perder la estética original de su juego.</p><div class="heroStats"><div class="heroStat"><b>5</b><span>familias de experiencias</span></div><div class="heroStat"><b>1</b><span>acceso personal</span></div><div class="heroStat"><b>Flexible</b><span>vigencia según tu acceso</span></div><div class="heroStat"><b>2</b><span>dispositivos</span></div></div></div>
+  <div class="heroPanel"><div class="eyebrow">TU CUENTA PASALOCHEVERE</div><h2>Todos tus juegos y accesos, en un solo lugar.</h2><p>Activá códigos, abrí tus juegos y consultá tus accesos anteriores, vigencia y dispositivos desde la misma cuenta.</p><div class="heroStats"><div class="heroStat"><b>Todo</b><span>tu historial de accesos</span></div><div class="heroStat"><b>1</b><span>cuenta personal</span></div><div class="heroStat"><b>Flexible</b><span>vigencia según cada acceso</span></div><div class="heroStat"><b>2</b><span>dispositivos por acceso</span></div></div></div>
 </section>
 <section class="categoryHub" aria-label="Categorías de juegos">
   <div class="categoryHubTitle"><div><div class="eyebrow">ELEGÍ TU EXPERIENCIA</div><h2>Entrá por categoría</h2></div><span>Los juegos viven adentro de cada familia. Abrí sólo la que te interesa.</span></div>
@@ -134,7 +134,8 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 </section>
 
 <section id="myGames" class="hidden">
-  <div class="catalog-title"><div><div class="eyebrow">MI BIBLIOTECA</div><h2>Mis juegos</h2></div><span>Accesos vinculados a tu cuenta</span></div>
+  <div class="catalog-title"><div><div class="eyebrow">MI CUENTA · HISTORIAL Y BIBLIOTECA</div><h2>Mis accesos y juegos</h2></div><span>Incluye tus activaciones anteriores vinculadas a esta misma cuenta</span></div>
+  <div class="msg good" style="margin:0 0 14px">Tus códigos personales anteriores aparecen automáticamente acá. No necesitás volver a activarlos.</div>
   <div id="myGamesGrid" class="libraryGroups"></div>
 </section>
 
@@ -183,7 +184,7 @@ async function loadMyGames(){
 }
 function gameHref(l){
  if(!l.game_url)return '#';
- if(l.product_code==='EXP-001')return '../?access='+encodeURIComponent(l.activation_code);
+ if(l.product_code==='EXP-001')return '../caso001/?access='+encodeURIComponent(l.activation_code);
  if(l.product_code==='EXP-002')return '../caso002/?access='+encodeURIComponent(l.activation_code);
  if(l.product_code==='DI-TRILOGIA')return '../doble-intencion/?access='+encodeURIComponent(l.activation_code);
  if(['TK-MAT-79','TK-MAT-79-PHY','TK-MAT-79-DIG'].includes(l.product_code))return '../torre-kids-matematica/?access='+encodeURIComponent(l.activation_code);
@@ -218,15 +219,15 @@ function renderLicenses(list){
      const active=l.status==='active'&&l.expires_at&&new Date(l.expires_at).getTime()>Date.now();
      const pending=!!l.can_activate;
      const hours=Number(l.duration_hours||8760);const duration=hours===8760?'12 MESES':hours===24?'1 DÍA':hours%24===0?`${hours/24} DÍAS`:`${hours} HORAS`;const date=l.expires_at?new Date(l.expires_at).toLocaleDateString('es-AR'):'Empieza al activar';
-     const badge=active?'● ACTIVO':pending?'● COMPRA APROBADA':'VENCIDO';
+     const badge=active?'● ACTIVO':pending?'● PENDIENTE DE ACTIVAR':l.status==='revoked'?'● ANULADO':'● VENCIDO';
      const badgeClass=(active||pending)?'live':'';
      const code=l.activation_code||'Se genera al activar';
      let action='';
      if(pending) action='<button class="btn primary" onclick="activateOwned(\''+escapeHtml(l.product_code)+'\')">ACTIVAR · '+duration+'</button>';
-     else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a>';
-     else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span>';
+     else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
+     else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
      else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
-     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>';
+     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código de acceso: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>';
    }).join('');
    return '<section class="libraryGroup"><div class="libraryGroupTitle"><b>'+group.label+'</b><span></span></div><div class="grid">'+cards+'</div></section>';
  }).join('');
