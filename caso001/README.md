@@ -1,122 +1,148 @@
 # CASO 001 · LA ÚLTIMA REUNIÓN · P2
 
-Esta carpeta contiene la reconstrucción no destructiva del motor de misterio de Caso 001.
+Reconstrucción no destructiva de Caso 001. Todo P2 permanece aislado de `index.html` raíz hasta completar QA multidispositivo, seguridad y playtest humano.
 
-## Estado actual
+## Componentes
 
 - `CASE_STANDARD.md` — reglas maestras P2.
-- `manifest.json` — IDs estables de personajes, escenas, objetos y lista de Crime Packs.
-- `packs/C001-01.json` … `C001-12.json` — 12 crímenes reescritos después de P2.11C.
-- `crime-engine.js` — carga, validación, progresión, acusación y Director narrativo.
-- `proof-map.json` + `proof-validator.js` — mapa de prueba narrativa y auditoría de roles.
-- `player-count-qa.js` — matriz 3–6 jugadores con humanos + NPC y matriz específica de Impostor.
-- `qa.html` — panel visual de QA P2.11C.
-- `P2.11B_QA_JUGABLE.md` — diagnóstico profundo previo al FIX.
-- `P2.11C_FIX_JUGABLE.md` — cambios aplicados y reglas posteriores al FIX.
-- `P2.11D_QA_POST_FIX.md` — recorrido ciego E1 → E2 → E3 de los 12 casos después del FIX.
-- `index.html` — prototipo jugable aislado P2.
+- `manifest.json` — IDs estables.
+- `packs/C001-01.json` … `C001-12.json` — 12 Crime Packs post-FIX.
+- `crime-engine.js` — motor deductivo aislado.
+- `proof-map.json` + `proof-validator.js` — cadena narrativa.
+- `player-count-qa.js` — matriz 3–6 jugadores Normal/Impostor.
+- `qa.html` — QA visual.
+- `P2.11B_QA_JUGABLE.md` — diagnóstico jugable profundo.
+- `P2.11C_FIX_JUGABLE.md` — FIX de los 12 casos.
+- `P2.11D_QA_POST_FIX.md` — recorrido post-FIX E1 → E2 → E3.
+- `P2.12_INTEGRATION.md` — arquitectura de integración real.
+- `index.html` — prototipo P2 local/aislado.
+- `p2-multiplayer-adapter.js` — cliente de contrato multiplayer P2.
+- `multiplayer-p2.html` — cliente multiplayer real aislado.
 
-## Estado P2.11D
+## Estado deductivo · P2.11D
 
-El QA jugable post-FIX de escritorio está completo para 12/12 paquetes.
+- 12/12 abren E1 sin revelar identidad.
+- 12/12 conservan alternativa defendible en E2.
+- 12/12 reservan el pivote fuerte para E3.
+- 12/12 tienen `criticalEvent`, `mechanism` y `postCrimeAction`.
+- 12/12 soportan testigos humanos/NPC.
+- No se detectó un fallo lógico grave que obligue a volver a P2.11C.
 
-Resultado global:
-
-- 12/12 abren E1 sin entregar identidad;
-- 12/12 conservan al menos una alternativa narrativa defendible al final de E2;
-- 12/12 reservan para E3 una atribución fuerte o pivote de reconstrucción;
-- 12/12 tienen hecho crítico, mecanismo y acción postcrimen explícitos;
-- 12/12 permiten recuperar testimonios indispensables cuando el testigo es NPC;
-- la tecnología funciona como corroboración y no como respuesta aislada;
-- C001-11 recibió un micro-FIX adicional en P2.11D para hacer lógicamente válido el señuelo de Santiago.
-
-No se detectó ningún paquete que necesite volver a P2.11C por un fallo lógico grave.
-
-### Deuda detectada en P2.11D
-
-Al jugar mentalmente varios casos consecutivos aparece una repetición de estructura física en el hecho central:
-
-`discusión → forcejeo/empujón → caída/golpe fatal → encubrimiento`
-
-La cadena deductiva sí cambia entre paquetes, pero la variedad narrativa del desenlace todavía debe mejorar antes de Release Candidate.
-
-Objetivo recomendado: no más de 4 de los 12 paquetes con el mismo tipo de desenlace físico.
+Deuda narrativa antes de RC: demasiados casos comparten `discusión → forcejeo/empujón → caída/golpe fatal → encubrimiento`. Objetivo: no más de 4/12 con una misma familia de desenlace.
 
 ## Regla 3–6 jugadores
 
-Los seis personajes existen siempre en el mundo de la historia.
+Los seis personajes existen siempre.
 
 - 3 jugadores = 3 humanos + 3 NPC.
-- 4 jugadores = 4 humanos + 2 NPC.
-- 5 jugadores = 5 humanos + 1 NPC.
-- 6 jugadores = 6 humanos.
+- 4 = 4 humanos + 2 NPC.
+- 5 = 5 humanos + 1 NPC.
+- 6 = 6 humanos.
 
-### Modo normal
+### Normal
 
-Cualquiera de los seis personajes puede ser responsable, sea humano o NPC. Esto evita que la cantidad de jugadores revele información por metajuego.
+El responsable puede ser humano o NPC. La matriz teórica cubre 504 configuraciones humano/NPC para los 12 paquetes.
 
-La matriz completa contempla 42 configuraciones humanas por paquete, es decir 504 configuraciones para los 12 crímenes.
+### Impostor
 
-### Modo Impostor
+El responsable debe ser humano. La matriz compatible cubre 312 configuraciones. El responsable humano recibe rol oculto y sabotajes controlados; evidencia oficial nunca se puede falsear.
 
-El responsable debe ser un personaje controlado por una persona, porque ese jugador recibe el rol oculto y los sabotajes permitidos.
+## P2.12 · Integración real
 
-La submatriz compatible con Impostor conserva 26 configuraciones por paquete, es decir 312 configuraciones para los 12 crímenes.
+La integración real ya está implementada de forma paralela al V1.
 
-Los testimonios privados de personajes NPC se transforman en declaraciones recuperables desde el expediente mediante `npcFallback`.
+### Supabase · tablas P2 protegidas
 
-## Regla de revelado P2.11C/P2.11D
+- `exp_p2_game_secret` — paquete y solución completa.
+- `exp_p2_private_roles` — rol/objetivo privado por humano.
+- `exp_p2_accusations` — acusación final bloqueada.
 
-### Etapa 1 · Apertura
+Las tres tienen RLS habilitado, sin privilegios para `anon` ni `authenticated`; se operan desde Edge Functions con service role.
 
-- establece escena, objeto, anomalía o conflicto;
-- no usa `supports.suspect`;
-- no identifica directamente al responsable;
-- debe permitir varias lecturas iniciales.
+### Edge Functions P2
 
-### Etapa 2 · Fractura
+- `expediente-p2-join-room`
+- `expediente-p2-room-view`
+- `expediente-p2-start-game`
+- `expediente-p2-private`
+- `expediente-p2-game-action`
 
-- introduce motivo, contradicción y relaciones;
-- reduce el universo narrativo;
-- mantiene al menos una alternativa plausible;
-- un señuelo todavía puede parecer válido.
+Creación de sala/licencia reutiliza `expediente-create-room` existente.
 
-### Etapa 3 · Pivote
+### Cliente aislado
 
-- identifica o vincula la prueba decisiva;
-- resuelve el señuelo;
-- permite reconstruir Responsable + Escena + Objeto + Motivo + Contradicción;
-- la prueba final funciona por cruce, no como respuesta aislada sin contexto.
+`multiplayer-p2.html` integra:
 
-## QA automatizado
+- crear/unirse/reingresar a sala;
+- humanos + NPC;
+- Normal/Impostor;
+- Realtime;
+- cronómetro, pausa y +2 min;
+- auto-pacing y adelanto manual E1/E2/E3;
+- evidencia pública;
+- evidencia privada por etapa;
+- fallback de declaraciones NPC;
+- rol oculto Impostor;
+- Director manual/automático;
+- bitácora (`exp_events`);
+- tablero local de teoría;
+- acusación Persona + Escena + Objeto + motivo;
+- bloqueo previo al reveal;
+- solución/reconstrucción final server-side.
 
-`crime-engine.js` falla si:
+El cliente P2 no importa `packs/*.json`, `manifest.json` ni la solución.
 
-- falta `criticalEvent`, `mechanism` o `postCrimeAction`;
-- un señuelo no tiene resolución diferida;
-- una evidencia de Etapa 1 identifica un sospechoso mediante `supports.suspect`;
-- un testimonio privado no tiene testigo y fallback NPC;
-- faltan familias de evidencia, cadena de prueba o reconstrucción;
-- la matriz interna no converge a una solución única.
+## Privacidad P2
 
-`proof-map.json` está en v1.1.0 después de la reescritura P2.11C.
+Información pública de sala y evidencia liberada viajan por estado/eventos. Evidencia privada y rol se resuelven server-side. Paquete completo, responsable, escena y objeto permanecen en `exp_p2_game_secret` hasta `finish`.
 
-Importante: `rulesOut` y la matriz automática sirven para compatibilidad y pacing técnico. No prueban por sí solos que un humano perciba la deducción como justa o divertida.
+La acusación se persiste antes de comparar con la solución. El evento `solution` solo existe después del reveal explícito del anfitrión.
 
-## Regla de integración
+## Cronómetro P2
 
-No modificar el `index.html` raíz todavía. La versión publicada permanece intacta mientras P2 vive en `mejora-caso001-p2`.
+El estado conserva:
 
-P2.11D considera la biblioteca lista para comenzar P2.12 de integración controlada, pero no para Release Candidate.
+- `initial_duration_seconds`;
+- `duration_seconds` corriente;
+- `stage2_at_remaining`;
+- `stage3_at_remaining`.
 
-## Pendientes antes de Release Candidate
+Así pausar/reanudar o sumar tiempo no recalcula accidentalmente el pacing narrativo.
 
-- playtest humano real para dificultad, claridad, diversión y duración;
-- diversificar el hecho criminal en parte de la biblioteca para reducir repetición narrativa;
-- adaptar selección de caso a regla normal vs Impostor en el multiplayer real;
-- distribución real de evidencia privada/expediente NPC;
-- integración con sala, cronómetro, bitácora y Realtime de V1;
-- verificación server-side de solución, permisos, RLS y acciones de anfitrión;
-- QA móvil y reconexión.
+## Bloqueantes antes de Release Candidate
 
-**Estado:** P2.11D QA DE ESCRITORIO POST-FIX PASS · LISTO PARA P2.12 INTEGRACIÓN CONTROLADA · PLAYTEST HUMANO PENDIENTE · NO RELEASE CANDIDATE.
+### S1 · Crime Packs públicos
+
+Durante P2.12 el servidor carga el paquete elegido desde la rama pública de GitHub y lo copia a la tabla secreta. El navegador no recibe el `pack_id` antes del final, pero un usuario técnico podría buscar una frase de pista en el repositorio y descubrir la solución.
+
+Antes de publicar P2, los Crime Packs deben mudarse a almacenamiento privado server-side y dejar de servirse desde assets/repositorio público.
+
+### S2 · RLS heredado de V1
+
+Las tablas operativas históricas (`exp_rooms`, `exp_players`, `exp_room_state`, `exp_events` y `exp_private_roles`) conservan policies amplias porque el V1 publicado aún realiza lecturas directas.
+
+P2 ya usa `expediente-p2-room-view` como vista canónica y no guarda secretos P2 en esas tablas. El endurecimiento definitivo debe hacerse después de migrar el root para no romper producción.
+
+## QA pendiente para cerrar P2.12
+
+Hace falta una prueba real con licencia válida y varias sesiones/dispositivos:
+
+- Normal con 3/4/5/6 humanos;
+- Impostor;
+- testigo humano vs el mismo testigo NPC;
+- reingreso a partida activa;
+- pausa/reanudar/+2 min;
+- auto E2/E3 y adelanto manual;
+- Director;
+- privacidad entre jugadores;
+- acusación bloqueada/reveal simultáneo;
+- intento host-only desde no-host;
+- móvil y reconexión.
+
+No se fuerza una licencia ajena ni se altera una sala productiva para automatizar esta prueba.
+
+## Producción
+
+`index.html` raíz permanece intacto. P2.12 es aditivo y el PR continúa Draft.
+
+**Estado:** P2.12 INTEGRACIÓN DE CÓDIGO IMPLEMENTADA · PRUEBA E2E MULTIDISPOSITIVO PENDIENTE · PLAYTEST HUMANO PENDIENTE · NO RELEASE CANDIDATE.
