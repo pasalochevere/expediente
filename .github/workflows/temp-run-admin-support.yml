@@ -1,0 +1,19 @@
+name: Temp run admin support patch
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-run-admin-support.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python .tmp/patch_admin_support.py
+      - run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add admin-licencias/index.html
+          git commit -m "P2.12C.7C add direct support access link"
+          git push
