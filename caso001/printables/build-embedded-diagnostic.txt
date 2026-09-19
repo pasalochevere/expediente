@@ -1,11 +1,7 @@
-root_bytes=486019
-generator_bytes=23919
-BUILD=ERROR
-RuntimeError('No se encontró portraits')
-Traceback (most recent call last):
-  File "/home/runner/work/_temp/7253eb55-cf4d-4009-8102-eb0da73b095c.py", line 22, in <module>
-    portraits=extract('portraits')
-              ^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/_temp/7253eb55-cf4d-4009-8102-eb0da73b095c.py", line 16, in extract
-    raise RuntimeError(f'No se encontró {name}')
-RuntimeError: No se encontró portraits
+BUILD=OK
+portraits=6
+locations=6
+objects=6
+total_data_images=18
+output_bytes=344770
+runtime_fetch=false
