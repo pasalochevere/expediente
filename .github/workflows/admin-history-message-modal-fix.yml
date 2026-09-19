@@ -1,0 +1,32 @@
+name: Admin history message modal fix
+on:
+  push:
+    paths:
+      - '.github/workflows/admin-history-message-modal-fix.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Insert missing history message modal
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('admin-licencias/index.html')
+          s=p.read_text(encoding='utf-8')
+          modal='<div class="historyMessageOverlay" id="historyMessageOverlay"><section class="historyMessageCard"><div class="historyMessageHead"><div><div class="eyebrow">MENSAJE AL CLIENTE</div><h2 id="historyMessageTitle">Acceso</h2></div><button class="btn" id="historyMessageClose">Volver</button></div><div class="historyMessageMeta"><span class="badge available" id="historyMessageStatus">SIN ACTIVAR</span><span class="code" id="historyMessageCode"></span></div><div class="template" id="historyMessageText"></div><div class="historyActions actions"><button class="btn primary" id="historyCopyMessage">Copiar mensaje</button><button class="btn" id="historyCopyCode">Copiar código</button><button class="btn ghost" id="historyMessageBack">Volver al historial</button></div></section></div>'
+          if 'id="historyMessageOverlay"' not in s:
+              if '</main>' not in s: raise SystemExit('No se encontró cierre main')
+              s=s.replace('</main>',modal+'</main>',1)
+          for required in ['id="historyMessageOverlay"','id="historyMessageBack"','id="historyCopyMessage"','data-message="${i}"']:
+              if required not in s: raise SystemExit('Falta '+required)
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'PasaloChevere Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add admin-licencias/index.html
+          git commit -m 'Fix buyer message modal in license history'
+          git push origin HEAD:main
