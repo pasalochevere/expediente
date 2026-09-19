@@ -11,29 +11,35 @@ new='''<div class="fields"><div class="field"><label>Producto *</label><select i
 assert s.count(old)==1, f'fields anchor mismatch {s.count(old)}'
 s=s.replace(old,new)
 
-old="function channelCodeFromSource(source){return config?.channels?.find(x=>x.source===source)?.code||''}\nfunction buyerText(lic){"
-new="function channelCodeFromSource(source){return config?.channels?.find(x=>x.source===source)?.code||''}\nfunction durationText(lic){const h=Number(lic?.duration_hours||0);if(lic?.duration_label)return lic.duration_label;if(!h)return 'vigencia configurada';if(h===8760)return '12 meses';if(h%24===0)return `${h/24} día${h===24?'':'s'}`;return `${h} horas`}\nfunction buyerText(lic){"
-assert s.count(old)==1, f'buyer helper anchor mismatch {s.count(old)}'
-s=s.replace(old,new)
+anchor='function buyerText(lic){'
+helper="function durationText(lic){const h=Number(lic?.duration_hours||0);if(lic?.duration_label)return lic.duration_label;if(!h)return 'vigencia configurada';if(h===8760)return '12 meses';if(h%24===0)return `${h/24} día${h===24?'':'s'}`;return `${h} horas`}\n"
+assert s.count(anchor)==1, f'buyer function anchor mismatch {s.count(anchor)}'
+s=s.replace(anchor,helper+anchor)
 
-old="const name=lic.product_name||productName(lic.product_code),ch=lic.channel_name||channelName(channelCodeFromSource(lic.source));return `Hola, gracias por tu compra de ${name}${ch?` en ${ch}`:''}.\\n\\nTu código de activación es: ${lic.license_key}"
-new="const name=lic.product_name||productName(lic.product_code),ch=lic.channel_name||channelName(channelCodeFromSource(lic.source)),dur=durationText(lic);return `Hola, gracias por tu compra de ${name}${ch?` en ${ch}`:''}.\\n\\nTu código de activación es: ${lic.license_key}"
+old=",ch=lic.channel_name||channelName(channelCodeFromSource(lic.source));return `Hola"
+new=",ch=lic.channel_name||channelName(channelCodeFromSource(lic.source)),dur=durationText(lic);return `Hola"
 assert s.count(old)==1, f'buyer vars anchor mismatch {s.count(old)}'
 s=s.replace(old,new)
 
-old="La vigencia comienza cuando activás el código. El acceso es personal y queda asociado al correo que verificaste."
-new="Vigencia: ${dur} desde la activación. El acceso es personal y queda asociado al correo que verificaste."
+old='La vigencia comienza cuando activás el código. El acceso es personal y queda asociado al correo que verificaste.'
+new='Vigencia: ${dur} desde la activación. El acceso es personal y queda asociado al correo que verificaste.'
 assert s.count(old)==1, f'buyer duration anchor mismatch {s.count(old)}'
 s=s.replace(old,new)
 
-old="$('channel').value='ML';syncChannel()}\nfunction syncChannel()"
-new="$('channel').value='ML';syncChannel();syncAccess()}\nfunction syncAccess(){const kind=$('accessKind').value,preset=$('durationPreset').value;$('customDurationField').classList.toggle('hidden',preset!=='custom');if(kind==='commercial'&&preset==='standard')$('durationHint').innerHTML='<b>Comercial:</b> usa la vigencia estándar del producto (hoy 12 meses). La vigencia comienza al activar.';else $('durationHint').innerHTML='<b>Promoción / vigencia especial:</b> el acceso vencerá '+(preset==='custom'?$('customDays').value+' días':$('durationPreset').selectedOptions[0].textContent)+' después de la activación.'}\nfunction selectedDurationHours(){const preset=$('durationPreset').value;if(preset==='standard')return null;if(preset==='custom'){const d=Number($('customDays').value);if(!Number.isInteger(d)||d<1||d>365)throw new Error('La vigencia personalizada debe ser de 1 a 365 días.');return d*24}return Number(preset)}\nfunction syncChannel()"
+old="$('channel').value='ML';syncChannel()}"
+new="$('channel').value='ML';syncChannel();syncAccess()}"
 assert s.count(old)==1, f'load config anchor mismatch {s.count(old)}'
 s=s.replace(old,new)
 
+anchor='function syncChannel(){'
+helpers="function syncAccess(){const kind=$('accessKind').value,preset=$('durationPreset').value;$('customDurationField').classList.toggle('hidden',preset!=='custom');if(kind==='commercial'&&preset==='standard')$('durationHint').innerHTML='<b>Comercial:</b> usa la vigencia estándar del producto (hoy 12 meses). La vigencia comienza al activar.';else $('durationHint').innerHTML='<b>Promoción / vigencia especial:</b> el acceso vencerá '+(preset==='custom'?$('customDays').value+' días':$('durationPreset').selectedOptions[0].textContent)+' después de la activación.'}\nfunction selectedDurationHours(){const preset=$('durationPreset').value;if(preset==='standard')return null;if(preset==='custom'){const d=Number($('customDays').value);if(!Number.isInteger(d)||d<1||d>365)throw new Error('La vigencia personalizada debe ser de 1 a 365 días.');return d*24}return Number(preset)}\n"
+assert s.count(anchor)==1, f'syncChannel anchor mismatch {s.count(anchor)}'
+s=s.replace(anchor,helpers+anchor)
+
 start=s.index('async function createLicense(){')
-end=s.index('\nfunction statusLabel',start)
-new_create="""async function createLicense(){const product=$('product').value,channel=$('channel').value,ref=$('saleRef').value.trim(),email=$('buyerEmail').value.trim(),accessKind=$('accessKind').value;let durationHours;try{durationHours=selectedDurationHours()}catch(e){return msg('createMsg',e.message||String(e),'bad')}if(!product||!channel||!ref)return msg('createMsg','Completá producto, canal y referencia de venta.','bad');if(channel==='ML'&&!/^\\d{16}$/.test(ref))return msg('createMsg','El número de venta MercadoLibre debe tener 16 dígitos. Ejemplo: 2000018505705824.','bad');$('createBtn').disabled=true;msg('createMsg','Generando licencia…');try{const data=await callAdmin({action:'create_license',product_code:product,channel,sale_ref:ref,buyer_email:channel==='ML'?null:(email||null),access_kind:accessKind,duration_hours:durationHours});current=data.license;$('purchaseCode').textContent=current.license_key;$('resultTitle').textContent=current.product_name;$('resultMeta').textContent=(data.reused?'Esta referencia ya tenía código; recuperé el existente. ':'Código nuevo creado. ')+(current.owner_email?'Reservado/asociado a '+current.owner_email+'. ':'Sin email previo: se asociará al correo que lo active. ')+'Vigencia: '+durationText(current)+' · Referencia: '+current.order_ref;$('buyerMessage').textContent=buyerText(current);$('resultCard').classList.remove('hidden');msg('createMsg','✓ Código preparado.','good');await loadHistory()}catch(e){msg('createMsg',e.message||String(e),'bad')}finally{$('createBtn').disabled=false}}"""
+end=s.index('function statusLabel',start)
+new_create="""async function createLicense(){const product=$('product').value,channel=$('channel').value,ref=$('saleRef').value.trim(),email=$('buyerEmail').value.trim(),accessKind=$('accessKind').value;let durationHours;try{durationHours=selectedDurationHours()}catch(e){return msg('createMsg',e.message||String(e),'bad')}if(!product||!channel||!ref)return msg('createMsg','Completá producto, canal y referencia de venta.','bad');if(channel==='ML'&&!/^\\d{16}$/.test(ref))return msg('createMsg','El número de venta MercadoLibre debe tener 16 dígitos. Ejemplo: 2000018505705824.','bad');$('createBtn').disabled=true;msg('createMsg','Generando licencia…');try{const data=await callAdmin({action:'create_license',product_code:product,channel,sale_ref:ref,buyer_email:channel==='ML'?null:(email||null),access_kind:accessKind,duration_hours:durationHours});current=data.license;$('purchaseCode').textContent=current.license_key;$('resultTitle').textContent=current.product_name;$('resultMeta').textContent=(data.reused?'Esta referencia ya tenía código; recuperé el existente. ':'Código nuevo creado. ')+(current.owner_email?'Reservado/asociado a '+current.owner_email+'. ':'Sin email previo: se asociará al correo que lo active. ')+'Vigencia: '+durationText(current)+' · Referencia: '+current.order_ref;$('buyerMessage').textContent=buyerText(current);$('resultCard').classList.remove('hidden');msg('createMsg','✓ Código preparado.','good');await loadHistory()}catch(e){msg('createMsg',e.message||String(e),'bad')}finally{$('createBtn').disabled=false}}
+"""
 s=s[:start]+new_create+s[end:]
 
 old='<small>${r.devices_used||0} / ${r.device_limit||2} dispositivos</small></div><div><b class="mono">'
