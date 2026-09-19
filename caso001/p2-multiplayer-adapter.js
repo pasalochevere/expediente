@@ -1,4 +1,4 @@
-// CASO 001 · P2.12B · Adaptador multiplayer real
+// CASO 001 · P2.12C.7C · Adaptador multiplayer real
 // Usa Edge Functions P2 y Realtime. No conoce ni carga soluciones.
 
 export const P2_CONFIG = Object.freeze({
@@ -21,14 +21,19 @@ export const P2_LABELS = Object.freeze({
   objects: ['Arma','Cuaderno','Celular','Llave','Memoria USB','Pañuelo']
 });
 
-const DEVICE_KEY='pc_exp_device_id_v1';
+// IMPORTANTE: Portal y juego deben compartir exactamente el mismo ID físico.
+const DEVICE_KEY='pc_device_id';
+const LEGACY_DEVICE_KEY='pc_exp_device_id_v1';
 const LAST_ROOM_KEY='pc_exp_p2_last_room';
 const LICENSE_KEYS=['pc_exp_license_key','pc_license_key','pc_exp_license','exp_license_key'];
 
 function stableDeviceId(){
   let id=localStorage.getItem(DEVICE_KEY);
   if(!id){
-    id=(globalThis.crypto?.randomUUID?.()||`web-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    // Compatibilidad: si el juego ya había creado un ID antes del Portal unificado,
+    // lo migramos al nombre compartido para no consumir otro cupo.
+    id=localStorage.getItem(LEGACY_DEVICE_KEY);
+    if(!id) id=(globalThis.crypto?.randomUUID?.()||`web-${Date.now()}-${Math.random().toString(36).slice(2)}`);
     localStorage.setItem(DEVICE_KEY,id);
   }
   return id;
@@ -89,7 +94,7 @@ export class P2MultiplayerAdapter{
       ({data:{session}}=await this.sb.auth.getSession());
     }
     const {data:{user},error}=await this.sb.auth.getUser();
-    if(error||!user) throw error||new Error('No pude iniciar la sesión anónima.');
+    if(error||!user) throw error||new Error('No pude iniciar la sesión.');
     this.user=user;
     return user;
   }
@@ -171,9 +176,6 @@ export class P2MultiplayerAdapter{
       .on('postgres_changes',{event:'*',schema:'public',table:'exp_events',filter:`room_id=eq.${roomId}`},notify)
       .subscribe();
     this.channel=channel;
-    // Failover de pacing: el host sigue haciendo tick cada 15 s desde la UI.
-    // Cualquier cliente conectado hace un tick de respaldo cada 45 s. El backend
-    // valida pertenencia y deduplica los eventos, por lo que es seguro e idempotente.
     clearInterval(this.fallbackTickTimer);
     this.fallbackTickTimer=setInterval(()=>{
       if(this.roomId===roomId) this.action('tick',{},roomId).catch(()=>{});
