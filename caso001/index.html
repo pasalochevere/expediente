@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EXPEDIENTES · Caso 001 — La Última Reunión</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
+<style>
+:root{color-scheme:dark;--bg:#07090c;--panel:#0f151b;--panel2:#141c24;--line:#27333e;--text:#eef2f4;--muted:#97a5b0;--gold:#d7b36a;--good:#76d99a;--bad:#ff7c86;--blue:#91aef6;--warn:#f0cf72}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#1c2833 0,#0b1015 30%,#07090c 65%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}button,input,select,textarea{font:inherit}.wrap{max-width:1280px;margin:auto;padding:22px 16px 80px}.top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:18px}.brand{font-size:11px;letter-spacing:.23em;font-weight:900;color:var(--gold)}h1,h2,h3{font-family:Georgia,serif}h1{font-size:clamp(34px,6vw,66px);line-height:.95;margin:7px 0 5px}.subtitle{color:var(--muted);max-width:760px;line-height:1.5}.tag{text-decoration:none;border:1px solid #4a4030;color:#f0d89b;background:#17140e;border-radius:999px;padding:8px 11px;font-size:12px;white-space:nowrap}.hidden{display:none!important}.panel{background:rgba(15,21,27,.96);border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:0 16px 50px rgba(0,0,0,.22)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.gridMain{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(310px,.75fr);gap:15px}.stack{display:grid;gap:14px}.setup{margin-top:18px;max-width:940px}.seg{display:flex;gap:8px;margin-bottom:14px}.seg button,.btn{border:1px solid #34434f;background:#161f27;color:var(--text);border-radius:11px;padding:11px 14px;font-weight:800;cursor:pointer}.seg button.active,.btn.primary{background:var(--gold);color:#151109;border-color:var(--gold)}.btn.danger{border-color:#71363b;background:#251317;color:#ffc1c5}.btn.good{border-color:#356747;background:#112219;color:#a9e7bd}.btn:disabled{opacity:.42;cursor:not-allowed}.field{display:grid;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.09em}.field input,.field select,.field textarea{width:100%;border:1px solid #31404c;background:#0d1318;color:var(--text);border-radius:10px;padding:11px}.field textarea{min-height:88px;resize:vertical}.characters{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.char{border:1px solid #30404d;background:#111920;border-radius:12px;padding:12px;cursor:pointer;text-align:left}.char strong{display:block}.char small{color:var(--muted)}.char.selected{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}.roomHead{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:18px 0 12px}.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:clamp(28px,6vw,52px);font-weight:900;letter-spacing:.12em;color:#f4dda4}.meta{display:flex;flex-wrap:wrap;gap:7px}.pill{border:1px solid #33414d;background:#121920;border-radius:999px;padding:7px 10px;font-size:12px}.pill.gold{border-color:#6b5831;color:#f3d991}.pill.good{border-color:#315e40;color:#96dfad}.pill.warn{border-color:#6c5b2d;color:#f1d77f}.players{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.player{border:1px solid #2d3943;background:#111820;border-radius:11px;padding:10px}.player b{display:block}.npc{opacity:.62;border-style:dashed}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.statusbar{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:18px 0}.clock{font:900 clamp(34px,7vw,66px)/1 ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center;color:#f2dcaa}.stage{text-align:right}.stage b{font-size:20px;color:var(--gold)}.evidence{border:1px solid #2d3a45;border-left:4px solid var(--gold);background:#121a21;border-radius:12px;padding:13px;margin:9px 0;line-height:1.48}.evidence.private{border-left-color:var(--blue);background:#111827}.evidence.npc{border-left-color:#a897d8}.evidence small{display:block;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-size:10px;margin-bottom:5px}.stageTitle{font-size:11px;letter-spacing:.16em;font-weight:900;color:var(--gold);margin:18px 0 8px}.role{border:1px solid #3e5363;background:#101920;border-radius:13px;padding:13px}.role.killer{border-color:#81434b;background:#241318}.role h3{margin:0 0 7px}.role p{color:#cad4da;line-height:1.45}.privateTruth{margin-top:10px;border-top:1px solid #59343a;padding-top:10px}.board h3{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:15px 0 7px}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{border:1px solid #34424d;background:#111820;border-radius:999px;padding:7px 10px;font-size:12px;cursor:pointer}.chip.sus{border-color:var(--gold);color:#ffe5a6}.chip.out{opacity:.42;text-decoration:line-through}.timeline{display:grid;gap:8px;max-height:460px;overflow:auto}.event{border-left:2px solid #334452;padding:4px 0 4px 11px;color:#cbd5db;font-size:13px;line-height:1.42}.event strong{color:#fff}.director{border-color:#765e2f;background:#17140d}.accLocked{border:1px solid #6d5a2d;background:#18150d;border-radius:12px;padding:12px;line-height:1.5}.solution{border:1px solid #37674a;background:#0e1b14;border-radius:15px;padding:17px}.solution.partial{border-color:#75652e;background:#1a170d}.solution.failed{border-color:#743a40;background:#1d1114}.solution ol{padding-left:20px}.solution li{margin:7px 0}.red{border-top:1px solid #2c3a33;margin-top:12px;padding-top:10px}.toast{position:fixed;right:16px;bottom:16px;max-width:min(430px,calc(100vw - 32px));background:#151d24;border:1px solid #43515d;border-radius:12px;padding:12px 14px;box-shadow:0 15px 45px #0008;z-index:20}.toast.bad{border-color:#7e3d43;color:#ffc6ca}.muted{color:var(--muted)}.empty{color:var(--muted);font-style:italic;padding:9px 0}.loading{opacity:.55;pointer-events:none}@media(max-width:900px){.gridMain,.grid2{grid-template-columns:1fr}.players{grid-template-columns:repeat(2,1fr)}.statusbar{grid-template-columns:1fr 1fr}.clock{grid-column:1/-1;grid-row:1}.stage{text-align:right}}@media(max-width:560px){.top{display:block}.tag{display:inline-block;margin-top:10px}.characters,.players{grid-template-columns:1fr 1fr}.wrap{padding-inline:10px}.panel{padding:13px}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div><div class="brand">EXPEDIENTES · CASO 001</div><h1>La Última Reunión</h1><div class="subtitle">Investigación multijugador. Reúnan las evidencias, contrasten testimonios y reconstruyan qué ocurrió antes de bloquear la acusación final.</div></div><a class="tag" href="./printables/" target="_blank" rel="noopener">KIT IMPRIMIBLE</a></header>
+
+<section id="setup" class="panel setup">
+  <div class="seg"><button id="tabCreate" class="active">Crear sala</button><button id="tabJoin">Unirme</button></div>
+  <div class="grid2"><div><div class="field"><label>Tu nombre</label><input id="displayName" maxlength="50" placeholder="Investigador"></div><div id="createOnly"><div class="field"><label>Licencia</label><input id="licenseKey" autocomplete="off" placeholder="Código de acceso"></div><div class="field"><label>Modo</label><select id="mode"><option value="dig">Investigación normal</option></select></div></div><div id="joinOnly" class="hidden"><div class="field"><label>Código de sala</label><input id="roomCode" maxlength="12" autocomplete="off" placeholder="ABC123"></div></div></div>
+  <div><div class="field"><label>Tu personaje</label><div id="characterGrid" class="characters"></div></div><div class="muted" style="font-size:12px;line-height:1.45">Los personajes no elegidos siguen existiendo como NPC. Los personajes no elegidos siguen participando como NPC y también pueden resultar responsables del caso.</div></div></div>
+  <div class="toolbar"><button id="enterRoom" class="btn primary">Crear sala</button><button id="rejoinLast" class="btn hidden">Reingresar a mi última sala</button></div>
+</section>
+
+<section id="room" class="hidden">
+  <div class="roomHead"><div><div class="muted">CÓDIGO DE SALA</div><div id="code" class="code">—</div></div><div id="roomMeta" class="meta"></div></div>
+  <section id="lobby" class="panel"><h2 style="margin-top:0">Sala de investigación</h2><div id="players" class="players"></div><div id="lobbyNote" class="muted" style="margin-top:10px"></div><div id="lobbyControls" class="toolbar"></div></section>
+
+  <section id="game" class="hidden">
+    <div class="statusbar"><div id="gameMeta" class="meta"></div><div id="clock" class="clock">00:00</div><div class="stage"><span class="muted">FASE</span><br><b id="stageLabel">ETAPA 1</b></div></div>
+    <div class="gridMain"><div class="stack">
+      <section class="panel"><h2 style="margin-top:0">Expediente público</h2><div id="publicEvidence"></div></section>
+      <section id="accusationPanel" class="panel hidden"><h2 style="margin-top:0">Acusación final</h2><div id="accusationBody"></div></section>
+      <section id="solutionPanel" class="panel hidden"><div id="solutionBody"></div></section>
+    </div><aside class="stack">
+      <section class="panel"><h2 style="margin-top:0">Tu información</h2><div id="roleBox"></div><div id="privateEvidence"></div></section>
+      <section class="panel board"><h2 style="margin-top:0">Mi teoría</h2><div class="muted" style="font-size:12px">Local en este dispositivo: neutro → sospecha → descartado.</div><h3>Personas</h3><div id="suspectChips" class="chips"></div><h3>Escenas</h3><div id="locationChips" class="chips"></div><h3>Objetos</h3><div id="objectChips" class="chips"></div></section>
+      <section class="panel"><h2 style="margin-top:0">Controles</h2><div id="controls" class="toolbar"></div></section>
+      <section class="panel"><h2 style="margin-top:0">Bitácora</h2><div id="timeline" class="timeline"></div></section>
+    </aside></div>
+  </section>
+</section>
+</main><div id="toast" class="toast hidden"></div>
+
+<script type="module">
+import {P2MultiplayerAdapter,P2_LABELS,findStoredLicense,lastRoomCode,remainingSeconds,formatClock} from './p2-multiplayer-adapter.js';
+const $=s=>document.querySelector(s), adapter=new P2MultiplayerAdapter();
+let entryMode='create',selectedCharacter=0,view=null,privateView=null,refreshing=false,pendingRefresh=false,tickTimer=null,clockTimer=null,busy=false;
+const theory=new Map();
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=(msg,bad=false)=>{const e=$('#toast');e.textContent=msg;e.className=`toast${bad?' bad':''}`;clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.add('hidden'),4200)};
+const setBusy=v=>{busy=v;document.body.classList.toggle('loading',v)};
+
+function buildCharacters(){
+ $('#characterGrid').innerHTML=P2_LABELS.characters.map((name,i)=>`<button class="char ${i===selectedCharacter?'selected':''}" data-char="${i}"><strong>${esc(name)}</strong><small>${P2_LABELS.characterIds[i]}</small></button>`).join('');
+ $('#characterGrid').querySelectorAll('[data-char]').forEach(b=>b.onclick=()=>{selectedCharacter=Number(b.dataset.char);buildCharacters()});
+}
+function setEntryMode(mode){entryMode=mode;$('#tabCreate').classList.toggle('active',mode==='create');$('#tabJoin').classList.toggle('active',mode==='join');$('#createOnly').classList.toggle('hidden',mode!=='create');$('#joinOnly').classList.toggle('hidden',mode!=='join');$('#enterRoom').textContent=mode==='create'?'Crear sala':'Unirme a la sala'}
+function buildTheory(){
+ const make=(el,items,prefix)=>{el.innerHTML=items.map((x,i)=>`<button class="chip" data-k="${prefix}:${i}">${esc(x)}</button>`).join('');el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{let n=(theory.get(b.dataset.k)||0)+1;if(n>2)n=0;theory.set(b.dataset.k,n);b.classList.toggle('sus',n===1);b.classList.toggle('out',n===2)})};
+ make($('#suspectChips'),P2_LABELS.characters,'s');make($('#locationChips'),P2_LABELS.locations,'l');make($('#objectChips'),P2_LABELS.objects,'o');
+}
+function showRoomShell(){ $('#setup').classList.add('hidden');$('#room').classList.remove('hidden') }
+function renderLobby(){
+ const room=view?.room||{},players=view?.players||[],humanByChar=new Map(players.map(p=>[Number(p.character_index),p]));
+ $('#code').textContent=room.code||'—';
+ $('#roomMeta').innerHTML=`<span class="pill gold">${room.mode==='imp'?'IMPOSTOR':'NORMAL'}</span><span class="pill">${esc(room.status||'waiting')}</span><span class="pill">${players.length}/6 humanos</span>`;
+ $('#players').innerHTML=P2_LABELS.characters.map((name,i)=>{const p=humanByChar.get(i);return p?`<div class="player"><b>${esc(name)}</b><span>${esc(p.display_name)}${p.is_host?' · HOST':''}</span></div>`:`<div class="player npc"><b>${esc(name)}</b><span>NPC</span></div>`}).join('');
+ $('#lobbyNote').textContent=room.status==='waiting'?(players.length<3?'Se necesitan al menos 3 jugadores humanos para iniciar. Los lugares restantes serán NPC.':'La sala ya puede iniciar. Los personajes no elegidos serán NPC.'):'La partida ya comenzó; los jugadores existentes pueden reingresar con el mismo navegador/sesión.';
+ let buttons='';if(view?.is_host&&room.status==='waiting')buttons+=`<button class="btn primary" id="startGame" ${players.length<3?'disabled':''}>Iniciar expediente P2</button>`;buttons+=`<button class="btn" id="copyCode">Copiar código</button>`;$('#lobbyControls').innerHTML=buttons;
+ $('#copyCode')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(room.code||'');toast('Código copiado.')}catch{toast(`Código: ${room.code||''}`)}});
+ $('#startGame')?.addEventListener('click',()=>doAction(async()=>{await adapter.startGame();await refresh(true)},'Partida iniciada.'));
+ $('#lobby').classList.toggle('hidden',room.status!=='waiting');
+}
+function evidenceEvents(){return (view?.events||[]).filter(e=>e.event_type==='evidence').sort((a,b)=>new Date(a.created_at)-new Date(b.created_at))}
+function renderEvidence(){
+ const events=evidenceEvents();if(!events.length){$('#publicEvidence').innerHTML='<div class="empty">Todavía no se liberaron evidencias.</div>';return}
+ let html='';for(let s=1;s<=3;s++){const xs=events.filter(e=>Number(e.payload?.stage)===s);if(!xs.length)continue;html+=`<div class="stageTitle">ETAPA ${s}</div>`+xs.map(e=>`<article class="evidence ${e.payload?.source==='npc'?'npc':''}"><small>${e.payload?.source==='npc'?'DECLARACIÓN NPC':'EVIDENCIA'} · ${esc(e.payload?.type||'registro')}</small>${esc(e.payload?.text||'')}</article>`).join('')}$('#publicEvidence').innerHTML=html;
+}
+function renderPrivate(){
+ if(!privateView){$('#roleBox').innerHTML='<div class="empty">La información privada aparecerá cuando comience la partida.</div>';$('#privateEvidence').innerHTML='';return}
+ const r=privateView.role_payload||{},killer=privateView.role==='killer';
+ $('#roleBox').innerHTML=`<div class="role ${killer?'killer':''}"><h3>${esc(r.role_label||'INVESTIGADOR')}</h3><p>${esc(r.objective||'')}</p>${killer&&privateView.impostor_truth?`<div class="privateTruth"><b>Tu verdad privada</b><p><b>Mentira central:</b> ${esc(privateView.impostor_truth.central_lie||'')}</p><p><b>Hecho real:</b> ${esc(privateView.impostor_truth.critical_event||'')}</p><p><b>Encubrimiento:</b> ${esc(privateView.impostor_truth.post_crime_action||'')}</p><p><b>Sabotajes:</b> ${esc((r.allowed_powers||[]).join(' · '))} (${Number(r.sabotage_tokens||0)} fichas)</p></div>`:''}</div>`;
+ const xs=privateView.private_evidence||[];$('#privateEvidence').innerHTML=xs.length?`<div class="stageTitle">INFORMACIÓN PRIVADA</div>`+xs.map(e=>`<article class="evidence private"><small>SOLO VOS · ETAPA ${Number(e.stage)||1} · ${esc(e.type)}</small>${esc(e.text)}</article>`).join(''):'<div class="empty">No tenés evidencia privada liberada en esta etapa.</div>';
+}
+function renderTimeline(){
+ const events=(view?.events||[]).filter(e=>['game_started','stage_changed','director','accusation_locked'].includes(e.event_type));
+ $('#timeline').innerHTML=events.length?events.map(e=>{const p=e.payload||{};if(e.event_type==='director')return `<div class="event director"><strong>${esc(p.title||'DIRECTOR')}</strong><br>${esc(p.body||'')}</div>`;if(e.event_type==='stage_changed')return `<div class="event"><strong>Etapa ${esc(p.stage)}</strong> liberada.</div>`;if(e.event_type==='accusation_locked')return `<div class="event"><strong>Acusación bloqueada:</strong> ${esc(p.suspect_name)} · ${esc(p.location_name)} · ${esc(p.object_name)}</div>`;return `<div class="event"><strong>Partida iniciada.</strong></div>`}).join(''):'<div class="empty">Sin eventos todavía.</div>';
+}
+function latestEvent(type){return [...(view?.events||[])].reverse().find(e=>e.event_type===type)}
+function renderAccusation(){
+ const state=view?.public_state||{},stage=Number(state.stage||1),locked=!!state.accusation_locked,acc=latestEvent('accusation_locked');
+ const panel=$('#accusationPanel');panel.classList.toggle('hidden',stage<3&&view?.room?.status!=='finished');if(panel.classList.contains('hidden'))return;
+ if(locked||acc){const p=acc?.payload||{};$('#accusationBody').innerHTML=`<div class="accLocked"><b>Acusación bloqueada</b><br>${esc(p.suspect_name||'—')} · ${esc(p.location_name||'—')} · ${esc(p.object_name||'—')}${p.motive_text?`<br><span class="muted">Hipótesis:</span> ${esc(p.motive_text)}`:''}</div>${view?.is_host&&view?.room?.status==='active'?'<div class="toolbar"><button id="revealSolution" class="btn good">Revelar solución</button></div>':''}`;$('#revealSolution')?.addEventListener('click',()=>doAction(async()=>{await adapter.action('finish');await refresh(true)},'Solución revelada.'));return}
+ if(!view?.is_host){$('#accusationBody').innerHTML='<div class="empty">El anfitrión bloqueará la acusación consensuada del equipo.</div>';return}
+ const opts=(arr,label)=>`<option value="">${label}</option>`+arr.map((x,i)=>`<option value="${i}">${esc(x)}</option>`).join('');
+ $('#accusationBody').innerHTML=`<div class="grid2"><div class="field"><label>Responsable</label><select id="accS">${opts(P2_LABELS.characters,'Elegir persona')}</select></div><div class="field"><label>Escena clave</label><select id="accL">${opts(P2_LABELS.locations,'Elegir escena')}</select></div></div><div class="field"><label>Objeto clave</label><select id="accO">${opts(P2_LABELS.objects,'Elegir objeto')}</select></div><div class="field"><label>Motivo / hipótesis causal</label><textarea id="accM" maxlength="700" placeholder="Expliquen por qué creen que ocurrió y qué evidencia conecta la secuencia."></textarea></div><button id="lockAcc" class="btn primary">Bloquear acusación</button>`;
+ $('#lockAcc').onclick=()=>{const s=$('#accS').value,l=$('#accL').value,o=$('#accO').value;if(s===''||l===''||o===''){toast('Completá Persona + Escena + Objeto.',true);return}doAction(async()=>{await adapter.action('accuse',{suspect_index:Number(s),location_index:Number(l),object_index:Number(o),motive_text:$('#accM').value});await refresh(true)},'Acusación bloqueada.')};
+}
+function renderSolution(){
+ const ev=latestEvent('solution'),panel=$('#solutionPanel');if(!ev){panel.classList.add('hidden');return}panel.classList.remove('hidden');const s=ev.payload||{},cls=s.status==='resolved'?'':s.status==='partial'?'partial':'failed';
+ $('#solutionBody').innerHTML=`<div class="solution ${cls}"><div class="stageTitle">${s.status==='resolved'?'CASO RESUELTO':s.status==='partial'?'RESOLUCIÓN PARCIAL':'ACUSACIÓN FALLIDA'}</div><h2>${Number(s.hits)||0}/3 elementos correctos</h2><p><b>Responsable:</b> ${esc(s.killer_character_name)}<br><b>Escena:</b> ${esc(s.location_name)}<br><b>Objeto:</b> ${esc(s.object_name)}</p><p><b>Motivo:</b> ${esc(s.motive)}</p><p><b>Contradicción decisiva:</b> ${esc(s.contradiction)}</p><p><b>Qué ocurrió:</b> ${esc(s.critical_event)}</p><p><b>Cómo ocurrió:</b> ${esc(s.mechanism)}</p><p><b>Encubrimiento:</b> ${esc(s.post_crime_action)}</p><h3>Reconstrucción</h3><ol>${(s.reconstruction||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p>${esc(s.closing||'')}</p>${(s.red_herrings||[]).length?`<div class="red"><h3>Señuelos explicados</h3>${s.red_herrings.map(x=>`<p><b>${esc(x.title)}</b><br>${esc(x.resolution)}</p>`).join('')}</div>`:''}</div>`;
+}
+function renderControls(){
+ const room=view?.room||{},state=view?.public_state||{};let html='';if(room.status==='active')html+='<button class="btn" id="directorHelp">Pedir orientación</button>';if(view?.is_host&&room.status==='active'){if(Number(state.stage||1)<3&&!state.accusation_locked)html+='<button class="btn" id="advanceStage">Adelantar etapa</button>';html+=`<button class="btn" id="pause">${state.paused?'Reanudar':'Pausar'}</button><button class="btn" id="addTime">+2 min</button>`}$('#controls').innerHTML=html||'<span class="muted">Sin controles disponibles.</span>';
+ $('#directorHelp')?.addEventListener('click',()=>doAction(async()=>{await adapter.action('director_help');await refresh(true)},'El Director dejó una orientación.'));
+ $('#advanceStage')?.addEventListener('click',()=>doAction(async()=>{await adapter.action('advance_stage');await refresh(true)},'Nueva etapa liberada.'));
+ $('#pause')?.addEventListener('click',()=>doAction(async()=>{await adapter.action('pause_toggle');await refresh(true)},state.paused?'Cronómetro reanudado.':'Cronómetro pausado.'));
+ $('#addTime')?.addEventListener('click',()=>doAction(async()=>{await adapter.action('add_time',{seconds:120});await refresh(true)},'Se agregaron 2 minutos.'));
+}
+function renderGame(){
+ const room=view?.room||{},state=view?.public_state||{};const active=room.status==='active'||room.status==='finished';$('#game').classList.toggle('hidden',!active);if(!active)return;
+ $('#gameMeta').innerHTML=`<span class="pill gold">${room.mode==='imp'?'IMPOSTOR':'NORMAL'}</span><span class="pill ${state.paused?'warn':'good'}">${state.paused?'PAUSADO':room.status==='finished'?'FINALIZADO':'EN CURSO'}</span>`;$('#stageLabel').textContent=`ETAPA ${Number(state.stage||1)}`;
+ renderEvidence();renderPrivate();renderTimeline();renderControls();renderAccusation();renderSolution();updateClock();
+}
+function updateClock(){const state=view?.public_state||{};$('#clock').textContent=view?.room?.status==='finished'?'FIN':formatClock(remainingSeconds(state))}
+async function refresh(force=false){
+ if(refreshing){pendingRefresh=true;return}if(!adapter.roomId)return;refreshing=true;try{view=await adapter.roomView();if(view?.room?.status!=='waiting'){try{privateView=await adapter.privateView()}catch{privateView=null}}renderLobby();renderGame();showRoomShell()}catch(e){if(force)toast(e.message||String(e),true)}finally{refreshing=false;if(pendingRefresh){pendingRefresh=false;setTimeout(()=>refresh(),100)}}
+async function doAction(fn,success){if(busy)return;setBusy(true);try{await fn();if(success)toast(success)}catch(e){toast(e.message||String(e),true)}finally{setBusy(false)}}
+function configureTimers(){clearInterval(clockTimer);clockTimer=setInterval(updateClock,1000);clearInterval(tickTimer);tickTimer=setInterval(async()=>{if(view?.is_host&&view?.room?.status==='active'&&!view?.public_state?.paused){try{await adapter.action('tick')}catch{} }},15000)}
+async function enter(){
+ const name=$('#displayName').value.trim()||'Investigador';setBusy(true);try{let data;if(entryMode==='create'){const key=$('#licenseKey').value.trim();if(!key)throw new Error('Ingresá la licencia para crear la sala.');data=await adapter.createRoom({licenseKey:key,displayName:name,characterIndex:selectedCharacter,mode:$('#mode').value})}else{const code=$('#roomCode').value.trim();if(!code)throw new Error('Ingresá el código de sala.');data=await adapter.joinRoom({code,displayName:name,characterIndex:selectedCharacter})}adapter.roomId=data.room.id;await adapter.subscribe();await refresh(true);toast(entryMode==='create'?'Sala creada.':'Entraste a la sala.')}catch(e){toast(e.message||String(e),true)}finally{setBusy(false)}}
+async function rejoin(){const code=lastRoomCode();if(!code)return;setBusy(true);try{const data=await adapter.joinRoom({code,displayName:$('#displayName').value.trim()||'Investigador',characterIndex:selectedCharacter});adapter.roomId=data.room.id;await adapter.subscribe();await refresh(true);toast('Reingreso completado.')}catch(e){toast(e.message||String(e),true)}finally{setBusy(false)}}
+
+$('#tabCreate').onclick=()=>setEntryMode('create');$('#tabJoin').onclick=()=>setEntryMode('join');$('#enterRoom').onclick=enter;$('#rejoinLast').onclick=rejoin;
+buildCharacters();buildTheory();$('#licenseKey').value=findStoredLicense();const last=lastRoomCode();if(last){$('#roomCode').value=last;$('#rejoinLast').classList.remove('hidden');$('#rejoinLast').textContent=`Reingresar a ${last}`}
+adapter.onChange(()=>refresh());
+try{await adapter.init();configureTimers()}catch(e){toast(`No pude iniciar Supabase: ${e.message||e}`,true)}
+</script>
+</body></html>

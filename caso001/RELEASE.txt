@@ -1,0 +1,4 @@
+CASO 001 P2 customer preview
+Mode: Normal
+Crime Packs: server-side only
+Printable: 8 A4 base, 18 embedded images
