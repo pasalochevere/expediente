@@ -1,0 +1,85 @@
+name: One-time Chévere Kids rebrand
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/rename-kids-brand.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  rebrand:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rename public Kids mathematics branding
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          def replace(path, pairs):
+              p=Path(path)
+              s=p.read_text(encoding='utf-8')
+              original=s
+              for old,new in pairs:
+                  s=s.replace(old,new)
+              if s==original:
+                  print(f'No changes needed: {path}')
+              else:
+                  p.write_text(s,encoding='utf-8')
+                  print(f'Updated: {path}')
+
+          replace('portal/index.html', [
+            ('<h3>TORRE KIDS · FÍSICA + DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>54 piezas numeradas, 6 colores, dados y portal digital con niveles, estrellas, desafíos y material imprimible.</p>',
+             '<h3>CHÉVERE KIDS · MATEMÁTICA</h3><div class="accent">JUGANDO Y APRENDIENDO · 7–9 AÑOS · FÍSICO + DIGITAL</div><p>Aprendé matemática jugando con 54 piezas, 6 colores, dados, niveles, estrellas, desafíos y material imprimible.</p>'),
+            ('<h3>TORRE KIDS · SOLO DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>La misma experiencia educativa sin torre física: el portal sortea piezas virtuales, colores y desafíos desde el celular.</p>',
+             '<h3>CHÉVERE KIDS · MATEMÁTICA</h3><div class="accent">JUGANDO Y APRENDIENDO · 7–9 AÑOS · SOLO DIGITAL</div><p>Matemática para jugar y aprender desde el celular: piezas virtuales, colores, niveles, estrellas y desafíos.</p>')
+          ])
+
+          replace('portal-v2/index.html', [
+            ('<h3>TORRE KIDS · FÍSICA + DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>54 piezas numeradas, dados, niveles, estrellas, desafíos y material imprimible.</p>',
+             '<h3>CHÉVERE KIDS · MATEMÁTICA</h3><div class="accent">JUGANDO Y APRENDIENDO · 7–9 AÑOS · FÍSICO + DIGITAL</div><p>Aprendé matemática jugando con 54 piezas, dados, niveles, estrellas, desafíos y material imprimible.</p>'),
+            ('<h3>TORRE KIDS · SOLO DIGITAL</h3><div class="accent">MATEMÁTICA 7–9</div><p>La misma experiencia educativa directamente desde el celular, sin torre física.</p>',
+             '<h3>CHÉVERE KIDS · MATEMÁTICA</h3><div class="accent">JUGANDO Y APRENDIENDO · 7–9 AÑOS · SOLO DIGITAL</div><p>Desafíos, niveles y estrellas para aprender matemática jugando desde el celular.</p>'),
+            ('<b>TORRE KIDS · MATEMÁTICA</b><p>Juego físico + digital y versión solo digital.</p>',
+             '<b>CHÉVERE KIDS · MATEMÁTICA</b><p>Jugando y aprendiendo · versión físico + digital o solo digital.</p>')
+          ])
+
+          replace('torre-kids-matematica/index.html', [
+            ('<title>Torre Kids Matemática V1 · PasaloChévere</title>','<title>Chévere Kids · Matemática V1 · PasaloChévere</title>'),
+            ('<!-- TORRE KIDS MATEMÁTICA V1.0 · RELEASE FINAL · 2026-09-14 -->','<!-- CHÉVERE KIDS · MATEMÁTICA V1.0 · RELEASE FINAL · 2026-09-14 -->'),
+            ('alt="Torre Kids Matemática"','alt="Chévere Kids · Matemática"'),
+            ('alt="Mascota Torre Kids"','alt="Mascota Chévere Kids"'),
+            ('Este código corresponde a Torre Kids · Solo Digital.','Este código corresponde a Chévere Kids · Matemática · Solo Digital.'),
+            ('Edición Solo Digital','Chévere Kids · Matemática · Solo Digital')
+          ])
+
+          p=Path('torre-kids-matematica/assets/torre-kids-logo.svg')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('<title id="t">Torre Kids Matemática</title><desc id="d">Logo infantil de Torre Kids con textura de madera y letras de colores.</desc>',
+                      '<title id="t">Chévere Kids · Matemática</title><desc id="d">Logo infantil de Chévere Kids Matemática con textura de madera y letras de colores.</desc>')
+          s=re.sub(r'<text x="360" y="88" text-anchor="middle" font-family="Arial Rounded MT Bold,Arial,sans-serif" font-weight="900" font-size="58">.*?</text>',
+                   '<text x="360" y="88" text-anchor="middle" font-family="Arial Rounded MT Bold,Arial,sans-serif" font-weight="900" font-size="52"><tspan fill="#ef4f4f">CHÉVERE</tspan><tspan fill="#5a3823"> KIDS</tspan></text>',s,flags=re.S)
+          s=s.replace('JUEGA · PIENSA · RESUELVE · CRECE','JUGANDO Y APRENDIENDO · 7–9 AÑOS')
+          p.write_text(s,encoding='utf-8')
+          print('Updated logo')
+
+          replace('torre-kids-matematica/VERSION.md', [
+            ('# Torre Kids Matemática · V1.0','# Chévere Kids · Matemática · V1.0'),
+            ('**Producto:** PasaloChévere · Torre Kids · Matemática 7–9','**Producto:** PasaloChévere · Chévere Kids · Matemática 7–9')
+          ])
+          PY
+      - name: Commit rebrand
+        run: |
+          git config user.name "pasalochevere-bot"
+          git config user.email "pasalochevere@gmail.com"
+          git add portal/index.html portal-v2/index.html torre-kids-matematica/index.html torre-kids-matematica/assets/torre-kids-logo.svg torre-kids-matematica/VERSION.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Rename Kids mathematics line to Chévere Kids"
+            git push
+          fi
