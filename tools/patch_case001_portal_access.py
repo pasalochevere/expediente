@@ -1,4 +1,5 @@
 from pathlib import Path
+# trigger v1
 p=Path('caso001/index.html')
 s=p.read_text(encoding='utf-8')
 old="import {P2MultiplayerAdapter,P2_LABELS,findStoredLicense,lastRoomCode,remainingSeconds,formatClock} from './p2-multiplayer-adapter.js';"
