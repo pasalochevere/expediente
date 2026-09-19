@@ -4,6 +4,7 @@ on:
     branches: ["main"]
     paths:
       - ".github/workflows/admin-duration-patch-v2.yml"
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
@@ -11,8 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python scripts/patch_admin_duration.py
-      - run: |
+      - name: Apply guarded admin patch
+        run: python scripts/patch_admin_duration.py
+      - name: Commit admin UI
+        run: |
           git config user.name "PasaloChevere Release Bot"
           git config user.email "pasalochevere@gmail.com"
           git add admin-licencias/index.html
