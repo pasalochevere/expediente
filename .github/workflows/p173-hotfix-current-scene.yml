@@ -22,7 +22,9 @@ jobs:
           if old not in s: raise SystemExit('current scene init pattern missing')
           s=s.replace(old,new,1)
           s=s.replace("sessionStorage.setItem(CURRENT,currentId)","void 0")
+          s=s.replace("sessionStorage.setItem(CURRENT,id)","void 0")
           s=s.replace("sessionStorage.removeItem(CURRENT)","void 0")
+          assert 'sessionStorage.getItem(CURRENT)' not in s
           assert 'sessionStorage.setItem(CURRENT' not in s
           assert 'sessionStorage.removeItem(CURRENT' not in s
           p.write_text(s,encoding='utf-8')
