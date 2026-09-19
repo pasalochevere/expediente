@@ -13,24 +13,34 @@ Esta carpeta contiene la reconstrucción no destructiva del motor de misterio de
 - `qa.html` — panel visual de QA P2.11C.
 - `P2.11B_QA_JUGABLE.md` — diagnóstico profundo previo al FIX.
 - `P2.11C_FIX_JUGABLE.md` — cambios aplicados y reglas posteriores al FIX.
+- `P2.11D_QA_POST_FIX.md` — recorrido ciego E1 → E2 → E3 de los 12 casos después del FIX.
 - `index.html` — prototipo jugable aislado P2.
 
-## Estado P2.11C
+## Estado P2.11D
 
-Los 12 Paquetes de Crimen ya incorporan:
+El QA jugable post-FIX de escritorio está completo para 12/12 paquetes.
 
-- `criticalEvent`: qué ocurrió exactamente en el momento central;
-- `mechanism`: cómo ocurrió y qué función cumple el objeto clave;
-- `postCrimeAction`: primera maniobra de encubrimiento;
-- Etapa 1 sin identificación directa del responsable;
-- Etapa 2 con al menos una hipótesis alternativa narrativa;
-- Etapa 3 como pivote de identificación/reconstrucción;
-- señuelos con `text` de presentación y `resolution` diferida;
-- epílogos específicos para cada crimen;
-- correcciones de tecnología demasiado determinante;
-- fallback NPC para testimonios privados esenciales.
+Resultado global:
 
-Los casos C001-11 y C001-12 fueron rediseñados en profundidad. C001-04, 05, 07 y 08 fueron reestructurados en su secuencia de revelado. Los otros seis recibieron ajustes de ritmo, prueba y señuelos.
+- 12/12 abren E1 sin entregar identidad;
+- 12/12 conservan al menos una alternativa narrativa defendible al final de E2;
+- 12/12 reservan para E3 una atribución fuerte o pivote de reconstrucción;
+- 12/12 tienen hecho crítico, mecanismo y acción postcrimen explícitos;
+- 12/12 permiten recuperar testimonios indispensables cuando el testigo es NPC;
+- la tecnología funciona como corroboración y no como respuesta aislada;
+- C001-11 recibió un micro-FIX adicional en P2.11D para hacer lógicamente válido el señuelo de Santiago.
+
+No se detectó ningún paquete que necesite volver a P2.11C por un fallo lógico grave.
+
+### Deuda detectada en P2.11D
+
+Al jugar mentalmente varios casos consecutivos aparece una repetición de estructura física en el hecho central:
+
+`discusión → forcejeo/empujón → caída/golpe fatal → encubrimiento`
+
+La cadena deductiva sí cambia entre paquetes, pero la variedad narrativa del desenlace todavía debe mejorar antes de Release Candidate.
+
+Objetivo recomendado: no más de 4 de los 12 paquetes con el mismo tipo de desenlace físico.
 
 ## Regla 3–6 jugadores
 
@@ -55,7 +65,7 @@ La submatriz compatible con Impostor conserva 26 configuraciones por paquete, es
 
 Los testimonios privados de personajes NPC se transforman en declaraciones recuperables desde el expediente mediante `npcFallback`.
 
-## Regla de revelado P2.11C
+## Regla de revelado P2.11C/P2.11D
 
 ### Etapa 1 · Apertura
 
@@ -80,7 +90,7 @@ Los testimonios privados de personajes NPC se transforman en declaraciones recup
 
 ## QA automatizado
 
-`crime-engine.js` ahora falla si:
+`crime-engine.js` falla si:
 
 - falta `criticalEvent`, `mechanism` o `postCrimeAction`;
 - un señuelo no tiene resolución diferida;
@@ -89,7 +99,7 @@ Los testimonios privados de personajes NPC se transforman en declaraciones recup
 - faltan familias de evidencia, cadena de prueba o reconstrucción;
 - la matriz interna no converge a una solución única.
 
-`proof-map.json` fue actualizado a v1.1.0 después de la reescritura P2.11C.
+`proof-map.json` está en v1.1.0 después de la reescritura P2.11C.
 
 Importante: `rulesOut` y la matriz automática sirven para compatibilidad y pacing técnico. No prueban por sí solos que un humano perciba la deducción como justa o divertida.
 
@@ -97,14 +107,16 @@ Importante: `rulesOut` y la matriz automática sirven para compatibilidad y paci
 
 No modificar el `index.html` raíz todavía. La versión publicada permanece intacta mientras P2 vive en `mejora-caso001-p2`.
 
-## Pendientes antes de integrar en producción
+P2.11D considera la biblioteca lista para comenzar P2.12 de integración controlada, pero no para Release Candidate.
 
-- P2.11D — playtest simulado final / recorrido de mesa de los 12 casos después del FIX.
-- Playtest humano real para dificultad, claridad, diversión y duración 30–45 min.
-- Adaptar selección de caso a regla normal vs Impostor en el multiplayer real.
-- Distribución real de evidencia privada/expediente NPC.
-- Integración con sala, cronómetro, bitácora y Realtime de V1.
-- Verificación server-side de solución, permisos, RLS y acciones de anfitrión.
+## Pendientes antes de Release Candidate
+
+- playtest humano real para dificultad, claridad, diversión y duración;
+- diversificar el hecho criminal en parte de la biblioteca para reducir repetición narrativa;
+- adaptar selección de caso a regla normal vs Impostor en el multiplayer real;
+- distribución real de evidencia privada/expediente NPC;
+- integración con sala, cronómetro, bitácora y Realtime de V1;
+- verificación server-side de solución, permisos, RLS y acciones de anfitrión;
 - QA móvil y reconexión.
 
-**Estado:** P2.11C IMPLEMENTADO · QA DE ESCRITORIO REFORZADO · PLAYTEST HUMANO PENDIENTE · NO RELEASE CANDIDATE.
+**Estado:** P2.11D QA DE ESCRITORIO POST-FIX PASS · LISTO PARA P2.12 INTEGRACIÓN CONTROLADA · PLAYTEST HUMANO PENDIENTE · NO RELEASE CANDIDATE.
