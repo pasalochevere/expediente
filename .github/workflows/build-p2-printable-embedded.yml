@@ -19,100 +19,98 @@ jobs:
           ref: mejora-caso001-p2
           fetch-depth: 0
 
-      - name: Build and diagnose
+      - name: Build self-contained printable
         shell: python
         run: |
           from pathlib import Path
-          import re, traceback
+          import re
 
-          diag=[]
+          root=Path('index.html').read_text(encoding='utf-8')
+          gen=Path('caso001/printables/generator-p2.html').read_text(encoding='utf-8')
+
+          def extract_array(name):
+              m=re.search(r'const\s+'+re.escape(name)+r'\s*=\s*(\[[\s\S]*?\]);',root)
+              if not m: raise SystemExit(f'No se encontró array {name}')
+              raw=m.group(1)
+              if raw.count('data:image/') < 6: raise SystemExit(f'{name}: banco incompleto')
+              return raw
+
+          def extract_object(name):
+              m=re.search(r'const\s+'+re.escape(name)+r'\s*=\s*(\{[\s\S]*?\});',root)
+              if not m: raise SystemExit(f'No se encontró objeto {name}')
+              raw=m.group(1)
+              if raw.count('data:image/') < 6: raise SystemExit(f'{name}: banco incompleto')
+              return raw
+
+          portraits=extract_object('portraits')
+          locations=extract_array('locationImages')
+          objects=extract_array('weaponImages')
+
+          marker='const TYPE_LABEL='
+          if marker not in gen: raise SystemExit('Falta TYPE_LABEL')
+          embedded=(
+              'const ART={\n'
+              f' portraits:{portraits},\n'
+              f' locations:{locations},\n'
+              f' objects:{objects}\n'
+              '};\n'
+              'function artImg(src,alt,fallback){return src?`<img src="${src}" alt="${esc(alt)}">`:`<span class="fallback-letter">${esc(fallback)}</span>`}\n'
+          )
+          gen=gen.replace(marker,embedded+marker,1)
+
+          gen=gen.replace('const people=CHARS.map(c=>','const people=CHARS.map((c,i)=>',1)
+          gen=gen.replace('const scenes=LOCS.map(x=>','const scenes=LOCS.map((x,i)=>',1)
+          gen=gen.replace('const objects=OBJS.map(x=>','const objects=OBJS.map((x,i)=>',1)
+          gen=gen.replace('${c.name.slice(0,1)}','${artImg(ART.portraits[i],c.name,c.name.slice(0,1))}',1)
+          sym='<div class="symbol">${x[2]}</div>'
+          if gen.count(sym) < 2: raise SystemExit('Faltan placeholders de escena/objeto')
+          gen=gen.replace(sym,'<div class="symbol">${artImg(ART.locations[i],x[1],x[2])}</div>',1)
+          gen=gen.replace(sym,'<div class="symbol">${artImg(ART.objects[i],x[1],x[2])}</div>',1)
+
+          css=(
+              '.portrait{overflow:hidden}\n'
+              '.portrait img{width:100%;height:100%;object-fit:cover;display:block}\n'
+              '.symbol{overflow:hidden;align-self:stretch;min-height:48mm;display:grid;place-items:center;background:var(--paper2);font-size:30pt;text-align:center}\n'
+              '.symbol img{width:100%;height:100%;object-fit:cover;display:block}\n'
+              '.eco .portrait img,.eco .symbol img{filter:grayscale(1) contrast(1.05)}\n'
+              '.fallback-letter{font:900 26pt Georgia,serif}\n'
+          )
+          gen=gen.replace('.card-copy{padding:5mm}',css+'.card-copy{padding:5mm}',1)
+          gen=gen.replace('Generador imprimible P2 V1','Generador imprimible P2 V1 · ARTE EMBEBIDO',1)
+          gen=gen.replace('Kit base listo. Cargá un Crime Pack para generar evidencias dinámicas.','Kit base listo · Arte V1 embebido: 18/18 imágenes · Cargá un Crime Pack para evidencias dinámicas.')
+          gen=gen.replace('<b>QA P2.11F:</b>','<b>QA P2.11F-FIX2:</b> Arte V1 embebido 18/18 ·',1)
+
           out=Path('caso001/printables/generator-p2-embedded.html')
-          dpath=Path('caso001/printables/build-embedded-diagnostic.txt')
-          try:
-              root=Path('index.html').read_text(encoding='utf-8')
-              gen=Path('caso001/printables/generator-p2.html').read_text(encoding='utf-8')
-              diag.append(f'root_bytes={len(root.encode("utf-8"))}')
-              diag.append(f'generator_bytes={len(gen.encode("utf-8"))}')
+          out.write_text(gen,encoding='utf-8')
+          text=out.read_text(encoding='utf-8')
 
-              def extract(name):
-                  m=re.search(r'const\s+'+re.escape(name)+r'\s*=\s*(\[[\s\S]*?\]);',root)
-                  if not m:
-                      raise RuntimeError(f'No se encontró {name}')
-                  raw=m.group(1)
-                  diag.append(f'{name}_images={raw.count("data:image/")}')
-                  diag.append(f'{name}_chars={len(raw)}')
-                  return raw
+          total=text.count('data:image/')
+          if total < 18: raise SystemExit(f'QA FAIL: {total}/18 imágenes embebidas')
+          if 'LEGACY_ART_URL' in text or 'loadLegacyArt' in text: raise SystemExit('QA FAIL: dependencia runtime de arte')
+          for token in ('ART.portraits[i]','ART.locations[i]','ART.objects[i]'):
+              if token not in text: raise SystemExit(f'QA FAIL: falta {token}')
+          if 'CHARS.map((c,i)=>' not in text or 'LOCS.map((x,i)=>' not in text or 'OBJS.map((x,i)=>' not in text:
+              raise SystemExit('QA FAIL: índices de arte no conectados')
 
-              portraits=extract('portraits')
-              locations=extract('locationImages')
-              objects=extract('weaponImages')
+          Path('caso001/printables/build-embedded-diagnostic.txt').write_text(
+              f'BUILD=OK\nportraits=6\nlocations=6\nobjects=6\ntotal_data_images={total}\noutput_bytes={out.stat().st_size}\nruntime_fetch=false\n',encoding='utf-8')
+          print(f'QA OK · {total} imágenes embebidas · {out.stat().st_size} bytes')
 
-              diag.append(f'people_placeholder={gen.count("${c.name.slice(0,1)}")}')
-              diag.append(f'symbol_placeholders={gen.count(chr(60)+"div class=\\\"symbol\\\">${x[2]}"+chr(60)+"/div>")}')
-              diag.append(f'type_label_markers={gen.count("const TYPE_LABEL=")}')
-              diag.append(f'css_markers={gen.count(".card-copy{padding:5mm}")}')
-
-              marker='const TYPE_LABEL='
-              embedded=(
-                  'const ART={\n'
-                  f' portraits:{portraits},\n'
-                  f' locations:{locations},\n'
-                  f' objects:{objects}\n'
-                  '};\n'
-                  'function artImg(src,alt,fallback){return src?`<img src="${src}" alt="${esc(alt)}">`:`<span class="fallback-letter">${esc(fallback)}</span>`}\n'
-              )
-              gen=gen.replace(marker,embedded+marker,1)
-              gen=gen.replace('const people=CHARS.map(c=>','const people=CHARS.map((c,i)=>',1)
-              gen=gen.replace('const scenes=LOCS.map(x=>','const scenes=LOCS.map((x,i)=>',1)
-              gen=gen.replace('const objects=OBJS.map(x=>','const objects=OBJS.map((x,i)=>',1)
-              gen=gen.replace('${c.name.slice(0,1)}','${artImg(ART.portraits[i],c.name,c.name.slice(0,1))}',1)
-              sym='<div class="symbol">${x[2]}</div>'
-              gen=gen.replace(sym,'<div class="symbol">${artImg(ART.locations[i],x[1],x[2])}</div>',1)
-              gen=gen.replace(sym,'<div class="symbol">${artImg(ART.objects[i],x[1],x[2])}</div>',1)
-              css=(
-                  '.portrait{overflow:hidden}\n'
-                  '.portrait img{width:100%;height:100%;object-fit:cover;display:block}\n'
-                  '.symbol{overflow:hidden;align-self:stretch;min-height:48mm;display:grid;place-items:center;background:var(--paper2);font-size:30pt;text-align:center}\n'
-                  '.symbol img{width:100%;height:100%;object-fit:cover;display:block}\n'
-                  '.eco .portrait img,.eco .symbol img{filter:grayscale(1) contrast(1.05)}\n'
-                  '.fallback-letter{font:900 26pt Georgia,serif}\n'
-              )
-              gen=gen.replace('.card-copy{padding:5mm}',css+'.card-copy{padding:5mm}',1)
-              gen=gen.replace('Generador imprimible P2 V1','Generador imprimible P2 V1 · ARTE EMBEBIDO',1)
-              gen=gen.replace('Kit base listo. Cargá un Crime Pack para generar evidencias dinámicas.','Kit base listo · Arte V1 embebido: 18/18 imágenes · Cargá un Crime Pack para evidencias dinámicas.')
-              gen=gen.replace('<b>QA P2.11F:</b>','<b>QA P2.11F-FIX2:</b> Arte V1 embebido 18/18 ·',1)
-              out.write_text(gen,encoding='utf-8')
-              text=out.read_text(encoding='utf-8')
-              diag.append(f'output_bytes={out.stat().st_size}')
-              diag.append(f'output_data_images={text.count("data:image/")}')
-              diag.append(f'uses_portraits={"ART.portraits[i]" in text}')
-              diag.append(f'uses_locations={"ART.locations[i]" in text}')
-              diag.append(f'uses_objects={"ART.objects[i]" in text}')
-              diag.append(f'runtime_legacy={"LEGACY_ART_URL" in text or "loadLegacyArt" in text}')
-              diag.append('BUILD=OK')
-          except Exception as e:
-              diag.append('BUILD=ERROR')
-              diag.append(repr(e))
-              diag.append(traceback.format_exc())
-          dpath.write_text('\n'.join(diag),encoding='utf-8')
-          print('\n'.join(diag))
-
-      - name: Commit build output and diagnostic
+      - name: Commit generated self-contained HTML
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add caso001/printables/build-embedded-diagnostic.txt
-          if [ -f caso001/printables/generator-p2-embedded.html ]; then git add caso001/printables/generator-p2-embedded.html; fi
+          git add caso001/printables/generator-p2-embedded.html caso001/printables/build-embedded-diagnostic.txt
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "fix: build embedded Caso 001 printable art"
+            git commit -m "fix: embed 18 approved Caso 001 images in printable"
             git push origin HEAD:mejora-caso001-p2
           fi
 
       - name: Upload QA artifact
-        if: hashFiles('caso001/printables/generator-p2-embedded.html') != ''
         uses: actions/upload-artifact@v4
         with:
           name: caso001-p2-printable-embedded
           path: caso001/printables/generator-p2-embedded.html
+          if-no-files-found: error
