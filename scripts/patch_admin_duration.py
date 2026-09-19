@@ -32,11 +32,6 @@ new_create="""async function createLicense(){const product=$('product').value,ch
 """
 s=s[:start]+new_create+s[end:]
 
-old='<small>${r.devices_used||0} / ${r.device_limit||2} dispositivos</small></div><div><b class="mono">'
-new='<small>${r.devices_used||0} / ${r.device_limit||2} dispositivos</small><small>Vigencia: ${esc(r.duration_label||durationText(r))}</small></div><div><b class="mono">'
-assert s.count(old)==1, f'history anchor mismatch {s.count(old)}'
-s=s.replace(old,new)
-
 old="function resetSale(){$('saleRef').value='';$('buyerEmail').value='';$('resultCard').classList.add('hidden');current=null;$('saleRef').focus();msg('createMsg','Listo para una nueva venta.','')}"
 new="function resetSale(){$('saleRef').value='';$('buyerEmail').value='';$('accessKind').value='commercial';$('durationPreset').value='standard';$('customDays').value='7';syncAccess();$('resultCard').classList.add('hidden');current=null;$('saleRef').focus();msg('createMsg','Listo para una nueva venta.','')}"
 assert s.count(old)==1, f'reset anchor mismatch {s.count(old)}'
