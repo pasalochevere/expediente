@@ -124,11 +124,19 @@ export function validateLibrary(packs,manifest=null){
   };
 }
 
-export function selectCrimePack(packs,{activeCharacters=CASE001_IDS.characters,rng=Math.random,excludeIds=[]}={}){
-  const active=new Set(activeCharacters);
+// Compatibilidad: activeCharacters se acepta como alias de humanCharacters.
+// Modo normal: cualquiera de los seis puede ser responsable.
+// Modo impostor: el responsable debe estar controlado por un humano.
+export function selectCrimePack(packs,{humanCharacters=null,activeCharacters=null,mode='normal',rng=Math.random,excludeIds=[]}={}){
+  const humans=new Set(humanCharacters||activeCharacters||CASE001_IDS.characters);
   const excluded=new Set(excludeIds);
-  const eligible=(packs||[]).filter(p=>active.has(p.killer)&&!excluded.has(p.id));
-  if(!eligible.length) throw new Error('No hay Paquetes de Crimen compatibles con los personajes activos.');
+  const normalizedMode=String(mode||'normal').toLowerCase();
+  const eligible=(packs||[]).filter(p=>{
+    if(excluded.has(p.id)) return false;
+    if(normalizedMode==='impostor') return humans.has(p.killer);
+    return true;
+  });
+  if(!eligible.length) throw new Error(normalizedMode==='impostor'?'No hay Paquetes de Crimen con responsable humano compatibles con el Modo Impostor.':'No hay Paquetes de Crimen disponibles.');
   const n=Math.min(eligible.length-1,Math.floor(Math.max(0,Math.min(0.999999999,rng()))*eligible.length));
   return eligible[n];
 }
