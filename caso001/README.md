@@ -4,60 +4,107 @@ Esta carpeta contiene la reconstrucción no destructiva del motor de misterio de
 
 ## Estado actual
 
-- `CASE_STANDARD.md` — reglas maestras congeladas.
+- `CASE_STANDARD.md` — reglas maestras P2.
 - `manifest.json` — IDs estables de personajes, escenas, objetos y lista de Crime Packs.
-- `packs/C001-01.json` … `C001-12.json` — 12 crímenes completos y coherentes.
-- `crime-engine.js` — carga, selección, validación estructural, solvencia, progresión, acusación y Director narrativo.
-- `qa.html` — panel visual de QA estructural/lógico.
-- `P2.11B_QA_JUGABLE.md` — auditoría humana profunda de los 12 crímenes.
+- `packs/C001-01.json` … `C001-12.json` — 12 crímenes reescritos después de P2.11C.
+- `crime-engine.js` — carga, validación, progresión, acusación y Director narrativo.
+- `proof-map.json` + `proof-validator.js` — mapa de prueba narrativa y auditoría de roles.
+- `player-count-qa.js` — matriz 3–6 jugadores con humanos + NPC y matriz específica de Impostor.
+- `qa.html` — panel visual de QA P2.11C.
+- `P2.11B_QA_JUGABLE.md` — diagnóstico profundo previo al FIX.
+- `P2.11C_FIX_JUGABLE.md` — cambios aplicados y reglas posteriores al FIX.
 - `index.html` — prototipo jugable aislado P2.
 
-## Estado QA P2.11B
+## Estado P2.11C
 
-La auditoría jugable profunda está completa para 12/12 paquetes.
+Los 12 Paquetes de Crimen ya incorporan:
 
-Resultado:
-- 3 paquetes requieren ajuste leve: C001-02, C001-09, C001-10.
-- 3 requieren reescritura media: C001-01, C001-03, C001-06.
-- 4 requieren reestructuración del revelado: C001-04, C001-05, C001-07, C001-08.
-- 2 requieren rediseño prioritario: C001-11, C001-12.
+- `criticalEvent`: qué ocurrió exactamente en el momento central;
+- `mechanism`: cómo ocurrió y qué función cumple el objeto clave;
+- `postCrimeAction`: primera maniobra de encubrimiento;
+- Etapa 1 sin identificación directa del responsable;
+- Etapa 2 con al menos una hipótesis alternativa narrativa;
+- Etapa 3 como pivote de identificación/reconstrucción;
+- señuelos con `text` de presentación y `resolution` diferida;
+- epílogos específicos para cada crimen;
+- correcciones de tecnología demasiado determinante;
+- fallback NPC para testimonios privados esenciales.
 
-Hallazgos transversales:
-- falta explicitar `criticalEvent`, `mechanism` y `postCrimeAction`;
-- varias pistas de etapa 1/2 identifican demasiado pronto al responsable;
-- los señuelos deben sobrevivir más tiempo antes de ser descartados;
-- debe fijarse el comportamiento NPC de personajes no controlados en partidas de 3–5 jugadores;
-- la tecnología debe corroborar la deducción y no sustituirla;
-- los epílogos deben ser específicos de cada crimen.
+Los casos C001-11 y C001-12 fueron rediseñados en profundidad. C001-04, 05, 07 y 08 fueron reestructurados en su secuencia de revelado. Los otros seis recibieron ajustes de ritmo, prueba y señuelos.
 
-**Estado:** QA de escritorio completo · PLAYTEST HUMANO PENDIENTE · NO RC.
+## Regla 3–6 jugadores
+
+Los seis personajes existen siempre en el mundo de la historia.
+
+- 3 jugadores = 3 humanos + 3 NPC.
+- 4 jugadores = 4 humanos + 2 NPC.
+- 5 jugadores = 5 humanos + 1 NPC.
+- 6 jugadores = 6 humanos.
+
+### Modo normal
+
+Cualquiera de los seis personajes puede ser responsable, sea humano o NPC. Esto evita que la cantidad de jugadores revele información por metajuego.
+
+La matriz completa contempla 42 configuraciones humanas por paquete, es decir 504 configuraciones para los 12 crímenes.
+
+### Modo Impostor
+
+El responsable debe ser un personaje controlado por una persona, porque ese jugador recibe el rol oculto y los sabotajes permitidos.
+
+La submatriz compatible con Impostor conserva 26 configuraciones por paquete, es decir 312 configuraciones para los 12 crímenes.
+
+Los testimonios privados de personajes NPC se transforman en declaraciones recuperables desde el expediente mediante `npcFallback`.
+
+## Regla de revelado P2.11C
+
+### Etapa 1 · Apertura
+
+- establece escena, objeto, anomalía o conflicto;
+- no usa `supports.suspect`;
+- no identifica directamente al responsable;
+- debe permitir varias lecturas iniciales.
+
+### Etapa 2 · Fractura
+
+- introduce motivo, contradicción y relaciones;
+- reduce el universo narrativo;
+- mantiene al menos una alternativa plausible;
+- un señuelo todavía puede parecer válido.
+
+### Etapa 3 · Pivote
+
+- identifica o vincula la prueba decisiva;
+- resuelve el señuelo;
+- permite reconstruir Responsable + Escena + Objeto + Motivo + Contradicción;
+- la prueba final funciona por cruce, no como respuesta aislada sin contexto.
+
+## QA automatizado
+
+`crime-engine.js` ahora falla si:
+
+- falta `criticalEvent`, `mechanism` o `postCrimeAction`;
+- un señuelo no tiene resolución diferida;
+- una evidencia de Etapa 1 identifica un sospechoso mediante `supports.suspect`;
+- un testimonio privado no tiene testigo y fallback NPC;
+- faltan familias de evidencia, cadena de prueba o reconstrucción;
+- la matriz interna no converge a una solución única.
+
+`proof-map.json` fue actualizado a v1.1.0 después de la reescritura P2.11C.
+
+Importante: `rulesOut` y la matriz automática sirven para compatibilidad y pacing técnico. No prueban por sí solos que un humano perciba la deducción como justa o divertida.
 
 ## Regla de integración
 
-No modificar el `index.html` raíz hasta que la biblioteca P2 pase QA narrativo y jugable. La rama `mejora-caso001-p2` existe para evitar romper la versión publicada.
-
-## Qué cambia respecto de V1
-
-V1 elegía una combinación de Persona + Lugar + Objeto y adaptaba descartes alrededor de ella.
-
-P2 elige un Paquete de Crimen que ya contiene motivo, verdad, cronología, mentira, contradicción, relaciones, señuelo, evidencias y epílogo. Las pistas describen hechos del mundo y el motor verifica internamente que todas conduzcan a una única solución.
-
-## Flujo P2
-
-1. Seleccionar un paquete compatible con los personajes activos.
-2. Entregar evidencias en tres etapas.
-3. Permitir teoría libre y orientación narrativa del Director.
-4. Llegar a una solución única sin necesitar consultas hit/miss.
-5. Registrar y bloquear Persona + Escena + Objeto antes de revelar.
-6. Mostrar resultado parcial/total y reconstrucción cronológica.
+No modificar el `index.html` raíz todavía. La versión publicada permanece intacta mientras P2 vive en `mejora-caso001-p2`.
 
 ## Pendientes antes de integrar en producción
 
-- P2.11C — FIX jugable de los 12 Paquetes.
-- Definir y agregar hecho crítico/mecanismo/acción postcrimen.
-- Regla NPC y variantes de pistas para 3/4/5/6 jugadores.
-- Asignación real de evidencias privadas.
-- Poderes controlados del Modo Impostor.
-- Adaptador server-side para mantener la solución fuera del estado público multijugador.
+- P2.11D — playtest simulado final / recorrido de mesa de los 12 casos después del FIX.
+- Playtest humano real para dificultad, claridad, diversión y duración 30–45 min.
+- Adaptar selección de caso a regla normal vs Impostor en el multiplayer real.
+- Distribución real de evidencia privada/expediente NPC.
 - Integración con sala, cronómetro, bitácora y Realtime de V1.
-- QA móvil, reconexión y seguridad de acciones de anfitrión.
+- Verificación server-side de solución, permisos, RLS y acciones de anfitrión.
+- QA móvil y reconexión.
+
+**Estado:** P2.11C IMPLEMENTADO · QA DE ESCRITORIO REFORZADO · PLAYTEST HUMANO PENDIENTE · NO RELEASE CANDIDATE.
