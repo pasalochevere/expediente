@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CASO 001 · QA Crime Packs</title>
+<style>
+:root{color-scheme:dark}body{margin:0;background:#090d12;color:#edf1f5;font-family:system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:1180px;margin:auto;padding:32px 18px 60px}h1{margin:0 0 8px;font-size:clamp(26px,5vw,48px)}.sub{color:#9da9b5;margin-bottom:24px}.summary{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.pill{background:#141b23;border:1px solid #283440;border-radius:999px;padding:9px 14px}.ok{color:#78e39a}.bad{color:#ff7f87}.warn{color:#ffd275}.card{background:#10161d;border:1px solid #25313d;border-radius:16px;padding:18px;margin:12px 0}.row{display:grid;grid-template-columns:120px 1fr repeat(3,120px);gap:10px;align-items:center}.stage{font-variant-numeric:tabular-nums;color:#b9c5d0}.errors{white-space:pre-wrap;color:#ff9ca2;margin-top:10px}.warnings{white-space:pre-wrap;color:#ffd275;margin-top:10px}@media(max-width:760px){.row{grid-template-columns:1fr}.row>div{padding:2px 0}}
+</style>
+</head>
+<body><main class="wrap">
+<h1>CASO 001 · QA P2</h1>
+<div class="sub">Validador vivo de estructura, evidencia y solución única de los Paquetes de Crimen.</div>
+<div id="summary" class="summary"><span class="pill">Cargando…</span></div>
+<div id="list"></div>
+</main>
+<script type="module">
+import {loadCrimeLibrary,validateLibrary,buildProgressionReport} from './crime-engine.js';
+const summary=document.querySelector('#summary');
+const list=document.querySelector('#list');
+try{
+  const {manifest,packs}=await loadCrimeLibrary('./');
+  const qa=validateLibrary(packs,manifest);
+  summary.innerHTML=`<span class="pill">Paquetes: <b>${qa.total}</b></span><span class="pill ok">Aprobados: <b>${qa.passed}</b></span><span class="pill ${qa.failed?'bad':'ok'}">Fallidos: <b>${qa.failed}</b></span>`;
+  list.innerHTML=qa.reports.map((r,i)=>{
+    const p=packs[i],prog=buildProgressionReport(p,manifest);
+    const stageText=prog.map(x=>`<div class="stage">E${x.stage}: ${x.suspects}P · ${x.locations}L · ${x.objects}O</div>`).join('');
+    return `<article class="card"><div class="row"><div class="${r.ok?'ok':'bad'}"><b>${r.ok?'PASS':'FAIL'}</b><br>${p.id}</div><div><b>${p.title}</b><br><small>${manifest.characters[p.killer]} · ${manifest.locations[p.location]} · ${manifest.keyObjects[p.keyObject]}</small></div>${stageText}</div>${r.errors.length?`<div class="errors">${r.errors.join('\n')}</div>`:''}${r.warnings.length?`<div class="warnings">${r.warnings.join('\n')}</div>`:''}</article>`;
+  }).join('');
+}catch(error){summary.innerHTML='<span class="pill bad">ERROR DE CARGA</span>';list.innerHTML=`<div class="card errors">${String(error.stack||error)}</div>`}
+</script></body></html>
