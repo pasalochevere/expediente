@@ -1,0 +1,89 @@
+name: Publish safe Caso 001 P2 release
+
+on:
+  push:
+    branches: ["mejora-caso001-p2"]
+    paths:
+      - ".github/workflows/publish-caso001-safe-release.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout P2 source branch
+        uses: actions/checkout@v4
+        with:
+          ref: mejora-caso001-p2
+          fetch-depth: 0
+
+      - name: Build safe customer files
+        shell: python
+        run: |
+          from pathlib import Path
+
+          src = Path('caso001/multiplayer-p2.html').read_text(encoding='utf-8')
+          adapter = Path('caso001/p2-multiplayer-adapter.js').read_text(encoding='utf-8')
+          printable = Path('caso001/printables/generator-p2-embedded.html').read_text(encoding='utf-8')
+
+          # Customer-facing multiplayer: remove development language and temporarily
+          # expose Normal mode only until Impostor powers complete QA.
+          src = src.replace('<title>EXPEDIENTES · Caso 001 P2 Multiplayer</title>', '<title>EXPEDIENTES · Caso 001 — La Última Reunión</title>')
+          src = src.replace('EXPEDIENTES · CASO 001 · P2.12', 'EXPEDIENTES · CASO 001')
+          src = src.replace('Cliente multiplayer real aislado. Salas, Realtime, roles privados, NPC, cronómetro, Director, bitácora y acusación bloqueada sin exponer la solución al navegador.', 'Investigación multijugador. Reúnan las evidencias, contrasten testimonios y reconstruyan qué ocurrió antes de bloquear la acusación final.')
+          src = src.replace('<div class="tag">INTEGRACIÓN CONTROLADA · NO PRODUCCIÓN</div>', '<a class="tag" href="./printables/" target="_blank" rel="noopener">KIT IMPRIMIBLE</a>')
+          src = src.replace('.tag{border:1px solid #4a4030;', '.tag{text-decoration:none;border:1px solid #4a4030;')
+          src = src.replace('<option value="dig">Investigación normal</option><option value="imp">Modo Impostor</option>', '<option value="dig">Investigación normal</option>')
+          src = src.replace('En modo normal, un NPC también puede ser responsable. En Impostor, el responsable siempre es un jugador humano.', 'Los personajes no elegidos siguen participando como NPC y también pueden resultar responsables del caso.')
+
+          # Printable customer edition: base 8 A4 only. Dynamic pack evidence remains
+          # server/game-side until a secure printable endpoint is released.
+          printable = printable.replace('<title>EXPEDIENTES · Caso 001 · Generador imprimible P2.11F</title>', '<title>EXPEDIENTES · Caso 001 — Kit imprimible</title>')
+          printable = printable.replace('</style>', '.field:has(#stage),.field:has(#pack),.field:has(#channel),.filebtn,.checks,.status,.qa-panel{display:none!important}.controls{grid-template-columns:1fr 1fr!important;max-width:650px}\n</style>', 1)
+          printable = printable.replace('Generador imprimible P2 V1 · ARTE EMBEBIDO', 'LA ÚLTIMA REUNIÓN · KIT IMPRIMIBLE')
+          printable = printable.replace('Generador imprimible P2 V1', 'LA ÚLTIMA REUNIÓN · KIT IMPRIMIBLE')
+          printable = printable.replace('EXPEDIENTES · CASO 001 · P2.11F', 'EXPEDIENTES · CASO 001')
+          printable = printable.replace('<div class="dev">DESARROLLO · NO PUBLICAR CON PACKS EN CLIENTE</div>', '')
+
+          # Hard release gates.
+          forbidden = ['caso001/packs/', 'raw.githubusercontent.com/pasalochevere/expediente/mejora-caso001-p2/caso001/packs']
+          for value in forbidden:
+              if value in src or value in adapter:
+                  raise SystemExit(f'RELEASE FAIL: secret pack reference in runtime: {value}')
+          if printable.count('data:image/') < 18:
+              raise SystemExit('RELEASE FAIL: printable artwork incomplete')
+          if '<option value="imp">' in src:
+              raise SystemExit('RELEASE FAIL: Impostor still exposed')
+
+          out = Path('/tmp/caso001-release')
+          (out/'printables').mkdir(parents=True, exist_ok=True)
+          (out/'index.html').write_text(src, encoding='utf-8')
+          (out/'p2-multiplayer-adapter.js').write_text(adapter, encoding='utf-8')
+          (out/'printables'/'index.html').write_text(printable, encoding='utf-8')
+          (out/'RELEASE.txt').write_text('CASO 001 P2 customer preview\nMode: Normal\nCrime Packs: server-side only\nPrintable: 8 A4 base, 18 embedded images\n', encoding='utf-8')
+          print('SAFE RELEASE BUILT')
+
+      - name: Publish only safe files to main
+        run: |
+          mkdir -p /tmp/safe-copy
+          cp -R /tmp/caso001-release/. /tmp/safe-copy/
+          git fetch origin main
+          git checkout main
+          git pull --ff-only origin main
+          mkdir -p caso001/printables
+          cp /tmp/safe-copy/index.html caso001/index.html
+          cp /tmp/safe-copy/p2-multiplayer-adapter.js caso001/p2-multiplayer-adapter.js
+          cp /tmp/safe-copy/printables/index.html caso001/printables/index.html
+          cp /tmp/safe-copy/RELEASE.txt caso001/RELEASE.txt
+          git config user.name "PasaloChevere Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add caso001/index.html caso001/p2-multiplayer-adapter.js caso001/printables/index.html caso001/RELEASE.txt
+          if git diff --cached --quiet; then
+            echo "No release changes"
+          else
+            git commit -m "Release Caso 001 P2 customer preview (safe runtime only)"
+            git push origin main
+          fi
