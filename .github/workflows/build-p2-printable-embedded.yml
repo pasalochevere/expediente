@@ -5,6 +5,7 @@ on:
     branches: ["mejora-caso001-p2"]
     paths:
       - ".github/workflows/build-p2-printable-embedded.yml"
+      - "caso001/printables/generator-p2.html"
 
 permissions:
   contents: write
@@ -46,6 +47,21 @@ jobs:
           locations=extract_array('locationImages')
           objects=extract_array('weaponImages')
 
+          # UI de producto: sin marcas técnicas visibles.
+          gen=gen.replace('<title>EXPEDIENTES · Caso 001 · Generador imprimible P2.11F</title>',
+                          '<title>EXPEDIENTES · Caso 001 · La Última Reunión · Kit imprimible</title>',1)
+          gen=gen.replace('<b>EXPEDIENTES · CASO 001 · P2.11F</b><h1>Generador imprimible P2 V1</h1>',
+                          '<b>EXPEDIENTES · CASO 001</b><h1>LA ÚLTIMA REUNIÓN · KIT IMPRIMIBLE</h1>',1)
+          gen=gen.replace('<div class="dev">DESARROLLO · NO PUBLICAR CON PACKS EN CLIENTE</div>','',1)
+          gen=gen.replace('.controls{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:8px}',
+                          '.controls{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:8px}',1)
+          gen=gen.replace('.qa-panel{max-width:1240px',
+                          '.dev-only{display:none!important}.qa-panel{max-width:1240px',1)
+          gen=gen.replace('<div class="field filebtn"><label>Carga manual</label><button>Cargar JSON local</button><input id="file" type="file" accept=".json,application/json"></div>',
+                          '<div class="field filebtn dev-only"><label>Carga manual</label><button>Cargar JSON local</button><input id="file" type="file" accept=".json,application/json"></div>',1)
+          gen=gen.replace('<div id="qa" class="qa-panel no-print">',
+                          '<div id="qa" class="qa-panel no-print dev-only">',1)
+
           marker='const TYPE_LABEL='
           if marker not in gen: raise SystemExit('Falta TYPE_LABEL')
           embedded=(
@@ -76,9 +92,9 @@ jobs:
               '.fallback-letter{font:900 26pt Georgia,serif}\n'
           )
           gen=gen.replace('.card-copy{padding:5mm}',css+'.card-copy{padding:5mm}',1)
-          gen=gen.replace('Generador imprimible P2 V1','Generador imprimible P2 V1 · ARTE EMBEBIDO',1)
-          gen=gen.replace('Kit base listo. Cargá un Crime Pack para generar evidencias dinámicas.','Kit base listo · Arte V1 embebido: 18/18 imágenes · Cargá un Crime Pack para evidencias dinámicas.')
-          gen=gen.replace('<b>QA P2.11F:</b>','<b>QA P2.11F-FIX2:</b> Arte V1 embebido 18/18 ·',1)
+          gen=gen.replace('Kit base listo. Cargá un Crime Pack para generar evidencias dinámicas.',
+                          'Kit base listo. Seleccioná un Crime Pack para generar las evidencias correspondientes.')
+          gen=gen.replace('<b>QA P2.11F:</b>','<b>QA P2.11F-FIX3:</b> Arte embebido 18/18 ·',1)
 
           out=Path('caso001/printables/generator-p2-embedded.html')
           out.write_text(gen,encoding='utf-8')
@@ -91,10 +107,14 @@ jobs:
               if token not in text: raise SystemExit(f'QA FAIL: falta {token}')
           if 'CHARS.map((c,i)=>' not in text or 'LOCS.map((x,i)=>' not in text or 'OBJS.map((x,i)=>' not in text:
               raise SystemExit('QA FAIL: índices de arte no conectados')
+          if '<h1>LA ÚLTIMA REUNIÓN · KIT IMPRIMIBLE</h1>' not in text:
+              raise SystemExit('QA FAIL: encabezado público no aplicado')
+          if '<div class="field filebtn dev-only">' not in text:
+              raise SystemExit('QA FAIL: loader manual no quedó oculto')
 
           Path('caso001/printables/build-embedded-diagnostic.txt').write_text(
-              f'BUILD=OK\nportraits=6\nlocations=6\nobjects=6\ntotal_data_images={total}\noutput_bytes={out.stat().st_size}\nruntime_fetch=false\n',encoding='utf-8')
-          print(f'QA OK · {total} imágenes embebidas · {out.stat().st_size} bytes')
+              f'BUILD=OK\nportraits=6\nlocations=6\nobjects=6\ntotal_data_images={total}\noutput_bytes={out.stat().st_size}\nruntime_fetch=false\nmanual_json_loader=hidden_dev_only\npublic_heading=clean\n',encoding='utf-8')
+          print(f'QA OK · {total} imágenes embebidas · UI pública limpia · {out.stat().st_size} bytes')
 
       - name: Commit generated self-contained HTML
         run: |
@@ -104,7 +124,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "fix: embed 18 approved Caso 001 images in printable"
+            git commit -m "fix: clean Caso 001 printable UI"
             git push origin HEAD:mejora-caso001-p2
           fi
 
