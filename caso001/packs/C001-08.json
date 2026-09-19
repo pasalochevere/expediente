@@ -1,0 +1,21 @@
+{
+  "id":"C001-08","title":"La tela bajo el sillón","killer":"CLARA","location":"L1","keyObject":"O6","motiveCategory":"familia",
+  "motive":"La víctima planeaba revelar una decisión que dejaba a Clara fuera de un acuerdo familiar que ella consideraba prometido.",
+  "truthSummary":"Clara pidió hablar en la sala mientras los demás se movían hacia otras habitaciones. Durante la confrontación, su pañuelo se rasgó y una parte quedó bajo el sillón. Luego dijo que apenas había cruzado la sala.",
+  "centralLie":"Clara sostiene que nunca se quedó a solas con la víctima en la sala y que perdió su pañuelo antes de llegar.",
+  "contradiction":"Un fragmento de la misma tela queda atrapado bajo el sillón junto a una mancha reciente, y una foto tomada al inicio de la reunión muestra a Clara todavía con el pañuelo.",
+  "timeline":["22:20 · Una foto grupal muestra a Clara con el pañuelo.","22:50 · Clara pide hablar con la víctima.","22:55 · Ambos quedan solos en la sala.","23:07 · Se oye un objeto caer.","23:12 · Clara sale sin el pañuelo.","23:25 · Afirma que lo había perdido antes de llegar."],
+  "relationships":[{"a":"CLARA","b":"SANTIAGO","text":"Santiago sabía que la decisión familiar perjudicaba a Clara y trató de convencer a la víctima de postergarla."},{"a":"CLARA","b":"VERA","text":"Vera escuchó parte de una conversación previa y creyó erróneamente que Clara discutía por un asunto sentimental."}],
+  "redHerrings":[{"title":"La intervención de Santiago","text":"Santiago pidió postergar la decisión y parece actuar en su propio interés, pero sus mensajes muestran que intentaba evitar una pelea familiar, no beneficiarse."}],
+  "evidence":[
+    {"id":"C001-08-E01","type":"physical","stage":1,"public":true,"text":"Bajo el sillón de la sala aparece un fragmento de tela clara rasgado recientemente.","deduction":"La escena contiene un rastro textil dejado durante la reunión.","rulesOut":{"suspects":["SANTIAGO"],"locations":[],"objects":["O5"]},"supports":{"suspect":"CLARA","location":"L1","object":"O6"}},
+    {"id":"C001-08-E02","type":"digital","stage":1,"public":true,"text":"Una foto de las 22:20 muestra a Clara usando un pañuelo del mismo diseño.","deduction":"El pañuelo no se había perdido antes de llegar, como declaró.","rulesOut":{"suspects":["VERA"],"locations":["L2"],"objects":[]},"supports":{"suspect":"CLARA","location":"L1","object":"O6"}},
+    {"id":"C001-08-E03","type":"testimonial","stage":2,"public":true,"text":"Vera oyó a Clara decir: 'No podés cambiar esto sin hablar conmigo' cuando entraba a la sala con la víctima.","deduction":"Existió una confrontación privada en esa escena.","rulesOut":{"suspects":["MATEO"],"locations":["L3"],"objects":["O1"]}},
+    {"id":"C001-08-E04","type":"physical","stage":2,"public":false,"text":"El borde roto del pañuelo recuperado entre las pertenencias de Clara encaja con el fragmento del sillón.","deduction":"El objeto y Clara quedan unidos físicamente a la sala.","rulesOut":{"suspects":["INES"],"locations":["L4"],"objects":["O2"]},"supports":{"suspect":"CLARA","location":"L1","object":"O6"}},
+    {"id":"C001-08-E05","type":"motivational","stage":3,"public":true,"text":"El documento que la víctima iba a comunicar esa noche anulaba un compromiso familiar del que Clara dependía.","deduction":"La discusión tenía una consecuencia concreta para Clara.","rulesOut":{"suspects":["TOMAS"],"locations":["L5"],"objects":["O3"]}},
+    {"id":"C001-08-E06","type":"temporal","stage":3,"public":true,"text":"Entre 22:55 y 23:12 ninguna cámara común registra a Clara fuera de la sala; Santiago figura en una llamada desde el exterior.","deduction":"La ventana crítica coincide con su permanencia allí.","rulesOut":{"suspects":[],"locations":["L6"],"objects":["O4"]},"supports":{"suspect":"CLARA","location":"L1","object":"O6"}}
+  ],
+  "proofChain":["C001-08-E01","C001-08-E02","C001-08-E04","C001-08-E06"],
+  "epilogue":{"reconstruction":["El fragmento de tela fue la pieza pequeña que quebró una gran mentira.","Clara todavía tenía el pañuelo al llegar, estuvo en la sala y salió sin él.","El documento familiar explicó la confrontación.","Santiago intervino antes, pero sus registros lo sacaron de la escena crítica."],"closing":"La solución surge de cruzar presencia, motivo, objeto y contradicción; ninguna evidencia aislada basta por sí sola."},
+  "minPlayers":3,"maxPlayers":6
+}
