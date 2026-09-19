@@ -1,8 +1,8 @@
-# Torre Kids Matemática · V1.0
+# Chévere Kids · Matemática · V1.0
 
 **Estado:** RELEASE FINAL / CONGELADA  
 **Fecha de release:** 2026-09-14  
-**Producto:** PasaloChévere · Torre Kids · Matemática 7–9
+**Producto:** PasaloChévere · Chévere Kids · Matemática 7–9
 
 ## SKUs comerciales
 

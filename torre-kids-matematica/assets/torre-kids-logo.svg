@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" role="img" aria-labelledby="t d">
-<title id="t">Torre Kids Matemática</title><desc id="d">Logo infantil de Torre Kids con textura de madera y letras de colores.</desc>
+<title id="t">Chévere Kids · Matemática</title><desc id="d">Logo infantil de Chévere Kids Matemática con textura de madera y letras de colores.</desc>
 <defs>
   <linearGradient id="wood" x1="0" x2="1"><stop stop-color="#f4d6a6"/><stop offset=".5" stop-color="#d99a58"/><stop offset="1" stop-color="#f0c98f"/></linearGradient>
   <filter id="s" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#7a4f20" flood-opacity=".18"/></filter>
@@ -8,10 +8,7 @@
 <g opacity=".2" stroke="#8c5e34" stroke-width="3" fill="none">
   <path d="M48 62c120-24 200 18 306-4s205-11 318 10"/><path d="M55 154c120 15 218-11 336 5s178 18 274-1"/>
 </g>
-<text x="360" y="88" text-anchor="middle" font-family="Arial Rounded MT Bold,Arial,sans-serif" font-weight="900" font-size="58">
-  <tspan fill="#ef4f4f">T</tspan><tspan fill="#f59d2f">O</tspan><tspan fill="#2bb673">R</tspan><tspan fill="#2d87e8">R</tspan><tspan fill="#f4c63d">E</tspan>
-  <tspan fill="#5a3823"> KIDS</tspan>
-</text>
+<text x="360" y="88" text-anchor="middle" font-family="Arial Rounded MT Bold,Arial,sans-serif" font-weight="900" font-size="52"><tspan fill="#ef4f4f">CHÉVERE</tspan><tspan fill="#5a3823"> KIDS</tspan></text>
 <text x="360" y="137" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="28" fill="#5a3823">MATEMÁTICA</text>
-<text x="360" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#6f5138" letter-spacing="2">JUEGA · PIENSA · RESUELVE · CRECE</text>
+<text x="360" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#6f5138" letter-spacing="2">JUGANDO Y APRENDIENDO · 7–9 AÑOS</text>
 </svg>

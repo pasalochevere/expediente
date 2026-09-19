@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Torre Kids Matemática V1 · PasaloChévere</title>
+<title>Chévere Kids · Matemática V1 · PasaloChévere</title>
 <style>
 :root{
   --bg:#f5efe4;--paper:#fffdf8;--ink:#1f2529;--muted:#6e6b65;--line:#ddd3c2;
@@ -223,7 +223,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 .final-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}
 @media(max-width:760px){.final-wrap{grid-template-columns:1fr}.final-actions{grid-template-columns:1fr}.challenge-actions{grid-template-columns:1fr}.final-stats{grid-template-columns:1fr 1fr 1fr}}
 </style>
-<!-- TORRE KIDS MATEMÁTICA V1.0 · RELEASE FINAL · 2026-09-14 -->
+<!-- CHÉVERE KIDS · MATEMÁTICA V1.0 · RELEASE FINAL · 2026-09-14 -->
 </head>
 <body>
 
@@ -233,7 +233,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
     <div class="library">ACCESO PERSONAL · V1.0</div>
   </div>
   <div class="license-card">
-    <img class="tk-logo small" src="assets/torre-kids-logo.svg" alt="Torre Kids Matemática">
+    <img class="tk-logo small" src="assets/torre-kids-logo.svg" alt="Chévere Kids · Matemática">
     <h1>Validando tu acceso…</h1>
     <p id="licenseState" class="note">Abrí este juego desde Mi Biblioteca.</p>
     <a class="btn light full" style="display:block;text-align:center;text-decoration:none;margin-top:15px" href="../portal/">VOLVER A MI BIBLIOTECA</a>
@@ -284,7 +284,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
     <section class="kid-hero">
       <div class="kid-hero-grid">
         <div class="kid-copy">
-          <img class="tk-logo" src="assets/torre-kids-logo.svg" alt="Torre Kids Matemática">
+          <img class="tk-logo" src="assets/torre-kids-logo.svg" alt="Chévere Kids · Matemática">
           <div class="eyebrow" style="margin-top:18px">APRENDER TAMBIÉN ES JUGAR</div>
           <h1>JUEGA · PIENSA<br><span>RESUELVE · CRECE</span></h1>
           <p class="lead">Matemática en movimiento, dentro y fuera del aula. Con la torre física o en versión 100% digital.</p>
@@ -362,7 +362,7 @@ const LABEL={rojo:'Cálculo',verde:'Multiplicación',azul:'Lógica',amarillo:'Pr
 const EMOJI={rojo:'🔴',verde:'🟢',azul:'🔵',amarillo:'🟡',fucsia:'🩷',negro:'⚫'};
 const ICONPATH={rojo:'assets/icon-calculo.svg',verde:'assets/icon-multiplicacion.svg',azul:'assets/icon-logica.svg',amarillo:'assets/icon-problemas.svg',fucsia:'assets/icon-velocidad.svg',negro:'assets/icon-super.svg'};
 function categoryIcon(color,cls='pictogram'){return '<img class="'+cls+'" src="'+ICONPATH[color]+'" alt="">'}
-function kidMascot(cls='mascot mini'){return '<img class="'+cls+'" src="assets/mascota-bloqui.svg" alt="Mascota Torre Kids">'};
+function kidMascot(cls='mascot mini'){return '<img class="'+cls+'" src="assets/mascota-bloqui.svg" alt="Mascota Chévere Kids">'};
 const BASE=[
 [1,'rojo',1,'8 + 7 = ?','15','Pensá en 8 + 2 + 5.'],[7,'rojo',1,'20 − 6 = ?','14','Contá 6 hacia atrás desde 20.'],[13,'rojo',1,'12 + 9 = ?','21','12 + 10 = 22; restá 1.'],
 [19,'rojo',2,'35 − 18 = ?','17','35 − 20 = 15; sumá 2.'],[25,'rojo',2,'27 + 16 = ?','43','27 + 10 + 6.'],[31,'rojo',2,'50 − 23 = ?','27','50 − 20 − 3.'],
@@ -503,7 +503,7 @@ function adultChangePlayers(){closeAdultPanel();setLevel(S.level)}
 document.addEventListener('pointerdown',()=>{ensureAudio();if(A.music)startMusic();},{once:true,capture:true});
 
 const home=document.getElementById('home'),screen=document.getElementById('screen');
-function view(h){home.classList.add('hidden');screen.classList.remove('hidden');screen.innerHTML='<div class="game-head"><img class="tk-logo small" src="assets/torre-kids-logo.svg" alt="Torre Kids Matemática"><button class="btn light" style="padding:9px 12px" onclick="backHome()">INICIO</button></div>'+h;syncAudioUI();window.scrollTo(0,0)}
+function view(h){home.classList.add('hidden');screen.classList.remove('hidden');screen.innerHTML='<div class="game-head"><img class="tk-logo small" src="assets/torre-kids-logo.svg" alt="Chévere Kids · Matemática"><button class="btn light" style="padding:9px 12px" onclick="backHome()">INICIO</button></div>'+h;syncAudioUI();window.scrollTo(0,0)}
 function backHome(){closeAdultPanel();screen.classList.add('hidden');home.classList.remove('hidden');syncAudioUI();window.scrollTo(0,0)}
 function canUseTower(){return S.entitlement!=='digital'}
 function entitlementText(){
@@ -520,7 +520,7 @@ function applyEntitlementUI(){
 }
 function showPlayStyle(){
  if(S.entitlement==='digital'){
-   view('<div class="mode-title"><div class="eyebrow">TU ACCESO</div><h2>Edición Solo Digital</h2><p>Este código habilita la experiencia 100% digital.</p></div>'+
+   view('<div class="mode-title"><div class="eyebrow">TU ACCESO</div><h2>Chévere Kids · Matemática · Solo Digital</h2><p>Este código habilita la experiencia 100% digital.</p></div>'+
    '<div class="digital-only-note">📱 No necesitás la torre física. El portal sortea piezas, colores y desafíos automáticamente.</div>'+
    '<div class="mode-grid"><article class="kid-mode-card digital"><div class="kid-mode-visual">'+kidMascot('mascot mini')+'<div class="phone-illo"><div class="phone-block">24</div></div></div><h3>Sin Torre</h3><p>Jugá desde cualquier lugar. Solo necesitás el celular o una tablet.</p><button class="btn blue" type="button" onclick="setStyle(\'digital\')">JUGAR SIN TORRE →</button></article></div>');
    return;
@@ -532,7 +532,7 @@ function showPlayStyle(){
  '</div>');
 }
 function setStyle(s){
- if(s==='tower'&&!canUseTower()){alert('Este código corresponde a Torre Kids · Solo Digital.');return}
+ if(s==='tower'&&!canUseTower()){alert('Este código corresponde a Chévere Kids · Matemática · Solo Digital.');return}
  S.style=s;s==='tower'?chooseTowerMode():chooseDigitalMode()
 }
 function chooseTowerMode(){view('<div class="eyebrow">CON TORRE</div><h2>Elegí la modalidad</h2><div class="choice-grid">'+[
