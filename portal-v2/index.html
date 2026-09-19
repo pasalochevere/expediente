@@ -52,11 +52,11 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 @media(max-width:920px){.hero{grid-template-columns:1fr}.categoryStrip{grid-template-columns:repeat(2,1fr)}.grid,.drawerGrid{grid-template-columns:1fr 1fr}.support{grid-template-columns:1fr}.newsCard{flex-basis:46%}.drawerHead{align-items:flex-start;flex-direction:column}.drawerHead p{text-align:left}}
 @media(max-width:560px){.wrap{padding:15px}.grid,.categoryStrip,.drawerGrid{grid-template-columns:1fr}.authrow{grid-template-columns:1fr}.hero{padding-top:30px}.account{align-items:flex-start;flex-direction:column}.top{align-items:flex-start}.seal{width:58px;height:58px}.pill{display:none}.newsCard{min-width:84%;flex-basis:84%}.categoryHubTitle,.newsHead{align-items:flex-start;flex-direction:column}}
 </style></head><body><div class="wrap">
-<header class="top"><div class="brandwrap"><div class="seal"><span>PASALO<br>CHEVERE</span></div><div class="brand">PASALOCHEVERE<small>ACCESO PERSONAL · BIBLIOTECA DIGITAL</small></div></div><div class="pill">12 MESES · HASTA 2 DISPOSITIVOS</div></header>
+<header class="top"><div class="brandwrap"><div class="seal"><span>PASALO<br>CHEVERE</span></div><div class="brand">PASALOCHEVERE<small>ACCESO PERSONAL · BIBLIOTECA DIGITAL</small></div></div><div class="pill">VIGENCIA SEGÚN TU ACCESO · HASTA 2 DISPOSITIVOS</div></header>
 
 <section class="hero">
   <div class="heroCopy"><div class="eyebrow">TODOS TUS JUEGOS, UN SOLO ACCESO</div><h1>ENTRÁ.<br><em>ELEGÍ.</em><br>JUGÁ.</h1><p>Una sola biblioteca para activar, abrir y volver a tus experiencias PasaloChevere. Juegos de pareja, misterio, familia, aprendizaje y vínculos, cada uno con su propia identidad.</p></div>
-  <div class="heroPanel"><div class="eyebrow">TU BIBLIOTECA PERSONAL</div><h2>Menos mezcla. Más ganas de jugar.</h2><p>Cada producto vive dentro de una familia clara, sin perder la estética original de su juego.</p><div class="heroStats"><div class="heroStat"><b>5</b><span>familias de experiencias</span></div><div class="heroStat"><b>1</b><span>acceso personal</span></div><div class="heroStat"><b>12m</b><span>desde activación</span></div><div class="heroStat"><b>2</b><span>dispositivos</span></div></div></div>
+  <div class="heroPanel"><div class="eyebrow">TU BIBLIOTECA PERSONAL</div><h2>Menos mezcla. Más ganas de jugar.</h2><p>Cada producto vive dentro de una familia clara, sin perder la estética original de su juego.</p><div class="heroStats"><div class="heroStat"><b>5</b><span>familias de experiencias</span></div><div class="heroStat"><b>1</b><span>acceso personal</span></div><div class="heroStat"><b>Flexible</b><span>vigencia según tu acceso</span></div><div class="heroStat"><b>2</b><span>dispositivos</span></div></div></div>
 </section>
 <section class="categoryHub" aria-label="Categorías de juegos">
   <div class="categoryHubTitle"><div><div class="eyebrow">ELEGÍ TU EXPERIENCIA</div><h2>Entrá por categoría</h2></div><span>Los juegos viven adentro de cada familia. Abrí sólo la que te interesa.</span></div>
@@ -217,16 +217,16 @@ function renderLicenses(list){
    const cards=group.items.map(l=>{
      const active=l.status==='active'&&l.expires_at&&new Date(l.expires_at).getTime()>Date.now();
      const pending=!!l.can_activate;
-     const date=l.expires_at?new Date(l.expires_at).toLocaleDateString():'Empieza al activar';
+     const hours=Number(l.duration_hours||8760);const duration=hours===8760?'12 MESES':hours===24?'1 DÍA':hours%24===0?`${hours/24} DÍAS`:`${hours} HORAS`;const date=l.expires_at?new Date(l.expires_at).toLocaleDateString('es-AR'):'Empieza al activar';
      const badge=active?'● ACTIVO':pending?'● COMPRA APROBADA':'VENCIDO';
      const badgeClass=(active||pending)?'live':'';
      const code=l.activation_code||'Se genera al activar';
      let action='';
-     if(pending) action='<button class="btn primary" onclick="activateOwned(\''+escapeHtml(l.product_code)+'\')">ACTIVAR 12 MESES</button>';
+     if(pending) action='<button class="btn primary" onclick="activateOwned(\''+escapeHtml(l.product_code)+'\')">ACTIVAR · '+duration+'</button>';
      else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a>';
      else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span>';
      else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
-     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(code)+'</code></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>';
+     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>';
    }).join('');
    return '<section class="libraryGroup"><div class="libraryGroupTitle"><b>'+group.label+'</b><span></span></div><div class="grid">'+cards+'</div></section>';
  }).join('');
