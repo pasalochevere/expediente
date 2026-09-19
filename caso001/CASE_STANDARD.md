@@ -1,30 +1,36 @@
 # CASO 001 · LA ÚLTIMA REUNIÓN
-## P2.1 — Estándar maestro del misterio
+## Estándar maestro del misterio P2.11C
 
-Estado: CONGELADO PARA P2
-
-Este documento define las reglas que debe cumplir cualquier partida de Caso 001 antes de integrarse al portal actual.
+Estado: CONGELADO PARA QA POST-FIX
 
 ## 1. Principio central
 
-Caso 001 deja de construir una solución aleatoria `persona + lugar + objeto` y luego fabricar descartes alrededor de ella.
+Caso 001 no construye una solución aleatoria `persona + lugar + objeto` para luego fabricar descartes.
 
-A partir de P2, cada partida nace de un **Paquete de Crimen** completo y coherente. El paquete contiene una verdad criminal previa: motivo, cronología, escena clave, objeto clave, mentira central, contradicción, evidencias, señuelos y reconstrucción final.
+Cada partida nace de un **Paquete de Crimen** coherente que contiene una verdad previa: responsable, escena clave, objeto clave, motivo, hecho crítico, mecanismo, acción postcrimen, cronología, mentira central, contradicción, relaciones, señuelos, evidencias y reconstrucción final.
 
-El jugador no debe sentir que resuelve una matriz. Debe sentir que reconstruye un hecho.
+El jugador debe sentir que reconstruye un hecho, no que resuelve una matriz.
 
 ## 2. Conceptos canónicos
 
 ### Persona responsable
-Uno de los seis personajes activos. Debe tener un motivo concreto, oportunidad verificable y una mentira o maniobra posterior al hecho.
+Uno de los seis personajes de la historia:
+- SANTIAGO
+- CLARA
+- VERA
+- MATEO
+- INES
+- TOMAS
+
+Los seis existen siempre, aunque no todos estén controlados por humanos.
 
 ### Escena clave
-Reemplaza conceptualmente a “lugar correcto”. Es el espacio que resulta indispensable para reconstruir el hecho central. Puede ser el lugar del ataque, del encuentro decisivo o de una maniobra inmediatamente ligada al crimen, pero esa función debe quedar explícita dentro del paquete.
+Espacio indispensable para reconstruir el hecho central. Puede ser lugar de la confrontación, del ataque o de una maniobra inmediatamente ligada al crimen.
 
 ### Objeto clave
-Reemplaza conceptualmente a `weapon`. No tiene que ser un arma. Es el objeto sin el cual la explicación del crimen queda incompleta. Puede probar acceso, horario, motivo, identidad, encubrimiento o mecanismo.
+Objeto sin el cual la explicación queda incompleta. No tiene que ser el mecanismo ni un arma.
 
-Objetos disponibles:
+Objetos:
 - O1 · Arma
 - O2 · Cuaderno
 - O3 · Celular
@@ -32,85 +38,139 @@ Objetos disponibles:
 - O5 · Memoria USB
 - O6 · Pañuelo
 
-## 3. Las seis familias de evidencia
+Cada paquete puede concretar la representación visible de un objeto genérico. Ejemplo: O1 puede ser un cuchillo de cocina en un crimen específico.
 
-Toda partida debe combinar al menos cuatro de estas familias:
+## 3. Campos narrativos obligatorios
 
-1. **Temporal** — horarios, registros, tickets, llamadas, secuencias.
-2. **Testimonial** — declaraciones, omisiones y contradicciones.
-3. **Física** — fibras, marcas, huellas, desplazamientos, rastros.
-4. **Digital** — celular, USB, archivos, metadatos, registros.
-5. **Acceso** — llaves, puertas, permisos, recorridos posibles.
-6. **Motivacional** — dinero, secretos, vínculos, presión, reputación.
+Todo paquete debe declarar:
 
-Las evidencias visibles deben describir hechos del mundo. Evitar textos del tipo “X no es culpable” o “este objeto es incorrecto”. La deducción pertenece al jugador.
+- `motive` — por qué existe presión real;
+- `truthSummary` — verdad resumida del caso;
+- `criticalEvent` — qué ocurrió exactamente en el momento central;
+- `mechanism` — cómo ocurrió y qué rol cumple el objeto clave;
+- `postCrimeAction` — primera maniobra de encubrimiento;
+- `centralLie` — mentira principal del responsable;
+- `contradiction` — qué cruce rompe esa mentira;
+- `timeline` — secuencia cronológica;
+- `epilogue.reconstruction` — reconstrucción final específica;
+- `epilogue.closing` — cierre propio del caso.
 
-## 4. Cadena de prueba obligatoria
+## 4. Las seis familias de evidencia
 
-Cada Paquete de Crimen debe contener una **cadena de prueba** de al menos tres evidencias independientes que, combinadas, sostengan:
+Cada paquete debe combinar al menos cuatro:
 
-- identidad de la persona responsable;
-- escena clave;
-- objeto clave;
-- contradicción decisiva.
+1. Temporal.
+2. Testimonial.
+3. Física.
+4. Digital.
+5. Acceso.
+6. Motivacional.
 
-Ninguna pista aislada debe revelar la solución completa.
+Las evidencias visibles describen hechos del mundo. Evitar textos como “X es culpable” o “este objeto es incorrecto”.
 
-## 5. Solución única
+## 5. Ritmo de revelado
 
-La partida debe ser resoluble sin pedirle al Director que confirme combinaciones.
+### Etapa 1 · Apertura
 
-Antes de ser habilitado, un paquete debe pasar un validador de solvencia:
+Objetivo: abrir líneas.
 
-- 1 y solo 1 persona compatible al final;
-- 1 y solo 1 escena compatible al final;
-- 1 y solo 1 objeto compatible al final;
-- cadena de prueba completa;
-- ningún dato obligatorio depende de información inaccesible para la cantidad de jugadores elegida.
+- establece escena, objeto, anomalía o conflicto;
+- no debe identificar directamente al responsable;
+- `supports.suspect` está prohibido en Stage 1;
+- debe permitir varias interpretaciones.
 
-El Director puede orientar, contextualizar o reexpresar evidencias. No puede ser necesario para completar la solución.
+### Etapa 2 · Fractura
 
-## 6. Director narrativo
+Objetivo: reducir, no cerrar.
 
-Se elimina como objetivo la respuesta matemática tipo:
+- introduce motivos y contradicciones;
+- mantiene al menos una alternativa narrativa razonable;
+- los señuelos siguen activos;
+- una sola pista no debería resolver Persona + Escena.
 
-- Pista prometedora
-- Pista parcial
-- Línea débil
+### Etapa 3 · Pivote
 
-El nuevo Director debe responder con información diegética: registros, observaciones, contradicciones o sugerencias de qué cruzar.
+Objetivo: cerrar por cruce.
 
-Ejemplo:
+- identifica o vincula la prueba decisiva;
+- rompe la mentira central;
+- explica el señuelo;
+- permite reconstruir Persona + Escena + Objeto + Motivo + Contradicción.
 
-En vez de “Pista parcial”, usar: “El registro del edificio confirma movimiento cerca del estudio durante esa franja, pero la cámara no permite identificar a la persona.”
+## 6. Cadena de prueba
 
-## 7. Señuelos
+Cada paquete necesita una cadena de al menos tres evidencias independientes que, combinadas, sostengan:
 
-Cada paquete debe contener 1 o 2 `redHerrings` plausibles.
+- identidad;
+- escena;
+- objeto;
+- motivo;
+- contradicción.
 
-Un señuelo:
-- debe tener explicación real dentro de la historia;
-- no puede contradecir la solución;
-- no puede depender de una mentira del sistema;
-- debe poder descartarse mediante otra evidencia.
+Ninguna evidencia aislada de Etapa 1 debe revelar la solución completa.
 
-## 8. Personajes y secretos
+## 7. Solución única y límites de la matriz
 
-Los secretos personales no equivalen automáticamente al crimen. Deben servir para generar sospecha, negociación e información privada.
+La partida debe ser resoluble sin pedir al Director que confirme combinaciones.
 
-Cada paquete debe definir al menos dos relaciones cruzadas entre personajes para evitar seis historias aisladas alrededor de la víctima.
+El motor interno verifica que `rulesOut` converge a:
 
-## 9. Modo Impostor
+- 1 responsable;
+- 1 escena;
+- 1 objeto.
 
-Regla base:
+`rulesOut` es solo QA técnico/pacing. No equivale a demostrar que un humano perciba la deducción como justa.
 
-- Evidencia oficial pública: NO se puede falsear.
-- Evidencia oficial privada recibida por el jugador: NO se puede falsear al mostrarla como evidencia.
-- Secretos personales, intenciones y acciones no verificadas: el jugador puede ocultarlos o mentir sobre ellos.
-- Teorías: libres.
-- La persona responsable recibe sabotajes limitados definidos por el paquete; no puede inventar evidencia oficial.
+## 8. Director narrativo
 
-## 10. Acusación final
+El Director no responde “hit/miss”. Entrega orientación diegética: horarios, accesos, contradicciones o relaciones que conviene cruzar.
+
+Nunca debe ser necesario para completar la solución.
+
+## 9. Señuelos
+
+Cada paquete debe contener 1 o 2 `redHerrings` con:
+
+- `title`;
+- `text` — presentación del señuelo sin explicar por qué es falso;
+- `resolution` — explicación diferida para Etapa 3/epílogo.
+
+Un señuelo debe ser plausible, justo y descartable mediante evidencia real.
+
+## 10. Humanos y NPC · 3–6 jugadores
+
+Los seis personajes existen siempre.
+
+- 3 jugadores = 3 humanos + 3 NPC.
+- 4 jugadores = 4 humanos + 2 NPC.
+- 5 jugadores = 5 humanos + 1 NPC.
+- 6 jugadores = 6 humanos.
+
+### Modo normal
+
+Cualquiera de los seis puede ser responsable, sea humano o NPC. La cantidad de jugadores no debe reducir el universo de sospechosos por metajuego.
+
+### Testimonios
+
+Si el testigo es humano, una evidencia privada puede entregarse a ese jugador.
+
+Si el testigo es NPC, la misma información debe poder recuperarse como declaración del expediente mediante `npcFallback`.
+
+Ninguna solución puede depender de información inaccesible por cantidad de jugadores.
+
+## 11. Modo Impostor
+
+En Impostor, el responsable sí debe estar controlado por un humano.
+
+Reglas:
+- evidencia oficial pública: no se falsifica;
+- evidencia oficial privada: no se falsifica al mostrarla como evidencia;
+- secretos, intenciones y acciones no verificadas: pueden ocultarse o mentirse;
+- teorías: libres;
+- sabotajes: limitados por el estándar del modo;
+- el Director nunca miente.
+
+## 12. Acusación final
 
 Antes de revelar la solución, la interfaz debe capturar y bloquear:
 
@@ -119,42 +179,39 @@ Antes de revelar la solución, la interfaz debe capturar y bloquear:
 3. Objeto clave.
 4. Motivo o hipótesis causal.
 
-Una vez confirmada la acusación no puede editarse.
-
-El cierre debe devolver:
+El cierre devuelve:
 - aciertos por dimensión;
-- resolución total / parcial / fallida;
+- resolución total/parcial/fallida;
+- hecho crítico;
+- mecanismo;
+- acción postcrimen;
 - reconstrucción cronológica;
 - contradicción decisiva;
 - explicación de los señuelos.
 
-## 11. Reglas de calidad de un Paquete de Crimen
+## 13. Reglas de calidad de un Paquete de Crimen
 
-Un paquete queda aprobado solo si cumple todas:
+Un paquete queda aprobado para QA solo si cumple:
 
 - motivo creíble;
 - oportunidad concreta;
-- escena necesaria para la explicación;
-- objeto necesario para la explicación;
+- escena necesaria;
+- objeto necesario;
+- hecho crítico explícito;
+- mecanismo explícito;
+- acción postcrimen explícita;
 - mentira central verificable;
-- al menos una contradicción decisiva;
+- contradicción decisiva;
 - 6 o más evidencias;
-- al menos 4 familias de evidencia;
-- 1 o 2 señuelos justificables;
-- cadena de prueba de 3 o más evidencias;
-- epílogo narrativo;
-- no depende del Director para ser resuelto;
-- no presenta dos soluciones igualmente compatibles.
+- 4 o más familias;
+- 1 o 2 señuelos con resolución diferida;
+- cadena de prueba completa;
+- epílogo específico;
+- fallback NPC en testimonios privados necesarios;
+- no depende del Director;
+- no presenta dos soluciones finales igualmente compatibles.
 
-## 12. Identificadores estables
-
-Personajes:
-- SANTIAGO
-- CLARA
-- VERA
-- MATEO
-- INES
-- TOMAS
+## 14. Identificadores estables
 
 Escenas:
 - L1 · Sala de estar
@@ -172,8 +229,10 @@ Objetos:
 - O5 · Memoria USB
 - O6 · Pañuelo
 
-Estos IDs no deben cambiar aunque luego cambie el texto visible.
+Los IDs no cambian aunque cambie el texto visible.
 
-## 13. Migración segura
+## 15. Migración segura
 
-La versión actual de `index.html` permanece intacta durante P2. Los nuevos datos y el nuevo motor se construyen en `/caso001` y solo se conectarán al portal cuando hayan pasado validación estructural y QA jugable.
+La versión actual del `index.html` raíz permanece intacta durante P2.
+
+Los nuevos datos y motores viven en `/caso001` y solo se integrarán al portal después de QA post-FIX, playtest humano, adaptación multiplayer y revisión de seguridad.
