@@ -1,0 +1,23 @@
+name: Portal device manager patch
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "tools/patch_portal_device_manager.py"
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch portal device manager
+        run: python tools/patch_portal_device_manager.py
+      - name: Commit portal changes
+        run: |
+          git config user.name "PasaloChevere Release Bot"
+          git config user.email "pasalochevere@gmail.com"
+          git add portal-v2/index.html
+          git diff --cached --check
+          git commit -m "Portal: add device management"
+          git push
