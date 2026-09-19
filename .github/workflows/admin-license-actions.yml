@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - tools/patch_admin_license_actions.py
+      - .github/workflows/admin-license-actions.yml
 permissions:
   contents: write
 jobs:
