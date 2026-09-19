@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply guarded admin patch
+      - name: Clean admin duration duplicates
         run: python scripts/patch_admin_duration.py
-      - name: Commit admin UI
+      - name: Commit admin UI cleanup
         run: |
           git config user.name "PasaloChevere Release Bot"
           git config user.email "pasalochevere@gmail.com"
           git add admin-licencias/index.html
           git diff --cached --check
-          git commit -m "Admin licenses: add trial and custom duration"
+          git commit -m "Admin licenses: clean duration UI duplicates"
           git push
-# trigger structural anchors v3
+# trigger cleanup
