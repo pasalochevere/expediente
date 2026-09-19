@@ -11,30 +11,20 @@ new='''<div class="fields"><div class="field"><label>Producto *</label><select i
 assert s.count(old)==1, f'fields anchor mismatch {s.count(old)}'
 s=s.replace(old,new)
 
-anchor='function buyerText(lic){'
-helper="function durationText(lic){const h=Number(lic?.duration_hours||0);if(lic?.duration_label)return lic.duration_label;if(!h)return 'vigencia configurada';if(h===8760)return '12 meses';if(h%24===0)return `${h/24} día${h===24?'':'s'}`;return `${h} horas`}\n"
-assert s.count(anchor)==1, f'buyer function anchor mismatch {s.count(anchor)}'
-s=s.replace(anchor,helper+anchor)
+start=s.index('function buyerText(lic){')
+end=s.index('async function checkSession',start)
+new_buyer="""function durationText(lic){const h=Number(lic?.duration_hours||0);if(lic?.duration_label)return lic.duration_label;if(!h)return 'vigencia configurada';if(h===8760)return '12 meses';if(h%24===0)return `${h/24} día${h===24?'':'s'}`;return `${h} horas`}
+function buyerText(lic){const name=lic.product_name||productName(lic.product_code),ch=lic.channel_name||channelName(channelCodeFromSource(lic.source)),dur=durationText(lic);return `Hola, gracias por tu compra de ${name}${ch?` en ${ch}`:''}.\n\nTu código de activación es: ${lic.license_key}\n\nIngresá al Portal PasaloChevere:\n${PORTAL}\n\n1) Escribí tu propio correo electrónico.\n2) Abrí el enlace mágico que recibirás por email.\n3) Volvé al Portal y en “Activar compra” ingresá este código.\n4) El producto aparecerá en “Mis juegos”.\n\nVigencia: ${dur} desde la activación. El acceso es personal y queda asociado al correo que verificaste.\n\nSi necesitás ayuda, escribinos por este medio.`}
+"""
+s=s[:start]+new_buyer+s[end:]
 
-old=",ch=lic.channel_name||channelName(channelCodeFromSource(lic.source));return `Hola"
-new=",ch=lic.channel_name||channelName(channelCodeFromSource(lic.source)),dur=durationText(lic);return `Hola"
-assert s.count(old)==1, f'buyer vars anchor mismatch {s.count(old)}'
-s=s.replace(old,new)
-
-old='La vigencia comienza cuando activás el código. El acceso es personal y queda asociado al correo que verificaste.'
-new='Vigencia: ${dur} desde la activación. El acceso es personal y queda asociado al correo que verificaste.'
-assert s.count(old)==1, f'buyer duration anchor mismatch {s.count(old)}'
-s=s.replace(old,new)
-
-old="$('channel').value='ML';syncChannel()}"
-new="$('channel').value='ML';syncChannel();syncAccess()}"
-assert s.count(old)==1, f'load config anchor mismatch {s.count(old)}'
-s=s.replace(old,new)
-
-anchor='function syncChannel(){'
-helpers="function syncAccess(){const kind=$('accessKind').value,preset=$('durationPreset').value;$('customDurationField').classList.toggle('hidden',preset!=='custom');if(kind==='commercial'&&preset==='standard')$('durationHint').innerHTML='<b>Comercial:</b> usa la vigencia estándar del producto (hoy 12 meses). La vigencia comienza al activar.';else $('durationHint').innerHTML='<b>Promoción / vigencia especial:</b> el acceso vencerá '+(preset==='custom'?$('customDays').value+' días':$('durationPreset').selectedOptions[0].textContent)+' después de la activación.'}\nfunction selectedDurationHours(){const preset=$('durationPreset').value;if(preset==='standard')return null;if(preset==='custom'){const d=Number($('customDays').value);if(!Number.isInteger(d)||d<1||d>365)throw new Error('La vigencia personalizada debe ser de 1 a 365 días.');return d*24}return Number(preset)}\n"
-assert s.count(anchor)==1, f'syncChannel anchor mismatch {s.count(anchor)}'
-s=s.replace(anchor,helpers+anchor)
+start=s.index('async function loadConfig(){')
+end=s.index('function syncChannel(){',start)
+new_config="""async function loadConfig(){config=await callAdmin({action:'config'});$('product').innerHTML=config.products.map(p=>`<option value="${esc(p.product_code)}">${esc(p.name)} · ${esc(p.product_code)}</option>`).join('');$('channel').innerHTML=config.channels.map(c=>`<option value="${esc(c.code)}">${esc(c.name)}</option>`).join('');$('channel').value='ML';syncChannel();syncAccess()}
+function syncAccess(){const kind=$('accessKind').value,preset=$('durationPreset').value;$('customDurationField').classList.toggle('hidden',preset!=='custom');if(kind==='commercial'&&preset==='standard')$('durationHint').innerHTML='<b>Comercial:</b> usa la vigencia estándar del producto (hoy 12 meses). La vigencia comienza al activar.';else $('durationHint').innerHTML='<b>Promoción / vigencia especial:</b> el acceso vencerá '+(preset==='custom'?$('customDays').value+' días':$('durationPreset').selectedOptions[0].textContent)+' después de la activación.'}
+function selectedDurationHours(){const preset=$('durationPreset').value;if(preset==='standard')return null;if(preset==='custom'){const d=Number($('customDays').value);if(!Number.isInteger(d)||d<1||d>365)throw new Error('La vigencia personalizada debe ser de 1 a 365 días.');return d*24}return Number(preset)}
+"""
+s=s[:start]+new_config+s[end:]
 
 start=s.index('async function createLicense(){')
 end=s.index('function statusLabel',start)
