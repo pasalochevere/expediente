@@ -30,7 +30,7 @@ export function validateCrimePack(pack,manifest=null){
     evidenceTypes:manifest?.evidenceTypes||CASE001_IDS.evidenceTypes
   };
 
-  const requiredStrings=['id','title','killer','location','keyObject','motive','truthSummary','centralLie','contradiction'];
+  const requiredStrings=['id','title','killer','location','keyObject','motive','truthSummary','criticalEvent','mechanism','postCrimeAction','centralLie','contradiction'];
   for(const key of requiredStrings){ if(!pack?.[key]||typeof pack[key]!=='string') errors.push(`Falta ${key}`); }
   if(pack?.id&&!/^C001-\d{2}$/.test(pack.id)) errors.push('ID de paquete inválido');
   if(pack?.killer&&!ids.characters.includes(pack.killer)) errors.push(`Responsable desconocido: ${pack.killer}`);
@@ -39,6 +39,10 @@ export function validateCrimePack(pack,manifest=null){
   if(!Array.isArray(pack?.timeline)||pack.timeline.length<5) errors.push('Timeline insuficiente: mínimo 5 hitos');
   if(!Array.isArray(pack?.relationships)||pack.relationships.length<2) errors.push('Se requieren al menos 2 relaciones cruzadas');
   if(!Array.isArray(pack?.redHerrings)||pack.redHerrings.length<1) errors.push('Se requiere al menos 1 señuelo');
+  for(const h of pack?.redHerrings||[]){
+    if(!h?.title||!h?.text) errors.push('Señuelo incompleto: requiere title + text');
+    if(!h?.resolution) errors.push(`Señuelo sin resolución diferida: ${h?.title||'sin título'}`);
+  }
   if(!Array.isArray(pack?.evidence)||pack.evidence.length<6) errors.push('Se requieren al menos 6 evidencias');
 
   const evidence=Array.isArray(pack?.evidence)?pack.evidence:[];
@@ -52,6 +56,13 @@ export function validateCrimePack(pack,manifest=null){
     else evidenceTypes.add(e.type);
     if(![1,2,3].includes(Number(e?.stage))) errors.push(`Stage inválido en ${e?.id||'sin ID'}`);
     if(!e?.text||!e?.deduction) errors.push(`Evidencia incompleta: ${e?.id||'sin ID'}`);
+    if(Number(e?.stage)===1&&e?.supports?.suspect) errors.push(`${e.id}: stage 1 no debe identificar un sospechoso mediante supports.suspect`);
+    if(e?.type==='testimonial'&&e?.sourceCharacter&&!ids.characters.includes(e.sourceCharacter)) errors.push(`${e.id}: sourceCharacter inválido ${e.sourceCharacter}`);
+    if(e?.type==='testimonial'&&e?.public===false){
+      if(!e?.sourceCharacter) errors.push(`${e.id}: testimonio privado sin sourceCharacter`);
+      if(!e?.npcFallback) errors.push(`${e.id}: testimonio privado sin npcFallback para partidas 3–5 jugadores`);
+      if(e?.delivery?.human!=='private'||e?.delivery?.npc!=='casefile') errors.push(`${e.id}: delivery debe definir human=private y npc=casefile`);
+    }
     const ro=e?.rulesOut||{};
     for(const s of ro.suspects||[]) if(!ids.characters.includes(s)) errors.push(`${e.id}: sospechoso inválido ${s}`);
     for(const l of ro.locations||[]) if(!ids.locations.includes(l)) errors.push(`${e.id}: escena inválida ${l}`);
@@ -72,9 +83,10 @@ export function validateCrimePack(pack,manifest=null){
 
   const progression=[1,2,3].map(stage=>({stage,...solveFromEvidence(pack,ids,stage)}));
   const solvedBeforeFinal=progression.slice(0,2).some(p=>p.suspects.length===1&&p.locations.length===1&&p.objects.length===1);
-  if(solvedBeforeFinal) warnings.push('La combinación completa puede quedar resuelta antes de stage 3; revisar dificultad.');
+  if(solvedBeforeFinal) warnings.push('La matriz interna queda resuelta antes de stage 3; recordar que rulesOut solo mide pacing técnico, no prueba deducción humana.');
 
-  if(!pack?.epilogue?.reconstruction||pack.epilogue.reconstruction.length<3) errors.push('Falta reconstrucción final suficiente');
+  if(!pack?.epilogue?.reconstruction||pack.epilogue.reconstruction.length<4) errors.push('Falta reconstrucción final suficiente: mínimo 4 pasos');
+  if(!pack?.epilogue?.closing) errors.push('Falta cierre narrativo propio del paquete');
   if((pack?.minPlayers||0)<3||(pack?.maxPlayers||0)>6) errors.push('Rango de jugadores fuera de 3–6');
 
   return {ok:errors.length===0,errors,warnings,solution,progression,evidenceFamilies:[...evidenceTypes]};
@@ -134,6 +146,9 @@ export function validateAccusation(pack,accusation){
     dimensions,
     status:hits===3?'resolved':hits>=1?'partial':'failed',
     solution:{suspect:pack.killer,location:pack.location,object:pack.keyObject},
+    criticalEvent:pack.criticalEvent||'',
+    mechanism:pack.mechanism||'',
+    postCrimeAction:pack.postCrimeAction||'',
     reconstruction:pack.epilogue?.reconstruction||[],
     closing:pack.epilogue?.closing||''
   };
@@ -168,5 +183,5 @@ export function buildDirectorHint(pack,revealedEvidenceIds=[]){
     testimonial:'Comparen las declaraciones. Una omisión importa más que una acusación.',
     motivational:'El motivo no prueba el hecho, pero ayuda a entender qué evidencia merece otra mirada.'
   };
-  return prompts[e.type]||'Cruzen dos evidencias que todavía no hayan relacionado entre sí.';
+  return prompts[e.type]||'Crucen dos evidencias que todavía no hayan relacionado entre sí.';
 }
