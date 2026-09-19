@@ -1,0 +1,43 @@
+name: Temp bundle Caso001 runtime
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-bundle-caso001.yml'
+permissions:
+  contents: write
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bundle adapter into Caso001 page and validate JS
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, subprocess
+          index_path=Path('caso001/index.html')
+          adapter_path=Path('caso001/p2-multiplayer-adapter.js')
+          s=index_path.read_text()
+          adapter=adapter_path.read_text()
+          import_line="import {P2MultiplayerAdapter,P2_LABELS,findStoredLicense,lastRoomCode,remainingSeconds,formatClock} from './p2-multiplayer-adapter.js?v=20260919-2045';"
+          if import_line not in s:
+              raise SystemExit('expected import not found')
+          adapter=re.sub(r'^export\\s+', '', adapter, flags=re.M)
+          bundled='// P2.12C.7C · runtime embebido para evitar fallas de carga del módulo externo\n'+adapter
+          s=s.replace(import_line,bundled,1)
+          index_path.write_text(s)
+          m=re.search(r'<script type="module">\\s*(.*?)\\s*</script>',s,re.S)
+          if not m:
+              raise SystemExit('module script not found')
+          check=Path('/tmp/caso001-check.mjs')
+          check.write_text(m.group(1))
+          subprocess.run(['node','--check',str(check)],check=True)
+          print('Caso001 bundled runtime syntax OK')
+          PY
+      - name: Commit bundled runtime
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso001/index.html
+          git commit -m "P2.12C.7C bundle Caso001 runtime for reliable startup"
+          git push
