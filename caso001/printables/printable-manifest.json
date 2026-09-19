@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseId": "CASO001",
+  "title": "La Última Reunión",
+  "sourceOfTruth": {
+    "manifest": "../manifest.json",
+    "packs": "../packs/C001-XX.json",
+    "roomState": "server-side"
+  },
+  "paper": {
+    "size": "A4",
+    "widthMm": 210,
+    "heightMm": 297,
+    "orientation": "portrait",
+    "safeMarginMm": 12,
+    "minimumSafeMarginMm": 10,
+    "rasterDpi": 300,
+    "minimumBodyPt": 9.5
+  },
+  "variants": [
+    "COLOR",
+    "ECO_BW"
+  ],
+  "basePages": [
+    {"id":"BASE-01","title":"Expediente / prólogo","dynamic":false,"spoilerSafe":true},
+    {"id":"BASE-02","title":"Personas","dynamic":false,"spoilerSafe":true},
+    {"id":"BASE-03","title":"Escenas","dynamic":false,"spoilerSafe":true},
+    {"id":"BASE-04","title":"Objetos","dynamic":false,"spoilerSafe":true},
+    {"id":"BASE-05","title":"Hoja de investigación","dynamic":false,"spoilerSafe":true},
+    {"id":"BASE-06","title":"Línea de tiempo","dynamic":false,"spoilerSafe":true},
+    {"id":"BASE-07","title":"Mapa de relaciones","dynamic":false,"spoilerSafe":true},
+    {"id":"BASE-08","title":"Acusación final","dynamic":false,"spoilerSafe":true}
+  ],
+  "characters": [
+    {"printId":"P1","id":"SANTIAGO","label":"Santiago"},
+    {"printId":"P2","id":"CLARA","label":"Clara"},
+    {"printId":"P3","id":"VERA","label":"Vera"},
+    {"printId":"P4","id":"MATEO","label":"Mateo"},
+    {"printId":"P5","id":"INES","label":"Inés"},
+    {"printId":"P6","id":"TOMAS","label":"Tomás"}
+  ],
+  "locations": [
+    {"id":"L1","label":"Sala de estar"},
+    {"id":"L2","label":"Cocina"},
+    {"id":"L3","label":"Estudio"},
+    {"id":"L4","label":"Dormitorio"},
+    {"id":"L5","label":"Jardín / exterior"},
+    {"id":"L6","label":"Pasillo / acceso"}
+  ],
+  "objects": [
+    {"id":"O1","label":"Arma"},
+    {"id":"O2","label":"Cuaderno"},
+    {"id":"O3","label":"Celular"},
+    {"id":"O4","label":"Llave"},
+    {"id":"O5","label":"Memoria USB"},
+    {"id":"O6","label":"Pañuelo"}
+  ],
+  "evidenceTemplates": {
+    "temporal": "timeline_record",
+    "testimonial": "statement",
+    "physical": "forensic",
+    "digital": "digital_record",
+    "access": "access_log",
+    "motivational": "document"
+  },
+  "evidenceRelease": {
+    "public": "Render evidence.text only when evidence.stage <= currentStage",
+    "privateHuman": "Render evidence.text only for matching sourceCharacter user",
+    "npc": "Render npcFallback publicly only when sourceCharacter is NPC and stage is released"
+  },
+  "accusation": {
+    "dimensions": ["person","scene","object","motive"],
+    "includesReconstruction": true
+  },
+  "cards": {
+    "maxPerA4": 6,
+    "grid": "2x3",
+    "targetWidthMm": 63,
+    "targetHeightMm": 88,
+    "cuttingOptional": true
+  },
+  "forbiddenLegacyConcepts": [
+    "Persona + Lugar / Lugar + Objeto / Persona + Objeto como mecánica",
+    "Pista prometedora",
+    "Pista parcial",
+    "Línea débil",
+    "hit/miss",
+    "acusación de solo tres dimensiones"
+  ],
+  "preRevealForbiddenFields": [
+    "killer",
+    "truthSummary",
+    "criticalEvent",
+    "mechanism",
+    "postCrimeAction",
+    "centralLie",
+    "redHerrings.resolution",
+    "epilogue"
+  ],
+  "postRevealOptionalPage": {
+    "id": "RESOLUTION-01",
+    "title": "Resolución / reconstrucción",
+    "requiresRoomFinished": true
+  },
+  "qaGates": [
+    "canonical_ids",
+    "same_content_as_digital",
+    "stage_gating",
+    "privacy_gating",
+    "no_solution_before_reveal",
+    "a4_no_clipping",
+    "eco_grayscale_legible",
+    "no_broken_images",
+    "accented_characters_ok"
+  ]
+}
