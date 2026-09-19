@@ -8,9 +8,10 @@ export const CASE001_IDS = Object.freeze({
   evidenceTypes:['temporal','testimonial','physical','digital','access','motivational']
 });
 
-export async function loadCrimeLibrary(baseUrl='./caso001/'){
-  const manifest=await fetch(new URL('manifest.json',baseUrl)).then(assertFetch);
-  const packs=await Promise.all(manifest.packs.map(path=>fetch(new URL(path,baseUrl)).then(assertFetch)));
+export async function loadCrimeLibrary(baseUrl='./'){
+  const root=new URL(baseUrl,import.meta.url);
+  const manifest=await fetch(new URL('manifest.json',root)).then(assertFetch);
+  const packs=await Promise.all(manifest.packs.map(path=>fetch(new URL(path,root)).then(assertFetch)));
   return {manifest,packs};
 }
 
