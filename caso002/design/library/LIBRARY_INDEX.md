@@ -29,22 +29,29 @@ Referencia: `CHARACTERS_MANIFEST.md`
 - CHAR-P05 Eva Montenegro · Escritora / Médium
 - CHAR-P06 Franco Valdés · Heredero
 
-Estado: 6 masters + 24 derivados · QA PASS de diferenciación visual.
+Estado: 6 masters + 24 derivados · QA PASS.
 
-## 03 · LUGARES RESTANTES — PRÓXIMO
+## 03 · LUGARES + OBJETOS RESTANTES — CERRADO
+Referencia: `LOTE_D_MANIFEST.md`
+
 - LOC-L01 Vestíbulo
 - LOC-L02 Salón de baile
 - LOC-L03 Archivo subterráneo
 - LOC-L04 Habitación 216
 - LOC-L05 Sala de máquinas
-
-## 04 · OBJETOS RESTANTES — PRÓXIMO
 - OBJ-O03 Cinta de casete
-- OBJ-O04 Plano quemado / derivación de EVD-003
+- OBJ-O04 Plano quemado
 - OBJ-O05 Cámara Polaroid
 - OBJ-O06 Medallón de plata
 
-## 05 · EVIDENCIAS EDITORIALES — PENDIENTE
+Estado: 9 masters + 36 derivados · QA PASS.
+
+## Resumen consolidado
+- 25 masters principales
+- 100 derivados
+- 125 assets visuales
+
+## 04 · EVIDENCIAS EDITORIALES — PRÓXIMO
 - EVD-002 Registro de 1968
 - EVD-004 Caja de León
 - EVD-005 Cinta fragmento 01
@@ -53,4 +60,4 @@ Estado: 6 masters + 24 derivados · QA PASS de diferenciación visual.
 - EVD-010 Postcrédito 319
 
 ## Regla de fuente
-Las imágenes maestras son material visual. El canon narrativo y las profesiones no se infieren de la imagen: se leen exclusivamente de `C002_CANON_LOCK_V1` y de los manifiestos de biblioteca.
+Las imágenes maestras son material visual. El canon se toma de `C002_CANON_LOCK_V1` y de los manifiestos de biblioteca.
