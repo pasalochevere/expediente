@@ -1,0 +1,1 @@
+Temporary staging. Production visual integration uses direct Git blobs; failed workflow made no gameplay changes.
