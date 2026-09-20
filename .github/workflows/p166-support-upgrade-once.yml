@@ -1,0 +1,52 @@
+name: One-time P1.6.6 support upgrade
+on:
+  push:
+    paths:
+      - '.github/workflows/p166-support-upgrade-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upgrade support panel
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('soporte-postventa/index.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('P1.6.5 · SOPORTE POSTVENTA','P1.6.6 · SOPORTE POSTVENTA PRO')
+          s=s.replace('Panel de soporte para localizar una venta, recuperar el código, generar un acceso de un solo uso y guiar al comprador cuando cambia de dispositivo o pierde el acceso.','Panel de soporte para recuperar accesos, transferir de forma segura el correo del titular y resetear dispositivos sin crear licencias duplicadas.')
+          s=s.replace('4 · “Ya no tengo acceso a mi correo”</b><span>No reasignes el acceso automáticamente. Verificá primero la venta original de MercadoLibre. Este caso queda como escalamiento manual.</span>','4 · “Ya no tengo acceso a mi correo”</b><span>Verificá la venta original de MercadoLibre y usá CAMBIAR EMAIL. El sistema exige la referencia exacta de venta, desvincula el usuario anterior y libera sus dispositivos.</span>')
+          s=s.replace('Nunca generes una licencia nueva para resolver un problema de acceso existente. Primero buscá la venta original. No envíes el enlace de acceso de un solo uso a una persona distinta del titular del correo asociado. Si la venta está revocada o vencida, revisá el motivo antes de reactivarla.','Nunca generes una licencia nueva para resolver un problema de acceso existente. Primero buscá la venta original. CAMBIAR EMAIL exige verificar la referencia exacta de la venta y elimina la asociación del usuario anterior. RESET DISPOSITIVOS no cambia correo, vencimiento ni licencia. No transfieras accesos revocados o vencidos sin revisar antes el caso.')
+          s=s.replace("async function callAdmin(body){const {data,error}=await sb.functions.invoke('pasalochevere-admin-license',{body});if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}if(!data?.ok)throw new Error(data?.error||'No se pudo completar la operación.');return data}","async function callAdmin(body){const {data,error}=await sb.functions.invoke('pasalochevere-admin-license',{body});if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}if(!data?.ok)throw new Error(data?.error||'No se pudo completar la operación.');return data}\nasync function callSupport(body){const {data,error}=await sb.functions.invoke('pasalochevere-support-admin',{body});if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}if(!data?.ok)throw new Error(data?.error||'No se pudo completar la operación de soporte.');return data}")
+          s=s.replace("<div class=\"rowActions\"><button class=\"mini\" data-message=\"${i}\">MENSAJE DE RECUPERACIÓN</button><button class=\"mini\" data-code=\"${i}\">COPIAR CÓDIGO</button>${canLink?`<button class=\"mini green\" data-link=\"${i}\">ENLACE DE ACCESO 1 USO</button>`:''}${canReactivate?`<button class=\"mini warn\" data-react=\"${i}\">REACTIVAR</button>`:''}</div>","<div class=\"rowActions\"><button class=\"mini\" data-message=\"${i}\">MENSAJE DE RECUPERACIÓN</button><button class=\"mini\" data-code=\"${i}\">COPIAR CÓDIGO</button>${canLink?`<button class=\"mini green\" data-link=\"${i}\">ENLACE DE ACCESO 1 USO</button>`:''}<button class=\"mini warn\" data-email=\"${i}\">CAMBIAR EMAIL</button><button class=\"mini danger\" data-reset=\"${i}\">RESET DISPOSITIVOS</button>${canReactivate?`<button class=\"mini warn\" data-react=\"${i}\">REACTIVAR</button>`:''}</div>")
+          s=s.replace(" [...$('list').querySelectorAll('[data-react]')].forEach(b=>b.onclick=()=>reactivate(view[+b.dataset.react]));\n}"," [...$('list').querySelectorAll('[data-react]')].forEach(b=>b.onclick=()=>reactivate(view[+b.dataset.react]));\n [...$('list').querySelectorAll('[data-email]')].forEach(b=>b.onclick=()=>transferEmail(view[+b.dataset.email],b));\n [...$('list').querySelectorAll('[data-reset]')].forEach(b=>b.onclick=()=>resetDevices(view[+b.dataset.reset],b));\n}")
+          marker="async function reactivate(r){if(!confirm('Reactivar esta licencia? Verificá antes el motivo de la baja o vencimiento.'))return;try{const d=await callAdmin({action:'reactivate',license_id:r.id});alert(d.message||'Licencia reactivada.');await load()}catch(e){alert(e.message||e)}}\n"
+          extra="""async function transferEmail(r,btn){
+           if(!r?.id)return alert('Licencia inválida.');
+           if(!['active','available'].includes(r.status))return alert('Primero revisá el estado de esta licencia. Solo se transfieren accesos activos o pendientes.');
+           const newEmail=prompt('Nuevo email del titular:',r.owner_email||'');if(!newEmail)return;
+           const sale=prompt('Verificación de seguridad: escribí exactamente el número/referencia de venta.\\n\\nVenta esperada: '+(r.sale_ref||'—'),'');if(sale===null)return;
+           const confirmation=prompt('Última confirmación. Escribí TRANSFERIR para desvincular el correo anterior y liberar sus dispositivos.','');if(confirmation===null)return;
+           const old=btn.textContent;btn.disabled=true;btn.textContent='TRANSFIRIENDO…';
+           try{const d=await callSupport({action:'transfer_email',license_id:r.id,new_email:newEmail,sale_ref:sale,confirmation});let text=`Transferencia completada.\\n\\nCorreo anterior: ${d.old_email||'sin email'}\\nNuevo correo: ${d.new_email}\\nDispositivos liberados: ${d.removed_devices||0}.`;if(d.action_link)text+=`\\n\\nEnlace de acceso de un solo uso para el nuevo titular:\\n${d.action_link}`;else text+=`\\n\\nEl nuevo titular debe entrar al Portal V2 con su nuevo correo. El acceso aparecerá en su biblioteca.`;modalText=text;$('modalTitle').textContent='Transferencia segura de correo';$('modalMeta').textContent='Venta '+(r.sale_ref||'')+' · '+d.new_email;$('modalText').textContent=text;$('overlay').classList.add('open');await load()}catch(e){alert(e.message||e)}finally{btn.disabled=false;btn.textContent=old}
+          }
+          async function resetDevices(r,btn){
+           if(!r?.id)return alert('Licencia inválida.');
+           const confirmation=prompt(`Vas a liberar TODOS los dispositivos de esta licencia (${r.devices_used||0} registrados).\\nEl correo, vigencia y licencia no cambian.\\n\\nEscribí RESET para continuar:`,'');if(confirmation===null)return;
+           const old=btn.textContent;btn.disabled=true;btn.textContent='RESETEANDO…';
+           try{const d=await callSupport({action:'reset_devices',license_id:r.id,confirmation});alert(d.message||'Dispositivos liberados.');await load()}catch(e){alert(e.message||e)}finally{btn.disabled=false;btn.textContent=old}
+          }
+          """
+          if 'async function transferEmail(' not in s:
+              s=s.replace(marker,marker+extra)
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'PasaloChevere Release Bot'
+          git config user.email 'pasalochevere@gmail.com'
+          git add soporte-postventa/index.html
+          git commit -m 'feat: add secure email transfer and device admin reset' || exit 0
+          git push
