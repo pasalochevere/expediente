@@ -5,36 +5,27 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>EXPEDIENTES · Caso 002 · La Habitación que No Existe</title>
 <style>
-html,body{margin:0;min-height:100%;background:#090a0b;color:#d8c3a5;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-body{display:grid;place-items:center}
-#s{text-align:center;padding:28px;letter-spacing:.08em}
-#s b{display:block;font-family:Georgia,serif;font-size:clamp(1.5rem,5vw,3rem);margin-bottom:8px}
-#s small{color:#9f9180;letter-spacing:.04em}
-.spin{width:34px;height:34px;border:2px solid #4f3a27;border-top-color:#c89a55;border-radius:50%;margin:20px auto;animation:r .9s linear infinite}
-@keyframes r{to{transform:rotate(360deg)}}
+:root{color-scheme:dark;--bg:#090a0b;--night:#12100e;--ink:#f0e6d6;--muted:#b7a995;--gold:#a37a48;--gold2:#c79a5d;--wine:#7e2e2e;--line:#4c3a2a}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}body{min-height:100vh;overflow-x:hidden}.gate{min-height:100vh;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 68% 10%,rgba(78,85,94,.23),transparent 28%),linear-gradient(150deg,#15110e,#050505 72%)}.gate:before{content:"";position:absolute;inset:0;opacity:.18;background:repeating-linear-gradient(102deg,transparent 0 24px,rgba(220,226,230,.21) 25px,transparent 26px 52px)}.corridor{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,3,3,.96) 0 28%,rgba(8,7,6,.72) 46%,rgba(8,7,6,.12) 68%,rgba(3,3,3,.94) 100%)}.floor{position:absolute;left:22%;right:22%;bottom:-3%;height:53%;clip-path:polygon(24% 0,76% 0,100% 100%,0 100%);background:linear-gradient(#1b1510,#080706);border-top:1px solid rgba(163,122,72,.2)}.door{position:absolute;right:10%;top:10%;width:min(28vw,330px);height:72%;background:linear-gradient(90deg,#100c09,#291b12 50%,#0c0907);border:1px solid #705035;box-shadow:0 0 0 8px #090705,0 0 0 9px #4d3825,0 30px 80px #000}.door:before{content:"317";position:absolute;left:0;right:0;top:20%;text-align:center;color:var(--gold2);font:900 clamp(3rem,6vw,5.5rem) Georgia,serif;text-shadow:0 3px 20px #000}.door:after{content:"";position:absolute;right:13%;top:52%;width:11px;height:11px;border-radius:50%;background:#b48a50;box-shadow:0 0 0 3px #392718}.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,.96) 0,rgba(5,5,5,.85) 39%,rgba(5,5,5,.13) 68%),linear-gradient(0deg,rgba(5,5,5,.85),transparent 55%)}.content{position:relative;z-index:2;width:min(1260px,100%);padding:42px clamp(22px,6vw,76px)}.kicker{color:var(--gold2);font-size:.72rem;letter-spacing:.22em;font-weight:950}.content h1{font:900 clamp(3.6rem,8vw,7.6rem)/.86 Georgia,serif;margin:.16em 0 .18em;max-width:820px;text-shadow:0 8px 40px #000}.content h1 small{display:block;font:900 .18em/1.2 Inter,system-ui,sans-serif;letter-spacing:.2em;color:#d7c5ad;margin-bottom:14px}.content p{max-width:590px;color:#c7b7a4;line-height:1.65;font-size:1.02rem}.quote{font-family:Georgia,serif;font-style:italic;color:#e1c395!important}.status{margin-top:24px;display:flex;align-items:center;gap:12px;color:#a99a88;font-size:.73rem;letter-spacing:.12em;font-weight:900}.bar{width:min(300px,45vw);height:2px;background:#33271d;overflow:hidden}.bar i{display:block;width:28%;height:100%;background:linear-gradient(90deg,var(--wine),var(--gold2));animation:load 1.4s ease-in-out infinite alternate}@keyframes load{to{transform:translateX(250%)}}.openBtn{display:none;margin-top:24px;border:1px solid #b64a42;background:linear-gradient(135deg,#92342e,#571816);color:white;border-radius:8px;padding:13px 18px;font-weight:900;letter-spacing:.05em;cursor:pointer}.preview .status{display:none}.preview .openBtn{display:inline-flex}.error{margin-top:20px;color:#efaaa4;max-width:620px;line-height:1.5}.mini-link{position:absolute;z-index:3;right:18px;bottom:14px;color:#8f7e68;text-decoration:none;font-size:.67rem;letter-spacing:.1em}.mini-link:hover{color:#c7a56d}@media(max-width:720px){.door{right:-7%;width:45vw;opacity:.62}.content{padding:34px 20px}.content h1{font-size:clamp(3.2rem,17vw,5.4rem)}.content p{max-width:85%}.bar{width:45vw}}
 </style>
 </head>
 <body>
-<div id="s"><b>EXPEDIENTES · CASO 002</b><small>LA HABITACIÓN QUE NO EXISTE</small><div class="spin"></div><small>Cargando Hotel Orfeo…</small></div>
+<section id="gate" class="gate"><div class="corridor"></div><div class="floor"></div><div class="door"></div><div class="shade"></div><div class="content"><div class="kicker">EXPEDIENTES · CASO 002</div><h1><small>LA HABITACIÓN QUE NO EXISTE</small>HOTEL ORFEO</h1><p>Un hotel cerrado durante décadas. Seis invitados. Una desaparición a las <b>03:17</b>. Y una puerta que no debería existir.</p><p class="quote">Algunas puertas fueron cerradas por una razón.</p><div id="status" class="status"><span>CARGANDO EXPEDIENTE</span><div class="bar"><i></i></div></div><button id="openBtn" class="openBtn">ABRIR EXPEDIENTE</button><div id="error" class="error"></div></div><a class="mini-link" href="./design/master-visual.html">MASTER VISUAL</a></section>
 <script>
-(async()=>{
+async function launch(){
   const names=['payload.part00a1a.correct','payload.part00a1b','payload.part00a2','payload.part00b','payload.part01','payload.part02','payload.part03','payload.part04','payload.part05'];
   let b64='';
-  for(const n of names){
-    const r=await fetch(n,{cache:'no-store'});
-    if(!r.ok)throw new Error('Falta '+n);
-    b64+=(await r.text()).trim();
-  }
-  const bin=atob(b64),u8=new Uint8Array(bin.length);
-  for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
+  for(const n of names){const r=await fetch(n,{cache:'no-store'});if(!r.ok)throw new Error('Falta '+n);b64+=(await r.text()).trim()}
+  const bin=atob(b64),u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
   if(!('DecompressionStream' in window))throw new Error('Tu navegador necesita una versión más reciente.');
   const ds=new DecompressionStream('gzip');
   let html=await new Response(new Blob([u8]).stream().pipeThrough(ds)).text();
   html=html.replace('<script src="rc.js?v=230"></script></body>','<script src="audio.js?v=220"></'+'script><script src="rc.js?v=230"></script></body>');
   document.open();document.write(html);document.close();
-})().catch(e=>{
-  document.getElementById('s').innerHTML='<b>No pude abrir el Caso 002</b><small>'+String(e.message||e)+'</small>';
-});
+}
+const preview=new URLSearchParams(location.search).get('preview')==='1';
+if(preview){document.getElementById('gate').classList.add('preview');document.getElementById('openBtn').onclick=()=>launch().catch(showError)}
+else{launch().catch(showError)}
+function showError(e){document.getElementById('status').style.display='none';document.getElementById('error').textContent='No pude abrir el Caso 002. '+String(e.message||e)}
 </script>
 <script src="rc.js?v=230"></script></body>
 </html>
