@@ -11,6 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Harden portrait extractor
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('.github/scripts/patch_rev01_d3.py')
+          s=p.read_text()
+          s=re.sub(
+            r"entries = re\.findall\(r\"\\\{\\s\*name:'\(\[\^'\]\+\)'\[\\s\\S\]\*\?img:'data:image/png;base64,\(\[\^'\]\+\)'\", block\)\nif len\(entries\) != 6:\n    raise SystemExit\(f'expected 6 character portraits, got \{len\(entries\)\}'\)",
+            "names_found = re.findall(r\"\\bname\\s*:\\s*['\\\"]([^'\\\"]+)['\\\"]\", block)\nimages_found = re.findall(r\"\\bimg\\s*:\\s*['\\\"]data:image/png;base64,([^'\\\"]+)['\\\"]\", block)\nentries = list(zip(names_found, images_found))\nprint('CHARS names:', names_found)\nprint('CHARS images:', len(images_found))\nif len(entries) != 6:\n    raise SystemExit(f'expected 6 character portraits, got names={len(names_found)} images={len(images_found)}')",
+            s,
+            count=1,
+          )
+          p.write_text(s)
+          PY
       - name: Apply D3
         run: python .github/scripts/patch_rev01_d3.py
       - name: Validate D3 assets and JavaScript
