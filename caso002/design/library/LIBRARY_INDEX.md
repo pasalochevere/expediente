@@ -1,6 +1,6 @@
 # C002 · BIBLIOTECA VISUAL · ÍNDICE MAESTRO
 
-**Estado general:** restauración estética en curso  
+**Estado general:** biblioteca visual restaurada y cerrada  
 **Style Bible:** `../STYLE_BIBLE_C002.md`
 
 ## 01 · LOTE 01 CRÍTICO — CERRADO
@@ -46,18 +46,26 @@ Referencia: `LOTE_D_MANIFEST.md`
 
 Estado: 9 masters + 36 derivados · QA PASS.
 
-## Resumen consolidado
-- 25 masters principales
-- 100 derivados
-- 125 assets visuales
+## 04 · EVIDENCIAS EDITORIALES — CERRADO
+Referencia: `EVIDENCE_EDITORIAL_MANIFEST.md`
 
-## 04 · EVIDENCIAS EDITORIALES — PRÓXIMO
 - EVD-002 Registro de 1968
 - EVD-004 Caja de León
 - EVD-005 Cinta fragmento 01
 - EVD-006 Cinta fragmento 02
 - EVD-009 Reconstrucción final
 - EVD-010 Postcrédito 319
+
+Estado: 6 masters + 24 derivados · QA PASS.
+
+## Resumen consolidado
+- 31 masters principales
+- 124 derivados
+- 155 assets visuales
+- Biblioteca visual C002: CERRADA
+
+## Próximo bloque
+`P2.2R.4 — INTEGRACIÓN MASTER AL JUEGO`
 
 ## Regla de fuente
 Las imágenes maestras son material visual. El canon se toma de `C002_CANON_LOCK_V1` y de los manifiestos de biblioteca.
