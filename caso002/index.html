@@ -19,7 +19,8 @@ async function launch(){
   if(!('DecompressionStream' in window))throw new Error('Tu navegador necesita una versión más reciente.');
   const ds=new DecompressionStream('gzip');
   let html=await new Response(new Blob([u8]).stream().pipeThrough(ds)).text();
-  html=html.replace('<script src="rc.js?v=230"></script></body>','<script src="audio.js?v=220"></'+'script><script src="rc.js?v=230"></script></body>');
+  const visualScripts=['assets/visual/assets-part-01.js?v=224','assets/visual/assets-part-02.js?v=224','assets/visual/assets-part-03.js?v=224','assets/visual/assets-part-04.js?v=224','assets/visual/assets-part-05.js?v=224','assets/visual/assets-part-06.js?v=224','assets/visual/assets-part-07.js?v=224','assets/visual/assets-part-08.js?v=224','assets/visual/visual-restoration.js?v=224'].map(s=>'<script src="'+s+'"></'+'script>').join('');
+  html=html.replace('<script src="rc.js?v=230"></script></body>','<script src="audio.js?v=220"></'+'script><script src="rc.js?v=230"></script>'+visualScripts+'</body>');
   document.open();document.write(html);document.close();
 }
 const preview=new URLSearchParams(location.search).get('preview')==='1';
