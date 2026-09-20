@@ -1,0 +1,56 @@
+name: Sync Mesa Tarot portal
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sync-mesa-tarot-portal.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Add Mesa Tarot to Portal V2
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('portal-v2/index.html')
+          s=p.read_text(encoding='utf-8')
+
+          if 'MESA TAROT · GUÍA INTERACTIVA DE TAROT' not in s:
+              needle='''<div class="drawerGrid">\n        <article class="card" data-cat="wellbeing"><span class="status live">● DISPONIBLE</span><h3>VÍNCORES DIGITAL</h3>'''
+              repl='''<div class="drawerGrid">\n        <article class="card" data-cat="wellbeing"><span class="status live">● DISPONIBLE</span><h3>MESA TAROT · GUÍA INTERACTIVA DE TAROT</h3><div class="accent">Web app interactiva · 78 cartas</div><p>Tiradas, combinaciones y práctica guiada. Acceso personal por 12 meses y hasta 2 dispositivos. Venta por Mercado Libre.</p><div class="actions"><button class="btn primary" onclick="scrollToActivation()">ACTIVAR ACCESO</button></div></article>\n        <article class="card" data-cat="wellbeing"><span class="status live">● DISPONIBLE</span><h3>VÍNCORES DIGITAL</h3>'''
+              if needle not in s:
+                  raise SystemExit('No encontré el bloque wellbeing para insertar Mesa Tarot')
+              s=s.replace(needle,repl,1)
+
+          if '<b>MESA TAROT</b>' not in s:
+              needle='''<div class="newsCarousel">\n    <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>VÍNCORES DIGITAL</b>'''
+              repl='''<div class="newsCarousel">\n    <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>MESA TAROT</b><p>Guía Interactiva de Tarot con 78 cartas, tiradas, combinaciones y práctica guiada. Disponible para activar.</p></article>\n    <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>VÍNCORES DIGITAL</b>'''
+              if needle not in s:
+                  raise SystemExit('No encontré el carrusel de novedades')
+              s=s.replace(needle,repl,1)
+
+          old="if(code.includes('VINC')||name.includes('VÍNCORES')||name.includes('VINCORES'))return {key:'wellbeing',label:'✦ BIENESTAR & VÍNCULOS'};"
+          new="if(code.includes('VINC')||name.includes('VÍNCORES')||name.includes('VINCORES')||code.startsWith('TAROT-')||name.includes('MESA TAROT'))return {key:'wellbeing',label:'✦ BIENESTAR & VÍNCULOS'};"
+          if old in s:
+              s=s.replace(old,new,1)
+
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit portal update
+        run: |
+          if git diff --quiet -- portal-v2/index.html; then
+            echo 'No changes needed'
+            exit 0
+          fi
+          git config user.name 'PasaloChevere Bot'
+          git config user.email 'pasalochevere@gmail.com'
+          git add portal-v2/index.html
+          git commit -m 'Publish Mesa Tarot in Portal V2'
+          git push
