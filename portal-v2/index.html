@@ -98,6 +98,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
     <section class="categoryDrawer" id="drawer-wellbeing">
       <div class="drawerHead"><div><div class="eyebrow">✦ BIENESTAR & VÍNCULOS</div><h3>Explorar relaciones y emociones</h3></div><button class="drawerClose" onclick="closeCategories()">CERRAR ×</button></div>
       <div class="drawerGrid">
+        <article class="card" data-cat="wellbeing"><span class="status live">● DISPONIBLE</span><h3>MESA TAROT · GUÍA INTERACTIVA DE TAROT</h3><div class="accent">Web app interactiva · 78 cartas</div><p>Tiradas, combinaciones y práctica guiada. Acceso personal por 12 meses y hasta 2 dispositivos. Venta por Mercado Libre.</p><div class="actions"><button class="btn primary" onclick="scrollToActivation()">ACTIVAR ACCESO</button></div></article>
         <article class="card" data-cat="wellbeing"><span class="status live">● DISPONIBLE</span><h3>VÍNCORES DIGITAL</h3><div class="accent">Campo de constelación interactivo</div><p>Representá personas, roles, emociones y escenas relacionales. Incluye práctica guiada, bitácora, biblioteca de escenas, etapas y exportación PNG.</p><div class="actions"><button class="btn primary" onclick="scrollToActivation()">ACTIVAR ACCESO</button></div></article>
       </div>
     </section>
@@ -114,6 +115,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 <section class="newsWrap">
   <div class="newsHead"><div><div class="eyebrow">NOVEDADES</div><h2>Lo nuevo de PasaloChevere</h2></div><span>Un vistazo rápido, sin llenar la portada de productos.</span></div>
   <div class="newsCarousel">
+    <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>MESA TAROT</b><p>Guía Interactiva de Tarot con 78 cartas, tiradas, combinaciones y práctica guiada. Disponible para activar.</p></article>
     <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>VÍNCORES DIGITAL</b><p>Campo interactivo con práctica guiada, bitácora y biblioteca de escenas. Disponible para activar.</p></article>
     <article class="newsCard" onclick="openCategory('mystery')" style="cursor:pointer"><span class="newsTag new">NUEVO · BETA</span><b>EXPEDIENTES · CASO 002</b><p>La Habitación que No Existe ya está disponible para prueba.</p></article>
     <article class="newsCard" onclick="openCategory('family')" style="cursor:pointer"><span class="newsTag">DISPONIBLE</span><b>CHÉVERE KIDS · MATEMÁTICA</b><p>Jugando y aprendiendo · versión físico + digital o solo digital.</p></article>
@@ -219,7 +221,7 @@ function licenseCategory(l){
  if(code.startsWith('DI-')||name.includes('DOBLE INTENCIÓN')||name.includes('DOBLE INTENCION'))return {key:'adult',label:'♥ PAREJA & ADULTOS'};
  if(code.startsWith('EXP-')||name.includes('EXPEDIENTES'))return {key:'mystery',label:'⌕ MISTERIO & GRUPO'};
  if(code.startsWith('TK-')||code.includes('TORRE')||name.includes('TORRE'))return {key:'family',label:'★ FAMILIA & KIDS'};
- if(code.includes('VINC')||name.includes('VÍNCORES')||name.includes('VINCORES'))return {key:'wellbeing',label:'✦ BIENESTAR & VÍNCULOS'};
+ if(code.includes('VINC')||name.includes('VÍNCORES')||name.includes('VINCORES')||code.startsWith('TAROT-')||name.includes('MESA TAROT'))return {key:'wellbeing',label:'✦ BIENESTAR & VÍNCULOS'};
  return {key:'other',label:'OTROS ACCESOS'};
 }
 function renderLicenses(list){
