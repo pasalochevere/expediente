@@ -1,0 +1,48 @@
+P2.3.1 — RECUPERAR/RECONSTRUIR + INTEGRAR KIT IMPRIMIBLE C002
+Fecha: 2026-09-20
+
+ESTADO: PASS
+
+KIT PRODUCCIÓN
+- Archivo: caso002/printables/C002_Kit_Imprimible_Hotel_Orfeo.pdf
+- Páginas: 22 A4
+- Tamaño build: 63379 bytes
+- SHA-256 build: d39a680aaac6f374e8fd60b68296d8f1fda5dc5b8aac709cff91734008ec38be
+- Builder: caso002/printables/build_kit.py
+- Workflow reproducible: .github/workflows/c002-printables-build.yml
+
+CONTENIDO
+- Portada y guía de uso
+- Resumen/timeline del Caso 002
+- Tablero Persona + Lugar + Objeto
+- 18 cartas recortables en color
+- Habitación 317
+- Registro de 1968
+- Anomalía arquitectónica
+- Cinta fragmentos 01 y 02
+- Informe del apagón 03:17
+- Polaroid 03:12
+- Caja de León
+- Hojas de conexiones, bitácora y acusación
+- 18 cartas recortables B/N
+- Checklist de impresión
+
+REGLAS
+- No contiene solución fija.
+- ENGINE P2 conserva cronómetro, roles privados, eventos, pistas y solución dinámica.
+- Habitación 317 es área especial narrativa; no reemplaza los seis lugares del random.
+
+INTEGRACIÓN
+- caso002/rc.js ya enlaza la vista Kit imprimible a printables/.
+- printables/index.html apunta al PDF único de 22 páginas.
+- Se retiraron los dos PDFs antiguos de 8 páginas COLOR/B&N para evitar material obsoleto.
+
+QA
+- Render local: 22/22 páginas legibles.
+- GitHub Actions build: SUCCESS.
+- PDF verificado no vacío antes del commit.
+
+GATE COMERCIAL
+- Kit imprimible: CERRADO.
+- Único gate comercial pendiente: definir price_ars de EXP-002.
+- sales_enabled debe permanecer FALSE hasta definir precio y ejecutar release comercial final.
