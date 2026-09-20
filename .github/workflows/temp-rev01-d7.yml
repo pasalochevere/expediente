@@ -1,0 +1,37 @@
+name: Temp Rev01 D7 Private Dossier
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-rev01-d7.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply D7
+        run: python .github/scripts/patch_rev01_d7.py
+      - name: Validate D7
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('caso001-rev01/index.html').read_text()
+          required=['P2.12D.7 · PRIVATE CHARACTER DOSSIER','privateDossierPanel','privateCharacterIndex','applyPrivateVisibility','privacyToggle','privatePrivacyCover','EVIDENCIA SOLO PARA VOS','privateInfoHidden']
+          for t in required: assert t in s,t
+          assert 'privateView.impostor_truth' in s
+          assert "renderEvidenceCard(e,{privateCard:true,seq:i+1})" in s
+          m=re.search(r'<script type="module">(.*?)</script>',s,re.S); assert m,'module script missing'
+          code=re.sub(r'^import .*?;\s*','',m.group(1),count=1,flags=re.S)
+          Path('/tmp/rev01-d7.js').write_text(code)
+          print('D7 private dossier PASS · server-private source preserved · privacy toggle PASS')
+          PY
+          node --check /tmp/rev01-d7.js
+      - name: Commit D7
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso001-rev01/index.html
+          git commit -m "P2.12D.7 private character dossier"
+          git push
