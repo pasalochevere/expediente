@@ -1,0 +1,52 @@
+name: Build C002 Printable Kit
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'caso002/printables/build_kit.py'
+      - '.github/workflows/c002-printables-build.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ReportLab
+        run: pip install reportlab
+
+      - name: Build printable PDF
+        run: python caso002/printables/build_kit.py
+
+      - name: Verify PDF
+        run: |
+          test -s caso002/printables/C002_Kit_Imprimible_Hotel_Orfeo.pdf
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          p=Path('caso002/printables/C002_Kit_Imprimible_Hotel_Orfeo.pdf')
+          print('size', p.stat().st_size)
+          print('sha256', hashlib.sha256(p.read_bytes()).hexdigest())
+          PY
+
+      - name: Commit generated PDF
+        run: |
+          git config user.name "PasaloChevere Printables"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso002/printables/C002_Kit_Imprimible_Hotel_Orfeo.pdf
+          if git diff --cached --quiet; then
+            echo "Printable PDF already up to date."
+            exit 0
+          fi
+          git commit -m "build: publish C002 printable kit"
+          git push
