@@ -1,0 +1,9 @@
+html.pc-access-pending body > *:not(#pc-access-gate){display:none!important}
+#pc-access-gate{position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 0,#291b12 0,#0b0b0c 48%,#050506 100%);color:#f6efe5;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+#pc-access-gate .pc-box{width:min(92vw,520px);border:1px solid #4b4033;border-radius:20px;padding:26px;background:linear-gradient(180deg,#181719,#101012);box-shadow:0 20px 70px rgba(0,0,0,.45);text-align:center}
+#pc-access-gate .pc-brand{font-weight:950;letter-spacing:.13em;color:#d4a24f;font-size:.78rem}
+#pc-access-gate h1{margin:12px 0 8px;font-size:1.7rem}
+#pc-access-gate p{margin:0;color:#c3b7a9;line-height:1.55}
+#pc-access-gate .pc-spin{width:38px;height:38px;margin:22px auto;border:3px solid #463c32;border-top-color:#d4a24f;border-radius:50%;animation:pcspin .8s linear infinite}
+#pc-access-gate a{display:inline-block;margin-top:18px;padding:11px 15px;border-radius:11px;background:#7f261f;color:#fff;text-decoration:none;font-weight:850}
+@keyframes pcspin{to{transform:rotate(360deg)}}
