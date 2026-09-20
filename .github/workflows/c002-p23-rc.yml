@@ -1,0 +1,34 @@
+name: C002 P2.3 Release Candidate
+on:
+  push:
+    paths:
+      - '.github/workflows/c002-p23-rc.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build C002 RC assets
+        run: |
+          python -m pip install --quiet reportlab
+          python .github/scripts/build_c002_p23_rc.py
+          test -s caso002/printables/Kit_Imprimible_Caso_002_COLOR.pdf
+          test -s caso002/printables/Kit_Imprimible_Caso_002_BN.pdf
+          test $(stat -c%s caso002/printables/Kit_Imprimible_Caso_002_COLOR.pdf) -gt 15000
+          test $(stat -c%s caso002/printables/Kit_Imprimible_Caso_002_BN.pdf) -gt 15000
+          head -c 4 caso002/printables/Kit_Imprimible_Caso_002_COLOR.pdf | grep -q '%PDF'
+          head -c 4 caso002/printables/Kit_Imprimible_Caso_002_BN.pdf | grep -q '%PDF'
+          grep -q 'rc.js?v=230' caso002/index.html
+          grep -q 'c002-rc.js?v=230' portal-v2/index.html
+          grep -q 'ABRIR KIT IMPRIMIBLE' caso002/rc.js
+          grep -q 'EXP-002' portal-v2/c002-rc.js
+      - name: Commit generated RC assets
+        run: |
+          rm -f .github/scripts/build_c002_p23_rc.py .github/workflows/c002-p23-rc.yml
+          git config user.name 'PasaloChevere RC'
+          git config user.email 'pasalochevere@gmail.com'
+          git add -A
+          git commit -m 'release: C002 P2.3 release candidate assets'
+          git push
