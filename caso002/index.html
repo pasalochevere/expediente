@@ -30,11 +30,11 @@ body{display:grid;place-items:center}
   if(!('DecompressionStream' in window))throw new Error('Tu navegador necesita una versión más reciente.');
   const ds=new DecompressionStream('gzip');
   let html=await new Response(new Blob([u8]).stream().pipeThrough(ds)).text();
-  html=html.replace('</body>','<script src="audio.js?v=220"></'+'script></body>');
+  html=html.replace('<script src="rc.js?v=230"></script></body>','<script src="audio.js?v=220"></'+'script><script src="rc.js?v=230"></script></body>');
   document.open();document.write(html);document.close();
 })().catch(e=>{
   document.getElementById('s').innerHTML='<b>No pude abrir el Caso 002</b><small>'+String(e.message||e)+'</small>';
 });
 </script>
-</body>
+<script src="rc.js?v=230"></script></body>
 </html>

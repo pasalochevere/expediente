@@ -1,0 +1,4 @@
+P2.3 RELEASE CANDIDATE C002
+Kit imprimible COLOR/B&N integrado.
+Portal V2 cableado a EXP-002, respetando sales_enabled y price_ars.
+No habilitar venta online mientras price_ars sea NULL o sales_enabled=false.
