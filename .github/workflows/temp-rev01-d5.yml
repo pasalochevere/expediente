@@ -1,0 +1,42 @@
+name: Temp Rev01 D5 Investigation Board
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-rev01-d5.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply D5
+        run: python .github/scripts/patch_rev01_d5.py
+      - name: Validate D5
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('caso001-rev01/index.html').read_text()
+          required=['P2.12D.5 · INVESTIGATION BOARD','REV01_LOCATION_IMAGES','REV01_OBJECT_IMAGES','motiveTheory','theoryCard','suspectChips','locationChips','objectChips']
+          for t in required: assert t in s,t
+          scene_dir=Path('caso001-rev01/assets/escenas')
+          object_dir=Path('caso001-rev01/assets/objetos')
+          scenes=list(scene_dir.glob('*')); objects=list(object_dir.glob('*'))
+          assert len(scenes)==6, scenes
+          assert len(objects)==6, objects
+          for f in scenes+objects:
+              b=f.read_bytes(); assert len(b)>5000,(f,len(b)); assert b.startswith(b'\xff\xd8\xff') or b.startswith(b'\x89PNG\r\n\x1a\n'),f
+          m=re.search(r'<script type="module">(.*?)</script>',s,re.S); assert m,'module script missing'
+          code=re.sub(r'^import .*?;\s*','',m.group(1),count=1,flags=re.S)
+          Path('/tmp/rev01-d5.js').write_text(code)
+          print('D5 assets 12/12 PASS · anchors PASS')
+          PY
+          node --check /tmp/rev01-d5.js
+      - name: Commit D5
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso001-rev01/index.html caso001-rev01/assets/escenas/ caso001-rev01/assets/objetos/
+          git commit -m "P2.12D.5 investigation board with historical art"
+          git push
