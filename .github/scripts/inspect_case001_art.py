@@ -3,20 +3,14 @@ import re
 s=Path('caso001/printables/index.html').read_text()
 start=s.find('const ART=')
 if start<0: raise SystemExit('ART not found')
+for needle in ['locations','objects','ART.locations','ART.objects']:
+    print('===',needle,'===')
+    hits=list(re.finditer(re.escape(needle),s[start:],re.I))
+    print('COUNT',len(hits))
+    for m in hits[:8]:
+        pos=start+m.start()
+        print('POS',pos,'SNIP',s[max(0,pos-160):pos+260].replace('\n',' ')[:420])
+# Show tail around where portrait object closes.
 end=s.find('\n};',start)
-if end<0: end=min(len(s),start+500000)
-block=s[start:end+3]
-print('ART_LEN',len(block))
-print('TOP_KEYS',re.findall(r'\n\s*([A-Za-z_][A-Za-z0-9_]*)\s*:\s*\{',block)[:20])
-idx=re.findall(r'(\d+)\s*:\s*[\'\"]data:image/([a-zA-Z0-9+.-]+);base64,',block)
-print('IMAGE_INDEXES',idx)
-rest=s[end+3:]
-uses=[]
-for m in re.finditer(r'ART(?:\.[A-Za-z_][A-Za-z0-9_]*)?(?:\[[^\]]+\])?',rest):
-    val=m.group(0)
-    if val not in uses: uses.append(val)
-print('ART_USES',uses[:50])
-for needle in ['portrait','scene','location','object','symbol']:
-    print('---',needle,'---')
-    for m in list(re.finditer(needle,rest,re.I))[:8]:
-        print(rest[max(0,m.start()-120):m.start()+220].replace('\n',' ')[:340])
+print('FIRST_CLOSE',end)
+print('AFTER_CLOSE',s[max(start,end-250):end+500].replace('\n',' ') if end>=0 else '')
