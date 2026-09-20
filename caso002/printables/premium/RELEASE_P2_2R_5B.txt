@@ -1,0 +1,28 @@
+P2.2R.5B — SISTEMA VISUAL EDITORIAL + 7 TEMPLATES MAESTROS
+Estado: CLOSED / QA PASS
+
+Artefactos:
+- templates.css
+- templates.html
+- ../P2_2R_5B_SISTEMA_VISUAL_EDITORIAL.md
+
+Templates:
+1. CINE
+2. DOSSIER PERSONA
+3. DOSSIER LUGAR
+4. EVIDENCIA
+5. DOCUMENTO
+6. PLAY
+7. SEALED / CUT
+
+Reglas congeladas:
+- A4 real 210×297 mm
+- safe area 14 mm
+- COLOR + B/N desde mismo master
+- sin fuentes externas
+- assets web sólo para preview
+- producción final usa master/print_crop de alta resolución
+- no modifica canon ni fija solución PERSONA/LUGAR/OBJETO
+
+Siguiente bloque:
+P2.2R.5C — PRODUCCIÓN REAL DE LAS 42 PÁGINAS
