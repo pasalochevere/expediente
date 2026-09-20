@@ -113,7 +113,7 @@ function renderGame(){
 }
 function updateClock(){const state=view?.public_state||{};$('#clock').textContent=view?.room?.status==='finished'?'FIN':formatClock(remainingSeconds(state))}
 async function refresh(force=false){
- if(refreshing){pendingRefresh=true;return}if(!adapter.roomId)return;refreshing=true;try{view=await adapter.roomView();if(view?.room?.status!=='waiting'){try{privateView=await adapter.privateView()}catch{privateView=null}}renderLobby();renderGame();showRoomShell()}catch(e){if(force)toast(e.message||String(e),true)}finally{refreshing=false;if(pendingRefresh){pendingRefresh=false;setTimeout(()=>refresh(),100)}}
+ if(refreshing){pendingRefresh=true;return}if(!adapter.roomId)return;refreshing=true;try{view=await adapter.roomView();if(view?.room?.status!=='waiting'){try{privateView=await adapter.privateView()}catch{privateView=null}}renderLobby();renderGame();showRoomShell()}catch(e){if(force)toast(e.message||String(e),true)}finally{refreshing=false;if(pendingRefresh){pendingRefresh=false;setTimeout(()=>refresh(),100)}}}
 async function doAction(fn,success){if(busy)return;setBusy(true);try{await fn();if(success)toast(success)}catch(e){toast(e.message||String(e),true)}finally{setBusy(false)}}
 function configureTimers(){clearInterval(clockTimer);clockTimer=setInterval(updateClock,1000);clearInterval(tickTimer);tickTimer=setInterval(async()=>{if(view?.is_host&&view?.room?.status==='active'&&!view?.public_state?.paused){try{await adapter.action('tick')}catch{} }},15000)}
 async function enter(){
