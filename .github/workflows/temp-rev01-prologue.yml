@@ -1,0 +1,37 @@
+name: Temp Rev01 Prologue
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-rev01-prologue.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply P2.12D.2
+        run: python .github/scripts/patch_rev01_prologue.py
+      - name: Validate inline module
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('caso001-rev01/index.html').read_text()
+          m=re.search(r'<script type="module">(.*?)</script>',s,re.S)
+          if not m: raise SystemExit('module script not found')
+          code=m.group(1)
+          code=re.sub(r"^import .*?;\s*",'',code,count=1,flags=re.S)
+          Path('/tmp/rev01-module.js').write_text(code)
+          for token in ['id="prologue"','PROLOGUE_SCENES','replayPrologue','togglePrologueSound']:
+              if token not in s: raise SystemExit(f'missing {token}')
+          print('anchors PASS')
+          PY
+          node --check /tmp/rev01-module.js
+      - name: Commit
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso001-rev01/index.html
+          git commit -m "P2.12D.2 cinematic prologue Rev01"
+          git push
