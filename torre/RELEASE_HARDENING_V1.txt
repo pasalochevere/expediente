@@ -1,0 +1,10 @@
+MEGA PACK VERDAD O RETO +800 — RELEASE HARDENING V1
+Fecha: 2026-09-20
+
+- La URL /torre/ exige sesión PasaloChevere válida.
+- Exige licencia activa TORRE-MEGA.
+- Revalida vencimiento y dispositivo contra pasalochevere-access.
+- Respeta el límite configurado de hasta 2 dispositivos.
+- Sin licencia válida, el contenido del juego permanece bloqueado y se deriva al Portal PasaloChevere.
+
+Nota técnica: esta capa evita el acceso casual por URL directa en GitHub Pages. El repositorio sigue siendo público; una protección de código/DRM completa requeriría mover el contenido a infraestructura privada/autenticada.
