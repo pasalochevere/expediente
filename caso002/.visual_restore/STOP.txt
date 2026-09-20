@@ -1,1 +1,0 @@
-Do not consume temporary staging as production. Direct binary commit is the authoritative integration path.
