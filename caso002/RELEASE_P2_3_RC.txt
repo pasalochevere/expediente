@@ -1,0 +1,34 @@
+P2.3 — RELEASE CANDIDATE C002 + SIMULACIÓN DE PRIMERA COMPRA
+Fecha: 2026-09-20
+
+ESTADO TÉCNICO: RC PASS
+ESTADO COMERCIAL: HOLD
+
+SIMULACIÓN COMPLETA VALIDADA
+- Orden QA aprobada (sin Mercado Pago real)
+- Licencia EXP-002 12 meses
+- 2 dispositivos máximo / dispositivo 1 registrado
+- Sala C002 P2 creada
+- 3 jugadores
+- Modo Impostor
+- Personajes únicos
+- Sesión C002_CANON_LOCK_V1
+- Investigación iniciada
+- Catch-up temporal
+- Habitación 317 desbloqueada
+- 18 eventos / 12 descubrimientos en recorrido acelerado
+- Recovery de jugador e identidad privada
+- Acusación correcta 3/3
+- Epílogo recuperable
+- Cleanup QA: 0 residuos
+
+GATES COMERCIALES ABIERTOS
+1. pc_products.EXP-002.price_ars está NULL. No definir precio automáticamente.
+2. sales_enabled permanece FALSE hasta cerrar los gates.
+3. El kit imprimible aprobado de C002 no está presente en caso002/ ni recuperable desde el repositorio actual; debe reconstruirse/recuperarse y enlazarse antes de habilitar venta si seguirá siendo parte de la oferta.
+
+TEXTOS COMERCIALES CORREGIDOS
+- Eliminada referencia a versión beta de pc_products.description.
+- WhatsApp cambiado de “quiero probar” a “quiero comprar”.
+
+NO HABILITAR SALES_ENABLED HASTA PRECIO + KIT.
