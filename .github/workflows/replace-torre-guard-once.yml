@@ -1,0 +1,49 @@
+name: One-time replace Torre guard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/replace-torre-guard-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  replace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Replace inline guard with verified external guard
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('torre/index.html')
+          text = path.read_text(encoding='utf-8')
+          pattern = r'<!-- PC_TORRE_ACCESS_GUARD_V1 -->.*?<!-- /PC_TORRE_ACCESS_GUARD_V1 -->'
+          replacement = '''<!-- PC_TORRE_ACCESS_GUARD_V2 -->
+          <script>document.documentElement.classList.add('pc-access-pending');</script>
+          <link rel="stylesheet" href="./access-guard.css">
+          <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+          <script src="./access-guard.js"></script>
+          <!-- /PC_TORRE_ACCESS_GUARD_V2 -->'''
+          updated, count = re.subn(pattern, replacement, text, count=1, flags=re.S)
+          if count != 1:
+              raise SystemExit(f'Expected one V1 guard, found {count}')
+          path.write_text(updated, encoding='utf-8')
+          print('Replaced V1 guard with V2.')
+          PY
+
+      - name: Commit replacement and remove one-time workflow
+        shell: bash
+        run: |
+          git config user.name "PasaloChevere Release Bot"
+          git config user.email "pasalochevere@gmail.com"
+          git rm .github/workflows/replace-torre-guard-once.yml
+          git add torre/index.html
+          git commit -m "fix: use verified Torre access guard V2"
+          git push
