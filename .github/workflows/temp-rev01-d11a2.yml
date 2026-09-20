@@ -51,6 +51,8 @@ jobs:
             const runtime=await page.locator('#runtimeState').innerText();
             if(!runtime.includes('MOTOR P2 LISTO')) throw new Error(`P2 init failed ${viewport.width}: ${runtime}`);
             if(pageErrors.length) throw new Error(`pageerror ${viewport.width}: ${pageErrors.join(' | ')}`);
+            const prologueHidden=await page.locator('#prologue').evaluate(el=>el.classList.contains('hidden'));
+            if(!prologueHidden) await page.click('#prologueSkip');
             const overflow=await page.evaluate(()=>({sw:document.documentElement.scrollWidth,iw:window.innerWidth}));
             if(overflow.sw>overflow.iw+3) throw new Error(`overflow ${viewport.width}: ${overflow.sw}>${overflow.iw}`);
             if(viewport.width===1366){
