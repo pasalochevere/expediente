@@ -2,14 +2,25 @@ P2.3.1 — RECUPERAR/RECONSTRUIR + INTEGRAR KIT IMPRIMIBLE C002
 Fecha: 2026-09-20
 
 ESTADO: PASS
+VISUAL FIX: PREMIUM / HOTEL ORFEO RESTAURADO
 
 KIT PRODUCCIÓN
 - Archivo: caso002/printables/C002_Kit_Imprimible_Hotel_Orfeo.pdf
 - Páginas: 22 A4
-- Tamaño build: 63379 bytes
-- SHA-256 build: d39a680aaac6f374e8fd60b68296d8f1fda5dc5b8aac709cff91734008ec38be
+- Tamaño build: 95514 bytes
+- SHA-256 build: 40b893971231ed20127c990a158753817e54ea696d88597e13d26353157acb5d
 - Builder: caso002/printables/build_kit.py
 - Workflow reproducible: .github/workflows/c002-printables-build.yml
+
+DIRECCIÓN VISUAL
+- Se descartó la primera reconstrucción funcional/generica.
+- Nueva estética alineada con Caso 001 y con la identidad propia de Hotel Orfeo.
+- Paleta: negro carbón, oro viejo, rojo vino, papel sepia y crema.
+- Portada oscura con puerta 317 y marco de expediente.
+- Fichas recortables con ilustración temática por personaje/lugar/objeto.
+- Documentos convertidos en piezas de evidencia: registro, plano, cassette, apagón, Polaroid y caja de León.
+- Sellos, textura de papel, jerarquía editorial y páginas oscuras especiales para 317/cierre.
+- Color + B/N conservados.
 
 CONTENIDO
 - Portada y guía de uso
@@ -33,14 +44,15 @@ REGLAS
 - Habitación 317 es área especial narrativa; no reemplaza los seis lugares del random.
 
 INTEGRACIÓN
-- caso002/rc.js ya enlaza la vista Kit imprimible a printables/.
+- caso002/rc.js enlaza la vista Kit imprimible a printables/.
 - printables/index.html apunta al PDF único de 22 páginas.
-- Se retiraron los dos PDFs antiguos de 8 páginas COLOR/B&N para evitar material obsoleto.
+- Los PDFs antiguos de 8 páginas COLOR/B&N permanecen retirados.
 
 QA
-- Render local: 22/22 páginas legibles.
-- GitHub Actions build: SUCCESS.
-- PDF verificado no vacío antes del commit.
+- Render local: 22/22 páginas revisadas visualmente.
+- GitHub Actions build run #2: SUCCESS.
+- PDF producción: 95514 bytes.
+- SHA-256 producción: 40b893971231ed20127c990a158753817e54ea696d88597e13d26353157acb5d.
 
 GATE COMERCIAL
 - Kit imprimible: CERRADO.
