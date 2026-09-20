@@ -1,0 +1,20 @@
+EXPEDIENTES · CASO 002 · HOTEL ORFEO
+P2.2 — QA VISUAL + JUGABLE SOBRE ENGINE P2
+
+Release candidate visual/jugable: 2026-09-20
+Backend: ENGINE P2
+Canon: C002_CANON_LOCK_V1
+
+QA aplicado:
+- etiquetas BETA/de desarrollo retiradas de la experiencia visible
+- Realtime migrado de exp_* a tablas ENGINE P2
+- fase solving mantenida en Central de Investigación con acusación disponible
+- código visible de sala preservado en cliente; backend conserva sólo hash
+- recuperación silenciosa de sesión cuando corresponde
+- refresco post-tick de eventos P2
+- contraste de tarjetas de investigación corregido
+- controles táctiles principales >= 44 px
+- dock de conexiones sin superposición en móvil
+- backup pre-P2.2: backups/P2.2_before_visual_qa.b64
+
+No modifica el canon narrativo ni las 216 combinaciones.
