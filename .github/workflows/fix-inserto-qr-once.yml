@@ -1,0 +1,40 @@
+name: One-time fix inserto QR
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-inserto-qr-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace embedded QR with generated QR image URL
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('torre/INSERTO_FISICO_MEGA_PACK_800_V1.html')
+          s=p.read_text(encoding='utf-8')
+          repl='<div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https%3A%2F%2Fpasalochevere.github.io%2Fexpediente%2Fportal%2F" alt="QR Portal PasaloChevere" style="width:39mm;height:39mm"/></div>'
+          s2,n=re.subn(r'<div class="qr"><svg.*?</svg></div>', repl, s, count=1, flags=re.S)
+          if n!=1:
+            raise SystemExit(f'QR block replacement count: {n}')
+          p.write_text(s2,encoding='utf-8')
+          PY
+      - name: Commit fix
+        shell: bash
+        run: |
+          git config user.name "PasaloChevere Release Bot"
+          git config user.email "pasalochevere@gmail.com"
+          git add torre/INSERTO_FISICO_MEGA_PACK_800_V1.html
+          git commit -m "fix: use reliable QR in physical insert"
+          git rm .github/workflows/fix-inserto-qr-once.yml
+          git commit -m "chore: remove one-time insert QR workflow"
+          git push
