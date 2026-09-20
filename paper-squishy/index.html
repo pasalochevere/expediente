@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paper Squishy Factory · PasaloChevere</title>
+<style>
+:root{--cream:#fff9ef;--paper:#fffefa;--ink:#34251f;--muted:#806f64;--yellow:#ffd458;--coral:#ff7867;--pink:#ffb7c9;--mint:#9edfc3;--line:#eadfd4;--shadow:0 18px 50px rgba(74,52,38,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at 10% 0,#fff2b9 0,transparent 28%),radial-gradient(circle at 90% 10%,#ffe2eb 0,transparent 25%),var(--cream);color:var(--ink)}
+.wrap{max-width:1000px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0 20px}.brand{font-weight:950;font-size:1.15rem}.brand small{display:block;color:var(--muted);font-size:.72rem;letter-spacing:.12em;margin-top:3px}.pill{border:1px solid var(--line);border-radius:999px;background:#fff;padding:8px 12px;font-size:.78rem;font-weight:850}.hero{background:linear-gradient(135deg,#fffefa 0 58%,#fff0bc 58% 100%);border:1px solid var(--line);border-radius:34px;padding:clamp(28px,6vw,64px);box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:'✦';position:absolute;right:7%;top:10%;font-size:84px;color:rgba(255,120,103,.20)}.eyebrow{font-size:.72rem;font-weight:950;letter-spacing:.16em;color:var(--coral)}h1{font-size:clamp(3rem,8vw,6rem);line-height:.88;letter-spacing:-.055em;margin:12px 0 18px;max-width:760px}h1 em{font-style:normal;color:var(--coral)}.lead{max-width:680px;color:var(--muted);font-size:1.08rem;line-height:1.6}.status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:10px 14px;border-radius:999px;background:#eef9f1;border:1px solid #b8dfc4;color:#28683d;font-weight:900}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;min-height:130px;box-shadow:0 9px 24px rgba(74,52,38,.07)}.card i{font-style:normal;font-size:25px}.card b{display:block;margin:12px 0 4px}.card span{color:var(--muted);font-size:.83rem;line-height:1.4}.box{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 10px 28px rgba(74,52,38,.07)}.box h2{margin:0 0 8px}.box p{color:var(--muted);line-height:1.55}.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{display:inline-block;text-decoration:none;border:2px solid var(--ink);border-radius:15px;padding:12px 16px;font-weight:950;color:var(--ink);background:#fff}.btn.primary{background:var(--yellow);box-shadow:4px 4px 0 var(--ink)}.msg{margin-top:12px;color:var(--muted);font-size:.9rem}.bad{color:#a33}.hidden{display:none!important}.footer{padding:26px 4px;color:var(--muted);font-size:.78rem;text-align:center}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start}.pill{font-size:.68rem}}@media(max-width:430px){.grid{grid-template-columns:1fr}h1{font-size:3.15rem}.wrap{padding:14px}.hero{border-radius:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="brand">PasaloChevere<small>PAPER SQUISHY FACTORY</small></div><div class="pill">Acceso personal · 12 meses</div></div>
+  <main id="loading" class="hero"><div class="eyebrow">VERIFICANDO TU ACCESO</div><h1>Paper Squishy <em>Factory</em></h1><p class="lead">Estamos comprobando que esta cuenta tenga un acceso activo.</p><div id="loadMsg" class="msg">Un momento…</div></main>
+  <main id="authorized" class="hidden">
+    <section class="hero">
+      <div class="eyebrow">TU PRODUCTO ESTÁ ACTIVO</div>
+      <h1>Paper Squishy <em>Factory</em></h1>
+      <p class="lead">Tu acceso a la fábrica, las colecciones y las actualizaciones mensuales está registrado en esta cuenta.</p>
+      <div class="status">✓ ACCESO ACTIVO</div>
+      <div class="grid">
+        <div class="card"><i>🎨</i><b>Creator Plus</b><span>Formas, pinceles, stickers, caras, accesorios, texto y capas.</span></div>
+        <div class="card"><i>🧸</i><b>30 diseños iniciales</b><span>Sweet Squishies, Food Squad y Animal Cuties.</span></div>
+        <div class="card"><i>🖨️</i><b>Listos para imprimir</b><span>Frente, reverso, coloring, tutoriales y materiales.</span></div>
+        <div class="card"><i>✨</i><b>Actualizaciones</b><span>10 diseños nuevos cada mes durante 12 meses.</span></div>
+      </div>
+    </section>
+    <section class="box">
+      <h2>Más de 120 diseños durante el período de actualización</h2>
+      <p>La colección arranca con 30 diseños. Durante los próximos 12 meses se incorporan 10 diseños nuevos por mes. Este acceso identifica tu cuenta para mantener habilitadas esas actualizaciones.</p>
+      <p id="expiry"></p>
+      <div class="btns"><a class="btn primary" href="../portal-v2/">Volver a Mis Juegos →</a></div>
+    </section>
+    <section class="box">
+      <h2>Versión actual</h2>
+      <p><b>30 personajes · 3 colecciones · Creator Plus.</b><br>El paquete de la versión actual se entrega con la compra. Las nuevas versiones y novedades de la colección se irán incorporando a este acceso.</p>
+    </section>
+  </main>
+  <main id="denied" class="hero hidden"><div class="eyebrow">ACCESO NO HABILITADO</div><h1>Paper Squishy <em>Factory</em></h1><p class="lead" id="denyText">No encontramos un acceso activo para esta cuenta.</p><div class="btns"><a class="btn primary" href="../portal-v2/">Ir al Portal →</a></div></main>
+  <div class="footer">PasaloChevere · Paper Squishy Factory · Acceso y actualizaciones vinculados a tu cuenta.</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+const PRODUCT='PSQ-FACTORY';
+function show(id){for(const x of ['loading','authorized','denied'])document.getElementById(x).classList.toggle('hidden',x!==id)}
+async function callAccess(body){const {data:{session}}=await sb.auth.getSession();if(!session)throw new Error('Necesitás ingresar desde el Portal PasaloChevere.');const r=await fetch(SUPABASE_URL+'/functions/v1/pasalochevere-access',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':SUPABASE_KEY},body:JSON.stringify(body)});const j=await r.json().catch(()=>({}));if(!r.ok||j.ok===false)throw new Error(j.error||'No pude verificar tu acceso.');return j}
+(async()=>{try{const {data:{session}}=await sb.auth.getSession();if(!session){show('denied');document.getElementById('denyText').textContent='Ingresá primero a tu cuenta desde el Portal PasaloChevere.';return}const j=await callAccess({action:'me'});const lic=(j.licenses||[]).find(x=>x.product_code===PRODUCT&&x.status==='active');if(!lic){show('denied');return}show('authorized');if(lic.expires_at){const d=new Date(lic.expires_at);document.getElementById('expiry').innerHTML='<b>Actualizaciones incluidas hasta:</b> '+d.toLocaleDateString('es-AR',{year:'numeric',month:'long',day:'numeric'});} }catch(e){show('denied');document.getElementById('denyText').textContent=e.message||String(e)}})();
+</script>
+</body>
+</html>
