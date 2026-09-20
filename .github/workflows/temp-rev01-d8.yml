@@ -1,0 +1,39 @@
+name: Temp Rev01 D8 Director Log
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-rev01-d8.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply D8
+        run: python .github/scripts/patch_rev01_d8.py
+      - name: Validate D8
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('caso001-rev01/index.html').read_text()
+          required=['P2.12D.8 · DIRECTOR + BITÁCORA','directorPanel','logPanel','eventClock','logEntry','directorLatest','PEDIR ORIENTACIÓN AL DIRECTOR','REGISTRO COMPARTIDO']
+          for t in required: assert t in s,t
+          assert "adapter.action('director_help')" in s
+          assert "adapter.action('advance_stage')" in s
+          assert "adapter.action('pause_toggle')" in s
+          assert "adapter.action('add_time',{seconds:120})" in s
+          m=re.search(r'<script type="module">(.*?)</script>',s,re.S); assert m,'module script missing'
+          code=re.sub(r'^import .*?;\s*','',m.group(1),count=1,flags=re.S)
+          Path('/tmp/rev01-d8.js').write_text(code)
+          print('D8 director controls PASS · public log renderer PASS · actions preserved')
+          PY
+          node --check /tmp/rev01-d8.js
+      - name: Commit D8
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso001-rev01/index.html
+          git commit -m "P2.12D.8 director and case log"
+          git push
