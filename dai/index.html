@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#06030a">
+  <meta property="og:title" content="Un obsequio para vos 🎁">
+  <meta property="og:description" content="Se abre el 21/09/2026 a las 06:00.">
+  <title>Un obsequio para vos</title>
+  <style>
+    :root{--pink:#ff39c8;--cyan:#35e8ff;--cream:#fff7f0;--muted:#b9acbf}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#040208;color:var(--cream);font-family:Arial,Helvetica,sans-serif}
+    body{min-height:100svh;display:grid;place-items:center;padding:22px;background:
+      radial-gradient(circle at 18% 10%,rgba(255,57,200,.18),transparent 34%),
+      radial-gradient(circle at 86% 22%,rgba(53,232,255,.10),transparent 34%),
+      linear-gradient(180deg,#090511,#020204)}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.018) 4px)}
+    .card{width:min(92vw,560px);text-align:center;padding:34px 22px 30px;border:1px solid rgba(255,255,255,.13);border-radius:28px;background:rgba(10,7,16,.80);box-shadow:0 24px 70px rgba(0,0,0,.48),0 0 42px rgba(255,57,200,.08);backdrop-filter:blur(10px)}
+    .tiny{font:900 10px "Courier New",monospace;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase}
+    h1{font-family:"Arial Black",Impact,Arial,sans-serif;font-size:clamp(34px,10vw,58px);line-height:1.02;margin:13px 0 8px;text-transform:uppercase;text-shadow:0 0 24px rgba(255,57,200,.28)}
+    .sub{color:#dfd4e3;line-height:1.5;margin:0 auto 22px;max-width:430px}
+    .count{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:24px auto 18px;max-width:470px}
+    .unit{padding:14px 6px;border:1px solid rgba(255,255,255,.11);border-radius:16px;background:linear-gradient(135deg,rgba(255,57,200,.07),rgba(53,232,255,.04))}
+    .n{display:block;font-family:"Arial Black",Impact,Arial,sans-serif;font-size:clamp(27px,8vw,45px);line-height:1;color:#fff}
+    .l{display:block;margin-top:7px;font:900 8px "Courier New",monospace;letter-spacing:.12em;color:#b9acbf}
+    .when{margin-top:12px;font:900 11px "Courier New",monospace;letter-spacing:.10em;color:#ffd7ef}
+    .lock{font-size:34px;margin-bottom:4px;filter:drop-shadow(0 0 12px rgba(255,57,200,.35))}
+    .ready{display:none}
+    @media(max-width:420px){.card{padding:28px 15px 25px}.count{gap:6px}.unit{padding:12px 4px}.l{font-size:7px}}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="lock">🎁</div>
+    <div class="tiny">private delivery · locked</div>
+    <h1>Un obsequio para vos</h1>
+    <p class="sub">Todavía no se puede abrir.<br>Cuando llegue el momento, esta página se abrirá sola.</p>
+
+    <section class="count" id="count">
+      <div class="unit"><span class="n" id="dd">00</span><span class="l">DÍAS</span></div>
+      <div class="unit"><span class="n" id="hh">00</span><span class="l">HORAS</span></div>
+      <div class="unit"><span class="n" id="mm">00</span><span class="l">MIN</span></div>
+      <div class="unit"><span class="n" id="ss">00</span><span class="l">SEG</span></div>
+    </section>
+
+    <div class="when">SE ABRE · 21/09/2026 · 06:00 AM</div>
+  </main>
+
+  <script>
+    (()=>{
+      const target = new Date('2026-09-21T06:00:00-03:00').getTime();
+      const finalUrl = 'https://pasalochevere.github.io/expediente/primavera-dai/primavera-dai-final.html?final=1';
+      const $ = id => document.getElementById(id);
+      const pad = n => String(n).padStart(2,'0');
+
+      function tick(){
+        const now = Date.now();
+        let diff = target - now;
+        if(diff <= 0){
+          location.replace(finalUrl);
+          return;
+        }
+        const d = Math.floor(diff/86400000); diff %= 86400000;
+        const h = Math.floor(diff/3600000); diff %= 3600000;
+        const m = Math.floor(diff/60000); diff %= 60000;
+        const s = Math.floor(diff/1000);
+        $('dd').textContent = pad(d);
+        $('hh').textContent = pad(h);
+        $('mm').textContent = pad(m);
+        $('ss').textContent = pad(s);
+      }
+      tick();
+      setInterval(tick,250);
+    })();
+  </script>
+</body>
+</html>
