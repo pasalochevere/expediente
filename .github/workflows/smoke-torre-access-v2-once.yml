@@ -1,0 +1,63 @@
+name: One-time smoke Torre access V2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/smoke-torre-access-v2-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify live V2 assets and JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --max-time 20 https://pasalochevere.github.io/expediente/torre/ -o /tmp/torre.html
+          grep -q 'PC_TORRE_ACCESS_GUARD_V2' /tmp/torre.html
+          grep -q './access-guard.js' /tmp/torre.html
+          curl -fsSL --max-time 20 https://pasalochevere.github.io/expediente/torre/access-guard.js -o /tmp/access-guard.js
+          node --check /tmp/access-guard.js
+          grep -q "PRODUCT_CODE = 'TORRE-MEGA'" /tmp/access-guard.js
+          echo 'PASS: V2 guard is live and syntactically valid.'
+
+      - name: Verify unauthenticated direct URL redirects to Portal
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME"
+          timeout 35s "$CHROME" \
+            --headless=new \
+            --disable-gpu \
+            --no-sandbox \
+            --disable-dev-shm-usage \
+            --virtual-time-budget=15000 \
+            --dump-dom \
+            https://pasalochevere.github.io/expediente/torre/ > /tmp/final-dom.html 2>/tmp/chrome.err || true
+          if grep -q 'TODOS TUS JUEGOS, UN SOLO ACCESO' /tmp/final-dom.html; then
+            echo 'PASS: direct URL without session redirects to Portal PasaloChevere.'
+            exit 0
+          fi
+          echo 'FAIL: browser did not reach the Portal.'
+          tail -80 /tmp/chrome.err || true
+          head -120 /tmp/final-dom.html || true
+          exit 1
+
+      - name: Checkout for cleanup
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Remove one-time smoke workflow
+        if: always()
+        shell: bash
+        run: |
+          git config user.name "PasaloChevere Release Bot"
+          git config user.email "pasalochevere@gmail.com"
+          git rm .github/workflows/smoke-torre-access-v2-once.yml
+          git commit -m "chore: remove one-time Torre V2 smoke workflow"
+          git push
