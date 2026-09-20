@@ -1,35 +1,49 @@
 from pathlib import Path
-import re
 import base64
+import json
+import re
+import subprocess
 
-src = Path('caso001/printables/index.html').read_text()
-page = Path('caso001-rev01/index.html')
-s = page.read_text()
+PRINTABLE = Path('caso001/printables/index.html')
+PAGE = Path('caso001-rev01/index.html')
+ASSET_DIR = Path('caso001-rev01/assets/personajes')
 
+src = PRINTABLE.read_text()
+s = PAGE.read_text()
+
+# Extract only the historical character library, never scenes/objects.
 m = re.search(r"const\s+CHARS\s*=\s*\[(.*?)\]\s*;", src, re.S)
 if not m:
     raise SystemExit('CHARS block not found')
 block = m.group(1)
-entries = re.findall(r"\{\s*name:'([^']+)'[\s\S]*?img:'data:image/png;base64,([^']+)'", block)
-if len(entries) != 6:
-    raise SystemExit(f'expected 6 character portraits, got {len(entries)}')
 
+names = re.findall(r"\bname\s*:\s*['\"]([^'\"]+)['\"]", block)
+images = re.findall(r"data:image/([^;]+);base64,([A-Za-z0-9+/=]+)", block)
 expected = ['Santiago', 'Clara', 'Vera', 'Mateo', 'Inés', 'Tomás']
-names = [x[0] for x in entries]
 if names != expected:
     raise SystemExit(f'character order mismatch: {names}')
+if len(images) != 6:
+    raise SystemExit(f'expected 6 embedded portraits, got {len(images)}')
 
-out = Path('caso001-rev01/assets/personajes')
-out.mkdir(parents=True, exist_ok=True)
-filenames = ['santiago.png', 'clara.png', 'vera.png', 'mateo.png', 'ines.png', 'tomas.png']
-for (name, b64), fn in zip(entries, filenames):
+ASSET_DIR.mkdir(parents=True, exist_ok=True)
+stems = ['santiago', 'clara', 'vera', 'mateo', 'ines', 'tomas']
+portrait_paths = []
+for name, stem, (declared_mime, b64) in zip(names, stems, images):
     raw = base64.b64decode(b64)
-    if not raw.startswith(b'\x89PNG\r\n\x1a\n'):
-        raise SystemExit(f'{name}: invalid PNG')
+    if raw.startswith(b'\x89PNG\r\n\x1a\n'):
+        ext = 'png'
+    elif raw.startswith(b'\xff\xd8\xff'):
+        ext = 'jpg'
+    elif raw.startswith(b'RIFF') and raw[8:12] == b'WEBP':
+        ext = 'webp'
+    else:
+        raise SystemExit(f'{name}: unsupported image bytes ({declared_mime})')
     if len(raw) < 10000:
-        raise SystemExit(f'{name}: suspiciously small image ({len(raw)} bytes)')
-    (out / fn).write_bytes(raw)
-    print(name, fn, len(raw))
+        raise SystemExit(f'{name}: suspiciously small portrait ({len(raw)} bytes)')
+    filename = f'{stem}.{ext}'
+    (ASSET_DIR / filename).write_bytes(raw)
+    portrait_paths.append(f'assets/personajes/{filename}')
+    print(f'{name}: {filename} · {len(raw)} bytes · declared {declared_mime}')
 
 if 'P2.12D.3 · CHARACTER DOSSIERS' in s:
     raise SystemExit('D3 already applied')
@@ -45,20 +59,17 @@ if marker not in s:
     raise SystemExit('D2 CSS marker missing')
 s = s.replace(marker, css + '\n' + marker, 1)
 
-grid_pattern = r'(<div[^>]+id="characterGrid"[^>]*></div>)'
-if not re.search(grid_pattern, s):
+# Insert selected-character dossier directly after the existing selector grid.
+g = re.search(r'<div[^>]+id="characterGrid"[^>]*></div>', s)
+if not g:
     raise SystemExit('characterGrid element not found')
-s = re.sub(
-    grid_pattern,
-    r'\1\n<div class="charactersHint">ELEGÍ UNA IDENTIDAD PARA INGRESAR AL EXPEDIENTE.</div>\n<div id="characterDossierPreview" class="characterDossierPreview"></div>',
-    s,
-    count=1,
-)
+extra = '\n<div class="charactersHint">ELEGÍ UNA IDENTIDAD PARA INGRESAR AL EXPEDIENTE.</div>\n<div id="characterDossierPreview" class="characterDossierPreview"></div>'
+s = s[:g.end()] + extra + s[g.end():]
 
 profile_match = re.search(r"const REV01_PROFILES=\[[^\]]+\];", s)
 if not profile_match:
     raise SystemExit('REV01_PROFILES anchor missing')
-portraits = "const REV01_PORTRAITS=['assets/personajes/santiago.png','assets/personajes/clara.png','assets/personajes/vera.png','assets/personajes/mateo.png','assets/personajes/ines.png','assets/personajes/tomas.png'];"
+portraits = 'const REV01_PORTRAITS=' + json.dumps(portrait_paths, ensure_ascii=False, separators=(',', ':')) + ';'
 s = s[:profile_match.end()] + '\n' + portraits + s[profile_match.end():]
 
 pattern = r"function buildCharacters\(\)\{[\s\S]*?\}\nfunction setEntryMode"
@@ -75,6 +86,24 @@ function buildCharacters(){
  renderCharacterDossierPreview();
 }
 function setEntryMode'''
-s = re.sub(pattern, replacement, s, count=1)
-page.write_text(s)
-print('D3 page patch complete')
+s = re.sub(pattern, lambda _: replacement, s, count=1)
+PAGE.write_text(s)
+
+# D3 QA: six usable image assets, six referenced paths, required UI anchors, valid module JS.
+for path in portrait_paths:
+    f = Path('caso001-rev01') / path
+    if not f.exists() or f.stat().st_size < 10000:
+        raise SystemExit(f'asset QA failed: {path}')
+    if path not in s:
+        raise SystemExit(f'asset not referenced: {path}')
+for token in ['P2.12D.3 · CHARACTER DOSSIERS', 'characterDossierPreview', 'REV01_PORTRAITS', 'renderCharacterDossierPreview']:
+    if token not in s:
+        raise SystemExit(f'missing D3 token: {token}')
+module = re.search(r'<script type="module">(.*?)</script>', s, re.S)
+if not module:
+    raise SystemExit('module script not found')
+code = re.sub(r"^import .*?;\s*", '', module.group(1), count=1, flags=re.S)
+tmp = Path('/tmp/rev01-d3.js')
+tmp.write_text(code)
+subprocess.run(['node', '--check', str(tmp)], check=True)
+print('P2.12D.3 QA PASS · 6/6 portraits · JS syntax PASS')
