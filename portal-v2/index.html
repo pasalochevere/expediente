@@ -83,7 +83,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
       <div class="drawerGrid">
         <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>CHÉVERE KIDS · MATEMÁTICA</h3><div class="accent">JUGANDO Y APRENDIENDO · 7–9 AÑOS · FÍSICO + DIGITAL</div><p>Aprendé matemática jugando con 54 piezas, dados, niveles, estrellas, desafíos y material imprimible.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
         <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>CHÉVERE KIDS · MATEMÁTICA</h3><div class="accent">JUGANDO Y APRENDIENDO · 7–9 AÑOS · SOLO DIGITAL</div><p>Desafíos, niveles y estrellas para aprender matemática jugando desde el celular.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-        <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>TORRE 5 EN 1 DIGITAL</h3><div class="accent">KIDS · GENERAL · FIESTA · SIN FILTRO</div><p>Mega Pack con 4 versiones y más de 800 contenidos para jugar desde el celular.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+        <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>MEGA PACK VERDAD O RETO +800</h3><div class="accent">KIDS · GENERAL · FIESTA 18+ · SIN FILTRO 18+</div><p>Anexo digital con 4 versiones y 832 contenidos. Jugá con una torre física numerada o en modo Solo Digital.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
       </div>
     </section>
 
@@ -245,7 +245,7 @@ function renderLicenses(list){
      else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
      else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
      else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
-     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código de acceso: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos registrados: <b>'+l.devices_used+' de '+l.device_limit+'</b>'+deviceManage+'</p><div class="actions">'+action+'</div></article>';
+     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':l.product_name)+'</h3><div class="accent">Código de acceso: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos registrados: <b>'+l.devices_used+' de '+l.device_limit+'</b>'+deviceManage+'</p><div class="actions">'+action+'</div></article>';
    }).join('');
    return '<section class="libraryGroup"><div class="libraryGroupTitle"><b>'+group.label+'</b><span></span></div><div class="grid">'+cards+'</div></section>';
  }).join('');
