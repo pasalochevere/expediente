@@ -1,0 +1,19 @@
+P1.6.2 — CIERRE COMERCIAL DEL MEGA PACK
+Fecha: 2026-09-20
+Producto: MEGA PACK VERDAD O RETO +800
+Código técnico: TORRE-MEGA
+Versión digital: V1.6
+Contenido: 4 versiones x 208 = 832 contenidos
+Versiones: KIDS / GENERAL / FIESTA 18+ / SIN FILTRO 18+
+Acceso: 12 meses desde activación / hasta 2 dispositivos
+Portal comercial: https://pasalochevere.github.io/expediente/portal-v2/
+Juego: https://pasalochevere.github.io/expediente/torre/
+
+Cierre:
+- Acceso directo protegido por sesión + licencia + vencimiento + dispositivo.
+- Nombre comercial unificado en juego, Portal y Admin de licencias.
+- Rótulos internos corregidos a V1.6; Kids corregido.
+- Flujo MercadoLibre disponible en Admin de licencias: venta -> código -> Portal -> correo verificado -> biblioteca.
+- Inserto físico A6 preparado como anexo digital; no reemplaza manuales físicos existentes.
+- Clásico queda bloqueado en Solo Digital.
+- No se incluyen tarjetas imprimibles en este producto.
