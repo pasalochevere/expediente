@@ -1,0 +1,1 @@
+P2.2R.4 visual integration switched from ZIP/base64 staging to direct Git blob/tree commit after GitHub text-content size limits truncated the staging artifact. No production gameplay code was modified by the failed workflow run.
