@@ -1,0 +1,12 @@
+MEGA PACK VERDAD O RETO +800 — RELEASE HARDENING V2
+Fecha: 2026-09-20
+
+Acceso directo protegido mediante guard externo verificado:
+- access-guard.js
+- access-guard.css
+- validación de sesión PasaloChevere
+- licencia activa TORRE-MEGA
+- vencimiento vigente
+- registro y límite de dispositivo contra pasalochevere-access
+
+Sin sesión válida, la URL /torre/ redirige al Portal PasaloChevere. Sin licencia o con dispositivo no autorizado, el juego permanece bloqueado.
