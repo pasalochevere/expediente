@@ -1,0 +1,36 @@
+P2.2R.4 — RESTAURACIÓN VISUAL C002
+Estado: INTEGRATED / QA PASS ESTÁTICO
+Fecha: 2026-09-20
+
+Capa visual integrada sin modificar los payloads ENGINE P2.
+
+Biblioteca web conectada:
+- 6 personajes: P01–P06
+- 6 lugares: L01–L06
+- 6 objetos: O01–O06
+- Hotel Orfeo hero
+- Puerta 317
+- Habitación 317
+Total: 21 assets visuales.
+
+Implementación:
+- 8 módulos de assets en caso002/assets/visual/
+- visual-restoration.js
+- loader index.html actualizado para inyectar la capa visual después de rc.js
+
+Garantías:
+- se conservan exactamente los 9 payloads comprimidos existentes
+- no se modifica ENGINE P2
+- no se modifica canon C002
+- no se modifica solución dinámica 6×6×6
+- no se modifican sesiones, realtime, recovery, licencias ni acusación
+
+QA realizado:
+- 8/8 módulos presentes
+- adaptador presente
+- loader referencia 8 módulos + adaptador
+- 21 claves visuales previstas cubiertas
+- staging y workflow temporal fallido retirados
+
+Nota de calidad web:
+Los módulos 06–08 usan variantes web muy comprimidas para sortear límites del conector. Para el kit imprimible se deben usar los masters/derivados de resolución completa, no estas variantes web.
