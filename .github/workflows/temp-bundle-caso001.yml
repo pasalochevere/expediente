@@ -22,11 +22,11 @@ jobs:
           import_line="import {P2MultiplayerAdapter,P2_LABELS,findStoredLicense,lastRoomCode,remainingSeconds,formatClock} from './p2-multiplayer-adapter.js?v=20260919-2045';"
           if import_line not in s:
               raise SystemExit('expected import not found')
-          adapter=re.sub(r'^export\\s+', '', adapter, flags=re.M)
+          adapter=re.sub(r'^export\s+', '', adapter, flags=re.M)
           bundled='// P2.12C.7C · runtime embebido para evitar fallas de carga del módulo externo\n'+adapter
           s=s.replace(import_line,bundled,1)
           index_path.write_text(s)
-          m=re.search(r'<script type="module">\\s*(.*?)\\s*</script>',s,re.S)
+          m=re.search(r'<script type="module">\s*(.*?)\s*</script>',s,re.S)
           if not m:
               raise SystemExit('module script not found')
           check=Path('/tmp/caso001-check.mjs')
