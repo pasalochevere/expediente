@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const PORTAL = 'https://pasalochevere.github.io/expediente/portal/';
+  const PORTAL = 'https://pasalochevere.github.io/expediente/portal-v2/';
   const SUPABASE_URL = 'https://fzbndgfnqxcacsvlitui.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
   const PRODUCT_CODE = 'TORRE-MEGA';
