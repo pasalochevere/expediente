@@ -10,34 +10,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Bundle adapter into Caso001 page and validate JS
+      - name: Diagnose Caso001 module syntax
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re, subprocess
-          index_path=Path('caso001/index.html')
-          adapter_path=Path('caso001/p2-multiplayer-adapter.js')
-          s=index_path.read_text()
-          adapter=adapter_path.read_text()
-          import_line="import {P2MultiplayerAdapter,P2_LABELS,findStoredLicense,lastRoomCode,remainingSeconds,formatClock} from './p2-multiplayer-adapter.js?v=20260919-2045';"
-          if import_line not in s:
-              raise SystemExit('expected import not found')
-          adapter=re.sub(r'^export\s+', '', adapter, flags=re.M)
-          bundled='// P2.12C.7C · runtime embebido para evitar fallas de carga del módulo externo\n'+adapter
-          s=s.replace(import_line,bundled,1)
-          index_path.write_text(s)
+          import re
+          s=Path('caso001/index.html').read_text()
           m=re.search(r'<script type="module">\s*(.*?)\s*</script>',s,re.S)
-          if not m:
-              raise SystemExit('module script not found')
-          check=Path('/tmp/caso001-check.mjs')
-          check.write_text(m.group(1))
-          subprocess.run(['node','--check',str(check)],check=True)
-          print('Caso001 bundled runtime syntax OK')
+          if not m: raise SystemExit('module script not found')
+          src=m.group(1)
+          src=re.sub(r'^import .*?;\s*$', '', src, count=1, flags=re.M)
+          Path('/tmp/caso001-app.mjs').write_text(src)
           PY
-      - name: Commit bundled runtime
-        run: |
-          git config user.name "lunchpack-arg"
-          git config user.email "pasalochevere@gmail.com"
-          git add caso001/index.html
-          git commit -m "P2.12C.7C bundle Caso001 runtime for reliable startup"
-          git push
+          node --check /tmp/caso001-app.mjs || true
+          npm install --no-save acorn@8 >/dev/null 2>&1
+          node <<'NODE'
+          const fs=require('fs'), acorn=require('acorn');
+          const src=fs.readFileSync('/tmp/caso001-app.mjs','utf8');
+          const stack=[]; const pairs={')':'(',']':'[','}':'{'};
+          try{
+            const t=acorn.tokenizer(src,{ecmaVersion:'latest',sourceType:'module',locations:true});
+            while(true){const tok=t.getToken(); const l=tok.type.label; if(l==='eof')break;
+              if(['(','[','{','${'].includes(l)) stack.push({open:l==='${'?'{':l,line:tok.loc.start.line,col:tok.loc.start.column});
+              else if([')',']','}'].includes(l)){const want=pairs[l]; const top=stack[stack.length-1]; if(top&&top.open===want) stack.pop(); else console.log('MISMATCH close',l,'at',tok.loc.start,'top',top);}
+            }
+          }catch(e){console.log('TOKENIZER ERROR',e.message,e.loc||'');}
+          console.log('UNMATCHED STACK',JSON.stringify(stack.slice(-20),null,2));
+          NODE
+          exit 1
