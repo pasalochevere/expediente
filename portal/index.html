@@ -119,7 +119,7 @@ function renderLicenses(list){
    else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a>';
    else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span>';
    else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
-   return '<article class="card"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(code)+'</code></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>'
+   return '<article class="card"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':l.product_name)+'</h3><div class="accent">Código personal: <code>'+escapeHtml(code)+'</code></div><p>Vence: <b>'+date+'</b><br>Dispositivos: '+l.devices_used+' / '+l.device_limit+'</p><div class="actions">'+action+'</div></article>'
  }).join('');
 }
 async function activateOwned(productCode){
