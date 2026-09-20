@@ -1,0 +1,31 @@
+name: Temp Rev01 Favicon Fix
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-rev01-favicon-fix.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add embedded favicon
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('caso001-rev01/index.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<title>EXPEDIENTES · Caso 001 — La Última Reunión · Rev01</title>'
+          icon='<link rel="icon" href="data:,">'
+          if icon not in s:
+              if marker not in s: raise SystemExit('title marker not found')
+              s=s.replace(marker, marker+'\n'+icon, 1)
+              p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add caso001-rev01/index.html
+          if git diff --cached --quiet; then echo 'Already fixed'; exit 0; fi
+          git commit -m 'P2.12D.11B suppress browser favicon 404'
+          git push
