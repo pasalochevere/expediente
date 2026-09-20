@@ -1,1 +1,0 @@
-Direct binary blob upload is the next execution step; this temporary staging folder is not used by the game.
