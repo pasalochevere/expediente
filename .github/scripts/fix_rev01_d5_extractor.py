@@ -7,7 +7,6 @@ if start<0 or end<0: raise SystemExit('D5 extractor anchors not found')
 new=r'''def extract_array(kind, next_kind=None):
     art=source.find('const ART=')
     if art<0: raise SystemExit('ART not found')
-    # Historical kit stores scene/object art as arrays: locations:[...], objects:[...]
     m=re.search(r'\b'+re.escape(kind)+r'\s*:\s*\[',source[art:])
     if not m: raise SystemExit(f'{kind} array not found')
     pos=art+m.start()
@@ -27,5 +26,15 @@ objects=extract_array('objects',None)
 
 '''
 s=s[:start]+new+s[end:]
+old="s,n=old.subn(new,s,count=1)\nif n!=1: raise SystemExit(f'board HTML replacement failed ({n})')"
+replacement="""board_probe=s.find('id=\"suspectChips\"')
+if board_probe<0: raise SystemExit('suspectChips anchor not found')
+board_start=s.rfind('<section',0,board_probe)
+board_end=s.find('</section>',board_probe)
+if board_start<0 or board_end<0: raise SystemExit('board section bounds not found')
+board_end+=len('</section>')
+s=s[:board_start]+new+s[board_end:]"""
+if old not in s: raise SystemExit('D5 board substitution anchor not found')
+s=s.replace(old,replacement,1)
 p.write_text(s)
-print('D5 extractor fixed for ART locations/objects arrays')
+print('D5 extractor + board replacement hardened')
