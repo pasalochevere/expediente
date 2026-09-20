@@ -1,6 +1,11 @@
-CASO 001 P2 customer preview
+CASO 001 · PRODUCCIÓN
+Release: P2.12D.12A
+Title: La Última Reunión
+Status: production
 Mode: Normal
+Engine: P2 server-side
 Crime Packs: server-side only
+Portal route: /caso001/
 Printable: 8 A4 base, 18 embedded images
-Deployment: candidate for P2.12B smoke test
-Copy: customer-polished
+UI: Rev01 promoted to production; preview labels removed
+QA: production cleanup complete
