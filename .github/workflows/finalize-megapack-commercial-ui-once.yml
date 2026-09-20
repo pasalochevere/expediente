@@ -1,0 +1,54 @@
+name: One-time finalize Mega Pack commercial UI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/finalize-megapack-commercial-ui-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update Portal V2 and Admin display names
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          # Portal V2: static catalog + user library display.
+          p=Path('portal-v2/index.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('<h3>TORRE 5 EN 1 DIGITAL</h3><div class="accent">KIDS · GENERAL · FIESTA · SIN FILTRO</div><p>Mega Pack con 4 versiones y más de 800 contenidos para jugar desde el celular.</p>',
+                      '<h3>MEGA PACK VERDAD O RETO +800</h3><div class="accent">KIDS · GENERAL · FIESTA 18+ · SIN FILTRO 18+</div><p>Anexo digital con 4 versiones y 832 contenidos. Jugá con una torre física numerada o en modo Solo Digital.</p>')
+          old="return '<article class=\"card\" data-cat=\"'+k+'\"><span class=\"status '+badgeClass+'\">'+badge+'</span><h3>'+escapeHtml(l.product_name)+'</h3>"
+          new="return '<article class=\"card\" data-cat=\"'+k+'\"><span class=\"status '+badgeClass+'\">'+badge+'</span><h3>'+escapeHtml(l.product_code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':l.product_name)+'</h3>"
+          if old not in s:
+              raise SystemExit('Portal V2 library marker not found')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+
+          # Admin: normalize TORRE-MEGA name returned by backend without changing backend logic.
+          p=Path('admin-licencias/index.html')
+          s=p.read_text(encoding='utf-8')
+          old="async function callAdmin(body){const {data,error}=await sb.functions.invoke('pasalochevere-admin-license',{body});if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}if(!data?.ok)throw new Error(data?.error||'No se pudo completar la operación.');return data}"
+          new="function commercialName(code,name){return code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':(name||code)}\nfunction normalizeCommercialNames(data){if(data?.products)data.products=data.products.map(p=>({...p,name:commercialName(p.product_code,p.name)}));if(data?.license)data.license={...data.license,product_name:commercialName(data.license.product_code,data.license.product_name)};if(data?.licenses)data.licenses=data.licenses.map(l=>({...l,product_name:commercialName(l.product_code,l.product_name)}));return data}\nasync function callAdmin(body){const {data,error}=await sb.functions.invoke('pasalochevere-admin-license',{body});if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}if(!data?.ok)throw new Error(data?.error||'No se pudo completar la operación.');return normalizeCommercialNames(data)}"
+          if old not in s:
+              raise SystemExit('Admin callAdmin marker not found')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit and remove workflow
+        shell: bash
+        run: |
+          git config user.name "PasaloChevere Release Bot"
+          git config user.email "pasalochevere@gmail.com"
+          git add portal-v2/index.html admin-licencias/index.html
+          git commit -m "fix: unify Mega Pack +800 commercial UI"
+          git rm .github/workflows/finalize-megapack-commercial-ui-once.yml
+          git commit -m "chore: remove one-time Mega Pack UI workflow"
+          git push
