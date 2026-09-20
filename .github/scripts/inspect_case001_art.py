@@ -8,15 +8,15 @@ if end<0: end=min(len(s),start+500000)
 block=s[start:end+3]
 print('ART_LEN',len(block))
 print('TOP_KEYS',re.findall(r'\n\s*([A-Za-z_][A-Za-z0-9_]*)\s*:\s*\{',block)[:20])
-for key in re.findall(r'\n\s*([A-Za-z_][A-Za-z0-9_]*)\s*:\s*\{',block)[:20]:
-    pos=block.find(key+':{')
-    if pos<0: pos=block.find(key+' :{')
-    frag=block[pos:pos+500]
-    print('KEY',key,'HEAD',frag[:180].replace('\n',' '))
-# Count image data declarations grouped by area between top keys.
-for m in re.finditer(r'\n\s*([A-Za-z_][A-Za-z0-9_]*)\s*:\s*\{',block):
-    key=m.group(1); nxt=re.search(r'\n\s*[A-Za-z_][A-Za-z0-9_]*\s*:\s*\{',block[m.end():])
-    e=m.end()+nxt.start() if nxt else len(block)
-    part=block[m.end():e]
-    imgs=re.findall(r'data:image/([a-zA-Z0-9+.-]+);base64,',part)
-    print('COUNT',key,len(imgs),imgs[:8])
+idx=re.findall(r'(\d+)\s*:\s*[\'\"]data:image/([a-zA-Z0-9+.-]+);base64,',block)
+print('IMAGE_INDEXES',idx)
+rest=s[end+3:]
+uses=[]
+for m in re.finditer(r'ART(?:\.[A-Za-z_][A-Za-z0-9_]*)?(?:\[[^\]]+\])?',rest):
+    val=m.group(0)
+    if val not in uses: uses.append(val)
+print('ART_USES',uses[:50])
+for needle in ['portrait','scene','location','object','symbol']:
+    print('---',needle,'---')
+    for m in list(re.finditer(needle,rest,re.I))[:8]:
+        print(rest[max(0,m.start()-120):m.start()+220].replace('\n',' ')[:340])
