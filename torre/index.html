@@ -1,121 +1,12 @@
 <!doctype html>
 <html lang="es">
 <head>
-<!-- PC_TORRE_ACCESS_GUARD_V1 -->
-<script>
-document.documentElement.classList.add('pc-access-pending');
-</script>
-<style>
-html.pc-access-pending body > *:not(#pc-access-gate){display:none!important}
-#pc-access-gate{
-  position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;
-  padding:24px;background:radial-gradient(circle at 50% 0,#291b12 0,#0b0b0c 48%,#050506 100%);
-  color:#f6efe5;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif
-}
-#pc-access-gate .pc-box{
-  width:min(92vw,520px);border:1px solid #4b4033;border-radius:20px;padding:26px;
-  background:linear-gradient(180deg,#181719,#101012);box-shadow:0 20px 70px rgba(0,0,0,.45);text-align:center
-}
-#pc-access-gate .pc-brand{font-weight:950;letter-spacing:.13em;color:#d4a24f;font-size:.78rem}
-#pc-access-gate h1{margin:12px 0 8px;font-size:1.7rem}
-#pc-access-gate p{margin:0;color:#c3b7a9;line-height:1.55}
-#pc-access-gate .pc-spin{width:38px;height:38px;margin:22px auto;border:3px solid #463c32;border-top-color:#d4a24f;border-radius:50%;animation:pcspin .8s linear infinite}
-#pc-access-gate a{display:inline-block;margin-top:18px;padding:11px 15px;border-radius:11px;background:#7f261f;color:#fff;text-decoration:none;font-weight:850}
-@keyframes pcspin{to{transform:rotate(360deg)}}
-</style>
+<!-- PC_TORRE_ACCESS_GUARD_V2 -->
+<script>document.documentElement.classList.add('pc-access-pending');</script>
+<link rel="stylesheet" href="./access-guard.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-(function(){
-  'use strict';
-  const PORTAL='https://pasalochevere.github.io/expediente/portal/';
-  const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
-  const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqfWRO9yFkQ_dh0lcDxo';
-  const PRODUCT='TORRE-MEGA';
-  const DEVICE_KEY='pc_device_id';
-
-  function deviceId(){
-    let v=localStorage.getItem(DEVICE_KEY);
-    if(!v){
-      v=(crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2));
-      localStorage.setItem(DEVICE_KEY,v);
-    }
-    return v;
-  }
-  function deviceLabel(){
-    return [navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser']
-      .filter(Boolean).join(' ÷ ').slice(0,150);
-  }
-  function gate(message, failed){
-    let el=document.getElementById('pc-access-gate');
-    if(!el){
-      el=document.createElement('div');
-      el.id='pc-access-gate';
-      document.body.appendChild(el);
-    }
-    el.innerHTML='<div class="pc-box"><div class="pc-brand">PASALOCHEVERE'\ذACCESO PERSONAL</div>'+
-      '<h1>',(failed?'Acceso requerido':'Validando tu acceso...')+'</h1>'+
-      '<div class="pc-spin"'+(failed?' style="display:none"':'')+'></div>'+
-      '<p>',message+'</p>',
-      (failed?'<a href="'+PORTAL+'">IR AL PORTAL PASALOCHEVERE</a>':'')+
-      '</div>';
-  }
-  function unlock(){
-    const el=document.getElementById('pc-access-gate');
-    if(el) el.remove();
-    document.documentElement.classList.remove('pc-access-pending');
-    window.__PC_TORRE_ACCESS_OK__=true;
-  }
-  async function validate(){
-    gate('Comprobando sesión, licencia y dispositivo.',false);
-    if(!window.supabase) throw new Error('No se pudo iniciar el validador de acceso.');
-    const sb=window.supabase.createClient(SUPABASE_URL ,SUPABASE_KEY,{
-      auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}
-    });
-    const {data:{session},error:sessionError}=await sb.auth.getSession();
-    if(sessionError || !session) {
-      location.replace(PORTAL);
-      return;
-    }
-    const {data:me,error:meError}=await sb.functions.invoke('pasalochevere-access',{body:{action:'me'}});
-    if(meError || !me || me.ok===false) {
-      location.replace(PORTAL);
-      return;
-    }
-    const lic=(me.licenses||[]).find(l =>
-      l.product_code===PRODUCT &&
-      l.status==='active' &&
-      l.activation_code &&
-      l.expires_at &&
-      new Date(l.expires_at).getTime()>Date.now()
-    );
-    if(!lic){
-      gate('Esta cuenta no tiene una licencia activa para MEGA PACK VERDAD O RETO +800.',true);
-      return;
-    }
-    const {data:reg,error:regError}=await sb.functions.invoke('pasalochevere-access',{
-      body:{
-        action:'register_device',
-        activation_code:lic.activation_code,
-        device_id:deviceId(),
-        device_label:deviceLabel()
-      }
-    });
-    if(regError || !reg || reg.ok===false){
-      let detail=(reg && reg.error) || (regError && regError.message) || 'No se pudo validar este dispositivo.';
-      gate(detail,true);
-      return;
-    }
-    unlock();
-  }
-  window.addEventListener('DOMContentLoaded',()=>{
-    validate().catch(err=>{
-      console.error('PC_TORRE_ACCESS_GUARD',err);
-      gate('No se pudo validar el acceso. Entrá nuevamente desde tu Portal PasaloChevere.',true);
-    });
-  },{once:true});
-})();
-</script>
-<!-- /PC_TORRE_ACCESS_GUARD_V1 -->
+<script src="./access-guard.js"></script>
+<!-- /PC_TORRE_ACCESS_GUARD_V2 -->
 
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
