@@ -1,1 +1,0 @@
-Temporary staging only. The failed ZIP/base64 workflow did not modify production. P2.2R.4 is proceeding via direct Git binary blobs to avoid connector text truncation.
