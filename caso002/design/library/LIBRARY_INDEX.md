@@ -64,8 +64,22 @@ Estado: 6 masters + 24 derivados · QA PASS.
 - 155 assets visuales
 - Biblioteca visual C002: CERRADA
 
+## Integración al juego
+`P2.2R.4 — INTEGRACIÓN MASTER AL JUEGO` · CERRADA / RELEASE DEPLOYED.
+
+## Kit imprimible premium
+`P2.2R.5A — ARQUITECTURA CERRADA DEL KIT PREMIUM` · CERRADA.
+
+Referencia: `../../printables/P2_2R_5A_ARQUITECTURA_KIT_PREMIUM.md`
+
+Arquitectura congelada:
+- dossier principal: 36 páginas A4;
+- recortables: 6 páginas;
+- exports COLOR + B/N;
+- fuentes de impresión: masters / print crops, nunca assets web comprimidos.
+
 ## Próximo bloque
-`P2.2R.4 — INTEGRACIÓN MASTER AL JUEGO`
+`P2.2R.5B — SISTEMA VISUAL EDITORIAL + TEMPLATES MAESTROS`
 
 ## Regla de fuente
 Las imágenes maestras son material visual. El canon se toma de `C002_CANON_LOCK_V1` y de los manifiestos de biblioteca.
