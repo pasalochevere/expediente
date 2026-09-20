@@ -1,0 +1,93 @@
+name: C002 P2.2 Visual QA Fix
+
+on:
+  push:
+    paths:
+      - '.github/workflows/c002-p22-fix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch C002 payload and release labels
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd caso002
+          PARTS=(payload.part00a1a.correct payload.part00a1b payload.part00a2 payload.part00b payload.part01 payload.part02 payload.part03 payload.part04 payload.part05)
+          cat "${PARTS[@]}" > /tmp/c002-before.b64
+          mkdir -p backups
+          cp /tmp/c002-before.b64 backups/P2.2_before_visual_qa.b64
+          base64 -d /tmp/c002-before.b64 > /tmp/c002-before.gz
+          gzip -dc /tmp/c002-before.gz > /tmp/c002-before.html
+          python3 ../.github/scripts/c002_p22_patch.py /tmp/c002-before.html /tmp/c002-after.html
+          gzip -n -9 -c /tmp/c002-after.html > /tmp/c002-after.gz
+          base64 -w0 /tmp/c002-after.gz > /tmp/c002-after.b64
+          python3 - <<'PY'
+          from pathlib import Path
+          data=Path('/tmp/c002-after.b64').read_text()
+          names=['payload.part00a1a.correct','payload.part00a1b','payload.part00a2','payload.part00b','payload.part01','payload.part02','payload.part03','payload.part04','payload.part05']
+          sizes=[875,875,1750,3500,7000,7000,7000,7000]
+          pos=0
+          for name,size in zip(names[:-1],sizes):
+              Path(name).write_text(data[pos:pos+size])
+              pos+=size
+          Path(names[-1]).write_text(data[pos:])
+          if not Path(names[-1]).read_text(): raise SystemExit('empty final payload part')
+          PY
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html'); s=p.read_text()
+          pairs=[
+            ('EXPEDIENTES · Caso 002 · La Habitación que No Existe · BETA','EXPEDIENTES · Caso 002 · La Habitación que No Existe'),
+            ('LA HABITACIÓN QUE NO EXISTE · BETA AUDIO','LA HABITACIÓN QUE NO EXISTE'),
+            ('audio.js?v=181','audio.js?v=220'),
+          ]
+          for a,b in pairs:
+              if a not in s: raise SystemExit('index marker missing: '+a)
+              s=s.replace(a,b)
+          p.write_text(s)
+
+          p=Path('audio.js'); s=p.read_text()
+          pairs=[
+            ('Esta beta incorpora lluvia y tormenta reales, efectos puntuales y narración de prueba. Podés cambiarlo después.','Esta experiencia incorpora lluvia y tormenta, efectos puntuales y narración opcional. Podés cambiarlo después.'),
+            ('La voz de esta beta depende del dispositivo. La versión final tendrá voces producidas para Narrador, León y Lucía.','La voz depende del dispositivo. Podés cambiar entre narración, ambiente o silencio cuando quieras.'),
+            ('<b>AUDIO · BETA</b><br>Ambiente y efectos reales de dominio público/CC0 desde Wikimedia Commons. La narración actual usa la voz disponible en el dispositivo.','<b>AUDIO</b><br>Ambiente y efectos de dominio público/CC0 desde Wikimedia Commons. La narración usa la voz disponible en el dispositivo.'),
+          ]
+          for a,b in pairs:
+              if a not in s: raise SystemExit('audio marker missing: '+a[:60])
+              s=s.replace(a,b)
+          p.write_text(s)
+          PY
+          # Rebuild and assert the exact production payload.
+          cat "${PARTS[@]}" | base64 -d | gzip -dc > /tmp/c002-check.html
+          cmp /tmp/c002-after.html /tmp/c002-check.html
+          ! grep -q "CASO 002 · BETA ONLINE" /tmp/c002-check.html
+          ! grep -q "table:'exp_players'" /tmp/c002-check.html
+          ! grep -q "table:'exp_rooms'" /tmp/c002-check.html
+          ! grep -q "table:'exp_room_state'" /tmp/c002-check.html
+          ! grep -q "table:'exp_events'" /tmp/c002-check.html
+          grep -q "table:'room_members'" /tmp/c002-check.html
+          grep -q "table:'session_events'" /tmp/c002-check.html
+          grep -q "C002_ROOM_CODE_KEY" /tmp/c002-check.html
+          grep -q "investigation','solving" /tmp/c002-check.html
+          ! grep -q "MODO CLÁSICO</strong>" /tmp/c002-check.html
+          ! grep -q "BETA AUDIO" index.html
+          ! grep -q "AUDIO · BETA" audio.js
+          cd ..
+          rm -f .github/workflows/c002-qa-unpack.yml .github/workflows/c002-p22-fix.yml .github/scripts/c002_p22_patch.py
+      - name: Commit P2.2 fixes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "PasaloChevere QA"
+          git config user.email "pasalochevere@gmail.com"
+          git add -A
+          git commit -m "fix: C002 P2.2 visual and playable QA"
+          git push
