@@ -1,0 +1,40 @@
+name: One-time finalize Portal Mega Pack name
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/finalize-portal-megapack-name-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Force commercial display name in My Games
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('portal/index.html')
+          s=p.read_text(encoding='utf-8')
+          old="<h3>'+escapeHtml(l.product_name)+'</h3>"
+          new="<h3>'+escapeHtml(l.product_code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':l.product_name)+'</h3>"
+          if old not in s:
+              raise SystemExit('renderLicenses product_name marker not found')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit and remove workflow
+        shell: bash
+        run: |
+          git config user.name "PasaloChevere Release Bot"
+          git config user.email "pasalochevere@gmail.com"
+          git add portal/index.html
+          git commit -m "fix: show Mega Pack +800 name in user library"
+          git rm .github/workflows/finalize-portal-megapack-name-once.yml
+          git commit -m "chore: remove one-time Portal name workflow"
+          git push
