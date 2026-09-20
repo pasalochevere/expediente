@@ -1,0 +1,46 @@
+name: P2.12D.12A Temporary Production Cleanup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/temp-p2-12d12a-cleanup.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Clean production labels
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('caso001/index.html')
+          s = p.read_text(encoding='utf-8')
+          replacements = [
+              ('<title>EXPEDIENTES · Caso 001 — La Última Reunión · Rev01</title>', '<title>EXPEDIENTES · Caso 001 — La Última Reunión</title>'),
+              ('<span class="previewBadge">REV01 · PREVIEW</span>', ''),
+              ("Para crear una sala desde esta preview, abrí el juego desde Mi Portal o ingresá tu código de acceso. Unirse a una sala no requiere licencia.", "Para crear una sala, abrí el juego desde Mi Portal o ingresá tu código de acceso. Unirse a una sala no requiere licencia."),
+              ("p2-multiplayer-adapter.js?v=rev01-d11a-20260920", "p2-multiplayer-adapter.js?v=prod-d12a-20260920"),
+              ('.previewBadge{border:1px dashed #7b6040;color:#bfa77f;padding:6px 9px;font-size:10px;letter-spacing:.14em}', ''),
+              ('.previewBadge{display:none}', '')
+          ]
+          for old, new in replacements:
+              if old not in s:
+                  raise SystemExit(f'Expected production-cleanup token not found: {old[:80]}')
+              s = s.replace(old, new)
+          p.write_text(s, encoding='utf-8')
+      - name: Self-remove temporary workflow and commit
+        run: |
+          rm .github/workflows/temp-p2-12d12a-cleanup.yml
+          git config user.name "PasaloChevere Release Bot"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso001/index.html .github/workflows/temp-p2-12d12a-cleanup.yml
+          git commit -m "P2.12D.12A cleanup Caso 001 production UI"
+          git push origin main
