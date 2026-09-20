@@ -1,0 +1,61 @@
+name: Temp auth mail UX
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-auth-mail-ux.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch portal auth mail UX
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('portal-v2/index.html')
+          s=p.read_text()
+          s=s.replace('Te enviamos un enlace mágico. Abrilo en el dispositivo donde querés activar tu compra.','Solicitá tu enlace de acceso. Si no aparece en unos minutos, revisá Spam/Correo no deseado y podés reenviarlo.')
+          old="""async function sendMagicLink(){
+ const email=document.getElementById('email').value.trim();if(!email){msg('authMsg','Ingresá tu correo.','bad');return}
+ const b=document.getElementById('sendBtn');b.disabled=true;msg('authMsg','Enviando enlace…');
+ const redirect=ACCESS_REDIRECT;
+ const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:redirect,shouldCreateUser:true}});
+ b.disabled=false;if(error)msg('authMsg',error.message,'bad');else msg('authMsg','✅ Te enviamos un enlace. Revisá tu correo y abrilo para continuar.','good');
+}
+"""
+          new="""let magicCooldown=null;
+function startMagicCooldown(seconds=60){
+ const b=document.getElementById('sendBtn');let left=seconds;b.disabled=true;
+ const paint=()=>{b.textContent=left>0?`REENVIAR EN ${left}s`:'REENVIAR ENLACE'};paint();
+ clearInterval(magicCooldown);magicCooldown=setInterval(()=>{left-=1;paint();if(left<=0){clearInterval(magicCooldown);magicCooldown=null;b.disabled=false}},1000);
+}
+async function sendMagicLink(){
+ const email=document.getElementById('email').value.trim().toLowerCase();if(!email){msg('authMsg','Ingresá tu correo.','bad');return}
+ const b=document.getElementById('sendBtn');b.disabled=true;msg('authMsg','Procesando solicitud de acceso…');
+ try{
+   const redirect=ACCESS_REDIRECT;
+   const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:redirect,shouldCreateUser:true}});
+   if(error)throw error;
+   msg('authMsg','✅ Solicitud procesada. Revisá Recibidos y Spam/Correo no deseado. Si no llega, podrás reenviar el enlace en 60 segundos.','good');
+   startMagicCooldown(60);
+ }catch(e){
+   b.disabled=false;b.textContent='ENVIAR ENLACE';
+   const text=String(e?.message||e||'No se pudo procesar el enlace.');
+   msg('authMsg',text,'bad');
+ }
+}
+"""
+          if old not in s: raise SystemExit('sendMagicLink anchor not found')
+          s=s.replace(old,new,1)
+          p.write_text(s)
+          print('portal auth mail UX patched')
+          PY
+      - name: Commit patch
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add portal-v2/index.html
+          git commit -m "P2.12C.7C-2 improve magic link resend UX"
+          git push
