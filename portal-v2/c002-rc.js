@@ -1,6 +1,17 @@
 (()=>{
+  const originalGameHref=window.gameHref;
+  if(typeof originalGameHref==='function'&&!window.__c002P24RoutePatched){
+    window.__c002P24RoutePatched=true;
+    window.gameHref=function(l){
+      if(String(l?.product_code||'').toUpperCase()==='EXP-002'){
+        return '../caso002/?access='+encodeURIComponent(l.activation_code||'')+'&build=20260921-p24fix2';
+      }
+      return originalGameHref(l);
+    };
+  }
+
   const base=document.createElement('script');
-  base.src='c002-rc-base.js?v=240';
+  base.src='c002-rc-base.js?v=241';
   base.onload=()=>{
     const patch=()=>{
       const chip=document.querySelector('.catChip[data-category="creative"] .catCount');
