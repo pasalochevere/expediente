@@ -1,0 +1,44 @@
+{
+  "release": "P2.4.2-FIX.2A",
+  "product_code": "PSQ-FACTORY",
+  "product_name": "PAPER SQUISHY FACTORY",
+  "state": "FROZEN",
+  "frozen_at": "2026-09-21",
+  "catalog": {
+    "collections": 5,
+    "characters": 50,
+    "assets": 400,
+    "views_per_character": 8
+  },
+  "core": {
+    "storage_bucket": "paper-squishy-assets",
+    "storage_path": "v2.4/factory-core.html",
+    "bytes": 231666,
+    "sha256": "6ffdfefb572188db8e4c99ccaa42a3d6ff28d3949df8d443f7eef69bb8497e00",
+    "integrity_enforced_by_loader": true
+  },
+  "loader": {
+    "live_path": "paper-squishy/factory.html",
+    "frozen_snapshot": "paper-squishy/releases/P2.4.2-FIX.2A/factory-loader.html",
+    "editorial_patch": {
+      "PAPER SQUISHY CREATOR": "PAPER SQUISHY FACTORY",
+      "Paper Squishy Creator": "PAPER SQUISHY FACTORY",
+      "Tres mundos para crear": "Cinco mundos para crear",
+      "footer_version": "P2.4.2-FIX.2A"
+    },
+    "print_patch": {
+      "mini_8_cm": "front_back_one_A4",
+      "normal_12_cm": "front_back_one_A4",
+      "xl_17_cm": "front_one_A4_back_one_A4"
+    }
+  },
+  "qa": {
+    "status": "PASS",
+    "regression_reference": "P2.2.3B_PANEL_AMPLIO_COMPACTO",
+    "storage_webp": 400,
+    "storage_library_json": true,
+    "core_integrity_locked": true,
+    "critical_regressions": 0
+  },
+  "change_rule": "Do not replace the frozen core. Future releases must create a new version and preserve this snapshot."
+}
