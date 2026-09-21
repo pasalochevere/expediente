@@ -1,0 +1,50 @@
+P2.3-QA — RELEASE GATE COMERCIAL C002
+Fecha local: 2026-09-20
+
+ESTADO: PASS / VENTA ONLINE HABILITADA
+PRODUCTO: EXP-002 · EXPEDIENTES · Caso 002 · La Habitación que No Existe
+
+CONFIGURACIÓN COMERCIAL FINAL
+- price_ars: 14999
+- duration_hours: 8760 (12 meses)
+- device_limit: 2
+- game_url: https://pasalochevere.github.io/expediente/caso002/
+- sales_enabled: TRUE
+- WhatsApp: mensaje de compra, no beta/prueba
+
+GATES CERRADOS
+1. Portal V2 sin textos BETA / PROBAR.
+2. C002 muestra precio real y 12 meses.
+3. Con sales_enabled=false, CTA = ACTIVAR COMPRA.
+4. Con sales_enabled=true, CTA = COMPRAR AHORA.
+5. Checkout `pasalochevere-checkout` activo y protegido por usuario verificado.
+6. Checkout rechaza productos sin sales_enabled o sin precio.
+7. Mercado Pago operativo: existen órdenes web creadas y una compra aprobada del pipeline con licencia asociada.
+8. Webhook `pasalochevere-mp-webhook` valida firma y genera licencia sólo tras aprobación.
+9. `pasalochevere-payment-status` reconcilia pagos si el webhook tarda.
+10. `pasalochevere-access` activa licencia, inicia vigencia, genera código personal y registra dispositivo.
+11. Portal permite autogestión de hasta 2 dispositivos.
+12. Admin genérico soporta EXP-002 para creación manual, baja, reactivación y enlace de acceso de un solo uso.
+13. ENGINE P2 C002: RC PASS, 3 jugadores, recovery, 317, acusación y epílogo validados.
+14. Kit Premium integrado: `/caso002/printables/` → `C002_Kit_Imprimible_Hotel_Orfeo.pdf`.
+15. SOP postventa específico: `caso002/SOP_POSTVENTA_C002.md`.
+16. QA P2.3 anterior limpiado con 0 residuos.
+
+CORRECCIÓN DE PORTAL
+- `portal-v2/c002-rc.js` ya no sobrescribe el producto como RELEASE CANDIDATE ni precio pendiente.
+- Muestra ARS 14.999 aun antes de habilitar venta.
+- WhatsApp usa intención “quiero comprar”.
+- Al habilitar sales_enabled pasa automáticamente a DISPONIBLE / COMPRAR AHORA.
+
+MERCADO PAGO
+- Checkout, webhook y reconciliación son genéricos por product_code.
+- Evidencia de producción previa: al menos una orden aprobada del pipeline web tiene licencia asociada.
+- No se efectuó un cobro QA artificial para C002.
+
+ROLLBACK COMERCIAL
+Ante cualquier falla crítica:
+UPDATE pc_products SET sales_enabled=false WHERE product_code='EXP-002';
+Esto detiene nuevas compras sin afectar licencias existentes.
+
+RESULTADO
+C002 queda habilitado para primera venta real.
