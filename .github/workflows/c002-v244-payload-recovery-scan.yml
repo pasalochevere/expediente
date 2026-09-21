@@ -1,0 +1,91 @@
+name: C002 v244 Payload Recovery Scan
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-v244-payload-recovery-scan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan-payloads:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check pillow
+      - name: Recover candidates from historical payloads
+        shell: bash
+        run: |
+          python - <<'PY'
+          import subprocess,re,base64,gzip,hashlib
+          from io import BytesIO
+          from PIL import Image,ImageFile
+          ImageFile.LOAD_TRUNCATED_IMAGES=True
+
+          refs=subprocess.check_output(['git','for-each-ref','--format=%(refname:short)','refs/remotes/origin/'],text=True).splitlines()
+          refs=['origin/main']+[r for r in refs if r!='origin/main' and ('caso002' in r or 'c002' in r)]
+          targets={'P05':['P05','Eva Montenegro'],'P06':['P06','Franco Valdés','Franco Valdes']}
+          global_seen={k:set() for k in targets}
+
+          def get(ref,path):
+              try:return subprocess.check_output(['git','show',f'{ref}:{path}'],stderr=subprocess.DEVNULL)
+              except:return None
+
+          def inspect_doc(ref,label,rawdoc):
+              try: doc=rawdoc.decode('utf-8','ignore')
+              except:return
+              uris=[]
+              for m in re.finditer(r'data:image/([a-zA-Z0-9.+-]+);base64,([A-Za-z0-9+/=]+)',doc):
+                  b64=m.group(2)
+                  try: raw=base64.b64decode(b64+'='*((-len(b64))%4),validate=False)
+                  except: continue
+                  try:
+                      im=Image.open(BytesIO(raw)); im.load()
+                  except: continue
+                  uris.append((m.start(),raw,im.size,im.format,hashlib.sha256(raw).hexdigest()))
+              if not uris:return
+              for key,names in targets.items():
+                  positions=[]
+                  for n in names:
+                      positions += [m.start() for m in re.finditer(re.escape(n),doc,re.I)]
+                  if not positions: continue
+                  ranked=[]
+                  for p in positions:
+                      for pos,raw,size,fmt,sha in uris:
+                          d=abs(pos-p)
+                          if d<=8000: ranked.append((d,pos,raw,size,fmt,sha))
+                  ranked.sort(key=lambda x:x[0])
+                  for d,pos,raw,size,fmt,sha in ranked[:5]:
+                      if sha in global_seen[key]:continue
+                      global_seen[key].add(sha)
+                      print(f'CANDIDATE key={key} ref={ref} source={label} distance={d} format={fmt} size={size} bytes={len(raw)} sha={sha}')
+
+          for ref in refs:
+              idx=get(ref,'caso002/index.html')
+              if not idx:continue
+              inspect_doc(ref,'index.html',idx)
+              s=idx.decode('utf-8','ignore')
+              m=re.search(r'const\s+names\s*=\s*\[([^\]]+)\]',s)
+              if not m:continue
+              names=re.findall(r"['\"]([^'\"]+)['\"]",m.group(1))
+              if not names:continue
+              pieces=[]; ok=True
+              for name in names:
+                  b=get(ref,'caso002/'+name)
+                  if b is None: ok=False;break
+                  pieces.append(b.decode('utf-8','ignore').strip())
+              if not ok:continue
+              try:
+                  packed=base64.b64decode(''.join(pieces)+'='*((-len(''.join(pieces)))%4),validate=False)
+                  html=gzip.decompress(packed)
+              except Exception as e:
+                  continue
+              inspect_doc(ref,'payload',html)
+
+          for key,v in global_seen.items(): print(f'SUMMARY {key}: {len(v)} unique candidate(s)')
+          PY
