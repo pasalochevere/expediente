@@ -1,0 +1,112 @@
+name: C002 P2.4 Loader Hotfix V2 Once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-p24-hotfix-loader-v2-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  hotfix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch C002 production loader
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def rep(path, old, new, expected=1):
+              p=Path(path); s=p.read_text(encoding='utf-8'); n=s.count(old)
+              if n != expected:
+                  raise SystemExit(f'{path}: expected {expected} matches, found {n}: {old[:120]!r}')
+              p.write_text(s.replace(old,new,expected),encoding='utf-8')
+
+          p=Path('caso002/index.html')
+          s=p.read_text(encoding='utf-8')
+
+          # Cache guards on the real gate.
+          if 'http-equiv="Cache-Control"' not in s:
+              s=s.replace('<meta name="viewport" content="width=device-width,initial-scale=1">',
+                          '<meta name="viewport" content="width=device-width,initial-scale=1">\n<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n<meta http-equiv="Pragma" content="no-cache">\n<meta http-equiv="Expires" content="0">',1)
+
+          # Internal design route must never be exposed to a buyer.
+          s=s.replace('<a class="mini-link" href="./design/master-visual.html">MASTER VISUAL</a>','')
+
+          old="""  const visualScripts=['assets/visual/assets-part-01.js?v=224','assets/visual/assets-part-02.js?v=224','assets/visual/assets-part-03.js?v=224','assets/visual/assets-part-04.js?v=224','assets/visual/assets-part-05.js?v=224','assets/visual/assets-part-06.js?v=224','assets/visual/assets-part-07.js?v=224','assets/visual/assets-part-08.js?v=224','assets/visual/visual-restoration.js?v=224'].map(s=>'<script src=\"'+s+'\"></'+'script>').join('');
+  html=html.replace('<script src=\"rc.js?v=230\"></script></body>','<script src=\"audio.js?v=220\"></'+'script><script src=\"rc.js?v=230\"></script>'+visualScripts+'</body>');
+  document.open();document.write(html);document.close();
+"""
+          new="""  const visualScripts=['assets/visual/assets-part-01.js?v=241','assets/visual/assets-part-02.js?v=241','assets/visual/assets-part-03.js?v=241','assets/visual/assets-part-04.js?v=241','assets/visual/assets-part-05.js?v=241','assets/visual/assets-part-06.js?v=241','assets/visual/assets-part-07.js?v=241','assets/visual/assets-part-08.js?v=241','assets/visual/visual-restoration.js?v=241'].map(s=>'<script src=\"'+s+'\"></'+'script>').join('');
+  const runtimeScripts='<script src=\"audio.js?v=241\"></'+'script><script src=\"rc.js?v=241\"></'+'script>'+visualScripts;
+  const closeBody=html.toLowerCase().lastIndexOf('</body>');
+  if(closeBody<0)throw new Error('Payload inválido: falta </body>.');
+  html=html.slice(0,closeBody)+runtimeScripts+html.slice(closeBody);
+  document.open();document.write(html);document.close();
+"""
+          if old not in s:
+              raise SystemExit('Current brittle loader block not found; refusing blind patch')
+          s=s.replace(old,new,1)
+
+          # Do not preload rc.js on the gate: it sets its install guard before showView exists.
+          s=s.replace('\n<script src="rc.js?v=230"></script></body>\n</html>','\n</body>\n</html>',1)
+          p.write_text(s,encoding='utf-8')
+
+          # Portal cache bust for every existing/new EXP-002 license.
+          pp=Path('portal-v2/index.html'); ps=pp.read_text(encoding='utf-8')
+          oldp="if(l.product_code==='EXP-002')return '../caso002/?access='+encodeURIComponent(l.activation_code);"
+          newp="if(l.product_code==='EXP-002')return '../caso002/?access='+encodeURIComponent(l.activation_code)+'&build=20260921-p24fix2';"
+          if oldp in ps:
+              ps=ps.replace(oldp,newp,1)
+          elif '&build=20260921-p24fix1' in ps:
+              ps=ps.replace('&build=20260921-p24fix1','&build=20260921-p24fix2',1)
+          elif '&build=20260921-p24fix2' not in ps:
+              raise SystemExit('EXP-002 portal route not found')
+          pp.write_text(ps,encoding='utf-8')
+
+          Path('caso002/RELEASE_P2_4_1_LOADER_HOTFIX.md').write_text('''# C002 · P2.4.1 Loader / visual hotfix\n\nDate: 2026-09-21\n\n## Root cause confirmed\n- Real screenshots showed raw JavaScript under the C002 gate and an internal MASTER VISUAL page.\n- The compressed playable payload has no rc.js/audio.js references and ends with a normal </body></html>.\n- The production loader was trying to inject runtime/visual modules by replacing a marker that does not exist in the payload. That replace was a no-op.\n- The gate also preloaded rc.js. rc.js set its install guard before showView existed, preventing a later correct install.\n\n## Fix\n- Runtime scripts are injected before the last real </body>, independent of payload script markers.\n- Inject order: audio.js -> rc.js -> assets 01..08 -> visual-restoration.js.\n- Gate no longer preloads rc.js.\n- MASTER VISUAL buyer-facing link removed.\n- Cache-control guards added.\n- Portal EXP-002 route now includes build=20260921-p24fix2.\n- Visual assets are cache-busted to v241.\n\n## License\nNo license migration is needed. Existing EXP-002 access points to the current production route.\n''',encoding='utf-8')
+          PY
+      - name: Validate payload + final loader contract
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64,gzip
+          names=['payload.part00a1a.correct','payload.part00a1b','payload.part00a2','payload.part00b','payload.part01','payload.part02','payload.part03','payload.part04','payload.part05']
+          b64=''.join(Path('caso002',n).read_text(encoding='utf-8').strip() for n in names)
+          html=gzip.decompress(base64.b64decode(b64)).decode('utf-8')
+          assert len(html)==136966, len(html)
+          assert 'window.CASE002_DATA' in html
+          assert html.lower().count('</body>')==1
+          assert html.lower().count('</html>')==1
+          gate=Path('caso002/index.html').read_text(encoding='utf-8')
+          assert "lastIndexOf('</body>')" in gate
+          assert "audio.js?v=241" in gate and "rc.js?v=241" in gate
+          for n in range(1,9):
+              assert f'assets-part-{n:02d}.js?v=241' in gate
+          assert 'visual-restoration.js?v=241' in gate
+          assert 'MASTER VISUAL</a>' not in gate
+          assert gate.count('<script src="rc.js?v=230"></script></body>')==0
+          assert '&build=20260921-p24fix2' in Path('portal-v2/index.html').read_text(encoding='utf-8')
+          # Simulate loader injection against actual payload.
+          scripts=['<script src="audio.js?v=241"></script>','<script src="rc.js?v=241"></script>']+[f'<script src="assets/visual/assets-part-{n:02d}.js?v=241"></script>' for n in range(1,9)]+['<script src="assets/visual/visual-restoration.js?v=241"></script>']
+          i=html.lower().rfind('</body>')
+          assembled=html[:i]+''.join(scripts)+html[i:]
+          for marker in ['audio.js?v=241','rc.js?v=241','assets-part-01.js?v=241','assets-part-08.js?v=241','visual-restoration.js?v=241']:
+              assert marker in assembled
+          print('PASS: real payload assembles with runtime + 8 visual modules + restoration')
+          PY
+      - name: Commit production hotfix
+        shell: bash
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso002/index.html portal-v2/index.html caso002/RELEASE_P2_4_1_LOADER_HOTFIX.md
+          git commit -m "fix: inject C002 runtime and visual restoration against real payload"
+          git push
