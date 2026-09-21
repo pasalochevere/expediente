@@ -1,0 +1,61 @@
+name: C002 v244 Extract Historical Assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-v244-extract-historical-assets.yml'
+      - '.github/triggers/c002-v244-extract-history.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check pillow
+      - name: Extract verified historical images
+        shell: bash
+        run: |
+          python - <<'PY'
+          import subprocess,re,base64
+          from pathlib import Path
+          from io import BytesIO
+          from PIL import Image,ImageOps,ImageFilter
+
+          jobs=[
+            ('L03','616e533637790df5926d6fa3b29e21ea7ffa33b7','caso002/assets/visual/fix-L03-v242.js','caso002/assets/visual/bin/L03-v244.jpg'),
+            ('room_317','1c513b7c0919f91d8fb00463243b5569734decea','caso002/assets/visual/fix-room-317-v242.js','caso002/assets/visual/bin/room-317-v244.jpg'),
+          ]
+          pat=re.compile(r'data:image/[a-zA-Z0-9.+-]+;base64,([A-Za-z0-9+/=]+)')
+          for label,commit,path,outpath in jobs:
+              txt=subprocess.check_output(['git','show',f'{commit}:{path}']).decode('utf-8','ignore')
+              m=pat.search(txt)
+              if not m: raise SystemExit(f'{label}: no data URI in historical source')
+              b=m.group(1)
+              raw=base64.b64decode(b+'='*((-len(b))%4),validate=False)
+              im=Image.open(BytesIO(raw)); im.load(); src=im.size
+              im=ImageOps.fit(im.convert('RGB'),(640,360),method=Image.Resampling.LANCZOS,centering=(0.5,0.5))
+              im=im.filter(ImageFilter.UnsharpMask(radius=0.8,percent=110,threshold=3))
+              out=Path(outpath); out.parent.mkdir(parents=True,exist_ok=True)
+              im.save(out,'JPEG',quality=95,optimize=True,progressive=True,subsampling=0)
+              chk=Image.open(out); chk.load()
+              print(f'{label}: recovered {src} -> {chk.size} bytes={out.stat().st_size}')
+          PY
+      - name: Commit recovered candidates
+        shell: bash
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso002/assets/visual/bin/L03-v244.jpg caso002/assets/visual/bin/room-317-v244.jpg
+          if git diff --cached --quiet; then
+            echo "Historical candidates already staged"
+          else
+            git commit -m "C002 v244 stage recovered L03 and room317 candidates"
+            git push
+          fi
