@@ -1,0 +1,32 @@
+name: C002 Diagnose Payload Once
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-diagnose-payload-once.yml'
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect decompressed payload ending and scripts
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64,gzip,re
+          names=['payload.part00a1a.correct','payload.part00a1b','payload.part00a2','payload.part00b','payload.part01','payload.part02','payload.part03','payload.part04','payload.part05']
+          b64=''.join(Path('caso002',n).read_text(encoding='utf-8').strip() for n in names)
+          html=gzip.decompress(base64.b64decode(b64)).decode('utf-8')
+          print('PAYLOAD_LEN',len(html))
+          print('RC_COUNT',html.count('rc.js'))
+          print('AUDIO_COUNT',html.count('audio.js'))
+          print('BODY_CLOSE_COUNT',html.lower().count('</body>'))
+          print('HTML_CLOSE_COUNT',html.lower().count('</html>'))
+          print('SCRIPT_SRCS',re.findall(r'<script[^>]+src=[\"\']([^\"\']+)',html,re.I)[-30:])
+          print('TAIL_BEGIN')
+          print(html[-2500:])
+          print('TAIL_END')
+          PY
