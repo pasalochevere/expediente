@@ -1,0 +1,1 @@
+Photographic wallpapers generated for Torre de América. Source masters preserved at 1672x941; web delivery uses WebP without resizing.
