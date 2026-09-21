@@ -1,0 +1,42 @@
+name: C002 v244 Character Context
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-v244-character-context.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  context:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract narrative context for P05 and P06
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re,base64,gzip
+
+          idx=Path('caso002/index.html').read_text(encoding='utf-8')
+          m=re.search(r"const names=\[([^\]]+)\]",idx)
+          if not m: raise SystemExit('payload list not found')
+          names=re.findall(r"['\"]([^'\"]+)['\"]",m.group(1))
+          b64=''.join((Path('caso002')/n).read_text(encoding='utf-8').strip() for n in names)
+          html=gzip.decompress(base64.b64decode(b64+'='*((-len(b64))%4))).decode('utf-8','ignore')
+          html=re.sub(r'data:image/[^;]+;base64,[A-Za-z0-9+/=]+','[IMAGE]',html)
+          html=re.sub(r'<style[\s\S]*?</style>','[STYLE]',html,flags=re.I)
+          html=re.sub(r'<script[\s\S]*?</script>','[SCRIPT]',html,flags=re.I)
+          for target in ['Eva Montenegro','Franco Valdés','Franco Valdes']:
+              print('\n===== TARGET:',target,'=====')
+              for mm in list(re.finditer(re.escape(target),html,re.I))[:10]:
+                  a=max(0,mm.start()-2200); b=min(len(html),mm.end()+3000)
+                  snippet=html[a:b]
+                  snippet=re.sub(r'\s+',' ',snippet)
+                  print(snippet)
+                  print('\n--- OCCURRENCE END ---\n')
+          PY
