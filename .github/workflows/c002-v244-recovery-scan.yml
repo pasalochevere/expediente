@@ -1,0 +1,70 @@
+name: C002 v244 Recovery Scan
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-v244-recovery-scan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check pillow
+      - name: Scan history for healthy candidates
+        shell: bash
+        run: |
+          python - <<'PY'
+          import subprocess,re,base64,hashlib
+          from io import BytesIO
+          from PIL import Image
+
+          keys=['P05','P06','L03','room_317']
+          refs=subprocess.check_output(['git','for-each-ref','--format=%(refname:short)','refs/remotes/origin/'],text=True).splitlines()
+          priority=['origin/main','origin/work/c002-visual-restore-v2','origin/backup/caso002-p1.8.3-final-freeze','origin/backup/caso002-p1.8.3-freeze-before-p2','origin/backup/caso002-p1.8.3-20260920','origin/work/caso002-p2-final']
+          refs=priority+[r for r in refs if r not in priority and ('caso002' in r or 'c002' in r)]
+          seen_refs=[]
+          for r in refs:
+              if r not in seen_refs: seen_refs.append(r)
+          refs=seen_refs
+
+          patterns={k:re.compile(rf'[\"\']{re.escape(k)}[\"\']\s*:\s*[\"\']data:image/[^;]+;base64,([A-Za-z0-9+/=]+)') for k in keys}
+          found={k:set() for k in keys}
+
+          for ref in refs:
+              try:
+                  names=subprocess.check_output(['git','ls-tree','-r','--name-only',ref,'--','caso002'],text=True,stderr=subprocess.DEVNULL).splitlines()
+              except Exception:
+                  continue
+              names=[n for n in names if n.endswith(('.js','.html','.md','.txt')) and ('assets/visual' in n or n.endswith('index.html'))]
+              for path in names:
+                  try:
+                      rawtxt=subprocess.check_output(['git','show',f'{ref}:{path}'],stderr=subprocess.DEVNULL)
+                      if len(rawtxt)>12_000_000: continue
+                      txt=rawtxt.decode('utf-8','ignore')
+                  except Exception:
+                      continue
+                  if 'data:image/' not in txt: continue
+                  for key,pat in patterns.items():
+                      for m in pat.finditer(txt):
+                          b64=m.group(1)
+                          try: raw=base64.b64decode(b64,validate=True)
+                          except Exception: continue
+                          sha=hashlib.sha256(raw).hexdigest()
+                          if sha in found[key]: continue
+                          try:
+                              im=Image.open(BytesIO(raw)); im.load()
+                          except Exception: continue
+                          found[key].add(sha)
+                          print(f'HEALTHY key={key} ref={ref} path={path} format={im.format} size={im.size} bytes={len(raw)} sha={sha}')
+
+          for k in keys:
+              print(f'SUMMARY {k}: {len(found[k])} unique healthy candidate(s)')
+          PY
