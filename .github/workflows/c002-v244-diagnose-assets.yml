@@ -61,7 +61,6 @@ jobs:
               print('\n===',key,fn,'exists=',p.exists(),'bytes=',p.stat().st_size if p.exists() else 0)
               if not p.exists(): continue
               txt=p.read_text(encoding='utf-8')
-              # External-path fixes are valid by construction if target file exists.
               m=re.search(r"['\"]([^'\"]+\.(?:jpg|jpeg|png|webp))['\"]",txt,re.I)
               if 'data:image/' not in txt and m:
                   rel=m.group(1)
@@ -72,16 +71,7 @@ jobs:
                           im=Image.open(fp); im.load()
                           print(f'{key}: EXTERNAL_PIL_OK format={im.format} size={im.size} mode={im.mode}')
                       except Exception as e:
-                          print(f'{key}: EXTERNAL_PIL_FAIL {e}')
+                          print(f'{key}: EXTERNAL_PIL_FAIL {type(e).__name__}: {e}')
               else:
                   inspect_data_uri(key,txt)
-
-          # Also inspect original embedded assets for fallback/recovery candidates.
-          joined='\n'.join((root/f'assets-part-{i:02d}.js').read_text(encoding='utf-8') for i in range(1,9) if (root/f'assets-part-{i:02d}.js').exists())
-          for key in ['P05','P06','L03','room_317']:
-              m=re.search(r'['+'"'+r"']"+re.escape(key)+r'['+'"'+r"']\s*:\s*['+'"'+r"']data:image/[^;]+;base64,([A-Za-z0-9+/=]+)", joined)
-              if not m:
-                  print(f'ORIGINAL {key}: NOT_FOUND')
-                  continue
-              inspect_data_uri('ORIGINAL '+key,'data:image/jpeg;base64,'+m.group(1))
           PY
