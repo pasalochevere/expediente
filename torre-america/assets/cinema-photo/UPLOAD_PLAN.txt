@@ -1,0 +1,4 @@
+1. Upload existing 1672x941 generated WebP masters as binary blobs.
+2. Wire scenes to those masters.
+3. Keep vector SVGs as fallback only.
+4. Bump PWA cache.
