@@ -1,0 +1,61 @@
+name: C002 v244 Salvage Test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-v244-salvage-test.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  salvage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m pip install --disable-pip-version-check pillow
+      - name: Test salvage
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from io import BytesIO
+          import base64,re
+          from PIL import Image,ImageFile
+          ImageFile.LOAD_TRUNCATED_IMAGES=True
+
+          root=Path('caso002/assets/visual')
+          for key,fn in [('P05','fix-P05-v242.js'),('P06','fix-P06-v242.js'),('L03','fix-L03-v242.js')]:
+              txt=(root/fn).read_text(encoding='utf-8')
+              marker='base64,'
+              tail=txt.split(marker,1)[1]
+              m=re.match(r'([A-Za-z0-9+/=]+)',tail)
+              b=m.group(1)
+              print(f'\n{key}: chars={len(b)} mod4={len(b)%4} next={repr(tail[len(b):len(b)+80])}')
+              variants=[]
+              for drop in range(0,9):
+                  s=b[:-drop] if drop else b
+                  if len(s)%4==1: continue
+                  s=s+'='*((-len(s))%4)
+                  variants.append((drop,s))
+              ok=False
+              for drop,s in variants:
+                  try: raw=base64.b64decode(s,validate=False)
+                  except Exception as e:
+                      print(key,'drop',drop,'decode fail',e); continue
+                  for eoi in (False,True):
+                      rr=raw
+                      if eoi and not rr.endswith(b'\xff\xd9'): rr+=b'\xff\xd9'
+                      try:
+                          im=Image.open(BytesIO(rr)); im.load()
+                          out=BytesIO(); im.convert('RGB').save(out,'JPEG',quality=94,subsampling=0)
+                          print(f'{key}: SALVAGE_OK drop={drop} append_eoi={eoi} format={im.format} size={im.size} repaired_bytes={len(out.getvalue())}')
+                          ok=True
+                          break
+                      except Exception as e:
+                          if drop<2: print(f'{key}: drop={drop} eoi={eoi} PIL_FAIL {type(e).__name__}: {e}')
+                  if ok: break
+              if not ok: print(f'{key}: NO_SIMPLE_SALVAGE')
+          PY
