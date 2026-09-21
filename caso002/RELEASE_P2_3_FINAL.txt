@@ -1,0 +1,76 @@
+P2.3 — RELEASE CANDIDATE C002 + SIMULACIÓN DE PRIMERA COMPRA REAL
+Fecha QA: 2026-09-20/21
+
+ESTADO TÉCNICO: PASS
+ESTADO COMERCIAL: READY FOR FINAL RELEASE GATE
+VENTA ONLINE: DESACTIVADA (sales_enabled=false)
+
+PRODUCTO EXP-002 VERIFICADO
+- Precio: ARS 14.999
+- Acceso: 8760 horas / 12 meses
+- Dispositivos: 2
+- Game URL: https://pasalochevere.github.io/expediente/caso002/
+- sales_enabled: false
+
+KIT PREMIUM
+- Hub: /caso002/printables/
+- Dossier COLOR: 36 páginas A4
+- Dossier B/N: 36 páginas A4
+- Recortables COLOR: 6 páginas A4
+- Recortables B/N: 6 páginas A4
+- 4 PDFs públicos como reader en Google Drive
+- legacy retirado de UI comercial y conservado para rollback
+
+SIMULACIÓN PRIMERA COMPRA REAL — PASS
+- Orden QA aprobada sin Mercado Pago real
+- Activación EXP-002
+- Espejo de licencia P2
+- 12 meses
+- dispositivo 1/2 registrado
+- sala C002 creada
+- modo Impostor
+- 3 jugadores exactos
+- 3 personajes únicos
+- canon C002_CANON_LOCK_V1
+- solución dinámica comprometida una sola vez
+- investigación iniciada
+- recorrido acelerado a 96.67%
+- 18 eventos nuevos
+- 12 descubrimientos
+- Habitación 317 desbloqueada
+- transición a solving
+- recovery/reconnect investigador PASS
+- recovery/reconnect impostor PASS
+- aislamiento de información privada PASS
+- acusación correcta 3/3 PASS
+- sesión finished
+- escena epilogue
+- recovery post-final PASS
+
+PORTAL V2
+- Eliminado texto BETA / PROBAR de Caso 002
+- Estado visible: DISPONIBLE PARA ACTIVAR
+- CTA visible: ACTIVAR / CONSULTAR mientras sales_enabled=false
+- descripción actualizada con 3 jugadores + Habitación 317 + kit Premium
+- c002-rc.js conserva gate: compra sólo si sales_enabled=true y price_ars>0
+
+CLEANUP QA
+- pc_orders marker: 0
+- legacy license marker: 0
+- P2 license: 0
+- QA auth users: 0
+- room: 0
+- session: 0
+- session_events: 0
+- session_discoveries: 0
+
+GARANTÍAS
+- No se habilitó sales_enabled.
+- No se procesó ningún pago real.
+- No se alteró canon narrativo.
+- No se fijó ninguna de las 216 soluciones.
+- La solución usada en QA fue efímera y eliminada con toda la sesión de prueba.
+
+SIGUIENTE GATE
+P2.3-QA — RELEASE GATE COMERCIAL
+Objetivo: última revisión de compra/Portal/entrega y decisión explícita sobre habilitar ventas.
