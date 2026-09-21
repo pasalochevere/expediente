@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/c002-v243-finalize-visuals-once.yml'
+      - '.github/triggers/c002-v243.txt'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -26,7 +28,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           from io import BytesIO
-          import base64, hashlib, re, shutil
+          import base64, hashlib, shutil
           from PIL import Image, ImageDraw, ImageFilter, ImageOps
 
           root=Path('caso002')
@@ -55,7 +57,6 @@ jobs:
               save_jpeg(im,out,label)
               print(f'{label}: source {src}')
 
-          # O02: authoritative staged chunks.
           chunks=sorted((vis/'staging').glob('O02.*.b64'))
           if [p.name for p in chunks] != ['O02.01.b64','O02.02.b64']:
               raise SystemExit('O02 staging incomplete')
@@ -65,8 +66,6 @@ jobs:
               raise SystemExit(f'O02 base64 invalid: {e}')
           normalize(o02,bindir/'O02-v243.jpg','O02')
 
-          # O03: the embedded JPG is corrupt. Rebuild from the canonical vector cassette
-          # specification already used by the official C002 printable kit.
           kit=(root/'printables'/'build_kit.py').read_text(encoding='utf-8')
           spec=[
               "elif kind=='cassette':",
@@ -76,8 +75,7 @@ jobs:
               "c.line(x+w*.28,y+h*.35,x+w*.72,y+h*.35)",
           ]
           missing=[x for x in spec if x not in kit]
-          if missing:
-              raise SystemExit(f'O03 canonical spec drift: {missing}')
+          if missing: raise SystemExit(f'O03 canonical spec drift: {missing}')
           bg='#181511'; fg='#C79A5D'
           o03=Image.new('RGB',(640,360),bg)
           d=ImageDraw.Draw(o03)
@@ -87,16 +85,12 @@ jobs:
           d.line((179,234,461,234),fill=fg,width=4)
           save_jpeg(o03,bindir/'O03-v243.jpg','O03')
 
-          # P04: retain identity, normalize only when needed.
           p04=bindir/'P04-v243.jpg'
           if not p04.exists(): raise SystemExit('P04-v243.jpg missing')
           p04im=Image.open(p04); p04im.load()
-          if p04im.size != (640,360):
-              normalize(p04.read_bytes(),p04,'P04')
-          else:
-              jpeg_ok(p04.read_bytes(),'P04'); print('P04: already 640x360')
+          if p04im.size != (640,360): normalize(p04.read_bytes(),p04,'P04')
+          else: jpeg_ok(p04.read_bytes(),'P04'); print('P04: already 640x360')
 
-          # Validate all seven overrides before touching the loader.
           expected={
               'fix-P04-v243.js':"P04:'assets/visual/bin/P04-v243.jpg'",
               'fix-P05-v242.js':'P05',
@@ -116,29 +110,23 @@ jobs:
           backup=root/'backups'/'index_before_v243_20260921.html'
           if not backup.exists(): shutil.copyfile(index,backup)
           lines=original.splitlines()
+          found={'build':0,'visual':0,'runtime':0}
           for i,line in enumerate(lines):
               if line.strip().startswith("const C002_BUILD="):
-                  lines[i]="const C002_BUILD='20260921-v243';"
+                  lines[i]="const C002_BUILD='20260921-v243';"; found['build']+=1
               elif line.strip().startswith('const visualScripts='):
-                  lines[i]="  const visualScripts=['assets/visual/assets-part-01.js?v=243','assets/visual/assets-part-02.js?v=243','assets/visual/assets-part-03.js?v=243','assets/visual/assets-part-04.js?v=243','assets/visual/assets-part-05.js?v=243','assets/visual/assets-part-06.js?v=243','assets/visual/assets-part-07.js?v=243','assets/visual/assets-part-08.js?v=243','assets/visual/fix-P04-v243.js?v=243','assets/visual/fix-P05-v242.js?v=243','assets/visual/fix-P06-v242.js?v=243','assets/visual/fix-L03-v242.js?v=243','assets/visual/fix-O02-v243.js?v=243','assets/visual/fix-O03-v243.js?v=243','assets/visual/fix-room-317-v242.js?v=243','assets/visual/visual-restoration.js?v=243'].map(s=>'<script src=\"'+s+'\"></'+'script>').join('');"
+                  lines[i]="  const visualScripts=['assets/visual/assets-part-01.js?v=243','assets/visual/assets-part-02.js?v=243','assets/visual/assets-part-03.js?v=243','assets/visual/assets-part-04.js?v=243','assets/visual/assets-part-05.js?v=243','assets/visual/assets-part-06.js?v=243','assets/visual/assets-part-07.js?v=243','assets/visual/assets-part-08.js?v=243','assets/visual/fix-P04-v243.js?v=243','assets/visual/fix-P05-v242.js?v=243','assets/visual/fix-P06-v242.js?v=243','assets/visual/fix-L03-v242.js?v=243','assets/visual/fix-O02-v243.js?v=243','assets/visual/fix-O03-v243.js?v=243','assets/visual/fix-room-317-v242.js?v=243','assets/visual/visual-restoration.js?v=243'].map(s=>'<script src=\"'+s+'\"></'+'script>').join('');"; found['visual']+=1
               elif line.strip().startswith('const runtimeScripts='):
-                  lines[i]="  const runtimeScripts='<script src=\"audio.js?v=243\"></'+'script><script src=\"rc.js?v=243\"></'+'script>'+visualScripts;"
+                  lines[i]="  const runtimeScripts='<script src=\"audio.js?v=243\"></'+'script><script src=\"rc.js?v=243\"></'+'script>'+visualScripts;"; found['runtime']+=1
+          if found != {'build':1,'visual':1,'runtime':1}: raise SystemExit(f'loader anchors invalid: {found}')
           final='\n'.join(lines)+'\n'
-          required=[
-              "C002_BUILD='20260921-v243'",
-              'fix-P04-v243.js?v=243','fix-P05-v242.js?v=243','fix-P06-v242.js?v=243',
-              'fix-L03-v242.js?v=243','fix-O02-v243.js?v=243','fix-O03-v243.js?v=243',
-              'fix-room-317-v242.js?v=243','visual-restoration.js?v=243',
-              'audio.js?v=243','rc.js?v=243'
-          ]
+          required=["C002_BUILD='20260921-v243'",'fix-P04-v243.js?v=243','fix-P05-v242.js?v=243','fix-P06-v242.js?v=243','fix-L03-v242.js?v=243','fix-O02-v243.js?v=243','fix-O03-v243.js?v=243','fix-room-317-v242.js?v=243','visual-restoration.js?v=243','audio.js?v=243','rc.js?v=243']
           absent=[x for x in required if x not in final]
           if absent: raise SystemExit(f'v243 loader missing: {absent}')
           index.write_text(final,encoding='utf-8')
 
           (root/'P2_4_2B_1_LOTE_2_STATUS.md').write_text('''# P2.4.2B.1 · Lote 2 visual\n\nEstado técnico: O02 y O03 ya disponen de JPG binario v243; P04 fue normalizado. P04/P05/P06/L03/O02/O03/317 quedan cableados en el loader v243.\n\n**EXP-002 permanece en HOLD comercial.** No rehabilitar ventas hasta QA visual manual conjunto del juego real.\n''',encoding='utf-8')
-
           (root/'RELEASE_V243_HOLD_QA.md').write_text('''# C002 · v243 · HOLD QA\n\nFecha: 2026-09-21\n\n## Incluido\n- P04: binario v243 normalizado a 640x360.\n- P05: override preservado y cargado por v243.\n- P06: override preservado y cargado por v243.\n- L03: override preservado y cargado por v243.\n- O02: reconstruido desde O02.01/O02.02 y normalizado a 640x360.\n- O03: reconstruido a 640x360 desde la especificación vectorial oficial de `printables/build_kit.py`; no se reutiliza el JPG embebido corrupto.\n- 317: override room_317 preservado y cargado por v243.\n\n## Gate comercial\nHOLD. No rehabilitar ventas hasta comprobar manualmente en el juego real P04/P05/P06/L03/O02/O03/317.\n\n## Alcance\nEste release modifica assets y su carga/cache. No modifica licencia, narrativa, solución dinámica ni el estado comercial.\n''',encoding='utf-8')
-
           print('PASS: v243 candidate built; commercial gate remains HOLD')
           PY
 
@@ -148,5 +136,9 @@ jobs:
           git config user.name "lunchpack-arg"
           git config user.email "pasalochevere@gmail.com"
           git add caso002/assets/visual/bin/P04-v243.jpg caso002/assets/visual/bin/O02-v243.jpg caso002/assets/visual/bin/O03-v243.jpg caso002/index.html caso002/backups/index_before_v243_20260921.html caso002/P2_4_2B_1_LOTE_2_STATUS.md caso002/RELEASE_V243_HOLD_QA.md
-          git commit -m "C002 v243 finalize seven visual fixes and keep sales on hold"
-          git push
+          if git diff --cached --quiet; then
+            echo "v243 already materialized; nothing to commit"
+          else
+            git commit -m "C002 v243 finalize seven visual fixes and keep sales on hold"
+            git push
+          fi
