@@ -83,15 +83,16 @@
     "release_manifest": "paper-squishy/releases/P2.4.2-FIX.2A/release.json"
   },
   "release_candidate": {
-    "state": "RC",
+    "state": "PASS",
     "release": "P2.4.2-RC",
     "manifest": "paper-squishy/releases/P2.4.2-RC/release.json",
     "smoke_test": "paper-squishy/rc-smoke.html",
     "commercial_price_ars": 14999,
     "commercial_duration_hours": 8760,
     "commercial_device_limit": 2,
-    "manual_smoke_pending": true
+    "manual_smoke_pending": false,
+    "manual_smoke_confirmed_at": "2026-09-21"
   },
-  "publish_state": "RC_LIVE",
+  "publish_state": "RC_PASS",
   "published_at": "2026-09-21"
 }
