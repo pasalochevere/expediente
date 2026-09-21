@@ -2,9 +2,11 @@
   "release": "P2.4.2-RC",
   "product_code": "PSQ-FACTORY",
   "product_name": "PAPER SQUISHY FACTORY",
-  "state": "RC_PASS",
+  "state": "PROMOTED_TO_GA",
   "candidate_at": "2026-09-21",
   "approved_at": "2026-09-21",
+  "promoted_at": "2026-09-21",
+  "promoted_to": "P2.4.2-GA",
   "base_release": "P2.4.2-FIX.2A",
   "catalog": {
     "collections": 5,
@@ -50,6 +52,11 @@
     "status": "CONFIRMED_BY_USER",
     "confirmed_at": "2026-09-21"
   },
-  "known_minor_issue": "El nombre interno mostrado por pasalochevere-admin-license todavía conserva el texto histórico '30 diseños + Creator Plus'. No afecta precio, vigencia, activación ni acceso del comprador; corregir antes de declarar GA/final comercial.",
+  "resolved_minor_issue": {
+    "issue": "Texto histórico de 30 diseños en pasalochevere-admin-license",
+    "status": "RESOLVED",
+    "edge_function_version": 9,
+    "new_name": "PAPER SQUISHY FACTORY · 50 diseños · 5 colecciones · Creator Plus"
+  },
   "change_rule": "No modificar el core congelado de P2.4.2-FIX.2A. Cualquier cambio funcional debe generar una nueva versión."
 }
