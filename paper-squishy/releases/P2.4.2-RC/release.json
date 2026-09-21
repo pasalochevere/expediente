@@ -2,8 +2,9 @@
   "release": "P2.4.2-RC",
   "product_code": "PSQ-FACTORY",
   "product_name": "PAPER SQUISHY FACTORY",
-  "state": "RELEASE_CANDIDATE",
+  "state": "RC_PASS",
   "candidate_at": "2026-09-21",
+  "approved_at": "2026-09-21",
   "base_release": "P2.4.2-FIX.2A",
   "catalog": {
     "collections": 5,
@@ -36,18 +37,19 @@
     "print_xl_17_cm_two_pages": "PASS",
     "license_duration_normalized": "PASS",
     "portal_copy": "PASS",
-    "commercial_smoke_page": "paper-squishy/rc-smoke.html"
+    "commercial_smoke_page": "paper-squishy/rc-smoke.html",
+    "commercial_smoke_result": "PASS",
+    "portal_http": 200,
+    "buyer_session": "PASS",
+    "access_engine": "PASS",
+    "license_psq_factory": "PASS",
+    "library_json": "PASS",
+    "loader_http": 200
   },
-  "manual_smoke_required": [
-    "Portal → iniciar sesión",
-    "Licencia PSQ-FACTORY activa → Abrir",
-    "Abrir personaje de cada una de las 5 colecciones",
-    "Galería 1/8 → 8/8",
-    "Remix → modificar → PNG",
-    "Impresión Normal 12 cm",
-    "Impresión XL 17 cm en 2 A4",
-    "Volver al Portal"
-  ],
+  "manual_smoke": {
+    "status": "CONFIRMED_BY_USER",
+    "confirmed_at": "2026-09-21"
+  },
   "known_minor_issue": "El nombre interno mostrado por pasalochevere-admin-license todavía conserva el texto histórico '30 diseños + Creator Plus'. No afecta precio, vigencia, activación ni acceso del comprador; corregir antes de declarar GA/final comercial.",
   "change_rule": "No modificar el core congelado de P2.4.2-FIX.2A. Cualquier cambio funcional debe generar una nueva versión."
 }
