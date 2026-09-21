@@ -1,141 +1,28 @@
-/* TORRE DE AMÉRICA · P1.9.8C · VISUAL SPRINT 1
-   Intro CINEMA ENGINE V1 + Home + Selector de Formato */
-const CINEMA_INTRO_KEY='pc_torre_america_cinema_v1_seen';
+/* TORRE DE AMÉRICA · CINEMA ENGINE V1.1 · REBUILD */
+const CINEMA_INTRO_KEY='pc_torre_america_cinema_v11_seen';
 let cinemaTimers=[];
 let cinemaRunning=false;
 let cinemaAutoOffered=false;
-
 function cinemaClearTimers(){cinemaTimers.forEach(clearTimeout);cinemaTimers=[]}
-function heroTowerRows(count=18,cls='hero'){let out='';for(let r=0;r<count;r++){out+=`<div class="${cls}-tower-row">${[0,1,2].map(()=>`<span class="${cls}-block"></span>`).join('')}</div>`}return out}
-function cinemaTowerRows(){let out='';for(let r=0;r<18;r++){out+=`<div class="cinema-row">${[0,1,2].map((_,i)=>`<span class="cinema-block ${(r===8&&i===1)?'featured':''}"></span>`).join('')}</div>`}return out}
+function heroTowerRows(count=18,cls='hero'){let out='';for(let r=0;r<count;r++){out+=`<div class="${cls}-tower-row">${[0,1,2].map((_,i)=>`<span class="${cls}-block ${(r===8&&i===1)?'is-27':''}">${(r===8&&i===1)?'27':''}</span>`).join('')}</div>`}return out}
+function cinemaTowerRows(){let out='';for(let r=0;r<18;r++){out+=`<div class="c11-row r${r}">${[0,1,2].map((_,i)=>`<span class="c11-block ${(r===8&&i===1)?'is-27':''}">${(r===8&&i===1)?'<b>27</b>':''}</span>`).join('')}</div>`}return out}
 function formatMiniTowerRows(){let out='';for(let r=0;r<14;r++)out+=`<div class="format-mini-row">${[0,1,2].map(()=>'<span class="format-mini-block"></span>').join('')}</div>`;return out}
-
-function ensureCinemaMarkup(){
- if(document.getElementById('cinemaIntro'))return;
- const el=document.createElement('div');
- el.id='cinemaIntro';el.className='cinema-intro';el.dataset.scene='1';
- el.innerHTML=`
-  <div class="cinema-stage">
-   <div class="cinema-lights"></div><div class="cinema-pitch"></div><div class="cinema-fog"></div>
-   <div class="cinema-tower-wrap"><div class="cinema-tower">${cinemaTowerRows()}</div></div>
-   <div class="cinema-copy"><div class="cinema-kicker" id="cinemaKicker"></div><div class="cinema-line" id="cinemaLine"></div><div class="cinema-sub" id="cinemaSub"></div></div>
-   <div class="cinema-flashes" id="cinemaFlashes"></div>
-  </div>
-  <div class="cinema-card" id="cinemaCard">
-    <div class="cinema-kicker">PASALOCHEVÉRE · CINEMA ENGINE V1</div>
-    <h2>UNA NOCHE<br>DE COPA</h2>
-    <p>Subí el volumen si querés vivir la presentación completa. La intro dura menos de un minuto y siempre podés saltearla.</p>
-    <div class="cinema-start-actions"><button class="cinema-btn primary" onclick="startCinemaIntro()">▶ VIVIR LA INTRO</button><button class="cinema-btn" onclick="skipCinemaIntro()">ENTRAR DIRECTO AL JUEGO</button></div>
-  </div>
-  <button class="cinema-skip" id="cinemaSkip" onclick="skipCinemaIntro()" style="display:none">SALTAR INTRO</button>
-  <div class="cinema-progress"><span id="cinemaProgress"></span></div>`;
- document.body.appendChild(el);
-}
-
-const cinemaScenes=[
- {ms:3600,k:'',line:'NO TODAS LAS COPAS<br>SE JUEGAN IGUAL.',sub:'',fx:'power'},
- {ms:3600,k:'NOCHE DE COPA',line:'EN AMÉRICA,<br>LA HISTORIA PESA.',sub:'PASIÓN · RIVALIDAD · MEMORIA',fx:null},
- {ms:4300,k:'BLOQUE 27',line:'CADA BLOQUE PUEDE<br>CAMBIAR LA PARTIDA.',sub:'UNA DECISIÓN. UNA PREGUNTA. UN RIESGO.',fx:'dice'},
- {ms:5000,k:'DESCUBRÍ LA JUGADA',line:'HISTORIA.<br>RIESGO. GLORIA.',sub:'TRIVIA · DUELO · PENALES · ROJA · FINAL',fx:'red',flash:['TRIVIA','DUELO','PENALES','ROJA','FINAL']},
- {ms:7200,k:'DOS FORMAS DE JUGAR',line:'FÍSICA. DIGITAL.<br>CLÁSICO. LEYENDA.',sub:'TORRE REAL · SOLO DIGITAL · EQUIPOS · PODERES',fx:'goal',flash:['TORRE FÍSICA','SOLO DIGITAL','EL 10','LA COPA','PENALES']},
- {ms:2800,k:'',line:'',sub:'',fx:null,silent:true},
- {ms:4600,k:'222 DESAFÍOS',line:'LA COPA SE JUEGA<br>BLOQUE POR BLOQUE.',sub:'FÍSICO + DIGITAL · INDIVIDUAL + EQUIPOS',fx:'win'},
- {ms:3500,k:'TORRES DEL FÚTBOL',line:'TORRE DE<br>AMÉRICA',sub:'PASALOCHEVÉRE · NOCHE DE COPA',fx:null},
- {ms:2800,k:'EL PARTIDO EMPIEZA AHORA',line:'ELEGÍ CÓMO<br>QUERÉS JUGAR.',sub:'TORRE FÍSICA · SOLO DIGITAL',fx:'whistle'}
-];
-
-function cinemaFlash(words,sceneMs){
- const box=document.getElementById('cinemaFlashes');if(!box||!words?.length)return;box.innerHTML='';
- const gap=Math.max(600,Math.floor((sceneMs-900)/words.length));
- words.forEach((w,i)=>{const t=setTimeout(()=>{box.innerHTML=`<div class="cinema-flash-word on">${w}</div>`},350+i*gap);cinemaTimers.push(t)});
-}
-function cinemaSetScene(i){
- const intro=document.getElementById('cinemaIntro'),sc=cinemaScenes[i];if(!intro||!sc)return;
- intro.dataset.scene=String(i+1);intro.classList.toggle('silent-scene',!!sc.silent);
- document.getElementById('cinemaKicker').innerHTML=sc.k||'';document.getElementById('cinemaLine').innerHTML=sc.line||'';document.getElementById('cinemaSub').innerHTML=sc.sub||'';
- const flash=document.getElementById('cinemaFlashes');if(flash)flash.innerHTML='';
- if(sc.fx&&typeof playFx==='function')try{playFx(sc.fx,true)}catch(e){}
- if(sc.flash)cinemaFlash(sc.flash,sc.ms);
- const elapsed=cinemaScenes.slice(0,i).reduce((a,x)=>a+x.ms,0),total=cinemaScenes.reduce((a,x)=>a+x.ms,0);
- const progress=document.getElementById('cinemaProgress');if(progress)progress.style.width=`${Math.round((elapsed/total)*100)}%`;
-}
-function startCinemaIntro(){
- ensureCinemaMarkup();cinemaClearTimers();cinemaRunning=true;
- const intro=document.getElementById('cinemaIntro');intro.classList.add('show','playing');document.getElementById('cinemaSkip').style.display='block';
- try{if(typeof getAudioCtx==='function')getAudioCtx()}catch(e){}
- let acc=0;cinemaScenes.forEach((sc,i)=>{const t=setTimeout(()=>cinemaSetScene(i),acc);cinemaTimers.push(t);acc+=sc.ms});
- cinemaTimers.push(setTimeout(()=>finishCinemaIntro(),acc));
-}
-function finishCinemaIntro(){
- cinemaClearTimers();cinemaRunning=false;localStorage.setItem(CINEMA_INTRO_KEY,'1');
- const p=document.getElementById('cinemaProgress');if(p)p.style.width='100%';
- const intro=document.getElementById('cinemaIntro');if(intro){setTimeout(()=>{intro.classList.remove('show','playing','silent-scene');intro.dataset.scene='1';document.getElementById('cinemaSkip').style.display='none'},300)}
-}
-function skipCinemaIntro(){
- cinemaClearTimers();cinemaRunning=false;localStorage.setItem(CINEMA_INTRO_KEY,'1');
- const intro=document.getElementById('cinemaIntro');if(intro){intro.classList.remove('show','playing','silent-scene');intro.dataset.scene='1'}
-}
-function showCinemaIntro(replay=true){
- ensureCinemaMarkup();cinemaClearTimers();
- const intro=document.getElementById('cinemaIntro');intro.classList.add('show');intro.classList.remove('playing','silent-scene');intro.dataset.scene='1';
- document.getElementById('cinemaSkip').style.display='none';document.getElementById('cinemaProgress').style.width='0';
- if(replay)startCinemaIntro();
-}
+function ensureCinemaMarkup(){if(document.getElementById('cinemaIntro'))return;const el=document.createElement('div');el.id='cinemaIntro';el.className='cinema-intro c11';el.dataset.scene='0';el.innerHTML=`<div class="c11-world"><div class="c11-black"></div><div class="c11-stadium"><div class="c11-stands left"></div><div class="c11-stands right"></div><div class="c11-light l1"></div><div class="c11-light l2"></div><div class="c11-light l3"></div><div class="c11-light l4"></div><div class="c11-pitch"><span class="c11-centerline"></span><span class="c11-circle"></span></div><div class="c11-fog f1"></div><div class="c11-fog f2"></div></div><div class="c11-table"></div><div class="c11-camera" id="c11Camera"><div class="c11-tower-shadow"></div><div class="c11-tower" id="c11Tower">${cinemaTowerRows()}</div><div class="c11-hand" id="c11Hand"><span class="palm"></span><i class="finger f1"></i><i class="finger f2"></i><i class="finger f3"></i></div></div><div class="c11-ui-montage" id="c11Montage"><div class="c11-shot shot-trivia"><small>TRIVIA · MEDIO</small><strong>¿QUIÉN GANÓ LA FINAL?</strong><em>15</em></div><div class="c11-shot shot-red"><span></span><strong>ROJA</strong><small>Elegí un rival</small></div><div class="c11-shot shot-var"><i></i><strong>VAR</strong><small>REVISANDO JUGADA</small></div><div class="c11-shot shot-pen"><div class="goal"><i></i><i></i><i></i></div><b>5</b><strong>PENAL</strong></div><div class="c11-shot shot-dice"><div class="die"><i></i><i></i><i></i><i></i><i></i></div><strong>DADO</strong></div><div class="c11-shot shot-final"><small>GRAN FINAL</small><div><b>2</b><span>VS</span><b>2</b></div><strong>TODO EN JUEGO</strong></div></div><div class="c11-flash" id="c11Flash"></div><div class="c11-copy" id="c11Copy"><div class="c11-kicker" id="c11Kicker"></div><div class="c11-line" id="c11Line"></div><div class="c11-sub" id="c11Sub"></div></div><div class="c11-reveal" id="c11Reveal"><div class="c11-reveal-kicker">PASALOCHEVÉRE · TORRES DEL FÚTBOL</div><div class="c11-logo">TORRE DE<span>AMÉRICA</span></div><div class="c11-claim">LA COPA SE JUEGA BLOQUE POR BLOQUE</div><div class="c11-meta"><span>222 DESAFÍOS</span><span>FÍSICO + DIGITAL</span><span>INDIVIDUAL + EQUIPOS</span></div></div></div><div class="c11-start" id="c11Start"><div class="c11-start-badge">CINEMA ENGINE V1.1</div><h2>UNA NOCHE<br>DE COPA</h2><p>Una presentación breve con sonido, tensión y juego. Podés saltearla cuando quieras.</p><div class="c11-start-actions"><button class="cinema-btn primary" onclick="startCinemaIntro()">▶ VIVIR LA INTRO</button><button class="cinema-btn" onclick="skipCinemaIntro()">ENTRAR DIRECTO</button></div></div><button class="cinema-skip" id="cinemaSkip" onclick="skipCinemaIntro()" style="display:none">SALTAR INTRO</button><div class="cinema-progress"><span id="cinemaProgress"></span></div>`;document.body.appendChild(el)}
+const cinemaScenes=[{ms:3000,scene:1,k:'',line:'NO TODAS LAS COPAS<br>SE JUEGAN IGUAL.',sub:'',fx:'power'},{ms:3000,scene:2,k:'NOCHE DE COPA',line:'',sub:'',fx:null},{ms:4000,scene:3,k:'',line:'EN AMÉRICA,<br>LA HISTORIA PESA.',sub:'',fx:null},{ms:4000,scene:4,k:'BLOQUE 27',line:'CADA BLOQUE PUEDE<br>CAMBIAR LA PARTIDA.',sub:'',fx:'dice'},{ms:3000,scene:5,k:'',line:'',sub:'',fx:null},{ms:6000,scene:6,k:'',line:'',sub:'',fx:'red'},{ms:5000,scene:7,k:'',line:'',sub:'FÍSICA · DIGITAL · PENALES · LEYENDA',fx:'goal'},{ms:2800,scene:8,k:'',line:'',sub:'',fx:null},{ms:4300,scene:9,k:'',line:'',sub:'',fx:'win'},{ms:2200,scene:10,k:'',line:'',sub:'',fx:'whistle'}];
+function cinemaSetScene(i){const intro=document.getElementById('cinemaIntro'),sc=cinemaScenes[i];if(!intro||!sc)return;intro.dataset.scene=String(sc.scene);document.getElementById('c11Kicker').innerHTML=sc.k||'';document.getElementById('c11Line').innerHTML=sc.line||'';document.getElementById('c11Sub').innerHTML=sc.sub||'';document.getElementById('c11Flash').innerHTML='';if(sc.fx&&typeof playFx==='function')try{playFx(sc.fx,true)}catch(e){}const elapsed=cinemaScenes.slice(0,i).reduce((a,x)=>a+x.ms,0),total=cinemaScenes.reduce((a,x)=>a+x.ms,0);const progress=document.getElementById('cinemaProgress');if(progress)progress.style.width=`${Math.round((elapsed/total)*100)}%`;if(sc.scene===6)cinemaMontage();if(sc.scene===7)cinemaEscalation();if(sc.scene===10)cinemaTimers.push(setTimeout(()=>finishCinemaIntro(),sc.ms-250))}
+function cinemaMontage(){const shots=['trivia','red','var','pen','dice','final'];const box=document.getElementById('c11Montage');if(!box)return;box.dataset.active='1';shots.forEach((s,i)=>cinemaTimers.push(setTimeout(()=>{box.dataset.shot=s;if(typeof playFx==='function')try{playFx(s==='red'?'red':s==='dice'?'dice':s==='pen'?'tick':'power',true)}catch(e){}},i*900)))}
+function cinemaEscalation(){const flash=document.getElementById('c11Flash');if(!flash)return;const words=['FÍSICA','DIGITAL','PENALES','LEYENDA'];words.forEach((w,i)=>cinemaTimers.push(setTimeout(()=>{flash.innerHTML=`<strong>${w}</strong>`;flash.classList.remove('pulse');void flash.offsetWidth;flash.classList.add('pulse')},450+i*1000)))}
+function startCinemaIntro(){ensureCinemaMarkup();cinemaClearTimers();cinemaRunning=true;const intro=document.getElementById('cinemaIntro');intro.classList.add('show','playing');intro.dataset.scene='1';const start=document.getElementById('c11Start');if(start)start.classList.add('hidden');document.getElementById('cinemaSkip').style.display='block';try{if(typeof getAudioCtx==='function')getAudioCtx()}catch(e){}let acc=0;cinemaScenes.forEach((sc,i)=>{cinemaTimers.push(setTimeout(()=>cinemaSetScene(i),acc));acc+=sc.ms});cinemaTimers.push(setTimeout(()=>finishCinemaIntro(),acc+80))}
+function finishCinemaIntro(){if(!cinemaRunning)return;cinemaClearTimers();cinemaRunning=false;localStorage.setItem(CINEMA_INTRO_KEY,'1');const p=document.getElementById('cinemaProgress');if(p)p.style.width='100%';const intro=document.getElementById('cinemaIntro');if(intro){intro.classList.add('c11-exit');setTimeout(()=>{intro.classList.remove('show','playing','c11-exit');intro.dataset.scene='0';document.getElementById('cinemaSkip').style.display='none'},650)}}
+function skipCinemaIntro(){cinemaClearTimers();cinemaRunning=false;localStorage.setItem(CINEMA_INTRO_KEY,'1');const intro=document.getElementById('cinemaIntro');if(intro){intro.classList.remove('show','playing','c11-exit');intro.dataset.scene='0'}}
+function showCinemaIntro(replay=true){ensureCinemaMarkup();cinemaClearTimers();const intro=document.getElementById('cinemaIntro');intro.classList.add('show');intro.classList.remove('playing','c11-exit');intro.dataset.scene='0';const start=document.getElementById('c11Start');if(start)start.classList.toggle('hidden',replay);document.getElementById('cinemaSkip').style.display=replay?'block':'none';document.getElementById('cinemaProgress').style.width='0';if(replay)startCinemaIntro()}
 window.showCinemaIntro=showCinemaIntro;window.startCinemaIntro=startCinemaIntro;window.skipCinemaIntro=skipCinemaIntro;
-
-function upgradeHome(){
- const home=document.getElementById('home'),stage=home?.querySelector('.hero-stage');if(!home||!stage||home.classList.contains('visual-v2'))return;
- home.classList.add('visual-v2');
- stage.innerHTML=`
-   <div class="hero-stadium-lights"></div><div class="hero-smoke"></div>
-   <div class="hero-premium-copy">
-     <div class="hero-premium-top"><span class="brand">PASALOCHEVÉRE · TORRES DEL FÚTBOL</span><span class="visual-release">FÍSICO + DIGITAL</span></div>
-     <div class="hero-premium-eyebrow">UNA NOCHE DE COPA</div>
-     <div class="hero-premium-title">TORRE DE<span>AMÉRICA</span></div>
-     <p class="hero-claim">La Copa se juega <b>bloque por bloque.</b></p>
-     <div class="hero-meta"><span>222 desafíos</span><span>3 dificultades</span><span>individual + equipos</span></div>
-   </div>
-   <div class="hero-tower-zone"><div class="hero-tower-glow"></div><div class="hero-tower">${heroTowerRows(18,'hero')}</div></div>
-   <div class="hero-format-hint"><span>🧱 TORRE FÍSICA</span><span>📱 SOLO DIGITAL</span></div>`;
- const actions=home.querySelector('.footer-actions');if(actions){
-   const buttons=[...actions.querySelectorAll('button')];if(buttons[0])buttons[0].innerHTML='⚽ &nbsp;ENTRAR A LA CANCHA';
-   const how=buttons.find(b=>(b.textContent||'').includes('CÓMO'));if(how)how.textContent='CÓMO SE JUEGA';
-   const settings=buttons.find(b=>(b.textContent||'').includes('AUDIO'));if(settings)settings.textContent='⚙ AJUSTES';
-   if(!actions.querySelector('.btn-cinema')){const b=document.createElement('button');b.className='btn btn-secondary btn-cinema';b.innerHTML='▶ VER INTRO';b.onclick=()=>showCinemaIntro(true);actions.insertBefore(b,how||actions.children[1]||null)}
- }
- const mini=home.querySelector(':scope > .mini.center');if(mini)mini.textContent='Para los que saben. Y para los que dicen que saben.';
-}
-
-function selectVisualFormat(id){S.playFormat=id;if(typeof playFx==='function')try{playFx('power')}catch(e){};renderFormats()}
-window.selectVisualFormat=selectVisualFormat;
-function visualFormatArt(id){
- if(id==='FISICA')return `<div class="format-art"><div class="format-mini-tower">${formatMiniTowerRows()}</div></div>`;
- return `<div class="format-art"><div class="phone-art"><div class="phone-screen"><div class="phone-block">27</div></div></div></div>`;
-}
-function visualRenderFormats(){
- const root=document.getElementById('formatOpts');if(!root)return;
- root.innerHTML=formats.map(x=>`<div class="visual-format-card ${x[0]==='DIGITAL'?'digital':''} ${S.playFormat===x[0]?'selected':''}" onclick="selectVisualFormat('${x[0]}')">
-   <div class="visual-format-bg"></div>${visualFormatArt(x[0])}<div class="visual-format-check">✓</div>
-   <div class="visual-format-content"><span class="visual-format-ribbon">${x[4]}</span><h3>${x[2]}</h3><p>${x[3]}</p><div class="visual-format-cta">ELEGIR ESTE FORMATO →</div></div>
-  </div>`).join('');
- const next=document.querySelector('#format .footer-actions .btn-primary');if(next)next.textContent=S.playFormat==='FISICA'?'CONTINUAR CON TORRE FÍSICA':'CONTINUAR SOLO DIGITAL';
-}
+function upgradeHome(){const home=document.getElementById('home'),stage=home?.querySelector('.hero-stage');if(!home||!stage||home.classList.contains('visual-v2'))return;home.classList.add('visual-v2');stage.innerHTML=`<div class="hero-stadium-lights"></div><div class="hero-smoke"></div><div class="hero-premium-copy"><div class="hero-premium-top"><span class="brand">PASALOCHEVÉRE · TORRES DEL FÚTBOL</span><span class="visual-release">FÍSICO + DIGITAL</span></div><div class="hero-premium-eyebrow">UNA NOCHE DE COPA</div><div class="hero-premium-title">TORRE DE<span>AMÉRICA</span></div><p class="hero-claim">La Copa se juega <b>bloque por bloque.</b></p><div class="hero-meta"><span>222 desafíos</span><span>3 dificultades</span><span>individual + equipos</span></div></div><div class="hero-tower-zone"><div class="hero-tower-glow"></div><div class="hero-tower">${heroTowerRows(18,'hero')}</div></div><div class="hero-format-hint"><span>🧱 TORRE FÍSICA</span><span>📱 SOLO DIGITAL</span></div>`;const actions=home.querySelector('.footer-actions');if(actions){const buttons=[...actions.querySelectorAll('button')];if(buttons[0])buttons[0].innerHTML='⚽ &nbsp;ENTRAR A LA CANCHA';const how=buttons.find(b=>(b.textContent||'').includes('CÓMO'));if(how)how.textContent='CÓMO SE JUEGA';const settings=buttons.find(b=>(b.textContent||'').includes('AUDIO'));if(settings)settings.textContent='⚙ AJUSTES';if(!actions.querySelector('.btn-cinema')){const b=document.createElement('button');b.className='btn btn-secondary btn-cinema';b.innerHTML='▶ VER INTRO';b.onclick=()=>showCinemaIntro(true);actions.insertBefore(b,how||actions.children[1]||null)}}const mini=home.querySelector(':scope > .mini.center');if(mini)mini.textContent='Para los que saben. Y para los que dicen que saben.'}
+function selectVisualFormat(id){S.playFormat=id;if(typeof playFx==='function')try{playFx('power')}catch(e){};renderFormats()}window.selectVisualFormat=selectVisualFormat;
+function visualFormatArt(id){if(id==='FISICA')return `<div class="format-art"><div class="format-mini-tower">${formatMiniTowerRows()}</div></div>`;return `<div class="format-art"><div class="phone-art"><div class="phone-screen"><div class="phone-block">27</div></div></div></div>`}
+function visualRenderFormats(){const root=document.getElementById('formatOpts');if(!root)return;root.innerHTML=formats.map(x=>`<div class="visual-format-card ${x[0]==='DIGITAL'?'digital':''} ${S.playFormat===x[0]?'selected':''}" onclick="selectVisualFormat('${x[0]}')"><div class="visual-format-bg"></div>${visualFormatArt(x[0])}<div class="visual-format-check">✓</div><div class="visual-format-content"><span class="visual-format-ribbon">${x[4]}</span><h3>${x[2]}</h3><p>${x[3]}</p><div class="visual-format-cta">ELEGIR ESTE FORMATO →</div></div></div>`).join('');const next=document.querySelector('#format .footer-actions .btn-primary');if(next)next.textContent=S.playFormat==='FISICA'?'CONTINUAR CON TORRE FÍSICA':'CONTINUAR SOLO DIGITAL'}
 try{renderFormats=visualRenderFormats}catch(e){}
-
-function upgradeFormatScreen(){
- const format=document.getElementById('format');if(!format)return;format.classList.add('visual-v2');
- const h=format.querySelector('.section-head h2');if(h)h.textContent='¿CÓMO QUERÉS JUGAR?';
- const sub=format.querySelector('.section-head .subtitle');if(sub)sub.textContent='Una misma Copa. Dos experiencias distintas.';
- visualRenderFormats();
-}
-
-function maybeOfferCinema(){
- if(cinemaAutoOffered)return;const app=document.getElementById('app');if(!app||getComputedStyle(app).display==='none')return;
- cinemaAutoOffered=true;upgradeHome();upgradeFormatScreen();ensureCinemaMarkup();
- if(!localStorage.getItem(CINEMA_INTRO_KEY))showCinemaIntro(false);
-}
-function initVisualSprint1(){
- upgradeHome();upgradeFormatScreen();ensureCinemaMarkup();
- const app=document.getElementById('app');if(app){new MutationObserver(()=>maybeOfferCinema()).observe(app,{attributes:true,attributeFilter:['style','class']});setTimeout(maybeOfferCinema,250)}
-}
+function upgradeFormatScreen(){const format=document.getElementById('format');if(!format)return;format.classList.add('visual-v2');const h=format.querySelector('.section-head h2');if(h)h.textContent='¿CÓMO QUERÉS JUGAR?';const sub=format.querySelector('.section-head .subtitle');if(sub)sub.textContent='Una misma Copa. Dos experiencias distintas.';visualRenderFormats()}
+function maybeOfferCinema(){if(cinemaAutoOffered)return;const app=document.getElementById('app');if(!app||getComputedStyle(app).display==='none')return;cinemaAutoOffered=true;upgradeHome();upgradeFormatScreen();ensureCinemaMarkup();if(!localStorage.getItem(CINEMA_INTRO_KEY))showCinemaIntro(false)}
+function initVisualSprint1(){upgradeHome();upgradeFormatScreen();ensureCinemaMarkup();const app=document.getElementById('app');if(app){new MutationObserver(()=>maybeOfferCinema()).observe(app,{attributes:true,attributeFilter:['style','class']});setTimeout(maybeOfferCinema,250)}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initVisualSprint1);else initVisualSprint1();
