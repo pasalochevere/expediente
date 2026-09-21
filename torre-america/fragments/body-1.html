@@ -1,0 +1,44 @@
+<div class="license-gate" id="licenseGate"><div class="license-card"><div class="license-ball">⚽</div><div class="license-kicker">PASALOCHEVERE · ACCESO PERSONAL</div><h1>TORRE DE AMÉRICA</h1><p>Validando tu licencia y este dispositivo…</p><div class="license-state" id="licenseState">Conectando con tu biblioteca.</div><div class="license-actions"><a class="btn btn-primary" href="../portal-v2/">VOLVER A MI BIBLIOTECA</a></div><div class="license-offline">Una vez validado en este dispositivo, el juego puede continuar sin conexión mientras tu acceso siga vigente.</div></div></div><div aria-hidden="true" class="boot-splash" id="bootSplash"><div class="boot-card"><div class="boot-ball">⚽</div><div class="boot-title">Torre de América</div><div class="boot-sub">PasaloChévere · Noche de Copa</div></div></div><div class="network-banner" id="networkBanner">📡 Sin conexión · modo offline activo</div>
+<main class="app" id="app" style="display:none">
+<section class="screen active hero" id="home">
+<div class="hero-stage">
+<div class="hero-kicker"><span class="brand">PASALOCHEVERE · TORRES DEL FÚTBOL</span><span class="badge">RELEASE CANDIDATE</span></div>
+<div class="cup-mark">⚽</div>
+<div class="eyebrow">NOCHE DE COPA</div>
+<h1 class="title">TORRE DE<br/>AMÉRICA</h1>
+<p class="subtitle">Para los que saben. Y para los que dicen que saben.</p>
+<div class="hero-badges"><span class="badge">🧱 TORRE FÍSICA</span><span class="badge">📱 SOLO DIGITAL</span><span class="badge">222 DESAFÍOS</span><span class="badge">👥 MODO EQUIPOS</span></div>
+</div>
+<div class="footer-actions">
+<button class="btn btn-primary" onclick="go('format')">⚽ JUGAR</button>
+<button class="btn btn-secondary" onclick="go('how')">CÓMO SE JUEGA</button>
+<button class="btn btn-secondary" onclick="go('settings')">🔊 AUDIO / FX</button>
+<button class="btn btn-secondary" id="installBtn" onclick="installApp()" style="display:none">📲 INSTALAR APP</button>
+<div class="install-hint" id="installHint"></div>
+<button class="btn btn-secondary" id="resumeBtn" onclick="resumeGame()">CONTINUAR PARTIDA</button>
+</div>
+<p class="mini center" style="margin-top:15px">Una misma biblioteca · dos formas de jugar</p>
+<div class="release-stamp">RC1 · Biblioteca 2025 · PWA Offline</div>
+</section>
+<section class="screen" id="settings">
+<div class="topbar"><button class="navbtn" onclick="go(S.started?'scores':'home')">←</button><span class="brand">AUDIO / FX</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head"><span class="mode-chip">AMBIENTE DE COPA</span><h2>Sonido y efectos</h2><p class="subtitle">Todo funciona sin audio. Podés cambiar esto incluso durante la partida.</p></div>
+<div class="settings-grid">
+<div class="setting-row"><div class="setting-icon">🔊</div><div><strong>Audio</strong><div class="mini">Silbato, gol, atajada, poderes y dado.</div></div><button aria-label="Activar o desactivar audio" class="switch" id="swAudio" onclick="toggleSetting('audio')"></button></div>
+<div class="setting-row"><div class="setting-icon">📳</div><div><strong>Vibración</strong><div class="mini">Feedback corto en goles, fallos y eventos.</div></div><button aria-label="Activar o desactivar vibración" class="switch" id="swVibration" onclick="toggleSetting('vibration')"></button></div>
+<div class="setting-row"><div class="setting-icon">✨</div><div><strong>Animaciones</strong><div class="mini">Transiciones y microefectos visuales.</div></div><button aria-label="Activar o desactivar animaciones" class="switch" id="swAnimations" onclick="toggleSetting('animations')"></button></div>
+</div>
+<div class="card" style="margin-top:12px"><div class="eyebrow">PRUEBA RÁPIDA</div><div class="audio-test" style="margin-top:10px"><button class="btn btn-secondary" onclick="playFx('whistle',true)">📣 SILBATO</button><button class="btn btn-secondary" onclick="playFx('goal',true)">⚽ GOL</button></div></div>
+<div class="footer-actions"><button class="btn btn-primary" onclick="go(S.started?'scores':'home')">LISTO</button></div>
+</section>
+<section class="screen" id="how">
+<div class="topbar"><button class="navbtn" onclick="go('home')">←</button><span class="brand">CÓMO SE JUEGA</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head"><span class="mode-chip">DOS FORMATOS</span><h2>Elegí cómo querés jugar</h2></div>
+<div class="help-dual">
+<div class="card gold"><h3>🧱 Con Torre Física</h3><div class="steps"><div class="step"><div><b>Sacá un bloque</b><p>Usá la torre real PasaloChévere.</p></div></div><div class="step"><div><b>Ingresá 01–54</b><p>El número activa la consigna correspondiente.</p></div></div><div class="step"><div><b>Jugá y devolvé la pieza</b><p>El portal arbitra tiempo, dado, poderes y resultado.</p></div></div></div></div>
+<div class="card"><h3>📱 Solo Digital</h3><div class="steps"><div class="step"><div><b>Pedí un bloque</b><p>El portal sortea digitalmente uno de los 54 números.</p></div></div><div class="step"><div><b>Descubrí la categoría</b><p>Trivia, Historia, Duelo, Desafío, ¿Quién soy? o Locura.</p></div></div><div class="step"><div><b>Resolvé la jugada</b><p>No necesitás tener la torre física.</p></div></div></div></div>
+</div>
+<div class="footer-actions"><button class="btn btn-primary" onclick="go('format')">ELEGIR FORMATO</button></div>
+</section>
+<section class="screen" id="format">
+<div class="topbar"><button class="navbtn" onclick="go('home')">←</button><span class="brand">FORMATO</span><button class="navbtn" onclic

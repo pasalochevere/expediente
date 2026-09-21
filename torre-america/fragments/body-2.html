@@ -1,0 +1,62 @@
+k="goHome()">⌂</button></div>
+<div class="section-head"><span class="mode-chip">PASO 1</span><h2>¿Cómo van a jugar?</h2><p class="subtitle">Podés cambiar de formato en una nueva partida.</p></div>
+<div class="format-grid" id="formatOpts"></div>
+<div class="footer-actions"><button class="btn btn-primary" onclick="ensureModeForFormat();renderModes();go('mode')">SIGUIENTE</button></div>
+</section>
+<section class="screen" id="mode">
+<div class="topbar"><button class="navbtn" onclick="go('format')">←</button><span class="brand">MODO</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head"><span class="mode-chip">PASO 2</span><h2>¿Cómo quieren competir?</h2></div>
+<div class="stack" id="modeOpts"></div>
+<div class="footer-actions"><button class="btn btn-primary" onclick="go('players')">SIGUIENTE</button></div>
+</section>
+<section class="screen" id="players">
+<div class="topbar"><button class="navbtn" onclick="go('mode')">←</button><span class="brand">JUGADORES</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head"><span class="mode-chip">PASO 3</span><h2 id="playersTitle">¿Quiénes juegan?</h2><p class="subtitle" id="playersSubtitle"></p></div>
+<div class="team-config hidden" id="teamConfig"><div class="team-name-grid"><div class="team-box"><label>Equipo A</label><input id="teamNameA" maxlength="22" oninput="setTeamName(0,this.value)"/></div><div class="team-box"><label>Equipo B</label><input id="teamNameB" maxlength="22" oninput="setTeamName(1,this.value)"/></div></div><div class="success-note">Los turnos se ordenan para alternar equipos siempre que sea posible. Los poderes siguen perteneciendo al jugador.</div></div>
+<div class="players-list" id="playersList"></div>
+<div class="footer-actions"><button class="btn btn-secondary" onclick="addPlayer()">+ AGREGAR JUGADOR</button><button class="btn btn-primary" onclick="if(savePlayers())go('difficulty')">SIGUIENTE</button></div>
+</section>
+<section class="screen" id="difficulty">
+<div class="topbar"><button class="navbtn" onclick="go('players')">←</button><span class="brand">DIFICULTAD</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head"><span class="mode-chip">PASO 4</span><h2>Elegí el nivel</h2></div>
+<div class="stack" id="diffOpts"></div>
+<div class="footer-actions"><button class="btn btn-primary" onclick="go('summary')">SIGUIENTE</button></div>
+</section>
+<section class="screen" id="summary">
+<div class="topbar"><button class="navbtn" onclick="go('difficulty')">←</button><span class="brand">PREVIA</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head"><span class="mode-chip">VESTUARIO</span><h2>Todo listo</h2></div>
+<div class="card gold" id="summaryBox"></div>
+<div class="footer-actions"><button class="btn btn-primary" onclick="startGame()">🏟 COMENZAR PARTIDA</button></div>
+</section>
+<section class="screen" id="turn">
+<div class="topbar"><button class="navbtn" onclick="showScores()">☰</button><span class="brand">PARTIDA</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="hud" id="hud"></div>
+<div class="card pitch-card turn-hero">
+<div class="pill gold">TURNO</div><h2 class="turn-name" id="turnName"></h2><p class="subtitle" id="turnInstruction"></p><div class="turn-icon" id="turnIcon">🧱</div>
+</div>
+<div class="footer-actions" id="turnActions"></div>
+</section>
+<section class="screen" id="blocks">
+<div class="topbar"><button class="navbtn" onclick="go('turn')">←</button><span class="brand">BLOQUE FÍSICO</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head"><span class="mode-chip">01–54</span><h2>¿Qué número sacaste?</h2><p class="subtitle">Tocá el número que aparece en la cabeza de la pieza.</p></div>
+<div class="block-grid" id="blockGrid"></div>
+</section>
+<section class="screen" id="digitalblock">
+<div class="topbar"><button class="navbtn" onclick="go('turn')">←</button><span class="brand">BLOQUE DIGITAL</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head center"><span class="mode-chip">SORTEO DIGITAL</span><h2>Te tocó...</h2></div>
+<div class="card gold center">
+<div class="digital-block-wrap"><div class="digital-block"><div class="digital-block-number" id="digitalBlockNumber">27</div></div><div class="digital-tag" id="digitalBlockMeta">TRIVIA · MEDIO</div></div>
+</div>
+<div class="footer-actions"><button class="btn btn-primary" onclick="enterCurrentContent()">VER CONSIGNA</button></div>
+</section>
+<section class="screen" id="challenge">
+<div class="topbar"><button class="navbtn" onclick="backFromChallenge()">←</button><span class="brand">TORRE DE AMÉRICA</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="hud" id="challengeHud"></div>
+<div class="card gold">
+<div class="category" id="catLabel"></div><div class="event hidden" id="eventBox"></div><div class="question" id="questionText"></div>
+<div class="hidden" id="timerWrap"><div class="timer" id="timer">15</div><button class="btn btn-secondary" onclick="startTimer()" style="width:100%">⏱ INICIAR CRONÓMETRO</button></div>
+<div class="footer-actions"><button class="btn btn-secondary" id="diceBtn" onclick="showDice()" style="display:none">🎲 RESOLVER DADO</button><button class="btn btn-primary" id="revealBtn" onclick="revealAnswer()">MOSTRAR RESPUESTA</button></div>
+</div>
+</section>
+<section class="screen" id="answer">
+<div class="topb

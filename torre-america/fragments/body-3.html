@@ -1,0 +1,53 @@
+ar"><button class="navbtn" onclick="go('challenge')">←</button><span class="brand">RESPUESTA</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="card"><div class="category" id="answerMeta"></div><div class="answer" id="answerText"></div>
+<div class="footer-actions"><button class="btn btn-ok" onclick="resolve(true)">⚽ ACERTÓ / SUPERADO</button><button class="btn btn-danger" onclick="resolve(false)">🧤 FALLÓ / NO SUPERADO</button></div>
+</div>
+</section>
+<section class="screen" id="result">
+<div class="topbar"><button class="navbtn" onclick="afterResult()" title="Continuar">→</button><span class="brand">RESULTADO</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="card center" style="margin-top:28px"><div class="result-medallion" id="resultIcon">⚽</div><h2 id="resultTitle" style="font-size:34px;margin:6px 0"></h2><p class="subtitle" id="resultText"></p></div>
+<div class="footer-actions"><button class="btn btn-primary" onclick="afterResult()">CONTINUAR</button></div>
+</section>
+<section class="screen" id="dice">
+<div class="topbar"><button class="navbtn" onclick="go('challenge')">←</button><span class="brand">DADO</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="card gold"><h2>🎲 Resolvé el dado</h2><p class="subtitle">Si tenés el dado físico, tocá el resultado. Si no, tiralo acá.</p><div class="dice-grid"><button class="btn btn-secondary" onclick="diceResult('GOL')">⚽ GOL</button><button class="btn btn-secondary" onclick="diceResult('ATAJADA')">🧤 ATAJADA</button><button class="btn btn-secondary" onclick="diceResult('VAR')">📺 VAR</button><button class="btn btn-secondary" onclick="diceResult('REPLAY')">🔁 REPLAY</button><button class="btn btn-secondary" onclick="diceResult('FALTA')">🟥 FALTA</button><button class="btn btn-secondary" onclick="diceResult('PENAL')">⚪ PENAL</button></div><div class="footer-actions"><button class="btn btn-primary" onclick="randomDice()">TIRAR DADO DIGITAL</button></div></div>
+</section>
+<section class="screen" id="penalty">
+<div class="topbar"><button class="navbtn" onclick="forfeitPenalty()" title="Abandonar = penal fallado">×</button><span class="brand">⚽ PENAL</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="card gold"><h2 id="penPlayer"></h2><p class="subtitle">El reloj empieza al tocar LISTO. Son 5 segundos.</p><button class="btn btn-primary" id="penReady" onclick="startPenalty()" style="width:100%">LISTO PARA PATEAR</button><div class="hidden" id="penContent"><div class="question" id="penQuestion"></div><div class="timer" id="penTimer">5</div><button class="btn btn-secondary" onclick="showPenaltyAnswer()" style="width:100%">MOSTRAR RESPUESTA</button><div class="answer hidden" id="penAnswer"></div><div class="grid2 hidden" id="penActions" style="margin-top:12px"><button class="btn btn-ok" onclick="finishPenalty(true)">⚽ GOL</button><button class="btn btn-danger" onclick="finishPenalty(false)">🧤 ATAJADA</button></div></div></div>
+</section>
+<section class="screen" id="power">
+<div class="topbar"><button class="navbtn" onclick="powerBack()">←</button><span class="brand">PODERES DE JUEGO</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="card gold power-stage">
+<div class="power-icon" id="powerIcon">⭐</div>
+<div class="eyebrow" id="powerEyebrow">PODER ESPECIAL</div>
+<h2 class="power-title" id="powerTitle">CAPITÁN</h2>
+<p class="power-copy" id="powerText"></p>
+<div class="power-rule hidden" id="powerRule"></div>
+<div class="player-pick" id="powerOptions"></div>
+</div>
+</section>
+<section class="screen" id="shootout">
+<div class="topbar"><button class="navbtn" onclick="goHome()">☰</button><span class="brand" id="shootBrand">⚽ PENALES</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head center"><span class="mode-chip" id="shootMode">DEFINICIÓN</span><h2 id="shootTitle">PENAL A PENAL</h2><p class="subtitle" id="shootSubtitle"></p></div>
+<div class="shoot-score">
+<div class="shoot-team"><b id="shootNameA"></b><div class="shoot-kicks" id="shootKicksA"></div></div>
+<div class="shoot-vs">VS</div>
+<div class="shoot-team"><b id="shootNameB"></b><div class="shoot-kicks" id="shootKicksB"></div></div>
+</div>
+<div class="card gold">
+<div class="eyebrow" id="shootShooter"></div>
+<button class="btn btn-primary" id="shootReady" onclick="startShootoutKick()" style="width:100%">LISTO PARA PATEAR</button>
+<div class="hidden" id="shootContent">
+<div class="question" id="shootQuestion"></div>
+<div class="timer" id="shootTimer">5</div>
+<button class="btn btn-secondary" onclick="showShootoutAnswer()" style="width:100%">MOSTRAR RESPUESTA</button>
+<div class="answer hidden" id="shootAnswer"></div>
+<div class="grid2 hidden" id="shootActions" style="margin-top:12px"><button class="btn btn-ok" onclick="finishShootoutKick(true)">⚽ GOL</button><button class="btn btn-danger" onclick="finishShootoutKick(false)">🧤 ATAJADA</button></div>
+</div>
+</div>
+</section>
+<section class="screen" id="scores">
+<div class="topbar"><button class="navbtn" onclick="go('turn')">←</button><span class="brand">MARCADOR</span><button class="navbtn" onclick="goHome()">⌂</button></div>
+<div class="section-head"><span class="mode-chip">EN VIVO</span><h2>Tabla de la partida</h2></div><div class="card" id="scoreBox"></div>
+<div class="footer-actions"><button class="btn btn-primary" onclick="go('turn')">VOLVER A LA PARTIDA</button><button class="btn btn-secondary" oncli
