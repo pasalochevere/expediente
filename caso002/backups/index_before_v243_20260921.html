@@ -14,7 +14,7 @@
 <body>
 <section id="gate" class="gate"><div class="corridor"></div><div class="floor"></div><div class="door"></div><div class="shade"></div><div class="content"><div class="kicker">EXPEDIENTES · CASO 002</div><h1><small>LA HABITACIÓN QUE NO EXISTE</small>HOTEL ORFEO</h1><p>Un hotel cerrado durante décadas. Seis invitados. Una desaparición a las <b>03:17</b>. Y una puerta que no debería existir.</p><p class="quote">Algunas puertas fueron cerradas por una razón.</p><div id="status" class="status"><span>CARGANDO EXPEDIENTE</span><div class="bar"><i></i></div></div><button id="openBtn" class="openBtn">ABRIR EXPEDIENTE</button><button id="retryBtn" class="retryBtn">REINTENTAR</button><div id="error" class="error"></div></div></section>
 <script>
-const C002_BUILD='20260921-v243';
+const C002_BUILD='20260921-p242a1b';
 async function launch(){
   const status=document.getElementById('status');
   const error=document.getElementById('error');
@@ -29,8 +29,8 @@ async function launch(){
   if(!('DecompressionStream' in window))throw new Error('Tu navegador necesita una versión más reciente.');
   const ds=new DecompressionStream('gzip');
   let html=await new Response(new Blob([u8]).stream().pipeThrough(ds)).text();
-  const visualScripts=['assets/visual/assets-part-01.js?v=243','assets/visual/assets-part-02.js?v=243','assets/visual/assets-part-03.js?v=243','assets/visual/assets-part-04.js?v=243','assets/visual/assets-part-05.js?v=243','assets/visual/assets-part-06.js?v=243','assets/visual/assets-part-07.js?v=243','assets/visual/assets-part-08.js?v=243','assets/visual/fix-P04-v243.js?v=243','assets/visual/fix-P05-v242.js?v=243','assets/visual/fix-P06-v242.js?v=243','assets/visual/fix-L03-v242.js?v=243','assets/visual/fix-O02-v243.js?v=243','assets/visual/fix-O03-v243.js?v=243','assets/visual/fix-room-317-v242.js?v=243','assets/visual/visual-restoration.js?v=243'].map(s=>'<script src="'+s+'"></'+'script>').join('');
-  const runtimeScripts='<script src="audio.js?v=243"></'+'script><script src="rc.js?v=243"></'+'script>'+visualScripts;
+  const visualScripts=['assets/visual/assets-part-01.js?v=242','assets/visual/assets-part-02.js?v=242','assets/visual/assets-part-03.js?v=242','assets/visual/assets-part-04.js?v=242','assets/visual/assets-part-05.js?v=242','assets/visual/assets-part-06.js?v=242','assets/visual/assets-part-07.js?v=242','assets/visual/assets-part-08.js?v=242','assets/visual/fix-P05-v242.js?v=242','assets/visual/fix-P06-v242.js?v=242','assets/visual/fix-L03-v242.js?v=242','assets/visual/fix-room-317-v242.js?v=242','assets/visual/visual-restoration.js?v=242'].map(s=>'<script src="'+s+'"></'+'script>').join('');
+  const runtimeScripts='<script src="audio.js?v=242"></'+'script><script src="rc.js?v=242"></'+'script>'+visualScripts;
   const closeBody=html.toLowerCase().lastIndexOf('</body>');
   if(closeBody<0)throw new Error('Payload inválido: falta el cierre del documento.');
   html=html.slice(0,closeBody)+runtimeScripts+html.slice(closeBody);
