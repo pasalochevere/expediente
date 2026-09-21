@@ -27,6 +27,12 @@
         if(accent)accent.textContent='50 DISEÑOS · 5 COLECCIONES · CREATOR PLUS';
         const p=card.querySelector('p');
         if(p)p.textContent='Creá, personalizá e imprimí Paper Squishies. Incluye 50 diseños en 5 colecciones, editor Creator Plus y 10 nuevos diseños por mes durante 12 meses.';
+        if(!card.querySelector('.psqDownloadAction')){
+          const d=document.createElement('div');d.className='previewAction psqDownloadAction';
+          d.innerHTML='<a class="btn" href="../paper-squishy/downloads.html">⬇ DESCARGAR IMPRIMIBLES</a>';
+          const actions=card.querySelector('.actions');
+          if(actions)card.insertBefore(d,actions);else card.appendChild(d);
+        }
       }
     };
 
@@ -42,7 +48,7 @@
           const screenSub=document.getElementById('previewScreenSub');
           if(sub)sub.textContent='50 DISEÑOS · 5 COLECCIONES · CREATOR PLUS';
           if(summary)summary.textContent='Elegí entre 50 diseños, personalizalos en Creator Plus y prepará frente, dorso y versiones para imprimir.';
-          if(list)list.innerHTML='<div>50 diseños incluidos en 5 colecciones.</div><div>Sweet Squishies, Food Squad, Animal Cuties, Cosmic Friends y Magic Objects.</div><div>10 diseños nuevos por mes durante 12 meses.</div>';
+          if(list)list.innerHTML='<div>50 diseños incluidos en 5 colecciones.</div><div>Sweet Squishies, Food Squad, Animal Cuties, Cosmic Friends y Magic Objects.</div><div>PDF Maestro descargable: 157 páginas A4 con frente, dorso y coloring.</div><div>10 diseños nuevos por mes durante 12 meses.</div>';
           if(screenSub)screenSub.textContent='50 DISEÑOS · 5 COLECCIONES · CREATOR PLUS';
         },0);
         return out;
@@ -52,6 +58,7 @@
     patch();
     setTimeout(patch,250);
     setTimeout(patch,900);
+    setTimeout(patch,1800);
   };
   base.onerror=()=>console.error('No se pudo cargar el módulo comercial base del Portal.');
   document.head.appendChild(base);
