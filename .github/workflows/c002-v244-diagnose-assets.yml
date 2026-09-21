@@ -1,0 +1,87 @@
+name: C002 v244 Diagnose Visual Assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-v244-diagnose-assets.yml'
+      - '.github/triggers/c002-v244-diagnose.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m pip install --disable-pip-version-check pillow
+      - name: Diagnose target visual assets
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from io import BytesIO
+          import re, base64, hashlib
+          from PIL import Image
+
+          root=Path('caso002/assets/visual')
+          targets={
+            'P04':'fix-P04-v243.js',
+            'P05':'fix-P05-v242.js',
+            'P06':'fix-P06-v242.js',
+            'L03':'fix-L03-v242.js',
+            'O02':'fix-O02-v243.js',
+            'O03':'fix-O03-v243.js',
+            'room_317':'fix-room-317-v242.js',
+          }
+
+          def inspect_data_uri(label, text):
+              m=re.search(r'data:image/([a-zA-Z0-9.+-]+);base64,([A-Za-z0-9+/=]+)', text)
+              if not m:
+                  print(f'{label}: NO_DATA_URI')
+                  return
+              fmt=m.group(1); b64=m.group(2)
+              print(f'{label}: data_uri fmt={fmt} b64chars={len(b64)}')
+              try:
+                  raw=base64.b64decode(b64, validate=True)
+              except Exception as e:
+                  print(f'{label}: BASE64_INVALID {e}')
+                  return
+              print(f'{label}: rawbytes={len(raw)} sha256={hashlib.sha256(raw).hexdigest()} head={raw[:8].hex()} tail={raw[-8:].hex()}')
+              try:
+                  im=Image.open(BytesIO(raw)); im.load()
+                  print(f'{label}: PIL_OK format={im.format} size={im.size} mode={im.mode}')
+              except Exception as e:
+                  print(f'{label}: PIL_FAIL {type(e).__name__}: {e}')
+
+          for key,fn in targets.items():
+              p=root/fn
+              print('\n===',key,fn,'exists=',p.exists(),'bytes=',p.stat().st_size if p.exists() else 0)
+              if not p.exists(): continue
+              txt=p.read_text(encoding='utf-8')
+              # External-path fixes are valid by construction if target file exists.
+              m=re.search(r"['\"]([^'\"]+\.(?:jpg|jpeg|png|webp))['\"]",txt,re.I)
+              if 'data:image/' not in txt and m:
+                  rel=m.group(1)
+                  fp=Path('caso002')/rel
+                  print(f'{key}: EXTERNAL {rel} exists={fp.exists()} bytes={fp.stat().st_size if fp.exists() else 0}')
+                  if fp.exists():
+                      try:
+                          im=Image.open(fp); im.load()
+                          print(f'{key}: EXTERNAL_PIL_OK format={im.format} size={im.size} mode={im.mode}')
+                      except Exception as e:
+                          print(f'{key}: EXTERNAL_PIL_FAIL {e}')
+              else:
+                  inspect_data_uri(key,txt)
+
+          # Also inspect original embedded assets for fallback/recovery candidates.
+          joined='\n'.join((root/f'assets-part-{i:02d}.js').read_text(encoding='utf-8') for i in range(1,9) if (root/f'assets-part-{i:02d}.js').exists())
+          for key in ['P05','P06','L03','room_317']:
+              m=re.search(r'['+'"'+r"']"+re.escape(key)+r'['+'"'+r"']\s*:\s*['+'"'+r"']data:image/[^;]+;base64,([A-Za-z0-9+/=]+)", joined)
+              if not m:
+                  print(f'ORIGINAL {key}: NOT_FOUND')
+                  continue
+              inspect_data_uri('ORIGINAL '+key,'data:image/jpeg;base64,'+m.group(1))
+          PY
