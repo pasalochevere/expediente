@@ -1,0 +1,26 @@
+{
+  "release": "P2.5",
+  "product_code": "PSQ-FACTORY",
+  "title": "Sistema de actualizaciones mensuales",
+  "state": "SYSTEM_READY_PACK_M01_DESIGN",
+  "base_release": "P2.4.4",
+  "commercial_core_untouched": true,
+  "current_live_catalog": 50,
+  "update_engine": {
+    "mode": "manifest-first",
+    "pack_states": ["DRAFT", "DESIGN_READY", "ASSETS_READY", "QA_PASS", "LIVE", "RETIRED"],
+    "pack_size": 10,
+    "assets_per_pack": 80,
+    "integration": "merge library only after QA_PASS",
+    "rollback": "remove pack from live index; core unchanged"
+  },
+  "m01": {
+    "pack_id": "PSQ-M01-2026-10",
+    "title": "Ocean Friends",
+    "characters": 10,
+    "assets_planned": 80,
+    "status": "DESIGN_READY",
+    "live": false
+  },
+  "next_gate": "P2.5.1 producir los 80 assets canónicos de M01 y ejecutar QA antes de publicar"
+}
