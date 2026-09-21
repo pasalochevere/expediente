@@ -1,0 +1,53 @@
+{
+  "release": "P2.4.2-RC",
+  "product_code": "PSQ-FACTORY",
+  "product_name": "PAPER SQUISHY FACTORY",
+  "state": "RELEASE_CANDIDATE",
+  "candidate_at": "2026-09-21",
+  "base_release": "P2.4.2-FIX.2A",
+  "catalog": {
+    "collections": 5,
+    "characters": 50,
+    "assets": 400,
+    "views_per_character": 8
+  },
+  "commercial": {
+    "price_ars": 14999,
+    "duration_hours": 8760,
+    "device_limit": 2,
+    "sales_enabled": true,
+    "game_url": "https://pasalochevere.github.io/expediente/paper-squishy/",
+    "portal_category": "Creativos & Didácticos",
+    "promise": "50 diseños incluidos + Creator Plus + 10 nuevos diseños por mes durante 12 meses"
+  },
+  "core": {
+    "storage_bucket": "paper-squishy-assets",
+    "storage_path": "v2.4/factory-core.html",
+    "bytes": 231666,
+    "sha256": "6ffdfefb572188db8e4c99ccaa42a3d6ff28d3949df8d443f7eef69bb8497e00",
+    "integrity_locked": true
+  },
+  "qa": {
+    "functional_regression": "PASS",
+    "catalog_integrity": "PASS",
+    "storage_integrity": "PASS",
+    "print_mini_8_cm": "PASS",
+    "print_normal_12_cm": "PASS",
+    "print_xl_17_cm_two_pages": "PASS",
+    "license_duration_normalized": "PASS",
+    "portal_copy": "PASS",
+    "commercial_smoke_page": "paper-squishy/rc-smoke.html"
+  },
+  "manual_smoke_required": [
+    "Portal → iniciar sesión",
+    "Licencia PSQ-FACTORY activa → Abrir",
+    "Abrir personaje de cada una de las 5 colecciones",
+    "Galería 1/8 → 8/8",
+    "Remix → modificar → PNG",
+    "Impresión Normal 12 cm",
+    "Impresión XL 17 cm en 2 A4",
+    "Volver al Portal"
+  ],
+  "known_minor_issue": "El nombre interno mostrado por pasalochevere-admin-license todavía conserva el texto histórico '30 diseños + Creator Plus'. No afecta precio, vigencia, activación ni acceso del comprador; corregir antes de declarar GA/final comercial.",
+  "change_rule": "No modificar el core congelado de P2.4.2-FIX.2A. Cualquier cambio funcional debe generar una nueva versión."
+}
