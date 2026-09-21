@@ -1,0 +1,30 @@
+name: C002 Diagnose Data Once
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-diagnose-data-once.yml'
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect CASE002_DATA declaration
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64,gzip,re
+          names=['payload.part00a1a.correct','payload.part00a1b','payload.part00a2','payload.part00b','payload.part01','payload.part02','payload.part03','payload.part04','payload.part05']
+          b64=''.join(Path('caso002',n).read_text(encoding='utf-8').strip() for n in names)
+          html=gzip.decompress(base64.b64decode(b64)).decode('utf-8')
+          i=html.find('CASE002_DATA')
+          print('INDEX',i)
+          print('CONTEXT_BEGIN')
+          print(html[max(0,i-300):i+700])
+          print('CONTEXT_END')
+          for pat in [r'window\.CASE002_DATA\s*=',r'const\s+CASE002_DATA\s*=',r'let\s+CASE002_DATA\s*=',r'var\s+CASE002_DATA\s*=']:
+              print(pat, bool(re.search(pat,html)))
+          PY
