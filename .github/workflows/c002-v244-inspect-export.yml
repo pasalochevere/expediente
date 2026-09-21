@@ -16,17 +16,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Export recovered candidates as text for QA
+      - run: python -m pip install --disable-pip-version-check pillow
+      - name: Export lightweight QA thumbnails
+        shell: bash
         run: |
-          base64 -w 0 caso002/assets/visual/bin/L03-v244.jpg > caso002/assets/visual/staging/L03-v244.inspect.b64
-          base64 -w 0 caso002/assets/visual/bin/room-317-v244.jpg > caso002/assets/visual/staging/room-317-v244.inspect.b64
-      - name: Commit inspection exports
+          python - <<'PY'
+          from pathlib import Path
+          from io import BytesIO
+          from PIL import Image
+          import base64
+          jobs=[
+            ('L03','caso002/assets/visual/bin/L03-v244.jpg'),
+            ('room317','caso002/assets/visual/bin/room-317-v244.jpg'),
+          ]
+          outdir=Path('caso002/assets/visual/staging'); outdir.mkdir(parents=True,exist_ok=True)
+          for label,path in jobs:
+              im=Image.open(path).convert('RGB')
+              im.thumbnail((128,72),Image.Resampling.LANCZOS)
+              buf=BytesIO(); im.save(buf,'JPEG',quality=62,optimize=True)
+              b64=base64.b64encode(buf.getvalue()).decode('ascii')
+              (outdir/f'{label}-v244.thumb.b64').write_text(b64,encoding='ascii')
+              print(label,im.size,len(buf.getvalue()),len(b64))
+          PY
+      - name: Commit QA thumbnails
         run: |
           git config user.name "lunchpack-arg"
           git config user.email "pasalochevere@gmail.com"
-          git add caso002/assets/visual/staging/*.inspect.b64
+          git add caso002/assets/visual/staging/*-v244.thumb.b64
           if ! git diff --cached --quiet; then
-            git commit -m "C002 v244 stage visual inspection exports"
+            git commit -m "C002 v244 add lightweight visual QA thumbnails"
             git pull --rebase origin main
             git push
           fi
