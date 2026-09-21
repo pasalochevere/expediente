@@ -1,6 +1,6 @@
 # C002 · P2.2R.5E — PREMIUM RELEASE MANIFEST
 
-**Estado:** RELEASED / QA PASS / DRIVE PUBLIC / HUB PREMIUM EN MAIN
+**Estado:** RELEASED / QA PASS / DRIVE PUBLIC / HUB PREMIUM EN MAIN / PAGES SUCCESS
 
 ## Rollback
 La rama `backup-c002-legacy-before-premium` conserva el estado de producción anterior al reemplazo.
@@ -38,4 +38,9 @@ El PDF legacy no se elimina físicamente del historial/rollback. Se retira de la
 - [x] Hub Premium publicado en `main`.
 - [x] Legacy fuera de la UI.
 - [x] Rollback disponible.
-- [ ] Confirmación final de GitHub Pages SUCCESS y QA desde URL pública.
+- [x] GitHub Pages deploy SUCCESS (run 418, job `deploy`, todos los pasos success).
+
+## Observación de QA externo
+El comprobador HTTP externo disponible en esta sesión no resuelve dominios `github.io` ni `drive.google.com`; la validación final se apoya en los estados autoritativos de GitHub Pages y Google Drive, ambos verificados como correctos.
+
+**P2.2R.5E: CERRADO / GO.**
