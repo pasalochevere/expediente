@@ -1,0 +1,160 @@
+name: C002 v243 Finalize Visuals Once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-v243-finalize-visuals-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-v243:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install image tooling
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Build O02 and O03 binary assets and wire v243
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from io import BytesIO
+          import base64, hashlib, re, shutil
+          from PIL import Image, ImageFilter, ImageOps
+
+          root=Path('caso002')
+          vis=root/'assets'/'visual'
+          bindir=vis/'bin'
+          bindir.mkdir(parents=True, exist_ok=True)
+
+          def jpeg_ok(data, label):
+              if not (data.startswith(b'\xff\xd8') and data.rstrip().endswith(b'\xff\xd9')):
+                  raise SystemExit(f'{label}: invalid JPEG framing')
+              return data
+
+          def normalize(data, out, label):
+              jpeg_ok(data,label)
+              im=Image.open(BytesIO(data)).convert('RGB')
+              src=im.size
+              # All C002 visual cards use 16:9. Fit without stretching.
+              im=ImageOps.fit(im,(640,360),method=Image.Resampling.LANCZOS,centering=(0.5,0.5))
+              # Gentle reconstruction only: preserve image identity, reduce interpolation softness.
+              im=im.filter(ImageFilter.UnsharpMask(radius=1.0,percent=115,threshold=3))
+              im.save(out,'JPEG',quality=94,optimize=True,progressive=True,subsampling=0)
+              raw=out.read_bytes()
+              jpeg_ok(raw,label+' normalized')
+              check=Image.open(out)
+              if check.size != (640,360):
+                  raise SystemExit(f'{label}: unexpected final dimensions {check.size}')
+              print(f'{label}: {src} -> {check.size} · {len(raw)} bytes · sha256={hashlib.sha256(raw).hexdigest()}')
+
+          # O02: authoritative staged chunks already committed in order.
+          chunks=sorted((vis/'staging').glob('O02.*.b64'))
+          if [p.name for p in chunks] != ['O02.01.b64','O02.02.b64']:
+              raise SystemExit('O02 staging incomplete; expected O02.01.b64 + O02.02.b64')
+          o02b64=''.join(p.read_text(encoding='utf-8').strip() for p in chunks)
+          try:
+              o02=base64.b64decode(o02b64,validate=True)
+          except Exception as e:
+              raise SystemExit(f'O02 base64 invalid: {e}')
+          normalize(o02,bindir/'O02-v243.jpg','O02')
+
+          # O03: recover the exact cassette image embedded in the production visual bundle.
+          part5=(vis/'assets-part-05.js').read_text(encoding='utf-8')
+          m=re.search(r'"O03":"data:image/jpeg;base64,([A-Za-z0-9+/=]+)"',part5)
+          if not m:
+              raise SystemExit('O03 embedded source not found in assets-part-05.js')
+          try:
+              o03=base64.b64decode(m.group(1),validate=True)
+          except Exception as e:
+              raise SystemExit(f'O03 embedded base64 invalid: {e}')
+          normalize(o03,bindir/'O03-v243.jpg','O03')
+
+          # Normalize P04 only if its persisted binary is below target dimensions.
+          p04=bindir/'P04-v243.jpg'
+          if not p04.exists():
+              raise SystemExit('P04-v243.jpg missing')
+          p04im=Image.open(p04)
+          if p04im.size != (640,360):
+              normalize(p04.read_bytes(),p04,'P04')
+          else:
+              print('P04: already 640x360')
+
+          # Required override contracts.
+          expected={
+              'fix-P04-v243.js':"P04:'assets/visual/bin/P04-v243.jpg'",
+              'fix-P05-v242.js':'P05',
+              'fix-P06-v242.js':'P06',
+              'fix-L03-v242.js':'L03',
+              'fix-O02-v243.js':"O02:'assets/visual/bin/O02-v243.jpg'",
+              'fix-O03-v243.js':"O03:'assets/visual/bin/O03-v243.jpg'",
+              'fix-room-317-v242.js':'room_317',
+          }
+          for fn,marker in expected.items():
+              p=vis/fn
+              if not p.exists() or marker not in p.read_text(encoding='utf-8'):
+                  raise SystemExit(f'Override contract failed: {fn} / {marker}')
+
+          index=root/'index.html'
+          s=index.read_text(encoding='utf-8')
+          backup=root/'backups'/'index_before_v243_20260921.html'
+          if not backup.exists():
+              shutil.copyfile(index,backup)
+
+          s=re.sub(r"const C002_BUILD='[^']+';","const C002_BUILD='20260921-v243';",s,count=1)
+          new_visual="const visualScripts=['assets/visual/assets-part-01.js?v=243','assets/visual/assets-part-02.js?v=243','assets/visual/assets-part-03.js?v=243','assets/visual/assets-part-04.js?v=243','assets/visual/assets-part-05.js?v=243','assets/visual/assets-part-06.js?v=243','assets/visual/assets-part-07.js?v=243','assets/visual/assets-part-08.js?v=243','assets/visual/fix-P04-v243.js?v=243','assets/visual/fix-P05-v242.js?v=243','assets/visual/fix-P06-v242.js?v=243','assets/visual/fix-L03-v242.js?v=243','assets/visual/fix-O02-v243.js?v=243','assets/visual/fix-O03-v243.js?v=243','assets/visual/fix-room-317-v242.js?v=243','assets/visual/visual-restoration.js?v=243'].map(s=>'<script src=\"'+s+'\"></'+'script>').join('');"
+          s,n=re.subn(r"const visualScripts=\[[^\n]+?\.join\('\'\);",new_visual,s,count=1)
+          if n != 1:
+              # More tolerant exact-line replacement for current source.
+              lines=s.splitlines()
+              hits=[i for i,l in enumerate(lines) if l.strip().startswith('const visualScripts=')]
+              if len(hits)!=1:
+                  raise SystemExit(f'visualScripts line not uniquely found: {hits}')
+              lines[hits[0]]='  '+new_visual
+              s='\n'.join(lines)+'\n'
+          s=re.sub(r"const runtimeScripts='<script src=\"audio\.js\?v=[^\"]+\"></'\+'script><script src=\"rc\.js\?v=[^\"]+\"></'\+'script>'\+visualScripts;","const runtimeScripts='<script src=\"audio.js?v=243\"></'+'script><script src=\"rc.js?v=243\"></'+'script>'+visualScripts;",s,count=1)
+          if "audio.js?v=243" not in s or "rc.js?v=243" not in s:
+              raise SystemExit('runtime v243 cache bust not applied')
+          index.write_text(s,encoding='utf-8')
+
+          # Portal cache-bust EXP-002 route, without touching license/sales behavior.
+          portal=Path('portal-v2/index.html')
+          ps=portal.read_text(encoding='utf-8')
+          ps2=re.sub(r"(\.\./caso002/\?access='\+encodeURIComponent\(l\.activation_code\))(?:\+'[^']*')?",r"\1+'&build=20260921-v243'",ps,count=1)
+          if ps2==ps:
+              # Current route may already append &build in the same returned string.
+              ps2=re.sub(r"(&build=)[A-Za-z0-9._-]+",r"\g<1>20260921-v243",ps,count=1)
+          if ps2==ps and '20260921-v243' not in ps:
+              raise SystemExit('EXP-002 portal cache-bust route not patched')
+          portal.write_text(ps2,encoding='utf-8')
+
+          status=Path('caso002/P2_4_2B_1_LOTE_2_STATUS.md')
+          status.write_text('''# P2.4.2B.1 · Lote 2 visual\n\nEstado: O02 y O03 reconstruidos como JPG binarios v243 y P04 normalizado. Overrides P04/P05/P06/L03/O02/O03/317 cableados en producción con cache-bust v243.\n\n**EXP-002 permanece con ventas pausadas.** La rehabilitación comercial queda explícitamente fuera de este cambio hasta QA visual manual conjunto del juego real.\n''',encoding='utf-8')
+
+          manifest=Path('caso002/RELEASE_V243_HOLD_QA.md')
+          manifest.write_text('''# C002 · v243 · HOLD QA\n\nFecha: 2026-09-21\n\n## Incluido\n- P04: binario v243 normalizado 640x360.\n- P05: override v242 preservado y cargado por v243.\n- P06: override v242 preservado y cargado por v243.\n- L03: override v242 preservado y cargado por v243.\n- O02: reconstruido desde O02.01/O02.02 staged y normalizado 640x360.\n- O03: reconstruido desde el cassette embebido de producción y normalizado 640x360.\n- 317: override room_317 v242 preservado y cargado por v243.\n\n## Gate comercial\nHOLD. No rehabilitar ventas hasta comprobar manualmente en el juego real P04/P05/P06/L03/O02/O03/317.\n\n## Regla\nEste release modifica assets/carga/cache únicamente. No cambia licencia, narrativa, solución dinámica ni sales_enabled.\n''',encoding='utf-8')
+
+          # Final static assertions.
+          final=index.read_text(encoding='utf-8')
+          required=['fix-P04-v243.js?v=243','fix-P05-v242.js?v=243','fix-P06-v242.js?v=243','fix-L03-v242.js?v=243','fix-O02-v243.js?v=243','fix-O03-v243.js?v=243','fix-room-317-v242.js?v=243','visual-restoration.js?v=243']
+          missing=[x for x in required if x not in final]
+          if missing:
+              raise SystemExit(f'v243 loader missing: {missing}')
+          print('PASS: v243 static loader contract complete; commercial gate remains HOLD')
+          PY
+
+      - name: Commit v243 visual candidate
+        shell: bash
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso002/assets/visual/bin/P04-v243.jpg caso002/assets/visual/bin/O02-v243.jpg caso002/assets/visual/bin/O03-v243.jpg caso002/index.html portal-v2/index.html caso002/backups/index_before_v243_20260921.html caso002/P2_4_2B_1_LOTE_2_STATUS.md caso002/RELEASE_V243_HOLD_QA.md
+          git commit -m "C002 v243 finalize P04 O02 O03 visuals and hold for QA"
+          git push
