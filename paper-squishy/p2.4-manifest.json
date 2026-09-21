@@ -59,12 +59,18 @@
   ],
   "qa": {
     "status": "APPROVED",
-    "characters_reviewed": 20,
-    "images_reviewed": 160,
+    "characters_reviewed": 50,
+    "images_reviewed": 400,
     "individual_assets_per_character": 8,
     "front_back_scale_match": true,
     "editor_asset_alpha": true,
-    "zip_integrity_tested": true
+    "zip_integrity_tested": true,
+    "storage_objects_verified": 401,
+    "storage_webp_verified": 400,
+    "storage_library_json_verified": true,
+    "storage_mime_verified": "image/webp",
+    "storage_character_anomalies": 0
   },
-  "publish_state": "metadata_ready_assets_pending_upload"
+  "publish_state": "LIVE",
+  "published_at": "2026-09-21"
 }
