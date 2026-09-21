@@ -1,6 +1,6 @@
 {
   "release": "P2.4",
-  "current_release": "P2.4.2-RC",
+  "current_release": "P2.4.2-GA",
   "product_code": "PSQ-FACTORY",
   "product_name": "PAPER SQUISHY FACTORY",
   "catalog_totals": {
@@ -71,7 +71,9 @@
     "storage_mime_verified": "image/webp",
     "storage_character_anomalies": 0,
     "functional_regression_status": "PASS",
-    "critical_regressions": 0
+    "critical_regressions": 0,
+    "commercial_smoke": "PASS",
+    "manual_smoke": "PASS"
   },
   "technical_freeze": {
     "state": "FROZEN",
@@ -83,16 +85,23 @@
     "release_manifest": "paper-squishy/releases/P2.4.2-FIX.2A/release.json"
   },
   "release_candidate": {
-    "state": "PASS",
+    "state": "PROMOTED_TO_GA",
     "release": "P2.4.2-RC",
     "manifest": "paper-squishy/releases/P2.4.2-RC/release.json",
     "smoke_test": "paper-squishy/rc-smoke.html",
-    "commercial_price_ars": 14999,
-    "commercial_duration_hours": 8760,
-    "commercial_device_limit": 2,
-    "manual_smoke_pending": false,
     "manual_smoke_confirmed_at": "2026-09-21"
   },
-  "publish_state": "RC_PASS",
+  "commercial_release": {
+    "state": "COMMERCIAL_LIVE",
+    "release": "P2.4.2-GA",
+    "manifest": "paper-squishy/releases/P2.4.2-GA/release.json",
+    "price_ars": 14999,
+    "duration_hours": 8760,
+    "device_limit": 2,
+    "sales_enabled": true,
+    "admin_edge_function_version": 9,
+    "go_live_at": "2026-09-21"
+  },
+  "publish_state": "COMMERCIAL_LIVE",
   "published_at": "2026-09-21"
 }
