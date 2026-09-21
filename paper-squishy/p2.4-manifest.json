@@ -1,6 +1,6 @@
 {
   "release": "P2.4",
-  "current_release": "P2.4.2-FIX.2A",
+  "current_release": "P2.4.2-RC",
   "product_code": "PSQ-FACTORY",
   "product_name": "PAPER SQUISHY FACTORY",
   "catalog_totals": {
@@ -82,6 +82,16 @@
     "loader_snapshot": "paper-squishy/releases/P2.4.2-FIX.2A/factory-loader.html",
     "release_manifest": "paper-squishy/releases/P2.4.2-FIX.2A/release.json"
   },
-  "publish_state": "LIVE_FROZEN",
+  "release_candidate": {
+    "state": "RC",
+    "release": "P2.4.2-RC",
+    "manifest": "paper-squishy/releases/P2.4.2-RC/release.json",
+    "smoke_test": "paper-squishy/rc-smoke.html",
+    "commercial_price_ars": 14999,
+    "commercial_duration_hours": 8760,
+    "commercial_device_limit": 2,
+    "manual_smoke_pending": true
+  },
+  "publish_state": "RC_LIVE",
   "published_at": "2026-09-21"
 }
