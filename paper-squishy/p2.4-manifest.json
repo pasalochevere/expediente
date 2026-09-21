@@ -1,0 +1,70 @@
+{
+  "release": "P2.4",
+  "product_code": "PSQ-FACTORY",
+  "product_name": "PAPER SQUISHY FACTORY",
+  "catalog_totals": {
+    "collections": 5,
+    "characters": 50,
+    "assets": 400
+  },
+  "new_content": {
+    "collections": 2,
+    "characters": 20,
+    "assets": 160,
+    "views_per_character": 8
+  },
+  "asset_keys": [
+    "hero",
+    "front_print",
+    "back_print",
+    "coloring",
+    "editor_asset",
+    "character_card",
+    "tutorial",
+    "mockup"
+  ],
+  "collections": [
+    {
+      "id": "cosmic_friends",
+      "name": "Cosmic Friends",
+      "characters": [
+        {"code":"CF01","slug":"luni","name":"Luni"},
+        {"code":"CF02","slug":"soli","name":"Soli"},
+        {"code":"CF03","slug":"esteli","name":"Esteli"},
+        {"code":"CF04","slug":"coheti","name":"Coheti"},
+        {"code":"CF05","slug":"saturni","name":"Saturni"},
+        {"code":"CF06","slug":"astri","name":"Astri"},
+        {"code":"CF07","slug":"cometi","name":"Cometi"},
+        {"code":"CF08","slug":"ovni-pop","name":"Ovni Pop"},
+        {"code":"CF09","slug":"nebuli","name":"Nebuli"},
+        {"code":"CF10","slug":"lumo","name":"Lumo"}
+      ]
+    },
+    {
+      "id": "magic_objects",
+      "name": "Magic Objects",
+      "characters": [
+        {"code":"MO01","slug":"poci","name":"Poci"},
+        {"code":"MO02","slug":"libri","name":"Libri"},
+        {"code":"MO03","slug":"cristali","name":"Cristali"},
+        {"code":"MO04","slug":"calderi","name":"Calderi"},
+        {"code":"MO05","slug":"variti","name":"Variti"},
+        {"code":"MO06","slug":"llavi","name":"Llavi"},
+        {"code":"MO07","slug":"orbi","name":"Orbi"},
+        {"code":"MO08","slug":"cofri","name":"Cofri"},
+        {"code":"MO09","slug":"areni","name":"Areni"},
+        {"code":"MO10","slug":"sombreri","name":"Sombreri"}
+      ]
+    }
+  ],
+  "qa": {
+    "status": "APPROVED",
+    "characters_reviewed": 20,
+    "images_reviewed": 160,
+    "individual_assets_per_character": 8,
+    "front_back_scale_match": true,
+    "editor_asset_alpha": true,
+    "zip_integrity_tested": true
+  },
+  "publish_state": "metadata_ready_assets_pending_upload"
+}
