@@ -1,0 +1,3 @@
+C002 v243 release candidate trigger
+2026-09-21
+Gate: HOLD commercial until joint real-game QA of P04/P05/P06/L03/O02/O03/317.
