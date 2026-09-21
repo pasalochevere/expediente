@@ -194,26 +194,28 @@ async function initC002(){
   if(!card)return;
   const status=card.querySelector('.status');
   const p=card.querySelector('p');
-  if(status)status.textContent='● RELEASE CANDIDATE';
-  if(p)p.textContent='Hotel Orfeo · 3 jugadores · roles privados · Habitación 317 · finales variables · kit imprimible COLOR y B/N.';
+  if(status)status.textContent='● DISPONIBLE PARA ACTIVAR';
+  if(p)p.textContent='Hotel Orfeo · 3 jugadores · roles privados · Habitación 317 · finales variables · kit imprimible Premium COLOR y B/N.';
   let price=card.querySelector('#exp002Price');
   if(!price){
     price=document.createElement('div');price.id='exp002Price';price.className='note';price.style.marginTop='8px';
     const actions=card.querySelector('.actions');card.insertBefore(price,actions)
   }
   const actions=card.querySelector('.actions');
-  if(actions)actions.innerHTML='<button class="btn primary" id="exp002Buy" disabled>VENTA ONLINE PENDIENTE</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20consultar%20por%20EXPEDIENTES%20%E2%80%94%20Caso%20002." target="_blank" rel="noopener">WHATSAPP</a>';
+  if(actions)actions.innerHTML='<button class="btn primary" id="exp002Buy" type="button">ACTIVAR COMPRA</button><a class="btn" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20quiero%20comprar%20EXPEDIENTES%20%E2%80%94%20Caso%20002." target="_blank" rel="noopener">WHATSAPP</a>';
   const btn=document.getElementById('exp002Buy');
-  price.textContent='Release Candidate aprobado · precio online pendiente de definición';
+  btn.disabled=false;btn.onclick=()=>scrollToActivation();
+  price.textContent='ARS 14.999 · acceso 12 meses';
   try{
     if(typeof sb==='undefined')return;
     const {data,error}=await sb.functions.invoke('pasalochevere-catalog',{body:{}});
     if(error||!data?.ok)return;
     const prod=(data.products||[]).find(x=>x.product_code==='EXP-002');
+    if(Number(prod?.price_ars)>0)price.textContent=formatPrice(prod.price_ars)+' · acceso 12 meses';
     if(prod?.sales_enabled&&Number(prod.price_ars)>0){
       price.textContent=formatPrice(prod.price_ars)+' · acceso 12 meses';
       if(status)status.textContent='● DISPONIBLE';btn.disabled=false;btn.textContent='COMPRAR AHORA';btn.onclick=()=>buyNow('EXP-002')
-    }else{btn.disabled=true}
+    }else{if(status)status.textContent='● DISPONIBLE PARA ACTIVAR';btn.disabled=false;btn.textContent='ACTIVAR COMPRA';btn.onclick=()=>scrollToActivation()}
   }catch(e){console.warn('C002 catalog',e)}
 }
 
