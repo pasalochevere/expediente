@@ -26,7 +26,8 @@ jobs:
           import subprocess,re,base64
           from pathlib import Path
           from io import BytesIO
-          from PIL import Image,ImageOps,ImageFilter
+          from PIL import Image,ImageOps,ImageFilter,ImageFile
+          ImageFile.LOAD_TRUNCATED_IMAGES=True
 
           jobs=[
             ('L03','616e533637790df5926d6fa3b29e21ea7ffa33b7','caso002/assets/visual/fix-L03-v242.js','caso002/assets/visual/bin/L03-v244.jpg'),
@@ -57,5 +58,6 @@ jobs:
             echo "Historical candidates already staged"
           else
             git commit -m "C002 v244 stage recovered L03 and room317 candidates"
+            git pull --rebase origin main
             git push
           fi
