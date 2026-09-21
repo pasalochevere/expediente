@@ -1,0 +1,32 @@
+name: C002 v244 Inspection Export
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-v244-inspect-export.yml'
+      - '.github/triggers/c002-v244-inspect.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export recovered candidates as text for QA
+        run: |
+          base64 -w 0 caso002/assets/visual/bin/L03-v244.jpg > caso002/assets/visual/staging/L03-v244.inspect.b64
+          base64 -w 0 caso002/assets/visual/bin/room-317-v244.jpg > caso002/assets/visual/staging/room-317-v244.inspect.b64
+      - name: Commit inspection exports
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso002/assets/visual/staging/*.inspect.b64
+          if ! git diff --cached --quiet; then
+            git commit -m "C002 v244 stage visual inspection exports"
+            git pull --rebase origin main
+            git push
+          fi
