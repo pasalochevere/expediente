@@ -1,5 +1,6 @@
 {
   "release": "P2.4",
+  "current_release": "P2.4.2-FIX.2A",
   "product_code": "PSQ-FACTORY",
   "product_name": "PAPER SQUISHY FACTORY",
   "catalog_totals": {
@@ -63,14 +64,24 @@
     "images_reviewed": 400,
     "individual_assets_per_character": 8,
     "front_back_scale_match": true,
-    "editor_asset_alpha": true,
     "zip_integrity_tested": true,
     "storage_objects_verified": 401,
     "storage_webp_verified": 400,
     "storage_library_json_verified": true,
     "storage_mime_verified": "image/webp",
-    "storage_character_anomalies": 0
+    "storage_character_anomalies": 0,
+    "functional_regression_status": "PASS",
+    "critical_regressions": 0
   },
-  "publish_state": "LIVE",
+  "technical_freeze": {
+    "state": "FROZEN",
+    "release": "P2.4.2-FIX.2A",
+    "core_storage_path": "v2.4/factory-core.html",
+    "core_bytes": 231666,
+    "core_sha256": "6ffdfefb572188db8e4c99ccaa42a3d6ff28d3949df8d443f7eef69bb8497e00",
+    "loader_snapshot": "paper-squishy/releases/P2.4.2-FIX.2A/factory-loader.html",
+    "release_manifest": "paper-squishy/releases/P2.4.2-FIX.2A/release.json"
+  },
+  "publish_state": "LIVE_FROZEN",
   "published_at": "2026-09-21"
 }
