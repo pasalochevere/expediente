@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PAPER SQUISHY FACTORY Monthly Pack Manifest",
+  "type": "object",
+  "required": ["pack_id", "release", "status", "collection", "characters", "asset_contract"],
+  "properties": {
+    "pack_id": {"type": "string"},
+    "release": {"type": "string"},
+    "status": {"enum": ["DRAFT", "DESIGN_READY", "ASSETS_READY", "QA_PASS", "LIVE", "RETIRED"]},
+    "publish_live": {"type": "boolean"},
+    "collection": {"type": "object"},
+    "characters": {"type": "array", "minItems": 10, "maxItems": 10},
+    "asset_contract": {
+      "type": "object",
+      "properties": {
+        "assets_per_character": {"const": 8},
+        "total_assets": {"const": 80}
+      }
+    }
+  }
+}
