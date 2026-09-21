@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+<defs>
+ <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#050303"/><stop offset=".5" stop-color="#130805"/><stop offset="1" stop-color="#020202"/></linearGradient>
+ <radialGradient id="halo"><stop stop-color="#f6d772" stop-opacity=".55"/><stop offset=".28" stop-color="#c9942c" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#fff0aa"/><stop offset=".25" stop-color="#d7ad45"/><stop offset=".7" stop-color="#80601e"/><stop offset="1" stop-color="#2f2209"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="7"/></filter>
+</defs>
+<rect width="1920" height="1080" fill="url(#bg)"/>
+<ellipse cx="960" cy="430" rx="880" ry="325" fill="none" stroke="#29140f" stroke-width="110"/>
+<ellipse cx="960" cy="420" rx="750" ry="235" fill="none" stroke="#0c0a08" stroke-width="100"/>
+<circle cx="960" cy="390" r="390" fill="url(#halo)"/>
+<g opacity=".5" fill="#d4af37">
+ <circle cx="250" cy="430" r="3"/><circle cx="320" cy="390" r="2"/><circle cx="395" cy="445" r="3"/><circle cx="470" cy="405" r="2"/><circle cx="555" cy="452" r="3"/><circle cx="640" cy="410" r="2"/><circle cx="1290" cy="410" r="2"/><circle cx="1375" cy="452" r="3"/><circle cx="1460" cy="405" r="2"/><circle cx="1535" cy="445" r="3"/><circle cx="1610" cy="390" r="2"/><circle cx="1680" cy="430" r="3"/>
+</g>
+<!-- abstract South America -->
+<path d="M905 155 C845 175 806 216 800 265 C790 321 823 351 846 389 C866 424 862 457 887 495 C907 525 935 539 943 580 C951 621 938 665 955 700 C972 735 1006 768 1013 808 C1022 861 1002 900 1026 945 C1050 913 1064 875 1077 839 C1094 791 1114 754 1138 716 C1168 668 1178 621 1163 582 C1149 546 1119 526 1114 485 C1109 448 1137 417 1129 374 C1122 337 1090 315 1082 277 C1074 239 1089 203 1063 178 C1032 149 979 156 949 150 Z" fill="#19120a" stroke="#d6aa3e" stroke-width="8"/>
+<path d="M925 178 C872 197 842 230 837 270 C832 309 856 339 874 369 M885 404 C900 434 896 461 915 490 M946 526 C960 560 959 598 968 628 M983 671 C996 707 1024 735 1036 774 M1052 817 C1066 843 1062 872 1054 900" fill="none" stroke="#f0ce64" stroke-width="3" opacity=".55"/>
+<!-- trophy silhouette -->
+<g transform="translate(1260 280)">
+ <ellipse cx="0" cy="0" rx="122" ry="122" fill="url(#gold)"/>
+ <rect x="-30" y="105" width="60" height="190" rx="25" fill="url(#gold)"/>
+ <path d="M-95 20h-90c8 82 58 128 136 130M95 20h90c-8 82-58 128-136 130" fill="none" stroke="#c89630" stroke-width="24"/>
+ <rect x="-80" y="275" width="160" height="36" rx="14" fill="#7d5a1d"/>
+ <rect x="-112" y="305" width="224" height="60" rx="15" fill="url(#gold)"/>
+</g>
+<!-- wood blocks -->
+<g transform="translate(170 735)" stroke="#5b3518" stroke-width="3">
+ <rect width="310" height="72" rx="14" fill="#8b5529"/><rect x="250" y="82" width="330" height="72" rx="14" fill="#6e421f"/><rect x="40" y="164" width="360" height="72" rx="14" fill="#9a6230"/>
+</g>
+<!-- ball -->
+<g transform="translate(640 810)"><circle r="108" fill="#dedbd0" stroke="#4b4b48" stroke-width="6"/><polygon points="0,-42 40,-12 25,36 -25,36 -40,-12" fill="#191919"/><path d="M0-42L0-92M40-12L88-30M25 36L58 78M-25 36L-58 78M-40-12L-88-30" stroke="#262626" stroke-width="12"/></g>
+<path d="M0 1000 Q960 780 1920 1000V1080H0Z" fill="#07110c"/>
+<rect y="1025" width="1920" height="55" fill="#020202"/>
+</svg>
