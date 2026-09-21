@@ -1,0 +1,88 @@
+name: C002 v244 Deep History Recovery
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-v244-deep-history-recovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deep-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check pillow
+      - name: Scan all historical blobs
+        shell: bash
+        run: |
+          python - <<'PY'
+          import subprocess,re,base64,hashlib
+          from io import BytesIO
+          from PIL import Image,ImageFile
+          ImageFile.LOAD_TRUNCATED_IMAGES=True
+
+          targets={
+            'P05':['caso002/assets/visual/fix-P05-v242.js','P05'],
+            'P06':['caso002/assets/visual/fix-P06-v242.js','P06'],
+            'L03':['caso002/assets/visual/fix-L03-v242.js','L03'],
+            'room_317':['caso002/assets/visual/fix-room-317-v242.js','room_317'],
+          }
+          bundles=[f'caso002/assets/visual/assets-part-{i:02d}.js' for i in range(1,9)]
+          seen={k:set() for k in targets}
+
+          def commits_for(path):
+              try:
+                  out=subprocess.check_output(['git','log','--all','--format=%H','--',path],text=True,stderr=subprocess.DEVNULL)
+                  return out.splitlines()
+              except:return []
+
+          def show(commit,path):
+              try:return subprocess.check_output(['git','show',f'{commit}:{path}'],stderr=subprocess.DEVNULL).decode('utf-8','ignore')
+              except:return None
+
+          def inspect(label,commit,path,txt,key=None):
+              if not txt:return
+              matches=list(re.finditer(r'data:image/([a-zA-Z0-9.+-]+);base64,([A-Za-z0-9+/=]+)',txt))
+              for m in matches:
+                  # For bundles, require target key nearby before URI.
+                  if key:
+                      prefix=txt[max(0,m.start()-120):m.start()]
+                      if not re.search(rf'[\"\']{re.escape(key)}[\"\']\s*:\s*[\"\']?$',prefix):
+                          continue
+                  b=m.group(2)
+                  # Base64 can be syntactically padded yet JPEG still truncated.
+                  try: raw=base64.b64decode(b+'='*((-len(b))%4),validate=False)
+                  except: continue
+                  sha=hashlib.sha256(raw).hexdigest()
+                  if sha in seen[label]:continue
+                  try:
+                      im=Image.open(BytesIO(raw)); im.load()
+                  except Exception as e:
+                      # Log unusually long historical values even if damaged.
+                      if len(b)>15000:
+                          print(f'DAMAGED_LONG key={label} commit={commit[:12]} path={path} b64chars={len(b)} rawbytes={len(raw)} error={type(e).__name__}:{e}')
+                      continue
+                  seen[label].add(sha)
+                  print(f'HEALTHY key={label} commit={commit} path={path} fmt={im.format} size={im.size} bytes={len(raw)} b64chars={len(b)} sha={sha}')
+
+          # Exact fix-file histories.
+          for label,(path,key) in targets.items():
+              cs=commits_for(path)
+              print(f'HISTORY {label} path={path} commits={len(cs)}')
+              for c in cs:
+                  inspect(label,c,path,show(c,path))
+
+          # Bundle histories: search keyed assets across every historical bundle version.
+          for label,(_,key) in targets.items():
+              for path in bundles:
+                  for c in commits_for(path):
+                      inspect(label,c,path,show(c,path),key=key)
+
+          for k,v in seen.items():print(f'SUMMARY {k}: {len(v)} unique healthy historical image(s)')
+          PY
