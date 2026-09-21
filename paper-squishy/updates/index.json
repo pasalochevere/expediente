@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "product_code": "PSQ-FACTORY",
+  "system_release": "P2.5",
+  "base_library_version": "P2.4",
+  "base_catalog_characters": 50,
+  "strategy": "manifest_first_then_merge_after_QA",
+  "live_catalog_characters": 50,
+  "live_packs": [],
+  "planned_packs": [
+    {
+      "pack_id": "PSQ-M01-2026-10",
+      "title": "Ocean Friends",
+      "month": "2026-10",
+      "status": "DESIGN_READY",
+      "characters": 10,
+      "assets": 80,
+      "manifest": "./M01-ocean-friends/pack.json"
+    }
+  ],
+  "states": ["DRAFT", "DESIGN_READY", "ASSETS_READY", "QA_PASS", "LIVE", "RETIRED"],
+  "rules": {
+    "core_frozen": true,
+    "no_core_rebuild_for_content": true,
+    "pack_size_characters": 10,
+    "assets_per_character": 8,
+    "monthly_commitment": "10 nuevos diseños por mes durante 12 meses",
+    "publish_only_after_qa": true
+  }
+}
