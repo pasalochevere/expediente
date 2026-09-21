@@ -1,0 +1,54 @@
+{
+  "release": "P2.4.2-GA",
+  "product_code": "PSQ-FACTORY",
+  "product_name": "PAPER SQUISHY FACTORY",
+  "state": "COMMERCIAL_LIVE",
+  "go_live_at": "2026-09-21",
+  "base_release": "P2.4.2-FIX.2A",
+  "promoted_from": "P2.4.2-RC",
+  "catalog": {
+    "collections": 5,
+    "characters": 50,
+    "assets": 400,
+    "views_per_character": 8
+  },
+  "commercial": {
+    "price_ars": 14999,
+    "duration_hours": 8760,
+    "device_limit": 2,
+    "sales_enabled": true,
+    "game_url": "https://pasalochevere.github.io/expediente/paper-squishy/",
+    "portal_category": "Creativos & Didácticos",
+    "promise": "50 diseños incluidos + Creator Plus + 10 nuevos diseños por mes durante 12 meses"
+  },
+  "core": {
+    "storage_bucket": "paper-squishy-assets",
+    "storage_path": "v2.4/factory-core.html",
+    "bytes": 231666,
+    "sha256": "6ffdfefb572188db8e4c99ccaa42a3d6ff28d3949df8d443f7eef69bb8497e00",
+    "integrity_locked": true,
+    "technical_release": "P2.4.2-FIX.2A"
+  },
+  "qa": {
+    "functional_regression": "PASS",
+    "catalog_integrity": "PASS",
+    "storage_integrity": "PASS",
+    "commercial_smoke": "PASS",
+    "manual_smoke": "PASS",
+    "print_mini_8_cm": "PASS",
+    "print_normal_12_cm": "PASS",
+    "print_xl_17_cm_two_pages": "PASS",
+    "portal_http": 200,
+    "loader_http": 200,
+    "buyer_access": "PASS"
+  },
+  "admin": {
+    "edge_function": "pasalochevere-admin-license",
+    "edge_version": 9,
+    "product_name": "PAPER SQUISHY FACTORY · 50 diseños · 5 colecciones · Creator Plus",
+    "historical_30_designs_copy_resolved": true,
+    "duration_hours": 8760,
+    "device_limit": 2
+  },
+  "change_rule": "P2.4.2-GA is the commercial baseline. Do not modify the frozen core in place; future functional changes require a new release."
+}
