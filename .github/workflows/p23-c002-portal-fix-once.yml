@@ -1,0 +1,53 @@
+name: P2.3 C002 Portal Copy Fix Once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/p23-c002-portal-fix-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix-portal-copy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Replace stale C002 beta copy
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('portal-v2/index.html')
+          s = p.read_text(encoding='utf-8')
+          replacements = [
+              (
+                  '<article class="newsCard" onclick="openCategory(\'mystery\')" style="cursor:pointer"><span class="newsTag new">NUEVO · BETA</span><b>EXPEDIENTES · CASO 002</b><p>La Habitación que No Existe ya está disponible para prueba.</p></article>',
+                  '<article class="newsCard" onclick="openCategory(\'mystery\')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>EXPEDIENTES · CASO 002</b><p>La Habitación que No Existe · Hotel Orfeo, 3 jugadores, Habitación 317 y kit Premium.</p></article>'
+              ),
+              (
+                  '<article class="card" data-cat="mystery"><span class="status live">● BETA DISPONIBLE</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002 · La Habitación que No Existe</div><p>Hotel Orfeo, roles privados, Habitación 317, pistas dinámicas y finales variables. Versión beta de prueba.</p><div class="actions"><button class="btn primary" onclick="scrollToActivation()">ACTIVAR / PROBAR</button></div></article>',
+                  '<article class="card" data-cat="mystery"><span class="status live">● DISPONIBLE PARA ACTIVAR</span><h3>EXPEDIENTES</h3><div class="accent">Caso 002 · La Habitación que No Existe</div><p>Hotel Orfeo, 3 jugadores, roles privados, Habitación 317, pistas dinámicas, finales variables y kit Premium.</p><div class="actions"><button class="btn primary" onclick="scrollToActivation()">ACTIVAR / CONSULTAR</button></div></article>'
+              )
+          ]
+          for old, new in replacements:
+              if old not in s:
+                  raise SystemExit('Expected stale C002 copy not found; refusing blind patch')
+              s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit portal copy fix
+        shell: bash
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add portal-v2/index.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "fix: remove C002 beta copy from Portal V2"
+          git push
