@@ -1,0 +1,93 @@
+name: C002 P2.4 Loader Cache Hotfix Once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c002-p24-hotfix-loader-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  hotfix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch production loader and portal cache bust
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def rep(path, old, new, expected=1):
+              p=Path(path); s=p.read_text(encoding='utf-8'); n=s.count(old)
+              if n != expected:
+                  raise SystemExit(f'{path}: expected {expected} matches, found {n}: {old[:100]!r}')
+              p.write_text(s.replace(old,new,expected),encoding='utf-8')
+
+          # Production gate: discourage stale cached HTML and remove internal design escape hatch.
+          rep('caso002/index.html',
+              '<meta name="viewport" content="width=device-width,initial-scale=1">',
+              '<meta name="viewport" content="width=device-width,initial-scale=1">\n<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n<meta http-equiv="Pragma" content="no-cache">\n<meta http-equiv="Expires" content="0">')
+          rep('caso002/index.html',
+              '<a class="mini-link" href="./design/master-visual.html">MASTER VISUAL</a>',
+              '')
+
+          # Force all runtime pieces past stale browser caches while preserving the known payload marker.
+          p=Path('caso002/index.html'); s=p.read_text(encoding='utf-8')
+          s=s.replace("assets-part-01.js?v=224","assets-part-01.js?v=241")
+          s=s.replace("assets-part-02.js?v=224","assets-part-02.js?v=241")
+          s=s.replace("assets-part-03.js?v=224","assets-part-03.js?v=241")
+          s=s.replace("assets-part-04.js?v=224","assets-part-04.js?v=241")
+          s=s.replace("assets-part-05.js?v=224","assets-part-05.js?v=241")
+          s=s.replace("assets-part-06.js?v=224","assets-part-06.js?v=241")
+          s=s.replace("assets-part-07.js?v=224","assets-part-07.js?v=241")
+          s=s.replace("assets-part-08.js?v=224","assets-part-08.js?v=241")
+          s=s.replace("visual-restoration.js?v=224","visual-restoration.js?v=241")
+          s=s.replace("<script src=\"audio.js?v=220\"></'+'script><script src=\"rc.js?v=230\"></script>","<script src=\"audio.js?v=241\"></'+'script><script src=\"rc.js?v=241\"></script>")
+          # The outer gate copy of rc.js is also cache-busted.
+          s=s.replace('<script src="rc.js?v=230"></script></body>','<script src="rc.js?v=241"></script></body>')
+          p.write_text(s,encoding='utf-8')
+
+          # Portal: every EXP-002 open now uses a new URL cache key.
+          rep('portal-v2/index.html',
+              "if(l.product_code==='EXP-002')return '../caso002/?access='+encodeURIComponent(l.activation_code);",
+              "if(l.product_code==='EXP-002')return '../caso002/?access='+encodeURIComponent(l.activation_code)+'&build=20260921-p24fix1';")
+
+          # Freeze the incident/fix.
+          Path('caso002/RELEASE_P2_4_1_LOADER_HOTFIX.md').write_text('''# C002 · P2.4.1 Loader / cache hotfix\n\nDate: 2026-09-21\n\nObserved from real-user screenshots:\n- raw JavaScript visible under the C002 gate, consistent with an older malformed cached loader;\n- internal MASTER VISUAL route exposed in production and mistaken for the actual game;\n- internal master visual intentionally uses CSS placeholders and is not the restored playable build.\n\nFix:\n- remove MASTER VISUAL link from production gate;\n- add cache-control meta guards;\n- bump runtime/audio/RC/visual asset query versions to v241;\n- add EXP-002 portal cache-busting build query;\n- preserve the payload injection marker and restored visual library.\n\nLicense note:\n- existing EXP-002 licenses always route to current production; no license migration is required.\n''',encoding='utf-8')
+          PY
+      - name: Validate compressed payload and visual injection contract
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64,gzip
+          names=['payload.part00a1a.correct','payload.part00a1b','payload.part00a2','payload.part00b','payload.part01','payload.part02','payload.part03','payload.part04','payload.part05']
+          b64=''.join(Path('caso002',n).read_text(encoding='utf-8').strip() for n in names)
+          html=gzip.decompress(base64.b64decode(b64)).decode('utf-8')
+          assert len(html)>100000, len(html)
+          assert '<script src="rc.js?v=230"></script></body>' in html, 'payload RC marker missing'
+          assert 'CASE002_DATA' in html, 'CASE002_DATA missing'
+          assert 'renderBase' in html, 'renderBase missing'
+          for n in range(1,9):
+              p=Path(f'caso002/assets/visual/assets-part-{n:02d}.js')
+              assert p.exists() and p.stat().st_size>1000, p
+          vr=Path('caso002/assets/visual/visual-restoration.js').read_text(encoding='utf-8')
+          assert 'P2.2R.4-v1' in vr and 'C002_VISUAL_ASSETS' in vr
+          gate=Path('caso002/index.html').read_text(encoding='utf-8')
+          assert 'MASTER VISUAL</a>' not in gate
+          assert '&build=20260921-p24fix1' in Path('portal-v2/index.html').read_text(encoding='utf-8')
+          print('PASS: payload bytes',len(html),'visual modules 8/8, portal cache bust present')
+          PY
+      - name: Commit hotfix
+        shell: bash
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add caso002/index.html portal-v2/index.html caso002/RELEASE_P2_4_1_LOADER_HOTFIX.md
+          git commit -m "fix: repair C002 loader cache path and hide master visual"
+          git push
