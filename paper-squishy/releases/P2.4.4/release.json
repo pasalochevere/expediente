@@ -1,0 +1,42 @@
+{
+  "release": "P2.4.4",
+  "product_code": "PSQ-FACTORY",
+  "product_name": "PAPER SQUISHY FACTORY",
+  "state": "READY_FOR_BINARY_UPLOAD",
+  "base_release": "P2.4.2-GA",
+  "downloads": {
+    "bucket": "paper-squishy-downloads",
+    "bucket_public": false,
+    "path_prefix": "P2.4.3/",
+    "pdf": {
+      "file": "PAPER_SQUISHY_FACTORY_P2.4.3_PDF_MAESTRO_50_DISENOS.pdf",
+      "bytes": 38700918,
+      "sha256": "2812ff1f201596c1d4e7e0afaa9198a2b0370a04be8659dfa30ecca8b3bc86a9",
+      "pages": 157
+    },
+    "zip": {
+      "file": "PAPER_SQUISHY_FACTORY_P2.4.3_ZIP_COMERCIAL_FINAL.zip",
+      "bytes": 30508384,
+      "sha256": "ac685985184ef9ecf732d9d28fe7d3d5712817f581490d4717f28f285075ef9a",
+      "contents": "PDF Maestro only"
+    }
+  },
+  "security": {
+    "buyer_policy": "active PSQ-FACTORY license required",
+    "admin_upload": "pasalochevere@gmail.com only",
+    "helper": "public.pc_has_active_psq_license()"
+  },
+  "ui": {
+    "downloads_page": "paper-squishy/downloads.html",
+    "admin_upload_page": "paper-squishy/admin-upload-downloads-p243.html",
+    "factory_download_button": true,
+    "portal_download_action": true
+  },
+  "qa_pending": [
+    "upload PDF and ZIP to private bucket",
+    "verify buyer PDF download",
+    "verify buyer ZIP download",
+    "verify no-license account is denied",
+    "final portal purchase flow"
+  ]
+}
