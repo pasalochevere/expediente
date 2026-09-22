@@ -1,0 +1,30 @@
+/* VÍNCORES · Intro Fix 01–03 · ritmo + encuadre + respiración */
+.vcCScene .vcCKicker{transition-duration:.82s;transition-delay:.28s}
+.vcCScene .vcCTitle{line-height:1.04;transition-duration:.95s;transition-delay:.38s}
+.vcCScene .vcCSub{line-height:1.48;margin-top:26px;transition-duration:.9s;transition-delay:.62s}
+.vcCScene .vcCWords{transition-duration:.85s;transition-delay:.72s}
+.vcCScene.movement .vcCContent{padding-top:92px;padding-bottom:92px;justify-content:center}
+.vcCScene.movement .vcCTitle{font-size:clamp(2.6rem,6.1vw,6.25rem);max-width:980px}
+.vcCScene.movement .vcCSub{max-width:760px;margin-top:20px}
+.vcCScene.movement .vcCBoardWrap{width:min(900px,80vw);height:min(340px,38vh);margin-top:22px;padding:14px;transform:perspective(1000px) rotateX(1.5deg) rotateY(-3deg) translateY(16px)}
+.vcCScene.movement.active .vcCBoardWrap{transform:perspective(1000px) rotateX(1.5deg) rotateY(-3deg)}
+.vcCScene.movement .vcCBoard{min-height:0}
+.vcCScene.movement .vcCPiece{transform:scale(.86);transform-origin:center bottom}
+.vcCScene.movement .vcCPiece.p1{left:22%;top:27%}.vcCScene.movement .vcCPiece.p2{left:61%;top:24%}.vcCScene.movement .vcCPiece.p3{left:43%;top:57%}.vcCScene.movement .vcCPiece.p4{left:75%;top:57%}
+.vcCScene.movement .vcCBoard.moved .p1{left:29%;top:24%}.vcCScene.movement .vcCBoard.moved .p2{left:57%;top:31%}.vcCScene.movement .vcCBoard.moved .p3{left:46%;top:52%}.vcCScene.movement .vcCBoard.moved .p4{left:70%;top:59%}
+.vcCScene.movement .vcCLink.l1{top:40%}.vcCScene.movement .vcCLink.l2{top:60%}.vcCScene.movement .vcCLink.l3{top:53%}
+.vcCProgress>i{will-change:width}
+@media(max-height:820px) and (min-width:761px){
+  .vcCScene.movement .vcCContent{padding-top:78px;padding-bottom:68px}
+  .vcCScene.movement .vcCTitle{font-size:clamp(2.45rem,5.4vw,5.3rem)}
+  .vcCScene.movement .vcCSub{font-size:clamp(.95rem,1.45vw,1.15rem);margin-top:16px}
+  .vcCScene.movement .vcCBoardWrap{height:min(285px,34vh);margin-top:16px}
+}
+@media(max-width:760px){
+  .vcCScene .vcCSub{margin-top:18px;line-height:1.42}
+  .vcCScene.movement .vcCContent{padding:82px 18px 76px;justify-content:center}
+  .vcCScene.movement .vcCTitle{font-size:clamp(2.3rem,10vw,4rem)}
+  .vcCScene.movement .vcCBoardWrap{width:94vw;height:31vh;min-height:220px;margin-top:16px;padding:10px;transform:none}
+  .vcCScene.movement.active .vcCBoardWrap{transform:none}
+  .vcCScene.movement .vcCPiece{transform:scale(.68);transform-origin:center bottom}
+}
