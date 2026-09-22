@@ -18,17 +18,24 @@
       const css=document.createElement('link');
       css.id='pc-home-discovery-v42-css';
       css.rel='stylesheet';
-      css.href='portal-home-discovery-v42.css?v=20260922-1';
+      css.href='portal-home-discovery-v42.css?v=20260922-2';
       document.head.appendChild(css);
     }
     if(!document.getElementById('pc-home-discovery-v42-js')){
       const js=document.createElement('script');
       js.id='pc-home-discovery-v42-js';
-      js.src='portal-home-discovery-v42.js?v=20260922-1';
+      js.src='portal-home-discovery-v42.js?v=20260922-2';
       js.defer=true;
       document.head.appendChild(js);
     }else if(typeof window.pcApplyHomeV42==='function'){
       window.pcApplyHomeV42();
+    }
+    if(!document.getElementById('pc-home-discovery-v42-bridge-js')){
+      const bridge=document.createElement('script');
+      bridge.id='pc-home-discovery-v42-bridge-js';
+      bridge.src='portal-home-discovery-v42-bridge.js?v=20260922-1';
+      bridge.defer=true;
+      document.head.appendChild(bridge);
     }
   };
 
