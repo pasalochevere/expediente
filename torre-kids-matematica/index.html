@@ -245,6 +245,7 @@ body{background:linear-gradient(180deg,#fffaf4 0%,#f8f4eb 48%,#eef9ff 100%);colo
 
 </style>
 <!-- CHÉVERE KIDS · MATEMÁTICA V1.0 · RELEASE FINAL · 2026-09-14 -->
+<link rel="stylesheet" href="assets/cinema-engine-v3.css?v=3.0.0">
 </head>
 <body>
 
@@ -391,8 +392,9 @@ body{background:linear-gradient(180deg,#fffaf4 0%,#f8f4eb 48%,#eef9ff 100%);colo
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>\n<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <script>
-const TK_VERSION='1.0.0';
+const TK_VERSION='1.1.0';
 const TK_RELEASE='2026-09-14';
+const CINEMA_VERSION='3.0.0';
 const COLORS=['rojo','verde','azul','amarillo','fucsia','negro'];
 const LABEL={rojo:'Cálculo',verde:'Multiplicación',azul:'Lógica',amarillo:'Problemas',fucsia:'Velocidad',negro:'Súper desafío'};
 const EMOJI={rojo:'🔴',verde:'🟢',azul:'🔵',amarillo:'🟡',fucsia:'🩷',negro:'⚫'};
@@ -728,4 +730,5 @@ function closeCinema(start=false){const el=document.getElementById('cinemaIntro'
  }catch(e){state.textContent='⚠️ '+(e?.message||'Acceso no válido.')+' Volvé a tu biblioteca y abrí Chévere Kids · Matemática desde allí.'}
 })();
 </script>
+<script src="assets/cinema-engine-v3.js?v=3.0.0"></script>
 </body></html>
