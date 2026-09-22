@@ -1,0 +1,43 @@
+name: VÍNCORES P1.8 RC1 once
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/vincores-p18-rc1-once.yml'
+permissions:
+  contents: write
+jobs:
+  build-rc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Prepare stable backup and RC1
+        run: |
+          set -e
+          mkdir -p vincores/backups vincores/rc/p1-8
+          if [ ! -f vincores/backups/P1.7.3_SELL_READY_FINAL.html ]; then
+            cp vincores/index.html vincores/backups/P1.7.3_SELL_READY_FINAL.html
+          fi
+          cp vincores/index.html vincores/rc/p1-8/index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('vincores/rc/p1-8/index.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<!-- VÍNCORES P1.8-RC1 · PREMIUM GUIDED FIELD · INTERNAL RELEASE CANDIDATE -->\n'
+          if marker not in s:
+              s=s.replace('<!doctype html>','<!doctype html>\n'+marker,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit RC1 workspace
+        run: |
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add vincores/backups/P1.7.3_SELL_READY_FINAL.html vincores/rc/p1-8/index.html
+          if git diff --cached --quiet; then
+            echo 'No changes to commit'
+          else
+            git commit -m 'Create VÍNCORES P1.8 RC1 from P1.7.3 stable base'
+            git push
+          fi
