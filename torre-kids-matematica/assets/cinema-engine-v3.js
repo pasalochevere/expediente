@@ -65,6 +65,7 @@
     if(!root&&!render())return;clearTimers();started=false;setScene(1);q('.ck3-start')?.classList.remove('gone');root.classList.remove('hidden');document.body.classList.add('ck3-open');
   };
   window.closeCinema=close;
+  window.launchCinema=function(){try{sessionStorage.removeItem('tk_cinema_seen')}catch(e){};window.showCinema();};
   window.startCinemaV3=start;
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render,{once:true});else render();
 })();
