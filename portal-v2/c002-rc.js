@@ -174,3 +174,37 @@
   stable.onerror=()=>console.error('No se pudo cargar el snapshot estable del Portal.');
   document.head.appendChild(stable);
 })();
+
+(()=>{
+  if(window.__pcFamilia30PromoPatch)return;
+  window.__pcFamilia30PromoPatch=true;
+  const originalActivate=window.activatePurchase;
+  if(typeof originalActivate!=='function')return;
+
+  window.activatePurchase=async function(){
+    const input=document.getElementById('purchaseCode');
+    const raw=String(input?.value||'').trim();
+    const normalized=raw.toUpperCase().replace(/[^A-Z0-9-]/g,'');
+    if(normalized!=='FAMILIA30')return originalActivate.apply(this,arguments);
+
+    const b=document.getElementById('activateBtn');
+    b.disabled=true;
+    msg('activateMsg','Activando tu invitación de 30 días…');
+    try{
+      const {data,error}=await sb.rpc('redeem_pc_promo',{
+        p_code:normalized,
+        p_device_id:deviceId(),
+        p_device_label:deviceLabel()
+      });
+      if(error)throw error;
+      if(!data?.ok)throw new Error(data?.error||'No se pudo activar la invitación.');
+      msg('activateMsg',data.already_redeemed?'✅ Esta invitación ya estaba activada en tu cuenta.':'✅ Invitación activada. Tenés 30 días de acceso gratuito a la Biblioteca PasaloChevere.','good');
+      input.value='';
+      await loadMyGames();
+    }catch(e){
+      msg('activateMsg',e?.message||String(e),'bad');
+    }finally{
+      b.disabled=false;
+    }
+  };
+})();
