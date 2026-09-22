@@ -65,16 +65,18 @@
     return true;
   }
 
+  function setText(el,value){if(el&&el.textContent!==value)el.textContent=value}
+
   function polishModal(){
     const modal=document.getElementById('pcRealPreviewModal');
     if(!modal)return;
     const title=(modal.querySelector('#pcRv2Title')?.textContent||'').toUpperCase();
-    modal.querySelectorAll('.pcRv2Slide[data-kind="ui"] .pcRv2Source').forEach(el=>{el.textContent='INTERFAZ DE MUESTRA'});
+    modal.querySelectorAll('.pcRv2Slide[data-kind="ui"] .pcRv2Source').forEach(el=>setText(el,'INTERFAZ DE MUESTRA'));
     if(title.includes('HOTEL ORFEO')||title.includes('ÚLTIMA REUNIÓN')){
-      modal.querySelectorAll('.pcRv2Slide[data-kind="image"] .pcRv2Source').forEach(el=>{el.textContent='IMAGEN REAL · SIN SPOILERS'});
+      modal.querySelectorAll('.pcRv2Slide[data-kind="image"] .pcRv2Source').forEach(el=>setText(el,'IMAGEN REAL · SIN SPOILERS'));
     }
     if(title.includes('PAPER SQUISHY')){
-      modal.querySelectorAll('.pcRv2Source').forEach(el=>{if(el.textContent.includes('INTERFAZ'))el.textContent='MUESTRA SEGURA'});
+      modal.querySelectorAll('.pcRv2Source').forEach(el=>{if(el.textContent.includes('INTERFAZ'))setText(el,'MUESTRA SEGURA')});
     }
   }
 
