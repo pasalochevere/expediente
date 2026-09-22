@@ -1,5 +1,5 @@
 (()=>{
-  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A.
+  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A + Product Mapping V4.1B.
   // Capas no destructivas sobre Portal V2: no alteran auth, licencias ni backend.
   if(!document.getElementById('pc-visual-polish-v3')){
     const visual=document.createElement('link');
@@ -20,6 +20,25 @@
     };
   }
 
+  const ensureProductMappingV41B=()=>{
+    if(!document.getElementById('pc-product-mapping-v41b-css')){
+      const css=document.createElement('link');
+      css.id='pc-product-mapping-v41b-css';
+      css.rel='stylesheet';
+      css.href='portal-product-mapping-v41b.css?v=20260922-1';
+      document.head.appendChild(css);
+    }
+    if(!document.getElementById('pc-product-mapping-v41b-js')){
+      const js=document.createElement('script');
+      js.id='pc-product-mapping-v41b-js';
+      js.src='portal-product-mapping-v41b.js?v=20260922-1';
+      js.defer=true;
+      document.head.appendChild(js);
+    }else if(typeof window.pcMapLibraryProducts==='function'){
+      window.pcMapLibraryProducts();
+    }
+  };
+
   const ensureSmartCardsV41A=()=>{
     if(!document.getElementById('pc-smartcards-v41a-css')){
       const css=document.createElement('link');
@@ -28,13 +47,22 @@
       css.href='portal-smartcards-v41a.css?v=20260922-1';
       document.head.appendChild(css);
     }
-    if(!document.getElementById('pc-smartcards-v41a-js')){
-      const js=document.createElement('script');
+
+    let js=document.getElementById('pc-smartcards-v41a-js');
+    if(!js){
+      js=document.createElement('script');
       js.id='pc-smartcards-v41a-js';
       js.src='portal-smartcards-v41a.js?v=20260922-1';
       js.defer=true;
+      js.addEventListener('load',ensureProductMappingV41B,{once:true});
       document.head.appendChild(js);
+    }else if(window.__pcSmartCardsV41A){
+      ensureProductMappingV41B();
+    }else{
+      js.addEventListener('load',ensureProductMappingV41B,{once:true});
     }
+
+    setTimeout(ensureProductMappingV41B,900);
   };
 
   const ensurePremiumV4=()=>{
@@ -60,7 +88,7 @@
       js.addEventListener('load',ensureSmartCardsV41A,{once:true});
     }
 
-    // Fallback seguro ante caché/carga diferida. El motor V4.1A tolera ejecutarse antes de V4.
+    // Fallback seguro ante caché/carga diferida.
     setTimeout(ensureSmartCardsV41A,1200);
   };
 
