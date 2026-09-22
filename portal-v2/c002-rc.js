@@ -1,5 +1,6 @@
 (()=>{
-  // Visual Polish V3 + Premium Library V4: capas no destructivas sobre Portal V2.
+  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A.
+  // Capas no destructivas sobre Portal V2: no alteran auth, licencias ni backend.
   if(!document.getElementById('pc-visual-polish-v3')){
     const visual=document.createElement('link');
     visual.id='pc-visual-polish-v3';
@@ -19,6 +20,23 @@
     };
   }
 
+  const ensureSmartCardsV41A=()=>{
+    if(!document.getElementById('pc-smartcards-v41a-css')){
+      const css=document.createElement('link');
+      css.id='pc-smartcards-v41a-css';
+      css.rel='stylesheet';
+      css.href='portal-smartcards-v41a.css?v=20260922-1';
+      document.head.appendChild(css);
+    }
+    if(!document.getElementById('pc-smartcards-v41a-js')){
+      const js=document.createElement('script');
+      js.id='pc-smartcards-v41a-js';
+      js.src='portal-smartcards-v41a.js?v=20260922-1';
+      js.defer=true;
+      document.head.appendChild(js);
+    }
+  };
+
   const ensurePremiumV4=()=>{
     if(!document.getElementById('pc-premium-v4-css')){
       const css=document.createElement('link');
@@ -27,13 +45,23 @@
       css.href='portal-premium-v4.css?v=20260922-1';
       document.head.appendChild(css);
     }
-    if(!document.getElementById('pc-premium-v4-js')){
-      const js=document.createElement('script');
+
+    let js=document.getElementById('pc-premium-v4-js');
+    if(!js){
+      js=document.createElement('script');
       js.id='pc-premium-v4-js';
       js.src='portal-premium-v4.js?v=20260922-1';
       js.defer=true;
+      js.addEventListener('load',ensureSmartCardsV41A,{once:true});
       document.head.appendChild(js);
+    }else if(window.__pcPremiumV4){
+      ensureSmartCardsV41A();
+    }else{
+      js.addEventListener('load',ensureSmartCardsV41A,{once:true});
     }
+
+    // Fallback seguro ante caché/carga diferida. El motor V4.1A tolera ejecutarse antes de V4.
+    setTimeout(ensureSmartCardsV41A,1200);
   };
 
   const base=document.createElement('script');
