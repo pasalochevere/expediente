@@ -1,0 +1,95 @@
+name: Polish VÍNCORES P1.8 RC once
+on:
+  push:
+    paths:
+      - '.github/workflows/vincores-p18-polish-once.yml'
+permissions:
+  contents: write
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Apply release polish
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('vincores/p18/p18.js')
+          s=p.read_text(encoding='utf-8')
+
+          old=""" if(c.phase==='REPRESENTAR'&&c.figs.length===1)add('need_more','represent',78,'¿Con esta figura alcanza para representar el tema o necesitás incorporar algo más?',[['Agregar algo','add'],['Por ahora alcanza','next']]);\n if(c.figs.length>=7)add('simplify','simplify',78,'El campo ya tiene varios elementos. ¿Querés seguir observándolo completo o simplificarlo temporalmente?',[['Campo completo','observe'],['Simplificar','simplify']]);"""
+          new=""" if(c.phase==='REPRESENTAR'&&c.figs.length===1)add('need_more','represent',88,'¿Con esta figura alcanza para representar el tema o necesitás incorporar algo más?',[['Agregar algo','add'],['Por ahora alcanza','next']]);\n if(c.phase==='REPRESENTAR'&&c.figs.length>=2)add('representation_ready','represent',98,'¿El campo ya representa lo necesario para empezar a observar?',[['Sí, quiero observar','next'],['Agregar algo','add']]);\n if(c.figs.length>=7)add('simplify','simplify',78,'El campo ya tiene varios elementos. ¿Querés seguir observándolo completo o simplificarlo temporalmente?',[['Campo completo','observe'],['Simplificar','simplify']]);"""
+          if old not in s: raise SystemExit('represent block not found')
+          s=s.replace(old,new,1)
+
+          s=s.replace("[['Seguir observando','observe'],['Quiero mover algo','move']]);", "[['Seguir observando','observe'],['Quiero mover algo','explore']]);",1)
+          s=s.replace("case'move':showToast?.('Elegí una figura y probá una nueva posición');break;", "case'explore':phaseTo(3);showToast?.('Elegí una figura y probá una nueva posición');break;case'move':showToast?.('Elegí una figura y probá una nueva posición');break;",1)
+
+          old_interval="setInterval(()=>{const key=window.vincoresCurrentSceneId||'unsaved';if(key!==lastScene){writeStore();lastScene=key;loadSession(key);setTimeout(enhanceAll,100)}},600);"
+          new_interval="setInterval(()=>{const key=window.vincoresCurrentSceneId||'unsaved';if(key!==lastScene){writeStore();const all=readStore();if(!all[key]&&all[lastScene]){all[key]=JSON.parse(JSON.stringify(all[lastScene]));all[key].updatedAt=now();localStorage.setItem(STORE,JSON.stringify(all))}lastScene=key;loadSession(key);setTimeout(enhanceAll,100)}},600);"
+          if old_interval not in s: raise SystemExit('session interval not found')
+          s=s.replace(old_interval,new_interval,1)
+
+          old_open="function openStuck(forced){const m=q('p18Stuck');m.classList.add('open');const c=context();const paths=["
+          new_open="function openStuck(forced){const m=q('p18Stuck');m.classList.add('open');m.querySelector('h2').textContent='¿Qué te ayudaría ahora?';m.querySelector('p').textContent='No hay una respuesta correcta. Elegí una acción simple para continuar.';const c=context();const paths=["
+          if old_open not in s: raise SystemExit('openStuck not found')
+          s=s.replace(old_open,new_open,1)
+
+          old_handle="if(id==='simplify'){const nodes=qa('.node',board);if(nodes.length<3)return showToast?.('El campo ya es simple');alert('Modo simplificar: tocá los elementos que quieras ocultar temporalmente. Para esta versión, podés volver a mostrarlos desde “No sé cómo seguir”.');qa('.node',board).forEach(n=>{n.onclick=()=>{n.classList.toggle('p18-temp-hidden');n.style.opacity=n.classList.contains('p18-temp-hidden')?'.16':'1';}});return}P.currentSuggestion=null;"
+          new_handle="if(id==='simplify')return openSimplify();P.currentSuggestion=null;"
+          if old_handle not in s: raise SystemExit('simplify handle not found')
+          s=s.replace(old_handle,new_handle,1)
+
+          marker="function startPause(reason='manual')"
+          simplify_fn="""function openSimplify(){const nodes=qa('.node',board);if(nodes.length<3){showToast?.('El campo ya es simple');return}const m=q('p18Stuck');m.classList.add('open');m.querySelector('h2').textContent='Simplificar el campo';m.querySelector('p').textContent='Ocultá temporalmente lo que no necesites mirar ahora. Nada se borra.';const paths=q('p18Paths');paths.innerHTML=nodes.map(n=>`<button class=\"p18-path ${n.classList.contains('p18-temp-hidden')?'active':''}\" data-hide-id=\"${esc(n._meta?.id||'')}\"><b>${n.classList.contains('p18-temp-hidden')?'○':'●'} ${esc(n._meta?.label||'Elemento')}</b><span>${n.classList.contains('p18-temp-hidden')?'Oculto temporalmente':'Visible en el campo'}</span></button>`).join('')+`<button class=\"p18-path\" id=\"p18RestoreHidden\"><b>↺ Mostrar todo</b><span>Restaurar todos los elementos ocultos.</span></button><button class=\"p18-path\" id=\"p18SimplifyDone\"><b>✓ Listo</b><span>Volver al campo con esta vista simplificada.</span></button>`;qa('[data-hide-id]',paths).forEach(b=>b.onclick=()=>{const n=qa('.node',board).find(x=>x._meta?.id===b.dataset.hideId);if(!n)return;n.classList.toggle('p18-temp-hidden');track(n.classList.contains('p18-temp-hidden')?'elements_hidden':'elements_restored',{label:n._meta?.label||'Elemento'});renderRelations();openSimplify()});q('p18RestoreHidden').onclick=()=>{nodes.forEach(n=>n.classList.remove('p18-temp-hidden'));track('elements_restored',{label:'Mostrar todo'});renderRelations();openSimplify()};q('p18SimplifyDone').onclick=()=>{m.classList.remove('open');showToast?.('Vista simplificada lista')}}\n"""
+          if marker not in s: raise SystemExit('pause marker not found')
+          s=s.replace(marker,simplify_fn+marker,1)
+
+          old_enh="function enhanceAll(){qa('.node',board).forEach(applyNodeVisual)}"
+          new_enh="function enhanceAll(){qa('.node',board).forEach(applyNodeVisual)}\ntry{const p18BaseRenderRelations=renderRelations;renderRelations=function(){const original=relations;relations=original.filter(r=>{const a=nodeById(r.from),b=nodeById(r.to);return !a?.classList.contains('p18-temp-hidden')&&!b?.classList.contains('p18-temp-hidden')});p18BaseRenderRelations();relations=original}}catch{}"
+          if old_enh not in s: raise SystemExit('enhance marker not found')
+          s=s.replace(old_enh,new_enh,1)
+
+          old_wire="function wireEvents(){board.addEventListener('pointerdown',e=>{const n=e.target.closest('.node');"
+          new_wire="function wireEvents(){let viewDrag=null;board.addEventListener('pointerdown',e=>{if(!e.target.closest('.node')&&P.zoom>1){viewDrag={id:e.pointerId,x:e.clientX,y:e.clientY,px:P.panX,py:P.panY};board.setPointerCapture?.(e.pointerId);e.preventDefault();return}const n=e.target.closest('.node');"
+          if old_wire not in s: raise SystemExit('wire start not found')
+          s=s.replace(old_wire,new_wire,1)
+          old_tail="P.lastPointer=null},true);q('rotation')?.addEventListener"
+          new_tail="P.lastPointer=null},true);board.addEventListener('pointermove',e=>{if(!viewDrag||viewDrag.id!==e.pointerId)return;P.panX=Math.max(-420,Math.min(420,viewDrag.px+e.clientX-viewDrag.x));P.panY=Math.max(-320,Math.min(320,viewDrag.py+e.clientY-viewDrag.y));applyZoom()});board.addEventListener('pointerup',e=>{if(viewDrag?.id===e.pointerId)viewDrag=null});board.addEventListener('pointercancel',()=>viewDrag=null);q('rotation')?.addEventListener"
+          if old_tail not in s: raise SystemExit('wire tail not found')
+          s=s.replace(old_tail,new_tail,1)
+
+          # Add backup V2 integration before buildUI call
+          insert_before="buildUI();wireEvents();enhanceAll();applyZoom();renderGuide();renderJournal();"
+          backup_fn="""function wireP18Backup(){const exp=q('sceneLibraryExport'),imp=q('sceneLibraryImport');if(exp)exp.onclick=()=>{let scenes=[];try{scenes=JSON.parse(localStorage.getItem('vincores_scene_library_v1')||'[]')}catch{}const payload={type:'VINCORES_BACKUP',version:2,exportedAt:new Date().toISOString(),scenes,p18Sessions:readStore()};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));a.download='vincores-respaldo-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1200)};if(imp)imp.onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const p=JSON.parse(await f.text());if(p?.type!=='VINCORES_BACKUP'||!Array.isArray(p.scenes))throw new Error('Archivo de respaldo no válido.');if(!confirm('¿Importar '+p.scenes.length+' escenas? Se combinarán con las actuales.'))return;let lib=[];try{lib=JSON.parse(localStorage.getItem('vincores_scene_library_v1')||'[]')}catch{}const ids=new Set(lib.map(x=>x.id)),map={};for(const raw of p.scenes){const x=JSON.parse(JSON.stringify(raw));const old=x.id||'legacy-'+Math.random();if(!x.id||ids.has(x.id))x.id='sc-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);ids.add(x.id);map[old]=x.id;lib.push(x)}localStorage.setItem('vincores_scene_library_v1',JSON.stringify(lib));if(p.p18Sessions&&typeof p.p18Sessions==='object'){const sessions=readStore();for(const [old,val] of Object.entries(p.p18Sessions)){const key=map[old]||old;if(!sessions[key])sessions[key]=val}localStorage.setItem(STORE,JSON.stringify(sessions))}showToast?.('Respaldo importado');q('sceneLibraryOverlay')?.classList.remove('open');setTimeout(()=>q('loadBtn')?.click(),120)}catch(err){alert(err.message||'No pude importar el respaldo.')}finally{e.target.value=''}}}\n"""
+          if insert_before not in s: raise SystemExit('build init not found')
+          s=s.replace(insert_before,insert_before+'wireP18Backup();',1)
+          s=s.replace(insert_before+'wireP18Backup();', 'buildUI();wireEvents();enhanceAll();applyZoom();renderGuide();renderJournal();wireP18Backup();',1)
+
+          p.write_text(s,encoding='utf-8')
+
+          c=Path('vincores/p18/p18.css')
+          css=c.read_text(encoding='utf-8')
+          if '.node.p18-temp-hidden' not in css:
+              css += "\n.node.p18-temp-hidden{opacity:0!important;pointer-events:none!important}.p18-path.active{background:#eee8df;border-color:#cfc2b4}.p18-pause{background:rgba(247,243,236,.82)}\n"
+          c.write_text(css,encoding='utf-8')
+          PY
+          node --check vincores/p18/p18.js
+          grep -q "representation_ready" vincores/p18/p18.js
+          grep -q "wireP18Backup" vincores/p18/p18.js
+          grep -q "openSimplify" vincores/p18/p18.js
+      - name: Commit release polish
+        run: |
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add vincores/p18/p18.js vincores/p18/p18.css
+          if git diff --cached --quiet; then echo 'Already polished'; exit 0; fi
+          git commit -m 'Polish VÍNCORES P1.8 guided flow persistence and backup'
+          git fetch origin main
+          git rebase origin/main
+          git push origin main
