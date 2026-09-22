@@ -1,0 +1,34 @@
+name: VÍNCORES P1.8.1 mobile first-use fix once
+on:
+  push:
+    paths:
+      - '.github/workflows/vincores-p181-mobile-fix-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Patch mobile field layout and first entry
+        run: |
+          set -euo pipefail
+          python3 -c 'from pathlib import Path; p=Path("vincores/p18/p18.css"); s=p.read_text(encoding="utf-8"); old="@media(max-width:980px){body.p18-ready .app{grid-template-columns:0 minmax(0,1fr) 0;padding:0 6px 78px}"; new=old+".app>.stageWrap{grid-column:2;width:100%;min-width:0}"; assert old in s; s=s if ".app>.stageWrap{grid-column:2" in s else s.replace(old,new,1); p.write_text(s,encoding="utf-8")'
+          python3 -c 'from pathlib import Path; p=Path("vincores/p18/p18.js"); s=p.read_text(encoding="utf-8"); old="setTimeout(()=>{const btn=q(\"enterBtn\");if(btn)btn.addEventListener(\"click\",()=>setTimeout(()=>{enhanceAll();fitField();switchRightTab(\"guide\")},300));},0);"; new="setTimeout(()=>{const btn=q(\"enterBtn\");if(btn)btn.addEventListener(\"click\",()=>setTimeout(()=>{enhanceAll();fitField();if(innerWidth>980)switchRightTab(\"guide\");else app.classList.remove(\"p18-mobile-left\",\"p18-mobile-right\")},300));},0);"; assert old in s; s=s.replace(old,new,1); p.write_text(s,encoding="utf-8")'
+          node --check vincores/p18/p18.js
+          grep -q 'grid-column:2' vincores/p18/p18.css
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          rm -f .github/workflows/vincores-p181-mobile-fix-once.yml
+          git add vincores/p18/p18.css vincores/p18/p18.js .github/workflows
+          git commit -m 'Fix VÍNCORES P1.8.1 mobile field layout and first entry'
+          git pull --rebase origin main
+          git push origin main
