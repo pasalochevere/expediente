@@ -1,4 +1,4 @@
-/* VÍNCORES P1.8.9 · CARAS V4 + ROLES VISUALES */
+/* VÍNCORES P1.8.8 · GUIADO POR CASO + OBSERVACIÓN ASISTIDA + CARAS V3 */
 (()=>{
 'use strict';
 if(window.__VINCORES_P188__) return;
@@ -15,17 +15,6 @@ const CASES={
  trabajo:{title:'Dinero y trabajo',icon:'▣',intro:'Representá el tema con los elementos que para vos sean importantes.',topics:['Posiciones','Distancias','Recursos'],opening:'¿Qué elemento llama primero tu atención al mirar el campo completo?',suggested:[['figure','YO','cylinder',72],['symbol','TRABAJO'],['symbol','DINERO'],['symbol','RECURSO']]},
  libre:{title:'Tema libre',icon:'✦',intro:'Empezá por el primer elemento imprescindible para representar lo que querés explorar.',topics:['Posiciones','Distancias','Campo completo'],opening:'¿Qué querés explorar y cuál sería el primer elemento imprescindible para representarlo?',suggested:[['figure','YO','cylinder',72],['symbol','CONCEPTO']]}
 };
-const ROLE_PRESETS={
- mujer:{label:'Mujer',preferredShape:'cylinder',defaultColor:'#d79aa3',eyes:'soft',brows:'soft',mouth:'soft',hair:'medium',faceScale:1.16,strokeWeightMode:'normal'},
- hombre:{label:'Hombre',preferredShape:'prism',defaultColor:'#d7c7aa',eyes:'neutral',brows:'straight',mouth:'neutral',hair:'short',faceScale:1.16,strokeWeightMode:'normal'},
- nina:{label:'Niña',preferredShape:'cylinder',defaultColor:'#ef9c6c',eyes:'soft',brows:'none',mouth:'soft',hair:'medium',faceScale:1.18,strokeWeightMode:'soft'},
- nino:{label:'Niño',preferredShape:'prism',defaultColor:'#9eb3d1',eyes:'neutral',brows:'none',mouth:'soft',hair:'short',faceScale:1.18,strokeWeightMode:'soft'},
- abuela:{label:'Abuela',preferredShape:'cylinder',defaultColor:'#bd91c9',eyes:'closed',brows:'raised',mouth:'soft',hair:'tied',faceScale:1.17,strokeWeightMode:'normal'},
- abuelo:{label:'Abuelo',preferredShape:'prism',defaultColor:'#d7c7aa',eyes:'closed',brows:'straight',mouth:'neutral',hair:'short',faceScale:1.17,strokeWeightMode:'normal'},
- neutro:{label:'Neutro',preferredShape:'cylinder',defaultColor:'#d7c7aa',eyes:'neutral',brows:'none',mouth:'neutral',hair:'none',faceScale:1.16,strokeWeightMode:'normal'}
-};
-const ROLE_LABEL_MAP={'mamá':'mujer','mama':'mujer','mujer':'mujer','papá':'hombre','papa':'hombre','hombre':'hombre','niña':'nina','nina':'nina','niño':'nino','nino':'nino','abuela':'abuela','abuelo':'abuelo','neutro':'neutro'};
-function roleFromLabel(label){return ROLE_LABEL_MAP[String(label||'').trim().toLowerCase()]||null}
 let C={caseId:'libre',startedAt:0,observed:[],activeTopic:null,lastEventId:null,ackEventId:null};
 function sceneKey(){return window.vincoresCurrentSceneId||'unsaved'}
 function readAll(){try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch{return{}}}
@@ -34,59 +23,28 @@ function loadCaseState(){const all=readAll(),d=all[sceneKey()];C=d?{...C,...d}:{
 function caseMeta(){return CASES[C.caseId]||CASES.libre}
 function normalizeFaceMeta(m){
  if(!m)return m;
- const hairMap={bun:'tied',curly:'medium'};const eyeMap={open:'neutral'};const mouthMap={open:'neutral'};
- m.hair=hairMap[m.hair]||m.hair||'none';m.eyes=eyeMap[m.eyes]||m.eyes||'neutral';m.mouth=mouthMap[m.mouth]||m.mouth||'neutral';m.brows=m.brows||'soft';
- if(m.visualRole&&ROLE_PRESETS[m.visualRole]){const p=ROLE_PRESETS[m.visualRole];m.faceScale=Number(m.faceScale)||p.faceScale;m.strokeWeightMode=m.strokeWeightMode||p.strokeWeightMode}
- else{m.visualRole=m.visualRole||null;m.faceScale=Number(m.faceScale)||1.16;m.strokeWeightMode=m.strokeWeightMode||'normal'}
+ const hairMap={bun:'tied',curly:'medium'}; const eyeMap={open:'neutral'}; const mouthMap={open:'neutral'};
+ m.hair=hairMap[m.hair]||m.hair||'none'; m.eyes=eyeMap[m.eyes]||m.eyes||'neutral'; m.mouth=mouthMap[m.mouth]||m.mouth||'neutral'; m.brows=m.brows||'soft';
  return m
 }
-function v4FaceHTML(m){
+function v3FaceHTML(m){
  normalizeFaceMeta(m);
  const hair=esc(m.hair),eyes=esc(m.eyes),mouth=esc(m.mouth),brows=esc(m.brows),hc=esc(m.hairColor||'#654632');
- const role=esc(m.visualRole||'legacy'),scale=Math.max(1.08,Math.min(1.24,Number(m.faceScale)||1.16));
- return `<div class="p189-face-inner p189-role-${role}" style="--p189-scale:${scale};--p188-hair:${hc}"><div class="p188-hair ${hair}"></div><div class="p188-brows ${brows}"><i></i><i></i></div><div class="p188-eyes ${eyes}"><i></i><i></i></div><div class="p188-mouth ${mouth}"></div></div>`
+ return `<div class="p188-hair ${hair}" style="--p188-hair:${hc}"></div><div class="p188-brows ${brows}"><i></i><i></i></div><div class="p188-eyes ${eyes}"><i></i><i></i></div><div class="p188-mouth ${mouth}"></div>`
 }
-try{faceHTML=v4FaceHTML}catch{}
-
+try{faceHTML=v3FaceHTML}catch{}
 function replaceSelect(id,items){const el=q(id);if(!el)return;const current=el.value;el.innerHTML=items.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');if(items.some(x=>x[0]===current))el.value=current}
 function setupFaceControls(){
  replaceSelect('hair',[['none','Sin pelo'],['short','Corto'],['medium','Medio'],['long','Largo'],['tied','Recogido']]);
  replaceSelect('eyes',[['neutral','Neutros'],['soft','Suaves'],['closed','Cerrados'],['side-left','Mirada izquierda'],['side-right','Mirada derecha'],['none','Sin ojos']]);
  replaceSelect('mouth',[['neutral','Neutra'],['soft','Suave'],['smile','Sonrisa leve'],['none','Sin boca']]);
- const hair=q('hair'),hairRow=hair?.closest('.row');
- if(hairRow&&q('p189RoleProp')==null){
-  const prop=document.createElement('div');prop.className='prop p189-role-prop';prop.id='p189RoleProp';
-  prop.innerHTML='<label>Rol visual</label><select id="p189Role"><option value="">Personalizado / escena antigua</option><option value="neutro">Neutro</option><option value="mujer">Mujer</option><option value="hombre">Hombre</option><option value="nina">Niña</option><option value="nino">Niño</option><option value="abuela">Abuela</option><option value="abuelo">Abuelo</option></select>';
-  hairRow.before(prop);q('p189Role').onchange=e=>{if(e.target.value)applyVisualRole(e.target.value)}
- }
+ const mode=q('mode');if(mode&&q('p188FacePreset')==null){const prop=document.createElement('div');prop.className='prop';prop.id='p188FacePreset';prop.innerHTML='<label>Rostro</label><select id="p188Face"><option value="neutral">Neutro</option><option value="soft">Suave</option><option value="closed">Cerrado</option><option value="lateral">Lateral</option><option value="none">Sin rostro</option></select>';mode.closest('.prop')?.after(prop);q('p188Face').onchange=e=>applyFacePreset(e.target.value)}
  const mouth=q('mouth');if(mouth&&q('p188Brows')==null){const row=mouth.closest('.row');const prop=document.createElement('div');prop.className='prop';prop.innerHTML='<label>Cejas</label><select id="p188Brows"><option value="none">Sin cejas</option><option value="soft" selected>Suaves</option><option value="raised">Elevadas</option><option value="straight">Rectas</option></select>';row?.after(prop);q('p188Brows').onchange=e=>{if(typeof selected==='undefined'||!selected)return;normalizeFaceMeta(selected._meta);selected._meta.brows=e.target.value;selected._meta.mode='character';if(q('mode'))q('mode').value='character';renderFigure(selected);commitHistory?.()}}
 }
 function facePresetFor(m){normalizeFaceMeta(m);if(m.eyes==='none'&&m.mouth==='none'&&m.brows==='none')return'none';if(m.eyes==='closed')return'closed';if(m.eyes==='side-left'||m.eyes==='side-right')return'lateral';if(m.eyes==='soft'&&m.mouth==='soft')return'soft';return'neutral'}
 function applyFacePreset(v){if(typeof selected==='undefined'||!selected)return;const m=selected._meta;normalizeFaceMeta(m);const map={neutral:{eyes:'neutral',mouth:'neutral',brows:'soft'},soft:{eyes:'soft',mouth:'soft',brows:'soft'},closed:{eyes:'closed',mouth:'neutral',brows:'soft'},lateral:{eyes:'side-right',mouth:'neutral',brows:'soft'},none:{eyes:'none',mouth:'none',brows:'none'}};Object.assign(m,map[v]||map.neutral,{mode:'character'});if(q('mode'))q('mode').value='character';if(q('eyes'))q('eyes').value=m.eyes;if(q('mouth'))q('mouth').value=m.mouth;if(q('p188Brows'))q('p188Brows').value=m.brows;renderFigure(selected);commitHistory?.()}
-function applyRoleMeta(m,role){
- const p=ROLE_PRESETS[role];if(!m||!p)return false;
- Object.assign(m,{visualRole:role,shape:p.preferredShape,color:p.defaultColor,eyes:p.eyes,brows:p.brows,mouth:p.mouth,hair:p.hair,faceScale:p.faceScale,strokeWeightMode:p.strokeWeightMode,mode:'character'});return true
-}
-function syncFacePanel(m){
- if(!m)return;normalizeFaceMeta(m);if(q('p189Role'))q('p189Role').value=m.visualRole||'';if(q('hair'))q('hair').value=m.hair;if(q('eyes'))q('eyes').value=m.eyes;if(q('mouth'))q('mouth').value=m.mouth;if(q('p188Brows'))q('p188Brows').value=m.brows||'soft';if(q('mode'))q('mode').value=m.mode||'character'
-}
-function applyVisualRole(role,labelOverride=null){
- if(typeof selected==='undefined'||!selected||selected._meta?.kind!=='figure'||!ROLE_PRESETS[role])return;
- const m=selected._meta;if(labelOverride!==null)m.label=labelOverride;applyRoleMeta(m,role);renderFigure(selected);selectNode(selected);syncFacePanel(m);renderPalette?.();commitHistory?.()
-}
-function installRolePresetEngine(){
- try{
-  const legacy=rolePreset;
-  rolePreset=function(label,shape,hair){
-   if(typeof selected==='undefined'||!selected)return;const role=roleFromLabel(label);
-   if(role)return applyVisualRole(role,label);
-   return legacy?.(label,shape,hair)
-  };
-  window.rolePreset=rolePreset
- }catch{}
-}
 try{
- const baseSelect=selectNode;selectNode=function(n){if(n?._meta?.kind==='figure')normalizeFaceMeta(n._meta);const out=baseSelect(n);if(n?._meta?.kind==='figure'){if(q('hair'))q('hair').value=n._meta.hair;if(q('eyes'))q('eyes').value=n._meta.eyes;if(q('mouth'))q('mouth').value=n._meta.mouth;if(q('p188Brows'))q('p188Brows').value=n._meta.brows||'soft';if(q('p188Face'))q('p188Face').value=facePresetFor(n._meta);if(q('p189Role'))q('p189Role').value=n._meta.visualRole||''}return out}
+ const baseSelect=selectNode;selectNode=function(n){if(n?._meta?.kind==='figure')normalizeFaceMeta(n._meta);const out=baseSelect(n);if(n?._meta?.kind==='figure'){if(q('hair'))q('hair').value=n._meta.hair;if(q('eyes'))q('eyes').value=n._meta.eyes;if(q('mouth'))q('mouth').value=n._meta.mouth;if(q('p188Brows'))q('p188Brows').value=n._meta.brows||'soft';if(q('p188Face'))q('p188Face').value=facePresetFor(n._meta)}return out}
 }catch{}
 function buildOverlays(){
  if(!q('p188CaseOverlay'))document.body.insertAdjacentHTML('beforeend',`<div class="p188-overlay" id="p188CaseOverlay"><div class="p188-sheet"><button class="p188-x" id="p188CaseClose">×</button><div id="p188CaseBody"></div></div></div>`);
@@ -198,6 +156,6 @@ function notifyGuide(){openGuideContext(false)}
 function wireGuideAttention(){document.querySelector('[data-mobile="guide"]')?.addEventListener('click',e=>e.currentTarget.classList.remove('p188-attention'));document.querySelector('[data-rtab="guide"]')?.addEventListener('click',()=>document.querySelector('[data-mobile="guide"]')?.classList.remove('p188-attention'))}
 function firstRun(){const enter=q('enterBtn');if(!enter)return;enter.addEventListener('click',()=>setTimeout(()=>{if(!localStorage.getItem(ONBOARD)){buildOverlays();q('p188StartOverlay').classList.add('open')}},650))}
 function watchEvents(){let last='';setInterval(()=>{const key=sceneKey();if(watchEvents.key!==key){watchEvents.key=key;loadCaseState()}const e=latestRelevantEvent();if(e&&e.id!==last){last=e.id;C.lastEventId=e.id;saveCase();renderCaseGuide();if(e.type!=='node_added')notifyGuide()}},450)}
-function init(){setupFaceControls();installRolePresetEngine();buildOverlays();installRelationResizeFix();loadCaseState();renderCaseGuide();wireGuideAttention();firstRun();watchEvents();qa('.node',q('board')).filter(n=>n._meta?.kind==='figure').forEach(n=>{normalizeFaceMeta(n._meta);renderFigure?.(n)});window.VincoresP188={state:C,cases:CASES,openCasePicker,startCase,renderCaseGuide,faceHTML:v4FaceHTML,roles:ROLE_PRESETS}}
+function init(){setupFaceControls();buildOverlays();installRelationResizeFix();loadCaseState();renderCaseGuide();wireGuideAttention();firstRun();watchEvents();qa('.node',q('board')).filter(n=>n._meta?.kind==='figure').forEach(n=>{normalizeFaceMeta(n._meta);renderFigure?.(n)});window.VincoresP188={state:C,cases:CASES,openCasePicker,startCase,renderCaseGuide,faceHTML:v3FaceHTML}}
 setTimeout(init,0);
 })();
