@@ -15,31 +15,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Patch P1.8 guide selectors and simplify flow
+      - name: Guard optional backup hook
         run: |
           python3 - <<'PY'
           from pathlib import Path
           p=Path('vincores/p18/p18.js')
           s=p.read_text(encoding='utf-8')
-          s=s.replace("q('[data-focus-save]')?.addEventListener", "document.querySelector('[data-focus-save]')?.addEventListener")
-          s=s.replace("q('[data-nextq]')?.addEventListener", "document.querySelector('[data-nextq]')?.addEventListener")
-          s=s.replace("q('[data-stuck]')?.addEventListener", "document.querySelector('[data-stuck]')?.addEventListener")
-          s=s.replace("case'simplify':openStuck('simplify');break;", "case'simplify':handlePath('simplify');break;")
-          s=s.replace("P.observe=true;applyModes();alert('Modo simplificar:", "alert('Modo simplificar:")
+          s=s.replace('renderJournal();wireP18Backup();','renderJournal();typeof wireP18Backup===\'function\'&&wireP18Backup();')
           p.write_text(s,encoding='utf-8')
           PY
           node --check vincores/p18/p18.js
-          grep -q "document.querySelector('\[data-focus-save\]')" vincores/p18/p18.js
-      - name: Commit hotfix
+          grep -q "typeof wireP18Backup==='function'" vincores/p18/p18.js
+      - name: Commit runtime guard
         run: |
           git config user.name 'lunchpack-arg'
           git config user.email 'pasalochevere@gmail.com'
           git add vincores/p18/p18.js
-          if git diff --cached --quiet; then
-            echo 'Hotfix already present'
-            exit 0
-          fi
-          git commit -m 'Fix VÍNCORES P1.8 guide progression and simplify flow'
+          if git diff --cached --quiet; then echo 'Already guarded'; exit 0; fi
+          git commit -m 'Guard optional VÍNCORES P1.8 backup integration'
           git fetch origin main
           git rebase origin/main
           git push origin main
