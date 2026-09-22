@@ -1,5 +1,5 @@
 (()=>{
-  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A + Product Mapping V4.1B + Cover System V4.1C.
+  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A + Product Mapping V4.1B + Cover System V4.1C + Payment/Trust V4.1D.
   // Capas no destructivas sobre Portal V2: no alteran auth, licencias ni backend.
   if(!document.getElementById('pc-visual-polish-v3')){
     const visual=document.createElement('link');
@@ -20,6 +20,25 @@
     };
   }
 
+  const ensurePaymentTrustV41D=()=>{
+    if(!document.getElementById('pc-payment-trust-v41d-css')){
+      const css=document.createElement('link');
+      css.id='pc-payment-trust-v41d-css';
+      css.rel='stylesheet';
+      css.href='portal-payment-trust-v41d.css?v=20260922-1';
+      document.head.appendChild(css);
+    }
+    if(!document.getElementById('pc-payment-trust-v41d-js')){
+      const js=document.createElement('script');
+      js.id='pc-payment-trust-v41d-js';
+      js.src='portal-payment-trust-v41d.js?v=20260922-1';
+      js.defer=true;
+      document.head.appendChild(js);
+    }else if(typeof window.pcApplyPaymentTrust==='function'){
+      window.pcApplyPaymentTrust();
+    }
+  };
+
   const ensureCoverSystemV41C=()=>{
     if(!document.getElementById('pc-cover-system-v41c-css')){
       const css=document.createElement('link');
@@ -28,15 +47,23 @@
       css.href='portal-cover-system-v41c.css?v=20260922-1';
       document.head.appendChild(css);
     }
-    if(!document.getElementById('pc-cover-system-v41c-js')){
-      const js=document.createElement('script');
+
+    let js=document.getElementById('pc-cover-system-v41c-js');
+    if(!js){
+      js=document.createElement('script');
       js.id='pc-cover-system-v41c-js';
       js.src='portal-cover-system-v41c.js?v=20260922-1';
       js.defer=true;
+      js.addEventListener('load',ensurePaymentTrustV41D,{once:true});
       document.head.appendChild(js);
-    }else if(typeof window.pcApplyProductCovers==='function'){
-      window.pcApplyProductCovers();
+    }else if(window.__pcCoverSystemV41C){
+      if(typeof window.pcApplyProductCovers==='function')window.pcApplyProductCovers();
+      ensurePaymentTrustV41D();
+    }else{
+      js.addEventListener('load',ensurePaymentTrustV41D,{once:true});
     }
+
+    setTimeout(ensurePaymentTrustV41D,1100);
   };
 
   const ensureProductMappingV41B=()=>{
@@ -124,7 +151,7 @@
   base.onload=()=>{
     const ensureMercadoPago=()=>{
       const account=document.getElementById('accountBox');
-      if(account&&!account.querySelector('.mpTrust')){
+      if(account&&!account.querySelector('.mpTrust')&&!account.querySelector('.pcAccountPaymentTrust')){
         const trust=document.createElement('div');
         trust.className='mpTrust';
         trust.setAttribute('aria-label','Integración de pagos con Mercado Pago');
@@ -150,12 +177,8 @@
         if(accent)accent.textContent='50 DISEÑOS · 5 COLECCIONES · CREATOR PLUS';
         const p=card.querySelector('p');
         if(p)p.textContent='Creá, personalizá e imprimí Paper Squishies. Incluye 50 diseños en 5 colecciones, editor Creator Plus y 10 nuevos diseños por mes durante 12 meses.';
-        if(!card.querySelector('.psqDownloadAction')){
-          const d=document.createElement('div');d.className='previewAction psqDownloadAction';
-          d.innerHTML='<a class="btn" href="../paper-squishy/downloads.html">⬇ DESCARGAR IMPRIMIBLES</a>';
-          const actions=card.querySelector('.actions');
-          if(actions)card.insertBefore(d,actions);else card.appendChild(d);
-        }
+        // V4.1D: no exponer descargas en el catálogo. Las descargas aparecen sólo dentro de Mi biblioteca con licencia activa.
+        card.querySelectorAll('.psqDownloadAction,a[href*="paper-squishy/downloads.html"]').forEach(el=>el.remove());
       }
     };
 
@@ -171,7 +194,7 @@
           const screenSub=document.getElementById('previewScreenSub');
           if(sub)sub.textContent='50 DISEÑOS · 5 COLECCIONES · CREATOR PLUS';
           if(summary)summary.textContent='Elegí entre 50 diseños, personalizalos en Creator Plus y prepará frente, dorso y versiones para imprimir.';
-          if(list)list.innerHTML='<div>50 diseños incluidos en 5 colecciones.</div><div>Sweet Squishies, Food Squad, Animal Cuties, Cosmic Friends y Magic Objects.</div><div>PDF Maestro descargable: 157 páginas A4 con frente, dorso y coloring.</div><div>10 diseños nuevos por mes durante 12 meses.</div>';
+          if(list)list.innerHTML='<div>50 diseños incluidos en 5 colecciones.</div><div>Sweet Squishies, Food Squad, Animal Cuties, Cosmic Friends y Magic Objects.</div><div>PDF Maestro descargable con licencia activa: 157 páginas A4 con frente, dorso y coloring.</div><div>10 diseños nuevos por mes durante 12 meses.</div>';
           if(screenSub)screenSub.textContent='50 DISEÑOS · 5 COLECCIONES · CREATOR PLUS';
         },0);
         return out;
