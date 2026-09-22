@@ -1,0 +1,33 @@
+name: VÍNCORES P1.8.1 first-user UX fix once
+on:
+  push:
+    paths:
+      - '.github/workflows/vincores-p181-firstuser-fix-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Patch first-user figure editing flow
+        run: |
+          set -euo pipefail
+          python3 -c 'from pathlib import Path; p=Path("vincores/p18/p18.js"); s=p.read_text(encoding="utf-8"); marker="buildUI();wireEvents();enhanceAll();applyZoom();renderGuide();renderJournal();wireP18Backup();"; patch="""const __p181BaseAddFigure=window.addFigure;\nif(typeof __p181BaseAddFigure===\"function\")window.addFigure=function(){const out=__p181BaseAddFigure.apply(this,arguments);if(!P.started)setTimeout(()=>switchRightTab(\"piece\"),0);return out};\nconst __p181BaseSelectNode=window.selectNode;\nif(typeof __p181BaseSelectNode===\"function\")window.selectNode=function(n){const out=__p181BaseSelectNode.apply(this,arguments);if(n?._meta?.kind===\"figure\"&&!P.started)setTimeout(()=>switchRightTab(\"piece\"),0);return out};\n"""; assert marker in s; s=s if "__p181BaseAddFigure" in s else s.replace(marker,patch+marker,1); p.write_text(s,encoding="utf-8")'
+          node --check vincores/p18/p18.js
+          grep -q '__p181BaseAddFigure' vincores/p18/p18.js
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          rm -f .github/workflows/vincores-p181-firstuser-fix-once.yml
+          git add vincores/p18/p18.js .github/workflows
+          git commit -m 'Improve VÍNCORES P1.8.1 first-user editing flow'
+          git pull --rebase origin main
+          git push origin main
