@@ -1,0 +1,24 @@
+name: VÍNCORES guided flow and relation resize fix once
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/vincores-p188-guided-relations-fix-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply hotfix
+        run: python vincores/p18/p188_fix_guided_relations.py
+      - name: Validate JavaScript
+        run: node --check vincores/p18/p188.js
+      - name: Commit and push
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add vincores/index.html vincores/p18/p188.js vincores/p18/p188.css vincores/backups/P1.8.8_before_guided_loop_relation_fix_p188.js
+          git commit -m "Fix VÍNCORES guided case flow and relation resize" || exit 0
+          git push
