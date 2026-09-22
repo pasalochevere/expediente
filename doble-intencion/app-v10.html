@@ -3,22 +3,56 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Doble Intención · acceso</title>
+<title>Doble Intención · compatibilidad de acceso</title>
 <meta name="robots" content="noindex">
-<style>html,body{margin:0;height:100%;display:grid;place-items:center;background:#120d12;color:#d8b07a;font:13px/1.5 system-ui,sans-serif;letter-spacing:.08em;text-align:center}small{color:#9f8998;display:block;margin-top:8px}</style>
+<style>
+html,body{margin:0;height:100%;display:grid;place-items:center;background:#120d12;color:#d8b07a;font:13px/1.5 system-ui,sans-serif;letter-spacing:.08em;text-align:center}
+small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb0a8}.btn{display:inline-block;margin-top:18px;padding:11px 15px;border:1px solid #8f604d;border-radius:12px;color:#f0c8aa;text-decoration:none}
+</style>
 </head>
-<body><div>ABRIENDO DOBLE INTENCIÓN<small>Validando tu acceso personal…</small></div>
+<body><div id="status">ABRIENDO DOBLE INTENCIÓN<small>Buscando tu licencia personal…</small></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-(function(){
-  var search=window.location.search||'';
-  var hash=window.location.hash||'';
+(async function(){
+  const status=document.getElementById('status');
+  const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+  const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+  const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+  const fail=(msg)=>{status.innerHTML='NO PUDE VALIDAR EL ACCESO<small class="bad">'+msg+'</small><a class="btn" href="../portal-v2/">VOLVER A MI BIBLIOTECA</a>'};
   try{
-    if(window.parent && window.parent!==window){
-      search=window.parent.location.search||search;
-      hash=window.parent.location.hash||hash;
+    let search=window.location.search||'';
+    try{if(window.parent&&window.parent!==window)search=window.parent.location.search||search}catch(e){}
+    let qs=new URLSearchParams(search);
+    let code=(qs.get('access')||sessionStorage.getItem('pc_di_trilogia_access')||'').trim().toUpperCase();
+    const {data:{session}}=await sb.auth.getSession();
+    if(!session?.user?.email)throw new Error('Tu sesión no está iniciada. Entrá nuevamente desde Mi Biblioteca.');
+    if(!code){
+      const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'me'}});
+      if(error)throw error;
+      const list=Array.isArray(data?.licenses)?data.licenses:[];
+      const now=Date.now();
+      const matches=list.filter(l=>{
+        const pc=String(l.product_code||'').toUpperCase();
+        const pn=String(l.product_name||'').toUpperCase();
+        const gu=String(l.game_url||'').toLowerCase();
+        const active=!l.expires_at||new Date(l.expires_at).getTime()>now;
+        return active&&(pc==='DI-TRILOGIA'||pc.startsWith('DI-')||pn.includes('DOBLE INTENCIÓN')||pn.includes('DOBLE INTENCION')||gu.includes('doble-intencion'));
+      });
+      const lic=matches.find(l=>String(l.product_code||'').toUpperCase()==='DI-TRILOGIA')||matches[0];
+      code=String(lic?.activation_code||'').trim().toUpperCase();
     }
-  }catch(e){}
-  window.location.replace('engine-v10.html'+search+hash);
+    if(!code)throw new Error('Tu cuenta no tiene una licencia de Doble Intención que pueda recuperar automáticamente.');
+    sessionStorage.setItem('pc_di_trilogia_access',code);
+    history.replaceState(null,'',location.pathname+'?access='+encodeURIComponent(code));
+    status.innerHTML='LICENCIA ENCONTRADA<small>Preparando el motor compatible…</small>';
+    const r=await fetch('engine-v10.html?v=compat2',{cache:'no-store'});
+    if(!r.ok)throw new Error('No pude cargar el motor del juego.');
+    let html=await r.text();
+    const oldCheck="if(data.license?.product_code!=='DI-TRILOGIA')throw new Error('Este código no corresponde a Doble Intención.');";
+    const newCheck="const __lic=data.license||{};const __pc=String(__lic.product_code||'').toUpperCase(),__pn=String(__lic.product_name||'').toUpperCase(),__gu=String(__lic.game_url||'').toLowerCase();if(!(__pc==='DI-TRILOGIA'||__pc.startsWith('DI-')||__pn.includes('DOBLE INTENCIÓN')||__pn.includes('DOBLE INTENCION')||__gu.includes('doble-intencion')))throw new Error('Este código no corresponde a Doble Intención.');";
+    html=html.replace(oldCheck,newCheck).replace(/V10/g,'V11');
+    document.open();document.write(html);document.close();
+  }catch(e){fail(e?.message||'No pude recuperar tu acceso.');}
 })();
 </script>
 </body>
