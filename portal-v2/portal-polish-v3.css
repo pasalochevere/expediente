@@ -1,0 +1,273 @@
+/* PasaloChevere Portal · Visual Polish V3
+   Objetivo: unificar la biblioteca autenticada con la delicadeza visual de la portada.
+   Capa no destructiva: sólo overrides visuales; no modifica lógica, auth, licencias ni rutas. */
+
+:root{
+  --pc-surface:rgba(24,22,25,.94);
+  --pc-surface-2:rgba(15,14,17,.96);
+  --pc-border:rgba(216,198,188,.18);
+  --pc-border-soft:rgba(216,198,188,.11);
+  --pc-text:#f5eee8;
+  --pc-muted:#b4aaa2;
+  --pc-gold:#d0a447;
+  --pc-red:#a93630;
+  --pc-red-hi:#c4473d;
+  --pc-shadow:0 18px 48px rgba(0,0,0,.30);
+}
+
+/* Jerarquía más editorial */
+.catalog-title{margin:36px 0 14px}
+.catalog-title h2{font-size:clamp(1.55rem,2.2vw,2rem);font-weight:780;letter-spacing:-.025em}
+.catalog-title>span{max-width:460px;line-height:1.45;color:#a99f98}
+.libraryGroups{gap:28px}
+.libraryGroupTitle{gap:12px;margin:4px 0 12px;padding:0 2px}
+.libraryGroupTitle b{font-size:.82rem;font-weight:760;letter-spacing:.055em;color:#e8e0da}
+.libraryGroupTitle span{background:linear-gradient(90deg,rgba(214,197,187,.28),rgba(214,197,187,.06))}
+.libraryGroup .grid{gap:16px;margin-top:0}
+
+/* Tarjetas: menos pesadas, más aire y sombras reales */
+.card{
+  --cat-accent:var(--pc-gold);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  padding:20px;
+  overflow:hidden;
+  border:1px solid var(--pc-border);
+  border-radius:20px;
+  background:
+    linear-gradient(145deg,rgba(31,28,31,.96),rgba(15,14,17,.98));
+  box-shadow:var(--pc-shadow),inset 0 1px 0 rgba(255,255,255,.025);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(216,198,188,.28);
+  box-shadow:0 22px 58px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.035);
+}
+.card:before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:2px;
+  background:linear-gradient(90deg,var(--cat-accent),transparent 72%);
+  opacity:.9;
+}
+.card:after{
+  width:150px;
+  height:150px;
+  right:-66px;
+  top:-70px;
+  opacity:.55;
+  pointer-events:none;
+}
+.card[data-cat="adult"]{--cat-accent:#b64c69}
+.card[data-cat="family"]{--cat-accent:#22a9dd}
+.card[data-cat="mystery"]{--cat-accent:#d2a642}
+.card[data-cat="wellbeing"]{--cat-accent:#73be49}
+.card[data-cat="creative"]{--cat-accent:#ec8f2e}
+
+.status{
+  align-self:flex-start;
+  padding:5px 9px;
+  border-radius:999px;
+  border-color:rgba(221,210,202,.22);
+  background:rgba(255,255,255,.025);
+  font-size:.61rem;
+  font-weight:760;
+  letter-spacing:.075em;
+  line-height:1;
+}
+.status.live{
+  color:#bcecca;
+  border-color:rgba(76,166,106,.54);
+  background:rgba(24,70,39,.34);
+  box-shadow:0 0 0 1px rgba(111,209,143,.04) inset;
+}
+
+.card h3{
+  margin:13px 0 6px;
+  font-size:clamp(1.05rem,1.5vw,1.28rem);
+  line-height:1.28;
+  font-weight:760;
+  letter-spacing:-.02em;
+  color:var(--pc-text);
+  text-wrap:balance;
+}
+.card .accent{
+  color:#d2a647;
+  font-size:.76rem;
+  line-height:1.42;
+  font-weight:680;
+  letter-spacing:.01em;
+}
+.card .accent code{
+  color:#ddb458;
+  font:inherit;
+  font-weight:760;
+  letter-spacing:.045em;
+}
+.card p{
+  margin:13px 0 0;
+  color:var(--pc-muted);
+  font-size:.82rem;
+  line-height:1.58;
+  font-weight:450;
+}
+.card p b{color:#d8d0ca;font-weight:690}
+
+/* El bug visual principal: las acciones ya no están absolutas ni pisan el contenido */
+.card .actions{
+  position:static;
+  left:auto;
+  right:auto;
+  bottom:auto;
+  display:flex;
+  gap:8px;
+  margin-top:auto;
+  padding-top:18px;
+  z-index:2;
+}
+.actions .btn,
+.previewAction .btn{
+  flex:1 1 0;
+  min-width:0;
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:9px 12px;
+  border-radius:12px;
+  border:1px solid rgba(222,208,200,.20);
+  background:linear-gradient(180deg,rgba(33,30,34,.92),rgba(23,21,24,.98));
+  color:#f7f2ee;
+  box-shadow:0 8px 18px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.025);
+  font-size:.72rem;
+  font-weight:760;
+  letter-spacing:.025em;
+  line-height:1.15;
+  text-decoration:none;
+  text-align:center;
+  white-space:normal;
+}
+.btn:hover{
+  transform:translateY(-1px);
+  border-color:rgba(229,216,207,.34);
+  box-shadow:0 11px 24px rgba(0,0,0,.24);
+}
+.btn.primary{
+  border-color:rgba(202,77,67,.70);
+  background:linear-gradient(145deg,var(--pc-red-hi),#8b2924);
+  box-shadow:0 10px 24px rgba(123,34,29,.24),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.btn.gold{
+  border-color:rgba(203,161,72,.58);
+  background:linear-gradient(145deg,#775722,#4b3518);
+  box-shadow:0 10px 24px rgba(69,47,18,.22),inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+/* Acciones secundarias más sutiles */
+.copy{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:8px;
+  padding:0;
+  color:#d4aa50;
+  font-size:.70rem;
+  font-weight:680;
+  letter-spacing:.025em;
+  text-decoration:none;
+}
+.copy:hover{color:#edc76c;text-decoration:underline;text-underline-offset:3px}
+.previewAction{margin-top:12px}
+.previewAction .btn{width:100%}
+
+/* Cuenta / activación */
+#accountBox.box{
+  border-color:rgba(219,201,192,.17);
+  background:linear-gradient(145deg,rgba(27,24,28,.96),rgba(15,14,17,.97));
+  box-shadow:0 20px 54px rgba(0,0,0,.28);
+}
+.account{
+  border-color:rgba(77,150,98,.40);
+  background:linear-gradient(180deg,rgba(20,43,29,.52),rgba(15,26,20,.72));
+  border-radius:14px;
+}
+.authrow input,.codeinput{
+  min-height:46px;
+  border-color:rgba(218,203,194,.20);
+  background:rgba(8,8,10,.58);
+  box-shadow:inset 0 1px 5px rgba(0,0,0,.20);
+}
+.authrow input:focus,.codeinput:focus{
+  outline:none;
+  border-color:rgba(207,164,71,.70);
+  box-shadow:0 0 0 3px rgba(207,164,71,.10),inset 0 1px 5px rgba(0,0,0,.22);
+}
+
+/* Mercado Pago: presencia visible pero no invasiva */
+.mpTrust{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-top:15px;
+  padding:11px 13px;
+  border:1px solid rgba(0,177,235,.22);
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(0,177,235,.08),rgba(255,255,255,.018));
+}
+.mpTrust img{width:31px;height:31px;object-fit:contain;flex:0 0 auto}
+.mpTrustText{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mpTrustText strong{font-size:.80rem;font-weight:760;color:#eaf8fe}
+.mpTrustText small{font-size:.69rem;line-height:1.35;color:#9fb5bf}
+#paymentNotice{
+  border-color:rgba(0,177,235,.22);
+  background:linear-gradient(145deg,rgba(10,36,47,.44),rgba(17,15,18,.96));
+}
+#paymentNotice h3{color:#e9f7fc}
+
+/* Modal de dispositivos: misma línea visual */
+.deviceModal{backdrop-filter:blur(8px);background:rgba(2,2,3,.76)}
+.deviceDialog{
+  border-color:rgba(218,203,194,.20);
+  border-radius:22px;
+  background:linear-gradient(145deg,#1e1a1d,#0f0e10);
+  box-shadow:0 34px 90px rgba(0,0,0,.62);
+}
+.deviceRow{
+  border-color:rgba(218,203,194,.14);
+  background:rgba(16,15,18,.86);
+  border-radius:14px;
+}
+
+/* Refinamiento general de cajas debajo de la portada */
+#myGames .msg.good{
+  color:#a8cdb3;
+  font-size:.79rem;
+  line-height:1.45;
+}
+#myGamesGrid .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+#myGames .card{min-height:246px}
+#myGames .card .actions{padding-top:16px}
+
+/* Desktop ancho: conservar elegancia y evitar tarjetas gigantes */
+@media(min-width:1180px){
+  #myGames .card h3{font-size:1.18rem}
+}
+
+@media(max-width:920px){
+  #myGamesGrid .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card{padding:18px}
+}
+
+@media(max-width:620px){
+  #myGamesGrid .grid{grid-template-columns:1fr}
+  .card{border-radius:17px;padding:17px}
+  .card h3{font-size:1.08rem}
+  .card .actions{gap:7px;flex-wrap:wrap}
+  .actions .btn,.previewAction .btn{flex:1 1 140px;min-height:40px;font-size:.70rem}
+  .mpTrust{align-items:flex-start}
+  .catalog-title{align-items:flex-start;flex-direction:column}
+}
