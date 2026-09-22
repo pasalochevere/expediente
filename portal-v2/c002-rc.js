@@ -1,5 +1,5 @@
 (()=>{
-  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A + Product Mapping V4.1B.
+  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A + Product Mapping V4.1B + Cover System V4.1C.
   // Capas no destructivas sobre Portal V2: no alteran auth, licencias ni backend.
   if(!document.getElementById('pc-visual-polish-v3')){
     const visual=document.createElement('link');
@@ -20,6 +20,25 @@
     };
   }
 
+  const ensureCoverSystemV41C=()=>{
+    if(!document.getElementById('pc-cover-system-v41c-css')){
+      const css=document.createElement('link');
+      css.id='pc-cover-system-v41c-css';
+      css.rel='stylesheet';
+      css.href='portal-cover-system-v41c.css?v=20260922-1';
+      document.head.appendChild(css);
+    }
+    if(!document.getElementById('pc-cover-system-v41c-js')){
+      const js=document.createElement('script');
+      js.id='pc-cover-system-v41c-js';
+      js.src='portal-cover-system-v41c.js?v=20260922-1';
+      js.defer=true;
+      document.head.appendChild(js);
+    }else if(typeof window.pcApplyProductCovers==='function'){
+      window.pcApplyProductCovers();
+    }
+  };
+
   const ensureProductMappingV41B=()=>{
     if(!document.getElementById('pc-product-mapping-v41b-css')){
       const css=document.createElement('link');
@@ -28,15 +47,23 @@
       css.href='portal-product-mapping-v41b.css?v=20260922-1';
       document.head.appendChild(css);
     }
-    if(!document.getElementById('pc-product-mapping-v41b-js')){
-      const js=document.createElement('script');
+
+    let js=document.getElementById('pc-product-mapping-v41b-js');
+    if(!js){
+      js=document.createElement('script');
       js.id='pc-product-mapping-v41b-js';
-      js.src='portal-product-mapping-v41b.js?v=20260922-1';
+      js.src='portal-product-mapping-v41b.js?v=20260922-2';
       js.defer=true;
+      js.addEventListener('load',ensureCoverSystemV41C,{once:true});
       document.head.appendChild(js);
-    }else if(typeof window.pcMapLibraryProducts==='function'){
-      window.pcMapLibraryProducts();
+    }else if(window.__pcProductMappingV41B){
+      if(typeof window.pcMapLibraryProducts==='function')window.pcMapLibraryProducts();
+      ensureCoverSystemV41C();
+    }else{
+      js.addEventListener('load',ensureCoverSystemV41C,{once:true});
     }
+
+    setTimeout(ensureCoverSystemV41C,1000);
   };
 
   const ensureSmartCardsV41A=()=>{
