@@ -3,45 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Doble Intención · V11 · PasaloChévere</title>
+<title>Doble Intención · Intro V11 · PasaloChévere</title>
 <meta name="theme-color" content="#120d12">
 <style>
-:root{color-scheme:dark;--night:#120d12;--plum:#4a2037;--copper:#c77d52;--wood:#d8b07a;--cream:#f5e9e1;--spark:#f2a93b;--fire:#d84a35;--domain:#6d345b;--glass:#1d141d;--line:#c77d5248;--intro-dur:2.7s}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--night);color:var(--cream);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden}button{font:inherit}
-#shell{position:fixed;inset:0;background:radial-gradient(circle at 15% 10%,#6d345b33,transparent 38%),radial-gradient(circle at 85% 90%,#c77d5228,transparent 40%),#120d12}
-#game{position:absolute;inset:0;width:100%;height:100%;border:0;background:#120d12;opacity:0;transform:scale(1.008);transition:opacity .8s ease,transform .9s ease}
-#game.ready{opacity:1;transform:none}
-#topbar{position:fixed;z-index:25;top:max(12px,env(safe-area-inset-top));right:14px;display:flex;gap:8px;align-items:center;opacity:0;pointer-events:none;transition:opacity .45s ease}
-body.game-live #topbar{opacity:1;pointer-events:auto}
-.pill{border:1px solid #c77d5248;background:#170f17d9;color:#dcc2b1;border-radius:999px;padding:9px 12px;backdrop-filter:blur(14px);font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 35px #0006}.pill:hover{border-color:#c77d52;color:#fff}.pill strong{color:#edb68d}
-#intro{position:fixed;z-index:50;inset:0;background:#0d090d;overflow:hidden;opacity:1;transition:opacity .85s ease,visibility .85s ease}#intro.off{opacity:0;visibility:hidden;pointer-events:none}
+:root{color-scheme:dark;--night:#0d090d;--cream:#f7eee7;--muted:#cdb9c3;--copper:#c77d52;--plum:#6d345b;--wood:#d8b07a}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--night);color:var(--cream);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button{font:inherit}
+#intro{position:fixed;inset:0;overflow:hidden;background:#0d090d}
 #intro:before{content:"";position:absolute;inset:-15%;background:radial-gradient(circle at 50% 42%,#5c2a4650,transparent 26%),radial-gradient(circle at 20% 80%,#c77d521c,transparent 35%),linear-gradient(130deg,#0b080b 30%,#21121d 67%,#0b080b);animation:breathe 7s ease-in-out infinite alternate}
 #intro:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 49.75%,#f5e9e106 50%,transparent 50.25%),repeating-linear-gradient(0deg,#fff0 0 3px,#fff009 4px);mix-blend-mode:screen;opacity:.28}
 @keyframes breathe{to{transform:scale(1.08) translate3d(1.5%,-1%,0);filter:saturate(1.18)}}
-#skip{position:absolute;z-index:5;right:18px;top:max(18px,env(safe-area-inset-top));border:1px solid #c77d5255;background:#110b11a6;color:#cdb5a6;border-radius:999px;padding:10px 14px;font-size:10px;letter-spacing:.16em;cursor:pointer;backdrop-filter:blur(10px)}
-#sound{position:absolute;z-index:5;left:18px;top:max(18px,env(safe-area-inset-top));border:0;background:transparent;color:#9f8998;font-size:10px;letter-spacing:.13em;cursor:pointer}.sound-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#6d345b;margin-right:7px;box-shadow:0 0 12px #6d345b}
+.top{position:absolute;z-index:5;left:18px;right:18px;top:max(18px,env(safe-area-inset-top));display:flex;justify-content:space-between;gap:10px}
+.ghost{border:1px solid #c77d5255;background:#110b11a6;color:#cdb5a6;border-radius:999px;padding:10px 14px;font-size:10px;letter-spacing:.16em;cursor:pointer;backdrop-filter:blur(10px)}
 #stage{position:absolute;inset:0;display:grid;place-items:center;padding:28px}.scene{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;opacity:0;transform:scale(1.045);transition:opacity .7s ease,transform 1.25s ease}.scene.active{opacity:1;transform:scale(1)}.scene.exit{opacity:0;transform:scale(.985)}
 .kicker{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:#b99278;margin-bottom:18px}.big{font-family:Georgia,"Times New Roman",serif;font-size:clamp(38px,7vw,88px);line-height:.98;font-weight:400;letter-spacing:-.035em;margin:0;color:#f7eee7;text-wrap:balance}.big em{font-style:normal;color:#d78c5e}.line{width:58px;height:1px;background:#c77d52;margin:22px auto}.copy{max-width:680px;margin:0 auto;color:#cdb9c3;font-size:clamp(15px,2.2vw,22px);line-height:1.55;text-wrap:balance}.whisper{margin-top:20px;color:#8f7d88;font-size:10px;letter-spacing:.24em;text-transform:uppercase}
 .symbol{width:min(42vw,240px);height:min(42vw,240px);position:relative;margin:auto;filter:drop-shadow(0 22px 40px #0008)}.symbol:before,.symbol:after{content:"";position:absolute;left:50%;top:50%;width:64%;height:29%;border-radius:12px;background:linear-gradient(135deg,#d9aa83,#8c533b);transform-origin:center;box-shadow:inset 0 0 0 1px #fff1,0 14px 30px #0008}.symbol:before{transform:translate(-62%,-45%) rotate(36deg)}.symbol:after{transform:translate(-38%,-45%) rotate(-36deg);background:linear-gradient(135deg,#7d405f,#3d2034)}.dot{position:absolute;z-index:2;width:14%;aspect-ratio:1;border-radius:50%;background:#e7c8af;left:43%;top:14%;box-shadow:0 0 30px #e7c8af55}
-.blocks{position:relative;width:min(76vw,520px);height:300px;margin:auto;perspective:900px}.block{position:absolute;left:50%;width:180px;height:44px;margin-left:-90px;border-radius:7px;background:linear-gradient(90deg,#7f4a33,#c5865e 34%,#9d5d40 74%,#70402f);box-shadow:0 14px 30px #0008,inset 0 1px #f2c9a633;transform-style:preserve-3d}.block:nth-child(1){top:55px;transform:translateX(-42px) rotate(-6deg)}.block:nth-child(2){top:105px;transform:translateX(24px) rotate(5deg)}.block:nth-child(3){top:155px;transform:translateX(-18px) rotate(-3deg)}.block:nth-child(4){top:205px;transform:translateX(34px) rotate(7deg)}.block span{position:absolute;right:14px;top:12px;color:#f3d7c3;font-size:10px;letter-spacing:.18em}.finger{position:absolute;width:130px;height:130px;border:1px solid #c77d525c;border-radius:50%;right:6%;top:25%;box-shadow:0 0 0 22px #c77d5207,0 0 0 50px #c77d5204;animation:pulse 2.3s ease-in-out infinite}@keyframes pulse{50%{transform:scale(1.08);opacity:.7}}
+.blocks{position:relative;width:min(76vw,520px);height:300px;margin:auto;perspective:900px}.block{position:absolute;left:50%;width:180px;height:44px;margin-left:-90px;border-radius:7px;background:linear-gradient(90deg,#7f4a33,#c5865e 34%,#9d5d40 74%,#70402f);box-shadow:0 14px 30px #0008,inset 0 1px #f2c9a633}.block:nth-child(1){top:55px;transform:translateX(-42px) rotate(-6deg)}.block:nth-child(2){top:105px;transform:translateX(24px) rotate(5deg)}.block:nth-child(3){top:155px;transform:translateX(-18px) rotate(-3deg)}.block:nth-child(4){top:205px;transform:translateX(34px) rotate(7deg)}.block span{position:absolute;right:14px;top:12px;color:#f3d7c3;font-size:10px;letter-spacing:.18em}.finger{position:absolute;width:130px;height:130px;border:1px solid #c77d525c;border-radius:50%;right:6%;top:25%;box-shadow:0 0 0 22px #c77d5207,0 0 0 50px #c77d5204;animation:pulse 2.3s ease-in-out infinite}@keyframes pulse{50%{transform:scale(1.08);opacity:.7}}
 .triad{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:30px}.tag{border:1px solid #c77d5248;border-radius:999px;padding:10px 14px;font-size:10px;letter-spacing:.18em}.tag.chispa{color:#f2a93b}.tag.fuego{color:#e7654f}.tag.dominio{color:#aa7b9d}
-.reveal{position:relative}.reveal .brand{font-weight:900;font-size:clamp(42px,8vw,106px);line-height:.86;letter-spacing:.14em;text-transform:uppercase;color:#f7eee7;text-shadow:0 20px 55px #000}.reveal .brand span{display:block;color:#d78c5e}.reveal .sub{margin-top:26px;font:400 clamp(16px,2.6vw,26px) Georgia,serif;color:#e1c7b7;letter-spacing:.08em}.reveal .rule{width:min(420px,70vw);height:1px;background:linear-gradient(90deg,transparent,#c77d52,transparent);margin:26px auto 18px}.reveal .meta{color:#977f8d;font-size:10px;letter-spacing:.28em;text-transform:uppercase}
-#progress{position:absolute;z-index:5;left:50%;bottom:max(22px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:6px}.bar{width:26px;height:2px;background:#ffffff1d;overflow:hidden}.bar i{display:block;width:0;height:100%;background:#c77d52}.bar.on i{animation:load var(--intro-dur) linear forwards}@keyframes load{to{width:100%}}
+.reveal{position:relative}.brand{font-weight:900;font-size:clamp(42px,8vw,106px);line-height:.86;letter-spacing:.14em;text-transform:uppercase;color:#f7eee7;text-shadow:0 20px 55px #000}.brand span{display:block;color:#d78c5e}.sub{margin-top:26px;font:400 clamp(16px,2.6vw,26px) Georgia,serif;color:#e1c7b7;letter-spacing:.08em}.rule{width:min(420px,70vw);height:1px;background:linear-gradient(90deg,transparent,#c77d52,transparent);margin:26px auto 18px}.meta{color:#977f8d;font-size:10px;letter-spacing:.28em;text-transform:uppercase}
 #enterNow{margin-top:28px;border:1px solid #d9a57d;background:linear-gradient(120deg,#e2b189,#bd744d);color:#1b1016;border-radius:999px;padding:15px 22px;font-weight:800;font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;box-shadow:0 14px 40px #0008}
-#loading{position:fixed;z-index:15;inset:0;display:grid;place-items:center;pointer-events:none;color:#b79da9;font-size:10px;letter-spacing:.25em;text-transform:uppercase;opacity:1;transition:opacity .5s}body.game-live #loading{opacity:0}.loaderMark{width:44px;height:44px;border:1px solid #c77d5266;border-top-color:#c77d52;border-radius:50%;margin:0 auto 16px;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:700px){#topbar{top:auto;right:10px;bottom:max(10px,env(safe-area-inset-bottom))}.pill{padding:8px 10px;font-size:9px}.big{font-size:clamp(36px,11vw,60px)}.copy{font-size:16px}.blocks{height:270px}.reveal .brand{letter-spacing:.08em}.scene{padding:20px}}
+#progress{position:absolute;z-index:5;left:50%;bottom:max(22px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:6px}.bar{width:26px;height:2px;background:#ffffff1d;overflow:hidden}.bar i{display:block;width:0;height:100%;background:#c77d52}.bar.on i{animation:load 2.7s linear forwards}@keyframes load{to{width:100%}}
+@media(max-width:700px){.big{font-size:clamp(36px,11vw,60px)}.copy{font-size:16px}.blocks{height:270px}.brand{letter-spacing:.08em}.scene{padding:20px}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
 </style>
 </head>
 <body>
-<div id="shell">
-  <div id="loading"><div><div class="loaderMark"></div>Cargando Doble Intención V11</div></div>
-  <iframe id="game" src="app-v10.html" title="Doble Intención V11"></iframe>
-  <div id="topbar"><button class="pill" id="replay">VER INTRO</button><span class="pill"><strong>V11</strong> · PARA DOS · +18</span></div>
-</div>
 <section id="intro" aria-label="Introducción cinematográfica Doble Intención">
-  <button id="sound"><span class="sound-dot"></span>AMBIENTE</button>
-  <button id="skip">SALTAR INTRO</button>
+  <div class="top"><button class="ghost" id="sound"><span id="soundText">AMBIENTE</span></button><button class="ghost" id="skip">SALTAR INTRO</button></div>
   <div id="stage">
     <div class="scene active"><div><div class="kicker">Hay noches que empiezan antes del primer toque</div><h1 class="big">No hace falta decirlo.<br><em>Se nota.</em></h1><div class="line"></div><p class="copy">Una mirada dura un segundo más. Una pregunta queda flotando. Algo cambia entre los dos.</p></div></div>
     <div class="scene"><div><div class="kicker">Primera señal</div><div class="symbol"><div class="dot"></div></div><p class="copy">Dos intenciones. Una sola regla: lo que pasa, se elige entre los dos.</p></div></div>
@@ -49,33 +36,24 @@ body.game-live #topbar{opacity:1;pointer-events:auto}
     <div class="scene"><div><div class="kicker">Elegir la intensidad</div><h2 class="big">De la <em>chispa</em><br>al control.</h2><div class="triad"><span class="tag chispa">CHISPA</span><span class="tag fuego">FUEGO</span><span class="tag dominio">DOMINIO</span></div><p class="whisper">42 consignas por edición · 126 en la trilogía</p></div></div>
     <div class="scene"><div><div class="kicker">Sin obligación</div><h2 class="big">Sí.<br>Más suave.<br><em>Paso.</em></h2><div class="line"></div><p class="copy">Cada reto necesita dos sí. Cambiar de idea también forma parte del juego.</p></div></div>
     <div class="scene"><div><div class="kicker">Una pausa antes de entrar</div><h2 class="big">La intención<br><em>la ponen ustedes.</em></h2><p class="copy">Con torre o sin ella. En pantalla o impreso. El juego acompaña; las reglas las acuerdan ustedes.</p></div></div>
-    <div class="scene"><div class="reveal"><div class="kicker">PasaloChévere presenta</div><div class="brand">DOBLE<span>INTENCIÓN</span></div><div class="rule"></div><div class="sub">Una noche. Dos intenciones.</div><div class="meta">V11 · CHISPA · FUEGO · DOMINIO</div></div></div>
+    <div class="scene"><div class="reveal"><div class="kicker">PasaloChévere presenta</div><div class="brand">DOBLE<span>INTENCIÓN</span></div><div class="rule"></div><div class="sub">Una noche. Dos intenciones.</div><div class="meta">CHISPA · FUEGO · DOMINIO</div></div></div>
     <div class="scene"><div class="reveal"><div class="kicker">La noche empieza acá</div><div class="brand">DOBLE<span>INTENCIÓN</span></div><div class="sub">Sacá una consigna. Mostrá tus intenciones.</div><button id="enterNow">ENTRAR AL JUEGO</button></div></div>
   </div>
   <div id="progress"></div>
 </section>
 <script>
 (()=>{
- const intro=document.getElementById('intro'),game=document.getElementById('game'),skip=document.getElementById('skip'),replay=document.getElementById('replay'),sound=document.getElementById('sound'),progress=document.getElementById('progress');
- const scenes=[...document.querySelectorAll('.scene')]; let index=0,timer=null,audioCtx=null,drone=null,muted=false;
+ const scenes=[...document.querySelectorAll('.scene')],progress=document.getElementById('progress');
+ let index=0,timer=null,audioCtx=null,drone=null,muted=false,leaving=false;
  scenes.forEach(()=>{const b=document.createElement('span');b.className='bar';b.innerHTML='<i></i>';progress.appendChild(b)}); const bars=[...progress.children];
- function ambience(){if(muted)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)(); if(drone)return; const osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();osc.type='sine';osc.frequency.value=68;filter.type='lowpass';filter.frequency.value=180;gain.gain.value=.015;osc.connect(filter);filter.connect(gain);gain.connect(audioCtx.destination);osc.start();drone={osc,gain};}catch(e){}}
- function stopAmbience(){if(drone){try{drone.gain.gain.setTargetAtTime(0,audioCtx.currentTime,.08);setTimeout(()=>drone.osc.stop(),400)}catch(e){}drone=null}}
- function show(i){scenes.forEach((s,n)=>{s.classList.toggle('active',n===i);s.classList.remove('exit')});bars.forEach((b,n)=>{b.classList.remove('on');if(n<i)b.querySelector('i').style.width='100%';else b.querySelector('i').style.width=''});void bars[i].offsetWidth;bars[i].classList.add('on');index=i;clearTimeout(timer);if(i<scenes.length-1)timer=setTimeout(()=>{scenes[i].classList.add('exit');setTimeout(()=>show(i+1),420)},2700)}
- function finish(){clearTimeout(timer);localStorage.setItem('di_v11_intro_seen','1');intro.classList.add('off');document.body.classList.add('game-live');game.classList.add('ready');stopAmbience();}
- function start(force=false){intro.classList.remove('off');document.body.classList.remove('game-live');index=0;bars.forEach(b=>{b.classList.remove('on');b.querySelector('i').style.width=''});show(0);if(force)ambience()}
- skip.onclick=finish;replay.onclick=()=>start(true);document.getElementById('enterNow').onclick=finish;
- sound.onclick=()=>{muted=!muted;sound.innerHTML='<span class="sound-dot"></span>'+(muted?'AMBIENTE OFF':'AMBIENTE');if(muted)stopAmbience();else ambience()};
- intro.addEventListener('pointerdown',e=>{if(e.target===intro||e.target.id==='stage')ambience()},{once:true});
- function upgradeFrame(){try{const d=game.contentDocument;if(!d)return;d.title='Doble Intención · V11 · PasaloChévere';d.querySelectorAll('body *').forEach(el=>{if(el.childNodes.length===1&&el.firstChild.nodeType===3&&/V10/.test(el.textContent))el.textContent=el.textContent.replace(/V10/g,'V11')});const style=d.createElement('style');style.textContent=`
- body{background:radial-gradient(circle at 12% 6%,#6d345b22,transparent 33%),radial-gradient(circle at 87% 93%,#c77d5222,transparent 38%),#120d12!important}
- .cover-card,#card,.box{box-shadow:0 28px 90px #0008!important}.cover-card{border-color:#c77d5270!important}.cover h1,.hero h1{letter-spacing:-.025em!important}.brandword{letter-spacing:.16em!important}.primary{box-shadow:0 12px 34px #0005!important}.pictogram{filter:drop-shadow(0 5px 12px #0005)}
- `;d.head.appendChild(style);
- const replayBtn=d.createElement('button');replayBtn.textContent='VER INTRO V11';replayBtn.style.cssText='position:fixed;left:12px;bottom:14px;z-index:9998;border:1px solid #c77d5255;background:#160f16dd;color:#cfae98;border-radius:999px;padding:9px 11px;font:10px Arial;letter-spacing:1px;cursor:pointer;backdrop-filter:blur(10px)';replayBtn.onclick=()=>parent.postMessage({type:'DI_REPLAY_INTRO'},'*');d.body.appendChild(replayBtn);
- }catch(e){console.warn('V11 frame polish skipped',e)}}
- window.addEventListener('message',e=>{if(e.data&&e.data.type==='DI_REPLAY_INTRO')start(true)});
- game.addEventListener('load',()=>{upgradeFrame();game.classList.add('ready');if(localStorage.getItem('di_v11_intro_seen')==='1'){intro.classList.add('off');document.body.classList.add('game-live')}else start(false)});
- setTimeout(()=>{if(!document.body.classList.contains('game-live')&&localStorage.getItem('di_v11_intro_seen')==='1'){intro.classList.add('off');document.body.classList.add('game-live');game.classList.add('ready')}},1800);
+ function target(){return 'app-v10.html'+(location.search||'')+(location.hash||'')}
+ function enterGame(){if(leaving)return;leaving=true;clearTimeout(timer);stopAmbience();document.body.style.opacity='.15';document.body.style.transition='opacity .35s ease';setTimeout(()=>location.replace(target()),260)}
+ function ambience(){if(muted)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();if(drone)return;const osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();osc.type='sine';osc.frequency.value=68;filter.type='lowpass';filter.frequency.value=180;gain.gain.value=.015;osc.connect(filter);filter.connect(gain);gain.connect(audioCtx.destination);osc.start();drone={osc,gain}}catch(e){}}
+ function stopAmbience(){if(drone){try{drone.gain.gain.setTargetAtTime(0,audioCtx.currentTime,.08);setTimeout(()=>drone.osc.stop(),350)}catch(e){}drone=null}}
+ function show(i){scenes.forEach((s,n)=>{s.classList.toggle('active',n===i);s.classList.remove('exit')});bars.forEach((b,n)=>{b.classList.remove('on');const el=b.querySelector('i');el.style.width=n<i?'100%':''});void bars[i].offsetWidth;bars[i].classList.add('on');index=i;clearTimeout(timer);if(i<scenes.length-1)timer=setTimeout(()=>{scenes[i].classList.add('exit');setTimeout(()=>show(i+1),420)},2700)}
+ document.getElementById('skip').onclick=enterGame;document.getElementById('enterNow').onclick=enterGame;
+ document.getElementById('sound').onclick=()=>{muted=!muted;document.getElementById('soundText').textContent=muted?'AMBIENTE OFF':'AMBIENTE';if(muted)stopAmbience();else ambience()};
+ document.getElementById('intro').addEventListener('pointerdown',ambience,{once:true});show(0);
 })();
 </script>
 </body>
