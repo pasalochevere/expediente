@@ -39,7 +39,7 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
 
 </style>
 <link rel="stylesheet" href="p18/p18.css?v=1805">
-<link rel="stylesheet" href="p18/p188.css?v=1882">
+<link rel="stylesheet" href="p18/p188.css?v=1883">
 </head>
 <body>
 <header class="top">
@@ -129,7 +129,7 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
         <div class="template cylinder"><div class="shape"></div><b>CILINDRO</b><div class="sizes"><button onclick="addFigure('cylinder',46)">S</button><button onclick="addFigure('cylinder',58)">M</button><button onclick="addFigure('cylinder',72)">L</button></div></div>
         <div class="template prism"><div class="shape"></div><b>PRISMA</b><div class="sizes"><button onclick="addFigure('prism',46)">S</button><button onclick="addFigure('prism',58)">M</button><button onclick="addFigure('prism',72)">L</button></div></div>
       </div>
-      <h4>Casos básicos</h4>
+      <h4>Prácticas guiadas</h4>
       <div class="caseList">
         <button class="caseBtn" onclick="loadCase('pareja')">❤️ Amor y pareja</button>
         <button class="caseBtn" onclick="loadCase('familia')">👨‍👩‍👧 Familia</button>
@@ -148,7 +148,7 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
       <div class="leftTools"><input class="sceneName" id="sceneName" placeholder="Nombre de la escena"><button class="btn" id="saveBtn">Guardar</button><button class="btn" id="loadBtn">Cargar</button></div>
       <div class="rightTools"><button class="btn toolBtn" id="undoBtn">↶</button><button class="btn toolBtn" id="redoBtn">↷</button><button class="btn" id="exportBtn">PNG</button><button class="btn danger" id="clearBtn">Limpiar</button></div>
     </div>
-    <div class="boardFrame"><div class="board" id="board"><svg class="linkLayer" id="linkLayer"><defs><marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#c99a3a"></path></marker></defs><g id="linkGroup"></g></svg><div class="empty" id="empty"><div>Agregá figuras desde la izquierda o cargá un caso básico.<br>Después movelas libremente dentro del campo.</div></div></div></div><div class="stagePanel"><div class="stageHead"><b>ETAPAS DE LA ESCENA</b><div class="stageActions"><input class="stageInput" id="stageName" placeholder="Nombre opcional"><button class="btn" id="saveStageBtn">+ Guardar etapa</button><button class="btn" id="updateStageBtn">Actualizar</button><button class="btn danger" id="deleteStageBtn">Eliminar</button></div></div><div class="stageChips" id="stageChips"></div></div>
+    <div class="boardFrame"><div class="board" id="board"><svg class="linkLayer" id="linkLayer"><defs><marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#c99a3a"></path></marker></defs><g id="linkGroup"></g></svg><div class="empty" id="empty"><div>Agregá figuras desde la izquierda o elegí una práctica guiada.<br>Después movelas libremente dentro del campo.</div></div></div></div><div class="stagePanel"><div class="stageHead"><b>ETAPAS DE LA ESCENA</b><div class="stageActions"><input class="stageInput" id="stageName" placeholder="Nombre opcional"><button class="btn" id="saveStageBtn">+ Guardar etapa</button><button class="btn" id="updateStageBtn">Actualizar</button><button class="btn danger" id="deleteStageBtn">Eliminar</button></div></div><div class="stageChips" id="stageChips"></div></div>
   </section>
 
   <aside class="right">
@@ -446,5 +446,5 @@ afterReady(()=>{
 </script>
 
 <script src="p18/p18.js?v=1805"></script>
-<script src="p18/p188.js?v=1882"></script>
+<script src="p18/p188.js?v=1883"></script>
 </body></html>
