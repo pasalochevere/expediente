@@ -1,4 +1,13 @@
 (()=>{
+  // Visual Polish V3: capa no destructiva sobre Portal V2.
+  if(!document.getElementById('pc-visual-polish-v3')){
+    const visual=document.createElement('link');
+    visual.id='pc-visual-polish-v3';
+    visual.rel='stylesheet';
+    visual.href='portal-polish-v3.css?v=20260921-1';
+    document.head.appendChild(visual);
+  }
+
   const originalGameHref=window.gameHref;
   if(typeof originalGameHref==='function'&&!window.__c002P24RoutePatched){
     window.__c002P24RoutePatched=true;
@@ -13,7 +22,21 @@
   const base=document.createElement('script');
   base.src='c002-rc-base.js?v=241';
   base.onload=()=>{
+    const ensureMercadoPago=()=>{
+      const account=document.getElementById('accountBox');
+      if(account&&!account.querySelector('.mpTrust')){
+        const trust=document.createElement('div');
+        trust.className='mpTrust';
+        trust.setAttribute('aria-label','Integración de pagos con Mercado Pago');
+        trust.innerHTML='<img src="https://cdn.simpleicons.org/mercadopago/00B1EA" alt="Mercado Pago" loading="lazy" onerror="this.style.display=\'none\'"><span class="mpTrustText"><strong>Mercado Pago</strong><small>Integración de pagos online · activación vinculada a tu compra.</small></span>';
+        const msg=document.getElementById('activateMsg');
+        if(msg)msg.insertAdjacentElement('afterend',trust);else account.appendChild(trust);
+      }
+    };
+
     const patch=()=>{
+      ensureMercadoPago();
+
       const chip=document.querySelector('.catChip[data-category="creative"] .catCount');
       if(chip)chip.textContent='1 producto';
 
