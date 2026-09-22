@@ -1,0 +1,63 @@
+/* PREVIEW REAL V2.1C · P1 UX + MOBILE + INTERACTION PASS
+   Capa aditiva sobre V2/V2.1B. No modifica licencias, checkout ni contenido premium. */
+
+/* Progreso / navegación más clara */
+.pcV21cCounter{position:absolute;right:14px;bottom:14px;z-index:7;display:flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid rgba(255,255,255,.15);border-radius:999px;background:rgba(7,7,9,.66);backdrop-filter:blur(10px);font-size:.58rem;font-weight:850;letter-spacing:.08em;color:#eee5dd}
+.pcV21cDots{display:flex;gap:4px}.pcV21cDot{width:6px;height:6px;border:0;border-radius:999px;background:rgba(255,255,255,.28);padding:0;cursor:pointer}.pcV21cDot.active{width:16px;background:#d3a548}
+.pcV21cSwipeHint{display:none;align-items:center;justify-content:center;gap:6px;padding:7px 0 0;color:#91867f;font-size:.57rem;letter-spacing:.05em}
+
+/* Thumbnails con identidad: número + etiqueta, sin sensación genérica */
+.pcRv2Thumb{isolation:isolate}
+.pcV21cThumbNo{position:absolute;left:6px;top:6px;z-index:3;width:20px;height:20px;display:grid;place-items:center;border-radius:999px;background:rgba(6,6,8,.72);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:.49rem;font-style:normal;font-weight:900}
+.pcRv2Thumb:not(:has(img)){background:radial-gradient(circle at 80% 10%,rgba(211,165,72,.13),transparent 38%),linear-gradient(145deg,#1b171c,#0d0c0f)}
+.pcRv2Thumb:not(:has(img)):before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.025) 41% 42%,transparent 43%);background-size:18px 18px}
+.pcRv2Thumb span{z-index:2}
+
+/* Controles menos invasivos en desktop */
+.pcRv2Nav{inset:50% 16px auto}
+.pcRv2Nav button{width:38px;height:38px;background:rgba(6,6,8,.58);opacity:.86;transition:.18s opacity,.18s transform,.18s background}
+.pcRv2StageWrap:hover .pcRv2Nav button{opacity:1}.pcRv2Nav button:hover{transform:scale(1.04)}
+
+/* Estados comerciales contextuales */
+.pcRv2Footer.pcV21cOwned .pcRv2Price small{color:#8ecba4}.pcRv2Footer.pcV21cOwned .pcRv2Price strong{color:#b9e9c9}
+.pcRv2Footer.pcV21cOwned #pcRv2Cta{background:linear-gradient(135deg,#2c7046,#1e4f33);border-color:#43815a}
+.pcRv2Footer.pcV21cPending #pcRv2Cta{background:linear-gradient(135deg,#76561f,#4b3716);border-color:#a27b38}
+
+/* Producto específico: más aire y foco en imagen */
+.pcRv2Modal[data-pc-product="EXP-001"] .pcRv2Stage,
+.pcRv2Modal[data-pc-product="EXP-002"] .pcRv2Stage{background:#080808}
+.pcRv2Modal[data-pc-product="EXP-001"] .pcRv2SlideCaption span:not(.pcRv2Source),
+.pcRv2Modal[data-pc-product="EXP-002"] .pcRv2SlideCaption span:not(.pcRv2Source){max-width:520px}
+.pcRv2Modal[data-pc-product="TORRE-AMERICA"] .pcRv2Stage{border-color:rgba(92,175,218,.22)}
+.pcRv2Modal[data-pc-product^="TK-MAT"] .pcRv2Stage{border-color:rgba(50,170,199,.25)}
+
+/* Kids · tercer slide de progreso */
+.pcV21KidsProgress{position:absolute;inset:0;padding:clamp(22px,4vw,42px);background:linear-gradient(145deg,#eafaff,#fff8db);color:#173c49;display:grid;grid-template-columns:.75fr 1.25fr;gap:22px;align-items:center}
+.pcV21KidsProgress img{width:min(185px,100%);max-height:235px;justify-self:center}.pcV21KidsProgress small{color:#0989aa;font-weight:900;letter-spacing:.13em}.pcV21KidsProgress h4{margin:7px 0 18px;font-size:clamp(1.7rem,4.5vw,3rem);line-height:1.02}.pcV21KidsProgressGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.pcV21KidsProgressGrid div{padding:13px;border:1px solid #b9dfe7;border-radius:14px;background:rgba(255,255,255,.82);box-shadow:0 8px 18px rgba(20,100,120,.07)}.pcV21KidsProgressGrid b{display:block;color:#0989aa;font-size:.72rem}.pcV21KidsProgressGrid span{display:block;margin-top:4px;color:#59747c;font-size:.59rem;line-height:1.35}
+
+/* Foco accesible */
+.pcRv2Dialog :focus-visible{outline:2px solid #d3a548;outline-offset:2px}
+
+/* Mobile: preview más parecida a una ficha nativa, sin stage de 390px fijo */
+@media(max-width:620px){
+  .pcRv2Dialog{height:100dvh!important;display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden!important}
+  .pcRv2Head{position:relative!important;padding:12px 14px 10px!important}.pcRv2Head h2{font-size:1.28rem!important}.pcRv2Sub{font-size:.7rem!important}.pcRv2Close{width:38px!important;height:38px!important}
+  .pcRv2Hero{display:block!important;overflow:auto!important;padding:10px 12px 16px!important;-webkit-overflow-scrolling:touch}
+  .pcRv2Stage{min-height:0!important;height:auto!important;aspect-ratio:4/3!important;border-radius:17px!important}
+  .pcRv2Rail{padding:8px 1px 2px!important;gap:7px!important}.pcRv2Thumb{flex-basis:88px!important;height:54px!important;border-radius:10px!important}.pcRv2Thumb span{font-size:.52rem!important;inset:auto 6px 5px!important}
+  .pcRv2Nav{display:none!important}
+  .pcV21cSwipeHint{display:flex}
+  .pcV21cCounter{right:10px;bottom:10px;padding:5px 7px}
+  .pcRv2Info{padding:16px 2px 0!important}.pcRv2BadgeRow{margin-bottom:10px!important}.pcRv2Info h3{font-size:1.02rem!important}.pcRv2Info>p{font-size:.76rem!important;margin:6px 0 12px!important;line-height:1.48!important}
+  .pcRv2Facts{grid-template-columns:1fr 1fr!important;gap:7px!important}.pcRv2Fact{padding:9px!important}.pcRv2Fact:last-child{grid-column:1/-1}.pcRv2Promise{margin-top:10px!important}
+  .pcRv2Footer{position:relative!important;padding:10px 12px calc(12px + env(safe-area-inset-bottom))!important;gap:8px!important}.pcRv2Price strong{font-size:1rem!important}.pcRv2Price small{font-size:.54rem!important}.pcRv2FooterActions{grid-template-columns:.8fr 1.2fr!important;gap:7px!important}.pcRv2Footer .btn{min-height:44px!important;padding:9px 8px!important;font-size:.68rem!important}
+  .pcRv2SlideCaption{left:11px!important;right:11px!important;bottom:10px!important}.pcRv2SlideCaption>div{max-width:66%!important}.pcRv2SlideCaption b{font-size:.76rem!important}.pcRv2SlideCaption span{font-size:.6rem!important}.pcRv2Source{font-size:.49rem!important;padding:4px 6px!important}
+  .pcV21KidsProgress{grid-template-columns:.6fr 1.4fr;padding:16px;gap:10px}.pcV21KidsProgress img{max-height:145px}.pcV21KidsProgress h4{font-size:1.35rem;margin-bottom:10px}.pcV21KidsProgressGrid{grid-template-columns:1fr}.pcV21KidsProgressGrid div{padding:8px}
+}
+
+/* Mobile apaisado / viewport corto: footer siempre visible y galería útil */
+@media(max-height:500px) and (orientation:landscape){
+  .pcRv2Hero{overflow:auto!important}.pcRv2Stage{height:220px!important;min-height:220px!important;aspect-ratio:auto!important}.pcV21cSwipeHint{display:none!important}.pcRv2Info>p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.pcRv2Promise{display:none!important}.pcRv2FooterActions .btn{min-height:36px!important}
+}
+
+@media(prefers-reduced-motion:reduce){.pcRv2Nav button,.pcV21cDot{transition:none!important}}
