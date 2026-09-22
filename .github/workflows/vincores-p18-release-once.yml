@@ -1,0 +1,113 @@
+name: Release VÍNCORES P1.8 SELL READY once
+on:
+  push:
+    paths:
+      - '.github/workflows/vincores-p18-release-once.yml'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Promote P1.8 to production
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          prod=Path('vincores/index.html')
+          rc=Path('vincores/rc/p1-8/index.html')
+          js=Path('vincores/p18/p18.js')
+          backup=Path('vincores/backups/P1.7.3_before_P1.8_PREMIUM_GUIDED_FIELD.html')
+          backup.parent.mkdir(parents=True,exist_ok=True)
+          if not backup.exists():
+              backup.write_text(prod.read_text(encoding='utf-8'),encoding='utf-8')
+
+          # Complete P1.8 backup integration so scene exports also carry guided-field session data.
+          s=js.read_text(encoding='utf-8')
+          if 'function wireP18Backup(){' not in s:
+              marker='function wireEvents(){'
+              if marker not in s:
+                  raise SystemExit('P1.8 wireEvents marker missing')
+              fn=r'''function wireP18Backup(){
+ const exp=q('sceneLibraryExport'),imp=q('sceneLibraryImport');
+ if(exp)exp.onclick=()=>{
+  let scenes=[];try{scenes=JSON.parse(localStorage.getItem('vincores_scene_library_v1')||'[]')}catch{}
+  const payload={type:'VINCORES_BACKUP',version:2,exportedAt:new Date().toISOString(),scenes,p18Sessions:readStore()};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='vincores-respaldo-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1200)
+ };
+ if(imp)imp.onchange=async e=>{
+  const f=e.target.files?.[0];if(!f)return;
+  try{
+   const p=JSON.parse(await f.text());if(p?.type!=='VINCORES_BACKUP'||!Array.isArray(p.scenes))throw new Error('Archivo de respaldo no válido.');
+   if(!confirm('¿Importar '+p.scenes.length+' escenas? Se combinarán con las actuales.'))return;
+   let lib=[];try{lib=JSON.parse(localStorage.getItem('vincores_scene_library_v1')||'[]')}catch{}
+   const ids=new Set(lib.map(x=>x.id)),map={};
+   for(const raw of p.scenes){const x=JSON.parse(JSON.stringify(raw)),old=x.id||('legacy-'+Math.random());if(!x.id||ids.has(x.id))x.id='sc-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);ids.add(x.id);map[old]=x.id;lib.push(x)}
+   localStorage.setItem('vincores_scene_library_v1',JSON.stringify(lib));
+   if(p.p18Sessions&&typeof p.p18Sessions==='object'){
+    const sessions=readStore();for(const [old,val] of Object.entries(p.p18Sessions)){const key=map[old]||old;if(!sessions[key])sessions[key]=val}localStorage.setItem(STORE,JSON.stringify(sessions))
+   }
+   showToast?.('Respaldo importado');q('sceneLibraryOverlay')?.classList.remove('open');setTimeout(()=>q('loadBtn')?.click(),120)
+  }catch(err){alert(err.message||'No pude importar el respaldo.')}finally{e.target.value=''}
+ }
+}
+'''
+              s=s.replace(marker,fn+marker,1)
+          s=s.replace("typeof wireP18Backup==='function'&&wireP18Backup();","wireP18Backup();")
+          js.write_text(s,encoding='utf-8')
+
+          def integrate(path,css_href,js_src,comment):
+              t=path.read_text(encoding='utf-8')
+              # Remove any previous P1.8 asset tags so this stays idempotent.
+              import re
+              t=re.sub(r'\n?<link[^>]+p18/p18\.css[^>]*>','',t,flags=re.I)
+              t=re.sub(r'\n?<script[^>]+p18/p18\.js[^>]*></script>','',t,flags=re.I)
+              # Normalize release comment without changing user-facing UI.
+              t=re.sub(r'<!--\s*VÍNCORES P1\.8[^>]*-->\s*','',t,count=1)
+              t=t.replace('<!doctype html>','<!doctype html>\n'+comment,1)
+              if '</head>' not in t or '</body>' not in t:
+                  raise SystemExit(f'HTML markers missing in {path}')
+              t=t.replace('</head>',f'<link rel="stylesheet" href="{css_href}?v=1805">\n</head>',1)
+              t=t.replace('</body>',f'<script src="{js_src}?v=1805"></script>\n</body>',1)
+              path.write_text(t,encoding='utf-8')
+
+          integrate(prod,'p18/p18.css','p18/p18.js','<!-- VÍNCORES P1.8 · PREMIUM GUIDED FIELD · SELL READY -->')
+          integrate(rc,'../../p18/p18.css','../../p18/p18.js','<!-- VÍNCORES P1.8 · PREMIUM GUIDED FIELD · RELEASE CANDIDATE ARCHIVE -->')
+
+          Path('vincores/rc/p1-8/.release').write_text('VÍNCORES P1.8 · PREMIUM GUIDED FIELD · SELL READY\nPromoted to production: 2026-09-22\n',encoding='utf-8')
+          PY
+          node --check vincores/p18/p18.js
+          grep -q 'PREMIUM GUIDED FIELD · SELL READY' vincores/index.html
+          grep -q 'href="p18/p18.css?v=1805"' vincores/index.html
+          grep -q 'src="p18/p18.js?v=1805"' vincores/index.html
+          grep -q 'function wireP18Backup' vincores/p18/p18.js
+          grep -q 'href="../../p18/p18.css?v=1805"' vincores/rc/p1-8/index.html
+          grep -q 'src="../../p18/p18.js?v=1805"' vincores/rc/p1-8/index.html
+      - name: Commit and push release
+        run: |
+          set -euo pipefail
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          rm -f .github/workflows/vincores-p18-release-once.yml \
+                .github/workflows/vincores-p18-hotfix-once.yml \
+                .github/workflows/vincores-p18-polish-once.yml \
+                .github/workflows/vincores-p18-backupfix-once.yml
+          git add -A vincores .github/workflows
+          if git diff --cached --quiet; then echo 'Nothing to release'; exit 0; fi
+          git commit -m 'Release VÍNCORES P1.8 PREMIUM GUIDED FIELD SELL READY'
+          for n in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase origin/main || { git rebase --abort || true; sleep 2; continue; }
+            if git push origin main; then exit 0; fi
+            sleep 2
+          done
+          echo 'Could not push release after retries' >&2
+          exit 1
