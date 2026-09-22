@@ -1,0 +1,37 @@
+name: Hotfix VÍNCORES P1.8 RC once
+on:
+  push:
+    paths:
+      - '.github/workflows/vincores-p18-hotfix-once.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Patch P1.8 guide selectors and simplify flow
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('vincores/p18/p18.js')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("q('[data-focus-save]')?.addEventListener", "document.querySelector('[data-focus-save]')?.addEventListener")
+          s=s.replace("q('[data-nextq]')?.addEventListener", "document.querySelector('[data-nextq]')?.addEventListener")
+          s=s.replace("q('[data-stuck]')?.addEventListener", "document.querySelector('[data-stuck]')?.addEventListener")
+          s=s.replace("case'simplify':openStuck('simplify');break;", "case'simplify':handlePath('simplify');break;")
+          s=s.replace("P.observe=true;applyModes();alert('Modo simplificar:", "alert('Modo simplificar:")
+          p.write_text(s,encoding='utf-8')
+          PY
+          node --check vincores/p18/p18.js
+          grep -q "document.querySelector('\[data-focus-save\]')" vincores/p18/p18.js
+      - name: Commit hotfix
+        run: |
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add vincores/p18/p18.js
+          git commit -m 'Fix VÍNCORES P1.8 guide progression and simplify flow'
+          git push
