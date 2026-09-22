@@ -1,5 +1,5 @@
 (()=>{
-  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A + Product Mapping V4.1B + Cover System V4.1C + Payment/Trust V4.1D.
+  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A + Product Mapping V4.1B + Cover System V4.1C + Payment/Trust V4.1D + Library Experience V4.1E.
   // Capas no destructivas sobre Portal V2: no alteran auth, licencias ni backend.
   if(!document.getElementById('pc-visual-polish-v3')){
     const visual=document.createElement('link');
@@ -20,6 +20,25 @@
     };
   }
 
+  const ensureLibraryExperienceV41E=()=>{
+    if(!document.getElementById('pc-library-experience-v41e-css')){
+      const css=document.createElement('link');
+      css.id='pc-library-experience-v41e-css';
+      css.rel='stylesheet';
+      css.href='portal-library-experience-v41e.css?v=20260922-1';
+      document.head.appendChild(css);
+    }
+    if(!document.getElementById('pc-library-experience-v41e-js')){
+      const js=document.createElement('script');
+      js.id='pc-library-experience-v41e-js';
+      js.src='portal-library-experience-v41e.js?v=20260922-1';
+      js.defer=true;
+      document.head.appendChild(js);
+    }else if(typeof window.pcApplyLibraryExperience==='function'){
+      window.pcApplyLibraryExperience();
+    }
+  };
+
   const ensurePaymentTrustV41D=()=>{
     if(!document.getElementById('pc-payment-trust-v41d-css')){
       const css=document.createElement('link');
@@ -28,15 +47,23 @@
       css.href='portal-payment-trust-v41d.css?v=20260922-1';
       document.head.appendChild(css);
     }
-    if(!document.getElementById('pc-payment-trust-v41d-js')){
-      const js=document.createElement('script');
+
+    let js=document.getElementById('pc-payment-trust-v41d-js');
+    if(!js){
+      js=document.createElement('script');
       js.id='pc-payment-trust-v41d-js';
       js.src='portal-payment-trust-v41d.js?v=20260922-1';
       js.defer=true;
+      js.addEventListener('load',ensureLibraryExperienceV41E,{once:true});
       document.head.appendChild(js);
-    }else if(typeof window.pcApplyPaymentTrust==='function'){
-      window.pcApplyPaymentTrust();
+    }else if(window.__pcPaymentTrustV41D){
+      if(typeof window.pcApplyPaymentTrust==='function')window.pcApplyPaymentTrust();
+      ensureLibraryExperienceV41E();
+    }else{
+      js.addEventListener('load',ensureLibraryExperienceV41E,{once:true});
     }
+
+    setTimeout(ensureLibraryExperienceV41E,1100);
   };
 
   const ensureCoverSystemV41C=()=>{
