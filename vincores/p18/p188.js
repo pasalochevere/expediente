@@ -19,7 +19,7 @@ let C={caseId:'libre',startedAt:0,observed:[],activeTopic:null,lastEventId:null}
 function sceneKey(){return window.vincoresCurrentSceneId||'unsaved'}
 function readAll(){try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch{return{}}}
 function saveCase(){const all=readAll();all[sceneKey()]={...C,updatedAt:Date.now()};localStorage.setItem(STORE,JSON.stringify(all))}
-function loadCaseState(){const all=readAll(),d=all[sceneKey()];C=d?{...C,...d}:{caseId:'libre',startedAt:0,observed:[],activeTopic:null,lastEventId:null};renderCaseGuide()}
+function loadCaseState(){const all=readAll(),d=all[sceneKey()];C=d?{...C,...d}:{caseId:'libre',startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};if(window.VincoresP188)window.VincoresP188.state=C;renderCaseGuide()}
 function caseMeta(){return CASES[C.caseId]||CASES.libre}
 function normalizeFaceMeta(m){
  if(!m)return m;
@@ -51,7 +51,7 @@ function buildOverlays(){
  if(!q('p188StartOverlay'))document.body.insertAdjacentHTML('beforeend',`<div class="p188-overlay" id="p188StartOverlay"><div class="p188-sheet p188-start"><div class="p188-kicker">PRIMERA PRÁCTICA</div><h2>¿Cómo querés empezar?</h2><p>Podés elegir un tema para recibir observaciones contextuales o entrar directamente con el campo libre.</p><div class="p188-start-actions"><button class="btn primary" id="p188ChooseGuided">Elegir un tema guiado</button><button class="btn" id="p188StartFree">Empezar con campo libre</button></div></div></div>`);
  q('p188CaseClose').onclick=()=>closeCaseOverlay();q('p188CaseOverlay').onclick=e=>{if(e.target===q('p188CaseOverlay'))closeCaseOverlay()};
  q('p188ChooseGuided').onclick=()=>{q('p188StartOverlay').classList.remove('open');openCasePicker()};
- q('p188StartFree').onclick=()=>{localStorage.setItem(ONBOARD,'1');C={caseId:'libre',startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};saveCase();q('p188StartOverlay').classList.remove('open');renderCaseGuide()};
+ q('p188StartFree').onclick=()=>{localStorage.setItem(ONBOARD,'1');C={caseId:'libre',startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};if(window.VincoresP188)window.VincoresP188.state=C;saveCase();q('p188StartOverlay').classList.remove('open');renderCaseGuide()};
 }
 function openCasePicker(caseId){
  buildOverlays();const body=q('p188CaseBody');
@@ -62,7 +62,7 @@ function openCasePicker(caseId){
 function closeCaseOverlay(){q('p188CaseOverlay')?.classList.remove('open')}
 function startCase(id,clear){
  if(clear&&typeof clearBoard==='function')clearBoard(true);
- C={caseId:id,startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};saveCase();localStorage.setItem(ONBOARD,'1');closeCaseOverlay();renderCaseGuide();openGuideContext(true);showToast?.(`${caseMeta().title} · guía activada`)
+ C={caseId:id,startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};if(window.VincoresP188)window.VincoresP188.state=C;saveCase();localStorage.setItem(ONBOARD,'1');closeCaseOverlay();renderCaseGuide();openGuideContext(true);showToast?.(`${caseMeta().title} · guía activada`)
 }
 try{const oldLoadCase=loadCase;loadCase=function(type){if(CASES[type])return openCasePicker(type);return oldLoadCase(type)}}catch{}
 function fieldNodes(){return qa('.node',q('board')).map(n=>({n,label:n._meta?.label||'',kind:n._meta?.kind||'',x:parseFloat(n.style.left)||0,y:parseFloat(n.style.top)||0}))}
@@ -122,7 +122,7 @@ function openGuideContext(forceDesktop=false){const guideBtn=document.querySelec
 function notifyGuide(){openGuideContext(false)}
 function wireGuideAttention(){document.querySelector('[data-mobile="guide"]')?.addEventListener('click',e=>e.currentTarget.classList.remove('p188-attention'));document.querySelector('[data-rtab="guide"]')?.addEventListener('click',()=>document.querySelector('[data-mobile="guide"]')?.classList.remove('p188-attention'))}
 function firstRun(){const enter=q('enterBtn');if(!enter)return;enter.addEventListener('click',()=>setTimeout(()=>{if(!localStorage.getItem(ONBOARD)){buildOverlays();q('p188StartOverlay').classList.add('open')}},650))}
-function watchEvents(){let last='';setInterval(()=>{const key=sceneKey();if(watchEvents.key!==key){watchEvents.key=key;loadCaseState()}const e=latestRelevantEvent();if(e&&e.id!==last){last=e.id;C.lastEventId=e.id;saveCase();renderCaseGuide();notifyGuide()}},450)}
+function watchEvents(){let last='';setInterval(()=>{const key=sceneKey();if(watchEvents.key!==key){watchEvents.key=key;loadCaseState()}const e=latestRelevantEvent();if(e&&e.id!==last){last=e.id;C.lastEventId=e.id;saveCase();renderCaseGuide();if(e.type!=='node_added')notifyGuide()}},450)}
 function init(){setupFaceControls();buildOverlays();loadCaseState();renderCaseGuide();wireGuideAttention();firstRun();watchEvents();qa('.node',q('board')).filter(n=>n._meta?.kind==='figure').forEach(n=>{normalizeFaceMeta(n._meta);renderFigure?.(n)});window.VincoresP188={state:C,cases:CASES,openCasePicker,startCase,renderCaseGuide,faceHTML:v3FaceHTML}}
 setTimeout(init,0);
 })();
