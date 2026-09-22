@@ -1,0 +1,176 @@
+name: Chévere Kids Visual V2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/chevere-kids-visual-v2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  visual-v2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply visual V2, cinematic intro and premium printables
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('torre-kids-matematica/index.html')
+          s=p.read_text(encoding='utf-8')
+
+          if 'CHÉVERE KIDS VISUAL V2' not in s:
+            css=r'''
+/* === CHÉVERE KIDS VISUAL V2 · CINEMA + UI + PRINTABLES === */
+:root{--navy:#102a56;--orange:#ff6b2c;--orange2:#ff942f;--aqua:#29b8dc;--mint:#22b985;--violet:#7a58e8;--sun:#ffc83d;--cream2:#fffaf1}
+body{background:linear-gradient(180deg,#fffaf4 0%,#f8f4eb 48%,#eef9ff 100%);color:var(--navy)}
+.wrap{max-width:1240px}
+.v2-nav{position:sticky;top:10px;z-index:70;padding:10px 14px;margin-bottom:18px;border:1px solid #eadfcf;border-radius:22px;background:#fffdf9e8;box-shadow:0 14px 35px rgba(44,59,82,.12);backdrop-filter:blur(14px)}
+.v2-nav .nav-brand{display:flex;align-items:center;gap:10px}.v2-nav .nav-brand .tk-logo{width:205px}.v2-links{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.v2-links button,.v2-links a{border:0;background:transparent;color:var(--navy);font-weight:850;padding:10px 12px;border-radius:12px;text-decoration:none}.v2-links button:hover,.v2-links a:hover{background:#fff2dd}.v2-links .active{background:#fff0d8;color:#e35d22}.v2-library{border:1px solid #e4d6c3!important;background:white!important;box-shadow:0 7px 18px #70512714}
+.kid-hero{border:0;background:radial-gradient(circle at 80% 16%,#fff1b8 0 12%,transparent 28%),linear-gradient(145deg,#fffdf8 0%,#eef9ff 55%,#fff1dc 100%);box-shadow:0 26px 70px rgba(50,66,91,.16)}
+.kid-copy .eyebrow{color:#e76427}.kid-copy h1{color:var(--navy)}.kid-copy h1 span{color:var(--orange)}
+.btn{border-radius:18px;min-height:50px;padding:14px 20px;letter-spacing:.01em;box-shadow:0 8px 18px rgba(32,51,78,.14);transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;background:linear-gradient(135deg,#173e70,#0f2a54)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 13px 28px rgba(32,51,78,.18);filter:saturate(1.05)}.btn:active{transform:translateY(1px) scale(.99)}
+.btn.play,.btn.red{background:linear-gradient(135deg,#ff7a32,#ff4f35);box-shadow:0 9px 0 #d83e29,0 16px 30px #ff57352c}.btn.blue{background:linear-gradient(135deg,#22b8ec,#287de8);box-shadow:0 9px 0 #1c65c7,0 16px 30px #2587dd2b}.btn.print{background:linear-gradient(135deg,#ffd758,#ffb832);box-shadow:0 9px 0 #df9616,0 16px 30px #e8a51924}.btn.light,.btn.guide{background:#fff;color:var(--navy);border:1px solid #eadfce;box-shadow:0 8px 18px #59402212}
+.choice,.level,.piece{transition:.16s ease;border:1px solid #e7dccd;box-shadow:0 8px 20px #5d452016}.choice:hover,.level:hover,.piece:hover{transform:translateY(-2px);border-color:#ffc46b;box-shadow:0 13px 25px #5d45201d}.choice b,.level b{color:var(--navy)}
+.challenge-card{border:0;box-shadow:0 24px 58px rgba(48,65,88,.14)}.challenge{color:var(--navy)}.piece-badge{background:#fff2d8}.category-badge{box-shadow:0 6px 14px #50411c12}.challenge-side{box-shadow:0 22px 55px rgba(48,65,88,.12)}
+.mission-progress{border:0;box-shadow:0 10px 26px rgba(48,65,88,.10);background:linear-gradient(135deg,#fffdf7,#fff3d9)}.mission-fill{background:linear-gradient(90deg,#ffc83d,#ff8a36,#ef4f6f)}
+.print-grid{gap:16px}.print-card{border:0;box-shadow:0 20px 48px rgba(45,64,87,.14);background:linear-gradient(160deg,#fff 0%,#fffaf0 100%);position:relative;overflow:hidden}.print-card:before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:7px;background:linear-gradient(90deg,#ff6338,#ffc83d,#2bb673,#2d87e8,#7a58e8)}.print-art{min-height:150px;background:linear-gradient(145deg,#fff8e8,#eef9ff);border:1px solid #eee2d1;border-radius:20px}.print-card h3{color:var(--navy);font-size:1.4rem}.print-card p{min-height:48px}.print-preview-sheet{width:118px;height:145px;border-radius:10px;background:#fff;border:1px solid #dfd3c3;box-shadow:0 10px 24px #4f3b241c;padding:10px;transform:rotate(-3deg)}.print-preview-sheet .line{height:7px;background:#eaf2fb;border-radius:7px;margin:7px 0}.print-preview-sheet .blocks{display:grid;grid-template-columns:repeat(2,1fr);gap:5px}.print-preview-sheet .blocks i{height:28px;border-radius:6px;background:#fff2c9;border:1px solid #f0d991}
+
+.cinema-intro{position:fixed;inset:0;z-index:9999;overflow:hidden;background:radial-gradient(circle at 50% 16%,#fff3b7 0 8%,transparent 26%),linear-gradient(180deg,#77c7ff 0%,#a9e0ff 32%,#fff1c8 68%,#fffaf1 100%);display:grid;place-items:center;color:white}
+.cinema-intro.hidden{display:none!important}.cinema-intro:before{content:"";position:absolute;inset:-10%;background:radial-gradient(circle at 15% 22%,#fff8 0 3%,transparent 3.5%),radial-gradient(circle at 76% 15%,#fff8 0 2%,transparent 2.5%),radial-gradient(circle at 55% 38%,#fff5 0 2%,transparent 2.3%);animation:cinemaDrift 10s ease-in-out infinite alternate}.cinema-glow{position:absolute;inset:0;background:linear-gradient(180deg,#0a2a5a00 0%,#17385d12 45%,#0a254066 100%);pointer-events:none}.cinema-scene{position:relative;width:min(1120px,96vw);height:min(820px,94vh);display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:22px;padding:28px}.cinema-copy{position:relative;z-index:4;text-shadow:0 3px 22px #14375b55}.cinema-kicker{display:inline-flex;padding:8px 12px;border-radius:999px;background:#ffffffd9;color:#214266;font-size:.8rem;font-weight:900;letter-spacing:.11em;box-shadow:0 10px 28px #23445c26}.cinema-copy .tk-logo{width:min(470px,84vw);margin:18px 0 10px;filter:drop-shadow(0 18px 30px #23445d44)}.cinema-copy h2{font-size:clamp(2.3rem,6vw,5.6rem);line-height:.92;margin:12px 0;color:white;letter-spacing:-.045em}.cinema-copy p{font-size:clamp(1rem,2vw,1.3rem);font-weight:750;max-width:520px;color:#fff}.cinema-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.cinema-actions .btn{min-width:185px}.cinema-enter{background:linear-gradient(135deg,#ff8c2f,#ff4e36)!important;box-shadow:0 10px 0 #d8402c,0 18px 35px #d7442f55!important}.cinema-skip{background:#ffffffde!important;color:#17355d!important;border:1px solid #fff!important}.cinema-world{position:relative;height:100%;display:grid;place-items:end center}.cinema-world:before{content:"";position:absolute;left:10%;right:8%;bottom:11%;height:58%;background:radial-gradient(ellipse at center,#fff8c9 0 17%,#ffd46155 32%,transparent 68%);filter:blur(3px)}.cinema-world .mascot{position:absolute;left:4%;bottom:9%;width:min(255px,34vw);z-index:5;animation:mascotFloat 3s ease-in-out infinite}.cinema-tower{position:absolute;right:5%;bottom:8%;width:310px;z-index:3;transform:rotate(1deg);filter:drop-shadow(0 26px 28px #18426740)}.cinema-tower .row{margin:4px 0}.cinema-tower .bl{height:36px;width:92px;font-size:.78rem;background:linear-gradient(180deg,#f9ddb7,#d79755);border-color:#bd7b3d}.cinema-symbols{position:absolute;inset:0;pointer-events:none}.cinema-symbols span{position:absolute;font-weight:950;filter:drop-shadow(0 10px 18px #2d557d42);animation:floatSymbol 4.5s ease-in-out infinite}.cinema-symbols .s1{left:10%;top:13%;font-size:4rem;color:#2d87e8}.cinema-symbols .s2{left:25%;top:8%;font-size:4.4rem;color:#ffc229;animation-delay:-1s}.cinema-symbols .s3{right:24%;top:9%;font-size:4.7rem;color:#2bb673;animation-delay:-2s}.cinema-symbols .s4{right:11%;top:19%;font-size:4.3rem;color:#ef4f4f;animation-delay:-.6s}.cinema-star{position:absolute;color:#ffd63d;font-size:2.3rem;animation:twinkle 1.8s ease-in-out infinite}.cinema-star.a{left:46%;top:13%}.cinema-star.b{right:8%;top:39%;animation-delay:-.8s}.cinema-star.c{left:8%;bottom:14%;animation-delay:-1.2s}.cinema-tagline{position:absolute;right:3%;top:8%;background:#fff7c8;color:#254369;border-radius:10px;padding:11px 14px;font-weight:900;transform:rotate(4deg);box-shadow:0 11px 25px #3451702b}.cinema-close{position:absolute;top:18px;right:18px;z-index:8;border:1px solid #ffffff9b;background:#ffffffd4;color:#17365d;border-radius:999px;padding:9px 13px;font-weight:900}
+@keyframes cinemaDrift{from{transform:translate3d(-1%,0,0) scale(1)}to{transform:translate3d(1%,-1%,0) scale(1.04)}}@keyframes floatSymbol{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-14px) rotate(5deg)}}@keyframes twinkle{0%,100%{opacity:.5;transform:scale(.8) rotate(-8deg)}50%{opacity:1;transform:scale(1.2) rotate(8deg)}}@keyframes mascotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+body.cinema-open{overflow:hidden}
+@media(max-width:820px){.v2-nav{top:6px}.v2-links{display:none}.v2-nav .nav-brand .tk-logo{width:170px}.cinema-scene{grid-template-columns:1fr;height:100%;padding:70px 18px 18px}.cinema-copy{align-self:end;padding-bottom:16px}.cinema-copy h2{font-size:2.8rem}.cinema-world{position:absolute;inset:0;opacity:.95}.cinema-world .mascot{width:220px;left:2%;bottom:31%}.cinema-tower{width:240px;right:-4%;bottom:30%;transform:scale(.82)}.cinema-copy{background:linear-gradient(180deg,transparent,#17385da6 35%,#102a56e6);margin:0 -18px -18px;padding:90px 20px 28px}.cinema-copy .tk-logo{width:310px}.cinema-symbols .s1{font-size:2.7rem}.cinema-symbols .s2{font-size:3rem}.cinema-symbols .s3{font-size:3rem}.cinema-symbols .s4{font-size:2.8rem}.cinema-tagline{top:12%;right:4%;font-size:.75rem}.cinema-actions .btn{flex:1;min-width:0}.category-strip{grid-template-columns:repeat(3,1fr)}}
+@media(prefers-reduced-motion:reduce){.cinema-intro:before,.cinema-symbols span,.cinema-star,.cinema-world .mascot{animation:none!important}.btn,.choice,.level,.piece{transition:none!important}}
+'''
+            s=s.replace('</style>',css+'\n</style>',1)
+
+            old='''  <header class="top">\n    <div class="brandlock"><div class="pcmark">PC</div><div class="brandtext">PASALOCHÉVERE<small>JUEGOS QUE CONECTAN</small></div></div>\n    <a class="library" href="../portal/">MI BIBLIOTECA</a>\n  </header>'''
+            new='''  <header class="top v2-nav">\n    <div class="nav-brand"><img class="tk-logo small" src="assets/torre-kids-logo.svg" alt="Chévere Kids · Matemática"></div>\n    <nav class="v2-links" aria-label="Navegación principal">\n      <button type="button" onclick="backHome()">⌂ Inicio</button>\n      <button type="button" class="active" onclick="showPlayStyle()">🎮 Jugar</button>\n      <button type="button" onclick="showRules()">▥ Cómo se juega</button>\n      <button type="button" onclick="showPrint()">★ Imprimibles</button>\n    </nav>\n    <a class="library v2-library" href="../portal/">👤 Acceso personal</a>\n  </header>'''
+            s=s.replace(old,new,1)
+
+            intro='''\n  <section id="cinemaIntro" class="cinema-intro hidden" aria-label="Intro de Chévere Kids Matemática">\n    <button class="cinema-close" type="button" onclick="closeCinema()">SALTAR INTRO</button>\n    <div class="cinema-symbols" aria-hidden="true"><span class="s1">1</span><span class="s2">2</span><span class="s3">÷</span><span class="s4">×</span><i class="cinema-star a">★</i><i class="cinema-star b">★</i><i class="cinema-star c">★</i></div>\n    <div class="cinema-glow"></div>\n    <div class="cinema-tagline">PEQUEÑOS DESAFÍOS · GRANDES MENTES ✨</div>\n    <div class="cinema-scene">\n      <div class="cinema-copy">\n        <div class="cinema-kicker">CINEMA ENGINE · CHÉVERE KIDS</div>\n        <img class="tk-logo" src="assets/torre-kids-logo.svg" alt="Chévere Kids Matemática">\n        <h2>Una aventura donde<br>los números cobran vida.</h2>\n        <p>Jugando y aprendiendo · 7–9 años. Explorá, resolvé y construí cada logro.</p>\n        <div class="cinema-actions"><button class="btn cinema-enter" onclick="closeCinema(true)">▶ JUGAR AHORA</button><button class="btn cinema-skip" onclick="closeCinema();showRules()">CÓMO SE JUEGA</button></div>\n      </div>\n      <div class="cinema-world" aria-hidden="true">\n        <img class="mascot" src="assets/mascota-bloqui.svg" alt="">\n        <div class="tower cinema-tower">\n          <div class="row"><div class="bl"><i></i>36</div><div class="bl g"><i></i>45</div><div class="bl b"><i></i>10</div></div>\n          <div class="row"><div class="bl y"><i></i>32</div><div class="bl p"><i></i>39</div><div class="bl k"><i></i>16</div></div>\n          <div class="row"><div class="bl"><i></i>22</div><div class="bl g"><i></i>31</div><div class="bl b"><i></i>54</div></div>\n          <div class="row"><div class="bl y"><i></i>18</div><div class="bl p"><i></i>27</div><div class="bl k"><i></i>46</div></div>\n        </div>\n      </div>\n    </div>\n  </section>\n'''
+            s=s.replace('<main id="gameApp" class="wrap hidden">','<main id="gameApp" class="wrap hidden">'+intro,1)
+
+            s=s.replace('<div class="eyebrow" style="margin-top:18px">APRENDER TAMBIÉN ES JUGAR</div>\n          <h1>JUEGA · PIENSA<br><span>RESUELVE · CRECE</span></h1>\n          <p class="lead">Matemática en movimiento, dentro y fuera del aula. Con la torre física o en versión 100% digital.</p>',
+                        '<div class="eyebrow" style="margin-top:18px">JUGANDO Y APRENDIENDO · 7–9 AÑOS</div>\n          <h1>MATEMÁTICA<br><span>PARA LA VIDA</span></h1>\n          <p class="lead">Pequeños desafíos, grandes mentes. Practicá cálculo, lógica, problemas y velocidad mientras jugás.</p>',1)
+
+            showprint=r'''function showPrint(){
+ view('<div class="mode-title"><div class="eyebrow">IMPRIMIBLES V2</div><h2>Un kit lindo para jugar, aprender y crecer.</h2><p>Rediseñados para casa, aula y talleres. Descargá cada PDF desde acá.</p></div>'+
+ '<div class="print-grid">'+
+ '<article class="print-card"><div class="print-art"><div class="print-preview-sheet"><b style="color:#102a56">MANUAL</b><div class="line"></div><div class="line"></div><div class="blocks"><i></i><i></i><i></i><i></i></div></div>'+kidMascot('mascot tiny')+'</div><h3>Manual de juego</h3><p>Reglas, modalidades, niveles, sistema de estrellas y recomendaciones para adultos.</p><button class="btn play full" onclick="downloadManualPDF()">⬇ DESCARGAR MANUAL</button></article>'+
+ '<article class="print-card"><div class="print-art"><div class="print-preview-sheet"><b style="color:#102a56">54 DESAFÍOS</b><div class="blocks" style="margin-top:9px"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>'+categoryIcon('azul','pictogram')+'</div><h3>54 desafíos</h3><p>Tarjetas por color y nivel, listas para imprimir, recortar y usar con la experiencia física.</p><button class="btn full" style="background:linear-gradient(135deg,#26bd80,#149f70)" onclick="downloadChallengesPDF()">⬇ DESCARGAR DESAFÍOS</button></article>'+
+ '<article class="print-card"><div class="print-art"><div class="print-preview-sheet"><b style="color:#102a56">RESPUESTAS</b><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div style="font-size:22px;margin-top:12px">⭐⭐⭐</div></div>'+kidMascot('mascot tiny')+'</div><h3>Respuestas + progreso</h3><p>Hoja de apoyo, marcador de estrellas y material reutilizable para familia o docente.</p><button class="btn blue full" onclick="downloadAnswersPDF()">⬇ DESCARGAR APOYO</button></article>'+
+ '</div><button class="btn light full" style="margin-top:20px" onclick="backHome()">← VOLVER AL INICIO</button>');
+}
+
+function pdfSetup'''
+            s=re.sub(r'function showPrint\(\)\{.*?\n\}\n\nfunction pdfSetup',showprint,s,count=1,flags=re.S)
+
+            pdfsetup=r'''function pdfSetup(title,subtitle){
+ const {jsPDF}=window.jspdf; const d=new jsPDF({unit:'mm',format:'a4'}); const W=210,H=297;
+ function brand(){
+   d.setFont('helvetica','bold');d.setFontSize(11);d.setTextColor(16,42,86);d.text('CHÉVERE',16,14);
+   d.setTextColor(239,79,79);d.text('K',49,14);d.setTextColor(241,190,42);d.text('I',53,14);d.setTextColor(45,135,232);d.text('D',55.5,14);d.setTextColor(43,182,115);d.text('S',60.5,14);
+   d.setTextColor(16,42,86);d.setFontSize(8);d.text('· MATEMÁTICA',67,14);
+   d.setFillColor(255,244,216);d.roundedRect(158,7,36,11,5,5,'F');d.setTextColor(176,101,32);d.setFontSize(7.2);d.text('7–9 AÑOS',176,14,{align:'center'});
+ }
+ function pageHead(t=title,st=subtitle){
+   d.setFillColor(255,250,241);d.rect(0,0,W,H,'F');
+   d.setFillColor(234,247,255);d.circle(196,38,28,'F');d.setFillColor(255,240,202);d.circle(8,72,24,'F');
+   brand();d.setDrawColor(236,223,204);d.line(16,22,194,22);
+   d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(24);d.text(t,16,38);
+   if(st){d.setTextColor(101,105,111);d.setFont('helvetica','normal');d.setFontSize(10);d.text(d.splitTextToSize(st,166),16,47);}
+   d.setFillColor(255,107,44);d.roundedRect(16,52,34,3,1.5,1.5,'F');
+ }
+ function foot(n){d.setDrawColor(230,218,201);d.line(16,282,194,282);d.setFont('helvetica','bold');d.setFontSize(7.5);d.setTextColor(16,42,86);d.text('JUGAR · EXPLORAR · APRENDER · CRECER',16,289);d.setFont('helvetica','normal');d.setTextColor(110,110,110);d.text('Matemática para la vida · Página '+n,194,289,{align:'right'});}
+ function wrap(text,x,y,w,fs=9.2,lh=4.6,bold=false){d.setFont('helvetica',bold?'bold':'normal');d.setFontSize(fs);const lines=d.splitTextToSize(String(text),w);d.text(lines,x,y);return y+lines.length*lh;}
+ return {d,pageHead,foot,wrap,W,H};
+}
+function roundedCard'''
+            s=re.sub(r'function pdfSetup\(title,subtitle\)\{.*?\n\}\nfunction roundedCard',pdfsetup,s,count=1,flags=re.S)
+
+            manual=r'''function downloadManualPDF(){
+ const {d,pageHead,foot}=pdfSetup('Manual de juego','Jugando y aprendiendo · Edición Matemática 7–9');let p=1;
+ pageHead();
+ d.setFillColor(255,244,218);d.roundedRect(16,64,178,48,8,8,'F');d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(17);d.text('Pequeños desafíos, grandes mentes.',24,80);d.setFont('helvetica','normal');d.setFontSize(10);d.setTextColor(92,92,92);d.text(d.splitTextToSize('Una experiencia para practicar matemática jugando, con torre física o desde el celular.',150),24,91);
+ d.setFillColor(255,107,44);d.roundedRect(24,99,66,10,5,5,'F');d.setTextColor(255,255,255);d.setFont('helvetica','bold');d.setFontSize(7.8);d.text('FÍSICO + DIGITAL',57,105.5,{align:'center'});
+ d.setFillColor(45,135,232);d.roundedRect(96,99,56,10,5,5,'F');d.text('SOLO DIGITAL',124,105.5,{align:'center'});
+ d.setTextColor(16,42,86);d.setFontSize(14);d.text('Cómo se juega',16,132);
+ const steps=[['1','Elegí una pieza o dejá que el portal la sortee.'],['2','Resolvé el desafío del color y nivel elegido.'],['3','Usá una pista si la necesitás. Aprender también vale.'],['4','Sumá estrellas, seguí la misión y celebrá cada logro.']];
+ steps.forEach((x,i)=>{const y=143+i*26;roundedCard(d,18,y,174,20,[255,255,255],[232,221,205]);circleBadge(d,30,y+10,[i==0?255:45,i==1?135:182,i==2?190:115],x[0]);d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(9.5);d.text(d.splitTextToSize(x[1],144),43,y+8);});
+ foot(p);
+ d.addPage();p++;pageHead('Dos formas de jugar','Elegí la que mejor se adapte a tu momento.');
+ roundedCard(d,16,64,84,78,[255,246,226],[241,215,177]);circleBadge(d,29,78,PDFCOLORS.madera,'T');d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(14);d.text('CON TORRE',24,96);d.setFont('helvetica','normal');d.setTextColor(95,95,95);d.setFontSize(9.2);d.text(d.splitTextToSize('Retirá una pieza, buscá el número, resolvé el desafío y volvé a colocarla arriba. Los colores conectan cada bloque con una categoría.',67),24,108);
+ roundedCard(d,110,64,84,78,[234,247,255],[190,222,244]);circleBadge(d,123,78,PDFCOLORS.azul,'24');d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(14);d.text('SOLO DIGITAL',118,96);d.setFont('helvetica','normal');d.setTextColor(95,95,95);d.setFontSize(9.2);d.text(d.splitTextToSize('El portal sortea pieza, color y desafío. Ideal para jugar en cualquier lugar sin elementos físicos.',67),118,108);
+ d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(13);d.text('Las 6 categorías',16,164);const order=['rojo','verde','azul','amarillo','fucsia','negro'];order.forEach((c,i)=>{const x=25+i*30;circleBadge(d,x,182,PDFCOLORS[c],PDFGLYPH[c]);d.setTextColor(16,42,86);d.setFontSize(7.4);d.text(LABEL[c],x,194,{align:'center'});});
+ roundedCard(d,18,215,174,38,[255,252,245],[235,222,203]);d.setTextColor(16,42,86);d.setFontSize(11);d.text('Estrellas',28,230);d.setTextColor(241,190,42);d.setFontSize(18);d.text('★ ★ ★',28,243);d.setTextColor(95,95,95);d.setFontSize(8.5);d.text('2 sin pista · 1 con pista · hasta 3 en Súper desafío',78,240);
+ foot(p);
+ d.addPage();p++;pageHead('Modos y niveles','Una partida distinta cada vez.');
+ const modes=[['Clásico','Sacá cualquier bloque permitido.'],['Dado de colores','El dado físico elige la categoría.'],['El que te toca','Los dados indican qué pieza retirar.'],['Misión','Todo el equipo busca llegar al objetivo de estrellas.']];modes.forEach((m,i)=>{const y=64+i*38;roundedCard(d,18,y,174,29,[255,255,255],[233,222,208]);circleBadge(d,31,y+14.5,PDFCOLORS[['rojo','verde','azul','amarillo'][i]],String(i+1));d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(11);d.text(m[0],45,y+11);d.setFont('helvetica','normal');d.setTextColor(95,95,95);d.setFontSize(9);d.text(m[1],45,y+20);});
+ d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(13);d.text('Niveles',18,230);[['Explorador','Para empezar'],['Aventurero','Más cálculo y lógica'],['Maestro','Más velocidad y desafío']].forEach((x,i)=>{const xx=18+i*60;roundedCard(d,xx,238,55,27,i==0?[232,249,239]:i==1?[255,247,215]:[255,232,232]);d.setTextColor(16,42,86);d.setFontSize(9.5);d.text(x[0],xx+6,250);d.setFont('helvetica','normal');d.setTextColor(95,95,95);d.setFontSize(7.5);d.text(x[1],xx+6,258);d.setFont('helvetica','bold');});foot(p);
+ d.addPage();p++;pageHead('Para adultos y docentes','Acompañar sin quitarle protagonismo al juego.');const tips=['Leé la consigna en voz alta cuando haga falta.','Permití papel, dibujos u objetos concretos para pensar.','La pista es una herramienta de aprendizaje, no una penalidad.','Un error puede convertirse en un mini reto y otra oportunidad.','Elegí el nivel por confianza y experiencia, no solo por edad.','Una partida corta también suma aprendizaje.'];tips.forEach((t,i)=>{const y=66+i*30;roundedCard(d,20,y,170,22,[255,255,255],[233,222,208]);circleBadge(d,31,y+11,PDFCOLORS.amarillo,'★');d.setTextColor(16,42,86);d.setFont('helvetica','normal');d.setFontSize(9.4);d.text(d.splitTextToSize(t,140),44,y+9);});d.setFillColor(255,244,216);d.roundedRect(28,252,154,15,7,7,'F');d.setTextColor(176,101,32);d.setFont('helvetica','bold');d.setFontSize(10);d.text('La práctica de hoy es el logro de mañana.',105,261,{align:'center'});foot(p);
+ d.save('chevere-kids-matematica-manual-v2.pdf');
+}
+
+function downloadChallengesPDF(){
+ const {d,pageHead,foot}=pdfSetup('54 desafíos','Tarjetas imprimibles por categoría y nivel');let p=1;const order=['rojo','verde','azul','amarillo','fucsia','negro'];
+ order.forEach((col,ci)=>{if(ci>0)d.addPage();pageHead('54 desafíos · '+LABEL[col],'9 tarjetas · 3 por nivel');const items=BASE.filter(x=>x.color===col).sort((a,b)=>a.piece-b.piece);items.forEach((x,i)=>{const cc=i%3,row=Math.floor(i/3),cw=56,ch=61,gx=5,gy=5,px=15+cc*(cw+gx),py=64+row*(ch+gy);roundedCard(d,px,py,cw,ch,[255,255,255],[231,220,205]);d.setFillColor(...PDFCOLORS[col]);d.roundedRect(px,py,cw,7,4,4,'F');d.setFillColor(255,245,220);d.roundedRect(px+36,py+11,14,9,4,4,'F');d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(8.2);d.text(String(x.piece).padStart(2,'0'),px+43,py+17,{align:'center'});d.setFontSize(7.3);d.setTextColor(110,110,110);d.text('NIVEL '+x.level,px+7,py+17);d.setTextColor(16,42,86);d.setFontSize(9.3);d.text(d.splitTextToSize(x.prompt,cw-12),px+6,py+29);d.setTextColor(130,130,130);d.setFont('helvetica','normal');d.setFontSize(7);d.text('Pista + respuesta en portal',px+6,py+55);});foot(p++);});d.save('chevere-kids-matematica-54-desafios-v2.pdf');
+}
+
+function downloadAnswersPDF(){
+ const {d,pageHead,foot}=pdfSetup('Respuestas y progreso','Apoyo para familia, aula o talleres');let p=1;const sorted=BASE.slice().sort((a,b)=>a.piece-b.piece);
+ for(let start=0;start<54;start+=18){if(start>0)d.addPage();pageHead('Respuestas','Piezas '+String(start+1).padStart(2,'0')+'–'+String(Math.min(start+18,54)).padStart(2,'0'));sorted.slice(start,start+18).forEach((x,i)=>{const cc=i%2,row=Math.floor(i/2),cw=84,ch=21,gx=8,gy=5,px=17+cc*(cw+gx),py=64+row*(ch+gy);roundedCard(d,px,py,cw,ch,[255,255,255],[231,220,205]);circleBadge(d,px+9,py+10.5,PDFCOLORS[x.color],String(x.piece));d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(8);d.text(LABEL[x.color],px+18,py+8);d.setTextColor(92,92,92);d.setFont('helvetica','normal');d.setFontSize(7.8);d.text(d.splitTextToSize('Respuesta: '+String(x.answer),58),px+18,py+15);});foot(p++);}
+ d.addPage();pageHead('Estrellas y progreso','Coloreá una estrella por cada desafío jugado');for(let i=0;i<54;i++){const col=i%9,row=Math.floor(i/9),x=22+col*20.5,y=74+row*28;d.setDrawColor(241,190,42);d.setLineWidth(.6);d.circle(x,y,7,'S');d.setTextColor(16,42,86);d.setFont('helvetica','bold');d.setFontSize(7.4);d.text(String(i+1),x,y+2.5,{align:'center'});}d.setFillColor(255,244,216);d.roundedRect(22,248,166,18,8,8,'F');d.setTextColor(176,101,32);d.setFontSize(10);d.text('Cada desafío es un paso hacia una mente más grande.',105,259,{align:'center'});foot(p);d.save('chevere-kids-matematica-respuestas-progreso-v2.pdf');
+}
+'''
+            s=re.sub(r'function downloadManualPDF\(\)\{.*?\nfunction downloadAnswersPDF\(\)\{.*?\n\}\n\n\(async\(\)=>\{',manual+'\n(async()=>{',s,count=1,flags=re.S)
+
+            cinema_js=r'''
+let cinemaTimer=null;
+function launchCinema(){
+ const el=document.getElementById('cinemaIntro');if(!el)return;
+ if(sessionStorage.getItem('tk_cinema_seen')==='1')return;
+ el.classList.remove('hidden');document.body.classList.add('cinema-open');ensureAudio();
+ cinemaTimer=setTimeout(()=>{const enter=el.querySelector('.cinema-enter');if(enter)enter.classList.add('feedback-pop')},1800);
+}
+function closeCinema(start=false){
+ const el=document.getElementById('cinemaIntro');if(!el)return;
+ if(cinemaTimer)clearTimeout(cinemaTimer);el.style.opacity='0';el.style.transition='opacity .45s ease';sessionStorage.setItem('tk_cinema_seen','1');
+ setTimeout(()=>{el.classList.add('hidden');el.style.opacity='';el.style.transition='';document.body.classList.remove('cinema-open');if(start)showPlayStyle()},460);
+}
+'''
+            s=s.replace('\n(async()=>{\n const state=',cinema_js+'\n(async()=>{\n const state=',1)
+            s=s.replace("setTimeout(()=>{gate.classList.add('hidden');app.classList.remove('hidden');applyEntitlementUI();syncAudioUI();window.scrollTo(0,0)},300);","setTimeout(()=>{gate.classList.add('hidden');app.classList.remove('hidden');applyEntitlementUI();syncAudioUI();window.scrollTo(0,0);setTimeout(launchCinema,250)},300);",1)
+            p.write_text(s,encoding='utf-8')
+          PY
+
+      - name: JavaScript syntax check
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('torre-kids-matematica/index.html').read_text(encoding='utf-8')
+          blocks=[]
+          for m in re.finditer(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>',s,re.S):
+              blocks.append(m.group(1))
+          Path('/tmp/tk-v2.js').write_text('\n'.join(blocks),encoding='utf-8')
+          print('Inline JS blocks:',len(blocks),'bytes:',Path('/tmp/tk-v2.js').stat().st_size)
+          PY
+          node --check /tmp/tk-v2.js
+
+      - name: Commit V2
+        run: |
+          git config user.name "pasalochevere-bot"
+          git config user.email "pasalochevere@gmail.com"
+          git add torre-kids-matematica/index.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Upgrade Chévere Kids visual V2 cinematic intro and printables"
+            git push
+          fi
