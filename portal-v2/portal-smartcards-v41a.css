@@ -1,0 +1,286 @@
+/* PasaloChevere Portal · V4.1A SMART CARD ENGINE
+   Scope: biblioteca autenticada (#myGamesGrid).
+   Objetivo: separar la experiencia visual del producto de los datos administrativos.
+   No modifica auth, licencias, rutas, códigos ni lógica de dispositivos. */
+
+#myGamesGrid .pcSmartCard{
+  --smart-border:rgba(224,210,201,.16);
+  --smart-surface:rgba(18,16,19,.98);
+  --smart-muted:#aca19a;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:0!important;
+  padding:0!important;
+  overflow:hidden;
+  border:1px solid var(--smart-border)!important;
+  border-radius:20px!important;
+  background:linear-gradient(160deg,rgba(27,24,28,.98),rgba(13,12,15,.99))!important;
+  box-shadow:0 18px 46px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.025)!important;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+#myGamesGrid .pcSmartCard:hover{
+  transform:translateY(-2px);
+  border-color:rgba(224,210,201,.25)!important;
+  box-shadow:0 23px 58px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#myGamesGrid .pcSmartCard:before{display:none!important}
+#myGamesGrid .pcSmartCard:after{display:none!important}
+
+/* El cover V4 pasa a ser portada real de la Smart Card */
+#myGamesGrid .pcSmartCard>.pcV4Cover{
+  width:100%!important;
+  min-height:138px!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  flex:0 0 auto;
+}
+#myGamesGrid .pcSmartCard>.pcV4Cover:after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:52%;
+  background:linear-gradient(180deg,transparent,rgba(8,7,9,.72));
+  pointer-events:none;
+}
+#myGamesGrid .pcSmartCard>.pcV4Cover .pcV4CoverMeta,
+#myGamesGrid .pcSmartCard>.pcV4Cover .pcV4CoverIcon{z-index:2}
+
+/* Estado sobre la portada */
+.pcSmartStatusSlot{
+  position:absolute;
+  top:12px;
+  left:12px;
+  right:12px;
+  z-index:5;
+  display:flex;
+  justify-content:flex-start;
+  pointer-events:none;
+}
+.pcSmartStatusSlot .status{
+  margin:0!important;
+  padding:5px 9px!important;
+  border:1px solid rgba(255,255,255,.22)!important;
+  border-radius:999px!important;
+  background:rgba(12,11,13,.68)!important;
+  backdrop-filter:blur(8px);
+  color:#eee6df!important;
+  box-shadow:0 5px 15px rgba(0,0,0,.24);
+  font-size:.60rem!important;
+  line-height:1!important;
+  letter-spacing:.065em!important;
+  font-weight:780!important;
+}
+.pcSmartCard.smartStateActive .pcSmartStatusSlot .status{
+  color:#c9f2d4!important;
+  border-color:rgba(82,179,111,.52)!important;
+  background:rgba(17,62,31,.70)!important;
+}
+.pcSmartCard.smartStatePending .pcSmartStatusSlot .status{
+  color:#f1d796!important;
+  border-color:rgba(202,159,63,.48)!important;
+  background:rgba(73,52,17,.72)!important;
+}
+.pcSmartCard.smartStateExpired .pcSmartStatusSlot .status{
+  color:#efb2ad!important;
+  border-color:rgba(190,72,64,.48)!important;
+  background:rgba(72,26,23,.74)!important;
+}
+
+.pcSmartBody{
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  min-width:0;
+  padding:17px 18px 18px;
+}
+.pcSmartHead{min-width:0}
+.pcSmartKicker{
+  display:block;
+  margin:0 0 6px;
+  color:#c9a34f;
+  font-size:.62rem;
+  font-weight:760;
+  line-height:1.25;
+  letter-spacing:.105em;
+  text-transform:uppercase;
+}
+#myGamesGrid .pcSmartCard .pcSmartHead h3{
+  margin:0!important;
+  color:#f5eee9!important;
+  font-size:clamp(1.05rem,1.45vw,1.24rem)!important;
+  line-height:1.26!important;
+  font-weight:750!important;
+  letter-spacing:-.025em!important;
+  text-wrap:balance;
+}
+.pcSmartHint{
+  margin:7px 0 0;
+  color:#9e958f;
+  font-size:.72rem;
+  line-height:1.42;
+}
+
+/* Acción principal + detalles: sólo dos decisiones visibles */
+.pcSmartMainActions{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+  margin-top:auto;
+  padding-top:17px;
+  align-items:stretch;
+}
+#myGamesGrid .pcSmartMainActions>.btn{
+  position:relative;
+  min-width:0;
+  min-height:41px;
+  margin:0!important;
+  padding:9px 13px!important;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:11px!important;
+  font-size:.70rem!important;
+  line-height:1.15!important;
+  font-weight:760!important;
+  letter-spacing:.025em!important;
+  text-align:center;
+  text-decoration:none;
+  white-space:normal;
+}
+#myGamesGrid .pcSmartMainActions>.btn:first-child{
+  border-color:rgba(190,72,63,.60)!important;
+  background:linear-gradient(145deg,#b33e36,#842823)!important;
+  color:#fff!important;
+  box-shadow:0 9px 21px rgba(117,34,29,.22),inset 0 1px 0 rgba(255,255,255,.07)!important;
+}
+#myGamesGrid .pcSmartMainActions>.btn:first-child:not(.primary){
+  border-color:rgba(203,161,72,.46)!important;
+  background:linear-gradient(145deg,#695020,#443217)!important;
+}
+.pcSmartDetailsBtn{
+  min-width:92px!important;
+  border:1px solid rgba(223,210,201,.17)!important;
+  background:rgba(255,255,255,.025)!important;
+  color:#cfc5be!important;
+  box-shadow:none!important;
+}
+.pcSmartDetailsBtn svg{
+  width:14px;height:14px;margin-left:6px;
+  fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  transition:transform .18s ease;
+}
+.pcSmartCard.smartDetailsOpen .pcSmartDetailsBtn svg{transform:rotate(180deg)}
+
+/* Panel administrativo colapsable */
+.pcSmartDetails{
+  display:grid;
+  grid-template-rows:0fr;
+  opacity:0;
+  margin-top:0;
+  border-top:1px solid transparent;
+  transition:grid-template-rows .22s ease,opacity .18s ease,margin-top .22s ease,border-color .22s ease;
+}
+.pcSmartCard.smartDetailsOpen .pcSmartDetails{
+  grid-template-rows:1fr;
+  opacity:1;
+  margin-top:15px;
+  border-color:rgba(219,204,195,.11);
+}
+.pcSmartDetailsInner{overflow:hidden;min-height:0}
+.pcSmartDetailsContent{padding-top:13px}
+.pcSmartDetailsLabel{
+  display:block;
+  margin-bottom:8px;
+  color:#887f79;
+  font-size:.58rem;
+  font-weight:780;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+}
+.pcSmartDetails .accent{
+  margin:0 0 9px!important;
+  padding:9px 10px;
+  border:1px solid rgba(210,169,78,.14);
+  border-radius:10px;
+  background:rgba(92,67,21,.08);
+  color:#cda950!important;
+  font-size:.69rem!important;
+  line-height:1.4!important;
+  font-weight:650!important;
+  word-break:break-word;
+}
+.pcSmartDetails .accent code{
+  font:inherit!important;
+  font-weight:760!important;
+  color:#e2bc63!important;
+}
+.pcSmartDetails p{
+  margin:0!important;
+  padding:0!important;
+  color:#a79d96!important;
+  font-size:.73rem!important;
+  line-height:1.72!important;
+}
+.pcSmartDetails p b{color:#d5cdc7!important;font-weight:680!important}
+.pcSmartDetails .copy{
+  margin-top:7px!important;
+  color:#c7a24f!important;
+  font-size:.67rem!important;
+}
+.pcSmartSecondaryActions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:11px;
+  padding-top:11px;
+  border-top:1px solid rgba(219,204,195,.09);
+}
+#myGamesGrid .pcSmartSecondaryActions>.btn{
+  flex:1 1 130px;
+  min-height:36px;
+  padding:8px 10px!important;
+  border-radius:10px!important;
+  border:1px solid rgba(222,208,199,.14)!important;
+  background:rgba(255,255,255,.02)!important;
+  color:#c8beb7!important;
+  box-shadow:none!important;
+  font-size:.65rem!important;
+  font-weight:700!important;
+}
+
+/* Fallback si V4 todavía no insertó portada cuando entra V4.1A */
+#myGamesGrid .pcSmartCard:not(:has(>.pcV4Cover)){
+  padding-top:7px!important;
+}
+#myGamesGrid .pcSmartCard:not(:has(>.pcV4Cover)) .pcSmartBody{
+  padding-top:18px;
+}
+#myGamesGrid .pcSmartCard:not(:has(>.pcV4Cover)) .pcSmartStatusSlot{
+  position:static;
+  padding:14px 18px 0;
+}
+
+/* Si el HTML viejo dejó .actions vacío, no ocupa espacio */
+#myGamesGrid .pcSmartCard>.actions:empty,
+#myGamesGrid .pcSmartCard .actions:empty{display:none!important}
+
+@media(max-width:920px){
+  #myGamesGrid .pcSmartCard>.pcV4Cover{min-height:132px!important}
+  .pcSmartBody{padding:16px 16px 17px}
+}
+
+@media(max-width:620px){
+  #myGamesGrid .pcSmartCard{border-radius:17px!important}
+  #myGamesGrid .pcSmartCard>.pcV4Cover{min-height:126px!important}
+  .pcSmartBody{padding:15px 15px 16px}
+  .pcSmartMainActions{grid-template-columns:minmax(0,1fr) auto;gap:7px;padding-top:15px}
+  #myGamesGrid .pcSmartMainActions>.btn{min-height:40px;padding:8px 11px!important}
+  .pcSmartDetailsBtn{min-width:86px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #myGamesGrid .pcSmartCard,.pcSmartDetails,.pcSmartDetailsBtn svg{transition:none!important}
+}
