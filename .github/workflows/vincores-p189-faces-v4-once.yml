@@ -1,0 +1,24 @@
+name: VÍNCORES P1.8.9 faces V4 once
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/vincores-p189-faces-v4-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply P1.8.9 faces V4 patch
+        run: python vincores/p18/p189_faces_roles_patch.py
+      - name: Validate JavaScript
+        run: node --check vincores/p18/p188.js
+      - name: Commit and push
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add vincores/index.html vincores/p18/p188.js vincores/p18/p188.css vincores/backups/P1.8.8_before_P1.8.9_FACES_V4.html vincores/backups/P1.8.8_before_P1.8.9_FACES_V4_p188.js vincores/backups/P1.8.8_before_P1.8.9_FACES_V4_p188.css
+          git commit -m "Implement VÍNCORES P1.8.9 faces V4 and visual roles" || exit 0
+          git push
