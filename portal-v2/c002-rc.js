@@ -1,5 +1,5 @@
 (()=>{
-  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A + Product Mapping V4.1B + Cover System V4.1C + Payment/Trust V4.1D + Library Experience V4.1E.
+  // Visual Polish V3 + Premium Library V4 + Smart Cards V4.1A + Product Mapping V4.1B + Cover System V4.1C + Payment/Trust V4.1D + Library Experience V4.1E + Preview Real V2.
   // Capas no destructivas sobre Portal V2: no alteran auth, licencias ni backend.
   if(!document.getElementById('pc-visual-polish-v3')){
     const visual=document.createElement('link');
@@ -20,6 +20,25 @@
     };
   }
 
+  const ensurePreviewRealV2=()=>{
+    if(!document.getElementById('pc-preview-real-v2-css')){
+      const css=document.createElement('link');
+      css.id='pc-preview-real-v2-css';
+      css.rel='stylesheet';
+      css.href='portal-preview-real-v2.css?v=20260922-1';
+      document.head.appendChild(css);
+    }
+    if(!document.getElementById('pc-preview-real-v2-js')){
+      const js=document.createElement('script');
+      js.id='pc-preview-real-v2-js';
+      js.src='portal-preview-real-v2.js?v=20260922-1';
+      js.defer=true;
+      document.head.appendChild(js);
+    }else if(typeof window.pcApplyPreviewRealV2==='function'){
+      window.pcApplyPreviewRealV2();
+    }
+  };
+
   const ensureLibraryExperienceV41E=()=>{
     if(!document.getElementById('pc-library-experience-v41e-css')){
       const css=document.createElement('link');
@@ -28,15 +47,23 @@
       css.href='portal-library-experience-v41e.css?v=20260922-1';
       document.head.appendChild(css);
     }
-    if(!document.getElementById('pc-library-experience-v41e-js')){
-      const js=document.createElement('script');
+
+    let js=document.getElementById('pc-library-experience-v41e-js');
+    if(!js){
+      js=document.createElement('script');
       js.id='pc-library-experience-v41e-js';
       js.src='portal-library-experience-v41e.js?v=20260922-1';
       js.defer=true;
+      js.addEventListener('load',ensurePreviewRealV2,{once:true});
       document.head.appendChild(js);
-    }else if(typeof window.pcApplyLibraryExperience==='function'){
-      window.pcApplyLibraryExperience();
+    }else if(window.__pcLibraryExperienceV41E){
+      if(typeof window.pcApplyLibraryExperience==='function')window.pcApplyLibraryExperience();
+      ensurePreviewRealV2();
+    }else{
+      js.addEventListener('load',ensurePreviewRealV2,{once:true});
     }
+
+    setTimeout(ensurePreviewRealV2,1200);
   };
 
   const ensurePaymentTrustV41D=()=>{
