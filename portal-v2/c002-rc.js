@@ -1,8 +1,17 @@
 (()=>{
-  // Portal loader V2.1B. Preserva la cadena V3→V4→V4.1A-E→Preview Real V2
-  // desde el snapshot estable y agrega sólo la capa P0 de QA.
+  // Portal loader V2.1B + Continue Shelf V4.1E.1.
+  // Preserva la cadena V3→V4→V4.1A-E→Preview Real V2 y agrega capas visuales no destructivas.
   if(window.__pcPortalV21BLoader)return;
   window.__pcPortalV21BLoader=true;
+
+  const ensureContinueShelf=()=>{
+    if(document.getElementById('pc-continue-shelf-v41e1-css'))return;
+    const css=document.createElement('link');
+    css.id='pc-continue-shelf-v41e1-css';
+    css.rel='stylesheet';
+    css.href='portal-continue-shelf-v41e1.css?v=20260922-1';
+    document.head.appendChild(css);
+  };
 
   const ensureV21B=()=>{
     if(!window.PC_REAL_PREVIEWS_V2)return false;
@@ -23,10 +32,13 @@
     return true;
   };
 
+  ensureContinueShelf();
+
   const stable=document.createElement('script');
   stable.id='pc-portal-stable-before-v21b';
   stable.src='backups/c002-rc.before-preview-real-v21b-20260922.js?v=20260922-1';
   stable.onload=()=>{
+    ensureContinueShelf();
     if(ensureV21B())return;
     let tries=0;
     const timer=setInterval(()=>{
