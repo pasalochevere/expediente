@@ -1,0 +1,43 @@
+name: Fix VÍNCORES P1.8 backup integration once
+on:
+  push:
+    paths:
+      - '.github/workflows/vincores-p18-backupfix-once.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Insert backup integration function
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('vincores/p18/p18.js')
+          s=p.read_text(encoding='utf-8')
+          if 'function wireP18Backup(){' not in s:
+              marker='buildUI();wireEvents();enhanceAll();applyZoom();renderGuide();renderJournal();wireP18Backup();'
+              if marker not in s: raise SystemExit('init marker missing')
+              fn="""function wireP18Backup(){const exp=q('sceneLibraryExport'),imp=q('sceneLibraryImport');if(exp)exp.onclick=()=>{let scenes=[];try{scenes=JSON.parse(localStorage.getItem('vincores_scene_library_v1')||'[]')}catch{}const payload={type:'VINCORES_BACKUP',version:2,exportedAt:new Date().toISOString(),scenes,p18Sessions:readStore()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='vincores-respaldo-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1200)};if(imp)imp.onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const p=JSON.parse(await f.text());if(p?.type!=='VINCORES_BACKUP'||!Array.isArray(p.scenes))throw new Error('Archivo de respaldo no válido.');if(!confirm('¿Importar '+p.scenes.length+' escenas? Se combinarán con las actuales.'))return;let lib=[];try{lib=JSON.parse(localStorage.getItem('vincores_scene_library_v1')||'[]')}catch{}const ids=new Set(lib.map(x=>x.id)),map={};for(const raw of p.scenes){const x=JSON.parse(JSON.stringify(raw)),old=x.id||('legacy-'+Math.random());if(!x.id||ids.has(x.id))x.id='sc-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);ids.add(x.id);map[old]=x.id;lib.push(x)}localStorage.setItem('vincores_scene_library_v1',JSON.stringify(lib));if(p.p18Sessions&&typeof p.p18Sessions==='object'){const sessions=readStore();for(const [old,val] of Object.entries(p.p18Sessions)){const key=map[old]||old;if(!sessions[key])sessions[key]=val}localStorage.setItem(STORE,JSON.stringify(sessions))}showToast?.('Respaldo importado');q('sceneLibraryOverlay')?.classList.remove('open');setTimeout(()=>q('loadBtn')?.click(),120)}catch(err){alert(err.message||'No pude importar el respaldo.')}finally{e.target.value=''}}}
+"""
+              s=s.replace(marker,fn+marker,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          node --check vincores/p18/p18.js
+          grep -q 'function wireP18Backup' vincores/p18/p18.js
+      - name: Commit backup fix
+        run: |
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add vincores/p18/p18.js
+          if git diff --cached --quiet; then echo 'Already fixed'; exit 0; fi
+          git commit -m 'Fix VÍNCORES P1.8 backup integration runtime'
+          git fetch origin main
+          git rebase origin/main
+          git push origin main
