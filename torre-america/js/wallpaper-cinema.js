@@ -1,4 +1,4 @@
-/* TORRE DE AMÉRICA · PHOTO CINEMA V1 · generated masters */
+/* TORRE DE AMÉRICA · PHOTO CINEMA V1 · ambient-only audio */
 const WC_INTRO_KEY='pc_torre_america_photo_cinema_v1_seen';
 const WC_PHOTO={
  night:'https://d2ol7oe51mr4n9.cloudfront.net/user_3HsxoUqhL2jq6HZbpDZ6JgCwUeq/4d51a726-4e8c-4ea2-8bbf-7553718faae2.png',
@@ -31,8 +31,8 @@ function wcSetBg(src,tone=''){wcEnsure();const a=document.querySelector('.wc-bg-
 function wcAudioOn(){try{if(typeof S!=='undefined'&&(S.audio===false||S.audioEnabled===false))return false}catch(e){}return true}
 function wcAudioStart(){if(!wcAudioOn())return;try{wcCtx=new (window.AudioContext||window.webkitAudioContext)();const len=wcCtx.sampleRate*4,buf=wcCtx.createBuffer(1,len,wcCtx.sampleRate),d=buf.getChannelData(0);let v=0;for(let i=0;i<len;i++){v=(v*.992)+(Math.random()*2-1)*.008;d[i]=v}wcAmb=wcCtx.createBufferSource();wcAmb.buffer=buf;wcAmb.loop=true;const lp=wcCtx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=360;wcAmbGain=wcCtx.createGain();wcAmbGain.gain.value=.017;wcAmb.connect(lp).connect(wcAmbGain).connect(wcCtx.destination);wcAmb.start()}catch(e){wcCtx=null}}
 function wcAudioStop(){try{wcAmb?.stop();wcLow?.stop();wcCtx?.close()}catch(e){}wcAmb=wcLow=wcCtx=wcAmbGain=null}
-function wcThump(str=.045,dur=.24){if(!wcCtx)return;const o=wcCtx.createOscillator(),g=wcCtx.createGain();o.type='sine';o.frequency.setValueAtTime(62,wcCtx.currentTime);o.frequency.exponentialRampToValueAtTime(36,wcCtx.currentTime+dur);g.gain.setValueAtTime(str,wcCtx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,wcCtx.currentTime+dur);o.connect(g).connect(wcCtx.destination);o.start();o.stop(wcCtx.currentTime+dur)}
-function wcWood(){if(!wcCtx)return;wcThump(.03,.12);const n=wcCtx.createBufferSource(),b=wcCtx.createBuffer(1,wcCtx.sampleRate*.075,wcCtx.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);n.buffer=b;const f=wcCtx.createBiquadFilter(),g=wcCtx.createGain();f.type='bandpass';f.frequency.value=720;f.Q.value=.9;g.gain.value=.022;n.connect(f).connect(g).connect(wcCtx.destination);n.start()}
+function wcThump(){/* intentionally muted: ambient-only intro */}
+function wcWood(){/* intentionally muted: ambient-only intro */}
 function wcSilence(on){if(!wcAmbGain||!wcCtx)return;wcAmbGain.gain.cancelScheduledValues(wcCtx.currentTime);wcAmbGain.gain.linearRampToValueAtTime(on?.002:.017,wcCtx.currentTime+.25)}
 function wcEvent(html){const box=document.getElementById('wcEvent');if(!box)return;box.innerHTML=`<div class="wc-event-card">${html}</div>`;requestAnimationFrame(()=>box.firstElementChild?.classList.add('on'))}
 function wcEventOff(){const box=document.getElementById('wcEvent');if(box)box.innerHTML=''}
