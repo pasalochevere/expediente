@@ -1,0 +1,120 @@
+/* PasaloChevere · Continue Shelf V4.1E.1
+   Corrige el espacio excesivo de “Seguí jugando” y mantiene la tarjeta compacta.
+   Capa visual: no toca licencias, auth, checkout ni tracking. */
+
+/* El bloque deja de ser una caja gigante: funciona como shelf de acceso rápido. */
+.pcContinueSection{
+  width:100%;
+  margin:4px 0 28px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.pcContinueHead{
+  margin:0 0 12px!important;
+  padding:0 2px;
+  align-items:flex-end!important;
+}
+.pcContinueHead span{opacity:.82}
+
+/* En desktop las tarjetas ocupan sólo lo necesario: 1, 2 o 3 accesos no dejan una caja vacía alrededor. */
+.pcContinueRail{
+  display:flex!important;
+  flex-wrap:wrap;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:12px!important;
+  width:100%;
+}
+.pcContinueTile{
+  flex:0 1 clamp(340px,31vw,430px)!important;
+  width:clamp(340px,31vw,430px)!important;
+  max-width:100%;
+  min-height:142px!important;
+  height:142px;
+  border-radius:18px!important;
+}
+.pcContinueTile .pcV4Cover{
+  height:142px!important;
+  min-height:142px!important;
+}
+
+/* La iconografía no compite con el título. */
+.pcContinueTile .pcV4CoverIcon{
+  position:absolute!important;
+  top:12px!important;
+  right:12px!important;
+  left:auto!important;
+  bottom:auto!important;
+  width:34px!important;
+  height:34px!important;
+  z-index:6!important;
+  opacity:.9;
+}
+.pcContinueTileMeta{
+  left:16px!important;
+  right:16px!important;
+  bottom:13px!important;
+  gap:14px!important;
+}
+.pcContinueTileMeta strong{
+  max-width:76%!important;
+  font-size:.84rem!important;
+  line-height:1.08!important;
+}
+.pcContinueTileMeta span{
+  flex:0 0 auto;
+  font-size:.58rem!important;
+}
+
+/* Chévere Kids: encuadre más natural dentro del shelf. */
+.pcContinueTile[data-product^="TK-MAT"] .pcCoverBrandMedia{
+  overflow:hidden!important;
+}
+.pcContinueTile[data-product^="TK-MAT"] .pcCoverMascot{
+  transform:translateY(5%) scale(.92)!important;
+  transform-origin:center bottom!important;
+}
+.pcContinueTile[data-product^="TK-MAT"] .pcCoverBrandLogo{
+  max-width:148px!important;
+  max-height:44px!important;
+  opacity:.86!important;
+}
+
+/* Una sola experiencia reciente debe sentirse intencional, no como un grid incompleto. */
+.pcContinueSection:has(.pcContinueTile:only-child) .pcContinueHead{
+  max-width:430px;
+}
+.pcContinueSection:has(.pcContinueTile:only-child) .pcContinueHead>span{
+  display:none;
+}
+
+@media(max-width:900px){
+  .pcContinueTile{
+    flex-basis:calc(50% - 6px)!important;
+    width:calc(50% - 6px)!important;
+    min-width:280px;
+  }
+}
+
+@media(max-width:620px){
+  .pcContinueSection{margin-bottom:22px!important}
+  .pcContinueRail{
+    flex-wrap:nowrap!important;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding:0 0 6px!important;
+  }
+  .pcContinueTile{
+    flex:0 0 88%!important;
+    width:88%!important;
+    min-width:88%!important;
+    height:138px!important;
+    min-height:138px!important;
+    scroll-snap-align:start;
+  }
+  .pcContinueTile .pcV4Cover{height:138px!important;min-height:138px!important}
+  .pcContinueHead{padding:0!important}
+}
