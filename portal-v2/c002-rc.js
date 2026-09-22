@@ -1,5 +1,5 @@
 (()=>{
-  // Visual Polish V3: capa no destructiva sobre Portal V2.
+  // Visual Polish V3 + Premium Library V4: capas no destructivas sobre Portal V2.
   if(!document.getElementById('pc-visual-polish-v3')){
     const visual=document.createElement('link');
     visual.id='pc-visual-polish-v3';
@@ -18,6 +18,23 @@
       return originalGameHref(l);
     };
   }
+
+  const ensurePremiumV4=()=>{
+    if(!document.getElementById('pc-premium-v4-css')){
+      const css=document.createElement('link');
+      css.id='pc-premium-v4-css';
+      css.rel='stylesheet';
+      css.href='portal-premium-v4.css?v=20260922-1';
+      document.head.appendChild(css);
+    }
+    if(!document.getElementById('pc-premium-v4-js')){
+      const js=document.createElement('script');
+      js.id='pc-premium-v4-js';
+      js.src='portal-premium-v4.js?v=20260922-1';
+      js.defer=true;
+      document.head.appendChild(js);
+    }
+  };
 
   const base=document.createElement('script');
   base.src='c002-rc-base.js?v=241';
@@ -79,6 +96,7 @@
     }
 
     patch();
+    ensurePremiumV4();
     setTimeout(patch,250);
     setTimeout(patch,900);
     setTimeout(patch,1800);
