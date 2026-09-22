@@ -1,0 +1,46 @@
+name: Wire Chévere Kids Cinema Engine V3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/chevere-kids-cinema-v3-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inject Cinema Engine V3 assets
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('torre-kids-matematica/index.html')
+          s=p.read_text(encoding='utf-8')
+          css='<link rel="stylesheet" href="assets/cinema-engine-v3.css?v=3.0.0">'
+          js='<script src="assets/cinema-engine-v3.js?v=3.0.0"></script>'
+          if css not in s:
+              s=s.replace('</head>',css+'\n</head>',1)
+          if js not in s:
+              s=s.replace('</body>',js+'\n</body>',1)
+          s=s.replace("const TK_VERSION='1.0.0';","const TK_VERSION='1.1.0';")
+          if "const CINEMA_VERSION='3.0.0';" not in s:
+              s=s.replace("const TK_RELEASE='2026-09-14';","const TK_RELEASE='2026-09-14';\nconst CINEMA_VERSION='3.0.0';")
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Check Cinema JS
+        run: node --check torre-kids-matematica/assets/cinema-engine-v3.js
+      - name: Commit wiring
+        run: |
+          git config user.name "pasalochevere-bot"
+          git config user.email "pasalochevere@gmail.com"
+          git add torre-kids-matematica/index.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Activate Chévere Kids Cinema Engine V3"
+            git push
+          fi
