@@ -1,0 +1,24 @@
+name: VÍNCORES CINEMA ENGINE V1 once
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/vincores-cinema-v1-once.yml'
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install VÍNCORES cinema
+        run: python vincores/cinema/install_cinema_v1.py
+      - name: Validate cinema JavaScript
+        run: node --check vincores/cinema/cinema.js
+      - name: Commit and push
+        run: |
+          git config user.name "lunchpack-arg"
+          git config user.email "pasalochevere@gmail.com"
+          git add vincores/index.html vincores/backups/P1.8.9_before_CINEMA_ENGINE_V1.html vincores/rc/p1-8/.release
+          git commit -m "Integrate VÍNCORES CINEMA ENGINE V1" || exit 0
+          git push
