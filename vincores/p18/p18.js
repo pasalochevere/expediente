@@ -138,6 +138,6 @@ const __p181BaseSelectNode=window.selectNode;
 if(typeof __p181BaseSelectNode==="function")window.selectNode=function(n){const out=__p181BaseSelectNode.apply(this,arguments);if(n?._meta?.kind==="figure"&&!P.started)setTimeout(()=>switchRightTab("piece"),0);return out};
 buildUI();wireEvents();enhanceAll();applyZoom();renderGuide();renderJournal();wireP18Backup();
 let lastScene=window.vincoresCurrentSceneId||'unsaved';loadSession(lastScene);setInterval(()=>{const key=window.vincoresCurrentSceneId||'unsaved';if(key!==lastScene){writeStore();const all=readStore();if(!all[key]&&all[lastScene]){all[key]=JSON.parse(JSON.stringify(all[lastScene]));all[key].updatedAt=now();localStorage.setItem(STORE,JSON.stringify(all))}lastScene=key;loadSession(key);setTimeout(enhanceAll,100)}},600);
-setTimeout(()=>{const btn=q('enterBtn');if(btn)btn.addEventListener('click',()=>setTimeout(()=>{enhanceAll();fitField();switchRightTab('guide')},300));},0);
+setTimeout(()=>{const btn=q('enterBtn');if(btn)btn.addEventListener('click',()=>setTimeout(()=>{enhanceAll();fitField();if(innerWidth>980)switchRightTab('guide');else app.classList.remove('p18-mobile-left','p18-mobile-right')},300));},0);
 window.VincoresP18={state:P,track,suggest:()=>{P.currentSuggestion=null;P.lastSuggestionAt=0;refreshSuggestion(true)},pause:startPause,fit:fitField,openStuck,addNote};
 })();
