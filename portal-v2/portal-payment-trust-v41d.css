@@ -1,0 +1,74 @@
+/* PasaloChevere Portal · V4.1D PAYMENT + TRUST LAYER
+   No altera checkout, auth, licencias ni Supabase. Refuerza jerarquía comercial y acceso condicionado. */
+
+.pcPayTrustMini{
+  display:flex;align-items:center;gap:10px;
+  margin:12px 0 0;padding:10px 12px;
+  border:1px solid rgba(0,177,235,.20);
+  border-radius:13px;
+  background:linear-gradient(145deg,rgba(0,177,235,.055),rgba(255,255,255,.012));
+  color:#cddce1;
+}
+.pcPayTrustMini>span:last-child{min-width:0}
+.pcPayTrustMini strong{display:block;font-size:.71rem;font-weight:780;color:#e7f6fa;line-height:1.25}
+.pcPayTrustMini small{display:block;margin-top:3px;color:#8ea3ab;font-size:.63rem;line-height:1.38}
+.pcMpDot,.pcKeyDot{width:12px;height:12px;border-radius:50%;flex:0 0 12px;box-shadow:0 0 0 4px rgba(0,177,235,.08)}
+.pcMpDot{background:#00b1eb}
+.pcKeyDot{background:#c9a24d;box-shadow:0 0 0 4px rgba(201,162,77,.08)}
+
+.pcIncludedWithLicense{
+  display:flex;align-items:flex-start;gap:10px;
+  margin:11px 0 0;padding:10px 11px;
+  border:1px solid rgba(216,167,77,.20);
+  border-radius:12px;
+  background:rgba(94,67,19,.08);
+}
+.pcIncludedWithLicense .pcLockGlyph{
+  width:25px;height:25px;display:grid;place-items:center;flex:0 0 25px;
+  border:1px solid rgba(216,167,77,.25);border-radius:9px;color:#ddb85f;background:rgba(216,167,77,.07);font-size:.84rem;
+}
+.pcIncludedWithLicense strong{display:block;color:#e8c46f;font-size:.68rem;font-weight:780;line-height:1.3}
+.pcIncludedWithLicense small{display:block;color:#9f958f;font-size:.62rem;line-height:1.38;margin-top:3px}
+
+.pcOwnedDownload{border-color:rgba(118,192,150,.26)!important;color:#c7ead5!important;background:rgba(40,112,72,.10)!important}
+.pcOwnedDownload:hover{border-color:rgba(118,192,150,.48)!important;background:rgba(40,112,72,.16)!important}
+
+.pcAccountPaymentTrust{
+  display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;
+  margin-top:14px;padding:13px 14px;
+  border:1px solid rgba(0,177,235,.20);border-radius:15px;
+  background:linear-gradient(145deg,rgba(0,177,235,.055),rgba(255,255,255,.01));
+}
+.pcAccountPayBrand{display:flex;gap:10px;align-items:center;min-width:0}
+.pcMpMark{width:33px;height:33px;display:grid;place-items:center;border-radius:11px;border:1px solid rgba(0,177,235,.30);background:rgba(0,177,235,.10);color:#9ee2f5;font-size:.67rem;font-weight:900;letter-spacing:.04em;flex:0 0 33px}
+.pcAccountPayBrand strong{display:block;color:#e8f7fb;font-size:.74rem;font-weight:780}.pcAccountPayBrand small{display:block;color:#91a6ae;font-size:.63rem;line-height:1.35;margin-top:2px}
+.pcAccountPaySteps{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.pcAccountPaySteps span{border:1px solid rgba(226,213,204,.12);background:rgba(255,255,255,.02);border-radius:999px;padding:5px 8px;color:#aba19a;font-size:.58rem;font-weight:700;white-space:nowrap}
+
+#paymentNotice[data-pc-payment-state]{position:relative;overflow:hidden;border-width:1px!important}
+#paymentNotice[data-pc-payment-state]::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:#b4a08d}
+#paymentNotice[data-pc-payment-state="approved"]{border-color:rgba(83,182,115,.28)!important;background:linear-gradient(145deg,rgba(28,75,43,.18),rgba(18,16,19,.96))!important}
+#paymentNotice[data-pc-payment-state="approved"]::before{background:#66c486}
+#paymentNotice[data-pc-payment-state="checking"]{border-color:rgba(0,177,235,.26)!important;background:linear-gradient(145deg,rgba(0,177,235,.07),rgba(18,16,19,.96))!important}
+#paymentNotice[data-pc-payment-state="checking"]::before{background:#00b1eb}
+#paymentNotice[data-pc-payment-state="pending"]{border-color:rgba(211,167,72,.28)!important;background:linear-gradient(145deg,rgba(117,82,17,.13),rgba(18,16,19,.96))!important}
+#paymentNotice[data-pc-payment-state="pending"]::before{background:#d1a447}
+#paymentNotice[data-pc-payment-state="failed"]{border-color:rgba(190,74,66,.28)!important;background:linear-gradient(145deg,rgba(111,35,31,.13),rgba(18,16,19,.96))!important}
+#paymentNotice[data-pc-payment-state="failed"]::before{background:#bd4a42}
+.pcPaymentStateBadge{display:inline-flex;margin:5px 0 8px;padding:5px 8px;border:1px solid rgba(255,255,255,.13);border-radius:999px;background:rgba(255,255,255,.025);color:#ddd5cf;font-size:.58rem;font-weight:800;letter-spacing:.08em}
+.pcPaymentSteps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}.pcPaymentSteps div{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1px solid rgba(225,211,202,.10);border-radius:11px;background:rgba(255,255,255,.018);color:#a99f99;font-size:.66rem;line-height:1.3}.pcPaymentSteps i{width:20px;height:20px;display:grid;place-items:center;flex:0 0 20px;border-radius:50%;background:rgba(255,255,255,.045);color:#d9cec8;font-style:normal;font-size:.59rem;font-weight:800}
+
+.pcCheckoutTrustModal{position:fixed;inset:0;z-index:12000;display:grid;place-items:center;padding:18px;background:rgba(0,0,0,.76);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.pcCheckoutTrustModal.hidden{display:none!important}
+.pcCheckoutTrustDialog{position:relative;width:min(610px,100%);max-height:90vh;overflow:auto;padding:23px;border:1px solid rgba(226,212,202,.18);border-radius:22px;background:linear-gradient(155deg,#1d1a1d,#0e0e10 72%);box-shadow:0 32px 100px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.025)}
+.pcCheckoutClose{position:absolute;top:13px;right:13px;width:34px;height:34px;border:1px solid rgba(226,212,202,.15);border-radius:11px;background:rgba(255,255,255,.025);color:#bdb3ac;font-size:1.18rem;cursor:pointer}
+.pcCheckoutEyebrow{color:#77cbe4;font-size:.62rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.pcCheckoutTrustDialog h2{margin:7px 42px 15px 0;color:#f5efea;font-size:1.52rem;line-height:1.12;letter-spacing:-.03em}
+.pcCheckoutProduct{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:12px 13px;border:1px solid rgba(226,212,202,.12);border-radius:13px;background:rgba(255,255,255,.02)}.pcCheckoutProduct span{color:#d9d0ca;font-size:.82rem;font-weight:760}.pcCheckoutProduct strong{color:#e3bd65;font-size:1rem;font-weight:850;white-space:nowrap}
+.pcCheckoutEmail{display:flex;justify-content:space-between;gap:12px;margin-top:9px;padding:9px 11px;border-radius:11px;background:rgba(0,177,235,.055);border:1px solid rgba(0,177,235,.14);font-size:.67rem}.pcCheckoutEmail span{color:#87a5af}.pcCheckoutEmail strong{color:#dff6fc;font-weight:760;word-break:break-all;text-align:right}
+.pcCheckoutFacts{display:grid;gap:8px;margin-top:15px}.pcCheckoutFacts>div{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;padding:10px 11px;border:1px solid rgba(226,212,202,.10);border-radius:12px;background:rgba(255,255,255,.016)}.pcCheckoutFacts i{width:25px;height:25px;display:grid;place-items:center;border-radius:9px;background:rgba(0,177,235,.09);border:1px solid rgba(0,177,235,.16);color:#a9e7f7;font-style:normal;font-size:.62rem;font-weight:850}.pcCheckoutFacts b{display:block;color:#e6ddd8;font-size:.71rem;font-weight:760}.pcCheckoutFacts small{display:block;margin-top:3px;color:#99908a;font-size:.64rem;line-height:1.4}
+.pcCheckoutActions{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;margin-top:17px}.pcCheckoutActions .btn{min-height:42px;font-size:.68rem!important}.pcCheckoutFine{margin-top:10px;color:#77706c;font-size:.58rem;text-align:center;line-height:1.4}
+
+@media(max-width:720px){
+  .pcAccountPaymentTrust{grid-template-columns:1fr}.pcAccountPaySteps{justify-content:flex-start}.pcPaymentSteps{grid-template-columns:1fr}.pcCheckoutActions{grid-template-columns:1fr}.pcCheckoutProduct{align-items:flex-start;flex-direction:column;gap:5px}.pcCheckoutEmail{flex-direction:column;gap:3px}.pcCheckoutEmail strong{text-align:left}.pcPayTrustMini{margin-top:10px}
+}
+
+@media(prefers-reduced-motion:reduce){.pcCheckoutTrustModal{backdrop-filter:none;-webkit-backdrop-filter:none}}
