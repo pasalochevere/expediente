@@ -32,8 +32,8 @@
     if(title.includes('TORRE DE AMERICA'))return {key:'america',kicker:'FÚTBOL · TRIVIA',name:'Torre de América',icon:'trophy',a:'#1d4660',b:'#111a22',image:'../torre-america/assets/cinema-hd/hero.webp'};
     if(title.includes('CHEVERE KIDS')&&title.includes('MATEMATICA'))return {key:'math',kicker:'KIDS · APRENDIZAJE',name:'Matemática 7–9',icon:'math',a:'#12526a',b:'#101a22'};
     if(title.includes('MEGA PACK')||title.includes('VERDAD O RETO'))return {key:'party',kicker:'FAMILIA · FIESTA',name:'Verdad o Reto +800',icon:'party',a:'#70411b',b:'#1c1410'};
-    if(title.includes('EXPEDIENTES')&&accent.includes('002'))return {key:'exp002',kicker:'MISTERIO · CASO 002',name:'Hotel Orfeo · 317',icon:'search',a:'#5b4823',b:'#15130f',image:'../caso002/assets/visual/bin/room-317-v244.jpg'};
-    if(title.includes('EXPEDIENTES')&&accent.includes('001'))return {key:'exp001',kicker:'MISTERIO · CASO 001',name:'La Última Reunión',icon:'search',a:'#4d4025',b:'#14120e',image:'../caso001/assets/escenas/estudio.jpg'};
+    if(title.includes('EXPEDIENTES')&&(title.includes('CASO 002')||accent.includes('CASO 002')||accent.includes('002')))return {key:'exp002',kicker:'MISTERIO · CASO 002',name:'Hotel Orfeo · 317',icon:'search',a:'#5b4823',b:'#15130f',image:'../caso002/assets/visual/bin/room-317-v244.jpg'};
+    if(title.includes('EXPEDIENTES')&&(title.includes('CASO 001')||accent.includes('CASO 001')||accent.includes('001')))return {key:'exp001',kicker:'MISTERIO · CASO 001',name:'La Última Reunión',icon:'search',a:'#4d4025',b:'#14120e',image:'../caso001/assets/escenas/estudio.jpg'};
     if(title.includes('EXPEDIENTES'))return {key:'exp',kicker:'MISTERIO · EXPEDIENTES',name:'Investigación',icon:'search',a:'#4d4025',b:'#14120e'};
     if(title.includes('MESA TAROT')||title.includes('TAROT'))return {key:'tarot',kicker:'BIENESTAR · TAROT',name:'Guía Interactiva',icon:'cards',a:'#4a315c',b:'#17111d'};
     if(title.includes('VINCORES'))return {key:'vincores',kicker:'BIENESTAR · VÍNCULOS',name:'Víncores Digital',icon:'links',a:'#274b41',b:'#101916'};
@@ -144,7 +144,8 @@
       const title=myGames.querySelector('.catalog-title');
       if(title)title.insertAdjacentElement('afterend',summary);else myGames.insertBefore(summary,myGames.firstChild);
     }
-    summary.innerHTML='<div class="pcV4SummaryMain"><div class="pcV4SummaryText"><small>TU BIBLIOTECA PERSONAL</small><strong>'+total+' '+(total===1?'experiencia':'experiencias')+' en un solo lugar</strong><span>Abrí tus juegos, revisá vigencia, códigos y dispositivos sin salir del portal.</span></div><div class="pcV4SummaryOrb">'+total+'</div></div><div class="pcV4SummaryStats"><div class="pcV4SummaryStat"><b>'+active+'</b><span>accesos activos ahora</span></div><div class="pcV4SummaryStat"><b>'+categories+'</b><span>familias en tu biblioteca</span></div></div>';
+    const html='<div class="pcV4SummaryMain"><div class="pcV4SummaryText"><small>TU BIBLIOTECA PERSONAL</small><strong>'+total+' '+(total===1?'experiencia':'experiencias')+' en un solo lugar</strong><span>Abrí tus juegos, revisá vigencia, códigos y dispositivos sin salir del portal.</span></div><div class="pcV4SummaryOrb">'+total+'</div></div><div class="pcV4SummaryStats"><div class="pcV4SummaryStat"><b>'+active+'</b><span>accesos activos ahora</span></div><div class="pcV4SummaryStat"><b>'+categories+'</b><span>familias en tu biblioteca</span></div></div>';
+    if(summary.innerHTML!==html)summary.innerHTML=html;
   }
 
   function markSections(){
