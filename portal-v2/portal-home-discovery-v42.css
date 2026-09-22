@@ -1,0 +1,72 @@
+/* PORTAL V4.2 · HOME PERSONALIZADA + DISCOVERY ENGINE
+   Capa visual aditiva. Se activa sólo con cuenta verificada + biblioteca disponible. */
+.pcV42LegacyHidden{display:none!important}
+.pcV42Home.hero{display:block!important;grid-template-columns:none!important;gap:0!important;padding:28px 0 10px!important;scroll-margin-top:84px}
+.pcV42Home *{box-sizing:border-box}
+.pcV42HeroGrid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(290px,.72fr);gap:16px;align-items:stretch}
+.pcV42Feature,.pcV42Today{border:1px solid rgba(218,201,188,.16);border-radius:24px;overflow:hidden;background:linear-gradient(155deg,#171418,#0b0b0d 78%);box-shadow:0 24px 62px rgba(0,0,0,.30)}
+.pcV42Feature{position:relative;min-height:390px}
+.pcV42FeatureMedia{position:absolute;inset:0;overflow:hidden;background:#0c0d0e}
+.pcV42FeatureMedia:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,7,9,.92) 0,rgba(7,7,9,.70) 37%,rgba(7,7,9,.20) 72%),linear-gradient(180deg,rgba(7,7,9,.08),rgba(7,7,9,.65));z-index:3}
+.pcV42FeatureMedia .pcV4Cover{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:100%!important;border:0!important;border-radius:0!important;margin:0!important;transform:none!important;box-shadow:none!important}
+.pcV42FeatureMedia .pcV4Cover.hasImage{background-size:cover!important;background-position:center!important}
+.pcV42FeatureMedia .pcV4CoverMeta,.pcV42FeatureMedia .pcV4CoverIcon{display:none!important}
+.pcV42CoverFallback{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 75% 25%,rgba(201,154,58,.16),transparent 35%),#111015;color:#403a3e;font-size:clamp(2rem,7vw,5rem);font-weight:950;letter-spacing:-.05em;text-align:center;padding:30px}
+.pcV42FeatureOverlay{position:absolute;inset:auto 0 0;z-index:5;padding:34px;max-width:690px}
+.pcV42FeatureKicker,.pcV42Eyebrow,.pcV42SectionHead small{color:#d4a642;font-size:.65rem;font-weight:900;letter-spacing:.16em;text-transform:uppercase}
+.pcV42Feature h1{margin:8px 0 5px;font-size:clamp(2.2rem,5vw,4.1rem);line-height:.96;letter-spacing:-.045em}
+.pcV42FeatureOverlay>p{margin:0;color:rgba(241,231,222,.66);font-size:.9rem;line-height:1.5}
+.pcV42FeatureActions{display:flex;gap:9px;margin-top:20px}
+.pcV42Primary,.pcV42Ghost,.pcV42ExploreAll,.pcV42TextButton,.pcV42Link,.pcV42QuickCard,.pcV42FamilyCard{font:inherit;cursor:pointer}
+.pcV42Primary,.pcV42Ghost,.pcV42ExploreAll{min-height:44px;border-radius:12px;padding:10px 15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:.72rem;font-weight:850}
+.pcV42Primary{border:1px solid #c8564c;background:linear-gradient(135deg,#b64036,#7d211b);color:#fff;box-shadow:0 10px 24px rgba(129,37,30,.22)}
+.pcV42Ghost{border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.045);color:#eee4dc}
+.pcV42Primary svg,.pcV42Ghost svg,.pcV42ExploreAll svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pcV42Primary:hover,.pcV42Ghost:hover,.pcV42ExploreAll:hover{transform:translateY(-1px)}
+
+.pcV42Today{padding:26px;display:flex;flex-direction:column;justify-content:center;position:relative}
+.pcV42Today:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-90px;top:-95px;background:radial-gradient(circle,rgba(201,154,58,.13),transparent 67%);pointer-events:none}
+.pcV42Today h2{margin:7px 0 8px;font-size:clamp(1.55rem,3vw,2.15rem);line-height:1.02;letter-spacing:-.035em}
+.pcV42Today>p{margin:0;color:#a99e96;font-size:.82rem;line-height:1.55}
+.pcV42Stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:20px 0 15px}
+.pcV42Stats>div{padding:12px 10px;border:1px solid rgba(255,255,255,.09);border-radius:13px;background:rgba(255,255,255,.025)}
+.pcV42Stats b{display:block;font-size:1.3rem;color:#f7eee6}.pcV42Stats span{display:block;margin-top:2px;color:#988e87;font-size:.58rem}
+.pcV42ExploreAll{width:100%;border:1px solid rgba(211,165,72,.28);background:rgba(211,165,72,.07);color:#e0c37d}
+
+.pcV42SectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:28px 0 11px}
+.pcV42SectionHead h2{margin:4px 0 0;font-size:1.45rem;letter-spacing:-.025em}.pcV42SectionHead p{margin:4px 0 0;color:#90867f;font-size:.72rem}
+.pcV42Link{border:0;background:transparent;color:#b8ada5;font-size:.7rem;font-weight:800;padding:7px 0}.pcV42Link:hover{color:#e0c37d}
+.pcV42QuickRow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.pcV42QuickCard{min-width:0;min-height:82px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:11px;text-align:left;padding:13px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:linear-gradient(145deg,#161417,#0d0c0e);color:#eee6df;transition:.16s transform,.16s border-color,.16s background}
+.pcV42QuickCard:hover{transform:translateY(-2px);border-color:rgba(211,165,72,.28);background:linear-gradient(145deg,#1c181b,#0f0d10)}
+.pcV42QuickNo{width:30px;height:30px;display:grid;place-items:center;border:1px solid rgba(211,165,72,.25);border-radius:10px;color:#d5b05f;font-size:.58rem;font-weight:900}
+.pcV42QuickText{min-width:0}.pcV42QuickText b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.78rem}.pcV42QuickText small{display:block;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#968c85;font-size:.59rem}.pcV42QuickArrow{color:#817770;font-size:1rem}
+
+.pcV42DiscoveryBlock,.pcV42FamilyBlock{margin-top:8px}
+.pcV42DiscoverGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pcV42DiscoverCard{min-width:0;border:1px solid rgba(255,255,255,.11);border-radius:20px;overflow:hidden;background:#111013;box-shadow:0 14px 34px rgba(0,0,0,.20);transition:.18s transform,.18s border-color}
+.pcV42DiscoverCard:hover{transform:translateY(-3px);border-color:rgba(211,165,72,.28)}
+.pcV42DiscoverMedia{position:relative;aspect-ratio:16/8.2;overflow:hidden;background:radial-gradient(circle at 82% 16%,var(--a),transparent 38%),linear-gradient(145deg,var(--a),var(--b));background-size:cover;background-position:center}
+.pcV42DiscoverMedia.hasImage:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,8,.08),rgba(5,6,8,.70))}
+.pcV42DiscoverIcon{position:absolute;right:13px;top:13px;z-index:2;width:35px;height:35px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.16);border-radius:12px;background:rgba(7,7,9,.38);backdrop-filter:blur(10px);color:#f0e7de}
+.pcV42DiscoverIcon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.pcV42DiscoverFamily{position:absolute;left:14px;bottom:12px;z-index:2;color:#eadfda;font-size:.56rem;font-weight:900;letter-spacing:.12em}
+.pcV42DiscoverBody{padding:14px 15px 15px}.pcV42DiscoverBody h3{margin:0;font-size:1rem}.pcV42DiscoverBody p{margin:5px 0 12px;color:#988d86;font-size:.69rem;line-height:1.4}.pcV42TextButton{border:0;background:transparent;color:#d6b45f;font-size:.66rem;font-weight:850;padding:0}.pcV42TextButton span{margin-left:3px}
+.pcV42DiscoveryEmpty{grid-column:1/-1;padding:18px;border:1px dashed rgba(255,255,255,.13);border-radius:16px;color:#918780;font-size:.75rem;text-align:center}
+
+.pcV42FamilyGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.pcV42FamilyCard{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:9px;align-items:center;text-align:left;padding:12px;border:1px solid rgba(255,255,255,.09);border-radius:15px;background:#111013;color:#e9dfd7;transition:.16s border-color,.16s transform}.pcV42FamilyCard:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.20)}.pcV42FamilyCard.hasAccess{border-color:rgba(211,165,72,.18);background:linear-gradient(145deg,rgba(211,165,72,.055),#111013 52%)}
+.pcV42FamilyIcon{width:31px;height:31px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.10);border-radius:10px;color:#cdb36f}.pcV42FamilyIcon svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.pcV42FamilyCard b{display:block;font-size:.68rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pcV42FamilyCard small{display:block;margin-top:3px;color:#837a74;font-size:.53rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pcV42FamilyCard i{font-style:normal;color:#d0a94e;font-size:.72rem;font-weight:900}
+
+@media(max-width:980px){
+  .pcV42HeroGrid{grid-template-columns:1fr}.pcV42Feature{min-height:350px}.pcV42Today{display:grid;grid-template-columns:1fr auto;gap:8px 18px;align-items:center}.pcV42Today .pcV42Eyebrow,.pcV42Today h2,.pcV42Today>p{grid-column:1}.pcV42Stats{grid-column:2;grid-row:1/4;margin:0;min-width:270px}.pcV42ExploreAll{grid-column:1/-1}
+  .pcV42QuickRow{grid-template-columns:repeat(2,1fr)}.pcV42FamilyGrid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:700px){
+  .pcV42Home.hero{padding-top:18px!important}.pcV42Feature{min-height:420px;border-radius:20px}.pcV42FeatureMedia:after{background:linear-gradient(180deg,rgba(7,7,9,.08) 20%,rgba(7,7,9,.86) 78%)}.pcV42FeatureOverlay{padding:22px 18px}.pcV42Feature h1{font-size:2.35rem}.pcV42FeatureOverlay>p{font-size:.78rem}.pcV42FeatureActions{display:grid;grid-template-columns:1.15fr .85fr}.pcV42Primary,.pcV42Ghost{padding:9px 10px;font-size:.67rem}
+  .pcV42Today{display:block;padding:20px}.pcV42Stats{margin:16px 0 12px;min-width:0}.pcV42SectionHead{align-items:flex-start}.pcV42SectionHead .pcV42Link{flex:0 0 auto}.pcV42QuickRow{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}.pcV42QuickCard{flex:0 0 84%;scroll-snap-align:start}.pcV42DiscoverGrid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:5px}.pcV42DiscoverCard{flex:0 0 84%;scroll-snap-align:start}.pcV42FamilyGrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:430px){
+  .pcV42Feature{min-height:390px}.pcV42Feature h1{font-size:2.05rem}.pcV42FeatureActions{grid-template-columns:1fr}.pcV42Today h2{font-size:1.65rem}.pcV42SectionHead h2{font-size:1.25rem}.pcV42SectionHead p{max-width:260px}.pcV42Stats>div{padding:10px 7px}.pcV42FamilyGrid{grid-template-columns:1fr}.pcV42FamilyCard small{font-size:.56rem}
+}
+@media(prefers-reduced-motion:reduce){.pcV42QuickCard,.pcV42DiscoverCard,.pcV42FamilyCard,.pcV42Primary,.pcV42Ghost,.pcV42ExploreAll{transition:none!important}}
