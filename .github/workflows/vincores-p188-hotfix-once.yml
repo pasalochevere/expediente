@@ -1,0 +1,42 @@
+name: VÍNCORES P1.8.8 hotfix once
+on:
+  push:
+    paths:
+      - '.github/workflows/vincores-p188-hotfix-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refine case reactions and state
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('vincores/p18/p188.js')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("C=d?{...C,...d}:{caseId:'libre',startedAt:0,observed:[],activeTopic:null,lastEventId:null};renderCaseGuide()", "C=d?{...C,...d}:{caseId:'libre',startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};if(window.VincoresP188)window.VincoresP188.state=C;renderCaseGuide()")
+          s=s.replace("C={caseId:'libre',startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};saveCase();q('p188StartOverlay')", "C={caseId:'libre',startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};if(window.VincoresP188)window.VincoresP188.state=C;saveCase();q('p188StartOverlay')")
+          s=s.replace("C={caseId:id,startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};saveCase();localStorage", "C={caseId:id,startedAt:Date.now(),observed:[],activeTopic:null,lastEventId:null};if(window.VincoresP188)window.VincoresP188.state=C;saveCase();localStorage")
+          old="if(e&&e.id!==last){last=e.id;C.lastEventId=e.id;saveCase();renderCaseGuide();notifyGuide()}"
+          new="if(e&&e.id!==last){last=e.id;C.lastEventId=e.id;saveCase();renderCaseGuide();if(e.type!=='node_added')notifyGuide()}"
+          assert old in s
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+          h=Path('vincores/index.html');x=h.read_text(encoding='utf-8').replace('p18/p188.css?v=1881','p18/p188.css?v=1882').replace('p18/p188.js?v=1881','p18/p188.js?v=1882');h.write_text(x,encoding='utf-8')
+          PY
+          node --check vincores/p18/p188.js
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          rm -f .github/workflows/vincores-p188-hotfix-once.yml
+          git add vincores/index.html vincores/p18/p188.js .github/workflows
+          git commit -m 'Refine VÍNCORES P1.8.8 contextual guide behavior'
+          git pull --rebase origin main
+          git push origin main
