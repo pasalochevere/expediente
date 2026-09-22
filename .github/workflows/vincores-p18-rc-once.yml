@@ -1,0 +1,55 @@
+name: Build VÍNCORES P1.8 RC once
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'vincores/p18/**'
+      - '.github/workflows/vincores-p18-rc-once.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate P1.8 JS
+        run: node --check vincores/p18/p18.js
+      - name: Build RC and backup stable
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p vincores/rc/p1-8 vincores/backups
+          if [ ! -f vincores/backups/P1.7.3_SELL_READY_FINAL.html ]; then
+            cp vincores/index.html vincores/backups/P1.7.3_SELL_READY_FINAL.html
+          fi
+          cp vincores/index.html vincores/rc/p1-8/index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('vincores/rc/p1-8/index.html')
+          s=p.read_text(encoding='utf-8')
+          css='<link rel="stylesheet" href="/expediente/vincores/p18/p18.css?v=1801">\n'
+          js='<script src="/expediente/vincores/p18/p18.js?v=1801"></script>\n'
+          if 'p18/p18.css' not in s:
+              s=s.replace('</head>',css+'</head>',1)
+          if 'p18/p18.js' not in s:
+              s=s.replace('</body>',js+'</body>',1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          grep -q 'p18/p18.css' vincores/rc/p1-8/index.html
+          grep -q 'p18/p18.js' vincores/rc/p1-8/index.html
+      - name: Commit RC
+        run: |
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add vincores/rc/p1-8/index.html vincores/backups/P1.7.3_SELL_READY_FINAL.html
+          if git diff --cached --quiet; then
+            echo 'No changes to commit'
+            exit 0
+          fi
+          git commit -m 'Build VÍNCORES P1.8 premium guided field RC1'
+          git push
