@@ -1,6 +1,6 @@
 (()=>{
-  // Portal loader V4.2 + Preview V2.1C + Library V4.1E.x.
-  // Preserva V3→V4→V4.1A-E→Preview Real V2/V2.1B/V2.1C y agrega Home personalizada + Discovery sin tocar backend.
+  // Portal loader V4.2.1 + Preview V2.1C + Library V4.1E.x.
+  // Preserva V3→V4→V4.1A-E→Preview Real V2/V2.1B/V2.1C y agrega Home personalizada + Discovery + tuning visual sin tocar backend.
   if(window.__pcPortalV21BLoader)return;
   window.__pcPortalV21BLoader=true;
 
@@ -11,6 +11,25 @@
     css.rel='stylesheet';
     css.href='portal-continue-shelf-v41e1.css?v=20260922-5';
     document.head.appendChild(css);
+  };
+
+  const ensureV421=()=>{
+    if(!document.getElementById('pc-home-tuning-v421-css')){
+      const css=document.createElement('link');
+      css.id='pc-home-tuning-v421-css';
+      css.rel='stylesheet';
+      css.href='portal-home-tuning-v421.css?v=20260922-1';
+      document.head.appendChild(css);
+    }
+    if(!document.getElementById('pc-home-tuning-v421-js')){
+      const js=document.createElement('script');
+      js.id='pc-home-tuning-v421-js';
+      js.src='portal-home-tuning-v421.js?v=20260922-1';
+      js.defer=true;
+      document.head.appendChild(js);
+    }else if(typeof window.pcApplyHomeV421==='function'){
+      window.pcApplyHomeV421();
+    }
   };
 
   const ensureV42=()=>{
@@ -26,6 +45,7 @@
       js.id='pc-home-discovery-v42-js';
       js.src='portal-home-discovery-v42.js?v=20260922-2';
       js.defer=true;
+      js.addEventListener('load',ensureV421,{once:true});
       document.head.appendChild(js);
     }else if(typeof window.pcApplyHomeV42==='function'){
       window.pcApplyHomeV42();
@@ -35,8 +55,10 @@
       bridge.id='pc-home-discovery-v42-bridge-js';
       bridge.src='portal-home-discovery-v42-bridge.js?v=20260922-1';
       bridge.defer=true;
+      bridge.addEventListener('load',ensureV421,{once:true});
       document.head.appendChild(bridge);
     }
+    ensureV421();
   };
 
   const ensureQuickAccess=()=>{
@@ -108,14 +130,15 @@
       js.id='pc-preview-real-v21b-js';
       js.src='portal-preview-real-v21b.js?v=20260922-5';
       js.defer=true;
-      js.addEventListener('load',()=>{ensureReconcile();ensureQuickAccess();ensureV21C();ensureV42()},{once:true});
+      js.addEventListener('load',()=>{ensureReconcile();ensureQuickAccess();ensureV21C();ensureV42();ensureV421()},{once:true});
       document.head.appendChild(js);
     }else{
       ensureReconcile();
       ensureQuickAccess();
       ensureV42();
+      ensureV421();
       if(!ensureV21C()){
-        let tries=0;const t=setInterval(()=>{tries++;ensureV42();if(ensureV21C()||tries>30)clearInterval(t)},100);
+        let tries=0;const t=setInterval(()=>{tries++;ensureV42();ensureV421();if(ensureV21C()||tries>30)clearInterval(t)},100);
       }
     }
     return true;
@@ -125,6 +148,7 @@
   ensureReconcile();
   ensureQuickAccess();
   ensureV42();
+  ensureV421();
 
   const stable=document.createElement('script');
   stable.id='pc-portal-stable-before-v21b';
@@ -134,6 +158,7 @@
     ensureReconcile();
     ensureQuickAccess();
     ensureV42();
+    ensureV421();
     if(ensureV21B())return;
     let tries=0;
     const timer=setInterval(()=>{
@@ -142,6 +167,7 @@
       ensureQuickAccess();
       ensureV21C();
       ensureV42();
+      ensureV421();
       if(ensureV21B()||tries>40)clearInterval(timer);
     },100);
   };
