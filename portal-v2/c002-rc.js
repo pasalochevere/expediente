@@ -48,6 +48,12 @@
       css.href='portal-preview-real-v21c.css?v=20260922-1';
       document.head.appendChild(css);
     }
+    if(!document.getElementById('pc-preview-real-v21c-overrides')){
+      const style=document.createElement('style');
+      style.id='pc-preview-real-v21c-overrides';
+      style.textContent='.pcV21cCounter{left:12px!important;right:auto!important;top:12px!important;bottom:auto!important}@media(max-width:620px){.pcV21cCounter{left:10px!important;top:10px!important;right:auto!important;bottom:auto!important}}';
+      document.head.appendChild(style);
+    }
     if(!document.getElementById('pc-preview-real-v21c-js')){
       const js=document.createElement('script');
       js.id='pc-preview-real-v21c-js';
