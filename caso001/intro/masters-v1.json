@@ -1,0 +1,27 @@
+{
+  "phase": "P2.12D.16.4",
+  "status": "FROZEN_V1",
+  "product": "EXP-001",
+  "case": "C001",
+  "title": "La Última Reunión",
+  "policy": {
+    "no_spoilers": true,
+    "equal_character_weight": true,
+    "qa_only_for_ui_captures": true,
+    "forbid_private_role_content": true,
+    "forbid_solution_content": true,
+    "forbid_customer_data": true
+  },
+  "masters": [
+    {"id":"M01","kind":"opening","status":"frozen","primary":"assets/escenas/pasillo-acceso.jpg","support":["assets/escenas/estudio.jpg"]},
+    {"id":"M02","kind":"locations","status":"frozen","assets":["assets/escenas/sala-estar.jpg","assets/escenas/cocina.jpg","assets/escenas/estudio.jpg","assets/escenas/dormitorio.jpg","assets/escenas/jardin-exterior.jpg","assets/escenas/pasillo-acceso.jpg"],"max_hold_seconds":1.2},
+    {"id":"M03","kind":"suspects","status":"frozen","assets":["assets/personajes/santiago.jpg","assets/personajes/clara.jpg","assets/personajes/vera.jpg","assets/personajes/mateo.jpg","assets/personajes/ines.jpg","assets/personajes/tomas.jpg"],"equal_weight":true},
+    {"id":"M04","kind":"evidence","status":"frozen","primary":"assets/objetos/celular.jpg","assets":["assets/objetos/llave.jpg","assets/objetos/cuaderno.jpg","assets/objetos/memoria-usb.jpg","assets/objetos/arma.jpg","assets/objetos/panuelo.jpg"],"rule":"no single decisive evidence may dominate"},
+    {"id":"M05","kind":"gameplay","status":"capture_required","target":"intro/captures/UI_GAMEPLAY_STAGE1.png"},
+    {"id":"M06","kind":"theory_board","status":"capture_required","target":"intro/captures/UI_THEORY_BOARD.png"},
+    {"id":"M07","kind":"progression","status":"capture_required","targets":["intro/captures/UI_STAGE1.png","intro/captures/UI_STAGE2.png","intro/captures/UI_STAGE3.png"]},
+    {"id":"M08","kind":"accusation","status":"capture_required","target":"intro/captures/UI_ACCUSATION_EMPTY.png"},
+    {"id":"M09","kind":"lobby","status":"capture_required","target":"intro/captures/UI_LOBBY_QA.png"},
+    {"id":"M10","kind":"title","status":"frozen","background":"assets/escenas/estudio.jpg","copy":["EXPEDIENTES","CASO 001 · LA ÚLTIMA REUNIÓN","INVESTIGÁ · ACUSÁ · RESOLVÉ"]}
+  ]
+}
