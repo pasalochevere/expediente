@@ -105,9 +105,34 @@ function buildUI(){const piece=right.querySelector('.panel');piece?.classList.ad
  q('p18LeftTab').onclick=()=>{P.leftClosed=!P.leftClosed;app.classList.toggle('p18-left-closed',P.leftClosed)};q('p18RightTab').onclick=()=>{P.rightClosed=!P.rightClosed;app.classList.toggle('p18-right-closed',P.rightClosed);if(!P.rightClosed)switchRightTab('guide')};q('p18StuckClose').onclick=()=>q('p18Stuck').classList.remove('open');q('p18PauseFromStuck').onclick=()=>{q('p18Stuck').classList.remove('open');startPause('stuck_menu')};q('p18PauseEnd').onclick=endPause;q('p18PauseExtend').onclick=()=>{q('p18PauseQuestion').classList.add('hidden');q('p18PauseIntro').classList.remove('hidden');let secs=20;q('p18PauseCount').textContent=`◉ ${secs} s`;clearInterval(P.timer);P.timer=setInterval(()=>{secs--;q('p18PauseCount').textContent=`◉ ${Math.max(0,secs)} s`;if(secs<=0){clearInterval(P.timer);q('p18PauseIntro').classList.add('hidden');q('p18PauseQuestion').classList.remove('hidden')}},1000)};
  qa('[data-mobile]').forEach(b=>b.onclick=()=>{const x=b.dataset.mobile;if(x==='left')openLeftPanel();if(x==='field'){app.classList.remove('p18-mobile-left','p18-mobile-right');fitField()}if(x==='guide')switchRightTab('guide');if(x==='journal')switchRightTab('journal');if(x==='more')openStuck()});
 }
+function wireP18Backup(){
+ const exp=q('sceneLibraryExport'),imp=q('sceneLibraryImport');
+ if(exp)exp.onclick=()=>{
+  let scenes=[];try{scenes=JSON.parse(localStorage.getItem('vincores_scene_library_v1')||'[]')}catch{}
+  const payload={type:'VINCORES_BACKUP',version:2,exportedAt:new Date().toISOString(),scenes,p18Sessions:readStore()};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='vincores-respaldo-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1200)
+ };
+ if(imp)imp.onchange=async e=>{
+  const f=e.target.files?.[0];if(!f)return;
+  try{
+   const p=JSON.parse(await f.text());if(p?.type!=='VINCORES_BACKUP'||!Array.isArray(p.scenes))throw new Error('Archivo de respaldo no válido.');
+   if(!confirm('¿Importar '+p.scenes.length+' escenas? Se combinarán con las actuales.'))return;
+   let lib=[];try{lib=JSON.parse(localStorage.getItem('vincores_scene_library_v1')||'[]')}catch{}
+   const ids=new Set(lib.map(x=>x.id)),map={};
+   for(const raw of p.scenes){const x=JSON.parse(JSON.stringify(raw)),old=x.id||('legacy-'+Math.random());if(!x.id||ids.has(x.id))x.id='sc-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);ids.add(x.id);map[old]=x.id;lib.push(x)}
+   localStorage.setItem('vincores_scene_library_v1',JSON.stringify(lib));
+   if(p.p18Sessions&&typeof p.p18Sessions==='object'){
+    const sessions=readStore();for(const [old,val] of Object.entries(p.p18Sessions)){const key=map[old]||old;if(!sessions[key])sessions[key]=val}localStorage.setItem(STORE,JSON.stringify(sessions))
+   }
+   showToast?.('Respaldo importado');q('sceneLibraryOverlay')?.classList.remove('open');setTimeout(()=>q('loadBtn')?.click(),120)
+  }catch(err){alert(err.message||'No pude importar el respaldo.')}finally{e.target.value=''}
+ }
+}
+
 function wireEvents(){let viewDrag=null;board.addEventListener('pointerdown',e=>{if(!e.target.closest('.node')&&P.zoom>1){viewDrag={id:e.pointerId,x:e.clientX,y:e.clientY,px:P.panX,py:P.panY};board.setPointerCapture?.(e.pointerId);e.preventDefault();return}const n=e.target.closest('.node');if(!n)return;P.lastPointer={id:n._meta?.id,x:parseFloat(n.style.left)||0,y:parseFloat(n.style.top)||0,label:n._meta?.label||'Figura'}},true);board.addEventListener('pointerup',e=>{const n=e.target.closest('.node');if(!n||!P.lastPointer||P.lastPointer.id!==n._meta?.id)return;const x=parseFloat(n.style.left)||0,y=parseFloat(n.style.top)||0,d=Math.hypot(x-P.lastPointer.x,y-P.lastPointer.y);if(d>2.5)track('node_moved',{label:n._meta?.label||P.lastPointer.label,from:{x:P.lastPointer.x,y:P.lastPointer.y},to:{x,y}});P.lastPointer=null},true);board.addEventListener('pointermove',e=>{if(!viewDrag||viewDrag.id!==e.pointerId)return;P.panX=Math.max(-420,Math.min(420,viewDrag.px+e.clientX-viewDrag.x));P.panY=Math.max(-320,Math.min(320,viewDrag.py+e.clientY-viewDrag.y));applyZoom()});board.addEventListener('pointerup',e=>{if(viewDrag?.id===e.pointerId)viewDrag=null});board.addEventListener('pointercancel',()=>viewDrag=null);q('rotation')?.addEventListener('change',()=>{if(selected?._meta)track('node_rotated',{label:selected._meta.label})});q('saveBtn')?.addEventListener('click',()=>{setTimeout(()=>setDirty(false),80)});q('loadBtn')?.addEventListener('click',()=>setTimeout(enhanceAll,120));q('clearBtn')?.addEventListener('click',()=>setTimeout(()=>track('field_cleared'),80));document.addEventListener('keydown',e=>{const tag=e.target?.tagName;if(['INPUT','TEXTAREA','SELECT'].includes(tag)||e.target?.isContentEditable)return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='d'){e.preventDefault();duplicateSelected?.()}else if(e.key==='0'){e.preventDefault();fitField()}else if(e.key.toLowerCase()==='f'){e.preventDefault();toggleClean()}else if(e.key==='Escape'){q('p18Stuck')?.classList.remove('open');app.classList.remove('p18-mobile-left','p18-mobile-right');if(P.clean)toggleClean(false)}});window.addEventListener('resize',()=>{setTimeout(()=>{typeof renderRelations==='function'&&renderRelations()},100)});const mo=new MutationObserver(enhanceAll);mo.observe(board,{childList:true,subtree:true});
 }
-buildUI();wireEvents();enhanceAll();applyZoom();renderGuide();renderJournal();typeof wireP18Backup==='function'&&wireP18Backup();
+buildUI();wireEvents();enhanceAll();applyZoom();renderGuide();renderJournal();wireP18Backup();
 let lastScene=window.vincoresCurrentSceneId||'unsaved';loadSession(lastScene);setInterval(()=>{const key=window.vincoresCurrentSceneId||'unsaved';if(key!==lastScene){writeStore();const all=readStore();if(!all[key]&&all[lastScene]){all[key]=JSON.parse(JSON.stringify(all[lastScene]));all[key].updatedAt=now();localStorage.setItem(STORE,JSON.stringify(all))}lastScene=key;loadSession(key);setTimeout(enhanceAll,100)}},600);
 setTimeout(()=>{const btn=q('enterBtn');if(btn)btn.addEventListener('click',()=>setTimeout(()=>{enhanceAll();fitField();switchRightTab('guide')},300));},0);
 window.VincoresP18={state:P,track,suggest:()=>{P.currentSuggestion=null;P.lastSuggestionAt=0;refreshSuggestion(true)},pause:startPause,fit:fitField,openStuck,addNote};
