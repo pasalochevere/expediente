@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -33,5 +35,11 @@ jobs:
           git config user.name 'lunchpack-arg'
           git config user.email 'pasalochevere@gmail.com'
           git add vincores/p18/p18.js
+          if git diff --cached --quiet; then
+            echo 'Hotfix already present'
+            exit 0
+          fi
           git commit -m 'Fix VÍNCORES P1.8 guide progression and simplify flow'
-          git push
+          git fetch origin main
+          git rebase origin/main
+          git push origin main
