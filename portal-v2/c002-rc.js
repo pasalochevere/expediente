@@ -208,3 +208,12 @@
     }
   };
 })();
+
+(()=>{
+  if(document.getElementById('pc-tarot-intro-route-js'))return;
+  const js=document.createElement('script');
+  js.id='pc-tarot-intro-route-js';
+  js.src='tarot-intro-route.js?v=20260923-1';
+  js.defer=true;
+  document.head.appendChild(js);
+})();
