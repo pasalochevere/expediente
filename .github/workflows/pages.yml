@@ -41,8 +41,8 @@ jobs:
 
           game = Path('torre/game.html')
           g = game.read_text(encoding='utf-8')
-          css = '<link rel="stylesheet" href="./visual-v2.css?v=2">'
-          js = '<script src="./visual-v2.js?v=2" defer></script>'
+          css = '<link rel="stylesheet" href="./visual-v2.css?v=3">'
+          js = '<script src="./visual-v2.js?v=3" defer></script>'
           if './visual-v2.css' not in g:
               g = g.replace('</head>', css + '\n</head>', 1)
           if './visual-v2.js' not in g:
