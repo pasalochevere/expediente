@@ -2,43 +2,32 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>EXPEDIENTES · Caso 002 · La Habitación que No Existe</title>
+<title>EXPEDIENTES · Caso 002 · Hotel Orfeo</title>
 <style>
-:root{color-scheme:dark;--bg:#090a0b;--ink:#f0e6d6;--gold2:#c79a5d;--wine:#7e2e2e}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}body{min-height:100vh;overflow-x:hidden}.gate{min-height:100vh;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 68% 10%,rgba(78,85,94,.23),transparent 28%),linear-gradient(150deg,#15110e,#050505 72%)}.gate:before{content:"";position:absolute;inset:0;opacity:.18;background:repeating-linear-gradient(102deg,transparent 0 24px,rgba(220,226,230,.21) 25px,transparent 26px 52px)}.corridor{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,3,3,.96) 0 28%,rgba(8,7,6,.72) 46%,rgba(8,7,6,.12) 68%,rgba(3,3,3,.94) 100%)}.floor{position:absolute;left:22%;right:22%;bottom:-3%;height:53%;clip-path:polygon(24% 0,76% 0,100% 100%,0 100%);background:linear-gradient(#1b1510,#080706);border-top:1px solid rgba(163,122,72,.2)}.door{position:absolute;right:10%;top:10%;width:min(28vw,330px);height:72%;background:linear-gradient(90deg,#100c09,#291b12 50%,#0c0907);border:1px solid #705035;box-shadow:0 0 0 8px #090705,0 0 0 9px #4d3825,0 30px 80px #000}.door:before{content:"317";position:absolute;left:0;right:0;top:20%;text-align:center;color:var(--gold2);font:900 clamp(3rem,6vw,5.5rem) Georgia,serif;text-shadow:0 3px 20px #000}.door:after{content:"";position:absolute;right:13%;top:52%;width:11px;height:11px;border-radius:50%;background:#b48a50;box-shadow:0 0 0 3px #392718}.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,.96) 0,rgba(5,5,5,.85) 39%,rgba(5,5,5,.13) 68%),linear-gradient(0deg,rgba(5,5,5,.85),transparent 55%)}.content{position:relative;z-index:2;width:min(1260px,100%);padding:42px clamp(22px,6vw,76px)}.kicker{color:var(--gold2);font-size:.72rem;letter-spacing:.22em;font-weight:950}.content h1{font:900 clamp(3.6rem,8vw,7.6rem)/.86 Georgia,serif;margin:.16em 0 .18em;max-width:820px;text-shadow:0 8px 40px #000}.content h1 small{display:block;font:900 .18em/1.2 Inter,system-ui,sans-serif;letter-spacing:.2em;color:#d7c5ad;margin-bottom:14px}.content p{max-width:590px;color:#c7b7a4;line-height:1.65;font-size:1.02rem}.quote{font-family:Georgia,serif;font-style:italic;color:#e1c395!important}.status{margin-top:24px;display:flex;align-items:center;gap:12px;color:#a99a88;font-size:.73rem;letter-spacing:.12em;font-weight:900}.bar{width:min(300px,45vw);height:2px;background:#33271d;overflow:hidden}.bar i{display:block;width:28%;height:100%;background:linear-gradient(90deg,var(--wine),var(--gold2));animation:load 1.4s ease-in-out infinite alternate}@keyframes load{to{transform:translateX(250%)}}.openBtn,.retryBtn{display:none;margin-top:24px;border:1px solid #b64a42;background:linear-gradient(135deg,#92342e,#571816);color:white;border-radius:8px;padding:13px 18px;font-weight:900;letter-spacing:.05em;cursor:pointer}.preview .status{display:none}.preview .openBtn{display:inline-flex}.error{margin-top:20px;color:#efaaa4;max-width:620px;line-height:1.5}@media(max-width:720px){.door{right:-7%;width:45vw;opacity:.62}.content{padding:34px 20px}.content h1{font-size:clamp(3.2rem,17vw,5.4rem)}.content p{max-width:85%}.bar{width:45vw}}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#050608;color:#e8e2d8;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}#load{position:fixed;inset:0;display:grid;place-items:center;background:#050608}.box{text-align:center;letter-spacing:.12em}.dot{width:42px;height:42px;border:2px solid #655b50;border-top-color:#d7c5a2;border-radius:50%;margin:0 auto 18px;animation:r .8s linear infinite}@keyframes r{to{transform:rotate(360deg)}}button{margin-top:14px;padding:9px 13px;background:#171313;color:#eee;border:1px solid #7d5e55;cursor:pointer}
 </style>
-</head>
-<body>
-<section id="gate" class="gate"><div class="corridor"></div><div class="floor"></div><div class="door"></div><div class="shade"></div><div class="content"><div class="kicker">EXPEDIENTES · CASO 002</div><h1><small>LA HABITACIÓN QUE NO EXISTE</small>HOTEL ORFEO</h1><p>Un hotel cerrado durante décadas. Seis invitados. Una desaparición a las <b>03:17</b>. Y una puerta que no debería existir.</p><p class="quote">Algunas puertas fueron cerradas por una razón.</p><div id="status" class="status"><span>CARGANDO EXPEDIENTE</span><div class="bar"><i></i></div></div><button id="openBtn" class="openBtn">ABRIR EXPEDIENTE</button><button id="retryBtn" class="retryBtn">REINTENTAR</button><div id="error" class="error"></div></div></section>
+</head><body>
+<div id="load"><div class="box"><div class="dot"></div><div>ABRIENDO EXPEDIENTE 002…</div></div></div>
 <script>
-const C002_BUILD='20260921-v243';
-async function launch(){
-  const status=document.getElementById('status');
-  const error=document.getElementById('error');
-  const retry=document.getElementById('retryBtn');
-  if(status)status.style.display='flex';
-  if(error)error.textContent='';
-  if(retry)retry.style.display='none';
-  const names=['payload.part00a1a.correct','payload.part00a1b','payload.part00a2','payload.part00b','payload.part01','payload.part02','payload.part03','payload.part04','payload.part05'];
-  let b64='';
-  for(const n of names){const r=await fetch(n+'?build='+C002_BUILD,{cache:'no-store'});if(!r.ok)throw new Error('Falta '+n);b64+=(await r.text()).trim()}
-  const bin=atob(b64),u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
-  if(!('DecompressionStream' in window))throw new Error('Tu navegador necesita una versión más reciente.');
-  const ds=new DecompressionStream('gzip');
-  let html=await new Response(new Blob([u8]).stream().pipeThrough(ds)).text();
-  const visualScripts=['assets/visual/assets-part-01.js?v=243','assets/visual/assets-part-02.js?v=243','assets/visual/assets-part-03.js?v=243','assets/visual/assets-part-04.js?v=243','assets/visual/assets-part-05.js?v=243','assets/visual/assets-part-06.js?v=243','assets/visual/assets-part-07.js?v=243','assets/visual/assets-part-08.js?v=243','assets/visual/fix-P04-v243.js?v=243','assets/visual/fix-P05-v242.js?v=243','assets/visual/fix-P06-v242.js?v=243','assets/visual/fix-L03-v242.js?v=243','assets/visual/fix-O02-v243.js?v=243','assets/visual/fix-O03-v243.js?v=243','assets/visual/fix-room-317-v242.js?v=243','assets/visual/visual-restoration.js?v=243'].map(s=>'<script src="'+s+'"></'+'script>').join('');
-  const runtimeScripts='<script src="audio.js?v=243"></'+'script><script src="rc.js?v=243"></'+'script>'+visualScripts;
-  const closeBody=html.toLowerCase().lastIndexOf('</body>');
-  if(closeBody<0)throw new Error('Payload inválido: falta el cierre del documento.');
-  html=html.slice(0,closeBody)+runtimeScripts+html.slice(closeBody);
-  document.open();document.write(html);document.close();
-}
-function showError(e){const status=document.getElementById('status');const error=document.getElementById('error');const retry=document.getElementById('retryBtn');if(status)status.style.display='none';if(error)error.textContent='No pude abrir el Caso 002. '+String(e.message||e);if(retry){retry.style.display='inline-flex';retry.onclick=()=>launch().catch(showError)}}
-const preview=new URLSearchParams(location.search).get('preview')==='1';
-if(preview){document.getElementById('gate').classList.add('preview');document.getElementById('openBtn').onclick=()=>launch().catch(showError)}else{launch().catch(showError)}
+(async()=>{
+  try{
+    const names=Array.from({length:12},(_,i)=>`cinema.part${String(i+1).padStart(2,'0')}`);
+    const parts=[];
+    for(const n of names){
+      const r=await fetch(n+'?v=20260923-cinema-v3',{cache:'no-store'});
+      if(!r.ok) throw new Error('Falta '+n);
+      parts.push(await r.text());
+    }
+    const html=parts.join('');
+    document.open();document.write(html);document.close();
+  }catch(e){
+    document.getElementById('load').innerHTML='<div class="box">No pude abrir la intro.<br><button onclick="location.reload()">REINTENTAR</button></div>';
+    console.error(e);
+  }
+})();
 </script>
-</body>
-</html>
+</body></html>
