@@ -1,0 +1,38 @@
+r:#eee;letter-spacing:.35em;margin-top:.35em}.skip{position:absolute;right:24px;top:22px;z-index:5;border:1px solid #8b7655;background:#090909aa;color:#ddd;padding:10px 15px;letter-spacing:.14em;cursor:pointer}.enter{position:absolute;z-index:6;left:50%;bottom:2.6%;transform:translateX(-50%);border:1px solid #a68b5e;background:#070707d9;color:#f1e8d8;padding:16px 28px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;opacity:0;animation:enter 40s infinite}@keyframes enter{0%,84%{opacity:0;pointer-events:none}88%,100%{opacity:1;pointer-events:auto}}.grain{position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E")}.flash{position:absolute;inset:0;background:white;opacity:0;animation:flash 40s infinite;pointer-events:none}@keyframes flash{0%,6.8%,7.2%,38.8%,39.2%,100%{opacity:0}7%{opacity:.22}39%{opacity:.12}}@media(max-width:700px){.scene{background-position:center}.copy{padding:12vw 7vw}.skip{right:12px;top:12px;font-size:11px}.enter{width:86%;font-size:12px;bottom:4%}.l4{max-width:88%}}
+</style></head><body><main class="cinema" id="cinema"><div class="scene s1"></div><div class="scene s2"></div><div class="scene s3"></div><div class="scene s4"></div><div class="scene s5"></div><div class="rain"></div><div class="vignette"></div><div class="grain"></div><div class="flash"></div><div class="copy"><div class="line l1 small">Hay lugares que nunca dejan ir sus secretos...</div><div class="line l2">Hotel Orfeo<span class="sub">Una noche · una habitación · una verdad</span></div><div class="line l3 small">La llave de la habitación 317 nunca debió volver a recepción.</div><div class="line l4 small">Una cinta. Una fotografía. Un apagón.<br><br>Y algo que quedó adentro.</div></div><button class="skip" onclick="showFinal()">SALTAR INTRO</button><button class="enter" id="enter" onclick="enterGame()">ENTRAR AL EXPEDIENTE ›</button></main><script>
+const C002_BUILD='20260921-v243';
+let finalShown=false, launching=false;
+function showFinal(){
+  if(finalShown)return; finalShown=true;
+  document.querySelectorAll('.scene,.line,.rain,.flash').forEach(x=>x.style.animation='none');
+  const last=document.querySelector('.s5'); if(last){last.style.opacity='1';last.style.transform='scale(1)'}
+  document.querySelectorAll('.line').forEach(x=>x.style.opacity='0');
+  const e=document.getElementById('enter'); if(e){e.style.animation='none';e.style.opacity='1';e.style.pointerEvents='auto'}
+  const s=document.querySelector('.skip'); if(s)s.style.display='none';
+}
+async function launch(){
+  const names=['payload.part00a1a.correct','payload.part00a1b','payload.part00a2','payload.part00b','payload.part01','payload.part02','payload.part03','payload.part04','payload.part05'];
+  let b64='';
+  for(const n of names){const r=await fetch(n+'?build='+C002_BUILD,{cache:'no-store'});if(!r.ok)throw new Error('Falta '+n);b64+=(await r.text()).trim()}
+  const bin=atob(b64),u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
+  if(!('DecompressionStream' in window))throw new Error('Tu navegador necesita una versión más reciente.');
+  const ds=new DecompressionStream('gzip');
+  let html=await new Response(new Blob([u8]).stream().pipeThrough(ds)).text();
+  const visualScripts=['assets/visual/assets-part-01.js?v=243','assets/visual/assets-part-02.js?v=243','assets/visual/assets-part-03.js?v=243','assets/visual/assets-part-04.js?v=243','assets/visual/assets-part-05.js?v=243','assets/visual/assets-part-06.js?v=243','assets/visual/assets-part-07.js?v=243','assets/visual/assets-part-08.js?v=243','assets/visual/fix-P04-v243.js?v=243','assets/visual/fix-P05-v242.js?v=243','assets/visual/fix-P06-v242.js?v=243','assets/visual/fix-L03-v242.js?v=243','assets/visual/fix-O02-v243.js?v=243','assets/visual/fix-O03-v243.js?v=243','assets/visual/fix-room-317-v242.js?v=243','assets/visual/visual-restoration.js?v=243'].map(s=>'<script src="'+s+'"></'+'script>').join('');
+  const runtimeScripts='<script src="audio.js?v=243"></'+'script><script src="rc.js?v=243"></'+'script>'+visualScripts;
+  const closeBody=html.toLowerCase().lastIndexOf('</body>');
+  if(closeBody<0)throw new Error('Payload inválido: falta el cierre del documento.');
+  html=html.slice(0,closeBody)+runtimeScripts+html.slice(closeBody);
+  document.open();document.write(html);document.close();
+}
+function showLaunchError(e){
+  launching=false; showFinal();
+  let box=document.getElementById('launchError');
+  if(!box){box=document.createElement('div');box.id='launchError';box.style.cssText='position:fixed;z-index:20;left:50%;bottom:12%;transform:translateX(-50%);max-width:86%;padding:12px 16px;background:#100d0de8;border:1px solid #8b4c45;color:#f0c9c5;font:14px/1.4 system-ui;text-align:center';document.body.appendChild(box)}
+  box.innerHTML='No pude abrir el expediente. <button id="retryLaunch" style="margin-left:10px;padding:7px 10px;background:#6b2525;color:white;border:1px solid #a45;cursor:pointer">REINTENTAR</button>';
+  document.getElementById('retryLaunch').onclick=enterGame;
+}
+function enterGame(){if(launching)return;launching=true;const e=document.getElementById('enter');if(e)e.textContent='ABRIENDO EXPEDIENTE…';launch().catch(showLaunchError)}
+setTimeout(showFinal,40000);
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'){showFinal();return}if(ev.key==='Enter'){finalShown?enterGame():showFinal()}});
+</script></body></html>
