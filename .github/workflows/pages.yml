@@ -24,6 +24,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Prepare Torre intro as entrypoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp torre/index.html torre/game.html
+          cp torre/intro-v2.html torre/index.html
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('torre/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("skipBtn.addEventListener('click',endIntro);", "skipBtn.addEventListener('click',()=>{location.href='./game.html'});")
+          s = s.replace("enterBtn.addEventListener('click',()=>{location.href='./'});", "enterBtn.addEventListener('click',()=>{location.href='./game.html'});")
+          p.write_text(s, encoding='utf-8')
+          PY
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
