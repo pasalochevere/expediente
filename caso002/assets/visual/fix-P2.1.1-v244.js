@@ -1,6 +1,6 @@
 (function(){'use strict';
   const A=window.C002_VISUAL_ASSETS=window.C002_VISUAL_ASSETS||{};
-  const V='244';
+  const V='246';
   A.L03='assets/visual/bin/L03-v244.jpg?v='+V;
   A.room_317='assets/visual/bin/room-317-v244.jpg?v='+V;
 
@@ -25,5 +25,23 @@
 
   if(!A.P05) A.P05=dossier('EVA MONTENEGRO','ESCRITORA / MÉDIUM','✦');
   if(!A.P06) A.P06=dossier('FRANCO VALDÉS','HEREDERO','317');
-  window.C002_RECOVERY_ASSET_MAP='P2.1.1-v244';
+
+  // P2.1.2: load the final masters synchronously before visual-restoration.js.
+  const masters=[
+    'master-room317-v245.js',
+    'master-P05-v245.js',
+    'master-P06-v245.js',
+    'master-O01-v246.js',
+    'master-O02-v246.js',
+    'master-O03-v246.js',
+    'master-O04-v246.js',
+    'master-O05-v246.js',
+    'master-O06-v246.js'
+  ];
+  if(document.readyState==='loading'){
+    document.write(masters.map(f=>'<script src="assets/visual/'+f+'?v='+V+'"></'+'script>').join(''));
+  }else{
+    masters.forEach(f=>{const s=document.createElement('script');s.src='assets/visual/'+f+'?v='+V;document.head.appendChild(s);});
+  }
+  window.C002_RECOVERY_ASSET_MAP='P2.1.2-v246';
 })();
