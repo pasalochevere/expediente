@@ -1,0 +1,45 @@
+name: Refresh Tarot Portal Loader
+
+on:
+  push:
+    paths:
+      - '.github/workflows/bust-tarot-intro-cache.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Bump portal loader cache key
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('portal-v2/index.html')
+          s=p.read_text(encoding='utf-8')
+          old='c002-rc.js?v=230'
+          new='c002-rc.js?v=20260923-tarot-1'
+          if old in s:
+              s=s.replace(old,new,1)
+          elif new not in s:
+              raise SystemExit('No encontré la referencia del loader del portal')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit cache refresh
+        run: |
+          set -euo pipefail
+          git config user.name 'PasaloChevere Deploy'
+          git config user.email 'actions@users.noreply.github.com'
+          git add portal-v2/index.html
+          if git diff --cached --quiet; then
+            echo 'No cache bump needed.'
+            exit 0
+          fi
+          git commit -m 'deploy: refresh Portal V2 for Tarot intro'
+          git push origin HEAD:main
