@@ -10,159 +10,113 @@
     clasico:'https://d2ol7oe51mr4n9.cloudfront.net/user_3HsxoUqhL2jq6HZbpDZ6JgCwUeq/1081a9f9-6568-40c2-869a-2e4250e8c569.png'
   };
 
-  const N=s=>(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim().toUpperCase();
+  const normalize=s=>(s||'')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/\s+/g,' ')
+    .trim()
+    .toUpperCase();
 
-  function candidates(label){
-    const wanted=N(label);
-    return [...document.querySelectorAll('h1,h2,h3,h4,h5,h6,[class*="title"],[class*="name"],[class*="label"],button,a,article,section,div')]
-      .filter(el=>!el.closest('.pcv2-cover') && N(el.textContent).includes(wanted));
-  }
-
-  function bestLabelElement(label){
-    const all=candidates(label);
-    if(!all.length) return null;
-    all.sort((a,b)=>{
-      const ta=N(a.textContent).length,tb=N(b.textContent).length;
-      return ta-tb;
-    });
-    return all[0];
-  }
-
-  function usableBox(el,minH=110,maxH=850){
+  function visible(el){
     if(!el) return false;
     const r=el.getBoundingClientRect();
-    return r.width>=Math.min(240,window.innerWidth*.62) && r.height>=minH && r.height<=maxH;
+    return r.width>=55 && r.height>=55 && r.bottom>=0 && r.right>=0;
   }
 
-  function nearestCard(el){
-    if(!el) return null;
-    let cur=el;
-    for(let i=0;i<7 && cur && cur!==document.body;i++,cur=cur.parentElement){
-      const cls=N(cur.className);
-      if((/CARD|TILE|ITEM|OPTION|VERSION|EDITION|MODE/.test(cls)) && usableBox(cur,100,850)) return cur;
-    }
-    cur=el;
-    for(let i=0;i<7 && cur && cur!==document.body;i++,cur=cur.parentElement){
-      if(usableBox(cur,120,760)) return cur;
-    }
-    return el.parentElement;
+  function smallestTextMatch(pattern){
+    const nodes=[...document.querySelectorAll('h1,h2,h3,h4,h5,h6,[class*="title"],[class*="name"],[class*="label"],button,a,span,p,div,article,section')]
+      .filter(el=>visible(el) && pattern.test(normalize(el.textContent)));
+    nodes.sort((a,b)=>normalize(a.textContent).length-normalize(b.textContent).length);
+    return nodes[0]||null;
   }
 
-  function imageLikeWithin(root){
-    if(!root) return null;
-    const imgs=[...root.querySelectorAll('img,picture img')].filter(img=>{
-      const r=img.getBoundingClientRect();
-      return r.width>180 && r.height>90;
-    }).sort((a,b)=>{
-      const A=a.getBoundingClientRect(),B=b.getBoundingClientRect();
-      return (B.width*B.height)-(A.width*A.height);
-    });
-    if(imgs[0]) return {type:'img',el:imgs[0]};
-
-    const boxes=[root,...root.querySelectorAll('div,section,header,figure')].filter(el=>{
+  function findCard(start){
+    if(!start) return null;
+    let el=start;
+    for(let i=0;i<7 && el && el!==document.body;i++,el=el.parentElement){
       const r=el.getBoundingClientRect();
-      if(r.width<180||r.height<90||r.height>650) return false;
-      return getComputedStyle(el).backgroundImage!=='none';
-    }).sort((a,b)=>{
-      const A=a.getBoundingClientRect(),B=b.getBoundingClientRect();
-      return (B.width*B.height)-(A.width*A.height);
-    });
-    if(boxes[0]) return {type:'bg',el:boxes[0]};
+      const cls=normalize(el.className);
+      if(r.width>=220 && r.height>=120 && r.height<=1000 && /CARD|TILE|ITEM|OPTION|VERSION|EDITION|MODE|BOX|PANEL/.test(cls)) return el;
+    }
+    el=start;
+    for(let i=0;i<6 && el && el!==document.body;i++,el=el.parentElement){
+      const r=el.getBoundingClientRect();
+      if(r.width>=220 && r.height>=120 && r.height<=800) return el;
+    }
     return null;
   }
 
-  function replaceVisual(root,url,mode,isHero=false){
-    if(!root || root.dataset.pcv2Visual==='1') return false;
-    const media=imageLikeWithin(root);
-    if(media){
-      if(media.type==='img'){
-        media.el.src=url;
-        media.el.removeAttribute('srcset');
-        media.el.classList.add('pcv2-photo',`pcv2-mode-${mode}`);
-        if(isHero) media.el.classList.add('pcv2-hero-photo');
-      }else{
-        media.el.style.backgroundImage=`url("${url}")`;
-        media.el.classList.add('pcv2-bg',`pcv2-mode-${mode}`);
-        if(isHero) media.el.classList.add('pcv2-hero-bg');
-      }
-      root.classList.add('pcv2-upgraded-card');
-      root.dataset.pcv2Visual='1';
-      return true;
+  function findExistingVisual(root){
+    if(!root) return null;
+
+    const imgs=[...root.querySelectorAll('img')]
+      .filter(img=>visible(img))
+      .map(img=>({el:img,rect:img.getBoundingClientRect()}))
+      .filter(x=>x.rect.width>=55 && x.rect.height>=70)
+      .sort((a,b)=>(b.rect.width*b.rect.height)-(a.rect.width*a.rect.height));
+    if(imgs.length) return {type:'img',el:imgs[0].el};
+
+    const boxes=[root,...root.querySelectorAll('div,figure,section,header')]
+      .filter(el=>visible(el))
+      .map(el=>({el,rect:el.getBoundingClientRect(),bg:getComputedStyle(el).backgroundImage}))
+      .filter(x=>x.bg && x.bg!=='none' && x.bg.includes('url(') && x.rect.width>=55 && x.rect.height>=70 && x.rect.height<=800)
+      .sort((a,b)=>(b.rect.width*b.rect.height)-(a.rect.width*a.rect.height));
+    if(boxes.length) return {type:'bg',el:boxes[0].el};
+
+    return null;
+  }
+
+  function applyImage(root,url,mode,isHero=false){
+    if(!root) return false;
+    const visual=findExistingVisual(root);
+    if(!visual) return false; // IMPORTANTE: no insertamos nada nuevo.
+
+    const el=visual.el;
+    if(el.dataset.pcv3Mode===mode) return true;
+
+    if(visual.type==='img'){
+      el.src=url;
+      el.removeAttribute('srcset');
+      el.classList.add('pcv3-photo',`pcv3-mode-${mode}`);
+      if(isHero) el.classList.add('pcv3-hero');
+    }else{
+      el.style.backgroundImage=`url("${url}")`;
+      el.classList.add('pcv3-bg',`pcv3-mode-${mode}`);
+      if(isHero) el.classList.add('pcv3-hero');
     }
-    return false;
+    el.dataset.pcv3Mode=mode;
+    return true;
   }
 
-  function addCover(root,url,mode,label){
-    if(!root || root.querySelector(':scope > .pcv2-cover') || root.dataset.pcv2Cover==='1') return;
-    const cover=document.createElement('div');
-    cover.className=`pcv2-cover pcv2-mode-${mode}`;
-    cover.style.backgroundImage=`url("${url}")`;
-    cover.setAttribute('aria-hidden','true');
-    const badge=document.createElement('span');
-    badge.className='pcv2-cover-badge';
-    badge.textContent=label;
-    cover.appendChild(badge);
-    root.insertBefore(cover,root.firstChild);
-    root.classList.add('pcv2-upgraded-card');
-    root.dataset.pcv2Cover='1';
+  function upgrade(pattern,url,mode,isHero=false){
+    const label=smallestTextMatch(pattern);
+    const card=findCard(label);
+    if(card) applyImage(card,url,mode,isHero);
   }
 
-  function upgradeHero(){
-    const el=bestLabelElement('VERDAD O RETO');
-    if(!el) return;
-    let root=nearestCard(el);
-    // Si la tarjeta textual no contiene la imagen grande, ampliamos uno o dos niveles con prudencia.
-    if(root && !imageLikeWithin(root)){
-      let p=root.parentElement;
-      for(let i=0;i<2 && p && p!==document.body;i++,p=p.parentElement){
-        if(usableBox(p,220,900) && imageLikeWithin(p)){ root=p; break; }
-      }
-    }
-    if(root) replaceVisual(root,IMAGES.hero,'familia',true);
+  function run(){
+    document.body?.classList.add('pcv3-ready');
+    upgrade(/VERDAD O RETO/,IMAGES.hero,'familia',true);
+    upgrade(/FAMILIA|KIDS|NINOS?/,IMAGES.familia,'familia');
+    upgrade(/AMIGOS|GENERAL/,IMAGES.amigos,'amigos');
+    upgrade(/PREVIA|TRAGOS?|BRINDIS/,IMAGES.previa,'previa');
+    upgrade(/ADULTOS|SIN FILTRO|18\+/,IMAGES.adultos,'adultos');
+    upgrade(/CLASICO CON TORRE/,IMAGES.clasico,'clasico');
   }
 
-  const MODES=[
-    {label:'FAMILIA',key:'familia',display:'Familia'},
-    {label:'AMIGOS',key:'amigos',display:'Amigos'},
-    {label:'PREVIA',key:'previa',display:'Previa'},
-    {label:'ADULTOS',key:'adultos',display:'Adultos'}
-  ];
-
-  function upgradeModes(){
-    MODES.forEach(m=>{
-      const el=bestLabelElement(m.label);
-      const root=nearestCard(el);
-      if(!root) return;
-      if(!replaceVisual(root,IMAGES[m.key],m.key,false)) addCover(root,IMAGES[m.key],m.key,m.display);
-    });
-  }
-
-  function upgradeClassic(){
-    const el=bestLabelElement('CLASICO CON TORRE') || bestLabelElement('CLASICO');
-    const root=nearestCard(el);
-    if(!root) return;
-    if(!replaceVisual(root,IMAGES.clasico,'clasico',false)) addCover(root,IMAGES.clasico,'clasico','Clásico con Torre');
-  }
-
-  let timer=0;
-  function apply(){
+  let timer;
+  const schedule=()=>{
     clearTimeout(timer);
-    timer=setTimeout(()=>{
-      document.body.classList.add('pcv2-ready');
-      upgradeHero();
-      upgradeModes();
-      upgradeClassic();
-    },80);
-  }
+    timer=setTimeout(()=>requestAnimationFrame(run),100);
+  };
 
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply,{once:true});
-  else apply();
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',schedule,{once:true});
+  else schedule();
 
-  // Algunas vistas del portal se renderizan después; reaplicamos sin duplicar elementos.
-  const mo=new MutationObserver(muts=>{
-    if(muts.some(m=>[...m.addedNodes].some(n=>n.nodeType===1 && !n.classList?.contains('pcv2-cover')))) apply();
+  const observer=new MutationObserver(mutations=>{
+    if(mutations.some(m=>[...m.addedNodes].some(n=>n.nodeType===1))) schedule();
   });
-  mo.observe(document.documentElement,{childList:true,subtree:true});
+  observer.observe(document.documentElement,{childList:true,subtree:true});
 
-  window.addEventListener('orientationchange',apply,{passive:true});
+  window.addEventListener('orientationchange',schedule,{passive:true});
 })();
