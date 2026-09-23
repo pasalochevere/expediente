@@ -1,0 +1,140 @@
+/* PasaloChevere · Torre 5 en 1 · Visual Layer V2
+   Capa puramente visual: no modifica lógica, datos ni handlers del juego. */
+:root{
+  --pcv2-gold:#f5c34d;
+  --pcv2-teal:#13a89a;
+  --pcv2-coral:#ef666d;
+  --pcv2-paper:#fffdf9;
+  --pcv2-ink:#231f20;
+  --pcv2-shadow:0 18px 46px rgba(55,35,20,.13);
+}
+
+html,body{max-width:100%;overflow-x:hidden}
+body.pcv2-ready{-webkit-text-size-adjust:100%}
+
+/* Imágenes que ya existen y son sustituidas por la capa V2 */
+.pcv2-photo{
+  width:100%!important;
+  max-width:100%!important;
+  height:100%!important;
+  min-height:inherit;
+  object-fit:cover!important;
+  object-position:center center!important;
+  display:block!important;
+  image-rendering:auto;
+}
+
+.pcv2-bg{
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+}
+
+/* Contenedor existente enriquecido: sin alterar su comportamiento */
+.pcv2-upgraded-card{
+  overflow:hidden;
+  isolation:isolate;
+}
+
+/* Cover inyectado únicamente cuando la tarjeta no tenía imagen utilizable */
+.pcv2-cover{
+  position:relative;
+  width:100%;
+  height:clamp(190px,26vw,300px);
+  min-height:190px;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+  border-radius:inherit;
+  box-shadow:inset 0 -100px 90px -70px rgba(0,0,0,.45);
+}
+.pcv2-cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 18% 18%,rgba(255,220,140,.15),transparent 28%),
+    linear-gradient(to top,rgba(0,0,0,.36),transparent 56%);
+  pointer-events:none;
+}
+.pcv2-cover-badge{
+  position:absolute;
+  left:14px;
+  top:14px;
+  z-index:2;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(18,18,18,.54);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  font-size:11px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+/* Hero: la foto conserva legibilidad y foco del producto */
+.pcv2-hero-photo,
+.pcv2-hero-bg{
+  object-position:center 43%!important;
+  background-position:center 43%!important;
+}
+
+/* Versión por modo: focales ajustados sobre la misma familia visual */
+.pcv2-mode-familia{background-position:center 38%!important;object-position:center 38%!important}
+.pcv2-mode-amigos{background-position:center 45%!important;object-position:center 45%!important}
+.pcv2-mode-previa{background-position:center 44%!important;object-position:center 44%!important}
+.pcv2-mode-adultos{background-position:center 42%!important;object-position:center 42%!important}
+.pcv2-mode-clasico{background-position:center 42%!important;object-position:center 42%!important}
+
+/* Marca discreta de la nueva capa visual; no intercepta clicks */
+.pcv2-upgraded-card::after{pointer-events:none}
+
+/* TABLET */
+@media (max-width:900px){
+  .pcv2-cover{
+    height:clamp(210px,43vw,320px);
+    min-height:210px;
+  }
+  .pcv2-cover-badge{left:12px;top:12px}
+}
+
+/* CELULAR VERTICAL */
+@media (max-width:640px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden!important}
+  body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+  .pcv2-cover{
+    width:100%;
+    height:clamp(210px,62vw,290px);
+    min-height:210px;
+    border-radius:20px 20px 0 0;
+  }
+  .pcv2-cover-badge{
+    left:12px;
+    top:12px;
+    padding:8px 11px;
+    font-size:10px;
+  }
+  .pcv2-photo{min-width:0!important}
+  .pcv2-hero-photo,
+  .pcv2-hero-bg{object-position:center 40%!important;background-position:center 40%!important}
+}
+
+/* CELULAR HORIZONTAL: menos alto para no comerse toda la pantalla */
+@media (orientation:landscape) and (max-height:520px){
+  .pcv2-cover{
+    height:58vh;
+    min-height:180px;
+    max-height:270px;
+  }
+  .pcv2-hero-photo,
+  .pcv2-hero-bg{object-position:center 44%!important;background-position:center 44%!important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pcv2-cover,.pcv2-photo{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+}
