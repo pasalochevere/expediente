@@ -1,11 +1,12 @@
 CASO 001 · PRODUCCIÓN
-Release: P2.12D.12A
+Release: P2.12D.16.7
 Title: La Última Reunión
 Status: production
 Mode: Normal
 Engine: P2 server-side
 Crime Packs: server-side only
-Portal route: /caso001/
+Portal route: /caso001/intro/ → /caso001/?skipintro=1
+Intro: Cinema V10.7 integrated with Portal and game handoff
 Printable: 8 A4 base, 18 embedded images
-UI: Rev01 promoted to production; preview labels removed
-QA: production cleanup complete
+UI: Rev01 production game preserved; legacy prologue bypassed after Cinema V10
+QA: Portal → Intro V10 → Game flow integrated
