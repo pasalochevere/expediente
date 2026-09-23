@@ -203,7 +203,7 @@ async function loadMyGames(){
 }
 function gameHref(l){
  if(!l.game_url)return '#';
- if(l.product_code==='EXP-001')return '../caso001/?access='+encodeURIComponent(l.activation_code);
+ if(l.product_code==='EXP-001')return '../caso001/intro/?access='+encodeURIComponent(l.activation_code)+'&v=20260923-v10';
  if(l.product_code==='EXP-002')return '../caso002/?access='+encodeURIComponent(l.activation_code);
  if(l.product_code==='DI-TRILOGIA')return '../doble-intencion/?access='+encodeURIComponent(l.activation_code);
  if(['TK-MAT-79','TK-MAT-79-PHY','TK-MAT-79-DIG'].includes(l.product_code))return '../torre-kids-matematica/?access='+encodeURIComponent(l.activation_code);
