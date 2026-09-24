@@ -33,7 +33,7 @@
       const css=document.createElement('link');
       css.id='pc-nav-mobile-v54-css';
       css.rel='stylesheet';
-      css.href='portal-nav-mobile-v54.css?v=20260924-1';
+      css.href='portal-nav-mobile-v54.css?v=20260924-2';
       document.head.appendChild(css);
     }
     if(!document.getElementById('pc-nav-mobile-v54-js')){
