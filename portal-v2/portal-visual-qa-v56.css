@@ -1,0 +1,93 @@
+/* PORTAL V5.6 · VISUAL QA + PERFORMANCE POLISH
+   Capa no destructiva: corrige overflow, foco, viewport corto y blancos tactiles. */
+
+html{max-width:100%;overflow-x:clip}
+body.pcV50PortalReady{max-width:100%;overflow-x:clip}
+body.pcV50PortalReady *,
+body.pcV50GateOpen *{box-sizing:border-box}
+
+body.pcV50PortalReady .pcV51Grid,
+body.pcV50PortalReady .pcV51Continue,
+body.pcV50PortalReady .pcV51Side,
+body.pcV50PortalReady .pcV51Action,
+body.pcV50PortalReady .pcV53Grid,
+body.pcV50PortalReady .pcV53Panel,
+body.pcV50PortalReady .pcV53Access,
+body.pcV50PortalReady .pcV52Dialog,
+body.pcV50PortalReady .pcV52Body,
+body.pcV50PortalReady .drawerGrid,
+body.pcV50PortalReady .card{min-width:0}
+
+body.pcV50PortalReady img,
+.pcV50Gate img{max-width:100%;height:auto}
+
+body.pcV50PortalReady button,
+body.pcV50PortalReady a,
+.pcV50Gate button,
+.pcV50Gate a{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+
+body.pcV50PortalReady button:focus-visible,
+body.pcV50PortalReady a:focus-visible,
+body.pcV50PortalReady input:focus-visible,
+body.pcV50PortalReady [tabindex]:focus-visible,
+.pcV50Gate button:focus-visible,
+.pcV50Gate input:focus-visible{
+  outline:2px solid #d9b65f;
+  outline-offset:3px;
+}
+
+body.pcV50PortalReady .pcV51Primary,
+body.pcV50PortalReady .pcV51Secondary,
+body.pcV50PortalReady .pcV51Action,
+body.pcV50PortalReady .pcV53Btn,
+body.pcV50PortalReady .pcV53Mini,
+body.pcV50PortalReady .pcV51Back,
+body.pcV50PortalReady .pcV53Back,
+body.pcV50PortalReady .pcV52Close{min-height:44px}
+
+body.pcV50PortalReady .pcV51ContinueBody,
+body.pcV50PortalReady .pcV53Email,
+body.pcV50PortalReady .pcV53Code{overflow-wrap:anywhere}
+
+body.pcV50PortalReady .pcV52Dialog{max-height:min(88dvh,920px)}
+body.pcV50PortalReady .pcV52Body{-webkit-overflow-scrolling:touch}
+
+body.pcV50PortalReady.pcV56Ready[data-pc-v5-view="home"] .pcV51Home,
+body.pcV50PortalReady.pcV56Ready[data-pc-v5-view="library"] #myGames,
+body.pcV50PortalReady.pcV56Ready[data-pc-v5-view="explore"] .categoryHub,
+body.pcV50PortalReady.pcV56Ready[data-pc-v5-view="account"] .pcV53Account{scroll-margin-top:82px}
+
+@media(max-width:700px){
+  body.pcV50PortalReady .pcV51Action,
+  body.pcV50PortalReady .pcV53Access,
+  body.pcV50PortalReady .catChip{contain:layout paint}
+  body.pcV50PortalReady .pcV51ContinueActions .pcV51Primary,
+  body.pcV50PortalReady .pcV51ContinueActions .pcV51Secondary,
+  body.pcV50PortalReady .pcV53ActivateForm .pcV53Btn{width:100%}
+  body.pcV50PortalReady .pcV53AccessActions{gap:7px}
+  body.pcV50PortalReady .pcV52Dialog{height:100dvh;max-height:100dvh}
+}
+
+@media(max-width:390px){
+  body.pcV50PortalReady .pcV53Stats{gap:6px}
+  body.pcV50PortalReady .pcV53Stat{padding:10px 8px}
+  body.pcV50PortalReady .pcV53AccessActions{grid-template-columns:1fr}
+}
+
+@media(max-height:540px) and (orientation:landscape){
+  body.pcV50PortalReady .pcV52Dialog{height:100dvh;max-height:100dvh}
+  body.pcV50PortalReady .pcV51Continue{min-height:250px}
+  body.pcV50PortalReady .pcV51ContinueBody{padding:16px}
+  body.pcV50PortalReady .pcV51ContinueActions{margin-top:12px}
+  body.pcV50PortalReady .pcV53Account{padding-top:8px}
+}
+
+@supports not (height:100dvh){
+  @media(max-width:700px){body.pcV50PortalReady .pcV52Dialog{height:100vh;max-height:100vh}}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html:focus-within{scroll-behavior:auto!important}
+  body.pcV50PortalReady *,
+  body.pcV50GateOpen *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
