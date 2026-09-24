@@ -1,0 +1,16 @@
+/* PORTAL V5.5 · LEGACY CLEANUP FIREWALL
+   V4/V4.1 siguen como dependencias de cards, covers, previews y biblioteca.
+   V4.2/V4.2.1 quedan retirados de runtime por estar reemplazados por V5.1+. */
+
+body.pcV55Ready .pcV42Home,
+body.pcV55Ready .pcV42Feature,
+body.pcV55Ready .pcV42DiscoveryBlock{display:none!important}
+
+body.pcV55Ready .pcV51Home{scroll-margin-top:82px}
+body.pcV55Ready[data-pc-v5-view="home"] .pcV51Home{display:block!important}
+
+/* Evita que restos visuales del Discovery Engine vuelvan a competir con V5. */
+body.pcV55Ready .pcV42LegacyHidden.pcV51Home{display:block!important}
+
+/* Estado de diagnóstico sin impacto visual. */
+body.pcV55Ready{--pc-v55-runtime:1}
