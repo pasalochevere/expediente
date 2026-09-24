@@ -1,4 +1,4 @@
-# Chévere Kids · Matemática · V1.3
+# Chévere Kids · Matemática · V1.4
 
 **Estado:** RELEASE ACTIVA / EVOLUCIÓN V1  
 **Fecha base de release:** 2026-09-14  
@@ -67,6 +67,19 @@
 - Soporte `prefers-reduced-motion`.
 - Feedback positivo y celebración visual liviana al acertar.
 
+## Evolución V1.4 — P0.8.7 QA visual final + Recompensas Kids
+
+- HUD de partida con estrellas acumuladas, desafíos jugados y nivel actual.
+- Camino de estrellas para partidas normales, sin duplicar el progreso visual del modo Misión.
+- Celebración breve al acertar con estrellas ganadas y total acumulado.
+- Hitos de celebración a 4, 8, 12, 16 y 20 estrellas.
+- Hitos solo visuales: no cambian puntaje ni reglas del juego.
+- Panel de medalla en el cierre de partida según progreso alcanzado.
+- Resumen visual de categorías practicadas en la pantalla final.
+- Recompensas reiniciadas correctamente al comenzar partida, revancha, cambio de nivel o reinicio adulto.
+- Animaciones compatibles con `prefers-reduced-motion`.
+- Ajustes específicos para celular horizontal y safe areas.
+
 ## Reglas de producto
 
 - La biblioteca maestra es la fuente de verdad para digital e imprimible.
@@ -81,10 +94,11 @@
   - Negro: Súper desafío
 - El portal debe validar licencia y dispositivo antes de abrir el juego.
 - No se incorporan perfiles infantiles, chat, rankings online ni IA conversacional en V1.
+- Las recompensas son locales a la partida y no introducen rachas obligatorias ni presión por uso diario.
 
 ## QA técnico vigente
 
-- Sintaxis JavaScript validada para motor principal, Cinema Engine V3, Answer Engine V1 y Kids QA V1.
+- Sintaxis JavaScript validada para motor principal, Cinema Engine V3, Answer Engine V1, Kids QA V1 y Rewards Engine V1.
 - 54 piezas únicas, sin faltantes ni duplicados.
 - 9 desafíos por color.
 - 18 desafíos por nivel.
@@ -93,6 +107,7 @@
 - Mini reto puede completar una misión.
 - Resumen final usa “desafíos jugados”.
 - QA P0.8.6 documentado en `QA_P0.8.6.md`.
+- QA P0.8.7 documentado en `QA_P0.8.7.md`.
 
 ## Próximas versiones
 
