@@ -2,6 +2,8 @@
    Normaliza navegación V5 y prioriza uso móvil sin tocar auth, licencias ni rutas. */
 
 body.pcV50PortalReady.pcV51Ready{--v54-gold:#d2aa51;--v54-ink:#f3ece7;--v54-muted:#968c85;--v54-line:rgba(236,220,209,.13)}
+body.pcV50PortalReady.pcV51Ready .pcV4Nav [data-v4-nav="account"],
+body.pcV50PortalReady.pcV51Ready .pcV4BottomNav [data-v4-nav="account"]{display:flex!important}
 
 /* Desktop navigation: una sola lectura, cuatro destinos. */
 body.pcV50PortalReady .pcV4Nav{
