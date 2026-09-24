@@ -28,6 +28,25 @@
   new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','id']});
   sync();setTimeout(sync,300);setTimeout(sync,1200);
 
+  const ensureV53=()=>{
+    if(!document.getElementById('pc-account-center-v53-css')){
+      const css=document.createElement('link');
+      css.id='pc-account-center-v53-css';
+      css.rel='stylesheet';
+      css.href='portal-account-center-v53.css?v=20260923-1';
+      document.head.appendChild(css);
+    }
+    if(!document.getElementById('pc-account-center-v53-js')){
+      const js=document.createElement('script');
+      js.id='pc-account-center-v53-js';
+      js.src='portal-account-center-v53.js?v=20260923-1';
+      js.defer=true;
+      document.head.appendChild(js);
+    }else if(typeof window.pcApplyAccountCenterV53==='function'){
+      window.pcApplyAccountCenterV53();
+    }
+  };
+
   const ensureV52=()=>{
     if(!document.getElementById('pc-category-experience-v52-css')){
       const css=document.createElement('link');
@@ -41,10 +60,12 @@
       js.id='pc-category-experience-v52-js';
       js.src='portal-category-experience-v52.js?v=20260923-1';
       js.defer=true;
+      js.addEventListener('load',ensureV53,{once:true});
       document.head.appendChild(js);
     }else if(typeof window.pcApplyCategoryExperienceV52==='function'){
       window.pcApplyCategoryExperienceV52();
-    }
+      ensureV53();
+    }else ensureV53();
   };
 
   const ensureV51=()=>{
@@ -60,12 +81,16 @@
       js.id='pc-clean-home-v51-js';
       js.src='portal-clean-home-v51.js?v=20260923-1';
       js.defer=true;
-      js.addEventListener('load',ensureV52,{once:true});
+      js.addEventListener('load',()=>{ensureV52();ensureV53()},{once:true});
       document.head.appendChild(js);
     }else if(typeof window.pcApplyCleanHomeV51==='function'){
       window.pcApplyCleanHomeV51();
       ensureV52();
-    }else ensureV52();
+      ensureV53();
+    }else{
+      ensureV52();
+      ensureV53();
+    }
   };
 
   /* PORTAL V5.0.2 · ACCESS GATE AUTH CLIENT + CALLBACK FIX */
@@ -74,10 +99,14 @@
     gate.id='pc-access-gate-v50-js';
     gate.src='portal-access-gate-v50.js?v=20260923-4';
     gate.defer=true;
-    gate.addEventListener('load',ensureV51,{once:true});
+    gate.addEventListener('load',()=>{ensureV51();ensureV53()},{once:true});
     document.head.appendChild(gate);
-  }else ensureV51();
+  }else{
+    ensureV51();
+    ensureV53();
+  }
 
   ensureV51();
   ensureV52();
+  ensureV53();
 })();
