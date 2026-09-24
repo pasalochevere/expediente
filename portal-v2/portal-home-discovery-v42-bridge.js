@@ -12,7 +12,7 @@
     const legacy=[...document.querySelectorAll('.hero')].find(el=>!el.classList.contains('pcV51Home'));
     if(clean){
       document.querySelectorAll('#inicio').forEach(el=>{if(el!==clean)el.removeAttribute('id')});
-      clean.id='inicio';
+      if(clean.id!=='inicio')clean.id='inicio';
     }else if(legacy&&!legacy.id){
       legacy.id='inicio';
     }
@@ -34,7 +34,7 @@
     if(!document.getElementById('pc-legacy-cleanup-v55-js')){
       const js=document.createElement('script');
       js.id='pc-legacy-cleanup-v55-js';
-      js.src='portal-legacy-cleanup-v55.js?v=20260924-1';
+      js.src='portal-legacy-cleanup-v55.js?v=20260924-2';
       js.defer=true;
       document.head.appendChild(js);
     }else if(typeof window.pcApplyLegacyCleanupV55==='function'){
