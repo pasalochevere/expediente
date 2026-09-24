@@ -1,6 +1,6 @@
 (()=>{
-  // Portal loader V4.2.1 + Preview V2.1C + Library V4.1E.x.
-  // Preserva V3→V4→V4.1A-E→Preview Real V2/V2.1B/V2.1C y agrega Home personalizada + Discovery + tuning visual sin tocar backend.
+  // Portal loader V5.5 + Preview V2.1C + Library V4.1E.x.
+  // Conserva V3/V4/V4.1 como dependencias estables y retira Home Discovery V4.2/V4.2.1 del runtime.
   if(window.__pcPortalV21BLoader)return;
   window.__pcPortalV21BLoader=true;
 
@@ -13,65 +13,49 @@
     document.head.appendChild(css);
   };
 
-  const ensureV421=()=>{
-    if(!document.getElementById('pc-home-tuning-v421-css')){
+  const ensureV55=()=>{
+    if(!document.getElementById('pc-legacy-cleanup-v55-css')){
       const css=document.createElement('link');
-      css.id='pc-home-tuning-v421-css';
+      css.id='pc-legacy-cleanup-v55-css';
       css.rel='stylesheet';
-      css.href='portal-home-tuning-v421.css?v=20260922-1';
+      css.href='portal-legacy-cleanup-v55.css?v=20260924-1';
       document.head.appendChild(css);
     }
-    if(!document.getElementById('pc-home-tuning-v421-js')){
+    if(!document.getElementById('pc-legacy-cleanup-v55-js')){
       const js=document.createElement('script');
-      js.id='pc-home-tuning-v421-js';
-      js.src='portal-home-tuning-v421.js?v=20260922-1';
+      js.id='pc-legacy-cleanup-v55-js';
+      js.src='portal-legacy-cleanup-v55.js?v=20260924-1';
       js.defer=true;
       document.head.appendChild(js);
-    }else if(typeof window.pcApplyHomeV421==='function'){
-      window.pcApplyHomeV421();
+    }else if(typeof window.pcApplyLegacyCleanupV55==='function'){
+      window.pcApplyLegacyCleanupV55();
     }
   };
 
-  const ensureV42=()=>{
-    if(!document.getElementById('pc-home-discovery-v42-css')){
-      const css=document.createElement('link');
-      css.id='pc-home-discovery-v42-css';
-      css.rel='stylesheet';
-      css.href='portal-home-discovery-v42.css?v=20260922-2';
-      document.head.appendChild(css);
-    }
-    if(!document.getElementById('pc-home-discovery-v42-js')){
-      const js=document.createElement('script');
-      js.id='pc-home-discovery-v42-js';
-      js.src='portal-home-discovery-v42.js?v=20260922-2';
-      js.defer=true;
-      js.addEventListener('load',ensureV421,{once:true});
-      document.head.appendChild(js);
-    }else if(typeof window.pcApplyHomeV42==='function'){
-      window.pcApplyHomeV42();
-    }
+  const ensureV5Bridge=()=>{
     if(!document.getElementById('pc-home-discovery-v42-bridge-js')){
       const bridge=document.createElement('script');
       bridge.id='pc-home-discovery-v42-bridge-js';
-      bridge.src='portal-home-discovery-v42-bridge.js?v=20260924-2';
+      bridge.src='portal-home-discovery-v42-bridge.js?v=20260924-3';
       bridge.defer=true;
-      bridge.addEventListener('load',ensureV421,{once:true});
+      bridge.addEventListener('load',ensureV55,{once:true});
       document.head.appendChild(bridge);
     }
-    ensureV421();
+    ensureV55();
   };
 
   const ensureQuickAccess=()=>{
     if(document.getElementById('pc-quick-access-v41e3-js')){
       if(typeof window.pcFillQuickAccessV41E3==='function')window.pcFillQuickAccessV41E3();
-      ensureV42();
+      ensureV5Bridge();
+      ensureV55();
       return;
     }
     const js=document.createElement('script');
     js.id='pc-quick-access-v41e3-js';
     js.src='portal-quick-access-v41e3.js?v=20260922-3';
     js.defer=true;
-    js.addEventListener('load',ensureV42,{once:true});
+    js.addEventListener('load',()=>{ensureV5Bridge();ensureV55()},{once:true});
     document.head.appendChild(js);
   };
 
@@ -109,10 +93,11 @@
       js.id='pc-preview-real-v21c-js';
       js.src='portal-preview-real-v21c.js?v=20260922-2';
       js.defer=true;
-      js.addEventListener('load',ensureV42,{once:true});
+      js.addEventListener('load',()=>{ensureV5Bridge();ensureV55()},{once:true});
       document.head.appendChild(js);
     }
-    ensureV42();
+    ensureV5Bridge();
+    ensureV55();
     return true;
   };
 
@@ -130,15 +115,21 @@
       js.id='pc-preview-real-v21b-js';
       js.src='portal-preview-real-v21b.js?v=20260922-5';
       js.defer=true;
-      js.addEventListener('load',()=>{ensureReconcile();ensureQuickAccess();ensureV21C();ensureV42();ensureV421()},{once:true});
+      js.addEventListener('load',()=>{ensureReconcile();ensureQuickAccess();ensureV21C();ensureV5Bridge();ensureV55()},{once:true});
       document.head.appendChild(js);
     }else{
       ensureReconcile();
       ensureQuickAccess();
-      ensureV42();
-      ensureV421();
+      ensureV5Bridge();
+      ensureV55();
       if(!ensureV21C()){
-        let tries=0;const t=setInterval(()=>{tries++;ensureV42();ensureV421();if(ensureV21C()||tries>30)clearInterval(t)},100);
+        let tries=0;
+        const t=setInterval(()=>{
+          tries++;
+          ensureV5Bridge();
+          ensureV55();
+          if(ensureV21C()||tries>30)clearInterval(t);
+        },100);
       }
     }
     return true;
@@ -147,8 +138,8 @@
   ensureContinueShelf();
   ensureReconcile();
   ensureQuickAccess();
-  ensureV42();
-  ensureV421();
+  ensureV5Bridge();
+  ensureV55();
 
   const stable=document.createElement('script');
   stable.id='pc-portal-stable-before-v21b';
@@ -157,8 +148,8 @@
     ensureContinueShelf();
     ensureReconcile();
     ensureQuickAccess();
-    ensureV42();
-    ensureV421();
+    ensureV5Bridge();
+    ensureV55();
     if(ensureV21B())return;
     let tries=0;
     const timer=setInterval(()=>{
@@ -166,8 +157,8 @@
       ensureReconcile();
       ensureQuickAccess();
       ensureV21C();
-      ensureV42();
-      ensureV421();
+      ensureV5Bridge();
+      ensureV55();
       if(ensureV21B()||tries>40)clearInterval(timer);
     },100);
   };
