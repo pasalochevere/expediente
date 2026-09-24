@@ -53,7 +53,7 @@
     if(!document.getElementById('pc-home-discovery-v42-bridge-js')){
       const bridge=document.createElement('script');
       bridge.id='pc-home-discovery-v42-bridge-js';
-      bridge.src='portal-home-discovery-v42-bridge.js?v=20260922-1';
+      bridge.src='portal-home-discovery-v42-bridge.js?v=20260923-3';
       bridge.defer=true;
       bridge.addEventListener('load',ensureV421,{once:true});
       document.head.appendChild(bridge);
