@@ -1,0 +1,32 @@
+/* PORTAL V5.0 · ACCESS GATE
+   Separa autenticación/activación del portal. Capa visual aditiva. */
+body.pcV50GateOpen{overflow:hidden!important}
+body.pcV50PortalReady #loginBox,
+body.pcV50PortalReady #accountBox,
+body.pcV50PortalReady .pcV4PayTrust{display:none!important}
+
+.pcV50Gate{position:fixed;inset:0;z-index:20050;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 18% 8%,rgba(201,154,58,.12),transparent 30%),radial-gradient(circle at 84% 88%,rgba(112,52,73,.12),transparent 32%),linear-gradient(180deg,#09090b,#050506);color:#f5eee8}
+.pcV50Gate.hidden{display:none!important}
+.pcV50Gate:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(90deg,transparent 49%,rgba(255,255,255,.035) 50%,transparent 51%),linear-gradient(0deg,transparent 49%,rgba(255,255,255,.025) 50%,transparent 51%);background-size:54px 54px}
+.pcV50Shell{position:relative;width:min(470px,100%);z-index:1}
+.pcV50Brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:18px;color:#d9cec5;font-size:.72rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}
+.pcV50BrandMark{width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(211,165,72,.52);border-radius:50%;background:linear-gradient(145deg,#171316,#0b0b0d);color:#e2bd69;font-size:.54rem;font-weight:950;line-height:1;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.28)}
+.pcV50Card{border:1px solid rgba(236,218,205,.14);border-radius:26px;padding:28px;background:linear-gradient(155deg,rgba(26,23,27,.98),rgba(12,12,14,.98));box-shadow:0 30px 90px rgba(0,0,0,.48)}
+.pcV50Step{display:none}.pcV50Step.active{display:block}
+.pcV50Eyebrow{color:#d0a748;font-size:.63rem;font-weight:950;letter-spacing:.16em;text-transform:uppercase}
+.pcV50Card h1,.pcV50Card h2{margin:8px 0 9px;letter-spacing:-.035em;line-height:1.02}.pcV50Card h1{font-size:clamp(2rem,7vw,2.7rem)}.pcV50Card h2{font-size:1.8rem}
+.pcV50Lead{margin:0;color:#a99f97;font-size:.84rem;line-height:1.55}
+.pcV50Form{display:grid;gap:10px;margin-top:22px}
+.pcV50Input{width:100%;min-height:50px;border:1px solid rgba(232,217,207,.18);border-radius:13px;padding:0 14px;background:#0d0c0e;color:#fff;outline:none;font:inherit;font-size:.9rem;transition:.16s border-color,.16s box-shadow}
+.pcV50Input:focus{border-color:rgba(211,165,72,.56);box-shadow:0 0 0 3px rgba(211,165,72,.09)}
+.pcV50Button{min-height:50px;border:1px solid #c75a50;border-radius:13px;background:linear-gradient(135deg,#b64036,#7d211b);color:#fff;font:inherit;font-size:.76rem;font-weight:900;letter-spacing:.025em;cursor:pointer;box-shadow:0 12px 28px rgba(121,35,29,.22)}
+.pcV50Button:disabled{opacity:.55;cursor:wait}.pcV50Button.secondary{border-color:rgba(232,217,207,.16);background:rgba(255,255,255,.035);box-shadow:none;color:#d7ccc4}
+.pcV50Message{min-height:20px;margin-top:12px;color:#a99f97;font-size:.75rem;line-height:1.45}.pcV50Message.good{color:#9eddb5}.pcV50Message.bad{color:#ffaaa4}
+.pcV50Verified{display:flex;align-items:center;gap:9px;margin:18px 0 0;padding:10px 12px;border:1px solid rgba(91,160,112,.25);border-radius:12px;background:rgba(46,92,59,.10);color:#b8e6c6;font-size:.72rem}.pcV50Verified i{width:7px;height:7px;border-radius:50%;background:#79cf96;box-shadow:0 0 12px rgba(121,207,150,.45)}
+.pcV50Footer{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;color:#746c67;font-size:.65rem;text-align:center}.pcV50Footer button{border:0;background:transparent;color:#a99d94;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font:inherit}
+.pcV50Loader{display:grid;place-items:center;min-height:220px;text-align:center}.pcV50Spinner{width:30px;height:30px;border:2px solid rgba(255,255,255,.10);border-top-color:#d0a748;border-radius:50%;animation:pcV50Spin .8s linear infinite;margin-bottom:14px}@keyframes pcV50Spin{to{transform:rotate(360deg)}}
+.pcV50Micro{margin-top:12px;color:#77706a;font-size:.66rem;line-height:1.45;text-align:center}
+
+@media(max-width:560px){.pcV50Gate{padding:14px}.pcV50Card{padding:23px 18px;border-radius:22px}.pcV50Brand{margin-bottom:13px}.pcV50Card h1{font-size:2.1rem}.pcV50Form{margin-top:18px}}
+@media(max-height:600px) and (orientation:landscape){.pcV50Gate{place-items:start center;overflow:auto;padding:14px}.pcV50Brand{margin-bottom:8px}.pcV50Card{padding:18px}.pcV50Card h1,.pcV50Card h2{margin:5px 0}.pcV50Form{margin-top:12px}.pcV50Input,.pcV50Button{min-height:44px}.pcV50Micro{margin-top:7px}}
+@media(prefers-reduced-motion:reduce){.pcV50Spinner{animation:none}}
