@@ -1,0 +1,156 @@
+/* PORTAL V5.4 · NAV + MOBILE FINAL CLEANUP
+   Normaliza navegación V5 y prioriza uso móvil sin tocar auth, licencias ni rutas. */
+
+body.pcV50PortalReady.pcV51Ready{--v54-gold:#d2aa51;--v54-ink:#f3ece7;--v54-muted:#968c85;--v54-line:rgba(236,220,209,.13)}
+
+/* Desktop navigation: una sola lectura, cuatro destinos. */
+body.pcV50PortalReady .pcV4Nav{
+  min-height:58px;
+  margin:0;
+  padding:8px 3px;
+  border-bottom:1px solid var(--v54-line);
+  background:linear-gradient(180deg,rgba(9,9,11,.96),rgba(9,9,11,.84));
+  box-shadow:0 12px 32px rgba(0,0,0,.10);
+}
+body.pcV50PortalReady .pcV4NavBrand{gap:8px;color:#bdb2aa;font-size:.64rem;font-weight:850;letter-spacing:.12em}
+body.pcV50PortalReady .pcV4NavBrandDot{width:6px;height:6px;background:var(--v54-gold)}
+body.pcV50PortalReady .pcV4NavLinks{gap:3px}
+body.pcV50PortalReady .pcV4Nav [data-v4-nav]{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:40px;
+  padding:8px 11px;
+  color:#958b84;
+  border:1px solid transparent;
+  border-radius:12px;
+  font-size:.68rem;
+  font-weight:820;
+  white-space:nowrap;
+}
+body.pcV50PortalReady .pcV4Nav [data-v4-nav].active,
+body.pcV50PortalReady .pcV4Nav [data-v4-nav][aria-current="page"]{
+  color:#f5eee8;
+  border-color:rgba(210,170,81,.18);
+  background:rgba(210,170,81,.055);
+  box-shadow:none;
+}
+.pcV54Icon{display:inline-grid;place-items:center;flex:0 0 auto}
+.pcV54Icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.pcV54LabelShort{display:none}
+
+/* Header superior deja de competir con la navegación. */
+body.pcV50PortalReady .top{padding-top:10px;padding-bottom:11px}
+body.pcV50PortalReady .top .seal{width:52px;height:52px}
+body.pcV50PortalReady .top .brand{font-size:.82rem}
+body.pcV50PortalReady .top .brand small{font-size:.56rem}
+
+/* Vistas internas más compactas. */
+body.pcV50PortalReady .pcV51ViewBar,
+body.pcV50PortalReady .pcV53Head{margin-top:18px;margin-bottom:12px;padding-bottom:11px}
+body.pcV50PortalReady .pcV51Back,
+body.pcV50PortalReady .pcV53Back{min-height:38px;display:inline-flex;align-items:center;justify-content:center}
+
+/* Mobile app bar: safe area + blancos táctiles reales. */
+@media(max-width:700px){
+  body.pcV50PortalReady{
+    padding-bottom:calc(92px + env(safe-area-inset-bottom));
+  }
+  body.pcV50PortalReady .wrap{padding-left:13px;padding-right:13px}
+  body.pcV50PortalReady .pcV4Nav{display:none!important}
+  body.pcV50PortalReady .pcV4BottomNav{
+    left:8px;
+    right:8px;
+    bottom:max(8px,env(safe-area-inset-bottom));
+    z-index:9990;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:3px;
+    min-height:66px;
+    padding:5px;
+    border:1px solid rgba(236,220,209,.15);
+    border-radius:20px;
+    background:rgba(13,12,15,.94);
+    box-shadow:0 20px 58px rgba(0,0,0,.54),inset 0 1px 0 rgba(255,255,255,.025);
+    backdrop-filter:blur(20px) saturate(135%);
+    -webkit-backdrop-filter:blur(20px) saturate(135%);
+  }
+  body.pcV50PortalReady .pcV4BottomNav [data-v4-nav]{
+    display:flex!important;
+    min-width:0;
+    min-height:54px;
+    padding:6px 2px 5px;
+    border:1px solid transparent;
+    border-radius:15px;
+    color:#8f8580;
+    background:transparent;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:3px;
+    font-size:.55rem;
+    font-weight:800;
+    line-height:1.1;
+  }
+  body.pcV50PortalReady .pcV4BottomNav [data-v4-nav].active,
+  body.pcV50PortalReady .pcV4BottomNav [data-v4-nav][aria-current="page"]{
+    color:#f4ede8;
+    border-color:rgba(210,170,81,.16);
+    background:rgba(210,170,81,.065);
+  }
+  body.pcV50PortalReady .pcV4BottomNav .pcV54Icon svg{width:19px;height:19px}
+  body.pcV50PortalReady .pcV4BottomNav .pcV54LabelLong{display:none}
+  body.pcV50PortalReady .pcV4BottomNav .pcV54LabelShort{display:block}
+
+  /* Gate y categoría full-screen tienen prioridad total. */
+  body.pcV50GateOpen .pcV4BottomNav,
+  body.pcV52CategoryOpen .pcV4BottomNav{display:none!important}
+
+  body.pcV50PortalReady .top{padding:7px 0 9px}
+  body.pcV50PortalReady .top .seal{width:44px;height:44px}
+  body.pcV50PortalReady .top .brand{font-size:.73rem;letter-spacing:.11em}
+  body.pcV50PortalReady .top .brand small{font-size:.51rem;margin-top:3px}
+  body.pcV50PortalReady .top>.pill{display:none!important}
+
+  body.pcV50PortalReady .pcV51Home{padding-top:15px}
+  body.pcV50PortalReady .pcV51Intro{margin-bottom:10px}
+  body.pcV50PortalReady .pcV51Intro h1{font-size:1.8rem}
+  body.pcV50PortalReady .pcV51Continue{min-height:365px}
+  body.pcV50PortalReady .pcV51ContinueBody{padding:19px 16px}
+  body.pcV50PortalReady .pcV51Continue h2{font-size:2rem}
+
+  body.pcV50PortalReady .pcV51ViewBar,
+  body.pcV50PortalReady .pcV53Head{align-items:center;margin-top:12px;margin-bottom:10px;padding-bottom:9px}
+  body.pcV50PortalReady .pcV51ViewBar h2,
+  body.pcV50PortalReady .pcV53Head h1{font-size:1.22rem}
+  body.pcV50PortalReady .pcV51Back,
+  body.pcV50PortalReady .pcV53Back{min-height:38px;padding:7px 10px;font-size:.62rem}
+
+  body.pcV50PortalReady .pcV53Account{padding-bottom:8px}
+  body.pcV50PortalReady .pcV53Panel{box-shadow:none}
+  body.pcV50PortalReady .pcV53AccessActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+  body.pcV50PortalReady .pcV53Mini{min-height:40px;text-align:center}
+}
+
+@media(max-width:390px){
+  body.pcV50PortalReady .pcV4BottomNav{left:6px;right:6px;border-radius:18px}
+  body.pcV50PortalReady .pcV4BottomNav [data-v4-nav]{font-size:.52rem}
+  body.pcV50PortalReady .pcV51Continue{min-height:340px}
+  body.pcV50PortalReady .pcV51Continue h2{font-size:1.82rem}
+}
+
+@media(max-height:520px) and (orientation:landscape){
+  body.pcV50PortalReady{padding-bottom:68px}
+  body.pcV50PortalReady .pcV4BottomNav{min-height:54px;padding:3px;bottom:5px}
+  body.pcV50PortalReady .pcV4BottomNav [data-v4-nav]{min-height:46px;flex-direction:row;gap:5px;padding:4px 5px}
+  body.pcV50PortalReady .pcV4BottomNav .pcV54Icon svg{width:16px;height:16px}
+  body.pcV50PortalReady .pcV4BottomNav .pcV54LabelShort{display:block}
+  body.pcV50PortalReady .top{display:none}
+  body.pcV50PortalReady .pcV51Home{padding-top:8px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.pcV50PortalReady .pcV4Nav [data-v4-nav],
+  body.pcV50PortalReady .pcV4BottomNav [data-v4-nav]{transition:none!important}
+}
