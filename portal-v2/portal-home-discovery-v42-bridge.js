@@ -19,4 +19,14 @@
   const schedule=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync()})};
   new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','id']});
   sync();setTimeout(sync,300);setTimeout(sync,1200);
+
+  /* PORTAL V5.0 · ACCESS GATE
+     Se carga desde el bridge para separar autenticación/activación del portal sin tocar backend. */
+  if(!document.getElementById('pc-access-gate-v50-js')){
+    const gate=document.createElement('script');
+    gate.id='pc-access-gate-v50-js';
+    gate.src='portal-access-gate-v50.js?v=20260923-1';
+    gate.defer=true;
+    document.head.appendChild(gate);
+  }
 })();
