@@ -24,7 +24,7 @@
     if(!document.getElementById('pc-legacy-cleanup-v55-js')){
       const js=document.createElement('script');
       js.id='pc-legacy-cleanup-v55-js';
-      js.src='portal-legacy-cleanup-v55.js?v=20260924-1';
+      js.src='portal-legacy-cleanup-v55.js?v=20260924-2';
       js.defer=true;
       document.head.appendChild(js);
     }else if(typeof window.pcApplyLegacyCleanupV55==='function'){
@@ -36,7 +36,7 @@
     if(!document.getElementById('pc-home-discovery-v42-bridge-js')){
       const bridge=document.createElement('script');
       bridge.id='pc-home-discovery-v42-bridge-js';
-      bridge.src='portal-home-discovery-v42-bridge.js?v=20260924-3';
+      bridge.src='portal-home-discovery-v42-bridge.js?v=20260924-4';
       bridge.defer=true;
       bridge.addEventListener('load',ensureV55,{once:true});
       document.head.appendChild(bridge);
