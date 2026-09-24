@@ -13,8 +13,8 @@
     LEGACY_ASSETS.forEach(id=>{
       const el=document.getElementById(id);
       if(!el)return;
-      el.dataset.pcV55Retired='1';
-      if(el.tagName==='LINK')el.disabled=true;
+      if(el.dataset.pcV55Retired!=='1')el.dataset.pcV55Retired='1';
+      if(el.tagName==='LINK'&&!el.disabled)el.disabled=true;
     });
   }
 
@@ -29,7 +29,7 @@
     const clean=document.querySelector('.pcV51Home');
     if(!clean)return;
     document.querySelectorAll('#inicio').forEach(el=>{if(el!==clean)el.removeAttribute('id')});
-    clean.id='inicio';
+    if(clean.id!=='inicio')clean.id='inicio';
   }
 
   function audit(){
@@ -58,8 +58,8 @@
     disableLegacyAssets();
     removeLegacyHome();
     normalizeInicio();
-    document.body.classList.add('pcV55Ready');
-    document.body.dataset.pcLegacyRuntime='v55-clean';
+    if(!document.body.classList.contains('pcV55Ready'))document.body.classList.add('pcV55Ready');
+    if(document.body.dataset.pcLegacyRuntime!=='v55-clean')document.body.dataset.pcLegacyRuntime='v55-clean';
   }
 
   window.pcApplyLegacyCleanupV55=apply;
