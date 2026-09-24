@@ -1,31 +1,31 @@
 (()=>{
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
-  window.__pcV56CentralScheduler=true;
 
-  const VERSION='20260924-1';
-  const callbacks=new Map();
+  const VERSION='20260924-2';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
-  function register(name,fn){
-    if(typeof fn!=='function')return;
-    callbacks.set(name,fn);
-    requestApply('register:'+name);
+  function moduleApplies(){
+    return [
+      ['51-home',window.pcApplyCleanHomeV51],
+      ['52-categories',window.pcApplyCategoryExperienceV52],
+      ['53-account',window.pcApplyAccountCenterV53],
+      ['54-nav',window.pcApplyNavMobileV54],
+      ['55-cleanup',window.pcApplyLegacyCleanupV55]
+    ].filter(([,fn])=>typeof fn==='function');
   }
 
   function applyAll(){
     raf=0;
     state.runs++;
-    [...callbacks.entries()]
-      .sort(([a],[b])=>String(a).localeCompare(String(b)))
-      .forEach(([name,fn])=>{
-        try{fn()}catch(e){
-          console.warn('Portal V5.6 apply',name,e);
-          state.errors.push({name,message:String(e?.message||e),at:Date.now()});
-          if(state.errors.length>12)state.errors.shift();
-        }
-      });
+    moduleApplies().forEach(([name,fn])=>{
+      try{fn()}catch(e){
+        console.warn('Portal V5.6 apply',name,e);
+        state.errors.push({name,message:String(e?.message||e),at:Date.now()});
+        if(state.errors.length>12)state.errors.shift();
+      }
+    });
   }
 
   function requestApply(reason='runtime'){
@@ -33,8 +33,6 @@
     if(raf)return;
     raf=requestAnimationFrame(applyAll);
   }
-
-  window.pcV56Register=register;
   window.pcV56RequestApply=requestApply;
 
   function ensureCss(id,href){
@@ -49,9 +47,11 @@
       const existing=document.getElementById(id);
       if(existing){
         if(existing.dataset.pcV56Loaded==='1'||existing.readyState==='complete'){resolve(existing);return}
-        existing.addEventListener('load',()=>resolve(existing),{once:true});
-        existing.addEventListener('error',()=>reject(new Error('No se pudo cargar '+src)),{once:true});
-        setTimeout(()=>resolve(existing),1200);
+        let settled=false;
+        const done=()=>{if(settled)return;settled=true;resolve(existing)};
+        existing.addEventListener('load',done,{once:true});
+        existing.addEventListener('error',()=>{if(settled)return;settled=true;reject(new Error('No se pudo cargar '+src))},{once:true});
+        setTimeout(done,900);
         return;
       }
       const js=document.createElement('script');
@@ -72,47 +72,15 @@
     ensureCss('pc-visual-qa-v56-css','portal-visual-qa-v56.css?v='+VERSION);
   }
 
-  function installScheduler(){
-    const observer=new MutationObserver(()=>requestApply('mutation'));
-    observer.observe(document.body,{
-      childList:true,
-      subtree:true,
-      attributes:true,
-      attributeFilter:['class','id','data-pc-v5-view','data-pc-fresh','aria-hidden']
-    });
-    window.addEventListener('pageshow',()=>requestApply('pageshow'));
-    window.addEventListener('resize',()=>requestApply('resize'),{passive:true});
-    window.addEventListener('storage',e=>{
-      if(!e.key||e.key==='pc_v41e_recent_products')requestApply('storage');
-    });
-    document.addEventListener('visibilitychange',()=>{
-      if(document.visibilityState==='visible')requestApply('visible');
-    });
-  }
-
-  function registerExisting(){
-    register('51-home',window.pcApplyCleanHomeV51);
-    register('52-categories',window.pcApplyCategoryExperienceV52);
-    register('53-account',window.pcApplyAccountCenterV53);
-    register('54-nav',window.pcApplyNavMobileV54);
-    register('55-cleanup',window.pcApplyLegacyCleanupV55);
-  }
-
   async function boot(){
     preloadCss();
     try{
       await ensureScript('pc-access-gate-v50-js','portal-access-gate-v50.js?v='+VERSION);
       await ensureScript('pc-clean-home-v51-js','portal-clean-home-v51.js?v='+VERSION);
-      register('51-home',window.pcApplyCleanHomeV51);
       await ensureScript('pc-category-experience-v52-js','portal-category-experience-v52.js?v='+VERSION);
-      register('52-categories',window.pcApplyCategoryExperienceV52);
       await ensureScript('pc-account-center-v53-js','portal-account-center-v53.js?v='+VERSION);
-      register('53-account',window.pcApplyAccountCenterV53);
       await ensureScript('pc-nav-mobile-v54-js','portal-nav-mobile-v54.js?v='+VERSION);
-      register('54-nav',window.pcApplyNavMobileV54);
       await ensureScript('pc-legacy-cleanup-v55-js','portal-legacy-cleanup-v55.js?v='+VERSION);
-      register('55-cleanup',window.pcApplyLegacyCleanupV55);
-      registerExisting();
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
       document.body.dataset.pcBootstrap='v56';
@@ -126,11 +94,9 @@
 
   window.pcPortalV56Audit=()=>({
     version:'5.6',
-    centralScheduler:!!window.__pcV56CentralScheduler,
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
-    registered:[...callbacks.keys()],
     applyRuns:state.runs,
     lastReason:state.lastReason,
     bootMs:state.loadedAt?Math.round(state.loadedAt-state.started):null,
@@ -154,6 +120,5 @@
     }
   });
 
-  installScheduler();
   boot();
 })();
