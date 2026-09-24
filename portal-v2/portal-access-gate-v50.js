@@ -5,7 +5,9 @@
   const CSS_ID='pc-access-gate-v50-css';
   const GATE_ID='pcAccessGateV50';
   let evaluating=false;
-  let currentSessionEmail='';
+  let portalEntered=false;
+  let lastResolvedState='';
+  let authTimer=null;
 
   function ensureCss(){
     if(document.getElementById(CSS_ID))return;
@@ -50,16 +52,40 @@
     return gate;
   }
 
+  function activeStep(){return ensureGate().querySelector('.pcV50Step.active')?.dataset.step||''}
+
   function showStep(name){
-    const gate=ensureGate();gate.classList.remove('hidden');document.body.classList.add('pcV50GateOpen');document.body.classList.remove('pcV50PortalReady');
+    if(portalEntered)return;
+    const gate=ensureGate();
+    gate.classList.remove('hidden');
+    document.body.classList.add('pcV50GateOpen');
+    document.body.classList.remove('pcV50PortalReady');
     gate.querySelectorAll('.pcV50Step').forEach(x=>x.classList.toggle('active',x.dataset.step===name));
-    setTimeout(()=>gate.querySelector(name==='email'?'#pcV50Email':name==='code'?'#pcV50Code':'.pcV50Button')?.focus(),40);
+    if(name==='email'||name==='code')setTimeout(()=>gate.querySelector(name==='email'?'#pcV50Email':'#pcV50Code')?.focus(),40);
+  }
+
+  function cleanAuthUrl(){
+    try{
+      const url=new URL(location.href);
+      const authKeys=['code','token_hash','type','access_token','refresh_token','expires_in','expires_at'];
+      let changed=false;
+      authKeys.forEach(k=>{if(url.searchParams.has(k)){url.searchParams.delete(k);changed=true}});
+      if(url.hash&&/(access_token|refresh_token|type=|token_hash)/i.test(url.hash)){url.hash='';changed=true}
+      if(changed)history.replaceState({},document.title,url.pathname+(url.search?url.search:'')+(url.hash||''));
+    }catch{}
   }
 
   function enterPortal(){
-    const gate=ensureGate();gate.classList.add('hidden');document.body.classList.remove('pcV50GateOpen');document.body.classList.add('pcV50PortalReady');
+    if(portalEntered)return;
+    portalEntered=true;
+    cleanAuthUrl();
+    const gate=ensureGate();gate.classList.add('hidden');
+    document.body.classList.remove('pcV50GateOpen');
+    document.body.classList.add('pcV50PortalReady');
     if(typeof window.pcApplyHomeV42==='function')window.pcApplyHomeV42();
     if(typeof window.pcApplyHomeV421==='function')window.pcApplyHomeV421();
+    if(typeof window.pcApplyCleanHomeV51==='function')window.pcApplyCleanHomeV51();
+    if(typeof window.pcApplyCategoryExperienceV52==='function')window.pcApplyCategoryExperienceV52();
     setTimeout(()=>window.scrollTo({top:0,behavior:'instant'}),0);
   }
 
@@ -77,20 +103,48 @@
     try{const d=await window.callAccess({action:'me'});return (d?.licenses||[]).filter(l=>String(l.product_code||'')!=='TOWER-JAM')}catch{return null}
   }
 
-  async function evaluate(){
-    if(evaluating)return;evaluating=true;
+  async function evaluate(force=false){
+    if(portalEntered||evaluating)return;
+    evaluating=true;
     try{
-      ensureCss();ensureGate();showStep('loading');
-      let tries=0;while((!window.sb||typeof window.callAccess!=='function')&&tries<30){await new Promise(r=>setTimeout(r,100));tries++}
+      ensureCss();ensureGate();
+      if(!activeStep())showStep('loading');
+
+      let tries=0;
+      while((!window.sb||typeof window.callAccess!=='function')&&tries<30){await new Promise(r=>setTimeout(r,100));tries++}
+
       const session=await getSession();
       const logged=!!session?.user?.email&&!session.user.is_anonymous;
-      if(!logged){currentSessionEmail='';showStep('email');return}
-      currentSessionEmail=session.user.email||'';
+      const email=String(session?.user?.email||'').toLowerCase();
+      const stateKey=logged?'user:'+email:'guest';
+
+      if(!force&&lastResolvedState===stateKey&&activeStep()!=='loading')return;
+
+      if(!logged){
+        lastResolvedState='guest';
+        showStep('email');
+        return;
+      }
+
+      cleanAuthUrl();
       const licenses=await getLicenses();
-      if(Array.isArray(licenses)&&licenses.length>0){enterPortal();return}
-      const mail=document.getElementById('pcV50VerifiedEmail');if(mail)mail.textContent=currentSessionEmail;
+      if(Array.isArray(licenses)&&licenses.length>0){
+        lastResolvedState=stateKey+':licensed';
+        enterPortal();
+        return;
+      }
+
+      lastResolvedState=stateKey+':code';
+      const mail=document.getElementById('pcV50VerifiedEmail');if(mail)mail.textContent=email;
       showStep('code');
-    }finally{evaluating=false}
+    }finally{
+      evaluating=false;
+    }
+  }
+
+  function scheduleEvaluate(force=false,delay=120){
+    clearTimeout(authTimer);
+    authTimer=setTimeout(()=>evaluate(force),delay);
   }
 
   async function sendEmail(){
@@ -124,12 +178,27 @@
         await new Promise(r=>setTimeout(r,i?350:120));
         const got=await getLicenses();if(Array.isArray(got)){licenses=got;if(got.length)break}
       }
-      if(licenses.length){setMsg('pcV50CodeMsg','✅ Acceso activado. Entrando a tu biblioteca…','good');input.value='';setTimeout(enterPortal,450)}
-      else{setMsg('pcV50CodeMsg',legacyMsg?.textContent||'El código fue procesado. Si no aparece tu acceso, probá nuevamente.','bad');btn.disabled=false}
+      if(licenses.length){
+        lastResolvedState='';
+        setMsg('pcV50CodeMsg','✅ Acceso activado. Entrando a tu biblioteca…','good');input.value='';setTimeout(enterPortal,350);
+      }else{
+        setMsg('pcV50CodeMsg',legacyMsg?.textContent||'El código fue procesado. Si no aparece tu acceso, probá nuevamente.','bad');btn.disabled=false;
+      }
     }catch(e){setMsg('pcV50CodeMsg',e?.message||'No se pudo activar el acceso.','bad');btn.disabled=false}
   }
 
   ensureCss();ensureGate();document.body.classList.add('pcV50GateOpen');
-  if(window.sb?.auth?.onAuthStateChange)window.sb.auth.onAuthStateChange(()=>setTimeout(evaluate,80));
-  evaluate();setTimeout(evaluate,500);setTimeout(evaluate,1400);
+
+  if(window.sb?.auth?.onAuthStateChange){
+    window.sb.auth.onAuthStateChange((event)=>{
+      if(event==='TOKEN_REFRESHED')return;
+      if(event==='SIGNED_OUT'){
+        portalEntered=false;lastResolvedState='';scheduleEvaluate(true,80);return;
+      }
+      if(event==='SIGNED_IN'||event==='INITIAL_SESSION'||event==='USER_UPDATED')scheduleEvaluate(true,140);
+    });
+  }
+
+  evaluate(true);
+  setTimeout(()=>{if(!portalEntered&&activeStep()==='loading')evaluate(true)},900);
 })();
