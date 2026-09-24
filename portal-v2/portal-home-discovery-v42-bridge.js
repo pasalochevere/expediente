@@ -68,17 +68,16 @@
     }else ensureV52();
   };
 
-  /* PORTAL V5.0.1 · ACCESS GATE LOOP FIX */
+  /* PORTAL V5.0.2 · ACCESS GATE AUTH CLIENT + CALLBACK FIX */
   if(!document.getElementById('pc-access-gate-v50-js')){
     const gate=document.createElement('script');
     gate.id='pc-access-gate-v50-js';
-    gate.src='portal-access-gate-v50.js?v=20260923-2';
+    gate.src='portal-access-gate-v50.js?v=20260923-4';
     gate.defer=true;
     gate.addEventListener('load',ensureV51,{once:true});
     document.head.appendChild(gate);
   }else ensureV51();
 
-  /* PORTAL V5.1 · CLEAN HOME + V5.2 · CATEGORY EXPERIENCE */
   ensureV51();
   ensureV52();
 })();
