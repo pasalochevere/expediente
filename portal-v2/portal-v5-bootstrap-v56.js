@@ -2,7 +2,7 @@
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
 
-  const VERSION='20260924-3';
+  const VERSION='20260925-1';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
@@ -84,7 +84,7 @@
       await ensureScript('pc-legacy-cleanup-v55-js','portal-legacy-cleanup-v55.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
-      document.body.dataset.pcBootstrap='v56.1';
+      document.body.dataset.pcBootstrap='v56.2';
       requestApply('boot-complete');
     }catch(e){
       console.error('Portal V5.6 bootstrap',e);
@@ -94,7 +94,7 @@
   }
 
   window.pcPortalV56Audit=()=>({
-    version:'5.6.1',
+    version:'5.6.2',
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
