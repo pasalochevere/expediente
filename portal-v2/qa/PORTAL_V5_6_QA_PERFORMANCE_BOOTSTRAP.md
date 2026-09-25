@@ -1,59 +1,53 @@
-# PORTAL V5.6 — QA VISUAL REAL + PERFORMANCE + BOOTSTRAP CONSOLIDATION
+# PORTAL V5.6.2 — QA + PERFORMANCE + STABILIZATION
 
-Fecha: 2026-09-24
+Fecha: 2026-09-25
 
 ## Objetivo
-Cerrar la generación V5 del Portal con una pasada conservadora de QA visual, mejoras de performance de arranque y un bootstrap único para V5.0→V5.5. No se modifica backend, auth, licencias, checkout, storage ni rutas de producto.
+Mantener la generación V5 del Portal sobre una base estable después del QA real de login y activación. No se modifica backend, licencias, checkout ni rutas de producto en esta fase.
 
-## Cambios estructurales
+## Runtime actual
 
-### Bootstrap V5.6
-`portal-v5-bootstrap-v56.js` pasa a ser el único cargador de las capas V5:
+`portal-v5-bootstrap-v56.js` es el cargador único de las capas V5 y se inicia sólo después de que la base estable del Portal terminó de cargar.
+
+Orden actual:
 
 1. V5.0 Access Gate.
 2. V5.1 Clean Home.
-3. V5.2 Category Experience.
-4. V5.3 Account Center.
-5. V5.4 Nav + Mobile.
-6. V5.5 Legacy Cleanup.
-7. V5.6 Visual QA stylesheet.
+3. V5.6.1 Activation Reliability Fix.
+4. V5.2 Category Experience.
+5. V5.3 Account Center.
+6. V5.4 Nav + Mobile.
+7. V5.5 Legacy Cleanup.
+8. V5.6 Visual QA stylesheet.
 
-Los CSS se solicitan en paralelo y los JS se cargan en orden determinista. El loader principal deja de encadenar V5 mediante `portal-home-discovery-v42-bridge.js`.
+Se conservan V3/V4/V4.1, Reconcile, Quick Access y Preview Real porque siguen siendo dependencias funcionales.
 
-### Compatibilidad
-Se conservan V3/V4/V4.1, Reconcile, Quick Access y Preview Real porque siguen siendo dependencias funcionales. El bridge V4.2 queda en el repositorio sólo como histórico/rollback, no como dependencia del loader V5.6.
+## Correcciones de estabilización V5.6.1 / V5.6.2
 
-## QA visual aplicado por código
+### Activación
+- V5 no inicia antes que `callAccess`, `activateOwned`, `loadMyGames` y la base estable.
+- Los accesos pendientes tienen un fallback directo a `activate_owned` mediante `portal-activation-fix-v561.js`.
+- Inicio, Biblioteca y Mi Cuenta comparten la misma vía segura de activación.
 
-- Prevención de overflow horizontal a nivel documento.
-- `min-width:0` en grids, cards, paneles, modal y columnas susceptibles de desbordar.
-- Imágenes limitadas al ancho disponible.
-- Blancos táctiles mínimos de 44 px para CTAs principales.
-- `touch-action: manipulation` en controles interactivos.
-- Foco visible consistente para teclado.
-- `overflow-wrap:anywhere` en correo, códigos y textos largos.
-- Modal de categorías ajustado a `dvh` en mobile y landscape corto.
-- Safe-area mobile preservada por V5.4.
-- Ajuste extra para 390 px o menos en acciones de Mi cuenta.
-- Landscape corto: Home, Cuenta y categoría más compactos.
-- `prefers-reduced-motion` desactiva transiciones/animaciones no esenciales.
-- Contención de layout/paint en cards móviles seleccionadas para reducir trabajo de render.
+### Access Gate
+- Un fallo temporal de `action: me` ya no se interpreta como una cuenta sin juegos.
+- Se reintenta automáticamente hasta 3 veces.
+- Si el servicio sigue sin responder, la sesión se conserva y aparece un botón `REINTENTAR`; no se deriva al usuario incorrectamente a ingresar un código nuevo.
+- El cooldown de magic link sólo comienza cuando el envío fue exitoso. Un error deja el botón disponible para volver a intentar.
 
-## Performance / bootstrap
+### Mi Cuenta / Chévere Kids
+- Se eliminan duplicados exactos por código.
+- Las variantes de Matemática no se colapsan por defecto.
+- Sólo se reduce al acceso canónico cuando conviven las tres variantes detectadas históricamente: canónica + física + digital.
+- Dos variantes legítimamente compradas permanecen visibles.
 
-### Antes de V5.6
-El loader invocaba repetidamente `ensureV5Bridge()` / `ensureV55()` desde Quick Access, Preview V2.1B, Preview V2.1C, arranque y reintentos. A su vez el bridge era responsable de encadenar V5.0→V5.5.
-
-### V5.6
-- Una sola entrada: `ensureV56()`.
-- Un solo archivo decide el orden V5.
-- CSS V5 precargados al comienzo del bootstrap.
-- JS V5 cargados una sola vez mediante IDs estables.
-- Se elimina del camino normal el bridge cuyo nombre todavía refería a V4.2.
-- Se mantiene el sistema de observers propio de cada módulo por compatibilidad; no se reemplaza en esta fase para evitar una regresión de sesión/navegación.
+### Categorías + Preview
+- Cuando Preview Real está abierta encima de una categoría, `Escape` pertenece primero a Preview.
+- Cerrar Preview ya no debe cerrar también la categoría que quedó debajo.
 
 ## Auditoría runtime
-V5.6 expone:
+
+V5.6.2 expone:
 
 ```js
 pcPortalV56Audit()
@@ -61,10 +55,11 @@ pcPortalV56Audit()
 
 Criterio esperado con usuario dentro del Portal:
 
-- `version: "5.6"`
+- `version: "5.6.2"`
 - `ready: true`
-- `bootstrap: "v56"`
+- `bootstrap: "v56.2"`
 - `errors: []`
+- `activationFix: true`
 - `dom.homes: 1`
 - `dom.legacyHomes: 0`
 - `dom.inicio: 1`
@@ -80,45 +75,47 @@ También se conserva:
 pcPortalV55Audit()
 ```
 
-para comprobar específicamente residuos legacy.
+para residuos legacy.
 
 ## Matriz QA funcional
 
 ### Access Gate
 - [ ] Sin sesión: gate visible, Portal no visible.
 - [ ] Correo válido envía magic link.
+- [ ] Error de envío no inicia cooldown falso.
 - [ ] Callback vuelve al Portal sin dejar tokens visibles en URL.
 - [ ] Cuenta con accesos entra sin solicitar código nuevo.
-- [ ] Cuenta sin accesos pide activación.
+- [ ] Fallo temporal de `action: me` reintenta y no pide código nuevo.
+- [ ] Cuenta realmente sin accesos pide activación.
 - [ ] FAMILIA30 conserva su flujo especial.
 
 ### Inicio
 - [ ] Existe una sola Home V5.1.
 - [ ] Continuar/Abrir apunta a un acceso real.
-- [ ] Mi biblioteca abre sólo la vista Biblioteca.
-- [ ] Explorar abre sólo la vista Explorar.
-- [ ] No aparece Home V4.2 ni Discovery V4.2.
+- [ ] Activar acceso pendiente funciona.
+- [ ] Mi biblioteca abre sólo Biblioteca.
+- [ ] Explorar abre sólo Explorar.
 
 ### Biblioteca
 - [ ] Smart Cards muestran estado correcto.
+- [ ] Activar pendiente funciona.
 - [ ] Reconcile no duplica Chévere Kids.
 - [ ] Quick Access conserva recientes + activos fallback.
-- [ ] Filtros y recents funcionan.
 - [ ] No existe overflow horizontal a 360 px.
 
 ### Explorar
 - [ ] Cinco categorías visibles en desktop.
-- [ ] Categorías apilan correctamente en mobile.
 - [ ] Modal desktop no supera viewport útil.
 - [ ] Mobile usa pantalla completa.
-- [ ] Escape, X y backdrop funcionan.
+- [ ] X, backdrop y Escape funcionan.
+- [ ] Preview abierta desde categoría: primer Escape cierra sólo Preview.
+- [ ] Segundo Escape cierra categoría.
 - [ ] Focus trap/restauración de foco siguen activos.
-- [ ] Landscape 800×360 y 844×390 conserva cierre y scroll.
 
 ### Mi cuenta
 - [ ] Correo largo no rompe layout.
-- [ ] Stats no desbordan en 360/390 px.
-- [ ] Código largo envuelve sin ampliar página.
+- [ ] Dos variantes legítimas de Kids siguen visibles.
+- [ ] Patrón de tres duplicados Kids se reconcilia al canónico.
 - [ ] Copiar código funciona.
 - [ ] Dispositivos funciona.
 - [ ] Activar pendiente funciona.
@@ -130,40 +127,23 @@ para comprobar específicamente residuos legacy.
 - [ ] Swipe móvil funciona.
 - [ ] Flechas/teclado/thumbs funcionan.
 - [ ] Foco vuelve al CTA que abrió la preview.
-- [ ] Landscape corto conserva CTA visible.
 - [ ] No se exponen assets premium/imprimibles protegidos.
 
-## Matriz visual mínima
+## Visual mínimo
 
-- Desktop: 1366×768.
-- Desktop grande: 1920×1080.
-- Tablet portrait: 768×1024.
-- Tablet landscape: 1024×768.
-- Mobile: 360×800.
-- Mobile: 390×844.
-- Mobile: 430×932.
-- Mobile landscape: 800×360.
-- Mobile landscape: 844×390.
+- Desktop 1366×768 y 1920×1080.
+- Tablet 768×1024 y 1024×768.
+- Mobile 360×800, 390×844 y 430×932.
+- Landscape 800×360 y 844×390.
 - Reduced motion activado.
 
-## Performance a observar en QA manual
+## Gate de salida
 
-- Gate debe aparecer sin esperar que toda la biblioteca termine de renderizar.
-- No debe existir flash de Home V4.2 antes de V5.1.
-- Navegación no debe duplicarse después de varios cambios de vista.
-- Abrir/cerrar categorías repetidamente no debe multiplicar modales.
-- Cambiar Home/Biblioteca/Explorar/Cuenta repetidamente no debe crear secciones duplicadas.
-- `pcPortalV56Audit().bootMs` sirve como referencia del tiempo de carga de módulos V5 en ese dispositivo; no es una métrica de red completa ni reemplaza Lighthouse/DevTools.
-
-## Gate de salida V5.6
-
-1. `c002-rc.js` carga `portal-v5-bootstrap-v56.js` y ya no carga el bridge V4.2.
-2. Bootstrap V5.6 carga V5.0→V5.5 una sola vez y en orden.
-3. V5.6 visual CSS está activo.
-4. `pcPortalV56Audit()` devuelve estructura única y sin errores.
-5. `pcPortalV55Audit()` no detecta Home V4.2 residual.
-6. GitHub Pages despliega el commit final correctamente.
-7. Pase visual autenticado en PC + celular antes de congelar definitivamente V5.6.
-
-## Nota de alcance
-El QA de repositorio, arquitectura, CSS y bootstrap queda cubierto por esta fase. La confirmación visual autenticada completa requiere abrir una sesión real del Portal en navegador desktop y mobile; no se considera reemplazada por una revisión estática del código.
+1. Base estable carga antes del bootstrap V5.
+2. `pcPortalV56Audit()` devuelve V5.6.2 sin errores.
+3. Activación pendiente funciona desde Inicio, Biblioteca y Cuenta.
+4. Login por magic link no entra en loop.
+5. Error de red no se confunde con cuenta sin accesos.
+6. Categoría y Preview manejan Escape por capas.
+7. GitHub Pages despliega el commit final correctamente.
+8. Pase autenticado PC + celular antes de congelar definitivamente esta generación.
