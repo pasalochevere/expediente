@@ -2,32 +2,45 @@
   if(window.__pcAccountCenterV53)return;
   window.__pcAccountCenterV53=true;
 
-  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const norm=s=>String(s||'').toUpperCase().trim();
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[m]));
+  const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().trim();
   let loading=false;
   let lastSig='';
 
   function authClient(){try{return typeof sb!=='undefined'?sb:null}catch{return null}}
   function accessFn(){try{return typeof callAccess==='function'?callAccess:null}catch{return null}}
 
-  function canonicalKey(l){
-    const c=String(l?.product_code||'');
-    if(c.startsWith('TK-MAT'))return 'TK-MAT';
-    return c||String(l?.product_name||'');
-  }
+  function exactKey(l){return String(l?.product_code||'')||String(l?.product_name||'')}
   function score(l){
     const active=l?.status==='active'&&l?.expires_at&&new Date(l.expires_at).getTime()>Date.now();
     const pending=!!l?.can_activate;
     return (active?30:pending?20:10)+(l?.expires_at?Math.floor(new Date(l.expires_at).getTime()/1e10):0);
   }
+  function isMath(l){
+    const code=norm(l?.product_code),name=norm(l?.product_name);
+    return code.startsWith('TK-MAT')||(name.includes('CHEVERE KIDS')&&name.includes('MATEMATICA'));
+  }
+  function mathVariant(l){
+    const t=norm(`${l?.product_code||''} ${l?.product_name||''}`);
+    if(t.includes('PHY')||t.includes('FISICO')||t.includes('TORRE'))return 'physical';
+    if(t.includes('DIG')||t.includes('SOLO DIGITAL'))return 'digital';
+    return 'canonical';
+  }
   function cleanLicenses(list){
-    const map=new Map();
+    const exact=new Map();
     (list||[]).filter(l=>String(l?.product_code||'')!=='TOWER-JAM').forEach(l=>{
-      const key=canonicalKey(l);
-      const prev=map.get(key);
-      if(!prev||score(l)>score(prev))map.set(key,l);
+      const key=exactKey(l);
+      const prev=exact.get(key);
+      if(!prev||score(l)>score(prev))exact.set(key,l);
     });
-    return [...map.values()];
+    let out=[...exact.values()];
+    const math=out.filter(isMath);
+    const variants=new Set(math.map(mathVariant));
+    if(math.length>=3&&variants.has('canonical')&&variants.has('physical')&&variants.has('digital')){
+      const canonical=math.filter(l=>mathVariant(l)==='canonical').sort((a,b)=>score(b)-score(a))[0];
+      out=out.filter(l=>!isMath(l)||l===canonical);
+    }
+    return out;
   }
   function state(l){
     const active=l?.status==='active'&&l?.expires_at&&new Date(l.expires_at).getTime()>Date.now();
@@ -125,7 +138,6 @@
   function render(sec,email,licenses){
     const active=licenses.filter(l=>state(l)==='active').length;
     const pending=licenses.filter(l=>state(l)==='pending').length;
-    const other=licenses.length-active-pending;
     const items=licenses.length?licenses.map(l=>{
       const st=state(l),code=String(l.activation_code||''),name=String(l.product_name||l.product_code||'Experiencia PasaloChevere');
       const actions=[];
@@ -162,7 +174,7 @@
       const email=String(session?.user?.email||'');
       const data=await call({action:'me'});
       const licenses=cleanLicenses(data?.licenses||[]);
-      const sig=email+'|'+licenses.map(l=>[canonicalKey(l),l.status,l.can_activate,l.expires_at,l.activation_code].join(':')).join('|');
+      const sig=email+'|'+licenses.map(l=>[exactKey(l),l.status,l.can_activate,l.expires_at,l.activation_code].join(':')).join('|');
       if(force||sig!==lastSig){lastSig=sig;render(sec,email,licenses)}
     }catch(e){sec.innerHTML=`<div class="pcV53Head"><div><small>CUENTA</small><h1>Mi cuenta</h1></div><button class="pcV53Back" type="button">← Inicio</button></div><div class="pcV53Panel"><h2>No pude cargar tu cuenta</h2><p>${esc(e?.message||'Probá nuevamente.')}</p></div>`;sec.querySelector('.pcV53Back')?.addEventListener('click',goHome)}
     finally{loading=false}
