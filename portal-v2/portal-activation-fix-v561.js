@@ -1,4 +1,5 @@
 (()=>{
+  // Portal V5.6.1 · Activation reliability hotfix.
   if(window.__pcActivationFixV561)return;
   window.__pcActivationFixV561=true;
 
