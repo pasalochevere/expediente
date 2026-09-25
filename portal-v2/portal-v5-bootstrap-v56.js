@@ -2,7 +2,7 @@
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
 
-  const VERSION='20260924-2';
+  const VERSION='20260924-3';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
@@ -77,13 +77,14 @@
     try{
       await ensureScript('pc-access-gate-v50-js','portal-access-gate-v50.js?v='+VERSION);
       await ensureScript('pc-clean-home-v51-js','portal-clean-home-v51.js?v='+VERSION);
+      await ensureScript('pc-activation-fix-v561-js','portal-activation-fix-v561.js?v='+VERSION);
       await ensureScript('pc-category-experience-v52-js','portal-category-experience-v52.js?v='+VERSION);
       await ensureScript('pc-account-center-v53-js','portal-account-center-v53.js?v='+VERSION);
       await ensureScript('pc-nav-mobile-v54-js','portal-nav-mobile-v54.js?v='+VERSION);
       await ensureScript('pc-legacy-cleanup-v55-js','portal-legacy-cleanup-v55.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
-      document.body.dataset.pcBootstrap='v56';
+      document.body.dataset.pcBootstrap='v56.1';
       requestApply('boot-complete');
     }catch(e){
       console.error('Portal V5.6 bootstrap',e);
@@ -93,7 +94,7 @@
   }
 
   window.pcPortalV56Audit=()=>({
-    version:'5.6',
+    version:'5.6.1',
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
@@ -101,6 +102,7 @@
     lastReason:state.lastReason,
     bootMs:state.loadedAt?Math.round(state.loadedAt-state.started):null,
     errors:[...state.errors],
+    activationFix:!!window.__pcActivationFixV561,
     dom:{
       homes:document.querySelectorAll('.pcV51Home').length,
       legacyHomes:document.querySelectorAll('.pcV42Home').length,
