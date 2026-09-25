@@ -38,15 +38,18 @@
     return pending.find(c=>norm(c.dataset.pcCommercialTitle||c.querySelector('.pcSmartHead h3')?.textContent||c.querySelector('h3')?.textContent)===title)||pending[0]||null;
   }
 
-  async function fallbackActivate(code){
-    if(typeof window.callAccess!=='function')throw new Error('El servicio de activación todavía no está listo.');
+  async function directActivate(code){
+    if(typeof window.callAccess!=='function'){
+      if(typeof window.activateOwned==='function')return window.activateOwned(code);
+      throw new Error('El servicio de activación todavía no está listo.');
+    }
     const body={action:'activate_owned',product_code:code};
     if(typeof window.deviceId==='function')body.device_id=window.deviceId();
     if(typeof window.deviceLabel==='function')body.device_label=window.deviceLabel();
     const d=await window.callAccess(body);
     if(typeof window.loadMyGames==='function')await window.loadMyGames();
     const access=d?.license?.activation_code;
-    if(access)alert('✅ Acceso activado. Tu código personal es '+access);
+    alert(access?'✅ Acceso activado. Tu código personal es '+access:'✅ Acceso activado.');
     return d;
   }
 
@@ -57,8 +60,7 @@
     const oldText=button?.textContent||'';
     if(button){button.disabled=true;button.textContent='ACTIVANDO…';}
     try{
-      if(typeof window.activateOwned==='function')await window.activateOwned(code);
-      else await fallbackActivate(code);
+      await directActivate(code);
       if(typeof window.pcV56RequestApply==='function')window.pcV56RequestApply('activation-complete');
       setTimeout(()=>{
         try{if(typeof window.pcApplyCleanHomeV51==='function')window.pcApplyCleanHomeV51()}catch{}
