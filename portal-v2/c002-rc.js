@@ -1,8 +1,10 @@
 (()=>{
-  // Portal loader V5.6 + Preview V2.1C + Library V4.1E.x.
-  // Unifica V5.0→V5.5 en un bootstrap determinista y conserva V3/V4/V4.1 como dependencias estables.
+  // Portal loader V5.6.1 + Preview V2.1C + Library V4.1E.x.
+  // Arranca V5 sólo después de la base estable para evitar carreras en auth, biblioteca y activación.
   if(window.__pcPortalV21BLoader)return;
   window.__pcPortalV21BLoader=true;
+
+  let stableReady=false;
 
   const ensureContinueShelf=()=>{
     if(document.getElementById('pc-continue-shelf-v41e1-css'))return;
@@ -14,10 +16,11 @@
   };
 
   const ensureV56=()=>{
+    if(!stableReady)return;
     if(!document.getElementById('pc-v5-bootstrap-v56-js')){
       const js=document.createElement('script');
       js.id='pc-v5-bootstrap-v56-js';
-      js.src='portal-v5-bootstrap-v56.js?v=20260924-2';
+      js.src='portal-v5-bootstrap-v56.js?v=20260924-3';
       js.defer=true;
       document.head.appendChild(js);
       return;
@@ -115,12 +118,12 @@
   ensureContinueShelf();
   ensureReconcile();
   ensureQuickAccess();
-  ensureV56();
 
   const stable=document.createElement('script');
   stable.id='pc-portal-stable-before-v21b';
   stable.src='backups/c002-rc.before-preview-real-v21b-20260922.js?v=20260922-5';
   stable.onload=()=>{
+    stableReady=true;
     ensureContinueShelf();
     ensureReconcile();
     ensureQuickAccess();
