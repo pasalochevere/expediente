@@ -128,8 +128,14 @@
     if(restoreFocus&&lastFocus&&document.contains(lastFocus))requestAnimationFrame(()=>lastFocus.focus());
   }
 
+  function previewOpen(){
+    const preview=document.getElementById('pcRealPreviewModal');
+    return !!preview&&!preview.classList.contains('hidden');
+  }
+
   function trapFocus(e){
     if(!modal||modal.classList.contains('hidden'))return;
+    if(previewOpen())return;
     if(e.key==='Escape'){e.preventDefault();closeCategory();return}
     if(e.key!=='Tab')return;
     const focusables=[...modal.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter(el=>el.offsetParent!==null);
