@@ -1,5 +1,5 @@
-// CASO 001 · P2.12C.7C · Adaptador multiplayer real
-// Usa Edge Functions P2 y Realtime. No conoce ni carga soluciones.
+// CASO 001 · P2.12D.17 · Adaptador multiplayer real
+// Recupera los modos NORMAL e IMPOSTOR sobre el motor P2 existente.
 
 export const P2_CONFIG = Object.freeze({
   supabaseUrl: 'https://fzbndgfnqxcacsvlitui.supabase.co',
@@ -20,6 +20,60 @@ export const P2_LABELS = Object.freeze({
   locations: ['Sala de estar','Cocina','Estudio','Dormitorio','Jardín / exterior','Pasillo / acceso'],
   objects: ['Arma','Cuaderno','Celular','Llave','Memoria USB','Pañuelo']
 });
+
+export const P2_MODES = Object.freeze({
+  dig: {
+    label: 'Investigación normal',
+    short: 'NORMAL',
+    description: 'Todos investigan. El responsable puede ser humano o NPC. Duración base: 35 min.'
+  },
+  imp: {
+    label: 'Modo Impostor',
+    short: 'IMPOSTOR',
+    description: 'Uno de los jugadores humanos recibe en secreto el rol de impostor y debe proteger su mentira central. Duración base: 30 min.'
+  }
+});
+
+function hydrateModeSelector(){
+  if(typeof document==='undefined') return;
+  const select=document.getElementById('mode');
+  if(!(select instanceof HTMLSelectElement)) return;
+
+  const normal=select.querySelector('option[value="dig"]')||document.createElement('option');
+  normal.value='dig';
+  normal.textContent=P2_MODES.dig.label;
+  if(!normal.parentNode) select.appendChild(normal);
+
+  let impostor=select.querySelector('option[value="imp"]');
+  if(!impostor){
+    impostor=document.createElement('option');
+    impostor.value='imp';
+    select.appendChild(impostor);
+  }
+  impostor.textContent=P2_MODES.imp.label;
+
+  let help=document.getElementById('modeHelp');
+  if(!help){
+    help=document.createElement('div');
+    help.id='modeHelp';
+    help.className='muted';
+    help.style.cssText='font-size:11px;line-height:1.45;margin-top:7px;padding:8px 10px;border-left:3px solid #6b5435;background:#100e0c';
+    select.insertAdjacentElement('afterend',help);
+  }
+  const render=()=>{
+    const meta=P2_MODES[select.value]||P2_MODES.dig;
+    help.innerHTML=`<strong style="color:#d7b675">${meta.short}</strong> · ${meta.description}`;
+  };
+  select.removeEventListener('change',select.__pcModeChangeHandler||(()=>{}));
+  select.__pcModeChangeHandler=render;
+  select.addEventListener('change',render);
+  render();
+}
+
+if(typeof document!=='undefined'){
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hydrateModeSelector,{once:true});
+  else queueMicrotask(hydrateModeSelector);
+}
 
 // IMPORTANTE: Portal y juego deben compartir exactamente el mismo ID físico.
 const DEVICE_KEY='pc_device_id';
