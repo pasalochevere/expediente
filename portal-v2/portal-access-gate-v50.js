@@ -9,6 +9,7 @@
   let lastResolvedState='';
   let authTimer=null;
   let authSubscribed=false;
+  let licenseRetryCount=0;
 
   function authClient(){
     try{if(typeof sb!=='undefined'&&sb?.auth)return sb}catch{}
@@ -26,7 +27,7 @@
       <div class="pcV50Brand"><span class="pcV50BrandMark">PASA<br>LO</span><span>PasaloChevere</span></div>
       <section class="pcV50Card">
         <div class="pcV50Step active" data-step="loading">
-          <div class="pcV50Loader"><div><div class="pcV50Spinner"></div><div class="pcV50Eyebrow">BIBLIOTECA DIGITAL</div><p class="pcV50Lead" id="pcV50LoadingText">Preparando tu acceso…</p></div></div>
+          <div class="pcV50Loader"><div><div class="pcV50Spinner"></div><div class="pcV50Eyebrow">BIBLIOTECA DIGITAL</div><p class="pcV50Lead" id="pcV50LoadingText">Preparando tu acceso…</p><button class="pcV50Button" id="pcV50RetryBtn" type="button" style="display:none;margin-top:14px">REINTENTAR</button></div></div>
         </div>
         <div class="pcV50Step" data-step="email">
           <div class="pcV50Eyebrow">ACCESO PERSONAL</div>
@@ -55,6 +56,7 @@
     gate.querySelector('#pcV50Email').addEventListener('keydown',e=>{if(e.key==='Enter')sendEmail()});
     gate.querySelector('#pcV50CodeBtn').addEventListener('click',activateCode);
     gate.querySelector('#pcV50Code').addEventListener('keydown',e=>{if(e.key==='Enter')activateCode()});
+    gate.querySelector('#pcV50RetryBtn').addEventListener('click',()=>{licenseRetryCount=0;setRetryVisible(false);scheduleEvaluate(true,40)});
     gate.querySelector('#pcV50OtherEmail').addEventListener('click',async()=>{try{await authClient()?.auth?.signOut()}catch{} location.replace(location.pathname)});
     return gate;
   }
@@ -67,6 +69,7 @@
     if(name==='email'||name==='code')setTimeout(()=>gate.querySelector(name==='email'?'#pcV50Email':'#pcV50Code')?.focus(),40);
   }
   function setLoading(text){const el=document.getElementById('pcV50LoadingText');if(el)el.textContent=text||'Preparando tu acceso…'}
+  function setRetryVisible(show){const b=document.getElementById('pcV50RetryBtn');if(b)b.style.display=show?'inline-flex':'none'}
 
   function cleanAuthUrl(){
     try{
@@ -79,7 +82,7 @@
 
   function enterPortal(){
     if(portalEntered)return;
-    portalEntered=true;cleanAuthUrl();
+    portalEntered=true;licenseRetryCount=0;setRetryVisible(false);cleanAuthUrl();
     const gate=ensureGate();gate.classList.add('hidden');document.body.classList.remove('pcV50GateOpen');document.body.classList.add('pcV50PortalReady');
     if(typeof window.pcApplyHomeV42==='function')window.pcApplyHomeV42();
     if(typeof window.pcApplyHomeV421==='function')window.pcApplyHomeV421();
@@ -144,7 +147,7 @@
     if(portalEntered||evaluating)return;
     evaluating=true;
     try{
-      ensureCss();ensureGate();showStep('loading');
+      ensureCss();ensureGate();showStep('loading');setRetryVisible(false);
       let session=null;
       if(callbackPresent())session=await consumeAuthCallback();
       if(!session)session=await getSession();
@@ -154,7 +157,7 @@
       const stateKey=logged?'user:'+email:'guest';
 
       if(!logged){
-        lastResolvedState='guest';
+        lastResolvedState='guest';licenseRetryCount=0;
         showStep('email');
         if(callbackPresent())setMsg('pcV50EmailMsg','El enlace no pudo completar la sesión. Pedí un enlace nuevo y abrilo en este mismo navegador.','bad');
         return;
@@ -162,6 +165,20 @@
 
       cleanAuthUrl();
       const licenses=await getLicenses();
+      if(licenses===null){
+        lastResolvedState=stateKey+':license-error';
+        licenseRetryCount++;
+        showStep('loading');
+        if(licenseRetryCount<=3){
+          setLoading('Tu sesión está validada. Reintentando cargar tu biblioteca…');
+          scheduleEvaluate(true,700*licenseRetryCount);
+        }else{
+          setLoading('Tu sesión está validada, pero no pude consultar tu biblioteca. Revisá tu conexión y reintentá.');
+          setRetryVisible(true);
+        }
+        return;
+      }
+      licenseRetryCount=0;
       if(Array.isArray(licenses)&&licenses.length>0){lastResolvedState=stateKey+':licensed';enterPortal();return}
 
       lastResolvedState=stateKey+':code';
@@ -178,7 +195,7 @@
     authSubscribed=true;
     client.auth.onAuthStateChange((event)=>{
       if(event==='TOKEN_REFRESHED')return;
-      if(event==='SIGNED_OUT'){portalEntered=false;lastResolvedState='';scheduleEvaluate(true,80);return}
+      if(event==='SIGNED_OUT'){portalEntered=false;lastResolvedState='';licenseRetryCount=0;scheduleEvaluate(true,80);return}
       if(event==='SIGNED_IN'||event==='INITIAL_SESSION'||event==='USER_UPDATED')scheduleEvaluate(true,120);
     });
   }
@@ -192,7 +209,9 @@
     try{
       await window.sendMagicLink();
       const legacyMsg=document.getElementById('authMsg');
-      setMsg('pcV50EmailMsg',legacyMsg?.textContent||'Revisá tu correo para continuar.',legacyMsg?.classList.contains('bad')?'bad':'good');
+      const failed=legacyMsg?.classList.contains('bad');
+      setMsg('pcV50EmailMsg',legacyMsg?.textContent||'Revisá tu correo para continuar.',failed?'bad':'good');
+      if(failed){btn.disabled=false;btn.textContent='ENVIAR ENLACE DE ACCESO';return}
       let left=60;btn.textContent=`REENVIAR EN ${left}s`;
       const timer=setInterval(()=>{left--;if(left<=0){clearInterval(timer);btn.disabled=false;btn.textContent='REENVIAR ENLACE'}else btn.textContent=`REENVIAR EN ${left}s`},1000);
     }catch(e){btn.disabled=false;btn.textContent='ENVIAR ENLACE DE ACCESO';setMsg('pcV50EmailMsg',e?.message||'No se pudo enviar el enlace.','bad')}
