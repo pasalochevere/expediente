@@ -1,5 +1,7 @@
-// CASO 001 · P2.12D.17 · Adaptador multiplayer real
+// CASO 001 · P2.12D.17.2A · Adaptador multiplayer real
 // Recupera los modos NORMAL e IMPOSTOR sobre el motor P2 existente.
+// Hotfix QA: los controles superiores Crear sala / Unirme ejecutan la misma acción
+// que el CTA inferior cuando ya están activos, sin modificar la estética.
 
 export const P2_CONFIG = Object.freeze({
   supabaseUrl: 'https://fzbndgfnqxcacsvlitui.supabase.co',
@@ -70,9 +72,38 @@ function hydrateModeSelector(){
   render();
 }
 
+function wireUpperEntryActions(){
+  if(typeof document==='undefined') return;
+  const lower=document.getElementById('enterRoom');
+  if(!(lower instanceof HTMLButtonElement)) return;
+
+  const bind=(id)=>{
+    const upper=document.getElementById(id);
+    if(!(upper instanceof HTMLButtonElement)||upper.dataset.pcUpperWired==='1') return;
+    upper.dataset.pcUpperWired='1';
+    upper.addEventListener('click',(event)=>{
+      // Si el control superior está inactivo, dejamos que el handler original
+      // cambie de pestaña. Si ya está activo, funciona como CTA de esa acción.
+      if(!upper.classList.contains('active')) return;
+      if(lower.disabled) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      lower.click();
+    },true);
+  };
+
+  bind('tabCreate');
+  bind('tabJoin');
+}
+
+function hydrateEntryUi(){
+  hydrateModeSelector();
+  wireUpperEntryActions();
+}
+
 if(typeof document!=='undefined'){
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hydrateModeSelector,{once:true});
-  else queueMicrotask(hydrateModeSelector);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hydrateEntryUi,{once:true});
+  else queueMicrotask(hydrateEntryUi);
 }
 
 // IMPORTANTE: Portal y juego deben compartir exactamente el mismo ID físico.
