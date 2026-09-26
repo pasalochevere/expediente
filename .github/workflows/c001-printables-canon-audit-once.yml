@@ -1,0 +1,115 @@
+name: One-time C001 printable canon audit
+on:
+  push:
+    paths:
+      - '.github/workflows/c001-printables-canon-audit-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Align C001 printables with current game canon
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('caso001/printables/index.html')
+          s = p.read_text(encoding='utf-8')
+
+          replacements = [
+            (
+              "const CHARS=[{id:'SANTIAGO',code:'P1',name:'Santiago',role:'Socio · Empresario',quote:'Siempre pienso en el largo plazo.'},{id:'CLARA',code:'P2',name:'Clara',role:'Hermana',quote:'Te conozco mejor que nadie.'},{id:'VERA',code:'P3',name:'Vera',role:'Expareja',quote:'No todo lo nuestro quedó atrás.'},{id:'MATEO',code:'P4',name:'Mateo',role:'Encargado',quote:'Yo solo hago mi trabajo.'},{id:'INES',code:'P5',name:'Inés',role:'Periodista',quote:'Las preguntas correctas cambian todo.'},{id:'TOMAS',code:'P6',name:'Tomás',role:'Amigo',quote:'Contá conmigo.'}];",
+              "const CHARS=[{id:'SANTIAGO',code:'P1',name:'Santiago',role:'Socio del estudio',quote:'Ficha pública inicial.'},{id:'CLARA',code:'P2',name:'Clara',role:'Consultora externa',quote:'Ficha pública inicial.'},{id:'VERA',code:'P3',name:'Vera',role:'Administración y accesos',quote:'Ficha pública inicial.'},{id:'MATEO',code:'P4',name:'Mateo',role:'Colaborador técnico',quote:'Ficha pública inicial.'},{id:'INES',code:'P5',name:'Inés',role:'Asistente del encuentro',quote:'Ficha pública inicial.'},{id:'TOMAS',code:'P6',name:'Tomás',role:'Invitado vinculado al caso',quote:'Ficha pública inicial.'}];"
+            ),
+            ("APERTURA COMÚN · P2", "APERTURA COMÚN"),
+            (
+              "<p><b>Los seis personajes siguen siendo parte del caso, aunque algunos sean controlados por el expediente como NPC.</b></p>",
+              "<p><b>Mínimo 3 jugadores humanos.</b> Los personajes restantes son NPC. <b>Normal:</b> 35 min; el responsable puede ser humano o NPC. <b>Impostor:</b> 30 min; el responsable es uno de los jugadores humanos y recibe su rol en privado.</p>"
+            ),
+            (
+              "E1 abre líneas. E2 fractura coartadas. E3 permite cerrar por cruce.",
+              "Etapa 1 abre líneas. Etapa 2 fractura coartadas. Etapa 3 habilita el cierre por cruce."
+            ),
+            (
+              "Persona + Escena + Objeto + Motivo / hipótesis causal.",
+              "Persona + Escena + Objeto son los 3 ejes obligatorios. Motivo / hipótesis causal es complementario."
+            ),
+            (
+              "Anotá solo hechos comprobados. La relación con la víctima puede adquirir un significado distinto según el Crime Pack.",
+              "Anotá solo hechos comprobados. Los antecedentes y contradicciones relevantes se revelan durante la investigación."
+            ),
+            (
+              "Los seis existen siempre. Que un personaje sea NPC no lo elimina como sospechoso.",
+              "Los seis existen siempre. En modo Normal, un NPC también puede ser responsable; en modo Impostor, el responsable está entre los jugadores humanos."
+            ),
+            (
+              "No hay un rango horario fijo: anotá toda marca temporal útil del pack.",
+              "No hay un rango horario fijo: anotá toda marca temporal útil de la partida."
+            ),
+            (
+              "const axes=['PERSONA','ESCENA','OBJETO','MOTIVO / HIPÓTESIS CAUSAL']",
+              "const axes=['PERSONA','ESCENA','OBJETO','MOTIVO / HIPÓTESIS (OPCIONAL)']"
+            ),
+            (
+              "const acc=['PERSONA RESPONSABLE','ESCENA CLAVE','OBJETO CLAVE','MOTIVO / HIPÓTESIS CAUSAL']",
+              "const acc=['PERSONA RESPONSABLE','ESCENA CLAVE','OBJETO CLAVE','MOTIVO / HIPÓTESIS (OPCIONAL)']"
+            ),
+            (
+              "<p class=\"muted\">Completar antes de revelar la solución digital.</p><div class=\"acc-fields\">${acc}</div>",
+              "<p class=\"muted\">Completá Persona + Escena + Objeto antes de sellar la acusación. El motivo es una hipótesis causal complementaria.</p><div class=\"acc-fields\">${acc}</div>"
+            ),
+          ]
+
+          for old, new in replacements:
+              count = s.count(old)
+              if count != 1:
+                  raise SystemExit(f'Canon audit aborted: expected exactly 1 occurrence, found {count}: {old[:120]}')
+              s = s.replace(old, new)
+
+          # Final invariants: canonical labels and player-facing rules must be present.
+          required = [
+              'Socio del estudio',
+              'Consultora externa',
+              'Administración y accesos',
+              'Colaborador técnico',
+              'Asistente del encuentro',
+              'Invitado vinculado al caso',
+              'Normal:</b> 35 min',
+              'Impostor:</b> 30 min',
+              'Mínimo 3 jugadores humanos',
+              'MOTIVO / HIPÓTESIS (OPCIONAL)',
+              'Persona + Escena + Objeto son los 3 ejes obligatorios',
+              'En modo Normal, un NPC también puede ser responsable; en modo Impostor, el responsable está entre los jugadores humanos.',
+          ]
+          missing = [x for x in required if x not in s]
+          if missing:
+              raise SystemExit('Canon audit aborted: missing required text: ' + ' | '.join(missing))
+
+          # Stale public-facing strings must be gone from the base kit.
+          stale = [
+              "role:'Socio · Empresario'",
+              "role:'Hermana'",
+              "role:'Expareja'",
+              "role:'Encargado'",
+              "role:'Periodista'",
+              "role:'Amigo'",
+              'Que un personaje sea NPC no lo elimina como sospechoso.',
+              'La relación con la víctima puede adquirir un significado distinto según el Crime Pack.',
+              'Persona + Escena + Objeto + Motivo / hipótesis causal.',
+          ]
+          found = [x for x in stale if x in s]
+          if found:
+              raise SystemExit('Canon audit aborted: stale text remains: ' + ' | '.join(found))
+
+          p.write_text(s, encoding='utf-8')
+          PY
+
+          git diff --check
+          git config user.name 'PasaloChevere Release Bot'
+          git config user.email 'pasalochevere@gmail.com'
+          git add caso001/printables/index.html
+          git commit -m 'P2.12D.17.4 align C001 printables with game canon' || exit 0
+          git push
