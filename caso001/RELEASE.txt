@@ -1,5 +1,5 @@
 CASO 001 · PRODUCCIÓN
-Release: P2.12D.17
+Release: P2.12D.17.3
 Title: La Última Reunión
 Status: production
 Modes: Normal + Impostor
@@ -11,4 +11,7 @@ Printable: 8 A4 base, 18 embedded images
 UI: Rev01 production game preserved; legacy prologue bypassed after Cinema V10
 Mode Normal: 35 min base, all players investigate, responsible may be human or NPC
 Mode Impostor: 30 min base, responsible is selected among human characters and receives private impostor role/truth
-QA: backend constraints accept dig/imp; create-room, start-game, private-view and game UI verified mode-aware
+QA live: Impostor smoke PASS with 3 real players · 1 impostor + 2 investigators · stages 1/2/3 · accusation lock · resolution
+Hardening: upper Create/Join controls wired to active CTA without visual changes; create-room closes stale waiting/active rooms, prevents mode mismatch reuse, and preserves valid reconnection
+Cleanup: legacy C001 rooms older than 24h marked finished to avoid blocking new sessions
+Backend: expediente-create-room v8
