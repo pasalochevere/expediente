@@ -1,5 +1,5 @@
 CASO 001 · PRODUCCIÓN
-Release: P2.12D.17.3
+Release: P2.12D.17.4
 Title: La Última Reunión
 Status: production
 Modes: Normal + Impostor
@@ -7,11 +7,13 @@ Engine: P2 server-side
 Crime Packs: server-side only
 Portal route: /caso001/intro/ → /caso001/?skipintro=1
 Intro: Cinema V10.7 integrated with Portal and game handoff
-Printable: 8 A4 base, 18 embedded images
+Printable: 8 A4 base, 18 embedded images · canon aligned with current game
 UI: Rev01 production game preserved; legacy prologue bypassed after Cinema V10
 Mode Normal: 35 min base, all players investigate, responsible may be human or NPC
 Mode Impostor: 30 min base, responsible is selected among human characters and receives private impostor role/truth
 QA live: Impostor smoke PASS with 3 real players · 1 impostor + 2 investigators · stages 1/2/3 · accusation lock · resolution
+QA printables: PASS · 6 public character profiles, 6 scenes, 6 objects, minimum 3 humans, Normal/Impostor rules, durations, NPC responsibility rules and final accusation aligned
+Accusation canon: Persona + Escena + Objeto are the 3 required axes; Motivo/Hipótesis is complementary/optional in the printable worksheet
 Hardening: upper Create/Join controls wired to active CTA without visual changes; create-room closes stale waiting/active rooms, prevents mode mismatch reuse, and preserves valid reconnection
 Cleanup: legacy C001 rooms older than 24h marked finished to avoid blocking new sessions
 Backend: expediente-create-room v8
