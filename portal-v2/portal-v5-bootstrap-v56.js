@@ -2,7 +2,7 @@
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
 
-  const VERSION='20260925-1';
+  const VERSION='20260928-1';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
@@ -17,8 +17,7 @@
   }
 
   function applyAll(){
-    raf=0;
-    state.runs++;
+    raf=0;state.runs++;
     moduleApplies().forEach(([name,fn])=>{
       try{fn()}catch(e){
         console.warn('Portal V5.6 apply',name,e);
@@ -35,13 +34,7 @@
   }
   window.pcV56RequestApply=requestApply;
 
-  function ensureCss(id,href){
-    if(document.getElementById(id))return;
-    const css=document.createElement('link');
-    css.id=id;css.rel='stylesheet';css.href=href;
-    document.head.appendChild(css);
-  }
-
+  function ensureCss(id,href){if(document.getElementById(id))return;const css=document.createElement('link');css.id=id;css.rel='stylesheet';css.href=href;document.head.appendChild(css)}
   function ensureScript(id,src){
     return new Promise((resolve,reject)=>{
       const existing=document.getElementById(id);
@@ -51,11 +44,9 @@
         const done=()=>{if(settled)return;settled=true;resolve(existing)};
         existing.addEventListener('load',done,{once:true});
         existing.addEventListener('error',()=>{if(settled)return;settled=true;reject(new Error('No se pudo cargar '+src))},{once:true});
-        setTimeout(done,900);
-        return;
+        setTimeout(done,900);return;
       }
-      const js=document.createElement('script');
-      js.id=id;js.src=src;js.async=false;
+      const js=document.createElement('script');js.id=id;js.src=src;js.async=false;
       js.addEventListener('load',()=>{js.dataset.pcV56Loaded='1';resolve(js)},{once:true});
       js.addEventListener('error',()=>reject(new Error('No se pudo cargar '+src)),{once:true});
       document.head.appendChild(js);
@@ -84,7 +75,7 @@
       await ensureScript('pc-legacy-cleanup-v55-js','portal-legacy-cleanup-v55.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
-      document.body.dataset.pcBootstrap='v56.2';
+      document.body.dataset.pcBootstrap='v56.2-public';
       requestApply('boot-complete');
     }catch(e){
       console.error('Portal V5.6 bootstrap',e);
@@ -94,32 +85,13 @@
   }
 
   window.pcPortalV56Audit=()=>({
-    version:'5.6.2',
+    version:'5.6.2-public',
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
-    applyRuns:state.runs,
-    lastReason:state.lastReason,
-    bootMs:state.loadedAt?Math.round(state.loadedAt-state.started):null,
-    errors:[...state.errors],
-    activationFix:!!window.__pcActivationFixV561,
-    dom:{
-      homes:document.querySelectorAll('.pcV51Home').length,
-      legacyHomes:document.querySelectorAll('.pcV42Home').length,
-      inicio:document.querySelectorAll('#inicio').length,
-      topNav:document.querySelectorAll('.pcV4Nav').length,
-      bottomNav:document.querySelectorAll('.pcV4BottomNav').length,
-      categoryModals:document.querySelectorAll('.pcV52Modal').length,
-      accountSections:document.querySelectorAll('.pcV53Account').length
-    },
-    modules:{
-      gate:!!window.__pcAccessGateV50,
-      home:!!window.__pcCleanHomeV51,
-      categories:!!window.__pcCategoryExperienceV52,
-      account:!!window.__pcAccountCenterV53,
-      nav:!!window.__pcNavMobileV54,
-      cleanup:!!window.__pcLegacyCleanupV55
-    }
+    applyRuns:state.runs,lastReason:state.lastReason,bootMs:state.loadedAt?Math.round(state.loadedAt-state.started):null,errors:[...state.errors],activationFix:!!window.__pcActivationFixV561,
+    dom:{homes:document.querySelectorAll('.pcV51Home').length,legacyHomes:document.querySelectorAll('.pcV42Home').length,inicio:document.querySelectorAll('#inicio').length,topNav:document.querySelectorAll('.pcV4Nav').length,bottomNav:document.querySelectorAll('.pcV4BottomNav').length,categoryModals:document.querySelectorAll('.pcV52Modal').length,accountSections:document.querySelectorAll('.pcV53Account').length},
+    modules:{gate:!!window.__pcAccessGateV50,home:!!window.__pcCleanHomeV51,categories:!!window.__pcCategoryExperienceV52,account:!!window.__pcAccountCenterV53,nav:!!window.__pcNavMobileV54,cleanup:!!window.__pcLegacyCleanupV55}
   });
 
   boot();
