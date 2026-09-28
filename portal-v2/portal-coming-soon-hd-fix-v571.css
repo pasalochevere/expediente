@@ -1,0 +1,18 @@
+/* PORTAL V5.7.1 · UPCOMING VISUAL QA
+   Mantiene las piezas cuadradas completas, evita recortes y mejora lectura en miniatura. */
+.pcComingMedia{aspect-ratio:1/1!important;background:#08080a!important}
+.pcComingMedia img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center center!important;image-rendering:auto!important}
+.pcComingShelfGrid{align-items:stretch!important}
+.pcComingShelfItem{display:flex!important;flex-direction:column!important;min-width:0!important}
+.pcComingShelfItem img{display:block!important;width:100%!important;height:auto!important;aspect-ratio:1/1!important;object-fit:cover!important;object-position:center center!important;background:#09090b!important;image-rendering:auto!important}
+.pcComingShelfCopy{margin-top:auto!important}
+.pcComingModalMedia{background:#070709!important;padding:0!important;min-height:0!important}
+.pcComingModalMedia img{display:block!important;width:100%!important;height:auto!important;max-height:min(82vh,900px)!important;object-fit:contain!important;object-position:center center!important;background:#070709!important;image-rendering:auto!important}
+@media (min-width:821px){
+  .pcComingModalGrid{grid-template-columns:minmax(380px,1fr) minmax(360px,.9fr)!important;align-items:center!important}
+  .pcComingModalMedia{align-self:stretch!important}
+}
+@media (max-width:820px){
+  .pcComingModalMedia{max-height:none!important}
+  .pcComingModalMedia img{width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important}
+}
