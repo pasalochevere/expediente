@@ -2,7 +2,7 @@
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
 
-  const VERSION='20260928-1';
+  const VERSION='20260928-2';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
@@ -10,6 +10,7 @@
     return [
       ['51-home',window.pcApplyCleanHomeV51],
       ['52-categories',window.pcApplyCategoryExperienceV52],
+      ['57-coming',window.pcApplyComingSoonV57],
       ['53-account',window.pcApplyAccountCenterV53],
       ['54-nav',window.pcApplyNavMobileV54],
       ['55-cleanup',window.pcApplyLegacyCleanupV55]
@@ -71,12 +72,13 @@
       await ensureScript('pc-clean-home-v51-js','portal-clean-home-v51.js?v='+VERSION);
       await ensureScript('pc-activation-fix-v561-js','portal-activation-fix-v561.js?v='+VERSION);
       await ensureScript('pc-category-experience-v52-js','portal-category-experience-v52.js?v='+VERSION);
+      await ensureScript('pc-coming-soon-v57-js','portal-coming-soon-v57.js?v='+VERSION);
       await ensureScript('pc-account-center-v53-js','portal-account-center-v53.js?v='+VERSION);
       await ensureScript('pc-nav-mobile-v54-js','portal-nav-mobile-v54.js?v='+VERSION);
       await ensureScript('pc-legacy-cleanup-v55-js','portal-legacy-cleanup-v55.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
-      document.body.dataset.pcBootstrap='v56.2-public';
+      document.body.dataset.pcBootstrap='v56.3-public';
       requestApply('boot-complete');
     }catch(e){
       console.error('Portal V5.6 bootstrap',e);
@@ -86,13 +88,13 @@
   }
 
   window.pcPortalV56Audit=()=>({
-    version:'5.6.2-public',
+    version:'5.6.3-public',
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
     applyRuns:state.runs,lastReason:state.lastReason,bootMs:state.loadedAt?Math.round(state.loadedAt-state.started):null,errors:[...state.errors],activationFix:!!window.__pcActivationFixV561,
-    dom:{homes:document.querySelectorAll('.pcV51Home').length,legacyHomes:document.querySelectorAll('.pcV42Home').length,inicio:document.querySelectorAll('#inicio').length,topNav:document.querySelectorAll('.pcV4Nav').length,bottomNav:document.querySelectorAll('.pcV4BottomNav').length,categoryModals:document.querySelectorAll('.pcV52Modal').length,accountSections:document.querySelectorAll('.pcV53Account').length},
-    modules:{gate:!!window.__pcAccessGateV50,home:!!window.__pcCleanHomeV51,categories:!!window.__pcCategoryExperienceV52,account:!!window.__pcAccountCenterV53,nav:!!window.__pcNavMobileV54,cleanup:!!window.__pcLegacyCleanupV55}
+    dom:{homes:document.querySelectorAll('.pcV51Home').length,legacyHomes:document.querySelectorAll('.pcV42Home').length,inicio:document.querySelectorAll('#inicio').length,topNav:document.querySelectorAll('.pcV4Nav').length,bottomNav:document.querySelectorAll('.pcV4BottomNav').length,categoryModals:document.querySelectorAll('.pcV52Modal').length,accountSections:document.querySelectorAll('.pcV53Account').length,comingSoon:document.querySelectorAll('.pcComingCard').length},
+    modules:{gate:!!window.__pcAccessGateV50,home:!!window.__pcCleanHomeV51,categories:!!window.__pcCategoryExperienceV52,coming:!!window.__pcComingSoonV57,account:!!window.__pcAccountCenterV53,nav:!!window.__pcNavMobileV54,cleanup:!!window.__pcLegacyCleanupV55}
   });
 
   boot();
