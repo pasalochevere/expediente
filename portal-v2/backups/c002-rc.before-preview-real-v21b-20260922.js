@@ -31,7 +31,7 @@
     if(!document.getElementById('pc-preview-real-v2-js')){
       const js=document.createElement('script');
       js.id='pc-preview-real-v2-js';
-      js.src='portal-preview-real-v2.js?v=20260922-1';
+      js.src='portal-preview-real-v2.js?v=20260928-preview58';
       js.defer=true;
       document.head.appendChild(js);
     }else if(typeof window.pcApplyPreviewRealV2==='function'){

@@ -110,7 +110,7 @@
   }
 
   function thumbMarkup(slide,i){
-    const inner=slide.kind==='image'?`<img src="${esc(slide.src)}" alt="" style="object-fit:${esc(slide.fit||'cover')}">`:`<div style="position:absolute;inset:0;background:linear-gradient(145deg,#2c2027,#111014)"></div>`;
+    const inner=slide.thumbHtml|| (slide.kind==='image'?`<img src="${esc(slide.src)}" alt="" style="object-fit:${esc(slide.fit||'cover')}">`:`<div style="position:absolute;inset:0;background:linear-gradient(145deg,#2c2027,#111014)"></div>`);
     return `<button type="button" class="pcRv2Thumb ${i===0?'active':''}" data-index="${i}" aria-label="Ver ${esc(slide.label||'vista '+(i+1))}">${inner}<span>${esc(slide.label||'Vista '+(i+1))}</span></button>`;
   }
 
@@ -145,7 +145,7 @@
     modal.querySelector('#pcRv2Subtitle').textContent=config.subtitle;
     modal.querySelector('#pcRv2InfoTitle').textContent='Así se ve y así se usa';
     modal.querySelector('#pcRv2Summary').textContent=config.summary;
-    modal.querySelector('#pcRv2Badges').innerHTML='<span class="pcRv2Badge">PREVIEW REAL V2</span>'+(config.safe?'<span class="pcRv2Badge safe">'+esc(config.safe)+'</span>':'');
+    modal.querySelector('#pcRv2Badges').innerHTML='<span class="pcRv2Badge">VISTA PREVIA</span>'+(config.safe?'<span class="pcRv2Badge safe">'+esc(config.safe)+'</span>':'');
     modal.querySelector('#pcRv2Facts').innerHTML=`<div class="pcRv2Fact"><b>Formato</b><span>${esc(config.format)}</span></div><div class="pcRv2Fact"><b>Uso</b><span>${esc(config.use)}</span></div><div class="pcRv2Fact"><b>Enfoque</b><span>${esc(config.focus)}</span></div>`;
     modal.querySelector('#pcRv2Promise').innerHTML=config.safe?.includes('SPOILERS')?'<strong>Preview cuidada.</strong> Usamos escenas y estructura reales, pero no mostramos la solución ni evidencias críticas.':'<strong>Lo que ves es una muestra comercial segura.</strong> Las imágenes marcadas como reales provienen del producto; las vistas de interfaz reproducen su diseño y flujo sin exponer contenido premium.';
     modal.querySelector('#pcRv2Stage').innerHTML=config.slides.map(slideMarkup).join('');

@@ -1,0 +1,46 @@
+/* Commercial previews · Doble Intención, Víncores, Squishy.
+   Uses public product artwork and explicitly labelled interface samples. */
+(()=>{
+  if(window.__pcPreviewPremiumV58)return;
+  const A='assets/previews-v58/';
+  const img=(name,alt,cls='')=>`<img class="${cls}" src="${A+name}.webp?v=20260928-v58" alt="${alt}" loading="lazy" decoding="async">`;
+  const tag=s=>`<div class="pc58Kicker">${s}</div>`;
+  const wrap=(theme,html)=>`<div class="pc58 pc58-${theme}">${html}</div>`;
+  const symbol=(kind)=>({spark:'✦',flame:'♨',crown:'♛'}[kind]);
+  const levels=()=>`<div class="pc58Levels">${[['spark','CHISPA','Conexión y complicidad'],['flame','FUEGO','Salir de la rutina'],['crown','DOMINIO','Otra intensidad']].map(([i,n,d])=>`<div class="pc58Level"><i aria-hidden="true">${symbol(i)}</i><b>${n}</b><span>${d}</span></div>`).join('')}</div>`;
+  const figure=(name,type,color,pos)=>`<div class="pc58Figure ${type}" style="--tint:${color};left:${pos[0]}%;top:${pos[1]}%"><i></i><b>${name}</b></div>`;
+  const field=()=>`<div class="pc58Field"><span class="pc58FieldLabel">CAMPO DE EXPLORACIÓN</span><div class="pc58Link pc58Link-a"></div><div class="pc58Link pc58Link-b"></div>${figure('YO','round','#d3978d',[29,52])}${figure('VÍNCULO','square','#8da8bd',[69,42])}${figure('RECURSO','round','#a4bfa9',[57,73])}<div class="pc58FieldKey"><i></i> Apoyo <i></i> Relación</div></div>`;
+  const sqPeople=[['sweet_squishies','Donita','Dulces'],['food_squad','Burgui','Comidas'],['animal_cuties','Teddy','Animales'],['cosmic_friends','Luni','Espacio'],['magic_objects','Poci','Magia']];
+  const diCover=()=>wrap('di',`${tag('PASALOCHEVERE · EXPERIENCIAS PARA DOS')}<div class="pc58DiTitle"><h3>Doble<br><em>Intención.</em></h3><p>Una noche. Dos intenciones.</p></div>${levels()}<div class="pc58Bottom"><span>TRILOGÍA DIGITAL + IMPRIMIBLES</span><b>+18</b></div>`);
+  const diUse=()=>wrap('di',`${tag('CÓMO SE JUEGA')}<h3 class="pc58Title">Elegí el clima.<br><em>Decidan juntos.</em></h3><div class="pc58DiPlay"><div class="pc58Select"><b>01 / ELEGÍ UNA EDICIÓN</b><div class="pc58Edition"><span>CHISPA</span><span>FUEGO</span><span>DOMINIO</span></div><b>02 / POR NÚMERO O AL AZAR</b><div class="pc58Numbers">${Array.from({length:14},(_,i)=>`<i class="${i===6?'on':''}">${String(i+1).padStart(2,'0')}</i>`).join('')}</div></div><div class="pc58Prompt"><small>EJEMPLO ILUSTRATIVO</small><strong>07</strong><p>Contale algo que<br>te encanta de ustedes.</p><div><span>SÍ</span><span>MÁS SUAVE</span><span>PASO</span></div></div></div><div class="pc58Bottom"><span>SIEMPRE PUEDEN CAMBIAR DE IDEA.</span></div>`);
+  const diIncludes=()=>wrap('di',`${tag('QUÉ INCLUYE LA TRILOGÍA')}<h3 class="pc58Title">Tres climas.<br><em>Muchas maneras de conectar.</em></h3><div class="pc58BigStat"><strong>126</strong><span>consignas<br><b>42 por edición</b></span></div><div class="pc58FeatureRow"><div><b>JUEGO DIGITAL</b><p>Selección por edición,<br>número o al azar.</p></div><div><b>MATERIAL DESCARGABLE</b><p>Imprimibles de<br>las tres ediciones.</p></div></div><div class="pc58Bottom"><span>CHISPA · FUEGO · DOMINIO</span><b>+18</b></div>`);
+  const vincCover=()=>wrap('vinc',`${tag('PASALOCHEVERE · BIENESTAR & VÍNCULOS')}<h3 class="pc58Title">Víncores<span> DIGITAL</span></h3><p class="pc58Lead">Dale un lugar a lo que sentís.</p><div class="pc58VincHero">${field()}<div class="pc58Kit">${img('vincores-kit','Piezas originales del kit físico Víncores')}<span>Inspirado en nuestras piezas.<br><b>Kit físico por separado.</b></span></div></div><div class="pc58Bottom"><span>FIGURAS · RELACIONES · ESCENAS</span></div>`);
+  const vincUse=()=>wrap('vinc',`${tag('CÓMO SE USA · ESCENA ILUSTRATIVA')}<h3 class="pc58Title">Ubicá. Relacioná.<br><em>Volvé a mirar.</em></h3><div class="pc58VincWorkspace"><aside><b>REPRESENTANTES</b><span>Cilindro</span><span>Prisma</span><b>PERSONALIZÁ</b><span>Nombre y rol</span><span>Color y dirección</span><span>Emoción</span></aside>${field()}</div><div class="pc58Bottom"><span>UNA MUESTRA DEL CAMPO Y SUS HERRAMIENTAS.</span></div>`);
+  const vincIncludes=()=>wrap('vinc',`${tag('QUÉ INCLUYE EL ACCESO DIGITAL')}<h3 class="pc58Title">De una escena<br><em>a nuevas perspectivas.</em></h3><div class="pc58VincFeatures">${[['01','Campo interactivo','Figuras, posiciones y relaciones.'],['02','Práctica guiada','Casos y ejercicios para empezar.'],['03','Bitácora','Anotá lo que observás.'],['04','Escenas y exportación','Guardá y revisá tu recorrido.']].map(([n,t,d])=>`<div><i>${n}</i><section><b>${t}</b><p>${d}</p></section></div>`).join('')}</div><div class="pc58Bottom"><span>USO DESDE EL NAVEGADOR · SIN INSTALAR</span></div>`);
+  const sqCover=()=>wrap('sq',`${img('squishy-factory','Arte cinematográfico de la Fábrica de Squishies','pc58FullArt')}<div class="pc58SqShade"></div><div class="pc58SqCopy">${tag('PASALOCHEVERE · CREATIVOS')}<h3>Fábrica de<br><em>Squishies.</em></h3><p>Tu imaginación.<br>Tu diseño. Tu squishy.</p><span class="pc58Pill">50 DISEÑOS · 5 COLECCIONES</span></div><div class="pc58Bottom"><span>ARTE DE LA INTRO DEL PRODUCTO</span></div>`);
+  const sqUse=()=>wrap('sqLight',`${tag('CÓMO SE USA · CREATOR PLUS')}<h3 class="pc58Title">Un personaje.<br><em>Tu propia versión.</em></h3><div class="pc58SqEditor"><aside><b>PERSONALIZÁ</b><span>Elementos</span><span>Texto</span><span>Colores</span><span>Composición</span><div class="pc58Swatches"><i></i><i></i><i></i></div></aside><div class="pc58SqCanvas">${img('sweet_squishies','Donita, personaje real de la colección Sweet Squishies')}<span>DONITA · PERSONAJE REAL</span></div></div><div class="pc58Steps"><span><b>01</b> Elegí</span><span><b>02</b> Personalizá</span><span><b>03</b> Prepará para imprimir</span></div><div class="pc58Bottom"><span>VISTA ILUSTRATIVA DEL FLUJO · NO ES EL EDITOR ACTIVO</span></div>`);
+  const sqIncludes=()=>wrap('sqLight',`${tag('QUÉ INCLUYE LA FÁBRICA')}<h3 class="pc58Title">Cinco mundos.<br><em>50 personajes para crear.</em></h3><div class="pc58Collection">${sqPeople.map(([id,name,cat])=>`<div>${img(id,name+', personaje de '+cat)}<b>${name}</b><span>${cat}</span></div>`).join('')}</div><div class="pc58SqMaterials"><b>CREATOR PLUS + MATERIALES</b><span>Frente y dorso · Para colorear<br>Tutoriales · Fichas de personajes</span></div><div class="pc58Bottom"><span>PERSONAJES REALES DEL CATÁLOGO</span></div>`);
+  const thumb=(theme,text)=>`<div class="pc58ThumbArt pc58Thumb-${theme}">${text}</div>`;
+  const slide=(label,render,thumbHtml)=>({kind:'ui',label,note:'',source:'VISTA DEL PRODUCTO',render,thumbHtml});
+  function patch(){
+    const p=window.PC_REAL_PREVIEWS_V2;if(!p)return false;
+    p['DI-TRILOGIA'].slides=[slide('La trilogía',diCover,thumb('di','DI')),slide('Cómo se juega',diUse,thumb('di','07')),slide('Qué incluye',diIncludes,thumb('di','126'))];
+    p['DI-TRILOGIA'].summary='Tres intensidades para compartir de a dos: Chispa, Fuego y Dominio. Elegí una consigna por número o al azar y decidan juntos cómo seguir.';
+    p['DI-TRILOGIA'].focus='126 consignas · 3 ediciones';
+    p['VINC-001'].slides=[slide('Víncores Digital',vincCover,img('vincores-kit','')),slide('Cómo se usa',vincUse,thumb('vinc','VÍNCULOS')),slide('Qué incluye',vincIncludes,thumb('vinc','4'))];
+    p['VINC-001'].summary='Representá personas y relaciones en un campo visual. Personalizá figuras, explorá escenas y registrá tus observaciones. El acceso digital no incluye el kit físico.';
+    p['VINC-001'].format='Herramienta digital · kit físico aparte';
+    p['PSQ-FACTORY'].slides=[slide('La fábrica',sqCover,img('squishy-factory','')),slide('Cómo se usa',sqUse,img('sweet_squishies','')),slide('Qué incluye',sqIncludes,img('food_squad',''))];
+    p['PSQ-FACTORY'].summary='Explorá 50 personajes en cinco colecciones, personalizá tus proyectos en Creator Plus y prepará los materiales para armar tus squishies de papel.';
+    ['DI-TRILOGIA','VINC-001','PSQ-FACTORY'].forEach(k=>{p[k].__v21b=true;p[k].__v58=true});
+    window.__pcPreviewPremiumV58=true;return true;
+  }
+  const coverContent={
+    doble:`<div class="pc58Poster pc58Poster-di"><small>PARA COMPARTIR DE A DOS</small><strong>Doble<br><em>Intención.</em></strong><span>CHISPA · FUEGO · DOMINIO</span></div>`,
+    vincores:`<div class="pc58Poster pc58Poster-vinc">${img('vincores-kit','Piezas físicas que inspiran Víncores Digital')}<small>CAMPO INTERACTIVO</small><strong>Víncores<span> DIGITAL</span></strong><em>Explorá tus vínculos.</em></div>`,
+    squishy:`<div class="pc58Poster pc58Poster-sq">${img('squishy-factory','Fábrica de Squishies')}<small>50 DISEÑOS · CREATOR PLUS</small><strong>Fábrica de<br>Squishies.</strong></div>`
+  };
+  function covers(){document.querySelectorAll('.pcV4Cover[data-pc-cover-key]').forEach(c=>{const key=c.dataset.pcCoverKey;if(!coverContent[key]||c.querySelector('.pc58Poster'))return;c.classList.add('pc58Cover');c.insertAdjacentHTML('beforeend',coverContent[key])})}
+  function boot(){if(!patch())return false;covers();let queued=false;new MutationObserver(()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;covers()})}).observe(document.body,{childList:true,subtree:true});return true}
+  if(!boot()){let tries=0;const t=setInterval(()=>{if(boot()||++tries>60)clearInterval(t)},100)}
+})();
