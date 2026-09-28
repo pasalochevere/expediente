@@ -5,16 +5,17 @@
   const RECENTS_KEY='pc_v41e_recent_products';
   const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().trim();
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  let deepLinkHandled=false;
 
   const icons={
     library:'<rect x="4" y="4" width="6" height="16" rx="1"/><rect x="11" y="6" width="5" height="14" rx="1"/><path d="m17 7 3-1 2 13-4 1"/>',
-    explore:'<circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2.1 4.9-4.9 2.1 2.1-4.9 4.9-2.1Z"/>'
+    explore:'<circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2.1 4.9-4.9 2.1 2.1-4.9 4.9-2.1Z"/>',
+    activate:'<path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="8.5"/>'
   };
   const svg=name=>`<svg viewBox="0 0 24 24" aria-hidden="true">${icons[name]||icons.explore}</svg>`;
 
-  function recents(){
-    try{const v=JSON.parse(localStorage.getItem(RECENTS_KEY)||'[]');return Array.isArray(v)?v:[]}catch{return []}
-  }
+  function hasSession(){try{return typeof window.pcV50HasSession==='function'&&window.pcV50HasSession()}catch{return false}}
+  function recents(){try{const v=JSON.parse(localStorage.getItem(RECENTS_KEY)||'[]');return Array.isArray(v)?v:[]}catch{return []}}
 
   function codeForCard(card){
     if(!card)return '';
@@ -45,10 +46,7 @@
     const active=cards.filter(isActive);
     const pending=cards.filter(isPending);
     const byCode=new Map(active.map(c=>[equivalent(codeForCard(c)),c]).filter(x=>x[0]));
-    for(const r of recents()){
-      const c=byCode.get(equivalent(r?.code));
-      if(c)return {card:c,recent:true};
-    }
+    for(const r of recents()){const c=byCode.get(equivalent(r?.code));if(c)return {card:c,recent:true}}
     if(active.length)return {card:active[0],recent:false};
     if(pending.length)return {card:pending[0],recent:false};
     return {card:cards[0]||null,recent:false};
@@ -57,20 +55,19 @@
   function renderCover(target,card){
     target.innerHTML='';
     const cover=card?.querySelector(':scope > .pcV4Cover');
-    if(cover){
-      const clone=cover.cloneNode(true);target.appendChild(clone);return;
-    }
+    if(cover){const clone=cover.cloneNode(true);target.appendChild(clone);return}
     const fallback=document.createElement('div');fallback.className='pcV51Fallback';fallback.textContent=titleOf(card);target.appendChild(fallback);
   }
 
-  function primaryAction(card){
-    return card?.querySelector('.pcSmartMainActions>.btn:first-child,.pcSmartMainActions>a:first-child,.pcSmartMainActions>button:first-child,.actions .btn.primary,.actions .btn');
+  function renderPublicCover(target){
+    target.innerHTML='';
+    const fallback=document.createElement('div');fallback.className='pcV51Fallback pcV51PublicFallback';
+    fallback.innerHTML='<span>PASALO<br>CHEVERE</span>';
+    target.appendChild(fallback);
   }
-  function openCard(card){
-    const action=primaryAction(card);
-    if(action){action.click();return}
-    card?.scrollIntoView({behavior:'smooth',block:'center'});
-  }
+
+  function primaryAction(card){return card?.querySelector('.pcSmartMainActions>.btn:first-child,.pcSmartMainActions>a:first-child,.pcSmartMainActions>button:first-child,.actions .btn.primary,.actions .btn')}
+  function openCard(card){const action=primaryAction(card);if(action){action.click();return}card?.scrollIntoView({behavior:'smooth',block:'center'})}
 
   function setNavActive(view){
     const name=view==='home'?'home':view==='library'?'library':'explore';
@@ -79,6 +76,10 @@
 
   function setView(view,scroll=true){
     if(!['home','library','explore'].includes(view))view='home';
+    if(view==='library'&&!hasSession()){
+      if(typeof window.pcV50OpenLibrary==='function')window.pcV50OpenLibrary();
+      return;
+    }
     document.body.dataset.pcV5View=view;
     setNavActive(view);
     if(!scroll)return;
@@ -89,9 +90,52 @@
   function ensureViewBar(section,kind){
     if(!section||section.querySelector(`.pcV51ViewBar[data-view="${kind}"]`))return;
     const bar=document.createElement('div');bar.className='pcV51ViewBar';bar.dataset.view=kind;
-    bar.innerHTML=`<div><small>${kind==='library'?'MI ESPACIO':'EXPLORAR'}</small><h2>${kind==='library'?'Mi biblioteca':'Experiencias PasaloChevere'}</h2></div><button class="pcV51Back" type="button">← Inicio</button>`;
+    bar.innerHTML=`<div><small>${kind==='library'?'MIS JUEGOS':'EXPLORAR'}</small><h2>${kind==='library'?'Mi biblioteca':'Experiencias PasaloChevere'}</h2></div><button class="pcV51Back" type="button">← Inicio</button>`;
     bar.querySelector('button').addEventListener('click',()=>setView('home'));
     section.insertBefore(bar,section.firstChild);
+  }
+
+  function ensureEmptyLibrary(section,cards){
+    if(!section)return;
+    let empty=section.querySelector('.pcV51EmptyLibrary');
+    if(cards.length||!hasSession()){empty?.remove();return}
+    if(!empty){
+      empty=document.createElement('div');empty.className='pcV51EmptyLibrary';
+      empty.innerHTML='<div class="eyebrow">TU BIBLIOTECA</div><h3>Todavía no tenés juegos activos.</h3><p>Explorá el catálogo, comprá una experiencia o activá el código recibido con una compra física o invitación.</p><div class="pcV51ContinueActions"><button type="button" class="pcV51Primary" data-empty-explore>EXPLORAR JUEGOS</button><button type="button" class="pcV51Secondary" data-empty-activate>ACTIVAR COMPRA</button></div>';
+      section.appendChild(empty);
+      empty.querySelector('[data-empty-explore]')?.addEventListener('click',()=>setView('explore'));
+      empty.querySelector('[data-empty-activate]')?.addEventListener('click',()=>window.pcV50OpenActivation?.());
+    }
+  }
+
+  function renderPublicHome(home,cards){
+    const logged=hasSession();
+    const signature=['public',logged?'logged':'guest',cards.length].join('::');
+    if(home.dataset.sig===signature)return home;
+    home.dataset.sig=signature;
+    home.innerHTML=`
+      <div class="pcV51Intro"><div><small>PASALOCHEVERE · JUEGOS Y EXPERIENCIAS</small><h1>Explorá. Elegí. Jugá.</h1></div><p>El catálogo es público. Mirá juegos, precios y previews sin registrarte. El correo se pide recién para comprar, activar o entrar a Mis juegos.</p></div>
+      <div class="pcV51Grid">
+        <article class="pcV51Continue pcV51PublicFeature">
+          <div class="pcV51Cover"></div>
+          <div class="pcV51ContinueBody">
+            <div class="pcV51Kicker">CATÁLOGO PASALOCHEVERE</div>
+            <h2>Encontrá tu próxima experiencia.</h2>
+            <p>Pareja, familia, misterio, bienestar y creatividad. Entrá a cada categoría, mirá la preview y comprá cuando quieras.</p>
+            <div class="pcV51ContinueActions"><button type="button" class="pcV51Primary" data-public-explore>VER TODOS LOS JUEGOS</button><button type="button" class="pcV51Secondary" data-public-activate>YA COMPRÉ · ACTIVAR</button></div>
+          </div>
+        </article>
+        <div class="pcV51Side">
+          <button type="button" class="pcV51Action" data-go="explore"><span class="pcV51ActionIcon">${svg('explore')}</span><span class="pcV51ActionCopy"><small>CATÁLOGO PÚBLICO</small><b>Explorar juegos</b><span>Previews, detalles y compra. No necesitás código para mirar.</span></span><span class="pcV51ActionArrow">→</span></button>
+          <button type="button" class="pcV51Action" data-go="library"><span class="pcV51ActionIcon">${svg('library')}</span><span class="pcV51ActionCopy"><small>${logged?'TU BIBLIOTECA':'YA SOS CLIENTE'}</small><b>Mis juegos</b><span>${logged?'Entrá a tus accesos y continuá jugando.':'Validá tu correo sólo cuando quieras entrar a tu biblioteca.'}</span></span><span class="pcV51ActionArrow">→</span></button>
+        </div>
+      </div>`;
+    renderPublicCover(home.querySelector('.pcV51Cover'));
+    home.querySelector('[data-public-explore]')?.addEventListener('click',()=>setView('explore'));
+    home.querySelector('[data-public-activate]')?.addEventListener('click',()=>window.pcV50OpenActivation?.());
+    home.querySelector('[data-go="library"]')?.addEventListener('click',()=>setView('library'));
+    home.querySelector('[data-go="explore"]')?.addEventListener('click',()=>setView('explore'));
+    return home;
   }
 
   function ensureHome(cards){
@@ -103,7 +147,9 @@
       if(anchor)anchor.insertAdjacentElement('beforebegin',home);else if(nav)nav.insertAdjacentElement('afterend',home);else document.querySelector('.wrap')?.prepend(home);
     }
 
-    const choice=chooseHero(cards),card=choice.card;if(!card)return home;
+    if(!cards.length)return renderPublicHome(home,cards);
+
+    const choice=chooseHero(cards),card=choice.card;if(!card)return renderPublicHome(home,cards);
     const signature=[codeForCard(card),cards.length,cards.filter(isActive).length,cards.filter(isPending).length,recents().map(x=>x.code).join('|')].join('::');
     if(home.dataset.sig===signature)return home;
     home.dataset.sig=signature;
@@ -111,7 +157,7 @@
     const activeCount=cards.filter(isActive).length;
     const pending=isPending(card);
     home.innerHTML=`
-      <div class="pcV51Intro"><div><small>TU PORTAL PASALOCHEVERE</small><h1>Elegí. Entrá. Jugá.</h1></div><p>La portada muestra sólo lo importante. Tus juegos, el catálogo y la gestión quedan separados.</p></div>
+      <div class="pcV51Intro"><div><small>TU PORTAL PASALOCHEVERE</small><h1>Elegí. Entrá. Jugá.</h1></div><p>Tus juegos, el catálogo público y la gestión de accesos quedan separados para que encuentres todo rápido.</p></div>
       <div class="pcV51Grid">
         <article class="pcV51Continue">
           <div class="pcV51Cover"></div>
@@ -123,8 +169,8 @@
           </div>
         </article>
         <div class="pcV51Side">
-          <button type="button" class="pcV51Action" data-go="library"><span class="pcV51ActionIcon">${svg('library')}</span><span class="pcV51ActionCopy"><small>TUS JUEGOS</small><b>Mi biblioteca</b><span>${activeCount} ${activeCount===1?'acceso activo':'accesos activos'}${cards.length-activeCount>0?` · ${cards.length-activeCount} por revisar`:''}</span></span><span class="pcV51ActionArrow">→</span></button>
-          <button type="button" class="pcV51Action" data-go="explore"><span class="pcV51ActionIcon">${svg('explore')}</span><span class="pcV51ActionCopy"><small>CATÁLOGO</small><b>Explorar</b><span>Descubrí experiencias que todavía no están en tu biblioteca.</span></span><span class="pcV51ActionArrow">→</span></button>
+          <button type="button" class="pcV51Action" data-go="library"><span class="pcV51ActionIcon">${svg('library')}</span><span class="pcV51ActionCopy"><small>TUS JUEGOS</small><b>Mis juegos</b><span>${activeCount} ${activeCount===1?'acceso activo':'accesos activos'}${cards.length-activeCount>0?` · ${cards.length-activeCount} por revisar`:''}</span></span><span class="pcV51ActionArrow">→</span></button>
+          <button type="button" class="pcV51Action" data-go="explore"><span class="pcV51ActionIcon">${svg('explore')}</span><span class="pcV51ActionCopy"><small>CATÁLOGO PÚBLICO</small><b>Explorar</b><span>Descubrí experiencias que todavía no están en tu biblioteca.</span></span><span class="pcV51ActionArrow">→</span></button>
         </div>
       </div>`;
 
@@ -135,21 +181,61 @@
     return home;
   }
 
-  function cleanNav(){
-    document.querySelectorAll('[data-v4-nav="account"]').forEach(el=>el.setAttribute('aria-hidden','true'));
+  function cleanNav(){document.querySelectorAll('[data-v4-nav="account"]').forEach(el=>el.setAttribute('aria-hidden','true'))}
+
+  function deepCode(raw){
+    const x=String(raw||'').toLowerCase().trim();
+    const map={
+      'paper-squishy':'PSQ-FACTORY','paper-squishy-factory':'PSQ-FACTORY','squishy':'PSQ-FACTORY',
+      'doble-intencion':'DI-TRILOGIA','doble':'DI-TRILOGIA',
+      'expedientes-001':'EXP-001','caso-001':'EXP-001','exp001':'EXP-001',
+      'expedientes-002':'EXP-002','caso-002':'EXP-002','exp002':'EXP-002',
+      'vincores':'VINC-001','vincores-digital':'VINC-001',
+      'tarot':'TAROT-GUIDE','mesa-tarot':'TAROT-GUIDE',
+      'verdad-o-reto':'TORRE-MEGA','mega-pack':'TORRE-MEGA',
+      'matematica':'TK-MAT-79-DIG','chevere-kids-matematica':'TK-MAT-79-DIG',
+      'torre-america':'TORRE-AMERICA','quimera':'QUIMERA'
+    };
+    return map[x]||String(raw||'').toUpperCase().trim();
+  }
+
+  function handleDeepLink(){
+    if(deepLinkHandled||!document.body.classList.contains('pcV51Ready'))return;
+    let raw='';try{raw=new URL(location.href).searchParams.get('producto')||''}catch{}
+    if(!raw){deepLinkHandled=true;return}
+    const wanted=deepCode(raw);
+    let tries=0;
+    const t=setInterval(()=>{
+      tries++;
+      const cards=[...document.querySelectorAll('.categoryDrawer .card')];
+      const card=cards.find(c=>equivalent(codeForCard(c))===equivalent(wanted));
+      if(!card){if(tries>35){clearInterval(t);deepLinkHandled=true}return}
+      clearInterval(t);deepLinkHandled=true;
+      const drawer=card.closest('.categoryDrawer');
+      const category=drawer?.id?.replace(/^drawer-/,'');
+      setView('explore',false);
+      if(category&&typeof window.openCategory==='function')window.openCategory(category);
+      setTimeout(()=>{
+        const preview=[...card.querySelectorAll('button,a')].find(el=>norm(el.textContent).includes('PREVIEW'));
+        if(preview)preview.click();else card.scrollIntoView({behavior:'smooth',block:'center'});
+      },320);
+    },120);
   }
 
   function apply(){
     if(!document.body.classList.contains('pcV50PortalReady'))return;
     const myGames=document.getElementById('myGames'),hub=document.querySelector('.categoryHub');
-    const cards=allCards();if(!myGames||!hub||!cards.length)return;
+    if(!myGames||!hub)return;
+    const cards=allCards();
     document.body.classList.add('pcV51Ready');
     if(!document.body.dataset.pcV5View)document.body.dataset.pcV5View='home';
     ensureHome(cards);
     ensureViewBar(myGames,'library');
     ensureViewBar(hub,'explore');
+    ensureEmptyLibrary(myGames,cards);
     cleanNav();
     setNavActive(document.body.dataset.pcV5View);
+    handleDeepLink();
   }
 
   document.addEventListener('click',e=>{
