@@ -4,38 +4,38 @@
 
   const PRODUCTS=[
     {
-      code:'TORRE-AMERICA',category:'family',image:'assets/upcoming/torre-america.webp',
+      code:'TORRE-AMERICA',category:'family',image:'assets/upcoming/torre-america.webp?v=20260928-hd1200',
       title:'Torre de América',subtitle:'Trivia, desafíos y pasión futbolera',
       description:'Una torre temática con preguntas, retos y momentos épicos inspirados en el fútbol de toda América.',
       detail:'Juego físico + experiencia digital pensado para compartir en familia o con amigos. La torre combina trivia, desafíos y distintos niveles de juego.'
     },
     {
-      code:'FABRICA-AVIONES',category:'creative',image:'assets/upcoming/aviones.webp',
+      code:'FABRICA-AVIONES',category:'creative',image:'assets/upcoming/aviones.webp?v=20260928-hd1200',
       title:'Fábrica de Aviones',subtitle:'Diseñá, plegá y hacé volar',
       description:'Una experiencia creativa para aprender a construir aviones de papel con modelos, guías paso a paso y fichas de vuelo.',
       detail:'Cada modelo propone un recorrido completo: plano, plegado cuadro por cuadro, versión final y ficha para probar cómo vuela.'
     },
     {
-      code:'ESCUELA-RUNAS',category:'wellbeing',image:'assets/upcoming/runas.webp',
+      code:'ESCUELA-RUNAS',category:'wellbeing',image:'assets/upcoming/runas.webp?v=20260928-hd1200',
       title:'Escuela de Runas',subtitle:'Historia, símbolos y práctica guiada',
       description:'Una escuela interactiva para conocer el mundo de las runas, sus significados, lecturas y aplicaciones prácticas.',
       detail:'Historia, simbología, lecturas, ejercicios y progreso dentro de una experiencia visual e interactiva.'
     },
     {
-      code:'EXP-003',category:'mystery',image:'assets/upcoming/exp003.webp',
+      code:'EXP-003',category:'mystery',image:'assets/upcoming/exp003.webp?v=20260928-hd1200',
       title:'Expedientes · Caso 003',subtitle:'La Casa de los Espejos',
       description:'Un caso donde nada refleja lo mismo. Pistas, documentos y decisiones dentro de una nueva investigación inquietante.',
       detail:'Una nueva investigación de Expedientes. La preview presenta el clima y el concepto sin revelar soluciones ni spoilers.'
     },
     {
-      code:'CRIMENES-REALES',category:'mystery',image:'assets/upcoming/crimenes-reales.webp',
+      code:'CRIMENES-REALES',category:'mystery',image:'assets/upcoming/crimenes-reales.webp?v=20260928-hd1200',
       title:'Crímenes Reales',subtitle:'Casos reales, evidencia y reconstrucción',
       description:'Una experiencia documental interactiva para explorar cronologías, documentos, mapas, testimonios y hechos de casos reales.',
       detail:'El recorrido diferenciará claramente hechos confirmados, testimonios, versiones, hipótesis y puntos todavía no resueltos.',
       chips:['HECHO CONFIRMADO','TESTIMONIO','VERSIÓN','HIPÓTESIS','PUNTO NO RESUELTO']
     },
     {
-      code:'QUIMERA',category:'mystery',image:'assets/upcoming/quimera.webp',
+      code:'QUIMERA',category:'mystery',image:'assets/upcoming/quimera.webp?v=20260928-hd1200',
       title:'Quimera',subtitle:'Investigación inmersiva en evolución',
       description:'Un universo de investigaciones, salas, enigmas, decisiones y rutas variables que puede expandirse mucho más allá de la pantalla.',
       detail:'Quimera no es un único caso: es un motor de experiencias de investigación capaz de crecer en distintas formas de juego.',
