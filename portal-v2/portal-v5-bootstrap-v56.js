@@ -56,6 +56,7 @@
   function preloadCss(){
     ensureCss('pc-access-gate-v50-css','portal-access-gate-v50.css?v='+VERSION);
     ensureCss('pc-clean-home-v51-css','portal-clean-home-v51.css?v='+VERSION);
+    ensureCss('pc-storefront-public-v57-css','portal-storefront-public-v57.css?v='+VERSION);
     ensureCss('pc-category-experience-v52-css','portal-category-experience-v52.css?v='+VERSION);
     ensureCss('pc-account-center-v53-css','portal-account-center-v53.css?v='+VERSION);
     ensureCss('pc-nav-mobile-v54-css','portal-nav-mobile-v54.css?v='+VERSION);
