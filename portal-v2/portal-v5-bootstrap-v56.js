@@ -2,7 +2,7 @@
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
 
-  const VERSION='20260928-2';
+  const VERSION='20260928-3';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
@@ -59,6 +59,7 @@
     ensureCss('pc-clean-home-v51-css','portal-clean-home-v51.css?v='+VERSION);
     ensureCss('pc-storefront-public-v57-css','portal-storefront-public-v57.css?v='+VERSION);
     ensureCss('pc-category-experience-v52-css','portal-category-experience-v52.css?v='+VERSION);
+    ensureCss('pc-coming-soon-hd-fix-v571-css','portal-coming-soon-hd-fix-v571.css?v='+VERSION);
     ensureCss('pc-account-center-v53-css','portal-account-center-v53.css?v='+VERSION);
     ensureCss('pc-nav-mobile-v54-css','portal-nav-mobile-v54.css?v='+VERSION);
     ensureCss('pc-legacy-cleanup-v55-css','portal-legacy-cleanup-v55.css?v='+VERSION);
@@ -78,7 +79,7 @@
       await ensureScript('pc-legacy-cleanup-v55-js','portal-legacy-cleanup-v55.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
-      document.body.dataset.pcBootstrap='v56.3-public';
+      document.body.dataset.pcBootstrap='v56.3-public-hd';
       requestApply('boot-complete');
     }catch(e){
       console.error('Portal V5.6 bootstrap',e);
@@ -88,7 +89,7 @@
   }
 
   window.pcPortalV56Audit=()=>({
-    version:'5.6.3-public',
+    version:'5.6.3-public-hd',
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
