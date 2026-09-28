@@ -1,0 +1,11 @@
+ARCHIVO DE RESPALDO — PRIMAVERA DAI
+
+La versión pública vigente al 28/09/2026 quedó preservada en Git mediante el historial del repositorio antes de su desactivación.
+
+Entradas públicas desactivadas:
+- /primavera-dai/
+- /primavera-dai/primavera-dai-final.html
+- /dai/
+- /abri-este-obsequio/
+
+No se eliminaron los archivos base del proyecto ni sus recursos.
