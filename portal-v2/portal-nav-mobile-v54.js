@@ -4,8 +4,8 @@
 
   const META={
     home:{long:'Inicio',short:'Inicio',title:'Inicio'},
-    library:{long:'Mi biblioteca',short:'Biblioteca',title:'Mi biblioteca'},
-    explore:{long:'Explorar',short:'Explorar',title:'Explorar'},
+    library:{long:'Mis juegos',short:'Mis juegos',title:'Mis juegos'},
+    explore:{long:'Explorar',short:'Explorar',title:'Explorar juegos'},
     account:{long:'Mi cuenta',short:'Cuenta',title:'Mi cuenta'}
   };
   const PATHS={
@@ -15,38 +15,34 @@
     account:'<circle cx="12" cy="8" r="3.2"/><path d="M5.5 21c.7-4 3-6 6.5-6s5.8 2 6.5 6"/>'
   };
 
-  function view(){
-    const v=document.body?.dataset?.pcV5View||'home';
-    return META[v]?v:'home';
-  }
-
+  function view(){const v=document.body?.dataset?.pcV5View||'home';return META[v]?v:'home'}
   function icon(key){return `<span class="pcV54Icon" aria-hidden="true"><svg viewBox="0 0 24 24">${PATHS[key]||PATHS.home}</svg></span>`}
 
   function decorate(btn){
     const key=btn?.dataset?.v4Nav;if(!META[key])return;
     btn.removeAttribute('aria-hidden');btn.hidden=false;btn.style.removeProperty('display');
     btn.setAttribute('aria-label',META[key].title);
-    if(btn.dataset.pcV54Decorated==='1')return;
+    if(btn.dataset.pcV54Decorated==='1'){
+      const long=btn.querySelector('.pcV54LabelLong'),short=btn.querySelector('.pcV54LabelShort');
+      if(long)long.textContent=META[key].long;if(short)short.textContent=META[key].short;
+      return;
+    }
     btn.dataset.pcV54Decorated='1';
     btn.innerHTML=`${icon(key)}<span class="pcV54LabelLong">${META[key].long}</span><span class="pcV54LabelShort">${META[key].short}</span>`;
   }
 
   function ensureAccountButtons(){
     const topHost=document.querySelector('.pcV4NavLinks');
-    if(topHost&&!topHost.querySelector('[data-v4-nav="account"]')){
-      const b=document.createElement('button');b.type='button';b.dataset.v4Nav='account';topHost.appendChild(b);
-    }
+    if(topHost&&!topHost.querySelector('[data-v4-nav="account"]')){const b=document.createElement('button');b.type='button';b.dataset.v4Nav='account';topHost.appendChild(b)}
     const bottom=document.querySelector('.pcV4BottomNav');
-    if(bottom&&!bottom.querySelector('[data-v4-nav="account"]')){
-      const b=document.createElement('button');b.type='button';b.dataset.v4Nav='account';bottom.appendChild(b);
-    }
+    if(bottom&&!bottom.querySelector('[data-v4-nav="account"]')){const b=document.createElement('button');b.type='button';b.dataset.v4Nav='account';bottom.appendChild(b)}
   }
 
   function normalizeBrand(){
     const brand=document.querySelector('.pcV4NavBrand');if(!brand)return;
     if(brand.dataset.pcV54Brand==='1')return;
     brand.dataset.pcV54Brand='1';
-    brand.innerHTML='<span class="pcV4NavBrandDot"></span><span>PasaloChevere · Portal</span>';
+    brand.innerHTML='<span class="pcV4NavBrandDot"></span><span>PasaloChevere · Juegos</span>';
   }
 
   function syncActive(){
@@ -61,16 +57,10 @@
     });
   }
 
-  function apply(){
-    syncActive();
-    document.body.classList.toggle('pcV54NavReady',document.body.classList.contains('pcV50PortalReady'));
-  }
+  function apply(){syncActive();document.body.classList.toggle('pcV54NavReady',document.body.classList.contains('pcV50PortalReady'))}
 
   let raf=0;
-  function schedule(){
-    if(raf)return;
-    raf=requestAnimationFrame(()=>{raf=0;apply()});
-  }
+  function schedule(){if(raf)return;raf=requestAnimationFrame(()=>{raf=0;apply()})}
 
   document.addEventListener('click',e=>{
     const nav=e.target.closest('[data-v4-nav]');
@@ -81,11 +71,7 @@
   window.addEventListener('scroll',schedule,{passive:true});
   window.addEventListener('resize',schedule,{passive:true});
   window.addEventListener('pageshow',schedule);
-
-  new MutationObserver(schedule).observe(document.body,{
-    childList:true,subtree:true,attributes:true,
-    attributeFilter:['data-pc-v5-view','aria-hidden','class']
-  });
+  new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['data-pc-v5-view','aria-hidden','class']});
 
   window.pcApplyNavMobileV54=apply;
   schedule();setTimeout(schedule,250);setTimeout(schedule,800);setTimeout(schedule,1700);setTimeout(schedule,3000);
