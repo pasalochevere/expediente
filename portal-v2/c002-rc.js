@@ -20,7 +20,7 @@
     if(!document.getElementById('pc-v5-bootstrap-v56-js')){
       const js=document.createElement('script');
       js.id='pc-v5-bootstrap-v56-js';
-      js.src='portal-v5-bootstrap-v56.js?v=20260929-preview60';
+      js.src='portal-v5-bootstrap-v56.js?v=20260929-preview60a';
       js.defer=true;
       document.head.appendChild(js);
       return;
@@ -121,7 +121,7 @@
 
   const stable=document.createElement('script');
   stable.id='pc-portal-stable-before-v21b';
-  stable.src='backups/c002-rc.before-preview-real-v21b-20260922.js?v=20260929-preview60';
+  stable.src='backups/c002-rc.before-preview-real-v21b-20260922.js?v=20260929-preview60a';
   stable.onload=()=>{
     stableReady=true;
     ensureContinueShelf();
