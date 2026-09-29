@@ -2,7 +2,7 @@
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
 
-  const VERSION='20260928-preview58';
+  const VERSION='20260928-preview59';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
@@ -55,6 +55,7 @@
   }
 
   function preloadCss(){
+    ensureCss('pc-preview-premium-v59-css','portal-preview-premium-v59.css?v='+VERSION);
     ensureCss('pc-preview-premium-v58-css','portal-preview-premium-v58.css?v='+VERSION);
     ensureCss('pc-access-gate-v50-css','portal-access-gate-v50.css?v='+VERSION);
     ensureCss('pc-clean-home-v51-css','portal-clean-home-v51.css?v='+VERSION);
@@ -79,6 +80,7 @@
       await ensureScript('pc-nav-mobile-v54-js','portal-nav-mobile-v54.js?v='+VERSION);
       await ensureScript('pc-legacy-cleanup-v55-js','portal-legacy-cleanup-v55.js?v='+VERSION);
       await ensureScript('pc-preview-premium-v58-js','portal-preview-premium-v58.js?v='+VERSION);
+      await ensureScript('pc-preview-premium-v59-js','portal-preview-premium-v59.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
       document.body.dataset.pcBootstrap='v56.3-public-hd';
