@@ -1,0 +1,62 @@
+/* Public catalogue closure: readable flow, reachable controls, consistent status. */
+.pcComingCard .previewAction{display:none!important}
+.pcRv2Slide:not(.active){visibility:hidden}
+.pcRv2Slide.active{visibility:visible}
+.pc61Terms{color:#bdb2a8;font-size:12px;line-height:1.5;margin:12px 0 0}
+.pcRv2Thumb:has(.pc58Thumb-vinc)>span{color:#24483d;text-shadow:none}
+.pcRv2Thumb:has(.pc59-tarot)>span,.pcRv2Thumb:has(.pc59-case)>span,.pcRv2Thumb:has(.pc59-orfeo)>span{color:#fff}
+.pcRv2Close,.pcComingClose{min-width:44px!important;min-height:44px!important}
+@media(max-width:650px), (max-height:500px) and (orientation:landscape){
+  #pcRealPreviewModal{padding:0!important}
+  #pcRealPreviewModal .pcRv2Dialog{width:100%!important;height:100vh!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;display:grid!important;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden!important}
+  #pcRealPreviewModal .pcRv2Head{position:relative!important;min-width:0;padding:10px 12px!important;gap:8px}
+  #pcRealPreviewModal .pcRv2Head>div{min-width:0}
+  #pcRealPreviewModal .pcRv2Head h2{font-size:clamp(18px,5vw,24px)!important;overflow-wrap:anywhere}
+  #pcRealPreviewModal .pcRv2Hero{display:block!important;overflow:auto!important;overscroll-behavior:contain;padding:12px!important;min-height:0;-webkit-overflow-scrolling:touch}
+  #pcRealPreviewModal .pcRv2Stage:has(.pc58,.pc59){height:auto!important;min-height:0!important;aspect-ratio:auto!important}
+  #pcRealPreviewModal .pcRv2Slide:has(.pc58,.pc59){display:none;position:relative;inset:auto;transform:none!important}
+  #pcRealPreviewModal .pcRv2Slide.active:has(.pc58,.pc59){display:block}
+  #pcRealPreviewModal .pc58,#pcRealPreviewModal .pc59{position:relative;inset:auto;min-height:130cqw;height:auto;overflow:hidden;padding:8% 7% 7%}
+  #pcRealPreviewModal .pc58>*,#pcRealPreviewModal .pc59>*{flex-shrink:0}
+  #pcRealPreviewModal .pc58Bottom,#pcRealPreviewModal .pc59Foot{margin-top:18px}
+  #pcRealPreviewModal .pcRv2Nav{position:static!important;transform:none;display:flex!important;justify-content:space-between;margin-top:8px;pointer-events:auto}
+  #pcRealPreviewModal .pcRv2Nav button{width:44px!important;height:44px!important;opacity:1}
+  #pcRealPreviewModal .pcRv2Rail{gap:7px;padding-top:9px!important;scroll-snap-type:x proximity}
+  #pcRealPreviewModal .pcRv2Thumb{flex:0 0 96px!important;height:64px!important;scroll-snap-align:start}
+  #pcRealPreviewModal .pcRv2Thumb>span{font-size:10px!important;line-height:1.2!important}
+  #pcRealPreviewModal .pcRv2Info{padding:18px 0 0!important}
+  #pcRealPreviewModal .pcRv2Info>p{font-size:14px!important;line-height:1.5!important;display:block!important;overflow:visible!important}
+  #pcRealPreviewModal .pcRv2Footer{position:relative!important;padding:9px 12px calc(10px + env(safe-area-inset-bottom))!important;gap:8px;display:flex;flex-direction:column;align-items:stretch}
+  #pcRealPreviewModal .pcRv2Price{display:flex;flex-direction:row;justify-content:space-between;gap:8px;align-items:center}
+  #pcRealPreviewModal .pcRv2FooterActions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px}
+  #pcRealPreviewModal .pcRv2Footer .btn{min-width:0!important;width:100%;min-height:44px!important;white-space:normal;font-size:11px!important;padding:8px!important}
+  #pcRealPreviewModal .pcV21cCounter{position:static;display:flex;justify-content:center;margin-top:8px}
+  #pcRealPreviewModal .pcV21cDot{min-width:24px;min-height:24px;border-radius:50%;border:8px solid #161316}
+  #pcRealPreviewModal .pc58DiPlay{margin-bottom:18px;max-height:none}
+  #pcRealPreviewModal .pc58Prompt{max-height:none}
+  #pcRealPreviewModal .pc58VincHero,#pcRealPreviewModal .pc58SqEditor{max-height:none}
+  #pcRealPreviewModal .pc58-sq .pc58Bottom{margin-top:auto;padding-top:16px}
+  #pcRealPreviewModal .pc60:has(.pc60Bloqui) .pc59Foot{margin-top:auto;padding-top:18px}
+  #pcRealPreviewModal .pc59:has(.pc59Door,.pc59Seal,.pc59TarotCards) .pc59Foot{margin-top:auto;padding-top:18px}
+  #pcRealPreviewModal .pcComingModalCopy{overflow-wrap:anywhere}
+}
+@media(max-width:360px){
+  #pcRealPreviewModal .pc58VincHero{grid-template-columns:1fr}
+  #pcRealPreviewModal .pc58Kit{display:none}
+  #pcRealPreviewModal .pc58FeatureRow{gap:10px}
+  #pcRealPreviewModal .pc59Included{grid-template-columns:1fr;gap:16px}
+  #pcRealPreviewModal .pc59Included figure{max-width:150px}
+  #pcRealPreviewModal .pc59TarotKit{grid-template-columns:1fr;gap:14px}
+  #pcRealPreviewModal .pc59Number{padding:12px}
+  #pcRealPreviewModal .pc60Categories{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-height:500px) and (orientation:landscape){
+  #pcRealPreviewModal .pcRv2Head{padding:7px 12px!important}
+  #pcRealPreviewModal .pcRv2Head h2{font-size:18px!important;margin:0}
+  #pcRealPreviewModal .pcRv2Eyebrow,#pcRealPreviewModal .pcRv2Sub{display:none}
+  #pcRealPreviewModal .pcRv2Gallery{max-width:540px;margin-inline:auto}
+  #pcRealPreviewModal .pc58,#pcRealPreviewModal .pc59{min-height:75cqw}
+  #pcRealPreviewModal .pcRv2Footer{flex-direction:row;align-items:center}
+  #pcRealPreviewModal .pcRv2FooterActions{flex:1}
+  #pcRealPreviewModal .pcRv2Price{flex:0 1 28%;flex-direction:column;align-items:flex-start}
+}
