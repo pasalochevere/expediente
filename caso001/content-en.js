@@ -1,6 +1,6 @@
 // EXP01-EN3 · Complete visible game-content localization layer for Caso 001.
 // Presentation-only. It never mutates room state, multiplayer payloads, licenses or Crime Packs.
-import {getLanguage} from './i18n.js';
+// Language follows the canonical document <html lang> set by i18n.js, avoiding a second module state.
 import {CORE_CONTENT_PAIRS,CORE_DYNAMIC_TRANSLATORS} from './content-en-core.js';
 import {PACK_CONTENT_PAIRS_01_04} from './content-en-packs-01-04.js';
 import {PACK_CONTENT_PAIRS_05_08} from './content-en-packs-05-08.js';
@@ -15,12 +15,16 @@ const ALL_PAIRS=Object.freeze([
 const ES_TO_EN=new Map(ALL_PAIRS);
 const EN_TO_ES=new Map(ALL_PAIRS.map(([es,en])=>[en,es]));
 
+function presentationLanguage(){
+  if(typeof document==='undefined')return 'es';
+  return String(document.documentElement?.lang||'es').toLowerCase()==='en'?'en':'es';
+}
 function preserveOuterWhitespace(original,replacement){
   const m=String(original).match(/^(\s*)([\s\S]*?)(\s*)$/);
   return `${m?.[1]||''}${replacement}${m?.[3]||''}`;
 }
 
-export function translateGameContent(value,language=getLanguage()){
+export function translateGameContent(value,language=presentationLanguage()){
   const original=String(value??'');
   if(!original.trim()) return original;
   const core=original.trim();
@@ -38,7 +42,7 @@ function skipNode(node){
 }
 function localizeTextNode(node){
   if(!node||node.nodeType!==Node.TEXT_NODE||skipNode(node))return;
-  const next=translateGameContent(node.nodeValue,getLanguage());
+  const next=translateGameContent(node.nodeValue,presentationLanguage());
   if(next!==node.nodeValue)node.nodeValue=next;
 }
 function localizeAttributes(el){
@@ -46,7 +50,7 @@ function localizeAttributes(el){
   for(const attr of ['alt','title','aria-label']){
     if(!el.hasAttribute(attr))continue;
     const value=el.getAttribute(attr)||'';
-    const next=translateGameContent(value,getLanguage());
+    const next=translateGameContent(value,presentationLanguage());
     if(next!==value)el.setAttribute(attr,next);
   }
 }
