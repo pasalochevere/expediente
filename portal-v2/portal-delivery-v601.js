@@ -6,7 +6,7 @@
   let busy=false;
 
   function ctx(){return typeof window.pcDeliveryContext==='function'?window.pcDeliveryContext():window.PC_DELIVERY_CONTEXT||null}
-  function active(){return !!ctx()?.deliveryMode}
+  function active(){return !!ctx()?.deliveryMode&&!window.__pcDeliveryHandoffComplete}
   function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
   function status(text,type=''){const el=document.getElementById('pcDeliveryStatus');if(!el)return;el.textContent=text||'';el.className='pcDeliveryStatus'+(type?' '+type:'')}
 
