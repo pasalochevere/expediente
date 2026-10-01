@@ -1,0 +1,19 @@
+{
+  "release": "PSQ 2.5",
+  "product": "PAPER SQUISHY FACTORY",
+  "license_authority": "PSQ-FACTORY",
+  "stats": {
+    "characters": 50,
+    "collections": 5,
+    "printable_sheets": 150,
+    "creator_plus_months": 12,
+    "device_limit": 2
+  },
+  "downloads": [
+    {"key":"welcome","filename":"01_PAPER_SQUISHY_BIENVENIDA_GUIA.pdf","kind":"guide","active":true},
+    {"key":"master","filename":"02_PAPER_SQUISHY_50_PERSONAJES.pdf","kind":"master_pack","active":true},
+    {"key":"creator","filename":"03_PAPER_SQUISHY_CREATOR_PLUS.pdf","kind":"creator_plus_guide","active":true}
+  ],
+  "future_ready": ["bonus","seasonal_packs","new_collections","master_pdf_updates","exclusive_files"],
+  "notes": "Storage paths are intentionally excluded from the public manifest. Access remains controlled by the existing PSQ-FACTORY license."
+}
