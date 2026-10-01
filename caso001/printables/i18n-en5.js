@@ -3,6 +3,7 @@
 import {translateGameContent} from '../content-en.js?v=exp01-en3-20261001';
 
 const STORAGE_KEY='expedientes.c001.printables.lang';
+const GLOBAL_STORAGE_KEY='expedientes_language';
 const VALID_LANGS=new Set(['es','en']);
 
 const PRINTABLE_PAIRS=Object.freeze([
@@ -281,7 +282,7 @@ export function setPrintableLanguage(language,{updateUrl=true,persist=true}={}){
   setDocumentTitle(next);
   const select=ensureLanguageControl();
   if(select) select.value=next;
-  if(persist){try{localStorage.setItem(STORAGE_KEY,next)}catch{}}
+  if(persist){try{localStorage.setItem(STORAGE_KEY,next);localStorage.setItem(GLOBAL_STORAGE_KEY,next)}catch{}}
   if(updateUrl) syncUrl(next);
   applyPrintableLocalization(document);
   window.dispatchEvent(new CustomEvent('expedientes:languagechange',{detail:{language:next,source:'printables-en5'}}));
@@ -292,6 +293,8 @@ function initialLanguage(){
   const param=new URL(location.href).searchParams.get('lang');
   if(VALID_LANGS.has(param)) return param;
   try{
+    const globalStored=localStorage.getItem(GLOBAL_STORAGE_KEY);
+    if(VALID_LANGS.has(globalStored)) return globalStored;
     const stored=localStorage.getItem(STORAGE_KEY);
     if(VALID_LANGS.has(stored)) return stored;
   }catch{}

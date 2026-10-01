@@ -76,26 +76,26 @@ function hydrateModeSelector(){
 
 function wireUpperEntryActions(){
   if(typeof document==='undefined') return;
-  const lower=document.getElementById('enterRoom');
-  if(!(lower instanceof HTMLButtonElement)) return;
+  const root=document.documentElement;
+  if(root?.dataset?.pcUpperEntryDelegated==='1') return;
+  if(root?.dataset) root.dataset.pcUpperEntryDelegated='1';
 
-  const bind=(id)=>{
-    const upper=document.getElementById(id);
-    if(!(upper instanceof HTMLButtonElement)||upper.dataset.pcUpperWired==='1') return;
-    upper.dataset.pcUpperWired='1';
-    upper.addEventListener('click',(event)=>{
-      // Si el control superior está inactivo, dejamos que el handler original
-      // cambie de pestaña. Si ya está activo, funciona como CTA de esa acción.
-      if(!upper.classList.contains('active')) return;
-      if(lower.disabled) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      lower.click();
-    },true);
-  };
+  // Un único handler delegado evita diferencias entre Crear y Unirse.
+  document.addEventListener('click',(event)=>{
+    const raw=event.target;
+    const upper=raw instanceof Element?raw.closest('#tabCreate,#tabJoin'):null;
+    if(!(upper instanceof HTMLButtonElement)) return;
 
-  bind('tabCreate');
-  bind('tabJoin');
+    // Inactivo: el handler original sólo cambia de pestaña.
+    if(!upper.classList.contains('active')) return;
+
+    // Activo: ejecuta exactamente el CTA inferior correspondiente.
+    const lower=document.getElementById('enterRoom');
+    if(!(lower instanceof HTMLButtonElement)||lower.disabled) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    lower.click();
+  },true);
 }
 
 function hydrateEntryUi(){
