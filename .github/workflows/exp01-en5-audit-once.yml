@@ -1,4 +1,4 @@
-name: EXP01 EN5 Printable Audit R2
+name: EXP01 EN5 Printable Audit R3
 on:
   push:
     paths:
@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Audit printable DOM
+      - name: Audit printable DOM and evidence pages
         run: |
           CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
           test -n "$CHROME"
@@ -28,16 +28,18 @@ jobs:
           const page=await browser.newPage({viewport:{width:1280,height:900}});
           const errors=[];page.on('pageerror',e=>errors.push(String(e)));
           await page.goto('http://127.0.0.1:4173/caso001/printables/',{waitUntil:'domcontentloaded'});
-          await page.waitForTimeout(1000);
-          const data=await page.evaluate(()=>({
-            title:document.title,
-            pageCount:document.querySelectorAll('.page').length,
-            pages:[...document.querySelectorAll('.page')].map((p,i)=>({index:i+1,text:p.innerText.replace(/\n{3,}/g,'\n\n'),images:[...p.querySelectorAll('img')].map(img=>({alt:img.alt||'',cls:img.className,src:(img.getAttribute('src')||'').slice(0,80)}))})),
-            controls:[...document.querySelectorAll('.toolbar label,.toolbar button,.toolbar option,.toolbar span,.status')].map(x=>x.textContent.trim()).filter(Boolean)
-          }));
-          data.errors=errors;
+          await page.waitForTimeout(900);
+          const base=await page.evaluate(()=>({pageCount:document.querySelectorAll('.page').length,pages:[...document.querySelectorAll('.page')].map((p,i)=>({index:i+1,text:p.innerText.replace(/\n{3,}/g,'\n\n')}))}));
+          await page.selectOption('#pack','C001-01');
+          await page.selectOption('#stage','3');
+          await page.selectOption('#channel','CASEFILE');
+          await page.waitForTimeout(700);
+          const publicEv=await page.evaluate(()=>({pageCount:document.querySelectorAll('.page').length,evidence:[...document.querySelectorAll('.evidence-page')].map((p,i)=>({index:i+1,text:p.innerText.replace(/\n{3,}/g,'\n\n')})),status:document.querySelector('#status')?.textContent?.trim()||''}));
+          await page.selectOption('#channel','SANTIAGO');
+          await page.waitForTimeout(700);
+          const privateEv=await page.evaluate(()=>({pageCount:document.querySelectorAll('.page').length,evidence:[...document.querySelectorAll('.evidence-page')].map((p,i)=>({index:i+1,text:p.innerText.replace(/\n{3,}/g,'\n\n')})),status:document.querySelector('#status')?.textContent?.trim()||''}));
           console.log('EXP01_EN5_AUDIT_BEGIN');
-          console.log(JSON.stringify(data,null,2));
+          console.log(JSON.stringify({title:await page.title(),base,publicEv,privateEv,errors},null,2));
           console.log('EXP01_EN5_AUDIT_END');
           await browser.close();
           NODE
