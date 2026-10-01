@@ -2,7 +2,7 @@
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
 
-  const VERSION='20261001-delivery016-1';
+  const VERSION='20261001-delivery016-hotfix1';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
@@ -102,7 +102,7 @@
       await ensureScript('pc-delivery-support-v016-js','portal-delivery-support-v016.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
-      document.body.dataset.pcBootstrap='v56.8-delivery016';
+      document.body.dataset.pcBootstrap='v56.8.1-delivery016';
       requestApply('boot-complete');
     }catch(e){
       console.error('Portal V5.6 bootstrap',e);
@@ -112,7 +112,7 @@
   }
 
   window.pcPortalV56Audit=()=>({
-    version:'5.6.8-delivery016',
+    version:'5.6.8.1-delivery016',
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
