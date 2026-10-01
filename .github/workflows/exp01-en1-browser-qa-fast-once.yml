@@ -29,7 +29,7 @@ jobs:
           cat /tmp/server.log; exit 1
       - name: QA
         run: |
-          cat > /tmp/qa.mjs <<'JS'
+          cat > exp01-en1-qa.mjs <<'JS'
           import { chromium } from 'playwright-core';
           import fs from 'node:fs';
           const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME,args:['--no-sandbox']});
@@ -63,4 +63,4 @@ jobs:
             console.log(JSON.stringify({ok:true,results:r},null,2));
           } finally {await browser.close()}
           JS
-          node /tmp/qa.mjs
+          node ./exp01-en1-qa.mjs
