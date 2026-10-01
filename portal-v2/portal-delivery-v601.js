@@ -58,7 +58,8 @@
 
   function show(){
     if(!active())return false;
-    ensureShell();
+    const shell=ensureShell();
+    shell?.classList.remove('hidden');
     document.documentElement.classList.add('pcDeliveryModeActive');
     document.body.classList.add('pcDeliveryModeActive');
     return true;
