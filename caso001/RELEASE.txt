@@ -15,6 +15,11 @@ Language behavior: live ES/EN switch, device-local preference, safe ES fallback,
 Language scope EN3: EN2 structural UI + main narrative, legacy prologue, Cinema Intro, public profiles, visible location/object labels, all enabled C001 evidence payloads, private role/objective content, Impostor truth, Director guidance and full solution/reconstruction narrative localized ES/EN
 Canonical safety: server Crime Packs, P2 labels, room state and multiplayer payloads remain unchanged in Spanish/internal IDs; English is presentation-only and solution visuals resolve by canonical indices before legacy name fallback
 Language QA EN3: automated browser PASS · bidirectional ES↔EN PASS · narrative/evidence/private/Director/solution PASS · Cinema Intro PASS · local state isolation PASS · language absent from multiplayer payloads · solution visual lookup index-safe
+Visual checkpoint: EXP01-EN4 · visual language audit complete
+Visual asset audit: 18/18 Caso 001 raster assets inspected · 7 contain embedded Spanish text and have EN presentation variants · 11 language-neutral assets are reused unchanged
+Visual scope EN4: 6 character portraits + notebook localized; 6 scenes and weapon/phone/key/USB/handkerchief remain the original assets
+Visual behavior: ES keeps original JPGs · EN swaps presentation-only self-contained SVG variants in game and Cinema Intro
+Visual QA EN4: automated browser PASS · asset load PASS · main + Cinema Intro ES↔EN swap PASS · language-neutral images remain shared · multiplayer untouched
 Mode Normal: 35 min base, all players investigate, responsible may be human or NPC
 Mode Impostor: 30 min base, responsible is selected among human characters and receives private impostor role/truth
 QA live: Impostor smoke PASS with 3 real players · 1 impostor + 2 investigators · stages 1/2/3 · accusation lock · resolution

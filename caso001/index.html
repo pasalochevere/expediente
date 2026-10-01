@@ -155,6 +155,7 @@ html[lang="en"] .dossierIntro:after{content:"CONFIDENTIAL"}html[lang="en"] .scen
 import {P2MultiplayerAdapter,P2_LABELS,findStoredLicense,lastRoomCode,remainingSeconds,formatClock} from '../caso001/p2-multiplayer-adapter.js?v=exp01-en1-20261001';
 import {t,getLanguage,bindLanguageSwitcher,applyTranslations,languageLocale} from './i18n.js?v=exp01-en3-20261001';
 import {bindGameContentLocalization,applyGameContentTranslations} from './content-en.js?v=exp01-en3-20261001';
+import {bindVisualLocalization,applyVisualLocalization} from './visual-en.js?v=exp01-en4-20261001';
 const $=s=>document.querySelector(s), adapter=new P2MultiplayerAdapter();
 let entryMode='create',selectedCharacter=0,view=null,privateView=null,refreshing=false,pendingRefresh=false,tickTimer=null,clockTimer=null,busy=false;
 let adapterReady=false,adapterInitError='';
@@ -317,10 +318,11 @@ function refreshLanguagePresentation(){
   if(view){renderLobby();renderGame()}
   if(!$('#prologue').classList.contains('hidden'))renderPrologueScene();
   applyGameContentTranslations(document);
+  applyVisualLocalization(document);
 }
 window.addEventListener('expedientes:languagechange',refreshLanguagePresentation);
 
-bindLanguageSwitcher(document);applyTranslations(document);bindGameContentLocalization(document);buildCharacters();buildTheory();const urlParams=new URLSearchParams(location.search);const portalAccess=String(urlParams.get('access')||'').trim();const invitedRoom=urlParams.get('room');const skipIntro=urlParams.get('skipintro')==='1'||urlParams.get('intro')==='v10';if(invitedRoom||skipIntro){$('#prologue').classList.add('hidden');sessionStorage.setItem('pc_exp_rev01_prologue_seen','1')}else{sessionStorage.removeItem('pc_exp_rev01_prologue_seen');openPrologue()}if(portalAccess){$('#licenseKey').value=portalAccess;localStorage.setItem('pc_exp_license_key',portalAccess);$('#licenseKey').readOnly=true;$('#licenseKey').title='Acceso cargado desde tu Portal PasaloChevere';toast('Acceso cargado desde Portal.')}else{$('#licenseKey').value=findStoredLicense()}const last=lastRoomCode();if(invitedRoom){setEntryMode('join');$('#roomCode').value=String(invitedRoom).trim().toUpperCase();toast('Código de sala cargado. Elegí tu personaje y uníte.')}else if(last){$('#roomCode').value=last;$('#rejoinLast').classList.remove('hidden');$('#rejoinLast').textContent=t('setup.rejoinCode',{code:last})}
+bindLanguageSwitcher(document);applyTranslations(document);bindGameContentLocalization(document);bindVisualLocalization(document);buildCharacters();buildTheory();const urlParams=new URLSearchParams(location.search);const portalAccess=String(urlParams.get('access')||'').trim();const invitedRoom=urlParams.get('room');const skipIntro=urlParams.get('skipintro')==='1'||urlParams.get('intro')==='v10';if(invitedRoom||skipIntro){$('#prologue').classList.add('hidden');sessionStorage.setItem('pc_exp_rev01_prologue_seen','1')}else{sessionStorage.removeItem('pc_exp_rev01_prologue_seen');openPrologue()}if(portalAccess){$('#licenseKey').value=portalAccess;localStorage.setItem('pc_exp_license_key',portalAccess);$('#licenseKey').readOnly=true;$('#licenseKey').title='Acceso cargado desde tu Portal PasaloChevere';toast('Acceso cargado desde Portal.')}else{$('#licenseKey').value=findStoredLicense()}const last=lastRoomCode();if(invitedRoom){setEntryMode('join');$('#roomCode').value=String(invitedRoom).trim().toUpperCase();toast('Código de sala cargado. Elegí tu personaje y uníte.')}else if(last){$('#roomCode').value=last;$('#rejoinLast').classList.remove('hidden');$('#rejoinLast').textContent=t('setup.rejoinCode',{code:last})}
 updateAccessPreflight();
 adapter.onChange(()=>refresh());
 try{await adapter.init();adapterReady=true;adapterInitError='';configureTimers();updateAccessPreflight()}catch(e){adapterReady=false;adapterInitError=e?.message||String(e);setEntryError(`No pude iniciar el motor P2: ${adapterInitError}`);updateAccessPreflight();toast(`No pude iniciar Supabase: ${adapterInitError}`,true)}
