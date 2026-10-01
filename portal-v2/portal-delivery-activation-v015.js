@@ -6,16 +6,19 @@
   let nativeActivate=null;
   let wrapped=false;
   let lastResult=null;
+  let patchRaf=0;
 
   function ctx(){return typeof window.pcDeliveryContext==='function'?window.pcDeliveryContext():window.PC_DELIVERY_CONTEXT||null}
   function active(){const c=ctx();return !!c?.deliveryMode&&c.route===ROUTE&&c.product==='EXP-001'}
   function legacyMsg(text,type=''){
     const el=document.getElementById('activateMsg');
     if(!el)return;
-    el.textContent=text||'';
-    el.className='msg'+(type?' '+type:'');
+    const next=text||'';
+    const nextClass='msg'+(type?' '+type:'');
+    if(el.textContent!==next)el.textContent=next;
+    if(el.className!==nextClass)el.className=nextClass;
   }
-  function safeText(el,text){if(el)el.textContent=text}
+  function safeText(el,text){if(el&&el.textContent!==text)el.textContent=text}
 
   function patchGateCopy(){
     if(!active())return false;
@@ -33,7 +36,7 @@
     safeText(eyebrow,'PASO 2 · ACTIVÁ TU COMPRA');
     safeText(title,'Ingresá tu código de compra.');
     safeText(lead,'Pegá el código individual que recibiste con la entrega de Etsy. Este código se usa para activar Caso 001 en tu cuenta.');
-    if(input)input.placeholder='Código de compra';
+    if(input&&input.placeholder!=='Código de compra')input.placeholder='Código de compra';
     safeText(button,'ACTIVAR CASO 001');
     if(msg&&!msg.classList.contains('bad')&&!msg.classList.contains('good'))safeText(msg,'La vigencia comienza al activar. Después vas a recibir tu código personal de acceso.');
 
@@ -44,8 +47,13 @@
       const footer=step.querySelector('.pcV50Footer');
       if(footer)step.insertBefore(info,footer);else step.appendChild(info);
     }
-    step.dataset.pcDelivery015='1';
+    if(step.dataset.pcDelivery015!=='1')step.dataset.pcDelivery015='1';
     return true;
+  }
+
+  function requestPatch(){
+    if(!active()||patchRaf)return;
+    patchRaf=requestAnimationFrame(()=>{patchRaf=0;patchGateCopy()});
   }
 
   async function contextualActivate(){
@@ -128,6 +136,6 @@
   }
   let tries=0;
   const gateTimer=setInterval(()=>{tries++;if(apply()||tries>80)clearInterval(gateTimer)},80);
-  const obs=new MutationObserver(()=>{if(active())patchGateCopy()});
+  const obs=new MutationObserver(requestPatch);
   try{obs.observe(document.documentElement,{subtree:true,childList:true})}catch{}
 })();
