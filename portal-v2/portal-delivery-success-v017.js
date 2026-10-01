@@ -32,7 +32,7 @@
   function active(){const c=ctx();return !!c?.deliveryMode&&c.route===ROUTE&&c.product===PRODUCT}
   function lang(){return ctx()?.lang==='en'?'en':'es'}
   function t(){return COPY[lang()]}
-  function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[m]))}
+  function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
   function dateLabel(v){if(!v)return '—';try{return new Intl.DateTimeFormat(lang()==='en'?'en-US':'es-AR',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(v))}catch{return '—'}}
   function validityLabel(lic){const h=Number(lic?.duration_hours||0);if(h===8760)return t().months12;if(h>0&&h%24===0)return Math.round(h/24)+' '+(lang()==='en'?'days':'días');if(h>0)return h+' h';return '—'}
   function deviceLabel(lic){const limit=Number(lic?.device_limit||0),used=Number(lic?.devices_used||0);if(!limit)return '—';return used+' / '+limit+' '+t().used}
