@@ -1,7 +1,7 @@
 (()=>{
   if(window.PC_DELIVERY_FREEZE_V018)return;
   const baseUrl='https://pasalochevere.github.io/expediente/portal-v2/';
-  const canonicalUrl=baseUrl+'?channel=etsy&product=EXP-001&lang=es';
+  const canonicalUrl='https://pasalochevere.github.io/expediente/portal-v2/?channel=etsy&product=EXP-001&lang=es';
   const qrAsset='assets/delivery/etsy-exp001-qr.svg';
   window.PC_DELIVERY_FREEZE_V018=Object.freeze({
     version:'DELIVERY01.8',
