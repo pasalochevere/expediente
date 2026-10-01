@@ -59,6 +59,7 @@
   function preloadCss(){
     ensureCss('pc-delivery-v601-css','portal-delivery-v601.css?v='+VERSION);
     ensureCss('pc-delivery-exp001-v013-css','portal-delivery-exp001-v013.css?v='+VERSION);
+    ensureCss('pc-delivery-exp001-gate-v013-css','portal-delivery-exp001-gate-v013.css?v='+VERSION);
     ensureCss('pc-preview-premium-v60-css','portal-preview-premium-v60.css?v='+VERSION);
     ensureCss('pc-preview-premium-v59-css','portal-preview-premium-v59.css?v='+VERSION);
     ensureCss('pc-preview-premium-v58-css','portal-preview-premium-v58.css?v='+VERSION);
