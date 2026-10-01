@@ -52,12 +52,12 @@ jobs:
             const c=await browser.newContext({viewport:{width:1280,height:900}}),p=await c.newPage();
             await p.goto(`${base}/caso001/?lang=en&skipintro=1&room=ABC123`,{waitUntil:'domcontentloaded'});await p.waitForTimeout(1000);
             ck('EN2 header structural',await p.locator('.caseKicker').innerText()==='CONFIDENTIAL FILE · EXPEDIENTES');
-            ck('EN2 case stamp', (await p.locator('.caseStamp').innerText()).replace(/\s+/g,' ').trim()==='CASE OPEN');
+            ck('EN2 case stamp',await p.locator('.caseStamp').evaluate(el=>el.innerHTML)==='CASE<br>OPEN');
             ck('EN2 onboarding label',await p.locator('.dossierLabel').innerText()==='PRELIMINARY CASE FILE');
             ck('EN2 onboarding title',await p.locator('.dossierGrid h2').innerText()==='Before opening the room');
             ck('EN2 setup helper',(await p.locator('#setup').innerText()).includes('Unselected characters remain in the investigation as NPCs'));
             ck('EN2 lobby shell',await p.locator('.lobbyHeader h2').innerText()==='Investigation table');
-            ck('EN2 lobby seal',(await p.locator('.lobbySeal').innerText()).replace(/\s+/g,' ').trim()==='ROOM OPEN');
+            ck('EN2 lobby seal',await p.locator('.lobbySeal').evaluate(el=>el.innerHTML)==='ROOM<br>OPEN');
             ck('EN2 invite shell',await p.locator('.inviteLabel').innerText()==='INVITE INVESTIGATOR');
             ck('EN2 accusation shell',await p.locator('.accHero h2').innerText()==='Final accusation');
             ck('EN2 board shell',(await p.locator('.boardEyebrow').innerText()).includes('HYPOTHESIS TABLE'));
@@ -74,8 +74,8 @@ jobs:
             ck('EN2 evidence payload protected',await p.locator('#qa-narrative').innerText()==='Partida iniciada.');
             const state='{"motive":"LANGUAGE-ISOLATED"}';await p.evaluate(v=>localStorage.setItem('pc_exp_rev01_theory_v1',v),state);
             await p.locator('.revTopActions [data-exp-lang="es"]').click();await p.waitForTimeout(150);
-            ck('EN2 reverse ES stamp',(await p.locator('.caseStamp').innerText()).replace(/\s+/g,' ').trim()==='CASO ABIERTO');
-            ck('EN2 reverse ES lobby seal',(await p.locator('.lobbySeal').innerText()).replace(/\s+/g,' ').trim()==='SALA ABIERTA');
+            ck('EN2 reverse ES stamp',await p.locator('.caseStamp').evaluate(el=>el.innerHTML)==='CASO<br>ABIERTO');
+            ck('EN2 reverse ES lobby seal',await p.locator('.lobbySeal').evaluate(el=>el.innerHTML)==='SALA<br>ABIERTA');
             ck('EN2 reverse ES onboarding',await p.locator('.dossierLabel').innerText()==='EXPEDIENTE PRELIMINAR');
             ck('EN2 state isolation',(await p.evaluate(()=>localStorage.getItem('pc_exp_rev01_theory_v1')))===state);
             await p.locator('.revTopActions [data-exp-lang="en"]').click();await p.waitForTimeout(150);
