@@ -139,7 +139,7 @@
     const active=licenses.filter(l=>state(l)==='active').length;
     const pending=licenses.filter(l=>state(l)==='pending').length;
     const items=licenses.length?licenses.map(l=>{
-      const st=state(l),code=String(l.activation_code||''),name=String(l.product_name||l.product_code||'Experiencia PasaloChevere');
+      const st=state(l),code=String(l.activation_code||''),name=l.product_code==='PSQ-FACTORY'?'PAPER SQUISHY FACTORY · 50 personajes + Creator Plus':String(l.product_name||l.product_code||'Experiencia PasaloChevere');
       const actions=[];
       if(code)actions.push(`<button class="pcV53Mini" type="button" data-copy="${esc(code)}">COPIAR CÓDIGO</button>`);
       if(st==='active'&&code)actions.push(`<button class="pcV53Mini" type="button" data-devices="${esc(code)}" data-name="${esc(name)}">DISPOSITIVOS</button>`);
