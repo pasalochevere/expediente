@@ -1,6 +1,6 @@
 # EXP01-EN1 · Auditoría y checkpoint de arquitectura bilingüe ES / EN
 
-Estado: implementación de arquitectura completada; QA browser automatizado en ejecución al crear este checkpoint.
+Estado: **PASS · arquitectura de idioma y piloto de UI estructural completados**.
 
 ## Alcance respetado
 
@@ -173,10 +173,29 @@ Sin cambios. El kit P2.12D.17.4 sigue siendo el canon actual. `KIT_ES / KIT_EN` 
 - intro propaga `lang` junto a `access` / `room` PASS;
 - workflow de parche EXP01-EN1 PASS.
 
-## QA browser
+## QA browser automatizado · PASS
 
-Run creado: `36916899729` · `EXP01 EN1 browser QA`.
+Run definitivo: `36918386502` · `EXP01 EN1 fast browser QA` · conclusión `success`.
 
-El run valida URL ES/EN, cambio en vivo, persistencia, prioridad URL, parámetros existentes, dos contextos con misma room y distinto idioma local, save local ES -> reopen EN, handoff Intro -> Caso con `lang/access/room`, selector mobile y ausencia de `undefined/null/[object Object]` visibles.
+Resultados observados:
 
-Actualizar este bloque con el resultado final antes de congelar EXP01-EN1.
+- QA-01 PASS — `?lang=es` abre UI ES.
+- QA-02 PASS — cambio a EN actualiza UI estructural (`Create room`).
+- QA-03 PASS — cambio ES → EN conserva exactamente el estado local del tablero/hipótesis.
+- QA-04 PASS — reload continúa EN.
+- QA-05 PASS — sin `lang` recupera `expedientes_language`.
+- Prioridad URL PASS — `?lang=es` prevalece sobre preferencia EN y actualiza la preferencia.
+- QA-06 arquitectura PASS — dos contextos de navegador con el mismo `room=SAME01` mantienen ES y EN de forma independiente. Esta prueba valida el aislamiento local del idioma; no repite el smoke autenticado multiplayer completo ya validado previamente para el core.
+- QA-07 arquitectura PASS — estado local guardado en ES sobrevive a reapertura en EN. No se modificó ni reemplazó el mecanismo server-side de partida.
+- QA-08 PASS — `room` y `skipintro` sobreviven al cambio de idioma; el Intro conserva además `access`, `room` y `lang` al entregar al juego.
+- QA-09 PASS — no aparecen `undefined`, `null` ni `[object Object]` visibles en la pantalla probada.
+- QA-10 PASS — selector mobile visible dentro de viewport 390×844; bounding box observado: `x=12`, `y=309.65625`, `w=72.25`, `h=26`.
+- Guardrail PASS — idioma no se envía en payloads del adapter multiplayer.
+- Guardrail PASS — IDs/modos internos y claves de room/theory permanecen iguales.
+- Guardrail PASS — fallback ES está implementado.
+
+## Cierre EXP01-EN1
+
+**PASS.** La infraestructura bilingüe está lista para soportar las fases siguientes sin duplicar Caso 001 y sin convertir idioma en estado de juego.
+
+No avanzar a EXP01-EN2 sin autorización explícita.
