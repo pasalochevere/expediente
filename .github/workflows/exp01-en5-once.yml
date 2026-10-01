@@ -1,4 +1,4 @@
-name: EXP01 EN5 Bilingual Printables Gate R3
+name: EXP01 EN5 Bilingual Printables Gate R4
 on:
   push:
     paths:
@@ -42,10 +42,20 @@ jobs:
             sudo apt-get update -qq
             sudo apt-get install -y poppler-utils >/dev/null
           fi
-          test "$(pdfinfo /tmp/exp01-en5-es.pdf | awk '/^Pages:/ {print $2}')" = "8"
-          test "$(pdfinfo /tmp/exp01-en5-en.pdf | awk '/^Pages:/ {print $2}')" = "8"
-          pdfinfo /tmp/exp01-en5-es.pdf | grep -q 'Page size:.*595.*842'
-          pdfinfo /tmp/exp01-en5-en.pdf | grep -q 'Page size:.*595.*842'
+          echo '===== ES PDFINFO ====='
+          pdfinfo /tmp/exp01-en5-es.pdf
+          echo '===== EN PDFINFO ====='
+          pdfinfo /tmp/exp01-en5-en.pdf
+          ES_PAGES="$(pdfinfo /tmp/exp01-en5-es.pdf | awk '/^Pages:/ {print $2}')"
+          EN_PAGES="$(pdfinfo /tmp/exp01-en5-en.pdf | awk '/^Pages:/ {print $2}')"
+          ES_SIZE="$(pdfinfo /tmp/exp01-en5-es.pdf | awk -F: '/^Page size:/ {print $2}')"
+          EN_SIZE="$(pdfinfo /tmp/exp01-en5-en.pdf | awk -F: '/^Page size:/ {print $2}')"
+          echo "EN5_PDF_META ES pages=$ES_PAGES size=$ES_SIZE"
+          echo "EN5_PDF_META EN pages=$EN_PAGES size=$EN_SIZE"
+          test "$ES_PAGES" = "8"
+          test "$EN_PAGES" = "8"
+          echo "$ES_SIZE" | grep -Eq '595(\.2[0-9]*)? x 841(\.9[0-9]*)? pts|595(\.2[0-9]*)? x 842(\.0[0-9]*)? pts'
+          echo "$EN_SIZE" | grep -Eq '595(\.2[0-9]*)? x 841(\.9[0-9]*)? pts|595(\.2[0-9]*)? x 842(\.0[0-9]*)? pts'
           pdftoppm -f 1 -singlefile -png -r 96 /tmp/exp01-en5-es.pdf /tmp/exp01-en5-es-page1 >/dev/null 2>&1
           pdftoppm -f 1 -singlefile -png -r 96 /tmp/exp01-en5-en.pdf /tmp/exp01-en5-en-page1 >/dev/null 2>&1
           test -s /tmp/exp01-en5-es-page1.png
