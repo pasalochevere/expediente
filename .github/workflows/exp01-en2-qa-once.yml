@@ -1,0 +1,100 @@
+name: EXP01 EN2 UI QA
+on:
+  push:
+    paths:
+      - '.github/workflows/exp01-en2-qa-once.yml'
+permissions:
+  contents: write
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Patch reverse-safe structural labels
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('caso001/i18n.js')
+          s=p.read_text()
+          s=s.replace("['CASO','CASE'],['ABIERTO','OPEN'],['SALA','ROOM'],['ABIERTA','OPEN'],","")
+          old="function localizeSpecialStructures(root){const scope=root?.querySelectorAll?root:document;scope.querySelectorAll?.('.evAccessLabel').forEach(el=>{const html=currentLanguage==='en'?'<span class=\"evAccessDot\"></span>CONTROL<br>LOG':'<span class=\"evAccessDot\"></span>CONTROL<br>REGISTRO';if(el.innerHTML!==html)el.innerHTML=html})}"
+          new="function localizeSpecialStructures(root){const scope=root?.querySelectorAll?root:document;scope.querySelectorAll?.('.evAccessLabel').forEach(el=>{const html=currentLanguage==='en'?'<span class=\"evAccessDot\"></span>CONTROL<br>LOG':'<span class=\"evAccessDot\"></span>CONTROL<br>REGISTRO';if(el.innerHTML!==html)el.innerHTML=html});scope.querySelectorAll?.('.caseStamp').forEach(el=>{const html=currentLanguage==='en'?'CASE<br>OPEN':'CASO<br>ABIERTO';if(el.innerHTML!==html)el.innerHTML=html});scope.querySelectorAll?.('.lobbySeal').forEach(el=>{const html=currentLanguage==='en'?'ROOM<br>OPEN':'SALA<br>ABIERTA';if(el.innerHTML!==html)el.innerHTML=html})}"
+          if old not in s: raise SystemExit('localizeSpecialStructures signature not found')
+          s=s.replace(old,new)
+          p.write_text(s)
+          PY
+          node --check caso001/i18n.js
+      - name: Resolve Chrome
+        run: |
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$CHROME" || { echo 'System Chrome not found'; exit 1; }
+          echo "CHROME=$CHROME" >> "$GITHUB_ENV"
+      - name: Install lightweight browser driver
+        run: npm install --no-save playwright-core@1.55.0
+      - name: Start local mirror
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/server.log 2>&1 &
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/caso001/ >/dev/null && exit 0; sleep 1; done
+          cat /tmp/server.log; exit 1
+      - name: Run EN2 browser QA
+        run: |
+          cat > exp01-en2-qa.mjs <<'JS'
+          import { chromium } from 'playwright-core';
+          import fs from 'node:fs';
+          const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME,args:['--no-sandbox']});
+          const base='http://127.0.0.1:4173';
+          const result=[];const ck=(n,v,d='')=>{result.push([n,!!v,d]);if(!v)throw new Error(`${n}: ${d}`)};
+          try{
+            const c=await browser.newContext({viewport:{width:1280,height:900}}),p=await c.newPage();
+            await p.goto(`${base}/caso001/?lang=en&skipintro=1&room=ABC123`,{waitUntil:'domcontentloaded'});await p.waitForTimeout(1000);
+            ck('EN2 header structural',await p.locator('.caseKicker').innerText()==='CONFIDENTIAL FILE · EXPEDIENTES');
+            ck('EN2 case stamp', (await p.locator('.caseStamp').innerText()).replace(/\s+/g,' ').trim()==='CASE OPEN');
+            ck('EN2 onboarding label',await p.locator('.dossierLabel').innerText()==='PRELIMINARY CASE FILE');
+            ck('EN2 onboarding title',await p.locator('.dossierGrid h2').innerText()==='Before opening the room');
+            ck('EN2 setup helper',(await p.locator('#setup').innerText()).includes('Unselected characters remain in the investigation as NPCs'));
+            ck('EN2 lobby shell',await p.locator('.lobbyHeader h2').innerText()==='Investigation table');
+            ck('EN2 lobby seal',(await p.locator('.lobbySeal').innerText()).replace(/\s+/g,' ').trim()==='ROOM OPEN');
+            ck('EN2 invite shell',await p.locator('.inviteLabel').innerText()==='INVITE INVESTIGATOR');
+            ck('EN2 accusation shell',await p.locator('.accHero h2').innerText()==='Final accusation');
+            ck('EN2 board shell',(await p.locator('.boardEyebrow').innerText()).includes('HYPOTHESIS TABLE'));
+            ck('EN2 director helper',(await p.locator('.directorIntro').innerText()).startsWith('You can ask for guidance'));
+            ck('EN2 public log seal',(await p.locator('.logSeal').innerText()).includes('PUBLIC LOG'));
+            ck('EN2 alt text',(await p.locator('#characterDossierPreview img').getAttribute('alt')||'').startsWith('Portrait of '));
+            ck('EN2 narrative untouched',(await p.locator('.subtitle').innerText()).startsWith('Seis personas.'));
+            ck('EN2 profile content deferred',(await p.locator('#characterDossierPreview').innerText()).includes('Socio del estudio'));
+            await p.evaluate(()=>document.querySelector('#clearMarks').click());await p.waitForTimeout(100);
+            ck('EN2 toast translated',await p.locator('#toast').innerText()==='Board marks cleared.');
+            await p.evaluate(()=>{const a=document.createElement('div');a.id='qa-dynamic';a.textContent='Partida iniciada.';document.body.appendChild(a);const b=document.createElement('div');b.id='qa-evidence-meta';b.textContent='TESTIMONIO REGISTRADO · REGISTRO 02';document.body.appendChild(b);const c=document.createElement('div');c.id='qa-narrative';c.className='evText';c.textContent='Partida iniciada.';document.body.appendChild(c)});await p.waitForTimeout(100);
+            ck('EN2 dynamic mutation',await p.locator('#qa-dynamic').innerText()==='Game started.');
+            ck('EN2 evidence metadata composite',await p.locator('#qa-evidence-meta').innerText()==='RECORDED TESTIMONY · RECORD 02');
+            ck('EN2 evidence payload protected',await p.locator('#qa-narrative').innerText()==='Partida iniciada.');
+            const state='{"motive":"LANGUAGE-ISOLATED"}';await p.evaluate(v=>localStorage.setItem('pc_exp_rev01_theory_v1',v),state);
+            await p.locator('.revTopActions [data-exp-lang="es"]').click();await p.waitForTimeout(150);
+            ck('EN2 reverse ES stamp',(await p.locator('.caseStamp').innerText()).replace(/\s+/g,' ').trim()==='CASO ABIERTO');
+            ck('EN2 reverse ES lobby seal',(await p.locator('.lobbySeal').innerText()).replace(/\s+/g,' ').trim()==='SALA ABIERTA');
+            ck('EN2 reverse ES onboarding',await p.locator('.dossierLabel').innerText()==='EXPEDIENTE PRELIMINAR');
+            ck('EN2 state isolation',(await p.evaluate(()=>localStorage.getItem('pc_exp_rev01_theory_v1')))===state);
+            await p.locator('.revTopActions [data-exp-lang="en"]').click();await p.waitForTimeout(150);
+            ck('EN2 second switch EN',await p.locator('.dossierLabel').innerText()==='PRELIMINARY CASE FILE');
+            const adapter=fs.readFileSync('caso001/p2-multiplayer-adapter.js','utf8'),main=fs.readFileSync('caso001/index.html','utf8'),ii=fs.readFileSync('caso001/i18n.js','utf8');
+            ck('EN2 no language payload',!adapter.includes('expedientes_language')&&!/\blang\s*:|\blanguage\s*:/.test(adapter));
+            ck('EN2 internal keys preserved',adapter.includes("mode:mode==='imp'?'imp':'dig'")&&adapter.includes('pc_exp_p2_last_room')&&main.includes('pc_exp_rev01_theory_v1'));
+            ck('EN2 narrative exclusions coded',ii.includes('.prologueCopy p,.evText,.privateObjective p'));
+            console.log(JSON.stringify({ok:true,result},null,2));
+            await c.close();
+          } finally {await browser.close()}
+          JS
+          node ./exp01-en2-qa.mjs
+      - name: Commit EN2 patch
+        run: |
+          rm -f exp01-en2-qa.mjs package.json package-lock.json
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add caso001/i18n.js
+          git diff --cached --check
+          git commit -m 'EXP01-EN2 harden bidirectional UI localization'
+          git push origin main
