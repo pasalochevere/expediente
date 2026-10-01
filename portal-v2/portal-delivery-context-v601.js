@@ -4,7 +4,9 @@
 
   const STORAGE_KEY='pc_delivery_context_v1';
   const MAX_AGE_MS=1000*60*60*24;
-  const ALLOWED_LANGS=new Set(['es','en']);
+  const FREEZE=window.PC_DELIVERY_FREEZE_V018||null;
+  const CANONICAL_BASE=FREEZE?.baseUrl||'https://pasalochevere.github.io/expediente/portal-v2/';
+  const ALLOWED_LANGS=new Set(FREEZE?.supportedLangs||['es','en']);
   const ROUTES={
     'etsy|EXP-001':{
       route:'etsy-exp001',
@@ -17,9 +19,9 @@
 
   const cleanChannel=v=>String(v||'').trim().toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,32);
   const cleanProduct=v=>String(v||'').trim().toUpperCase().replace(/[^A-Z0-9_-]/g,'').slice(0,48);
-  const cleanLang=v=>{const x=String(v||'').trim().toLowerCase();return ALLOWED_LANGS.has(x)?x:'es'};
+  const cleanLang=v=>{const x=String(v||'').trim().toLowerCase();return ALLOWED_LANGS.has(x)?x:(FREEZE?.defaultLang||'es')};
 
-  function currentUrl(){try{return new URL(location.href)}catch{return new URL('https://pasalochevere.github.io/expediente/portal-v2/')}}
+  function currentUrl(){try{return new URL(location.href)}catch{return new URL(CANONICAL_BASE)}}
   function callbackPresent(u=currentUrl()){
     try{return u.searchParams.has('code')||u.searchParams.has('token_hash')||/(access_token=|refresh_token=|token_hash=|error=)/i.test(u.hash||'')}catch{return false}
   }
@@ -33,7 +35,8 @@
     }catch{return null}
   }
   function routeUrl(ctx,extra={}){
-    const u=new URL(location.origin+location.pathname);
+    const u=new URL(CANONICAL_BASE);
+    u.search='';u.hash='';
     if(ctx.channel)u.searchParams.set('channel',cleanChannel(ctx.channel));
     if(ctx.product)u.searchParams.set('product',cleanProduct(ctx.product));
     if(ctx.lang)u.searchParams.set('lang',cleanLang(ctx.lang));
@@ -64,14 +67,14 @@
 
   const channel=cleanChannel(rawChannel);
   const product=cleanProduct(rawProduct);
-  const lang=cleanLang(rawLang||'es');
+  const lang=cleanLang(rawLang||FREEZE?.defaultLang||'es');
   const requested=!!(rawChannel||rawProduct);
   const routeKey=`${channel}|${product}`;
   const route=ROUTES[routeKey]||null;
   const deliveryMode=!!route;
 
   const ctx=Object.freeze({
-    version:'DELIVERY01.4',
+    version:'DELIVERY01.8',
     requested,
     deliveryMode,
     supported:deliveryMode,
@@ -85,6 +88,9 @@
     magicLinkUrl:'',
     callback:callbackPresent(url),
     restoredFromStorage,
+    frozen:!!FREEZE,
+    commercialDurationHours:deliveryMode?Number(FREEZE?.commercialDurationHours||8760):null,
+    deviceLimit:deliveryMode?Number(FREEZE?.deviceLimit||2):null,
     unsupportedReason:requested&&!deliveryMode?'unsupported-route':''
   });
   const canonical=routeUrl(ctx);
@@ -101,6 +107,7 @@
       root.dataset.pcDeliveryLang=withUrl.lang||'es';
       root.dataset.pcDeliveryRoute=withUrl.route||'';
       root.dataset.pcDeliveryReturn=withUrl.callback||url.searchParams.get('delivery_return')==='1'?'1':'0';
+      root.dataset.pcDeliveryFreeze=withUrl.frozen?'DELIVERY01.8':'';
       root.classList.toggle('pcDeliveryMode',withUrl.deliveryMode);
       if(withUrl.deliveryMode){
         root.classList.add('pcDeliveryModeActive');
