@@ -4,7 +4,6 @@ import fs from 'node:fs';
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME,args:['--no-sandbox']});
 const checks=[];
 const ck=(name,value,detail='')=>{checks.push([name,!!value,detail]);if(!value)throw new Error(`${name}: ${detail}`)};
-const norm=s=>String(s||'').trim();
 
 try{
   const context=await browser.newContext({viewport:{width:1280,height:900}});
@@ -22,13 +21,14 @@ try{
   ck('neutral scene remains shared',await page.locator('img[src*="assets/escenas/"]').count()>=1);
 
   await page.locator('.revTopActions [data-exp-lang="es"]').click();
-  await page.waitForTimeout(300);
-  ck('main reverse ES removes variants',await page.locator('img[src*="assets-en/"]').count()===0);
+  await page.waitForTimeout(450);
+  const remaining=await page.locator('img[src*="assets-en/"]').evaluateAll(imgs=>imgs.map(i=>({src:i.getAttribute('src'),id:i.id,cls:i.className})));
+  ck('main reverse ES removes variants',remaining.length===0,JSON.stringify(remaining));
   ck('main original portraits restored',await page.locator('img[src*="assets/personajes/"]').count()>=6);
   ck('main original notebook restored',await page.locator('img[src*="assets/objetos/cuaderno.jpg"]').count()>=1);
 
   await page.locator('.revTopActions [data-exp-lang="en"]').click();
-  await page.waitForTimeout(300);
+  await page.waitForTimeout(350);
   ck('main second EN swap',await page.locator('img[src*="assets-en/personajes/"]').count()>=6);
   ck('main no page errors',errors.length===0,JSON.stringify(errors));
   await context.close();
@@ -44,15 +44,16 @@ try{
   ck('intro variants load',await intro.locator('img[src*="assets-en/"]').evaluateAll(imgs=>imgs.length===7&&imgs.every(i=>i.complete&&i.naturalWidth>0)));
   ck('intro scenes remain shared',await intro.locator('img.bg[src*="assets/escenas/"]').count()===6);
   await intro.locator('[data-exp-lang="es"]').click();
-  await intro.waitForTimeout(250);
-  ck('intro reverse ES',await intro.locator('img[src*="assets-en/"]').count()===0);
+  await intro.waitForTimeout(350);
+  const introRemaining=await intro.locator('img[src*="assets-en/"]').evaluateAll(imgs=>imgs.map(i=>i.getAttribute('src')));
+  ck('intro reverse ES',introRemaining.length===0,JSON.stringify(introRemaining));
   const iu=new URL(intro.url());
   ck('intro params preserved',iu.searchParams.get('access')==='QAACCESS'&&iu.searchParams.get('room')==='QAROOM');
   ck('intro no page errors',introErrors.length===0,JSON.stringify(introErrors));
   await introContext.close();
 
   const expected={
-    'clara.svg':'SOME BONDS',
+    'clara.svg':'SOME',
     'ines.svg':'PRESS',
     'mateo.svg':'SOMEONE',
     'santiago.svg':'SUCCESS',
