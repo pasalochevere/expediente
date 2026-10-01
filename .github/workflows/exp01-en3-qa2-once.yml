@@ -1,0 +1,44 @@
+name: EXP01 EN3 QA2
+on:
+  push:
+    paths:
+      - '.github/workflows/exp01-en3-qa2-once.yml'
+permissions:
+  contents: write
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Integrate
+        run: |
+          python3 .github/scripts/exp01_en3_integrate.py
+          node --check caso001/i18n.js
+          node --check caso001/content-en-core.js
+          node --check caso001/content-en-packs-01-04.js
+          node --check caso001/content-en-packs-05-08.js
+          node --check caso001/content-en-packs-09-12.js
+          node --check caso001/content-en.js
+          git diff --check
+      - name: Browser QA
+        run: |
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$CHROME"
+          export CHROME
+          npm install --no-save playwright-core@1.55.0
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/exp01-en3-server.log 2>&1 &
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/caso001/ >/dev/null && break; sleep 1; done
+          node .github/scripts/exp01_en3_qa.mjs
+      - name: Commit passing build
+        run: |
+          rm -f package.json package-lock.json
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add caso001/index.html caso001/intro/index.html caso001/RELEASE.txt caso001/EXP01_EN3_AUDIT.md
+          git diff --cached --check
+          git commit -m 'EXP01-EN3 integrate full visible game content translation'
+          git push origin main
