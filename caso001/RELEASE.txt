@@ -28,3 +28,9 @@ Accusation canon: Persona + Escena + Objeto are the 3 required axes; Motivo/Hip�
 Hardening: upper Create/Join controls wired to active CTA without visual changes; create-room closes stale waiting/active rooms, prevents mode mismatch reuse, and preserves valid reconnection
 Cleanup: legacy C001 rooms older than 24h marked finished to avoid blocking new sessions
 Backend: expediente-create-room v8
+Printable language checkpoint: EXP01-EN5 · bilingual ES/EN printable kit complete
+Printable language behavior: top ES/EN selector · URL ?lang=es/en · device-local preference · live reversible switch · print/save PDF follows selected language
+Printable scope EN5: 8/8 A4 base pages translated; toolbar, instructions, character roles, scenes, objects, investigation sheet, timeline, relationship map and final accusation localized
+Printable visual scope EN5: ES preserves 18 embedded originals · EN reuses 11 neutral originals and swaps the 6 portraits + notebook to the validated EN4 visual variants
+Printable safety EN5: presentation-only layer; no Crime Pack mutation, no room state, no licenses, no timers, no roles, no multiplayer payload changes
+Printable QA EN5: automated browser PASS · 8 ES pages + 8 EN pages · ES↔EN↔ES PASS · 18/18 images load · 7 EN visual swaps · print media A4/PDF gate PASS · no page errors
