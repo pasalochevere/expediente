@@ -68,6 +68,68 @@ jobs:
           print('Portal loader cache key:', stamp)
           PY
 
+      - name: Inject Etsy EXP-001 admin freeze
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import os
+
+          path = Path('admin-licencias/index.html')
+          text = path.read_text(encoding='utf-8')
+          stamp = (os.environ.get('GITHUB_SHA') or 'latest')[:12]
+          if 'etsy-exp001-v018.js' not in text:
+              tag = f'<script src="./etsy-exp001-v018.js?v={stamp}"></script>'
+              if '</body>' not in text:
+                  raise SystemExit('Admin de licencias no tiene </body>.')
+              text = text.replace('</body>', tag + '\n</body>', 1)
+          path.write_text(text, encoding='utf-8')
+          print('Etsy EXP-001 admin freeze injected:', stamp)
+          PY
+
+      - name: DELIVERY01.8 commercial freeze smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          canonical='https://pasalochevere.github.io/expediente/portal-v2/?channel=etsy&product=EXP-001&lang=es'
+          freeze=Path('portal-v2/portal-delivery-freeze-v018.js').read_text(encoding='utf-8')
+          context=Path('portal-v2/portal-delivery-context-v601.js').read_text(encoding='utf-8')
+          bootstrap=Path('portal-v2/portal-v5-bootstrap-v56.js').read_text(encoding='utf-8')
+          loader=Path('portal-v2/c002-rc.js').read_text(encoding='utf-8')
+          activation=Path('portal-v2/portal-delivery-activation-v015.js').read_text(encoding='utf-8')
+          success=Path('portal-v2/portal-delivery-success-v017.js').read_text(encoding='utf-8')
+          admin=Path('admin-licencias/index.html').read_text(encoding='utf-8')
+          admin_freeze=Path('admin-licencias/etsy-exp001-v018.js').read_text(encoding='utf-8')
+          qr=Path('portal-v2/assets/delivery/etsy-exp001-qr.svg').read_text(encoding='utf-8')
+          portal=Path('portal-v2/index.html').read_text(encoding='utf-8')
+          qa=Path('portal-v2/qa/PORTAL_DELIVERY01_8_FREEZE.md').read_text(encoding='utf-8')
+
+          checks={
+            'freeze canonical URL': canonical in freeze,
+            'freeze commercial 12m': 'commercialDurationHours:8760' in freeze,
+            'freeze device limit': 'deviceLimit:2' in freeze,
+            'context frozen': "version:'DELIVERY01.8'" in context and 'CANONICAL_BASE' in context,
+            'bootstrap freeze first': 'portal-delivery-freeze-v018.js' in bootstrap and 'v56.10-delivery018' in bootstrap,
+            'loader DELIVERY01.8': '20261001-delivery018-1' in loader,
+            'activation product guard': "expected_product_code:c?.product||'EXP-001'" in activation,
+            'protected device handoff': "action:'register_device'" in success,
+            'Caso001 intro route': "../caso001/intro/?access=" in portal,
+            'admin helper injected': 'etsy-exp001-v018.js' in admin,
+            'admin canonical URL': canonical in admin_freeze,
+            'QR exact target': 'channel=etsy&amp;product=EXP-001&amp;lang=es' in qr,
+            'QR no personal code': 'activation_code' not in qr and 'purchase_code' not in qr,
+            'freeze QA document': canonical in qa and '8760' in qa and '2 dispositivos' in qa,
+          }
+          failed=[name for name,ok in checks.items() if not ok]
+          for name,ok in checks.items(): print(('PASS' if ok else 'FAIL'), name)
+          if failed: raise SystemExit('DELIVERY01.8 freeze failed: '+', '.join(failed))
+          print('DELIVERY01.8 COMMERCIAL FREEZE: PASS')
+          PY
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
