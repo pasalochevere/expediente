@@ -34,3 +34,11 @@ Printable scope EN5: 8/8 A4 base pages translated; toolbar, instructions, charac
 Printable visual scope EN5: ES preserves 18 embedded originals · EN reuses 11 neutral originals and swaps the 6 portraits + notebook to the validated EN4 visual variants
 Printable safety EN5: presentation-only layer; no Crime Pack mutation, no room state, no licenses, no timers, no roles, no multiplayer payload changes
 Printable QA EN5: automated browser PASS · 8 ES pages + 8 EN pages · ES↔EN↔ES PASS · 18/18 images load · 7 EN visual swaps · print media A4/PDF gate PASS · no page errors
+Final bilingual checkpoint: EXP01-EN6 · Final Bilingual Release QA PASS
+EN6 language continuity: Printables inherit global `expedientes_language`; legacy EN5 key retained as fallback and synchronized on change
+EN6 entry-control hardening: upper Create/Join use one delegated wiring; inactive switches mode, active executes lower CTA; local + public browser smoke PASS
+Final path QA: Portal EXP-001 → Cinema Intro → game → printables PASS locally and on public GitHub Pages
+Final handoff QA: access/room/lang/skipintro/intro-v10 preserved
+Final mobile QA: language controls visible at 390x844 on Intro, game and printables
+Final safety: theory/last-room local state preserved · backend/multiplayer payloads unchanged
+Bilingual release freeze: EXP01-EN1 through EXP01-EN6 PASS · production checkpoint frozen

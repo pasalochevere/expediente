@@ -1,6 +1,4 @@
-from pathlib import Path
-
-AUDIT = """# EXP01-EN6 · Final Bilingual Release QA · ES / EN
+# EXP01-EN6 · Final Bilingual Release QA · ES / EN
 
 Estado: **PASS · release bilingüe final validado localmente y sobre GitHub Pages público; checkpoint congelado**.
 
@@ -27,25 +25,3 @@ No se modificaron Crime Packs, Edge Functions, room state, timers, licencias, ro
 ## Freeze
 
 **EXP01-EN1 → EXP01-EN6: PASS.** La capa bilingüe de Caso 001 queda congelada como checkpoint de producción. Cualquier mejora posterior debe abrir una fase nueva.
-"""
-
-RELEASE_LINES = """Final bilingual checkpoint: EXP01-EN6 · Final Bilingual Release QA PASS
-EN6 language continuity: Printables inherit global `expedientes_language`; legacy EN5 key retained as fallback and synchronized on change
-EN6 entry-control hardening: upper Create/Join use one delegated wiring; inactive switches mode, active executes lower CTA; local + public browser smoke PASS
-Final path QA: Portal EXP-001 → Cinema Intro → game → printables PASS locally and on public GitHub Pages
-Final handoff QA: access/room/lang/skipintro/intro-v10 preserved
-Final mobile QA: language controls visible at 390x844 on Intro, game and printables
-Final safety: theory/last-room local state preserved · backend/multiplayer payloads unchanged
-Bilingual release freeze: EXP01-EN1 through EXP01-EN6 PASS · production checkpoint frozen
-"""
-
-Path('caso001/EXP01_EN6_AUDIT.md').write_text(AUDIT, encoding='utf-8')
-release = Path('caso001/RELEASE.txt')
-current = release.read_text(encoding='utf-8')
-if 'Final bilingual checkpoint: EXP01-EN6' not in current:
-    if current and not current.endswith('\n'):
-        current += '\n'
-    current += RELEASE_LINES
-    release.write_text(current, encoding='utf-8')
-
-print('EXP01-EN6 freeze documents written')
