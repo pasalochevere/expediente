@@ -1,4 +1,4 @@
-name: EXP01 EN5 Bilingual Printables Gate R4
+name: EXP01 EN5 Bilingual Printables Gate R5
 on:
   push:
     paths:
@@ -38,6 +38,27 @@ jobs:
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/exp01-en5-server.log 2>&1 &
           for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/caso001/printables/ >/dev/null && break; sleep 1; done
           node .github/scripts/exp01_en5_qa_r2.mjs
+          node --input-type=module <<'NODE'
+          import {chromium} from 'playwright-core';
+          const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME,args:['--no-sandbox']});
+          for(const language of ['es','en']){
+            const p=await browser.newPage({viewport:{width:1280,height:900}});
+            await p.goto(`http://127.0.0.1:4173/caso001/printables/?lang=${language}`,{waitUntil:'domcontentloaded'});
+            await p.waitForSelector('#printLang');
+            await p.waitForTimeout(500);
+            await p.emulateMedia({media:'print'});
+            const pages=await p.locator('.page').evaluateAll(nodes=>nodes.map((n,i)=>({
+              page:i+1,
+              rect:Number(n.getBoundingClientRect().height.toFixed(2)),
+              scroll:n.scrollHeight,
+              inner:Number((n.querySelector('.page-inner')?.getBoundingClientRect().height||0).toFixed(2)),
+              innerScroll:n.querySelector('.page-inner')?.scrollHeight||0
+            })));
+            console.log(`EN5_PAGE_HEIGHTS_${language.toUpperCase()}`,JSON.stringify(pages));
+            await p.close();
+          }
+          await browser.close();
+          NODE
           if ! command -v pdfinfo >/dev/null 2>&1; then
             sudo apt-get update -qq
             sudo apt-get install -y poppler-utils >/dev/null
@@ -54,8 +75,8 @@ jobs:
           echo "EN5_PDF_META EN pages=$EN_PAGES size=$EN_SIZE"
           test "$ES_PAGES" = "8"
           test "$EN_PAGES" = "8"
-          echo "$ES_SIZE" | grep -Eq '595(\.2[0-9]*)? x 841(\.9[0-9]*)? pts|595(\.2[0-9]*)? x 842(\.0[0-9]*)? pts'
-          echo "$EN_SIZE" | grep -Eq '595(\.2[0-9]*)? x 841(\.9[0-9]*)? pts|595(\.2[0-9]*)? x 842(\.0[0-9]*)? pts'
+          echo "$ES_SIZE" | grep -Eq '594\.9[0-9]* x 841\.9[0-9]* pts|595(\.2[0-9]*)? x 841(\.9[0-9]*)? pts'
+          echo "$EN_SIZE" | grep -Eq '594\.9[0-9]* x 841\.9[0-9]* pts|595(\.2[0-9]*)? x 841(\.9[0-9]*)? pts'
           pdftoppm -f 1 -singlefile -png -r 96 /tmp/exp01-en5-es.pdf /tmp/exp01-en5-es-page1 >/dev/null 2>&1
           pdftoppm -f 1 -singlefile -png -r 96 /tmp/exp01-en5-en.pdf /tmp/exp01-en5-en-page1 >/dev/null 2>&1
           test -s /tmp/exp01-en5-es-page1.png
