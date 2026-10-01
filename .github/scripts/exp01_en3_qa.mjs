@@ -20,12 +20,12 @@ try{
     return {lang:document.documentElement.lang,title:document.querySelector('header h1')?.textContent||'',imported,importError};
   });
   console.log('EN3_DEBUG',JSON.stringify({debug,pageErrors}));
-  const actualTitle=await page.locator('header h1').innerText();
+  const actualTitle=await page.locator('header h1').textContent();
   ck('main title EN',actualTitle==='The Last Meeting',JSON.stringify({actualTitle,debug,pageErrors}));
-  ck('main narrative EN',(await page.locator('.subtitle').innerText()).startsWith('Six people.'));
-  ck('profile EN',(await page.locator('#characterDossierPreview').innerText()).includes('Partner at the firm'));
-  ck('location EN',(await page.locator('#locationChips').innerText()).includes('Living room'));
-  ck('object EN',(await page.locator('#objectChips').innerText()).includes('Weapon'));
+  ck('main narrative EN',(await page.locator('.subtitle').textContent()).startsWith('Six people.'));
+  ck('profile EN',(await page.locator('#characterDossierPreview').textContent()).includes('Partner at the firm'));
+  ck('location EN',(await page.locator('#locationChips').textContent()).includes('Living room'));
+  ck('object EN',(await page.locator('#objectChips').textContent()).includes('Weapon'));
 
   const stats=await page.evaluate(async()=>{const m=await import('./content-en.js');return m.contentTranslationStats()});
   ck('content dictionary breadth',stats.uniqueEs>150,JSON.stringify(stats));
@@ -41,33 +41,33 @@ try{
   };
   await page.evaluate(samples=>{for(const [key,value] of Object.entries(samples)){const d=document.createElement('div');d.id='qa-'+key;d.textContent=value;document.body.append(d)}},samples);
   await page.waitForTimeout(250);
-  ck('pack01 evidence EN',(await page.locator('#qa-e01').innerText()).startsWith('The study computer records'));
-  ck('pack05 evidence EN',(await page.locator('#qa-e05').innerText()).startsWith('The message backup recovers'));
-  ck('pack09 evidence EN',(await page.locator('#qa-e09').innerText()).startsWith('An old photographic inventory'));
-  ck('pack12 evidence EN',(await page.locator('#qa-e12').innerText()).startsWith('The victim’s cell phone is found'));
-  ck('private objective EN',(await page.locator('#qa-role').innerText()).startsWith('Protect your central lie'));
-  ck('director content EN',(await page.locator('#qa-director').innerText()).startsWith('Do not add new suspects'));
-  ck('solution content EN',(await page.locator('#qa-solution').innerText()).startsWith('Tomás and the victim argued'));
+  ck('pack01 evidence EN',(await page.locator('#qa-e01').textContent()).startsWith('The study computer records'));
+  ck('pack05 evidence EN',(await page.locator('#qa-e05').textContent()).startsWith('The message backup recovers'));
+  ck('pack09 evidence EN',(await page.locator('#qa-e09').textContent()).startsWith('An old photographic inventory'));
+  ck('pack12 evidence EN',(await page.locator('#qa-e12').textContent()).startsWith('The victim’s cell phone is found'));
+  ck('private objective EN',(await page.locator('#qa-role').textContent()).startsWith('Protect your central lie'));
+  ck('director content EN',(await page.locator('#qa-director').textContent()).startsWith('Do not add new suspects'));
+  ck('solution content EN',(await page.locator('#qa-solution').textContent()).startsWith('Tomás and the victim argued'));
 
   const state='{"motive":"EN3-STATE-ISOLATED"}';
   await page.evaluate(v=>localStorage.setItem('pc_exp_rev01_theory_v1',v),state);
   await page.locator('.revTopActions [data-exp-lang="es"]').click();await page.waitForTimeout(300);
-  ck('main title reverse ES',await page.locator('header h1').innerText()==='La Última Reunión');
-  ck('evidence reverse ES',(await page.locator('#qa-e01').innerText()).startsWith('El equipo del estudio registra'));
-  ck('profile reverse ES',(await page.locator('#characterDossierPreview').innerText()).includes('Socio del estudio'));
+  ck('main title reverse ES',await page.locator('header h1').textContent()==='La Última Reunión');
+  ck('evidence reverse ES',(await page.locator('#qa-e01').textContent()).startsWith('El equipo del estudio registra'));
+  ck('profile reverse ES',(await page.locator('#characterDossierPreview').textContent()).includes('Socio del estudio'));
   ck('state isolation',(await page.evaluate(()=>localStorage.getItem('pc_exp_rev01_theory_v1')))===state);
   await page.locator('.revTopActions [data-exp-lang="en"]').click();await page.waitForTimeout(250);
-  ck('second EN switch',await page.locator('header h1').innerText()==='The Last Meeting');
+  ck('second EN switch',await page.locator('header h1').textContent()==='The Last Meeting');
   await context.close();
 
   const introContext=await browser.newContext({viewport:{width:390,height:844}}),intro=await introContext.newPage();
   await intro.goto('http://127.0.0.1:4173/caso001/intro/?lang=en&access=QAACCESS&room=QAROOM',{waitUntil:'domcontentloaded'});await intro.waitForTimeout(800);
-  ck('Cinema narrative EN',await intro.locator('#s1 .big').first().innerText()==='One meeting.');
-  ck('Cinema title EN',await intro.locator('#s6 h2').innerText()==='The Last Meeting');
-  ck('Cinema object EN',(await intro.locator('#s4').innerText()).includes('CELL PHONE'));
-  ck('Cinema action words EN',(await intro.locator('#s4').innerText()).includes('Observe.'));
+  ck('Cinema narrative EN',await intro.locator('#s1 .big').first().textContent()==='One meeting.');
+  ck('Cinema title EN',await intro.locator('#s6 h2').textContent()==='The Last Meeting');
+  ck('Cinema object EN',(await intro.locator('#s4').textContent()).includes('CELL PHONE'));
+  ck('Cinema action words EN',(await intro.locator('#s4').textContent()).includes('Observe.'));
   await intro.locator('[data-exp-lang="es"]').click();await intro.waitForTimeout(250);
-  ck('Cinema reverse ES',await intro.locator('#s1 .big').first().innerText()==='Una reunión.');
+  ck('Cinema reverse ES',await intro.locator('#s1 .big').first().textContent()==='Una reunión.');
   const iu=new URL(intro.url());ck('Cinema params preserved',iu.searchParams.get('access')==='QAACCESS'&&iu.searchParams.get('room')==='QAROOM');
   await introContext.close();
 
