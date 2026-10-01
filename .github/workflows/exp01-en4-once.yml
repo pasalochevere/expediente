@@ -1,4 +1,4 @@
-name: EXP01 EN4 Visual Audit R2
+name: EXP01 EN4 Visual Audit R3
 on:
   push:
     paths:
@@ -17,6 +17,15 @@ jobs:
       - name: Integrate visual localization
         run: |
           python3 .github/scripts/exp01_en4_integrate.py
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('caso001/visual-en.js')
+          s=p.read_text()
+          s=s.replace("import {getLanguage} from './i18n.js';\n\n","")
+          s=s.replace("function translatedSrc(src,language=getLanguage()){","function currentVisualLanguage(){return typeof document!=='undefined'&&document.documentElement.lang==='en'?'en':'es'}\n\nfunction translatedSrc(src,language=currentVisualLanguage()){")
+          s=s.replace("const next=translatedSrc(current,getLanguage());","const next=translatedSrc(current,currentVisualLanguage());")
+          p.write_text(s)
+          PY
           node --check caso001/visual-en.js
           node --check caso001/i18n.js
           node --check caso001/content-en.js
