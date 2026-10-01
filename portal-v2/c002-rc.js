@@ -20,7 +20,7 @@
     if(!document.getElementById('pc-v5-bootstrap-v56-js')){
       const js=document.createElement('script');
       js.id='pc-v5-bootstrap-v56-js';
-      js.src='portal-v5-bootstrap-v56.js?v=20261001-delivery013-1';
+      js.src='portal-v5-bootstrap-v56.js?v=20261001-delivery013-2';
       js.defer=true;
       document.head.appendChild(js);
       return;
