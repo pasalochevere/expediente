@@ -32,7 +32,7 @@
   function active(){const c=ctx();return !!c?.deliveryMode&&c.route===ROUTE&&c.product===PRODUCT}
   function lang(){return ctx()?.lang==='en'?'en':'es'}
   function t(){return COPY[lang()]}
-  function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+  function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[m]))}
   function dateLabel(v){if(!v)return '—';try{return new Intl.DateTimeFormat(lang()==='en'?'en-US':'es-AR',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(v))}catch{return '—'}}
   function validityLabel(lic){const h=Number(lic?.duration_hours||0);if(h===8760)return t().months12;if(h>0&&h%24===0)return Math.round(h/24)+' '+(lang()==='en'?'days':'días');if(h>0)return h+' h';return '—'}
   function deviceLabel(lic){const limit=Number(lic?.device_limit||0),used=Number(lic?.devices_used||0);if(!limit)return '—';return used+' / '+limit+' '+t().used}
@@ -136,12 +136,15 @@
     try{
       currentLicense=await refreshLicense(currentLicense||{});
       if(!currentLicense?.activation_code)throw new Error(t().noRoute);
-      const open=await waitGlobal('openGame');
+      const call=await waitGlobal('callAccess');
       const hrefFn=await waitGlobal('gameHref');
-      if(!open||!hrefFn)throw new Error(t().noRoute);
+      const deviceFn=await waitGlobal('deviceId');
+      const labelFn=await waitGlobal('deviceLabel');
+      if(!call||!hrefFn||!deviceFn||!labelFn)throw new Error(t().noRoute);
       const href=hrefFn(currentLicense);
-      if(!href)throw new Error(t().noRoute);
-      await open(currentLicense.activation_code,href);
+      if(!href||href==='#')throw new Error(t().noRoute);
+      await call({action:'register_device',activation_code:currentLicense.activation_code,device_id:deviceFn(),device_label:labelFn()});
+      location.href=href;
     }catch(e){setStatus(String(e?.message||e||t().noRoute),'bad');entering=false;if(btn)btn.disabled=false}
   }
 
