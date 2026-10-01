@@ -1,5 +1,5 @@
 (()=>{
-  // Portal loader V5.6.7 + DELIVERY01.5 + Preview V2.1C + Library V4.1E.x.
+  // Portal loader V5.6.8 + DELIVERY01.6 + Preview V2.1C + Library V4.1E.x.
   // Arranca V5 sólo después de la base estable para evitar carreras en auth, biblioteca y activación.
   if(window.__pcPortalV21BLoader)return;
   window.__pcPortalV21BLoader=true;
@@ -20,7 +20,7 @@
     if(!document.getElementById('pc-v5-bootstrap-v56-js')){
       const js=document.createElement('script');
       js.id='pc-v5-bootstrap-v56-js';
-      js.src='portal-v5-bootstrap-v56.js?v=20261001-delivery015-1';
+      js.src='portal-v5-bootstrap-v56.js?v=20261001-delivery016-1';
       js.defer=true;
       document.head.appendChild(js);
       return;
