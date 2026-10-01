@@ -1,0 +1,24 @@
+/* PORTAL-DELIVERY01.6 · Support Etsy / WhatsApp / Email */
+body.pcDeliveryModeActive .pcD16Support{border:1px solid rgba(214,176,105,.18);border-radius:18px;background:linear-gradient(180deg,rgba(25,21,20,.96),rgba(12,11,12,.96));box-shadow:0 16px 34px rgba(0,0,0,.18);padding:18px}
+body.pcDeliveryModeActive .pcD16SupportPage{margin:18px 0 10px}
+body.pcDeliveryModeActive .pcD16SupportGate{margin:16px 0 4px;padding:14px}
+body.pcDeliveryModeActive .pcD16Head{display:flex;gap:12px;align-items:flex-start}
+body.pcDeliveryModeActive .pcD16Head>span{width:34px;height:34px;flex:0 0 34px;border:1px solid rgba(214,176,105,.35);border-radius:50%;display:grid;place-items:center;color:#ddb46b;font-size:.68rem;font-weight:950;letter-spacing:.04em;background:rgba(214,176,105,.06)}
+body.pcDeliveryModeActive .pcD16Head b{display:block;color:#f5eadc;font-size:.8rem;letter-spacing:.08em}
+body.pcDeliveryModeActive .pcD16Head p{margin:5px 0 0;color:#a79b91;font-size:.78rem;line-height:1.5}
+body.pcDeliveryModeActive .pcD16Actions{display:grid;grid-template-columns:1.45fr 1fr 1fr;gap:9px;margin-top:14px}
+body.pcDeliveryModeActive .pcD16Btn{min-height:42px;border:1px solid rgba(255,255,255,.1);border-radius:11px;background:#151315;color:#efe6dc;text-decoration:none;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 12px;font-size:.69rem;font-weight:900;letter-spacing:.035em;cursor:pointer;transition:.16s transform,.16s border-color,.16s background}
+body.pcDeliveryModeActive .pcD16Btn:hover{transform:translateY(-1px);border-color:rgba(214,176,105,.38);background:#1a1718}
+body.pcDeliveryModeActive .pcD16EtsyBtn{background:linear-gradient(135deg,rgba(190,64,51,.22),rgba(114,31,26,.2));border-color:rgba(190,64,51,.35)}
+body.pcDeliveryModeActive .pcD16EtsyHelp{margin-top:10px;padding:11px 12px;border-radius:11px;border-left:3px solid #b98a41;background:rgba(185,138,65,.07)}
+body.pcDeliveryModeActive .pcD16EtsyHelp b{display:block;color:#d9b16e;font-size:.67rem;letter-spacing:.07em;text-transform:uppercase}
+body.pcDeliveryModeActive .pcD16EtsyHelp p{margin:5px 0 0;color:#c4b8ac;font-size:.75rem;line-height:1.5}
+body.pcDeliveryModeActive .pcD16Note{margin-top:10px;color:#786f69;font-size:.66rem;line-height:1.45}
+body.pcDeliveryModeActive .pcD13Page.pcD16SupportReady .pcD13Footer>div:first-child{display:none!important}
+body.pcDeliveryModeActive #pcAccessGateV50 .pcD16SupportGate .pcD16Actions{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:680px){
+  body.pcDeliveryModeActive .pcD16Support{border-radius:15px;padding:14px}
+  body.pcDeliveryModeActive .pcD16Actions,body.pcDeliveryModeActive #pcAccessGateV50 .pcD16SupportGate .pcD16Actions{grid-template-columns:1fr}
+  body.pcDeliveryModeActive .pcD16Btn{min-height:44px;width:100%}
+  body.pcDeliveryModeActive .pcD16Head p{font-size:.75rem}
+}
