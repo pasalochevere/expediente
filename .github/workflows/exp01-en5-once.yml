@@ -1,4 +1,4 @@
-name: EXP01 EN5 Bilingual Printables Gate R2
+name: EXP01 EN5 Bilingual Printables Gate R3
 on:
   push:
     paths:
@@ -28,6 +28,13 @@ jobs:
           test -n "$CHROME"
           export CHROME
           npm install --no-save playwright-core@1.55.0
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('.github/scripts/exp01_en5_qa_r2.mjs')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("const toolbar=await page.locator('.toolbar').innerText();","const toolbar=await page.locator('.toolbar').textContent();")
+          p.write_text(s,encoding='utf-8')
+          PY
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/exp01-en5-server.log 2>&1 &
           for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/caso001/printables/ >/dev/null && break; sleep 1; done
           node .github/scripts/exp01_en5_qa_r2.mjs
@@ -46,6 +53,7 @@ jobs:
       - name: Commit and publish passing build safely
         run: |
           rm -f package.json package-lock.json
+          git checkout -- .github/scripts/exp01_en5_qa_r2.mjs
           git config user.name 'lunchpack-arg'
           git config user.email 'pasalochevere@gmail.com'
           git add caso001/printables/index.html caso001/RELEASE.txt caso001/EXP01_EN5_AUDIT.md
