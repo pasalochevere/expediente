@@ -3,6 +3,8 @@
 // Hotfix QA: los controles superiores Crear sala / Unirme ejecutan la misma acción
 // que el CTA inferior cuando ya están activos, sin modificar la estética.
 
+import {t} from './i18n.js';
+
 export const P2_CONFIG = Object.freeze({
   supabaseUrl: 'https://fzbndgfnqxcacsvlitui.supabase.co',
   supabaseKey: 'sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo',
@@ -43,7 +45,7 @@ function hydrateModeSelector(){
 
   const normal=select.querySelector('option[value="dig"]')||document.createElement('option');
   normal.value='dig';
-  normal.textContent=P2_MODES.dig.label;
+  normal.textContent=t('mode.dig.label');
   if(!normal.parentNode) select.appendChild(normal);
 
   let impostor=select.querySelector('option[value="imp"]');
@@ -52,7 +54,7 @@ function hydrateModeSelector(){
     impostor.value='imp';
     select.appendChild(impostor);
   }
-  impostor.textContent=P2_MODES.imp.label;
+  impostor.textContent=t('mode.imp.label');
 
   let help=document.getElementById('modeHelp');
   if(!help){
@@ -63,8 +65,8 @@ function hydrateModeSelector(){
     select.insertAdjacentElement('afterend',help);
   }
   const render=()=>{
-    const meta=P2_MODES[select.value]||P2_MODES.dig;
-    help.innerHTML=`<strong style="color:#d7b675">${meta.short}</strong> · ${meta.description}`;
+    const key=select.value==='imp'?'imp':'dig';
+    help.innerHTML=`<strong style="color:#d7b675">${t(`mode.${key}.short`)}</strong> · ${t(`mode.${key}.description`)}`;
   };
   select.removeEventListener('change',select.__pcModeChangeHandler||(()=>{}));
   select.__pcModeChangeHandler=render;
@@ -105,6 +107,7 @@ if(typeof document!=='undefined'){
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hydrateEntryUi,{once:true});
   else queueMicrotask(hydrateEntryUi);
 }
+if(typeof window!=='undefined')window.addEventListener('expedientes:languagechange',hydrateModeSelector);
 
 // IMPORTANTE: Portal y juego deben compartir exactamente el mismo ID físico.
 const DEVICE_KEY='pc_device_id';
