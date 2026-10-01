@@ -1,4 +1,4 @@
-name: EXP01 EN5 Printable Audit R3
+name: EXP01 EN5 Printable Audit R4
 on:
   push:
     paths:
@@ -29,17 +29,17 @@ jobs:
           const errors=[];page.on('pageerror',e=>errors.push(String(e)));
           await page.goto('http://127.0.0.1:4173/caso001/printables/',{waitUntil:'domcontentloaded'});
           await page.waitForTimeout(900);
-          const base=await page.evaluate(()=>({pageCount:document.querySelectorAll('.page').length,pages:[...document.querySelectorAll('.page')].map((p,i)=>({index:i+1,text:p.innerText.replace(/\n{3,}/g,'\n\n')}))}));
-          await page.selectOption('#pack','C001-01');
-          await page.selectOption('#stage','3');
-          await page.selectOption('#channel','CASEFILE');
+          const setSelect=async(id,value)=>page.evaluate(({id,value})=>{const el=document.getElementById(id);el.value=value;el.dispatchEvent(new Event('change',{bubbles:true}));},{id,value});
+          await setSelect('pack','C001-01');
+          await setSelect('stage','3');
+          await setSelect('channel','CASEFILE');
           await page.waitForTimeout(700);
           const publicEv=await page.evaluate(()=>({pageCount:document.querySelectorAll('.page').length,evidence:[...document.querySelectorAll('.evidence-page')].map((p,i)=>({index:i+1,text:p.innerText.replace(/\n{3,}/g,'\n\n')})),status:document.querySelector('#status')?.textContent?.trim()||''}));
-          await page.selectOption('#channel','SANTIAGO');
+          await setSelect('channel','SANTIAGO');
           await page.waitForTimeout(700);
           const privateEv=await page.evaluate(()=>({pageCount:document.querySelectorAll('.page').length,evidence:[...document.querySelectorAll('.evidence-page')].map((p,i)=>({index:i+1,text:p.innerText.replace(/\n{3,}/g,'\n\n')})),status:document.querySelector('#status')?.textContent?.trim()||''}));
           console.log('EXP01_EN5_AUDIT_BEGIN');
-          console.log(JSON.stringify({title:await page.title(),base,publicEv,privateEv,errors},null,2));
+          console.log(JSON.stringify({title:await page.title(),publicEv,privateEv,errors},null,2));
           console.log('EXP01_EN5_AUDIT_END');
           await browser.close();
           NODE
