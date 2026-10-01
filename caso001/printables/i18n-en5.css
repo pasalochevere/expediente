@@ -3,4 +3,12 @@
 .en5-lang-field select{font-weight:900;letter-spacing:.05em}
 .en5-lang-field label{color:#e7bf6b!important}
 html[lang="en"] .evidence-doc:after{content:"EVIDENCE"}
-@media print{.en5-lang-field{display:none!important}}
+@media print{
+  .en5-lang-field{display:none!important}
+  /* P2 · six suspects: the legacy 78mm card minimum pushed this sheet to a 9th PDF page.
+     Keep the screen master untouched; only tighten the print grid enough to preserve one real A4. */
+  .cards{gap:5mm!important}
+  .card{min-height:70mm!important}
+  .card-copy{padding:4mm!important}
+  .quote{margin-top:3mm!important;line-height:1.28!important}
+}
