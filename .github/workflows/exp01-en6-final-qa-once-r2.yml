@@ -1,0 +1,346 @@
+name: EXP01 EN6 Final Bilingual Release QA R2
+on:
+  push:
+    paths:
+      - '.github/workflows/exp01-en6-final-qa-once-r2.yml'
+permissions:
+  contents: write
+  actions: read
+jobs:
+  final-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Patch printables to share global language preference
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('caso001/printables/i18n-en5.js')
+          s=p.read_text(encoding='utf-8')
+          old="const STORAGE_KEY='expedientes.c001.printables.lang';\nconst VALID_LANGS=new Set(['es','en']);"
+          new="const STORAGE_KEY='expedientes.c001.printables.lang';\nconst GLOBAL_STORAGE_KEY='expedientes_language';\nconst VALID_LANGS=new Set(['es','en']);"
+          if old not in s:
+              raise SystemExit('storage declaration anchor missing')
+          s=s.replace(old,new,1)
+          old="if(persist){try{localStorage.setItem(STORAGE_KEY,next)}catch{}}"
+          new="if(persist){try{localStorage.setItem(STORAGE_KEY,next);localStorage.setItem(GLOBAL_STORAGE_KEY,next)}catch{}}"
+          if old not in s:
+              raise SystemExit('persist anchor missing')
+          s=s.replace(old,new,1)
+          old="""  try{\n    const stored=localStorage.getItem(STORAGE_KEY);\n    if(VALID_LANGS.has(stored)) return stored;\n  }catch{}\n  return 'es';"""
+          new="""  try{\n    const globalStored=localStorage.getItem(GLOBAL_STORAGE_KEY);\n    if(VALID_LANGS.has(globalStored)) return globalStored;\n    const stored=localStorage.getItem(STORAGE_KEY);\n    if(VALID_LANGS.has(stored)) return stored;\n  }catch{}\n  return 'es';"""
+          if old not in s:
+              raise SystemExit('initial language anchor missing')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          node --check caso001/printables/i18n-en5.js
+          git diff --check
+          grep -q "GLOBAL_STORAGE_KEY='expedientes_language'" caso001/printables/i18n-en5.js
+
+      - name: Local end-to-end QA on patched build
+        run: |
+          set -euo pipefail
+          npm install --no-save playwright-core@1.55.0
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$CHROME"
+          export CHROME
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/exp01-en6-server.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:4173/caso001/ >/dev/null && break; sleep 1; done
+          BASE_URL=http://127.0.0.1:4173/ node --input-type=module <<'NODE'
+          import { chromium } from 'playwright-core';
+          const BASE=process.env.BASE_URL;
+          const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME,args:['--no-sandbox']});
+          const context=await browser.newContext({viewport:{width:1280,height:900}});
+          const checks=[];
+          const ensure=(cond,name,detail='')=>{if(!cond)throw new Error(`${name}: ${detail}`);checks.push([name,true,detail])};
+          const errors=[]; const watch=p=>p.on('pageerror',e=>errors.push(String(e)));
+
+          const portal=await context.newPage(); watch(portal);
+          await portal.goto(BASE+'portal-v2/',{waitUntil:'domcontentloaded',timeout:60000});
+          await portal.waitForFunction(()=>typeof gameHref==='function',{timeout:20000});
+          const route=await portal.evaluate(()=>gameHref({game_url:'https://invalid.example',product_code:'EXP-001',activation_code:'EXP01-EN6-QA'}));
+          ensure(route.includes('../caso001/intro/?access=EXP01-EN6-QA'),'portal route',route);
+          await portal.close();
+
+          const page=await context.newPage(); watch(page);
+          await page.goto(BASE+'caso001/intro/?access=EXP01-EN6-QA&room=EN6ROOM&lang=en',{waitUntil:'domcontentloaded',timeout:60000});
+          await page.waitForFunction(()=>document.documentElement.lang==='en',{timeout:15000});
+          await page.waitForTimeout(500);
+          const intro=await page.evaluate(()=>({
+            lang:document.documentElement.lang,
+            allText:document.body.textContent||'',
+            portraits:[...document.querySelectorAll('.person img')].map(x=>x.getAttribute('src')||''),
+            notebook:[...document.querySelectorAll('.ev img')].map(x=>x.getAttribute('src')||'').find(x=>x.includes('cuaderno'))||''
+          }));
+          ensure(intro.lang==='en','intro EN');
+          ensure(intro.allText.includes('One meeting.')&&intro.allText.includes('Six identities.'),'intro narrative EN');
+          ensure(intro.portraits.filter(x=>x.includes('assets-en/')).length===6,'intro 6 EN portraits',JSON.stringify(intro.portraits));
+          ensure(intro.notebook.includes('assets-en/'),'intro EN notebook',intro.notebook);
+
+          await Promise.all([
+            page.waitForURL(u=>u.pathname.endsWith('/caso001/')&&u.searchParams.get('skipintro')==='1',{timeout:30000}),
+            page.click('#skipBtn')
+          ]);
+          const handoff=new URL(page.url());
+          ensure(handoff.searchParams.get('access')==='EXP01-EN6-QA','handoff access');
+          ensure(handoff.searchParams.get('room')==='EN6ROOM','handoff room');
+          ensure(handoff.searchParams.get('lang')==='en','handoff lang');
+          ensure(handoff.searchParams.get('intro')==='v10','handoff intro');
+
+          await page.waitForSelector('.languageSwitcher',{timeout:20000});
+          await page.waitForFunction(()=>document.documentElement.lang==='en',{timeout:15000});
+          await page.waitForTimeout(700);
+          const game=await page.evaluate(()=>({
+            lang:document.documentElement.lang,
+            stored:localStorage.getItem('expedientes_language'),
+            title:document.querySelector('.revTitleRow h1')?.textContent?.trim()||'',
+            create:document.querySelector('#tabCreate')?.textContent?.trim()||''
+          }));
+          ensure(game.lang==='en'&&game.stored==='en','game EN persisted',JSON.stringify(game));
+          ensure(game.title==='The Last Meeting','game title EN',game.title);
+          ensure(/Create room/i.test(game.create),'game UI EN',game.create);
+
+          const upper=await page.evaluate(()=>{
+            const lower=document.getElementById('enterRoom');
+            const create=document.getElementById('tabCreate');
+            const join=document.getElementById('tabJoin');
+            lower.disabled=false;
+            let hits=0;
+            lower.addEventListener('click',e=>{hits++;e.preventDefault();e.stopImmediatePropagation();},true);
+            if(!create.classList.contains('active')) create.click();
+            create.click();
+            const createHits=hits;
+            join.click();
+            const afterSwitch=hits;
+            lower.disabled=false;
+            join.click();
+            return {createHits,afterSwitch,finalHits:hits,joinActive:join.classList.contains('active')};
+          });
+          ensure(upper.createHits>=1,'upper Create CTA',JSON.stringify(upper));
+          ensure(upper.afterSwitch===upper.createHits,'Join first click switches tab',JSON.stringify(upper));
+          ensure(upper.finalHits>upper.afterSwitch&&upper.joinActive,'upper Join CTA',JSON.stringify(upper));
+
+          await page.evaluate(()=>{
+            localStorage.setItem('pc_exp_rev01_theory_v1','EN6-THEORY-SENTINEL');
+            localStorage.setItem('pc_exp_p2_last_room','EN6-ROOM-SENTINEL');
+          });
+          await page.click('[data-exp-lang="es"]');
+          await page.waitForFunction(()=>document.documentElement.lang==='es');
+          let state=await page.evaluate(()=>({
+            title:document.querySelector('.revTitleRow h1')?.textContent?.trim()||'',
+            create:document.querySelector('#tabCreate')?.textContent?.trim()||'',
+            theory:localStorage.getItem('pc_exp_rev01_theory_v1'),room:localStorage.getItem('pc_exp_p2_last_room')
+          }));
+          ensure(state.title==='La Última Reunión'&&/Crear sala/i.test(state.create),'game reverse ES',JSON.stringify(state));
+          ensure(state.theory==='EN6-THEORY-SENTINEL'&&state.room==='EN6-ROOM-SENTINEL','state preserved');
+          await page.click('[data-exp-lang="en"]');
+          await page.waitForFunction(()=>document.documentElement.lang==='en');
+
+          const print=await context.newPage(); watch(print);
+          await print.goto(BASE+'caso001/printables/',{waitUntil:'domcontentloaded',timeout:60000});
+          await print.waitForSelector('#printLang',{timeout:20000});
+          await print.waitForFunction(()=>document.documentElement.lang==='en',{timeout:15000});
+          await print.waitForTimeout(700);
+          let p=await print.evaluate(()=>({
+            lang:document.documentElement.lang,
+            select:document.getElementById('printLang')?.value,
+            global:localStorage.getItem('expedientes_language'),
+            local:localStorage.getItem('expedientes.c001.printables.lang'),
+            pages:document.querySelectorAll('.page').length,
+            title:document.title,
+            swaps:[...document.images].filter(x=>(x.getAttribute('src')||'').includes('assets-en/')).length,
+            broken:[...document.images].filter(x=>!x.complete||x.naturalWidth===0).length
+          }));
+          ensure(p.lang==='en'&&p.select==='en'&&p.global==='en','printables inherit global EN',JSON.stringify(p));
+          ensure(p.pages===8&&p.title.includes('The Last Meeting'),'printables EN 8 pages',JSON.stringify(p));
+          ensure(p.swaps===7&&p.broken===0,'printables EN images',JSON.stringify(p));
+          await print.selectOption('#printLang','es');
+          await print.waitForFunction(()=>document.documentElement.lang==='es');
+          p=await print.evaluate(()=>({lang:document.documentElement.lang,global:localStorage.getItem('expedientes_language'),local:localStorage.getItem('expedientes.c001.printables.lang'),pages:document.querySelectorAll('.page').length,title:document.title,swaps:[...document.images].filter(x=>(x.getAttribute('src')||'').includes('assets-en/')).length}));
+          ensure(p.lang==='es'&&p.global==='es'&&p.local==='es'&&p.pages===8&&p.swaps===0,'printables ES syncs both keys',JSON.stringify(p));
+
+          ensure(errors.length===0,'no JS page errors',JSON.stringify(errors));
+          console.log('EXP01_EN6_LOCAL_QA',JSON.stringify({ok:true,checks},null,2));
+          await print.close(); await page.close(); await context.close(); await browser.close();
+          NODE
+
+      - name: Commit continuity hardening
+        id: harden
+        run: |
+          set -euo pipefail
+          rm -f package.json package-lock.json
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add caso001/printables/i18n-en5.js
+          git diff --cached --check
+          git commit -m 'EXP01-EN6 sync printable language with global preference'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main && git push origin HEAD:main; then
+              echo "fix_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep 2
+          done
+          exit 1
+
+      - name: Wait for hardened build on GitHub Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FIX_SHA: ${{ steps.harden.outputs.fix_sha }}
+        run: |
+          set -euo pipefail
+          echo "Waiting Pages for $FIX_SHA"
+          for i in $(seq 1 60); do
+            DATA="$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/pages.yml/runs?head_sha=${FIX_SHA}&per_page=5")"
+            STATUS="$(printf '%s' "$DATA" | jq -r '.workflow_runs[0].status // "missing"')"
+            CONCLUSION="$(printf '%s' "$DATA" | jq -r '.workflow_runs[0].conclusion // ""')"
+            echo "Pages: $STATUS $CONCLUSION"
+            if [ "$STATUS" = "completed" ]; then
+              test "$CONCLUSION" = "success"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'Timed out waiting for Pages'
+          exit 1
+
+      - name: Public final bilingual smoke on hardened build
+        env:
+          BASE_URL: https://pasalochevere.github.io/expediente/
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          export CHROME
+          BASE_URL="$BASE_URL" node --input-type=module <<'NODE'
+          import { chromium } from 'playwright-core';
+          const BASE=process.env.BASE_URL;
+          const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME,args:['--no-sandbox']});
+          const context=await browser.newContext({viewport:{width:1280,height:900}});
+          const errors=[]; const checks=[];
+          const ensure=(cond,name,detail='')=>{if(!cond)throw new Error(`${name}: ${detail}`);checks.push([name,true,detail])};
+          const watch=p=>p.on('pageerror',e=>errors.push(String(e)));
+
+          const portal=await context.newPage(); watch(portal);
+          await portal.goto(BASE+'portal-v2/',{waitUntil:'domcontentloaded',timeout:60000});
+          await portal.waitForFunction(()=>typeof gameHref==='function',{timeout:20000});
+          const route=await portal.evaluate(()=>gameHref({game_url:'x',product_code:'EXP-001',activation_code:'EXP01-EN6-QA'}));
+          ensure(route.includes('../caso001/intro/?access=EXP01-EN6-QA'),'public portal route',route);
+          await portal.close();
+
+          const page=await context.newPage(); watch(page);
+          await page.goto(BASE+'caso001/intro/?access=EXP01-EN6-QA&room=EN6ROOM&lang=en',{waitUntil:'domcontentloaded',timeout:60000});
+          await page.waitForFunction(()=>document.documentElement.lang==='en',{timeout:15000});
+          await page.waitForTimeout(500);
+          const introText=await page.evaluate(()=>document.body.textContent||'');
+          ensure(introText.includes('One meeting.')&&introText.includes('Six identities.'),'public intro EN narrative');
+          await Promise.all([page.waitForURL(u=>u.pathname.endsWith('/caso001/')&&u.searchParams.get('lang')==='en',{timeout:30000}),page.click('#skipBtn')]);
+          await page.waitForFunction(()=>document.documentElement.lang==='en',{timeout:15000});
+          await page.waitForTimeout(500);
+          ensure((await page.locator('.revTitleRow h1').textContent())?.trim()==='The Last Meeting','public game EN');
+          ensure((await page.locator('#tabCreate').textContent())?.trim().toLowerCase().includes('create room'),'public game UI EN');
+          ensure(await page.evaluate(()=>localStorage.getItem('expedientes_language'))==='en','public global EN stored');
+
+          const print=await context.newPage(); watch(print);
+          await print.goto(BASE+'caso001/printables/',{waitUntil:'domcontentloaded',timeout:60000});
+          await print.waitForSelector('#printLang',{timeout:20000});
+          await print.waitForFunction(()=>document.documentElement.lang==='en',{timeout:15000});
+          await print.waitForTimeout(700);
+          const ps=await print.evaluate(()=>({lang:document.documentElement.lang,select:document.getElementById('printLang')?.value,pages:document.querySelectorAll('.page').length,title:document.title,swaps:[...document.images].filter(x=>(x.getAttribute('src')||'').includes('assets-en/')).length,broken:[...document.images].filter(x=>!x.complete||x.naturalWidth===0).length}));
+          ensure(ps.lang==='en'&&ps.select==='en'&&ps.pages===8&&ps.title.includes('The Last Meeting'),'public printables inherit EN',JSON.stringify(ps));
+          ensure(ps.swaps===7&&ps.broken===0,'public printables images',JSON.stringify(ps));
+
+          const mobile=await browser.newContext({viewport:{width:390,height:844}});
+          for(const [name,url,selector] of [
+            ['Intro',BASE+'caso001/intro/?lang=en','[data-exp-lang="en"]'],
+            ['Game',BASE+'caso001/?skipintro=1&lang=en','[data-exp-lang="en"]'],
+            ['Printables',BASE+'caso001/printables/?lang=en','#printLang']
+          ]){
+            const m=await mobile.newPage(); watch(m); await m.goto(url,{waitUntil:'domcontentloaded',timeout:60000}); await m.waitForSelector(selector,{timeout:20000});
+            const b=await m.locator(selector).boundingBox(); ensure(!!b&&b.x>=0&&b.x+b.width<=390&&b.y>=0&&b.y<844,`public mobile ${name}`,JSON.stringify(b)); await m.close();
+          }
+          await mobile.close();
+          ensure(errors.length===0,'public no JS errors',JSON.stringify(errors));
+          console.log('EXP01_EN6_PUBLIC_QA',JSON.stringify({ok:true,checks},null,2));
+          await print.close(); await page.close(); await context.close(); await browser.close();
+          NODE
+
+      - name: Freeze final bilingual release and clean temporary workflows
+        run: |
+          set -euo pipefail
+          cat > caso001/EXP01_EN6_AUDIT.md <<'EOF'
+          # EXP01-EN6 · Final Bilingual Release QA · ES / EN
+
+          Estado: **PASS · release bilingüe final validado localmente y sobre GitHub Pages público; checkpoint congelado**.
+
+          ## Hallazgo y corrección EN6
+
+          El gate detectó una diferencia real de persistencia: el juego usa `expedientes_language`, mientras que EN5 había dejado los imprimibles con una clave propia (`expedientes.c001.printables.lang`). Eso podía hacer que un jugador que eligiera EN en el juego abriera por primera vez el kit en ES.
+
+          EN6 lo corrige sin tocar el motor: Printables ahora resuelve idioma por `?lang` y luego por la preferencia global `expedientes_language`, manteniendo la clave específica anterior como fallback de compatibilidad. Al cambiar idioma en Printables se sincronizan ambas claves.
+
+          ## Recorrido final validado
+
+          **Portal EXP-001 → Cinema Intro → Caso 001 → Kit imprimible**.
+
+          PASS:
+
+          - Portal EXP-001 entrega a Cinema Intro y conserva el acceso.
+          - Cinema Intro EN: narrativa, 6 retratos EN y cuaderno EN.
+          - Intro → Juego conserva `access`, `room`, `lang`, `skipintro=1` e `intro=v10`.
+          - Juego ES/EN reversible; título/UI funcional localizados.
+          - Crear/Unirse superiores: smoke de wiring PASS sin ejecutar acción server-side.
+          - Cambio de idioma no modifica `pc_exp_rev01_theory_v1` ni `pc_exp_p2_last_room`.
+          - Printables heredan la preferencia global del juego; 8 páginas EN, 7 swaps visuales EN, imágenes cargadas; cambio a ES sincroniza ambas preferencias y restaura assets ES.
+          - Mobile 390×844: controles de idioma visibles en Intro, Juego y Printables.
+          - Cero errores JavaScript durante los gates.
+          - Gate local PASS sobre el build endurecido.
+          - Gate público PASS después de deploy de GitHub Pages del mismo build.
+
+          ## Evidencia previa conservada
+
+          EN6 no altera Crime Packs, Edge Functions, roles, timers, room state, licencias ni payloads multiplayer. Continúan vigentes EN1–EN5 y el smoke autenticado previo del core Impostor con 3 jugadores reales.
+
+          ## Freeze
+
+          **EXP01-EN1 → EXP01-EN6: PASS.**
+
+          La capa bilingüe de Caso 001 queda congelada como checkpoint de producción. Cualquier mejora posterior debe abrir una fase nueva.
+          EOF
+          cat >> caso001/RELEASE.txt <<'EOF'
+          Final bilingual checkpoint: EXP01-EN6 · Final Bilingual Release QA PASS
+          EN6 continuity hardening: Printables now inherit global `expedientes_language`; legacy printable language key retained as compatibility fallback and synchronized on change
+          Final bilingual path QA: Portal EXP-001 → Cinema Intro → game → printable kit validated on patched build and again on public GitHub Pages
+          Final language continuity: access/room/lang preserved Intro→game · game preference inherited by printables · ES/EN reversible
+          Final control QA: upper Create/Join wiring smoke PASS without server action
+          Final mobile QA: language controls visible at 390x844 in Intro, game and printables
+          Final safety: theory/last-room state preserved across language changes · multiplayer adapter remains language-agnostic
+          Bilingual release freeze: EXP01-EN1 through EXP01-EN6 PASS · production checkpoint frozen
+          EOF
+          rm -f package.json package-lock.json
+          git rm -f .github/workflows/exp01-en6-final-qa-once.yml .github/workflows/exp01-en6-final-qa-once-r2.yml
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add caso001/EXP01_EN6_AUDIT.md caso001/RELEASE.txt
+          git diff --cached --check
+          git commit -m 'EXP01-EN6 freeze final bilingual release QA'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main && git push origin HEAD:main; then
+              echo "EXP01-EN6 final freeze pushed on attempt $attempt"
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep 2
+          done
+          exit 1
