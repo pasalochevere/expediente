@@ -1,0 +1,6 @@
+/* EXP01-EN5 · Bilingual Printables · presentation only */
+.en5-lang-field{order:-10}
+.en5-lang-field select{font-weight:900;letter-spacing:.05em}
+.en5-lang-field label{color:#e7bf6b!important}
+html[lang="en"] .evidence-doc:after{content:"EVIDENCE"}
+@media print{.en5-lang-field{display:none!important}}
