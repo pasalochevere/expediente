@@ -1,0 +1,140 @@
+name: EXP01 EN1 browser QA
+on:
+  push:
+    paths:
+      - '.github/workflows/exp01-en1-browser-qa-once.yml'
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser QA runtime
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start local production mirror
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/exp01-server.log 2>&1 &
+          echo $! > /tmp/exp01-server.pid
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:4173/caso001/ >/dev/null && exit 0; sleep 1; done
+          cat /tmp/exp01-server.log
+          exit 1
+      - name: Run EXP01-EN1 browser tests
+        run: |
+          cat > /tmp/exp01-en1-qa.mjs <<'JS'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          const base='http://127.0.0.1:4173';
+          const browser=await chromium.launch({headless:true});
+          const results=[];
+          const ok=(name,pass,detail='')=>{results.push({name,pass,detail});if(!pass)throw new Error(name+': '+detail)};
+          const visibleText=async p=>await p.locator('body').innerText();
+
+          try{
+            // QA-01 / QA-08: ES via URL and existing params preserved.
+            const c1=await browser.newContext({viewport:{width:1280,height:900}});
+            const p1=await c1.newPage();
+            await p1.goto(`${base}/caso001/?lang=es&skipintro=1&room=ABC123`,{waitUntil:'domcontentloaded'});
+            await p1.waitForTimeout(1200);
+            ok('QA-01 URL lang=es',await p1.getAttribute('html','lang')==='es');
+            ok('QA-08 room param retained',new URL(p1.url()).searchParams.get('room')==='ABC123');
+            ok('QA-08 skipintro retained',new URL(p1.url()).searchParams.get('skipintro')==='1');
+            ok('QA-01 ES selector active',await p1.locator('[data-exp-lang="es"].active').count()>0);
+
+            // Seed local game notes/state and prove a language change does not alter it.
+            const stateKey='pc_exp_rev01_theory_v1';
+            const stateValue=JSON.stringify({suspects:{0:1},locations:{1:2},objects:{2:1},motive:'QA language isolation'});
+            await p1.evaluate(([k,v])=>localStorage.setItem(k,v),[stateKey,stateValue]);
+            await p1.locator('.revTopActions [data-exp-lang="en"]').click();
+            await p1.waitForTimeout(250);
+            ok('QA-03 live ES→EN',await p1.getAttribute('html','lang')==='en');
+            ok('QA-03 progress/local notes unchanged',(await p1.evaluate(k=>localStorage.getItem(k),stateKey))===stateValue);
+            const u1=new URL(p1.url());
+            ok('QA-08 lang added without overwriting room',u1.searchParams.get('lang')==='en'&&u1.searchParams.get('room')==='ABC123'&&u1.searchParams.get('skipintro')==='1');
+            ok('QA-02 structural UI English',(await p1.locator('#tabCreate').innerText()).trim()==='Create room');
+            ok('QA-02 mode UI English',(await p1.locator('#mode option[value="dig"]').innerText()).trim()==='Normal investigation');
+
+            // QA-04 reload continues EN.
+            await p1.reload({waitUntil:'domcontentloaded'});await p1.waitForTimeout(500);
+            ok('QA-04 reload EN',await p1.getAttribute('html','lang')==='en');
+
+            // QA-05 saved preference works when lang is absent.
+            await p1.goto(`${base}/caso001/?skipintro=1`,{waitUntil:'domcontentloaded'});await p1.waitForTimeout(500);
+            ok('QA-05 preference without URL',await p1.getAttribute('html','lang')==='en');
+            ok('QA-05 saved language key',(await p1.evaluate(()=>localStorage.getItem('expedientes_language')))==='en');
+
+            // Priority: explicit URL overrides saved preference and writes it back.
+            await p1.goto(`${base}/caso001/?lang=es&skipintro=1`,{waitUntil:'domcontentloaded'});await p1.waitForTimeout(350);
+            ok('URL priority over saved preference',await p1.getAttribute('html','lang')==='es'&&(await p1.evaluate(()=>localStorage.getItem('expedientes_language')))==='es');
+            await c1.close();
+
+            // QA-06: same room can be represented with different local languages in separate devices/contexts.
+            const ca=await browser.newContext({viewport:{width:900,height:800}}), cb=await browser.newContext({viewport:{width:900,height:800}});
+            const pa=await ca.newPage(),pb=await cb.newPage();
+            await Promise.all([
+              pa.goto(`${base}/caso001/?room=SAME01&lang=es&skipintro=1`,{waitUntil:'domcontentloaded'}),
+              pb.goto(`${base}/caso001/?room=SAME01&lang=en&skipintro=1`,{waitUntil:'domcontentloaded'})
+            ]);
+            await Promise.all([pa.waitForTimeout(500),pb.waitForTimeout(500)]);
+            ok('QA-06 device A ES / same room',(await pa.getAttribute('html','lang'))==='es'&&(await pa.locator('#roomCode').inputValue())==='SAME01');
+            ok('QA-06 device B EN / same room',(await pb.getAttribute('html','lang'))==='en'&&(await pb.locator('#roomCode').inputValue())==='SAME01');
+            await ca.close();await cb.close();
+
+            // QA-07: local saved investigation data survives ES→EN reopen.
+            const c7=await browser.newContext({viewport:{width:1024,height:800}}),p7=await c7.newPage();
+            await p7.goto(`${base}/caso001/?lang=es&skipintro=1`,{waitUntil:'domcontentloaded'});
+            await p7.evaluate(([k,v])=>localStorage.setItem(k,v),[stateKey,stateValue]);
+            await p7.goto(`${base}/caso001/?lang=en&skipintro=1`,{waitUntil:'domcontentloaded'});await p7.waitForTimeout(350);
+            ok('QA-07 save ES / reopen EN keeps state',(await p7.evaluate(k=>localStorage.getItem(k),stateKey))===stateValue&&await p7.getAttribute('html','lang')==='en');
+            await c7.close();
+
+            // Intro handoff preserves access, room and language.
+            const ci=await browser.newContext({viewport:{width:1280,height:800}}),pi=await ci.newPage();
+            await pi.goto(`${base}/caso001/intro/?lang=en&access=QA-CODE&room=QA123`,{waitUntil:'domcontentloaded'});await pi.waitForTimeout(300);
+            ok('Intro EN selector',await pi.getAttribute('html','lang')==='en'&&await pi.locator('[data-exp-lang="en"].active').count()===1);
+            ok('Intro structural control English',(await pi.locator('#skipBtn').innerText()).trim()==='SKIP');
+            await pi.locator('#skipBtn').click();
+            await pi.waitForURL('**/caso001/**',{timeout:5000});
+            const ui=new URL(pi.url());
+            ok('Intro handoff preserves lang/access/room',ui.searchParams.get('lang')==='en'&&ui.searchParams.get('access')==='QA-CODE'&&ui.searchParams.get('room')==='QA123'&&ui.searchParams.get('skipintro')==='1');
+            await ci.close();
+
+            // QA-09 / QA-10: mobile selector usable and no broken placeholder strings visible.
+            const cm=await browser.newContext({viewport:{width:390,height:844},isMobile:true}),pm=await cm.newPage();
+            await pm.goto(`${base}/caso001/?lang=en&skipintro=1`,{waitUntil:'domcontentloaded'});await pm.waitForTimeout(500);
+            const sw=pm.locator('.revTopActions .languageSwitcher');
+            const box=await sw.boundingBox();
+            ok('QA-10 mobile selector visible',!!box&&box.x>=0&&box.y>=0&&box.x+box.width<=390&&box.y+box.height<=844,JSON.stringify(box));
+            const body=await visibleText(pm);
+            ok('QA-09 no undefined/null/object placeholders',!/(^|\s)(undefined|null|\[object Object\])($|\s)/i.test(body));
+            await cm.close();
+
+            // Static guardrails for multiplayer/state isolation and fallback implementation.
+            const adapter=fs.readFileSync('caso001/p2-multiplayer-adapter.js','utf8');
+            const i18n=fs.readFileSync('caso001/i18n.js','utf8');
+            const main=fs.readFileSync('caso001/index.html','utf8');
+            ok('Language not sent in multiplayer adapter',!adapter.includes('expedientes_language')&&!/\blang\s*:|\blanguage\s*:/.test(adapter));
+            ok('Room/mode internal IDs preserved',adapter.includes("mode:mode==='imp'?'imp':'dig'")&&adapter.includes("pc_exp_p2_last_room"));
+            ok('Theory save key preserved',main.includes("pc_exp_rev01_theory_v1"));
+            ok('ES fallback present',i18n.includes('primary??fallback??key'));
+
+            console.log(JSON.stringify({ok:true,results},null,2));
+          } finally { await browser.close(); }
+          JS
+          node /tmp/exp01-en1-qa.mjs | tee /tmp/exp01-en1-results.json
+      - name: Summary
+        if: always()
+        run: |
+          echo '### EXP01-EN1 Browser QA' >> "$GITHUB_STEP_SUMMARY"
+          if [ -f /tmp/exp01-en1-results.json ]; then
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            tail -c 12000 /tmp/exp01-en1-results.json >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
