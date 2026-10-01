@@ -1,0 +1,28 @@
+name: PSQ 2.6 bilingual patch
+
+on:
+  push:
+    paths:
+      - 'psq26-i18n-trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch live Paper Squishy files
+        run: python3 scripts/psq26_patch.py
+      - name: Commit bilingual integration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper-squishy/index.html paper-squishy/factory.html paper-squishy/downloads.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "feat(psq): integrate bilingual ES EN layer [skip ci]"
+            git push
+          fi
