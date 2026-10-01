@@ -1,6 +1,6 @@
 # EXP01-EN4 · Visual Language Audit · ES / EN
 
-Estado: **PASS condicionado al gate automatizado de este commit**. El workflow sólo publica este build si el gate termina verde.
+Estado: **PASS · integración visual ES/EN validada por browser QA automatizado**.
 
 ## Universo auditado
 
@@ -42,6 +42,23 @@ Las variantes se almacenan como SVG autocontenidos con la foto original embebida
 - assets neutros → mismo JPG en ambos idiomas.
 
 El observador también cubre imágenes creadas dinámicamente por lobby, tablero, solución e Intro.
+
+## Gate definitivo
+
+Browser QA automatizado: **PASS**.
+
+El gate validó:
+
+- carga de los 7 assets EN;
+- 6 retratos EN y cuaderno EN en el juego principal;
+- reversión EN → ES y segundo cambio ES → EN;
+- 6 retratos EN y cuaderno EN en Cinema Intro;
+- reversión de Cinema Intro a ES;
+- conservación de los 11 assets neutros compartidos;
+- conservación de parámetros `access` y `room`;
+- ausencia de errores de página;
+- 18/18 raster activos incluidos en el inventario;
+- `p2-multiplayer-adapter.js` sin referencias a la capa visual EN.
 
 ## Seguridad / canon
 
