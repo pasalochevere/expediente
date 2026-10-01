@@ -7,6 +7,7 @@
     email:'pasalochevere@gmail.com',
     whatsappNumber:'5491153774769'
   };
+  let applyRaf=0;
 
   const COPY={
     es:{
@@ -47,6 +48,8 @@
   function t(){return COPY[lang()]}
   function whatsappUrl(){return 'https://wa.me/'+OFFICIAL.whatsappNumber+'?text='+encodeURIComponent(t().waText)}
   function emailUrl(){return 'mailto:'+OFFICIAL.email+'?subject='+encodeURIComponent(t().mailSubject)+'&body='+encodeURIComponent(t().mailBody)}
+  function setText(el,text){if(el&&el.textContent!==text)el.textContent=text}
+  function setHref(el,href){if(el&&el.getAttribute('href')!==href)el.setAttribute('href',href)}
 
   function markup(place){
     const c=t();
@@ -80,8 +83,8 @@
   function syncLinks(root){
     if(!root)return;
     const c=t();
-    const wa=root.querySelector('[data-pcd16-whatsapp]');if(wa){wa.href=whatsappUrl();wa.textContent=c.whatsapp}
-    const em=root.querySelector('[data-pcd16-email]');if(em){em.href=emailUrl();em.textContent=c.email}
+    const wa=root.querySelector('[data-pcd16-whatsapp]');if(wa){setHref(wa,whatsappUrl());setText(wa,c.whatsapp)}
+    const em=root.querySelector('[data-pcd16-email]');if(em){setHref(em,emailUrl());setText(em,c.email)}
   }
 
   function applyPage(){
@@ -93,7 +96,7 @@
       const holder=document.createElement('div');holder.innerHTML=markup('page');block=holder.firstElementChild;footer.parentNode.insertBefore(block,footer);bind(block);
     }
     syncLinks(block);
-    page.classList.add('pcD16SupportReady');
+    if(!page.classList.contains('pcD16SupportReady'))page.classList.add('pcD16SupportReady');
     return true;
   }
 
@@ -108,7 +111,7 @@
       bind(block);
     }
     syncLinks(block);
-    step.dataset.pcDelivery016='1';
+    if(step.dataset.pcDelivery016!=='1')step.dataset.pcDelivery016='1';
     return true;
   }
 
@@ -117,6 +120,11 @@
     const page=applyPage();
     const gate=applyGate();
     return page||gate;
+  }
+
+  function requestApply(){
+    if(!active()||applyRaf)return;
+    applyRaf=requestAnimationFrame(()=>{applyRaf=0;apply()});
   }
 
   window.pcApplyDeliverySupportV016=apply;
@@ -128,8 +136,12 @@
   });
 
   let tries=0;
-  const timer=setInterval(()=>{tries++;if(apply()&&document.querySelector('.pcD16SupportGate')||tries>90)clearInterval(timer)},90);
-  const obs=new MutationObserver(()=>{if(active())apply()});
+  const timer=setInterval(()=>{
+    tries++;
+    const ready=apply()&&!!document.querySelector('.pcD16SupportGate');
+    if(ready||tries>90)clearInterval(timer);
+  },90);
+  const obs=new MutationObserver(requestApply);
   try{obs.observe(document.documentElement,{subtree:true,childList:true})}catch{}
-  window.addEventListener('pc:delivery-context',()=>setTimeout(apply,0));
+  window.addEventListener('pc:delivery-context',()=>setTimeout(requestApply,0));
 })();
