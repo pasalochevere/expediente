@@ -50,6 +50,24 @@ jobs:
           game.write_text(g, encoding='utf-8')
           PY
 
+      - name: Stamp Portal loader cache key
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import os, re
+
+          path = Path('portal-v2/index.html')
+          text = path.read_text(encoding='utf-8')
+          stamp = (os.environ.get('GITHUB_SHA') or 'latest')[:12]
+          text, count = re.subn(r'c002-rc\.js\?v=[^"\']+', f'c002-rc.js?v={stamp}', text, count=1)
+          if count != 1:
+              raise SystemExit('No se encontró el loader c002-rc.js para actualizar su cache key.')
+          path.write_text(text, encoding='utf-8')
+          print('Portal loader cache key:', stamp)
+          PY
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
