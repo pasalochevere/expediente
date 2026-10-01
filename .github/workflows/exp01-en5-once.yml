@@ -1,4 +1,4 @@
-name: EXP01 EN5 Bilingual Printables Gate
+name: EXP01 EN5 Bilingual Printables Gate R2
 on:
   push:
     paths:
@@ -18,8 +18,9 @@ jobs:
           node-version: '22'
       - name: Integrate EN5 printable layer
         run: |
-          python3 .github/scripts/exp01_en5_integrate.py
+          python3 .github/scripts/exp01_en5_integrate_r2.py
           node --check caso001/printables/i18n-en5.js
+          node --check caso001/printables/i18n-en5-fix1.js
           git diff --check
       - name: Browser and PDF QA
         run: |
@@ -29,7 +30,7 @@ jobs:
           npm install --no-save playwright-core@1.55.0
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/exp01-en5-server.log 2>&1 &
           for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/caso001/printables/ >/dev/null && break; sleep 1; done
-          node .github/scripts/exp01_en5_qa.mjs
+          node .github/scripts/exp01_en5_qa_r2.mjs
           if ! command -v pdfinfo >/dev/null 2>&1; then
             sudo apt-get update -qq
             sudo apt-get install -y poppler-utils >/dev/null
