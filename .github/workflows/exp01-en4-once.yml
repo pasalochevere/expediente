@@ -1,4 +1,4 @@
-name: EXP01 EN4 Visual Audit
+name: EXP01 EN4 Visual Audit R2
 on:
   push:
     paths:
