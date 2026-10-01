@@ -2,7 +2,7 @@
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
 
-  const VERSION='20261001-delivery013-2';
+  const VERSION='20261001-delivery014-1';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
@@ -80,6 +80,7 @@
     try{
       await ensureScript('pc-delivery-context-v601-js','portal-delivery-context-v601.js?v='+VERSION);
       await ensureScript('pc-access-gate-v50-js','portal-access-gate-v50.js?v='+VERSION);
+      await ensureScript('pc-delivery-auth-v014-js','portal-delivery-auth-v014.js?v='+VERSION);
       await ensureScript('pc-clean-home-v51-js','portal-clean-home-v51.js?v='+VERSION);
       await ensureScript('pc-activation-fix-v561-js','portal-activation-fix-v561.js?v='+VERSION);
       await ensureScript('pc-category-experience-v52-js','portal-category-experience-v52.js?v='+VERSION);
@@ -95,7 +96,7 @@
       await ensureScript('pc-delivery-exp001-v013-js','portal-delivery-exp001-v013.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
-      document.body.dataset.pcBootstrap='v56.5-delivery013';
+      document.body.dataset.pcBootstrap='v56.6-delivery014';
       requestApply('boot-complete');
     }catch(e){
       console.error('Portal V5.6 bootstrap',e);
@@ -105,14 +106,15 @@
   }
 
   window.pcPortalV56Audit=()=>({
-    version:'5.6.5-delivery013',
+    version:'5.6.6-delivery014',
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
     applyRuns:state.runs,lastReason:state.lastReason,bootMs:state.loadedAt?Math.round(state.loadedAt-state.started):null,errors:[...state.errors],activationFix:!!window.__pcActivationFixV561,
     delivery:typeof window.pcDeliveryContext==='function'?window.pcDeliveryContext():window.PC_DELIVERY_CONTEXT||null,
+    deliveryAuth:typeof window.pcDeliveryAuthV014Audit==='function'?window.pcDeliveryAuthV014Audit():null,
     dom:{homes:document.querySelectorAll('.pcV51Home').length,legacyHomes:document.querySelectorAll('.pcV42Home').length,inicio:document.querySelectorAll('#inicio').length,topNav:document.querySelectorAll('.pcV4Nav').length,bottomNav:document.querySelectorAll('.pcV4BottomNav').length,categoryModals:document.querySelectorAll('.pcV52Modal').length,accountSections:document.querySelectorAll('.pcV53Account').length,comingSoon:document.querySelectorAll('.pcComingCard').length,deliveryShells:document.querySelectorAll('.pcDeliveryShell').length,deliveryExp001:document.querySelectorAll('.pcDeliveryExp001V013').length},
-    modules:{gate:!!window.__pcAccessGateV50,home:!!window.__pcCleanHomeV51,categories:!!window.__pcCategoryExperienceV52,coming:!!window.__pcComingSoonV57,account:!!window.__pcAccountCenterV53,nav:!!window.__pcNavMobileV54,cleanup:!!window.__pcLegacyCleanupV55,deliveryContext:!!window.__pcDeliveryContextV601,deliveryShell:!!window.__pcDeliveryShellV601,deliveryExp001:!!window.__pcDeliveryExp001V013}
+    modules:{gate:!!window.__pcAccessGateV50,home:!!window.__pcCleanHomeV51,categories:!!window.__pcCategoryExperienceV52,coming:!!window.__pcComingSoonV57,account:!!window.__pcAccountCenterV53,nav:!!window.__pcNavMobileV54,cleanup:!!window.__pcLegacyCleanupV55,deliveryContext:!!window.__pcDeliveryContextV601,deliveryAuth:!!window.__pcDeliveryAuthV014,deliveryShell:!!window.__pcDeliveryShellV601,deliveryExp001:!!window.__pcDeliveryExp001V013}
   });
 
   boot();
