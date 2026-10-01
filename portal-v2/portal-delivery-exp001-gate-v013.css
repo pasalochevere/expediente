@@ -1,0 +1,9 @@
+/* PORTAL-DELIVERY01.3 · Activation Portal contextual skin for Etsy / EXP-001 */
+#pcAccessGateV50.pcV50DeliveryExp001{background:radial-gradient(circle at 18% 8%,rgba(201,154,58,.16),transparent 30%),radial-gradient(circle at 84% 88%,rgba(126,31,25,.15),transparent 32%),linear-gradient(180deg,#0b0908,#050505)}
+#pcAccessGateV50.pcV50DeliveryExp001 .pcV50Brand:after{content:"ETSY · EXP-001";display:inline-flex;margin-left:4px;border:1px solid rgba(210,164,99,.28);border-radius:999px;padding:5px 8px;color:#d9b573;background:rgba(255,255,255,.025);font-size:.55rem;font-weight:950;letter-spacing:.1em}
+#pcAccessGateV50.pcV50DeliveryExp001 .pcV50Card{border-color:rgba(210,164,99,.25);background:linear-gradient(155deg,rgba(29,24,20,.99),rgba(12,11,10,.99));box-shadow:0 32px 96px rgba(0,0,0,.56)}
+#pcAccessGateV50.pcV50DeliveryExp001 .pcV50Eyebrow{color:#d8ad66}
+#pcAccessGateV50.pcV50DeliveryExp001 .pcV50Input:focus{border-color:rgba(210,164,99,.62);box-shadow:0 0 0 3px rgba(210,164,99,.1)}
+#pcAccessGateV50.pcV50DeliveryExp001 .pcV50Button{border-color:#bd4f44;background:linear-gradient(135deg,#ad392f,#711d18)}
+#pcAccessGateV50.pcV50DeliveryExp001 .pcV50Verified{border-color:rgba(105,168,120,.27);background:rgba(44,87,55,.12)}
+@media(max-width:560px){#pcAccessGateV50.pcV50DeliveryExp001 .pcV50Brand{flex-wrap:wrap}#pcAccessGateV50.pcV50DeliveryExp001 .pcV50Brand:after{font-size:.5rem;padding:4px 7px}}
