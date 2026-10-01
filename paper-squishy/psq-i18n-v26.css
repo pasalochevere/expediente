@@ -1,0 +1,27 @@
+/* PSQ 2.6 · Bilingual Experience Layer */
+.psq-lang-switch{display:inline-flex;align-items:center;justify-content:center;gap:6px;z-index:99999;font-family:Inter,ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1;user-select:none;-webkit-user-select:none}
+.psq-lang-switch .psq-lang-label{font-size:8px;font-weight:1000;letter-spacing:.13em;opacity:.55;margin-right:2px}
+.psq-lang-switch i{font-style:normal;opacity:.34;font-size:11px}
+.psq-lang-switch button{appearance:none;border:0;background:transparent;color:inherit;padding:6px 7px;border-radius:9px;font-size:10px;font-weight:1000;letter-spacing:.05em;cursor:pointer;opacity:.52;transition:.16s transform,.16s opacity,.16s background,.16s box-shadow}
+.psq-lang-switch button:hover{opacity:.9;transform:translateY(-1px)}
+.psq-lang-switch button.active{opacity:1;background:#ffd45b;color:#34251f;box-shadow:inset 0 0 0 1px rgba(52,37,31,.18)}
+.psq-lang-inline{flex:0 0 auto;border:1px solid rgba(52,37,31,.13);border-radius:13px;background:rgba(255,255,255,.74);padding:3px 5px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.psq-lang-factory{margin-left:4px}
+.psq-lang-downloads{margin-left:auto;margin-right:4px}
+.psq-lang-float{position:fixed;right:max(14px,env(safe-area-inset-right));top:max(14px,env(safe-area-inset-top));padding:5px 7px;border-radius:999px;border:1px solid rgba(255,255,255,.18);color:#fff;background:rgba(9,5,14,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 28px rgba(0,0,0,.18)}
+.psq-lang-float .psq-lang-label{display:none}
+.psq-lang-cinema{right:128px}
+@media(max-width:760px){
+  .psq-lang-switch .psq-lang-label{display:none}
+  .psq-lang-switch{gap:3px}
+  .psq-lang-switch button{padding:6px;font-size:9px}
+  .psq-lang-inline{padding:2px 4px;border-radius:11px}
+  .psq-lang-factory{margin-left:0}
+  .psq-lang-downloads{margin-left:auto;margin-right:0}
+  .psq-lang-cinema{right:112px;top:max(12px,env(safe-area-inset-top))}
+}
+@media(max-width:430px){
+  .psq-lang-cinema{right:103px}
+  .psq-lang-float{padding:4px 5px}
+}
+@media print{.psq-lang-switch{display:none!important}}
