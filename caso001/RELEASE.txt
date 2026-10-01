@@ -42,3 +42,4 @@ Final handoff QA: access/room/lang/skipintro/intro-v10 preserved
 Final mobile QA: language controls visible at 390x844 on Intro, game and printables
 Final safety: theory/last-room local state preserved · backend/multiplayer payloads unchanged
 Bilingual release freeze: EXP01-EN1 through EXP01-EN6 PASS · production checkpoint frozen
+Freeze source checkpoint: 5468bd9b6e9cca8057073fc4f4adb325a7e6c5a4
