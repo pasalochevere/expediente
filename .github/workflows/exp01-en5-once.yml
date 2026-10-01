@@ -1,4 +1,4 @@
-name: EXP01 EN5 Bilingual Printables Gate R5
+name: EXP01 EN5 Bilingual Printables Gate R6
 on:
   push:
     paths:
@@ -55,6 +55,7 @@ jobs:
               innerScroll:n.querySelector('.page-inner')?.scrollHeight||0
             })));
             console.log(`EN5_PAGE_HEIGHTS_${language.toUpperCase()}`,JSON.stringify(pages));
+            if(pages.length!==8 || pages.some(x=>x.rect>1123.5)) throw new Error(`A4 overflow ${language}: ${JSON.stringify(pages)}`);
             await p.close();
           }
           await browser.close();
