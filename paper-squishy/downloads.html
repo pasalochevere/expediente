@@ -152,7 +152,7 @@ async function downloadResource(key,btn){
     const {data:row,error:re}=await sb.rpc('pc_psq_download_resource',{p_resource:key}).maybeSingle();
     if(re)throw re;
     if(!row?.storage_path||!row?.download_name)throw new Error('Tu licencia ya no habilita este recurso.');
-    const {data:blob,error}=await sb.storage.from(BUCKET).download(row.storage_path,{download:row.download_name});
+    const {data:blob,error}=await sb.storage.from(BUCKET).download(row.storage_path);
     if(error)throw error;
     const url=URL.createObjectURL(blob),a=document.createElement('a');
     a.href=url;a.download=row.download_name;document.body.appendChild(a);a.click();a.remove();
