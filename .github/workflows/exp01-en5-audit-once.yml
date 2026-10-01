@@ -1,4 +1,4 @@
-name: EXP01 EN5 Printable Audit
+name: EXP01 EN5 Printable Audit R2
 on:
   push:
     paths:
@@ -28,14 +28,14 @@ jobs:
           const page=await browser.newPage({viewport:{width:1280,height:900}});
           const errors=[];page.on('pageerror',e=>errors.push(String(e)));
           await page.goto('http://127.0.0.1:4173/caso001/printables/',{waitUntil:'domcontentloaded'});
-          await page.waitForTimeout(800);
+          await page.waitForTimeout(1000);
           const data=await page.evaluate(()=>({
             title:document.title,
             pageCount:document.querySelectorAll('.page').length,
             pages:[...document.querySelectorAll('.page')].map((p,i)=>({index:i+1,text:p.innerText.replace(/\n{3,}/g,'\n\n'),images:[...p.querySelectorAll('img')].map(img=>({alt:img.alt||'',cls:img.className,src:(img.getAttribute('src')||'').slice(0,80)}))})),
-            controls:[...document.querySelectorAll('.toolbar label,.toolbar button,.toolbar option,.toolbar span,.status')].map(x=>x.textContent.trim()).filter(Boolean),
-            errors
+            controls:[...document.querySelectorAll('.toolbar label,.toolbar button,.toolbar option,.toolbar span,.status')].map(x=>x.textContent.trim()).filter(Boolean)
           }));
+          data.errors=errors;
           console.log('EXP01_EN5_AUDIT_BEGIN');
           console.log(JSON.stringify(data,null,2));
           console.log('EXP01_EN5_AUDIT_END');
