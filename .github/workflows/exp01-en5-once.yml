@@ -1,0 +1,66 @@
+name: EXP01 EN5 Bilingual Printables Gate
+on:
+  push:
+    paths:
+      - '.github/workflows/exp01-en5-once.yml'
+permissions:
+  contents: write
+jobs:
+  qa-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Integrate EN5 printable layer
+        run: |
+          python3 .github/scripts/exp01_en5_integrate.py
+          node --check caso001/printables/i18n-en5.js
+          git diff --check
+      - name: Browser and PDF QA
+        run: |
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$CHROME"
+          export CHROME
+          npm install --no-save playwright-core@1.55.0
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/exp01-en5-server.log 2>&1 &
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/caso001/printables/ >/dev/null && break; sleep 1; done
+          node .github/scripts/exp01_en5_qa.mjs
+          if ! command -v pdfinfo >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils >/dev/null
+          fi
+          test "$(pdfinfo /tmp/exp01-en5-es.pdf | awk '/^Pages:/ {print $2}')" = "8"
+          test "$(pdfinfo /tmp/exp01-en5-en.pdf | awk '/^Pages:/ {print $2}')" = "8"
+          pdfinfo /tmp/exp01-en5-es.pdf | grep -q 'Page size:.*595.*842'
+          pdfinfo /tmp/exp01-en5-en.pdf | grep -q 'Page size:.*595.*842'
+          pdftoppm -f 1 -singlefile -png -r 96 /tmp/exp01-en5-es.pdf /tmp/exp01-en5-es-page1 >/dev/null 2>&1
+          pdftoppm -f 1 -singlefile -png -r 96 /tmp/exp01-en5-en.pdf /tmp/exp01-en5-en-page1 >/dev/null 2>&1
+          test -s /tmp/exp01-en5-es-page1.png
+          test -s /tmp/exp01-en5-en-page1.png
+      - name: Commit and publish passing build safely
+        run: |
+          rm -f package.json package-lock.json
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add caso001/printables/index.html caso001/RELEASE.txt caso001/EXP01_EN5_AUDIT.md
+          git diff --cached --check
+          git commit -m 'EXP01-EN5 bilingual printable kit ES EN'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main; then
+              if git push origin HEAD:main; then
+                echo "EN5 pushed on attempt $attempt"
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+            fi
+            sleep 2
+          done
+          echo 'EN5 push failed after retries'
+          exit 1
