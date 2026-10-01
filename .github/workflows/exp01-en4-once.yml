@@ -1,4 +1,4 @@
-name: EXP01 EN4 Visual Audit R3
+name: EXP01 EN4 Visual Audit R4
 on:
   push:
     paths:
@@ -11,6 +11,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -39,7 +41,7 @@ jobs:
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/exp01-en4-server.log 2>&1 &
           for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/caso001/ >/dev/null && break; sleep 1; done
           node .github/scripts/exp01_en4_qa.mjs
-      - name: Commit passing build
+      - name: Commit and publish passing build safely
         run: |
           rm -f package.json package-lock.json
           git config user.name 'lunchpack-arg'
@@ -47,4 +49,14 @@ jobs:
           git add caso001/index.html caso001/intro/index.html caso001/visual-en.js caso001/assets-en caso001/RELEASE.txt caso001/EXP01_EN4_AUDIT.md
           git diff --cached --check
           git commit -m 'EXP01-EN4 localize embedded visual text ES EN'
-          git push origin main
+          for attempt in 1 2 3 4; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              echo "EN4 pushed on attempt $attempt"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo 'EN4 push failed after retries'
+          exit 1
