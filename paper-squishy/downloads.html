@@ -99,12 +99,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
-const KEY='sb_publishable_bJ91vnQUWHfPqD7';
-</script>
-<script>
-const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+const KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
 const BUCKET='paper-squishy-downloads';
-const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+const sb=supabase.createClient(SUPABASE_URL,KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let access={session:false,active:false,status:'none'};
 
