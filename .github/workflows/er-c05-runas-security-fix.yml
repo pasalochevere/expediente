@@ -1,0 +1,74 @@
+name: ER-C05 Runas Security Fix
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/er-c05-runas-security-fix.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch runtime gate and activation fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          runtime=Path('escuela-runas/school-runtime-rc1.html')
+          s=runtime.read_text(encoding='utf-8')
+          marker='pc-runtime-license-gate-v1'
+          if marker not in s:
+              block='''\n<style id="pc-runtime-license-lock-v1">html{visibility:hidden!important}</style>\n<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>\n<script id="pc-runtime-license-gate-v1">\n(async()=>{\n const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';\n const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';\n const PRODUCT='RUNAS-24';\n const PORTAL='../portal-v2/';\n const access=(new URLSearchParams(location.search).get('access')||'').trim();\n function deviceId(){let v=localStorage.getItem('pc_device_id');if(!v){v=(crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2));localStorage.setItem('pc_device_id',v)}return v}\n function deviceLabel(){return [navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150)}\n function deny(){location.replace(PORTAL)}\n if(!access){location.replace('./');return}\n try{\n   const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});\n   const {data:{session}}=await sb.auth.getSession();\n   if(!session?.user?.email||session.user.is_anonymous)throw new Error('no-session');\n   const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:access,device_id:deviceId(),device_label:deviceLabel()}});\n   if(error||!data?.ok)throw new Error(data?.error||error?.message||'invalid-access');\n   if(String(data.license?.product_code||'').toUpperCase()!==PRODUCT)throw new Error('wrong-product');\n   document.documentElement.style.visibility='visible';\n   document.getElementById('pc-runtime-license-lock-v1')?.remove();\n }catch(e){deny()}\n})();\n</script>\n'''
+              if '</head>' not in s: raise SystemExit('Runtime sin </head>')
+              s=s.replace('</head>',block+'\n</head>',1)
+              runtime.write_text(s,encoding='utf-8')
+              print('Runtime gate injected')
+          else:
+              print('Runtime gate already present')
+
+          act=Path('portal-v2/portal-activation-fix-v561.js')
+          a=act.read_text(encoding='utf-8')
+          needle="    if(type==='quimera'||text.includes('QUIMERA'))return 'QUIMERA';\n"
+          add="    if(type==='runas'||text.includes('ESCUELA DE RUNAS')||text.includes('ELDER FUTHARK'))return 'RUNAS-24';\n"
+          if add not in a:
+              if needle not in a: raise SystemExit('No se encontró ancla para RUNAS-24')
+              a=a.replace(needle,needle+add,1)
+              act.write_text(a,encoding='utf-8')
+              print('RUNAS-24 activation fallback injected')
+          else:
+              print('RUNAS-24 activation fallback already present')
+          PY
+
+      - name: Static security assertions
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'pc-runtime-license-gate-v1' escuela-runas/school-runtime-rc1.html
+          grep -q "product_code||'').toUpperCase()!==PRODUCT" escuela-runas/school-runtime-rc1.html
+          grep -q "action:'register_device'" escuela-runas/school-runtime-rc1.html
+          grep -q "return 'RUNAS-24'" portal-v2/portal-activation-fix-v561.js
+          echo 'ER-C05 SECURITY STATIC: PASS'
+
+      - name: Commit fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add escuela-runas/school-runtime-rc1.html portal-v2/portal-activation-fix-v561.js
+          if git diff --cached --quiet; then
+            echo 'No changes to commit'
+          else
+            git commit -m 'ER-C05 protect Runas runtime and activation route'
+            git push origin HEAD:main
+          fi
