@@ -109,6 +109,33 @@ body{font-size:16px}
 .free-explore-tag{display:inline-flex;margin-top:8px;border:1px solid #5a402e;border-radius:999px;padding:5px 8px;color:#c29a74;font-size:9px}
 @media(max-width:760px){body{font-size:17px}.hero p{font-size:14px!important}}
 </style>
+
+<style id="pc-runtime-license-lock-v1">html{visibility:hidden!important}</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script id="pc-runtime-license-gate-v1">
+(async()=>{
+ const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+ const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+ const PRODUCT='RUNAS-24';
+ const PORTAL='../portal-v2/';
+ const access=(new URLSearchParams(location.search).get('access')||'').trim();
+ function deviceId(){let v=localStorage.getItem('pc_device_id');if(!v){v=(crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2));localStorage.setItem('pc_device_id',v)}return v}
+ function deviceLabel(){return [navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150)}
+ function deny(){location.replace(PORTAL)}
+ if(!access){location.replace('./');return}
+ try{
+   const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+   const {data:{session}}=await sb.auth.getSession();
+   if(!session?.user?.email||session.user.is_anonymous)throw new Error('no-session');
+   const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:access,device_id:deviceId(),device_label:deviceLabel()}});
+   if(error||!data?.ok)throw new Error(data?.error||error?.message||'invalid-access');
+   if(String(data.license?.product_code||'').toUpperCase()!==PRODUCT)throw new Error('wrong-product');
+   document.documentElement.style.visibility='visible';
+   document.getElementById('pc-runtime-license-lock-v1')?.remove();
+ }catch(e){deny()}
+})();
+</script>
+
 </head>
 <!-- AUTOCONTENIDA: intro images + RuneState + 9 modules embedded -->
 <body class="intro-open">

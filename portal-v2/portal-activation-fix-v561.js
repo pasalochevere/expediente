@@ -29,6 +29,7 @@
     if(type==='vincores'||text.includes('VINCORES'))return 'VINC-001';
     if(type==='squishy'||text.includes('PAPER SQUISHY'))return 'PSQ-FACTORY';
     if(type==='quimera'||text.includes('QUIMERA'))return 'QUIMERA';
+    if(type==='runas'||text.includes('ESCUELA DE RUNAS')||text.includes('ELDER FUTHARK'))return 'RUNAS-24';
     if(type==='math'||text.includes('MATEMATICA'))return 'TK-MAT-79-DIG';
     return '';
   }
