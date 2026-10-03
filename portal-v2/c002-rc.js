@@ -215,3 +215,49 @@
   else injectRunas();
   setTimeout(injectRunas,300);
 })();
+
+(()=>{
+  if(window.__pcQuimeraPortalV1)return;
+  window.__pcQuimeraPortalV1=true;
+
+  const quimeraCard=`<article class="card" data-cat="mystery" id="pc-quimera-card-v1"><span class="status live">● NUEVO</span><h3>PROJECT QUIMERA</h3><div class="accent">EL ARCHIVO NEGRO · ESCAPE DIGITAL PREMIUM</div><p>Explorá HELIX-9, resolvé puzzles, reconstruí una investigación procedural y enfrentá decisiones con finales variables. NORMAL/HARD, seeds, inventario, hallazgos y audio atmosférico.</p><div class="note" style="margin-top:8px"><b>$ 24.999</b> · acceso 12 meses · hasta 2 dispositivos</div><div class="actions"><button class="btn primary" onclick="scrollToActivation()">ACTIVAR ACCESO</button></div></article>`;
+  const newsCard=`<article class="newsCard" id="pc-quimera-news-v1" onclick="openCategory('mystery')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>PROJECT QUIMERA · EL ARCHIVO NEGRO</b><p>Escape digital premium: HELIX-9, rutas procedurales, puzzles, modos NORMAL/HARD y finales variables.</p></article>`;
+
+  function patchQuimeraFunctions(){
+    const cat=window.licenseCategory;
+    if(typeof cat==='function'&&!cat.__qmrPatched){
+      const base=cat;
+      const wrapped=function(l){
+        const code=String(l?.product_code||'').toUpperCase(),name=String(l?.product_name||'').toUpperCase();
+        if(code==='QMR-001'||name.includes('PROJECT QUIMERA')||name.includes('EL ARCHIVO NEGRO'))return {key:'mystery',label:'⌕ MISTERIO & GRUPO'};
+        return base(l);
+      };
+      wrapped.__qmrPatched=true;
+      window.licenseCategory=wrapped;
+    }
+    const href=window.gameHref;
+    if(typeof href==='function'&&!href.__qmrPatched){
+      const baseHref=href;
+      const wrappedHref=function(l){
+        if(String(l?.product_code||'').toUpperCase()==='QMR-001'&&l?.activation_code)return '../quimera/?access='+encodeURIComponent(l.activation_code);
+        return baseHref(l);
+      };
+      wrappedHref.__qmrPatched=true;
+      window.gameHref=wrappedHref;
+    }
+  }
+
+  function injectQuimera(){
+    patchQuimeraFunctions();
+    const count=document.querySelector('.catChip.mystery .catCount');
+    if(count)count.textContent='3 títulos';
+    const grid=document.querySelector('#drawer-mystery .drawerGrid');
+    if(grid&&!document.getElementById('pc-quimera-card-v1'))grid.insertAdjacentHTML('beforeend',quimeraCard);
+    const carousel=document.querySelector('.newsCarousel');
+    if(carousel&&!document.getElementById('pc-quimera-news-v1'))carousel.insertAdjacentHTML('afterbegin',newsCard);
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectQuimera,{once:true});
+  else injectQuimera();
+  [250,700,1500,3000,6000].forEach(ms=>setTimeout(injectQuimera,ms));
+})();
