@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#171717"/>
+  <circle cx="256" cy="256" r="196" fill="none" stroke="#C69A3A" stroke-width="24"/>
+  <text x="256" y="223" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="82" fill="#fff">PASALO</text>
+  <text x="256" y="315" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="82" fill="#fff">CHEVERE</text>
+  <path d="M256 354l11 23 25 4-18 18 4 25-22-12-22 12 4-25-18-18 25-4z" fill="#C69A3A"/>
+</svg>
