@@ -32,13 +32,6 @@ jobs:
           elif 'pcRunasRealPreview' not in s:
               raise SystemExit('No se encontró la card Runas esperada')
           p.write_text(s,encoding='utf-8')
-
-          smoke=Path('.github/workflows/er-c05-runas-smoke.yml')
-          w=smoke.read_text(encoding='utf-8')
-          anchor='''    paths:\n      - ".github/workflows/er-c05-runas-smoke.yml"'''
-          expanded='''    paths:\n      - ".github/workflows/er-c05-runas-smoke.yml"\n      - "portal-v2/c002-rc.js"\n      - "portal-v2/portal-activation-fix-v561.js"\n      - "escuela-runas/index.html"\n      - "escuela-runas/school-runtime-rc1.html"'''
-          if anchor in w:w=w.replace(anchor,expanded,1)
-          smoke.write_text(w,encoding='utf-8')
           PY
       - name: Assertions
         run: |
@@ -50,7 +43,7 @@ jobs:
         run: |
           git config user.name 'lunchpack-arg'
           git config user.email 'pasalochevere@gmail.com'
-          git add portal-v2/c002-rc.js .github/workflows/er-c05-runas-smoke.yml
+          git add portal-v2/c002-rc.js
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'ER-C05 add real preview to Runas Portal card'
           git push origin HEAD:main
