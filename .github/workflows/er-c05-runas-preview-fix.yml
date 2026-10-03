@@ -1,0 +1,56 @@
+name: ER-C05 Runas Preview Fix
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/er-c05-runas-preview-fix.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Add real product visual to Runas card
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('portal-v2/c002-rc.js')
+          s=p.read_text(encoding='utf-8')
+          old='''const runasCard=`<article class="card" data-cat="wellbeing" id="pc-runas-card-v1"><span class="status live">● DISPONIBLE</span><h3>ESCUELA DE RUNAS</h3><div class="accent">GUÍA INTERACTIVA · 24 RUNAS · 114 LECCIONES</div><p>Aprendé Elder Futhark con Biblioteca 24, ruta visual, tiradas, entrenador, simulador, Mi Lectura y Diario Rúnico.</p><div class="note" style="margin-top:8px"><b>$ 24.999</b> · acceso 12 meses · hasta 2 dispositivos</div><div class="actions"><button class="btn primary" onclick="buyNow('RUNAS-24')">COMPRAR AHORA</button><button class="btn" onclick="scrollToActivation()">ACTIVAR ACCESO</button></div></article>`;'''
+          new='''const runasCard=`<article class="card" data-cat="wellbeing" id="pc-runas-card-v1" data-product-code="RUNAS-24"><div class="pcRunasRealPreview" style="position:relative;aspect-ratio:16/9;margin:-18px -18px 14px;overflow:hidden;background:#090806;border-bottom:1px solid #493629"><img src="../escuela-runas/assets/intro/intro_03.svg?v=20261003-erc05" alt="Preview real de Escuela de Runas" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;object-position:center"><span style="position:absolute;left:10px;bottom:10px;padding:5px 8px;border-radius:999px;background:rgba(9,8,6,.88);border:1px solid rgba(197,139,85,.55);color:#efd0a5;font-size:.61rem;font-weight:900;letter-spacing:.07em">PREVIEW DEL PRODUCTO</span></div><span class="status live">● DISPONIBLE</span><h3>ESCUELA DE RUNAS</h3><div class="accent">GUÍA INTERACTIVA · 24 RUNAS · 114 LECCIONES</div><p>Aprendé Elder Futhark con Biblioteca 24, ruta visual, tiradas, entrenador, simulador, Mi Lectura y Diario Rúnico.</p><div class="note" style="margin-top:8px"><b>$ 24.999</b> · acceso 12 meses · hasta 2 dispositivos</div><div class="actions"><button class="btn primary" onclick="buyNow('RUNAS-24')">COMPRAR AHORA</button><button class="btn" onclick="scrollToActivation()">ACTIVAR ACCESO</button></div></article>`;'''
+          if old in s:
+              s=s.replace(old,new,1)
+          elif 'pcRunasRealPreview' not in s:
+              raise SystemExit('No se encontró la card Runas esperada')
+          p.write_text(s,encoding='utf-8')
+
+          smoke=Path('.github/workflows/er-c05-runas-smoke.yml')
+          w=smoke.read_text(encoding='utf-8')
+          anchor='''    paths:\n      - ".github/workflows/er-c05-runas-smoke.yml"'''
+          expanded='''    paths:\n      - ".github/workflows/er-c05-runas-smoke.yml"\n      - "portal-v2/c002-rc.js"\n      - "portal-v2/portal-activation-fix-v561.js"\n      - "escuela-runas/index.html"\n      - "escuela-runas/school-runtime-rc1.html"'''
+          if anchor in w:w=w.replace(anchor,expanded,1)
+          smoke.write_text(w,encoding='utf-8')
+          PY
+      - name: Assertions
+        run: |
+          grep -q 'pcRunasRealPreview' portal-v2/c002-rc.js
+          grep -q 'intro_03.svg' portal-v2/c002-rc.js
+          grep -q 'data-product-code="RUNAS-24"' portal-v2/c002-rc.js
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add portal-v2/c002-rc.js .github/workflows/er-c05-runas-smoke.yml
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'ER-C05 add real preview to Runas Portal card'
+          git push origin HEAD:main
