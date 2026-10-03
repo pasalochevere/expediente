@@ -18,7 +18,7 @@
 }
 
 /* ER-C04.2 · ESCUELA DE RUNAS YA PUBLICADA
-   Retira el teaser viejo de “Próximamente” y convierte la card comercial en una preview real del producto. */
+   Retira el teaser viejo de “Próximamente” y convierte la card comercial en una preview del producto publicado. */
 .pcComingCard[data-coming-code="ESCUELA-RUNAS"],
 .pcComingShelfItem[data-coming-preview="ESCUELA-RUNAS"]{display:none!important}
 
@@ -38,6 +38,13 @@
 #pc-runas-card-v1 .status.live{margin-top:2px!important}
 #pc-runas-card-v1 h3{margin-top:12px!important}
 #pc-runas-card-v1 .actions{position:static!important;margin-top:18px!important}
+
+/* El teaser viejo sigue existiendo en el DOM por compatibilidad del módulo de próximos,
+   pero ya no cuenta visualmente como una cuarta experiencia. */
+.catChip.wellbeing .catCount{font-size:0!important}
+.catChip.wellbeing .catCount::after{content:"3 experiencias";font-size:.62rem!important}
+#pcV52CategoryModal:has(#drawer-wellbeing) #pcV52Count{font-size:0!important}
+#pcV52CategoryModal:has(#drawer-wellbeing) #pcV52Count::after{content:"3 EXPERIENCIAS";font-size:.72rem!important}
 
 @media(max-width:820px){
   #pc-runas-card-v1{min-height:0!important}
