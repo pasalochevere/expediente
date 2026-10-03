@@ -1,0 +1,185 @@
+name: P11 Quimera commerce integration
+
+on:
+  push:
+    branches: [p11-quimera-commerce]
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: p11-quimera-commerce
+          fetch-depth: 0
+
+      - name: Patch Quimera license gate and Portal
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          # ---------------- QUIMERA: license gate ----------------
+          qp = Path('quimera/index.html')
+          q = qp.read_text(encoding='utf-8')
+          marker = 'qmr-license-gate-v1'
+          if marker not in q:
+              if '</head>' not in q or '<body' not in q:
+                  raise SystemExit('Quimera HTML structure not recognized')
+
+              q = q.replace('</head>', '''<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>\n</head>''', 1)
+
+              gate_html = r'''
+<!-- qmr-license-gate-v1 -->
+<style id="qmr-license-gate-v1">
+#qmrLicenseGate{position:fixed;inset:0;z-index:100000;background:radial-gradient(circle at 50% 18%,#14302d 0,#061014 38%,#010608 100%);display:grid;place-items:center;padding:22px;color:#d7e6e3;font-family:Inter,Segoe UI,Arial,sans-serif}
+#qmrLicenseGate[hidden]{display:none}.qmrGateCard{width:min(620px,94vw);background:rgba(5,18,20,.98);border:1px solid #35635c;border-radius:18px;padding:28px;box-shadow:0 30px 90px #000}.qmrGateEyebrow{font-size:10px;letter-spacing:.2em;color:#69cda9;font-weight:900}.qmrGateCard h1{margin:8px 0 10px;font-size:clamp(24px,5vw,38px);letter-spacing:.06em}.qmrGateCard p{color:#9fb9b2;line-height:1.6}.qmrGateState{margin:16px 0;padding:12px 14px;border:1px solid #284d48;background:#071719;border-radius:10px;font-size:12px;line-height:1.5}.qmrGateState.good{border-color:#3b8066;color:#9af0c8}.qmrGateState.bad{border-color:#7a4141;color:#ffaaa7}.qmrGateActions{display:flex;gap:9px;flex-wrap:wrap}.qmrGateBtn{border:1px solid #35635c;background:#0d2928;color:#dcf7ed;padding:11px 14px;border-radius:9px;text-decoration:none;font-weight:900;font-size:11px;letter-spacing:.06em;cursor:pointer}.qmrGateBtn.primary{border-color:#55d6a2;background:#16473d;color:#e7fff6}.qmrGateMeta{margin-top:15px;color:#688d84;font:10px/1.5 ui-monospace,Consolas,monospace}
+</style>
+<div id="qmrLicenseGate" aria-live="polite">
+  <section class="qmrGateCard">
+    <div class="qmrGateEyebrow">PASALOCHEVERE · ACCESO PROTEGIDO</div>
+    <h1>PROJECT QUIMERA</h1>
+    <p>El Archivo Negro requiere una licencia activa vinculada a tu cuenta. Si ya activaste tu compra, ingresá desde tu biblioteca PasaloChevere.</p>
+    <div class="qmrGateState" id="qmrGateState">Validando cuenta, licencia y dispositivo…</div>
+    <div class="qmrGateActions">
+      <a class="qmrGateBtn primary" href="../portal-v2/">IR AL PORTAL</a>
+      <button class="qmrGateBtn" id="qmrGateRetry" type="button">REINTENTAR</button>
+    </div>
+    <div class="qmrGateMeta">QMR-001 · 12 MESES · HASTA 2 DISPOSITIVOS</div>
+  </section>
+</div>
+'''
+              # Works for <body> or <body ...>
+              q = re.sub(r'(<body[^>]*>)', r'\1' + gate_html, q, count=1, flags=re.I)
+
+              gate_js = r'''
+<script id="qmr-license-runtime-v1">
+(()=>{
+  const PRODUCT='QMR-001';
+  const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+  const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+  const ACCESS_KEY='qmr_access_code';
+  const DEVICE_KEY='pc_device_id';
+  const gate=document.getElementById('qmrLicenseGate');
+  const state=document.getElementById('qmrGateState');
+  const retry=document.getElementById('qmrGateRetry');
+  const setState=(text,type='')=>{state.textContent=text;state.className='qmrGateState '+type};
+  const deviceId=()=>{let v=localStorage.getItem(DEVICE_KEY);if(!v){v=(crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2));localStorage.setItem(DEVICE_KEY,v)}return v};
+  const deviceLabel=()=>[navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150);
+  async function validate(){
+    try{
+      setState('Validando cuenta, licencia y dispositivo…');
+      const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+      const {data:{session}}=await sb.auth.getSession();
+      if(!session?.user?.email||session.user.is_anonymous){
+        setState('Primero verificá tu correo en el Portal PasaloChevere y abrí Quimera desde “Mis juegos”.','bad');
+        return;
+      }
+      const params=new URLSearchParams(location.search);
+      const queryAccess=(params.get('access')||'').trim();
+      const activation=queryAccess||localStorage.getItem(ACCESS_KEY)||'';
+      if(!activation){
+        setState('No encontramos un código personal de Quimera. Entrá al Portal y abrí el juego desde tu biblioteca.','bad');
+        return;
+      }
+      const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:activation,device_id:deviceId(),device_label:deviceLabel()}});
+      if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}
+      if(!data?.ok)throw new Error(data?.error||'No se pudo validar el acceso.');
+      if(data?.license?.product_code!==PRODUCT)throw new Error('Este código corresponde a otro producto de PasaloChevere.');
+      localStorage.setItem(ACCESS_KEY,activation);
+      window.__QMR_LICENSE_READY__=true;
+      window.__QMR_LICENSE__=data.license;
+      if(queryAccess){params.delete('access');const clean=location.pathname+(params.toString()?'?'+params.toString():'')+location.hash;history.replaceState(null,'',clean)}
+      setState('Acceso verificado. Entrando a HELIX-9…','good');
+      setTimeout(()=>{gate.hidden=true},260);
+    }catch(e){
+      localStorage.removeItem(ACCESS_KEY);
+      window.__QMR_LICENSE_READY__=false;
+      setState(e?.message||String(e),'bad');
+    }
+  }
+  retry?.addEventListener('click',validate);
+  validate();
+})();
+</script>
+'''
+              q = q.replace('</body>', gate_js + '\n</body>', 1)
+              qp.write_text(q, encoding='utf-8')
+
+          # ---------------- PORTAL: card, library route, category ----------------
+          pp = Path('portal-v2/index.html')
+          p = pp.read_text(encoding='utf-8')
+          if 'QMR-001' not in p:
+              # Library routing
+              route_anchor = "if(l.product_code==='VINC-001')return '../vincores/?access='+encodeURIComponent(l.activation_code);"
+              if route_anchor not in p:
+                  raise SystemExit('Portal gameHref anchor not found')
+              p = p.replace(route_anchor, route_anchor + "\n if(l.product_code==='QMR-001')return '../quimera/?access='+encodeURIComponent(l.activation_code);", 1)
+
+              # Category mapping
+              old_cat = "if(code.startsWith('EXP-')||name.includes('EXPEDIENTES'))return {key:'mystery',label:'⌕ MISTERIO & GRUPO'};"
+              new_cat = "if(code.startsWith('EXP-')||code.startsWith('QMR-')||name.includes('EXPEDIENTES')||name.includes('QUIMERA'))return {key:'mystery',label:'⌕ MISTERIO & GRUPO'};"
+              if old_cat not in p:
+                  raise SystemExit('Portal category anchor not found')
+              p = p.replace(old_cat, new_cat, 1)
+
+              # Insert Quimera catalog card immediately after Caso 002 card.
+              needle = '<div class="accent">Caso 002 · La Habitación que No Existe</div>'
+              pos = p.find(needle)
+              if pos < 0:
+                  raise SystemExit('Caso 002 card anchor not found')
+              end = p.find('</article>', pos)
+              if end < 0:
+                  raise SystemExit('Caso 002 article end not found')
+              end += len('</article>')
+              card = '''\n        <article class="card" data-cat="mystery"><span class="status live">● NUEVO</span><h3>PROJECT QUIMERA</h3><div class="accent">EL ARCHIVO NEGRO · ESCAPE DIGITAL PREMIUM</div><p>Explorá HELIX-9, resolvé puzzles, reconstruí una investigación procedural y enfrentá decisiones con finales variables. Modos NORMAL/HARD, seeds, inventario, hallazgos y audio atmosférico.</p><div class="note" style="margin-top:8px"><b>$24.999</b> · acceso 12 meses · hasta 2 dispositivos</div><div class="actions"><button class="btn primary" onclick="scrollToActivation()">ACTIVAR / CONSULTAR</button></div></article>'''
+              p = p[:end] + card + p[end:]
+
+              # Add Quimera as first news item.
+              news_anchor = '<div class="newsCarousel">'
+              if news_anchor not in p:
+                  raise SystemExit('News carousel anchor not found')
+              news = '''\n    <article class="newsCard" onclick="openCategory('mystery')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>PROJECT QUIMERA · EL ARCHIVO NEGRO</b><p>Escape digital premium: HELIX-9, rutas procedurales, puzzles, NORMAL/HARD y finales variables. Disponible para activar.</p></article>'''
+              p = p.replace(news_anchor, news_anchor + news, 1)
+
+              # Update visible mystery count when present.
+              p = re.sub(r'(<button class="catChip mystery"[^>]*>[\s\S]*?<small class="catCount">)[^<]*(</small>)', r'\g<1>3 títulos\2', p, count=1)
+              pp.write_text(p, encoding='utf-8')
+
+          # Remove temporary marker inherited from branch creation.
+          marker_path = Path('quimera/.p11-placeholder')
+          if marker_path.exists(): marker_path.unlink()
+          # Delete this one-off workflow so it does not reach main.
+          wf = Path('.github/workflows/p11-quimera-commerce.yml')
+          if wf.exists(): wf.unlink()
+          PY
+
+      - name: Validate patch
+        shell: bash
+        run: |
+          grep -q 'qmr-license-gate-v1' quimera/index.html
+          grep -q 'QMR-001' portal-v2/index.html
+          grep -q "../quimera/?access=" portal-v2/index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          q=Path('quimera/index.html').read_text(encoding='utf-8')
+          p=Path('portal-v2/index.html').read_text(encoding='utf-8')
+          assert q.count('qmr-license-gate-v1') >= 1
+          assert 'pasalochevere-access' in q
+          assert "data?.license?.product_code!==PRODUCT" in q
+          assert 'PROJECT QUIMERA' in p and 'QMR-001' in p
+          print('P11 patch validation PASS')
+          PY
+
+      - name: Commit generated integration
+        shell: bash
+        run: |
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add -A
+          git commit -m 'feat: protect Quimera and add it to Portal [p11-generated]'
+          git push origin HEAD:p11-quimera-commerce
