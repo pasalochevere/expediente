@@ -1,0 +1,86 @@
+name: ER-C05 Runas Public Smoke
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/er-c05-runas-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install playwright@1.55.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+
+      - name: Run public ER-C05 smoke
+        shell: bash
+        run: |
+          cat > /tmp/er-c05.js <<'NODE'
+          const { chromium } = require('playwright');
+          const BASE='https://pasalochevere.github.io/expediente';
+          const PORTAL=BASE+'/portal-v2/';
+          const SCHOOL=BASE+'/escuela-runas/';
+          const RUNTIME=BASE+'/escuela-runas/school-runtime-rc1.html';
+          const results=[];
+          const check=(name,ok,detail='')=>{results.push({name,ok,detail});console.log((ok?'PASS':'FAIL'),name,detail||'');};
+          const browser=await chromium.launch({headless:true});
+          try{
+            const req=await browser.newContext().then(c=>c.request);
+            let r=await req.get(PORTAL); check('Portal HTTP 200',r.status()===200,'status='+r.status());
+            r=await req.get(SCHOOL); check('Escuela gate HTTP 200',r.status()===200,'status='+r.status());
+            r=await req.get(RUNTIME); check('Runtime RC1 HTTP 200',r.status()===200,'status='+r.status());
+
+            async function portalCard(viewport,label){
+              const ctx=await browser.newContext({viewport});
+              const page=await ctx.newPage();
+              const errors=[]; page.on('pageerror',e=>errors.push(e.message));
+              await page.goto(PORTAL,{waitUntil:'domcontentloaded',timeout:60000});
+              await page.waitForTimeout(7000);
+              const card=page.locator('#pc-runas-card-v1');
+              const count=await card.count();
+              check(label+' Runas card existe',count===1,'count='+count);
+              if(count){
+                const text=(await card.innerText()).toUpperCase();
+                check(label+' Runas DISPONIBLE',text.includes('DISPONIBLE'),text.slice(0,220));
+                check(label+' precio 24.999',text.includes('24.999'),text.slice(0,220));
+                check(label+' sin PROXIMAMENTE',!text.includes('PRÓXIMAMENTE')&&!text.includes('PROXIMAMENTE'),text.slice(0,220));
+                const img=card.locator('img');
+                check(label+' preview real visible',(await img.count())>=1,'imgCount='+await img.count());
+              }
+              check(label+' sin errores JS críticos',errors.length===0,errors.join(' | ').slice(0,500));
+              await ctx.close();
+            }
+            await portalCard({width:1440,height:1000},'Desktop');
+            await portalCard({width:390,height:844},'Mobile');
+
+            async function gateRedirect(url,name){
+              const ctx=await browser.newContext({viewport:{width:390,height:844}});
+              const page=await ctx.newPage();
+              await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
+              await page.waitForTimeout(5000);
+              const final=page.url();
+              check(name,final.includes('/portal-v2/'),'final='+final);
+              await ctx.close();
+            }
+            await gateRedirect(SCHOOL,'Sin access redirige al Portal');
+            await gateRedirect(SCHOOL+'?access=ER-C05-BOGUS','Access falso sin sesión redirige al Portal');
+          } finally { await browser.close(); }
+          const failed=results.filter(x=>!x.ok);
+          console.log('\nER-C05 SUMMARY',JSON.stringify({total:results.length,passed:results.length-failed.length,failed:failed.map(x=>x.name)},null,2));
+          if(failed.length) process.exit(1);
+          NODE
+          node /tmp/er-c05.js
