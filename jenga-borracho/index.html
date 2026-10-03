@@ -65,7 +65,7 @@ small{line-height:1.4}
 .product-stage:before{
   content:"";position:absolute;top:0;right:0;width:48%;height:8px;background:linear-gradient(90deg,var(--gold),#efd08e)
 }
-.product-stage img{width:100%;height:255px;object-fit:contain;filter:drop-shadow(0 18px 22px rgba(83,58,20,.15))}
+.product-stage img{width:100%;height:255px;object-fit:contain;border-radius:18px;background:#fff;filter:drop-shadow(0 18px 22px rgba(83,58,20,.15))}
 .resume-card{
   background:rgba(255,253,250,.86);border:1px solid rgba(255,255,255,.8);border-radius:24px;
   padding:16px 17px;box-shadow:var(--shadow2);display:flex;justify-content:space-between;align-items:center;gap:12px
@@ -93,6 +93,8 @@ small{line-height:1.4}
 .lvl .btn{position:relative;z-index:1;margin-top:18px;min-height:64px;border-radius:19px;font-size:18px}
 .level-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;position:relative;z-index:1}
 .level-foot small{color:var(--mut);font-weight:700}
+.level-foot small:first-child{flex:1;min-width:0}
+.level-foot small:last-child{flex:0 0 auto;white-space:nowrap}
 .badge{
   display:inline-block;background:var(--c);color:#fff;padding:8px 13px;border-radius:99px;
   font-size:11px;font-weight:900;letter-spacing:.08em;box-shadow:0 9px 16px color-mix(in srgb,var(--c) 22%,transparent)
@@ -126,6 +128,7 @@ small{line-height:1.4}
   width:170px;height:170px;border:8px solid var(--c);border-radius:50%;display:grid;place-content:center;margin:18px auto;
   background:#fff;box-shadow:0 16px 34px color-mix(in srgb,var(--c) 14%,transparent)
 }
+
 .microtitle{display:block;margin-top:4px;font-size:12px;letter-spacing:.08em}
 .product-note{position:absolute;top:14px;right:14px;z-index:2;padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.80);border:1px solid var(--line);font-size:9px;font-weight:900;letter-spacing:.10em;color:var(--gold-dark)}
 .asset-loader{width:100%;height:235px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--mut)}
@@ -136,8 +139,13 @@ small{line-height:1.4}
 .game-meta{display:flex;justify-content:space-between;align-items:center}
 .mini-tower{width:86px;height:150px;display:flex;flex-direction:column-reverse;gap:2px;margin-bottom:10px;filter:drop-shadow(0 14px 16px rgba(80,54,18,.16))}
 .mini-tower i{display:block;height:13px;border-radius:4px;border:1px solid #c79555;background:linear-gradient(#f1d69f,#deb673)}
-@media(max-width:360px){
+
+@media(max-width:380px){
   #app{padding:18px}.card{min-height:60vh}.product-stage{min-height:250px}.product-stage img{height:220px}
+  .lvl{padding:18px 17px 16px}.lvl h3{font-size:22px}.level-foot{gap:8px}.level-foot small{font-size:11px}.level-foot small:last-child{white-space:nowrap}
+}
+@media(max-width:340px){
+  .level-foot{align-items:flex-start;flex-direction:column;gap:4px}.level-foot small:last-child{white-space:normal}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
