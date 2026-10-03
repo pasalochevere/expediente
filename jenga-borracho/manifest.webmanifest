@@ -1,0 +1,13 @@
+{
+  "name": "Torre Yenga Borracho · PasaloChevere",
+  "short_name": "Yenga Borracho",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F7F2E9",
+  "theme_color": "#C69A3A",
+  "lang": "es-AR",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
