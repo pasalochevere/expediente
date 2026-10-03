@@ -185,3 +185,33 @@
   js.defer=true;
   document.head.appendChild(js);
 })();
+
+(()=>{
+  if(window.__pcRunasPortalV1)return;
+  window.__pcRunasPortalV1=true;
+
+  const runasCard=`<article class="card" data-cat="wellbeing" id="pc-runas-card-v1"><span class="status live">● DISPONIBLE</span><h3>ESCUELA DE RUNAS</h3><div class="accent">GUÍA INTERACTIVA · 24 RUNAS · 114 LECCIONES</div><p>Aprendé Elder Futhark con Biblioteca 24, ruta visual, tiradas, entrenador, simulador, Mi Lectura y Diario Rúnico.</p><div class="note" style="margin-top:8px"><b>$ 24.999</b> · acceso 12 meses · hasta 2 dispositivos</div><div class="actions"><button class="btn primary" onclick="buyNow('RUNAS-24')">COMPRAR AHORA</button><button class="btn" onclick="scrollToActivation()">ACTIVAR ACCESO</button></div></article>`;
+  const newsCard=`<article class="newsCard" id="pc-runas-news-v1" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>ESCUELA DE RUNAS</b><p>24 runas, 114 lecciones, Biblioteca 24, tiradas, práctica, lectura propia y Diario Rúnico.</p></article>`;
+
+  function injectRunas(){
+    const count=document.querySelector('.catChip.wellbeing .catCount');
+    if(count)count.textContent='3 herramientas';
+    const grid=document.querySelector('#drawer-wellbeing .drawerGrid');
+    if(grid&&!document.getElementById('pc-runas-card-v1'))grid.insertAdjacentHTML('beforeend',runasCard);
+    const carousel=document.querySelector('.newsCarousel');
+    if(carousel&&!document.getElementById('pc-runas-news-v1'))carousel.insertAdjacentHTML('afterbegin',newsCard);
+  }
+
+  const oldCategory=window.licenseCategory;
+  if(typeof oldCategory==='function'){
+    window.licenseCategory=function(l){
+      const code=String(l?.product_code||'').toUpperCase(),name=String(l?.product_name||'').toUpperCase();
+      if(code==='RUNAS-24'||name.includes('ESCUELA DE RUNAS'))return {key:'wellbeing',label:'✦ BIENESTAR & VÍNCULOS'};
+      return oldCategory(l);
+    };
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectRunas,{once:true});
+  else injectRunas();
+  setTimeout(injectRunas,300);
+})();
