@@ -52,17 +52,184 @@ function init(){
  if(modal)modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('open');stopAll();}});
  document.querySelectorAll('.track').forEach(b=>b.addEventListener('click',()=>play(b.dataset.track,true)));
  if(modalStop)modalStop.addEventListener('click',stopAll);
- let db=null; const gallery=$('gallery'),mdate=$('mdate'),mfile=$('mfile'),up=$('up'),save=$('save'),clear=$('clear'),pendingBox=$('pending');
+ let db=null;
+ const gallery=$('gallery'),mdate=$('mdate'),mfile=$('mfile'),up=$('up'),save=$('save'),clear=$('clear'),pendingBox=$('pending');
  const pretty=d=>{if(!d)return'SIN FECHA';const p=d.split('-');return p.length===3?`${p[2]}·${p[1]}·${p[0]}`:d;};
  const icon=f=>f&&f.type&&f.type.startsWith('image/')?'🖼':f&&f.type&&f.type.startsWith('audio/')?'🎵':f&&f.type&&f.type.startsWith('video/')?'🎬':'📦';
- if(mdate&&!mdate.value){const n=new Date(),local=new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,10);mdate.value=local;}
- function render(){if(!db||!gallery)return;const t=db.transaction('mem','readonly').objectStore('mem').getAll();t.onsuccess=()=>{const arr=(t.result||[]).sort((a,b)=>(b.date||'').localeCompare(a.date||''));gallery.innerHTML=arr.length?'':'<div class="pending">Todavía no hay recuerdos guardados.</div>';arr.forEach(m=>{const row=document.createElement('div');row.className='memory';const th=document.createElement('div');th.className='thumb';if(m.type&&m.type.startsWith('image/')&&m.blob){const im=document.createElement('img');im.src=URL.createObjectURL(m.blob);th.appendChild(im);}else th.textContent=icon(m);const info=document.createElement('div');const dt=document.createElement('div');dt.className='mdate';dt.textContent=pretty(m.date);const nm=document.createElement('span');nm.className='mname';nm.textContent=m.name||'archivo';info.append(dt,nm);const del=document.createElement('button');del.type='button';del.className='del';del.textContent='×';del.addEventListener('click',()=>{const q=db.transaction('mem','readwrite').objectStore('mem').delete(m.id);q.onsuccess=render;});row.append(th,info,del);gallery.appendChild(row);});};}
- try{if('indexedDB'in window){const req=indexedDB.open('primavera-dai',1);req.onupgradeneeded=e=>{const d=e.target.result;if(!d.objectStoreNames.contains('mem'))d.createObjectStore('mem',{keyPath:'id'});};req.onsuccess=e=>{db=e.target.result;render();};req.onerror=()=>{if(pendingBox)pendingBox.textContent='El buzón no está disponible en este navegador.';};}}catch(e){}
- if(up&&mfile)up.addEventListener('click',()=>mfile.click());
- if(mfile)mfile.addEventListener('change',e=>{pending=[...(e.target.files||[])];if(pendingBox)pendingBox.innerHTML=pending.length?pending.map(f=>`${icon(f)} ${f.name}`).join('<br>'):'Todavía no seleccionaste archivos.';if(save)save.disabled=!pending.length;});
- if(save)save.addEventListener('click',()=>{if(!db||!pending.length)return;const st=db.transaction('mem','readwrite'),store=st.objectStore('mem'),date=mdate?mdate.value:'';pending.forEach(f=>store.put({id:(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random()),date,name:f.name,type:f.type||'application/octet-stream',blob:f}));st.oncomplete=()=>{pending=[];if(mfile)mfile.value='';if(pendingBox)pendingBox.textContent='Todavía no seleccionaste archivos.';save.disabled=true;render();};});
- if(clear)clear.addEventListener('click',()=>{if(!db)return;if(confirm('¿Borrar todos los recuerdos del buzón? Las canciones y el poema no se tocan.')){const st=db.transaction('mem','readwrite'),r=st.objectStore('mem').clear();r.onsuccess=render;}});
- Object.entries(A).forEach(([k,a])=>{if(!a)return;a.addEventListener('error',()=>{if(music)music.style.display='flex';if(ml)ml.textContent=names[k]+' · ERROR DE AUDIO';});});
+ const slug=v=>(v||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+ const cleanTitle=v=>(v||'').toString().trim().replace(/\s+/g,' ');
+ let mtitle=null, helper=null;
+ if(mdate && mdate.parentNode){
+   const wrap=document.createElement('div');
+   wrap.className='mailField';
+   wrap.innerHTML='<input id="mtitle" type="text" maxlength="48" placeholder="Nombre de la salida · ej: CERVELAR">';
+   mdate.parentNode.insertBefore(wrap,mdate);
+   mtitle=$('mtitle');
+   helper=document.createElement('div');
+   helper.className='mailHelp';
+   helper.textContent='Guardá cada salida con nombre + fecha para verla separada en su propia carpeta.';
+   mdate.insertAdjacentElement('afterend',helper);
  }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+ if(mdate&&!mdate.value){const n=new Date(),local=new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,10);mdate.value=local;}
+ if(mtitle){try{mtitle.value=localStorage.getItem('primavera-dai-last-trip')||'';}catch(e){}}
+ function getGroupMeta(item){
+   const title=cleanTitle(item.trip||'');
+   const date=item.date||'';
+   const key=(title?slug(title):'sin-nombre')+'|'+date;
+   return {key,title:title||'SALIDA SIN NOMBRE',date};
+ }
+ function renameGroup(group){
+   if(!db) return;
+   const nextTitleRaw=prompt('Nombre de la salida:', group.title==='SALIDA SIN NOMBRE' ? '' : group.title);
+   if(nextTitleRaw===null) return;
+   const nextDateRaw=prompt('Fecha de la salida (AAAA-MM-DD):', group.date||'');
+   if(nextDateRaw===null) return;
+   const nextTitle=cleanTitle(nextTitleRaw);
+   const nextDate=cleanTitle(nextDateRaw);
+   const st=db.transaction('mem','readwrite');
+   const store=st.objectStore('mem');
+   group.items.forEach(item=>store.put({...item,trip:nextTitle,date:nextDate}));
+   st.oncomplete=()=>{
+     if(mtitle && nextTitle) mtitle.value=nextTitle;
+     try{localStorage.setItem('primavera-dai-last-trip', nextTitle||'');}catch(e){}
+     render();
+   };
+ }
+ function render(){
+   if(!db||!gallery) return;
+   const t=db.transaction('mem','readonly').objectStore('mem').getAll();
+   t.onsuccess=()=>{
+     const arr=(t.result||[]).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+     gallery.innerHTML='';
+     if(!arr.length){
+       gallery.innerHTML='<div class="pending">Todavía no hay recuerdos guardados.</div>';
+       return;
+     }
+     const groups=[];
+     const map=new Map();
+     arr.forEach(item=>{
+       const meta=getGroupMeta(item);
+       if(!map.has(meta.key)){
+         const group={key:meta.key,title:meta.title,date:meta.date,items:[]};
+         map.set(meta.key,group);
+         groups.push(group);
+       }
+       map.get(meta.key).items.push(item);
+     });
+     groups.forEach(group=>{
+       const box=document.createElement('section');
+       box.className='memoryGroup';
+       const head=document.createElement('div');
+       head.className='groupHead';
+       const meta=document.createElement('div');
+       meta.className='groupMeta';
+       meta.innerHTML=`<div class="groupTitle">📁 ${group.title}</div><div class="groupSub">${pretty(group.date)} · ${group.items.length} archivo${group.items.length===1?'':'s'}</div>`;
+       const actions=document.createElement('div');
+       actions.className='groupActions';
+       const edit=document.createElement('button');
+       edit.type='button';
+       edit.className='groupEdit';
+       edit.textContent='✎ Editar salida';
+       edit.addEventListener('click',()=>renameGroup(group));
+       actions.appendChild(edit);
+       head.append(meta,actions);
+       box.appendChild(head);
+       const grid=document.createElement('div');
+       grid.className='groupGrid';
+       group.items.forEach(m=>{
+         const row=document.createElement('div');
+         row.className='memory';
+         const th=document.createElement('div');
+         th.className='thumb';
+         if(m.type&&m.type.startsWith('image/')&&m.blob){
+           const im=document.createElement('img');
+           im.src=URL.createObjectURL(m.blob);
+           th.appendChild(im);
+         }else th.textContent=icon(m);
+         const info=document.createElement('div');
+         const dt=document.createElement('div');
+         dt.className='mdate';
+         dt.textContent=pretty(m.date);
+         const nm=document.createElement('span');
+         nm.className='mname';
+         nm.textContent=m.name||'archivo';
+         info.append(dt,nm);
+         const del=document.createElement('button');
+         del.type='button';
+         del.className='del';
+         del.textContent='×';
+         del.addEventListener('click',()=>{
+           const q=db.transaction('mem','readwrite').objectStore('mem').delete(m.id);
+           q.onsuccess=render;
+         });
+         row.append(th,info,del);
+         grid.appendChild(row);
+       });
+       box.appendChild(grid);
+       gallery.appendChild(box);
+     });
+   };
+ }
+ try{
+   if('indexedDB' in window){
+     const req=indexedDB.open('primavera-dai',1);
+     req.onupgradeneeded=e=>{
+       const d=e.target.result;
+       if(!d.objectStoreNames.contains('mem')) d.createObjectStore('mem',{keyPath:'id'});
+     };
+     req.onsuccess=e=>{
+       db=e.target.result;
+       const tx=db.transaction('mem','readwrite');
+       const store=tx.objectStore('mem');
+       const all=store.getAll();
+       all.onsuccess=()=>{
+         const legacy=(all.result||[]).filter(x=>!x.trip && x.date==='2026-10-03');
+         if(legacy.length===3){
+           legacy.forEach(item=>store.put({...item,trip:'CERVELAR',date:'2026-10-02'}));
+         }
+       };
+       tx.oncomplete=render;
+     };
+     req.onerror=()=>{if(pendingBox)pendingBox.textContent='El buzón no está disponible en este navegador.';};
+   }
+ }catch(e){}
+ if(up&&mfile) up.addEventListener('click',()=>mfile.click());
+ if(mfile) mfile.addEventListener('change',e=>{
+   pending=[...(e.target.files||[])];
+   if(pendingBox) pendingBox.innerHTML=pending.length?pending.map(f=>`${icon(f)} ${f.name}`).join('<br>'):'Todavía no seleccionaste archivos.';
+   if(save) save.disabled=!pending.length;
+ });
+ if(save) save.addEventListener('click',()=>{
+   if(!db||!pending.length) return;
+   const trip=cleanTitle(mtitle ? mtitle.value : '');
+   const date=mdate ? mdate.value : '';
+   const st=db.transaction('mem','readwrite');
+   const store=st.objectStore('mem');
+   pending.forEach(f=>store.put({
+     id:(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random()),
+     trip,
+     date,
+     name:f.name,
+     type:f.type||'application/octet-stream',
+     blob:f
+   }));
+   st.oncomplete=()=>{
+     pending=[];
+     if(mfile) mfile.value='';
+     if(pendingBox) pendingBox.textContent='Todavía no seleccionaste archivos.';
+     if(save) save.disabled=true;
+     try{localStorage.setItem('primavera-dai-last-trip', trip||'');}catch(e){}
+     render();
+   };
+ });
+ if(clear) clear.addEventListener('click',()=>{
+   if(!db) return;
+   if(confirm('¿Borrar todos los recuerdos del buzón? Las canciones y el poema no se tocan.')){
+     const st=db.transaction('mem','readwrite'),r=st.objectStore('mem').clear();
+     r.onsuccess=render;
+   }
+ });
+ Object.entries(A).forEach(([k,a])=>{if(!a)return;a.addEventListener('error',()=>{if(music)music.style.display='flex';if(ml)ml.textContent=names[k]+' · ERROR DE AUDIO';});});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
