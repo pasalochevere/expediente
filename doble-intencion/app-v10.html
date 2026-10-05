@@ -23,7 +23,7 @@ small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb
   try{
     let search=window.location.search||'';
     try{if(window.parent&&window.parent!==window)search=window.parent.location.search||search}catch(e){}
-    let qs=new URLSearchParams(search);
+    const qs=new URLSearchParams(search);
     let code=(qs.get('access')||sessionStorage.getItem('pc_di_trilogia_access')||'').trim().toUpperCase();
     const {data:{session}}=await sb.auth.getSession();
     if(!session?.user?.email)throw new Error('Tu sesión no está iniciada. Entrá nuevamente desde Mi Biblioteca.');
@@ -47,12 +47,13 @@ small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb
     history.replaceState(null,'',location.pathname+'?access='+encodeURIComponent(code));
     status.innerHTML='LICENCIA ENCONTRADA<small>Preparando Doble Intención V11…</small>';
 
-    const r=await fetch('engine-v10.html?v=compat4',{cache:'no-store'});
+    const r=await fetch('engine-v10.html?v=compat5',{cache:'no-store'});
     if(!r.ok)throw new Error('No pude cargar el motor del juego.');
     let html=await r.text();
 
     const oldCheck="if(data.license?.product_code!=='DI-TRILOGIA')throw new Error('Este código no corresponde a Doble Intención.');";
     const newCheck="const __lic=data.license||{};const __pc=String(__lic.product_code||'').toUpperCase(),__pn=String(__lic.product_name||'').toUpperCase(),__gu=String(__lic.game_url||'').toLowerCase();if(!(__pc==='DI-TRILOGIA'||__pc.startsWith('DI-')||__pn.includes('DOBLE INTENCIÓN')||__pn.includes('DOBLE INTENCION')||__gu.includes('doble-intencion')))throw new Error('Este código no corresponde a Doble Intención.');";
+    if(!html.includes(oldCheck))throw new Error('No pude aplicar la compatibilidad de licencia.');
     html=html.replace(oldCheck,newCheck).replace(/V10/g,'V11');
 
     const oldContent="const {data:content,error:ce}=await sbAccess.functions.invoke('doble-intencion-content',{body:{activation_code:code,device_id:deviceId(),check_only:checkOnly}});";
@@ -60,48 +61,12 @@ small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb
     if(!html.includes(oldContent))throw new Error('El motor cambió y no pude aplicar el contenido V11.');
     html=html.replace(oldContent,newContent);
 
-    const dominioPrelude=`
-<style>
-#diDominioPrelude{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(9,6,9,.88);backdrop-filter:blur(14px)}
-#diDominioPrelude.hidden{display:none!important}
-#diDominioPrelude .di-dominio-card{width:min(720px,100%);max-height:calc(100dvh - 36px);overflow:auto;text-align:left;background:linear-gradient(145deg,#321f2e,#171018);border:1px solid #c77d5275;border-radius:24px;padding:30px;box-shadow:0 28px 90px #000b;color:#f5e9e1}
-#diDominioPrelude .di-kicker{color:#d8b07a;font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:7px}
-#diDominioPrelude h2{font:700 clamp(30px,5vw,46px)/1.05 Georgia,serif;margin:0 0 10px;color:#f5e9e1}
-#diDominioPrelude .di-intro{color:#bca6b3;margin:0 0 22px}
-#diDominioPrelude .di-rule{padding:16px 0;border-top:1px solid #c77d5238}
-#diDominioPrelude .di-rule strong{display:block;color:#e2b189;font-size:13px;letter-spacing:.05em;margin-bottom:5px}
-#diDominioPrelude .di-rule p{margin:0;color:#eadde4;line-height:1.5}
-#diDominioPrelude .di-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-#diDominioPrelude button{border:1px solid #c77d5260;background:#ffffff07;color:#f5e9e1;border-radius:12px;padding:13px 17px;cursor:pointer;font:700 11px/1.2 Arial,sans-serif;letter-spacing:.08em}
-#diDominioPrelude #diDominioContinue{background:linear-gradient(120deg,#e4b58e,#c77d52);border-color:#e4b58e;color:#20121a;flex:1}
-@media(max-width:560px){#diDominioPrelude{padding:12px}#diDominioPrelude .di-dominio-card{padding:22px;border-radius:18px}}
-</style>
-<div id="diDominioPrelude" class="hidden" role="dialog" aria-modal="true" aria-labelledby="diDominioTitle">
-  <div class="di-dominio-card">
-    <div class="di-kicker">DOMINIO · ANTES DE EMPEZAR A JUGAR</div>
-    <h2 id="diDominioTitle">Tres acuerdos antes de la primera consigna.</h2>
-    <p class="di-intro">Defínanlos una vez para esta ronda y después jueguen con libertad dentro de esos acuerdos.</p>
-    <div class="di-rule"><strong>ELIJAN UNA PALABRA DE SEGURIDAD</strong><p>Que sea corta, clara y distinta de cualquier palabra que usarían jugando.</p></div>
-    <div class="di-rule"><strong>ELIJAN UNA SEÑAL SIN VOZ</strong><p>Definan un gesto simple con la mano para frenar sin hablar.</p></div>
-    <div class="di-rule"><strong>DEFINAN TRES LÍMITES PARA ESTA RONDA</strong><p>Cada uno nombra qué queda afuera antes de empezar DOMINIO.</p></div>
-    <div class="di-actions"><button id="diDominioContinue">ENTENDIDO · ENTRAR A DOMINIO</button></div>
-  </div>
-</div>
-<script>
-(()=>{
- const box=document.getElementById('diDominioPrelude');
- const cont=document.getElementById('diDominioContinue');
- let shown=sessionStorage.getItem('di_dominio_prelude_seen')==='1';
- function openPrelude(){if(shown||!box)return;box.classList.remove('hidden');setTimeout(()=>cont&&cont.focus(),30)}
- document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('button[data-edition="DOMINIO"]');if(b&&!shown)setTimeout(openPrelude,0)});
- cont&&cont.addEventListener('click',()=>{shown=true;sessionStorage.setItem('di_dominio_prelude_seen','1');box.classList.add('hidden')});
-})();
-<\/script>`;
-    const bodyClose=html.lastIndexOf('</body>');
-    if(bodyClose===-1)throw new Error('El motor no contiene un cierre de documento válido.');
-    html=html.slice(0,bodyClose)+dominioPrelude+html.slice(bodyClose);
-    document.open();document.write(html);document.close();
-  }catch(e){fail(e?.message||'No pude recuperar tu acceso.');}
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(e){
+    fail(e?.message||'No pude recuperar tu acceso.');
+  }
 })();
 </script>
 </body>
