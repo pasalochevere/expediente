@@ -46,7 +46,7 @@
  const scenes=[...document.querySelectorAll('.scene')],progress=document.getElementById('progress');
  let timer=null,audioCtx=null,drone=null,muted=false,leaving=false;
  scenes.forEach(()=>{const b=document.createElement('span');b.className='bar';b.innerHTML='<i></i>';progress.appendChild(b)});const bars=[...progress.children];
- function target(){return 'app-v10.html'+(location.search||'')+(location.hash||'')}
+ function target(){const q=new URLSearchParams(location.search);q.set('v','v11fix2');return 'app-v10.html?'+q.toString()+(location.hash||'')}
  function stopAmbience(){if(drone){try{drone.gain.gain.setTargetAtTime(0,audioCtx.currentTime,.08);setTimeout(()=>drone.osc.stop(),300)}catch(e){}drone=null}}
  function enterGame(){if(leaving)return;leaving=true;clearTimeout(timer);stopAmbience();document.body.style.opacity='0';document.body.style.transition='opacity .32s ease';setTimeout(()=>location.replace(target()),260)}
  function ambience(){if(muted||drone)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();osc.type='sine';osc.frequency.value=66;filter.type='lowpass';filter.frequency.value=160;gain.gain.value=.012;osc.connect(filter);filter.connect(gain);gain.connect(audioCtx.destination);osc.start();drone={osc,gain}}catch(e){}}
