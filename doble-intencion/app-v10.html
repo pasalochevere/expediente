@@ -47,7 +47,7 @@ small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb
     history.replaceState(null,'',location.pathname+'?access='+encodeURIComponent(code));
     status.innerHTML='LICENCIA ENCONTRADA<small>Preparando Doble Intención V11…</small>';
 
-    const r=await fetch('engine-v10.html?v=compat3',{cache:'no-store'});
+    const r=await fetch('engine-v10.html?v=compat4',{cache:'no-store'});
     if(!r.ok)throw new Error('No pude cargar el motor del juego.');
     let html=await r.text();
 
@@ -97,7 +97,9 @@ small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb
  cont&&cont.addEventListener('click',()=>{shown=true;sessionStorage.setItem('di_dominio_prelude_seen','1');box.classList.add('hidden')});
 })();
 <\/script>`;
-    html=html.replace('</body>',dominioPrelude+'</body>');
+    const bodyClose=html.lastIndexOf('</body>');
+    if(bodyClose===-1)throw new Error('El motor no contiene un cierre de documento válido.');
+    html=html.slice(0,bodyClose)+dominioPrelude+html.slice(bodyClose);
     document.open();document.write(html);document.close();
   }catch(e){fail(e?.message||'No pude recuperar tu acceso.');}
 })();
