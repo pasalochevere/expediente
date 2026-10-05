@@ -17,6 +17,7 @@ small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb
   const status=document.getElementById('status');
   const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
   const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+  const V11_CONTENT_URL='https://awuzunqfsbqyjsxlkdsb.supabase.co/functions/v1/doble-intencion-content-v11';
   const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
   const fail=(msg)=>{status.innerHTML='NO PUDE VALIDAR EL ACCESO<small class="bad">'+msg+'</small><a class="btn" href="../portal-v2/">VOLVER A MI BIBLIOTECA</a>'};
   try{
@@ -44,13 +45,21 @@ small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb
     if(!code)throw new Error('Tu cuenta no tiene una licencia de Doble Intención que pueda recuperar automáticamente.');
     sessionStorage.setItem('pc_di_trilogia_access',code);
     history.replaceState(null,'',location.pathname+'?access='+encodeURIComponent(code));
-    status.innerHTML='LICENCIA ENCONTRADA<small>Preparando el motor compatible…</small>';
-    const r=await fetch('engine-v10.html?v=compat2',{cache:'no-store'});
+    status.innerHTML='LICENCIA ENCONTRADA<small>Preparando Doble Intención V11…</small>';
+
+    const r=await fetch('engine-v10.html?v=compat3',{cache:'no-store'});
     if(!r.ok)throw new Error('No pude cargar el motor del juego.');
     let html=await r.text();
+
     const oldCheck="if(data.license?.product_code!=='DI-TRILOGIA')throw new Error('Este código no corresponde a Doble Intención.');";
     const newCheck="const __lic=data.license||{};const __pc=String(__lic.product_code||'').toUpperCase(),__pn=String(__lic.product_name||'').toUpperCase(),__gu=String(__lic.game_url||'').toLowerCase();if(!(__pc==='DI-TRILOGIA'||__pc.startsWith('DI-')||__pn.includes('DOBLE INTENCIÓN')||__pn.includes('DOBLE INTENCION')||__gu.includes('doble-intencion')))throw new Error('Este código no corresponde a Doble Intención.');";
     html=html.replace(oldCheck,newCheck).replace(/V10/g,'V11');
+
+    const oldContent="const {data:content,error:ce}=await sbAccess.functions.invoke('doble-intencion-content',{body:{activation_code:code,device_id:deviceId(),check_only:checkOnly}});";
+    const newContent="const __sess=(await sbAccess.auth.getSession()).data.session;if(!__sess?.access_token)throw new Error('Sesión vencida. Volvé a Mi Biblioteca.');const __resp=await fetch('"+V11_CONTENT_URL+"',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+__sess.access_token},body:JSON.stringify({activation_code:code,device_id:deviceId(),check_only:checkOnly})});const content=await __resp.json();const ce=!__resp.ok;";
+    if(!html.includes(oldContent))throw new Error('El motor cambió y no pude aplicar el contenido V11.');
+    html=html.replace(oldContent,newContent);
+
     const dominioPrelude=`
 <style>
 #diDominioPrelude{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(9,6,9,.88);backdrop-filter:blur(14px)}
@@ -84,10 +93,7 @@ small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb
  const cont=document.getElementById('diDominioContinue');
  let shown=sessionStorage.getItem('di_dominio_prelude_seen')==='1';
  function openPrelude(){if(shown||!box)return;box.classList.remove('hidden');setTimeout(()=>cont&&cont.focus(),30)}
- document.addEventListener('click',e=>{
-   const b=e.target.closest&&e.target.closest('button[data-edition="DOMINIO"]');
-   if(b&&!shown)setTimeout(openPrelude,0);
- });
+ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('button[data-edition="DOMINIO"]');if(b&&!shown)setTimeout(openPrelude,0)});
  cont&&cont.addEventListener('click',()=>{shown=true;sessionStorage.setItem('di_dominio_prelude_seen','1');box.classList.add('hidden')});
 })();
 <\/script>`;
