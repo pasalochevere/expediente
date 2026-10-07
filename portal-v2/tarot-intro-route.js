@@ -109,5 +109,11 @@
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{injectMonsterFactory();handleDeepLink()},{once:true});
   else{injectMonsterFactory();handleDeepLink()}
-  [250,700,1500,3000,6000].forEach(ms=>setTimeout(()=>{injectMonsterFactory();if(ms===700)handleDeepLink()},ms));
+  [250,700,1500,3000,6000].forEach(ms=>setTimeout(()=>{
+    injectMonsterFactory();
+    if(ms===700){
+      handleDeepLink();
+      if(typeof window.loadMyGames==='function')window.loadMyGames();
+    }
+  },ms));
 })();
