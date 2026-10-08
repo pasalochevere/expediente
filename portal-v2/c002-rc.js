@@ -1,4 +1,38 @@
 (()=>{
+  if(window.__pcPortalBootShieldV62)return;
+  window.__pcPortalBootShieldV62=true;
+  const STYLE_ID='pc-portal-boot-shield-v62';
+  const CLASS='pcPortalBootingV62';
+  if(!document.getElementById(STYLE_ID)){
+    const style=document.createElement('style');
+    style.id=STYLE_ID;
+    style.textContent=`
+html.${CLASS} body{overflow:hidden!important;background:#080809!important}
+html.${CLASS} body>*{visibility:hidden!important}
+html.${CLASS} body::before{content:'PasaloChevere';visibility:visible!important;position:fixed;inset:0;z-index:2147483645;display:grid;place-items:center;background:radial-gradient(circle at 50% 18%,rgba(201,154,58,.12),transparent 26%),linear-gradient(180deg,#0f0c0e,#050506);color:#f7efe6;font:900 18px/1 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;letter-spacing:.16em}
+html.${CLASS} body::after{content:'';visibility:visible!important;position:fixed;z-index:2147483646;left:50%;top:calc(50% + 34px);width:26px;height:26px;margin:-13px;border:3px solid rgba(201,154,58,.22);border-top-color:#c99a3a;border-radius:50%;animation:pcBootSpinV62 .75s linear infinite}
+@keyframes pcBootSpinV62{to{transform:rotate(360deg)}}`;
+    document.head.appendChild(style);
+  }
+  document.documentElement.classList.add(CLASS);
+  let released=false;
+  const release=()=>{
+    if(released)return;
+    released=true;
+    document.documentElement.classList.remove(CLASS);
+    const style=document.getElementById(STYLE_ID);
+    if(style)style.remove();
+  };
+  const timer=setInterval(()=>{
+    if(document.body?.classList.contains('pcV56Ready')){
+      clearInterval(timer);
+      requestAnimationFrame(()=>requestAnimationFrame(release));
+    }
+  },50);
+  setTimeout(()=>{clearInterval(timer);release()},5000);
+})();
+
+(()=>{
   // Portal loader V5.6.10 + DELIVERY01.8 commercial freeze + Preview V2.1C + Library V4.1E.x.
   // Arranca V5 sólo después de la base estable para evitar carreras en auth, biblioteca y activación.
   if(window.__pcPortalV21BLoader)return;
