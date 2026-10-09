@@ -2,7 +2,7 @@
   if(window.__pcV56Bootstrap)return;
   window.__pcV56Bootstrap=true;
 
-  const VERSION='20261009-preview63-1';
+  const VERSION='20261009-preview64-1';
   const state={started:performance.now(),loadedAt:0,lastReason:'boot',runs:0,errors:[]};
   let raf=0;
 
@@ -11,6 +11,7 @@
       ['51-home',window.pcApplyCleanHomeV51],
       ['52-categories',window.pcApplyCategoryExperienceV52],
       ['57-coming',window.pcApplyComingSoonV57],
+      ['64-previews',window.pcApplyMissingCategoryPreviewV64],
       ['53-account',window.pcApplyAccountCenterV53],
       ['54-nav',window.pcApplyNavMobileV54],
       ['55-cleanup',window.pcApplyLegacyCleanupV55],
@@ -101,12 +102,13 @@
       await ensureScript('pc-preview-premium-v59-js','portal-preview-premium-v59.js?v='+VERSION);
       await ensureScript('pc-preview-premium-v60-js','portal-preview-premium-v60.js?v='+VERSION);
       await ensureScript('pc-preview-closure-v61-js','portal-preview-closure-v61.js?v='+VERSION);
+      await ensureScript('pc-preview-missing-v64-js','portal-preview-missing-v64.js?v='+VERSION);
       await ensureScript('pc-delivery-v601-js','portal-delivery-v601.js?v='+VERSION);
       await ensureScript('pc-delivery-exp001-v013-js','portal-delivery-exp001-v013.js?v='+VERSION);
       await ensureScript('pc-delivery-support-v016-js','portal-delivery-support-v016.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
-      document.body.dataset.pcBootstrap='v56.10-delivery018';
+      document.body.dataset.pcBootstrap='v56.11-preview64';
       requestApply('boot-complete');
     }catch(e){
       console.error('Portal V5.6 bootstrap',e);
@@ -116,7 +118,7 @@
   }
 
   window.pcPortalV56Audit=()=>({
-    version:'5.6.10-delivery018',
+    version:'5.6.11-preview64',
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
@@ -127,8 +129,9 @@
     deliveryActivation:typeof window.pcDeliveryActivationV015Audit==='function'?window.pcDeliveryActivationV015Audit():null,
     deliverySupport:typeof window.pcDeliverySupportV016Audit==='function'?window.pcDeliverySupportV016Audit():null,
     deliverySuccess:typeof window.pcDeliverySuccessV017Audit==='function'?window.pcDeliverySuccessV017Audit():null,
+    preview64:typeof window.pcV64PreviewAudit==='function'?window.pcV64PreviewAudit():null,
     dom:{homes:document.querySelectorAll('.pcV51Home').length,legacyHomes:document.querySelectorAll('.pcV42Home').length,inicio:document.querySelectorAll('#inicio').length,topNav:document.querySelectorAll('.pcV4Nav').length,bottomNav:document.querySelectorAll('.pcV4BottomNav').length,categoryModals:document.querySelectorAll('.pcV52Modal').length,accountSections:document.querySelectorAll('.pcV53Account').length,comingSoon:document.querySelectorAll('.pcComingCard').length,deliveryShells:document.querySelectorAll('.pcDeliveryShell').length,deliveryExp001:document.querySelectorAll('.pcDeliveryExp001V013').length,deliveryCodeGuides:document.querySelectorAll('.pcD15CodeExplain').length,deliverySupportPage:document.querySelectorAll('.pcD16SupportPage').length,deliverySupportGate:document.querySelectorAll('.pcD16SupportGate').length,deliverySuccess:document.querySelectorAll('#pcDeliverySuccessV017').length},
-    modules:{gate:!!window.__pcAccessGateV50,home:!!window.__pcCleanHomeV51,categories:!!window.__pcCategoryExperienceV52,coming:!!window.__pcComingSoonV57,account:!!window.__pcAccountCenterV53,nav:!!window.__pcNavMobileV54,cleanup:!!window.__pcLegacyCleanupV55,deliveryFreeze:!!window.PC_DELIVERY_FREEZE_V018,deliveryContext:!!window.__pcDeliveryContextV601,deliveryAuth:!!window.__pcDeliveryAuthV014,deliveryActivation:!!window.__pcDeliveryActivationV015,deliverySupport:!!window.__pcDeliverySupportV016,deliverySuccess:!!window.__pcDeliverySuccessV017,deliveryShell:!!window.__pcDeliveryShellV601,deliveryExp001:!!window.__pcDeliveryExp001V013}
+    modules:{gate:!!window.__pcAccessGateV50,home:!!window.__pcCleanHomeV51,categories:!!window.__pcCategoryExperienceV52,coming:!!window.__pcComingSoonV57,preview64:!!window.__pcMissingCategoryPreviewV64,account:!!window.__pcAccountCenterV53,nav:!!window.__pcNavMobileV54,cleanup:!!window.__pcLegacyCleanupV55,deliveryFreeze:!!window.PC_DELIVERY_FREEZE_V018,deliveryContext:!!window.__pcDeliveryContextV601,deliveryAuth:!!window.__pcDeliveryAuthV014,deliveryActivation:!!window.__pcDeliveryActivationV015,deliverySupport:!!window.__pcDeliverySupportV016,deliverySuccess:!!window.__pcDeliverySuccessV017,deliveryShell:!!window.__pcDeliveryShellV601,deliveryExp001:!!window.__pcDeliveryExp001V013}
   });
 
   boot();
