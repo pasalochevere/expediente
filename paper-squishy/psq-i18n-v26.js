@@ -287,8 +287,15 @@
   function translateString(value,target=lang){
     if(value==null)return value;
     let out=String(value);
+    if(target==='es'){
+      out=out.replace(/\bText[o]{2,}\b/g,'Texto').replace(/\bTEXT[O]{2,}\b/g,'TEXTO');
+    }
     const list=target==='en'?FORWARD:REVERSE;
-    for(const [from,to] of list){if(from&&out.includes(from))out=out.split(from).join(to)}
+    for(const [from,to] of list){
+      if(!from||!out.includes(from))continue;
+      if(to.includes(from)&&out.includes(to))continue;
+      out=out.split(from).join(to);
+    }
     return out;
   }
 
