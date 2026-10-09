@@ -6,6 +6,67 @@
 .pcRv2Thumb:has(.pc58Thumb-vinc)>span{color:#24483d;text-shadow:none}
 .pcRv2Thumb:has(.pc59-tarot)>span,.pcRv2Thumb:has(.pc59-case)>span,.pcRv2Thumb:has(.pc59-orfeo)>span{color:#fff}
 .pcRv2Close,.pcComingClose{min-width:44px!important;min-height:44px!important}
+
+/* V6.4.2 · TEXT SAFE AREA FIX
+   Evita que títulos, descriptors y badges se pisen en cards comerciales compactas. */
+#drawer-adult .pcV64DiCard .pcV64DiCopy{
+  left:22px!important;
+  top:17px!important;
+  width:44%!important;
+  max-width:218px!important;
+}
+#drawer-adult .pcV64DiCard .pcV64DiCopy small{
+  font-size:.52rem!important;
+  line-height:1.32!important;
+  letter-spacing:.12em!important;
+}
+#drawer-adult .pcV64DiCard .pcV64DiCopy strong{
+  margin-top:7px!important;
+  font-size:clamp(1.42rem,2.15vw,2rem)!important;
+  line-height:.90!important;
+  letter-spacing:-.035em!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+}
+#drawer-adult .pcV64DiCard .pcV64DiCopy>span{display:none!important}
+#drawer-adult .pcV64DiCard .pcV64DiLevels{
+  right:12px!important;
+  bottom:17px!important;
+  width:112px!important;
+}
+#drawer-adult .pcV64DiCard .pcV64DiBadge{
+  left:13px!important;
+  bottom:11px!important;
+  z-index:8!important;
+}
+
+/* Caso 001: dos líneas de título, con zona inferior reservada al badge. */
+#drawer-mystery .pcExp001V63 .pcV63ExpCopy,
+.pcRv2Ui.pcV63ExpPreview .pcV63ExpCopy{
+  left:23px!important;
+  top:20px!important;
+  width:52%!important;
+  max-width:248px!important;
+}
+#drawer-mystery .pcExp001V63 .pcV63ExpCopy small,
+.pcRv2Ui.pcV63ExpPreview .pcV63ExpCopy small{
+  font-size:.55rem!important;
+  line-height:1.3!important;
+  letter-spacing:.13em!important;
+}
+#drawer-mystery .pcExp001V63 .pcV63ExpCopy strong,
+.pcRv2Ui.pcV63ExpPreview .pcV63ExpCopy strong{
+  margin-top:7px!important;
+  font-size:clamp(1.48rem,2.35vw,2.12rem)!important;
+  line-height:.90!important;
+  letter-spacing:-.03em!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+}
+#drawer-mystery .pcExp001V63 .pcV63ExpCopy span,
+.pcRv2Ui.pcV63ExpPreview .pcV63ExpCopy span{display:none!important}
+#drawer-mystery .pcExp001V63 .pcLiveBadgeV62{left:12px!important;bottom:11px!important;z-index:8!important}
+
 @media(max-width:650px), (max-height:500px) and (orientation:landscape){
   #pcRealPreviewModal{padding:0!important}
   #pcRealPreviewModal .pcRv2Dialog{width:100%!important;height:100vh!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;display:grid!important;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden!important}
@@ -39,6 +100,13 @@
   #pcRealPreviewModal .pc60:has(.pc60Bloqui) .pc59Foot{margin-top:auto;padding-top:18px}
   #pcRealPreviewModal .pc59:has(.pc59Door,.pc59Seal,.pc59TarotCards) .pc59Foot{margin-top:auto;padding-top:18px}
   #pcRealPreviewModal .pcComingModalCopy{overflow-wrap:anywhere}
+
+  #drawer-adult .pcV64DiCard .pcV64DiCopy{left:16px!important;top:14px!important;width:45%!important;max-width:180px!important}
+  #drawer-adult .pcV64DiCard .pcV64DiCopy small{font-size:.45rem!important}
+  #drawer-adult .pcV64DiCard .pcV64DiCopy strong{font-size:1.32rem!important;line-height:.91!important}
+  #drawer-adult .pcV64DiCard .pcV64DiLevels{right:7px!important;bottom:12px!important;width:92px!important}
+  #drawer-mystery .pcExp001V63 .pcV63ExpCopy,.pcRv2Ui.pcV63ExpPreview .pcV63ExpCopy{left:17px!important;top:15px!important;width:55%!important;max-width:205px!important}
+  #drawer-mystery .pcExp001V63 .pcV63ExpCopy strong,.pcRv2Ui.pcV63ExpPreview .pcV63ExpCopy strong{font-size:1.52rem!important}
 }
 @media(max-width:360px){
   #pcRealPreviewModal .pc58VincHero{grid-template-columns:1fr}
