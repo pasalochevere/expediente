@@ -3,29 +3,124 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6f2ea">
+<meta name="theme-color" content="#09090b">
 <title>PasaloChevere · Acceso</title>
 <style>
-:root{--bg:#f6f2ea;--card:#fff;--ink:#171717;--muted:#706b63;--line:#ddd5c8;--accent:#d79a22;--ok:#246b4d;--bad:#a64035}*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:grid;place-items:center;padding:20px}.wrap{width:min(520px,100%)}.brand{font-weight:900;font-size:1.1rem;margin-bottom:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 14px 35px rgba(0,0,0,.06)}.eyebrow{font-size:.72rem;font-weight:900;letter-spacing:.12em;color:#9a6b14}.title{font-size:clamp(1.7rem,6vw,2.35rem);line-height:1.03;margin:6px 0 8px}.lead{color:var(--muted);line-height:1.5;margin:0 0 18px}.product{display:none;border:1px solid #e7dcc7;background:#fff9ed;border-radius:13px;padding:12px 14px;margin:0 0 14px}.product.show{display:block}.product b{display:block;font-size:1.05rem}.product small{display:block;color:var(--muted);font-weight:800;letter-spacing:.04em;margin-top:3px}.product p{color:var(--muted);font-size:.82rem;line-height:1.4;margin:8px 0 0}label{display:block;font-size:.78rem;font-weight:800;margin:0 0 7px}input{width:100%;padding:14px 15px;border:1px solid #cfc7bb;border-radius:12px;font:inherit;text-transform:uppercase;letter-spacing:.04em;outline:none}input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(215,154,34,.12)}button{width:100%;margin-top:12px;padding:14px;border:0;border-radius:12px;background:#171717;color:#fff;font-weight:900;font-size:1rem;cursor:pointer}.codebox{margin-top:13px;padding:10px 12px;border:1px dashed #bfb7ab;border-radius:10px;text-align:center;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:800;letter-spacing:.06em}.msg{margin-top:12px;font-size:.82rem;line-height:1.45;color:var(--muted)}.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}.steps{display:grid;gap:8px;margin-top:18px;font-size:.82rem;color:var(--muted)}.steps b{color:var(--ink)}.foot{text-align:center;margin-top:12px;font-size:.72rem;color:#8a847b}@media print{body{display:block;padding:0}.card{box-shadow:none}}
+:root{
+  --bg:#09090b;--bg2:#120e10;--panel:#151316;--panel2:#1d191d;--ink:#f7efe6;--muted:#a79c94;
+  --gold:#d2aa51;--gold2:#f0c963;--line:rgba(237,220,208,.14);--line-strong:rgba(210,170,81,.34);
+  --success:#8ed0a5;--bad:#ff9f96;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#070708;color:var(--ink)}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 8% -8%,rgba(210,170,81,.20),transparent 28%),
+    radial-gradient(circle at 92% 4%,rgba(153,84,55,.11),transparent 26%),
+    linear-gradient(180deg,#100c0e 0,#09090a 42%,#050506 100%);
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.15;background-image:linear-gradient(90deg,transparent 0 49%,rgba(255,255,255,.025) 50%,transparent 51%),linear-gradient(0deg,transparent 0 49%,rgba(255,255,255,.018) 50%,transparent 51%);background-size:42px 42px}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,5,6,.08),rgba(5,5,6,.34));z-index:0}
+button,input{font:inherit}.shell{width:min(1480px,100%);margin:auto;padding:24px 30px 34px;position:relative;z-index:1}
+.top{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:5px 0 18px;border-bottom:1px solid var(--line)}
+.brandwrap{display:flex;align-items:center;gap:15px}.seal{width:64px;height:64px;border-radius:50%;background:#0b0b0c;border:1px solid #b88e36;display:grid;place-items:center;box-shadow:0 8px 26px rgba(0,0,0,.36),0 0 22px rgba(210,170,81,.07),inset 0 0 0 1px rgba(255,255,255,.03)}
+.seal span{color:#f1cb68;font-weight:950;font-size:.7rem;line-height:1.02;text-align:center;letter-spacing:.035em}.brand{font-weight:950;letter-spacing:.13em;font-size:1rem}.brand small{display:block;color:var(--gold);font-size:.62rem;letter-spacing:.16em;margin-top:6px}.pill{border:1px solid #40383a;border-radius:999px;padding:10px 16px;color:#a99f98;font-size:.72rem;background:rgba(18,16,19,.88);white-space:nowrap}
+.navbar{margin-top:0;min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(8,8,10,.93);border-bottom:1px solid var(--line);box-shadow:0 16px 34px rgba(0,0,0,.18)}
+.navbrand{display:flex;align-items:center;gap:9px;color:#d1c6be;font-size:.72rem;font-weight:900;letter-spacing:.13em;padding:0 4px}.navbrand i{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px rgba(210,170,81,.45)}
+.navlinks{display:flex;align-items:center;gap:8px}.navlink{display:flex;align-items:center;gap:9px;min-height:46px;padding:0 15px;border:1px solid transparent;border-radius:14px;color:#9d948e;text-decoration:none;font-size:.75rem;font-weight:850;transition:.16s ease}.navlink svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.navlink.active,.navlink:hover{color:#f4ece4;border-color:rgba(210,170,81,.25);background:rgba(210,170,81,.06)}
+.stage{position:relative;margin-top:0;min-height:690px;overflow:hidden;border-radius:0 0 28px 28px}
+.stageArt{position:absolute;inset:0;background-image:url('../portal-v2/assets/previews-v58/squishy-factory.webp');background-size:cover;background-position:center 46%;filter:saturate(.82) brightness(.58);transform:scale(1.03);opacity:.52}
+.stageShade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,6,8,.97) 0%,rgba(6,6,8,.93) 42%,rgba(6,6,8,.67) 66%,rgba(6,6,8,.50) 100%),linear-gradient(180deg,rgba(6,6,8,.22),rgba(6,6,8,.78));}
+.main{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.7fr);gap:22px;padding:46px 34px 34px;align-items:start}
+.intro{margin-bottom:18px}.eyebrow{display:block;color:var(--gold);font-size:.68rem;font-weight:950;letter-spacing:.18em;text-transform:uppercase}.title{margin:7px 0 8px;font-size:clamp(2.45rem,4.7vw,4.6rem);line-height:.96;letter-spacing:-.045em}.lead{margin:0;color:#b5aaa2;font-size:.96rem;line-height:1.55;max-width:720px}
+.formCard{max-width:820px;border:1px solid rgba(210,170,81,.28);border-radius:24px;background:linear-gradient(155deg,rgba(22,20,22,.96),rgba(10,10,12,.97));box-shadow:0 28px 75px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.025);padding:26px;position:relative;overflow:hidden}.formCard:before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;left:-170px;bottom:-220px;background:radial-gradient(circle,rgba(210,170,81,.12),transparent 68%);pointer-events:none}.fieldLabel{display:block;font-size:.77rem;font-weight:900;margin:0 0 8px;color:#eee6df}.inputWrap{position:relative}.inputIcon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--gold2);display:grid;place-items:center}.inputIcon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.codeInput{width:100%;min-height:58px;padding:0 16px 0 52px;border:1px solid rgba(210,170,81,.52);border-radius:15px;background:rgba(9,9,11,.84);color:#fff;text-transform:uppercase;letter-spacing:.06em;outline:none;font-size:1rem;box-shadow:inset 0 0 0 1px rgba(255,255,255,.015)}.codeInput::placeholder{color:#726b68}.codeInput:focus{border-color:#e2ba61;box-shadow:0 0 0 3px rgba(210,170,81,.10),0 10px 26px rgba(0,0,0,.18)}
+.product{display:none;margin:0 0 18px;border:1px solid rgba(210,170,81,.23);background:rgba(210,170,81,.055);border-radius:15px;padding:13px 15px}.product.show{display:block}.product b{display:block;font-size:1rem}.product small{display:block;color:var(--gold);font-weight:900;letter-spacing:.08em;font-size:.62rem;margin-top:4px}.product p{color:#a99f98;font-size:.76rem;line-height:1.45;margin:7px 0 0}
+.codebox{margin-top:14px;min-height:58px;padding:12px 16px;border:1px dashed rgba(210,170,81,.55);border-radius:14px;display:flex;align-items:center;justify-content:center;gap:12px;text-align:center;color:#d9b866;background:rgba(8,8,10,.55);font-weight:850;letter-spacing:.01em}.codebox svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}.continue{width:100%;min-height:62px;margin-top:14px;padding:14px 18px;border:1px solid #e0b650;border-radius:15px;background:linear-gradient(135deg,#efc55e,#c69635);color:#14100a;font-weight:950;font-size:.92rem;letter-spacing:.02em;cursor:pointer;box-shadow:0 15px 32px rgba(193,143,42,.18);transition:.18s ease}.continue:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 18px 38px rgba(193,143,42,.25)}.continue:active{transform:none}.continue span{display:inline-block;margin-left:10px;font-size:1.05rem}.msg{margin-top:11px;font-size:.75rem;line-height:1.45;color:#9f958e}.msg.ok{color:var(--success)}.msg.bad{color:var(--bad)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:20px;padding-top:18px;border-top:1px solid rgba(237,220,208,.10)}.step{display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:center;padding:0 15px;border-right:1px solid rgba(237,220,208,.10);min-height:46px}.step:first-child{padding-left:0}.step:last-child{border-right:0;padding-right:0}.stepNum{width:39px;height:39px;border:1px solid #c89c3c;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;background:radial-gradient(circle at 40% 35%,rgba(210,170,81,.19),rgba(13,13,15,.95));box-shadow:0 0 20px rgba(210,170,81,.12)}.stepText{font-size:.72rem;line-height:1.45;color:#c8bdb5}.foot{margin-top:12px;font-size:.68rem;color:#776f6a;letter-spacing:.02em}
+.side{display:grid;gap:16px;padding-top:88px}.sideCard{position:relative;min-height:205px;border:1px solid rgba(237,220,208,.14);border-radius:22px;background:linear-gradient(155deg,rgba(22,20,23,.95),rgba(12,12,14,.92));box-shadow:0 22px 54px rgba(0,0,0,.28);overflow:hidden;padding:24px}.sideCard.artCard:before{content:"";position:absolute;inset:0;background-image:linear-gradient(90deg,rgba(12,12,14,.98) 0%,rgba(12,12,14,.80) 58%,rgba(12,12,14,.22) 100%),url('../portal-v2/assets/previews-v58/squishy-factory.webp');background-size:cover;background-position:center;opacity:.88}.sideInner{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}.sideIcon{width:54px;height:54px;border:1px solid rgba(210,170,81,.30);border-radius:16px;background:rgba(210,170,81,.06);display:grid;place-items:center;color:#dfb857}.sideIcon svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.sideCopy small{display:block;color:#8d837d;font-size:.59rem;font-weight:950;letter-spacing:.15em;text-transform:uppercase}.sideCopy h2{margin:6px 0 7px;font-size:1.35rem;line-height:1.08}.sideCopy p{margin:0;color:#a69c95;font-size:.78rem;line-height:1.5}.sideArrow{position:absolute;right:24px;bottom:20px;color:var(--gold);font-size:1.2rem}.sideCard:nth-child(2){min-height:185px}.sideCard:nth-child(2):after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-110px;top:-120px;background:radial-gradient(circle,rgba(210,170,81,.15),transparent 67%)}
+@media(max-width:980px){.shell{padding:18px}.main{grid-template-columns:1fr;padding:34px 24px}.side{grid-template-columns:1fr 1fr;padding-top:0}.stageShade{background:linear-gradient(180deg,rgba(6,6,8,.94),rgba(6,6,8,.82))}.title{font-size:clamp(2.5rem,7vw,4.2rem)}.pill{display:none}}
+@media(max-width:720px){.shell{padding:0}.top{padding:14px 16px}.seal{width:53px;height:53px}.brand{font-size:.82rem}.brand small{font-size:.52rem}.navbar{padding:8px 14px;min-height:auto}.navbrand{display:none}.navlinks{width:100%;justify-content:space-between;gap:3px;overflow-x:auto}.navlink{padding:9px 10px;min-height:42px;white-space:nowrap}.stage{border-radius:0;min-height:auto}.main{padding:28px 16px 24px}.formCard{padding:19px;border-radius:20px}.steps{grid-template-columns:1fr;gap:12px}.step{border-right:0;padding:0;min-height:0}.side{grid-template-columns:1fr}.sideCard{min-height:170px;padding:20px}.title{font-size:2.55rem}.lead{font-size:.88rem}.stageArt{opacity:.28}.side{padding-bottom:14px}.navlink span{display:none}.navlink.active span{display:inline}}
+@media(max-width:430px){.brand small{max-width:230px;line-height:1.3}.navlink{padding:8px}.main{padding-top:24px}.formCard{padding:16px}.codeInput{font-size:.9rem}.sideInner{grid-template-columns:46px 1fr}.sideIcon{width:46px;height:46px}.sideCopy h2{font-size:1.17rem}}
+@media(prefers-reduced-motion:reduce){.continue,.navlink{transition:none!important}}
 </style>
 </head>
 <body>
-<main class="wrap">
-  <div class="brand">PasaloChevere</div>
-  <section class="card">
-    <div class="eyebrow">PASALOCHEVERE ACCESS</div>
-    <h1 class="title">Accedé a tu compra</h1>
-    <p class="lead" id="lead">Ingresá el código recibido con tu compra.</p>
-    <div class="product" id="productBox"><b id="productName"></b><small id="productType"></small><p id="productHelp"></p></div>
-    <label for="code">Código de compra</label>
-    <input id="code" autocomplete="off" placeholder="ML-VINC-XXXX-XXXX" maxlength="32">
-    <div class="codebox" id="codeBox">Ingresá o escaneá tu código</div>
-    <button id="continueBtn">CONTINUAR</button>
-    <div class="msg" id="msg">El acceso queda asociado al correo que verifiques en el Portal.</div>
-    <div class="steps"><div><b>1.</b> Confirmamos tu código.</div><div><b>2.</b> Verificás tu correo.</div><div><b>3.</b> Activás y el producto aparece en “Mis juegos”.</div></div>
+<div class="shell">
+  <header class="top">
+    <div class="brandwrap">
+      <div class="seal" aria-hidden="true"><span>PASALO<br>CHEVERE</span></div>
+      <div class="brand">PASALOCHEVERE<small>ACCESO PERSONAL · BIBLIOTECA DIGITAL</small></div>
+    </div>
+    <div class="pill">VIGENCIA SEGÚN TU ACCESO · HASTA 2 DISPOSITIVOS</div>
+  </header>
+
+  <nav class="navbar" aria-label="Navegación del portal">
+    <div class="navbrand"><i></i>PASALOCHEVERE · JUEGOS</div>
+    <div class="navlinks">
+      <a class="navlink active" href="../portal-v2/" aria-label="Inicio del portal">
+        <svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-6h5v6"/></svg><span>Inicio</span>
+      </a>
+      <a class="navlink" href="../portal-v2/" aria-label="Mis juegos">
+        <svg viewBox="0 0 24 24"><path d="M5 4v16M10 4v16M15 5l4 14"/><path d="M3 4h9v16H3z"/></svg><span>Mis juegos</span>
+      </a>
+      <a class="navlink" href="../portal-v2/" aria-label="Explorar">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m14.8 9.2-1.6 4-4 1.6 1.6-4z"/></svg><span>Explorar</span>
+      </a>
+      <a class="navlink" href="../portal-v2/" aria-label="Mi cuenta">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5.5 20c.8-4 3-6 6.5-6s5.7 2 6.5 6"/></svg><span>Mi cuenta</span>
+      </a>
+    </div>
+  </nav>
+
+  <section class="stage">
+    <div class="stageArt" aria-hidden="true"></div><div class="stageShade" aria-hidden="true"></div>
+    <main class="main">
+      <section>
+        <div class="intro">
+          <span class="eyebrow">TU PORTAL PASALOCHEVERE</span>
+          <h1 class="title">Accedé a tu compra</h1>
+          <p class="lead" id="lead">Ingresá el código recibido con tu compra y activá tu producto en tu biblioteca.</p>
+        </div>
+
+        <section class="formCard">
+          <div class="product" id="productBox"><b id="productName"></b><small id="productType"></small><p id="productHelp"></p></div>
+          <label class="fieldLabel" for="code">Código de compra</label>
+          <div class="inputWrap">
+            <span class="inputIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5V8a2.5 2.5 0 0 0 0 5v5.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5V13a2.5 2.5 0 0 0 0-5Z"/><path d="M9 7v10" stroke-dasharray="2 2"/></svg></span>
+            <input class="codeInput" id="code" autocomplete="off" placeholder="ML-VINC-XXXX-XXXX" maxlength="32" aria-describedby="msg">
+          </div>
+          <div class="codebox" id="codeBox"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/><path d="M9 9h2v2H9zM13 9h2v2h-2zM9 13h2v2H9zM13 13h2v2h-2z"/></svg><span id="codeBoxText">Ingresá o escaneá tu código</span></div>
+          <button class="continue" id="continueBtn">CONTINUAR <span>→</span></button>
+          <div class="msg" id="msg">El acceso queda asociado al correo que verifiques en el Portal.</div>
+          <div class="steps">
+            <div class="step"><div class="stepNum">1</div><div class="stepText">Confirmamos<br>tu código.</div></div>
+            <div class="step"><div class="stepNum">2</div><div class="stepText">Verificás<br>tu correo.</div></div>
+            <div class="step"><div class="stepNum">3</div><div class="stepText">Activás y el producto aparece en “Mis juegos”.</div></div>
+          </div>
+          <div class="foot" id="foot">Guardá tu código de respaldo.</div>
+        </section>
+      </section>
+
+      <aside class="side" aria-label="Información de activación">
+        <section class="sideCard artCard">
+          <div class="sideInner">
+            <div class="sideIcon"><svg viewBox="0 0 24 24"><path d="M7 9h10a4 4 0 0 1 3.8 5.2l-1 3A2.7 2.7 0 0 1 15 18l-1.2-1.5h-3.6L9 18a2.7 2.7 0 0 1-4.8-.8l-1-3A4 4 0 0 1 7 9Z"/><path d="M8 12v4M6 14h4M15.5 13h.01M18 15h.01"/></svg></div>
+            <div class="sideCopy"><small>ACTIVACIÓN RÁPIDA</small><h2>Tus juegos, listos para disfrutar</h2><p>Activá tu compra y accedé al contenido desde tu biblioteca personal.</p></div>
+          </div>
+          <div class="sideArrow">→</div>
+        </section>
+        <section class="sideCard">
+          <div class="sideInner">
+            <div class="sideIcon"><svg viewBox="0 0 24 24"><path d="M5 4v16M10 4v16M15 5l4 14"/><path d="M3 4h9v16H3z"/></svg></div>
+            <div class="sideCopy"><small>TU BIBLIOTECA DIGITAL</small><h2>Todo en un solo lugar</h2><p>Tus juegos, el catálogo público y la gestión de accesos quedan separados para que encuentres todo rápido.</p></div>
+          </div>
+          <div class="sideArrow">→</div>
+        </section>
+      </aside>
+    </main>
   </section>
-  <div class="foot" id="foot">Guardá tu código de respaldo.</div>
-</main>
+</div>
 <script>
 const PORTAL='https://pasalochevere.github.io/expediente/portal-v2/';
 const PRODUCTS={
@@ -45,10 +140,19 @@ TAROT:{name:'MESA TAROT',type:'DIGITAL'}
 const $=id=>document.getElementById(id);
 function clean(v){return String(v||'').trim().toUpperCase().replace(/[^A-Z0-9-]/g,'').slice(0,32)}
 function prefix(code){const p=code.split('-');return p.length>1?p[1]:''}
-function render(){const c=clean($('code').value);$('code').value=c;$('codeBox').textContent=c||'Ingresá o escaneá tu código';const p=PRODUCTS[prefix(c)];$('productBox').classList.toggle('show',!!p);$('productName').textContent=p?.name||'';if(p){const physical=p.type==='PHYSICAL_DIGITAL';$('productType').textContent=physical?'FÍSICO + DIGITAL':'PRODUCTO DIGITAL';$('productHelp').textContent=physical?'Este producto incluye contenido digital. Activá tu acceso para sumarlo a tu biblioteca.':'Activá tu compra digital para agregarla a tu biblioteca PasaloChevere.';$('lead').textContent=physical?'Activá el contenido digital incluido con tu producto.':'Activá tu producto digital.';$('foot').textContent=physical?'Guardá tu tarjeta o código de respaldo.':'Guardá tu código: es tu llave de acceso.'}else{$('productType').textContent='';$('productHelp').textContent='';$('lead').textContent='Ingresá el código recibido con tu compra.';$('foot').textContent='Guardá tu código de respaldo.'}$('msg').className='msg';$('msg').textContent='El acceso queda asociado al correo que verifiques en el Portal.'}
-async function go(){const c=clean($('code').value);if(!/^[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(c)){ $('msg').className='msg bad';$('msg').textContent='Revisá el código. Ejemplo: ML-VINC-7K3M-P82F';return }
+function render(){
+  const c=clean($('code').value);$('code').value=c;$('codeBoxText').textContent=c||'Ingresá o escaneá tu código';
+  const p=PRODUCTS[prefix(c)];$('productBox').classList.toggle('show',!!p);$('productName').textContent=p?.name||'';
+  if(p){const physical=p.type==='PHYSICAL_DIGITAL';$('productType').textContent=physical?'FÍSICO + DIGITAL':'PRODUCTO DIGITAL';$('productHelp').textContent=physical?'Este producto incluye contenido digital. Activá tu acceso para sumarlo a tu biblioteca.':'Activá tu compra digital para agregarla a tu biblioteca PasaloChevere.';$('lead').textContent=physical?'Activá el contenido digital incluido con tu producto.':'Activá tu producto digital y sumalo a tu biblioteca.';$('foot').textContent=physical?'Guardá tu tarjeta o código de respaldo.':'Guardá tu código: es tu llave de acceso.'}
+  else{$('productType').textContent='';$('productHelp').textContent='';$('lead').textContent='Ingresá el código recibido con tu compra y activá tu producto en tu biblioteca.';$('foot').textContent='Guardá tu código de respaldo.'}
+  $('msg').className='msg';$('msg').textContent='El acceso queda asociado al correo que verifiques en el Portal.'
+}
+async function go(){
+  const c=clean($('code').value);
+  if(!/^[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(c)){$('msg').className='msg bad';$('msg').textContent='Revisá el código. Ejemplo: ML-VINC-7K3M-P82F';return}
   try{localStorage.setItem('pc_access01_purchase_code',c);localStorage.setItem('pc_v57_pending_action',JSON.stringify({type:'activate',at:Date.now()}));}catch{}
-  try{await navigator.clipboard.writeText(c);$('msg').className='msg ok';$('msg').textContent='Código preparado. Abriendo el Portal…';}catch{$('msg').className='msg ok';$('msg').textContent='Código preparado. Abriendo el Portal…';}
+  try{await navigator.clipboard.writeText(c)}catch{}
+  $('msg').className='msg ok';$('msg').textContent='Código preparado. Abriendo el Portal…';
   setTimeout(()=>{location.href=PORTAL+'?activar=1&access_code='+encodeURIComponent(c)},220);
 }
 $('code').addEventListener('input',render);$('code').addEventListener('keydown',e=>{if(e.key==='Enter')go()});$('continueBtn').addEventListener('click',go);
