@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
 
+# one-shot trigger 2026-10-09
 jobs:
   repair:
     runs-on: ubuntu-latest
