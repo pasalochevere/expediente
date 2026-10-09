@@ -1,7 +1,26 @@
 /* Public-preview usability only: no checkout, licence or price mutations. */
 (()=>{
 if(window.__pcPreviewClosureV61)return;window.__pcPreviewClosureV61=true;
+
+/* V6.2 guard: the unified Matemática card has delegated + local preview events.
+   Collapse duplicate opens in the same interaction so body scroll state remains correct. */
+function installOpenGuard(){
+ const current=window.pcOpenRealPreview;
+ if(typeof current!=='function'||current.__pcOpenGuardV62)return false;
+ let lastCode='',lastAt=-Infinity;
+ const wrapped=function(code){
+  const now=performance.now();
+  if(String(code||'')===lastCode&&now-lastAt<180)return true;
+  lastCode=String(code||'');lastAt=now;
+  return current.apply(this,arguments);
+ };
+ wrapped.__pcOpenGuardV62=true;
+ window.pcOpenRealPreview=wrapped;
+ return true;
+}
+
 function enhance(){
+ installOpenGuard();
  const modal=document.getElementById('pcRealPreviewModal');if(!modal||modal.classList.contains('hidden'))return;
  const slides=[...modal.querySelectorAll('.pcRv2Slide')];
  slides.forEach(s=>{const hidden=!s.classList.contains('active');if(s.getAttribute('aria-hidden')!==String(hidden))s.setAttribute('aria-hidden',String(hidden))});
@@ -18,4 +37,5 @@ function enhance(){
  modal.addEventListener('keydown',e=>{if(e.key!=='Tab')return;const a=[...modal.querySelectorAll('button,a,input,[tabindex="0"]')].filter(n=>!n.disabled&&n.offsetParent!==null);if(!a.length)return;if(e.shiftKey&&document.activeElement===a[0]){e.preventDefault();a.at(-1).focus()}else if(!e.shiftKey&&document.activeElement===a.at(-1)){e.preventDefault();a[0].focus()}});
 }
 let queued=false;const queue=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;enhance()})};new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});enhance();
+if(!installOpenGuard()){let tries=0;const timer=setInterval(()=>{if(installOpenGuard()||++tries>30)clearInterval(timer)},100)}
 })();
