@@ -108,7 +108,7 @@
       await ensureScript('pc-delivery-support-v016-js','portal-delivery-support-v016.js?v='+VERSION);
       state.loadedAt=performance.now();
       document.body.classList.add('pcV56Ready');
-      document.body.dataset.pcBootstrap='v56.11-preview64';
+      document.body.dataset.pcBootstrap='v56.10-delivery018';
       requestApply('boot-complete');
     }catch(e){
       console.error('Portal V5.6 bootstrap',e);
@@ -118,7 +118,7 @@
   }
 
   window.pcPortalV56Audit=()=>({
-    version:'5.6.11-preview64',
+    version:'5.6.10-delivery018',
     ready:document.body.classList.contains('pcV56Ready'),
     bootstrap:document.body.dataset.pcBootstrap||'',
     view:document.body.dataset.pcV5View||'',
