@@ -33,18 +33,6 @@
       description:'Una experiencia documental interactiva para explorar cronologías, documentos, mapas, testimonios y hechos de casos reales.',
       detail:'El recorrido diferenciará claramente hechos confirmados, testimonios, versiones, hipótesis y puntos todavía no resueltos.',
       chips:['HECHO CONFIRMADO','TESTIMONIO','VERSIÓN','HIPÓTESIS','PUNTO NO RESUELTO']
-    },
-    {
-      code:'QUIMERA',category:'mystery',image:'assets/upcoming/quimera.webp?v=20260928-hd1200',
-      title:'Quimera',subtitle:'Investigación inmersiva en evolución',
-      description:'Un universo de investigaciones, salas, enigmas, decisiones y rutas variables que puede expandirse mucho más allá de la pantalla.',
-      detail:'Quimera no es un único caso: es un motor de experiencias de investigación capaz de crecer en distintas formas de juego.',
-      extensions:[
-        ['DIGITAL','Rooms, pistas, enigmas y rutas variables dentro de la experiencia base.'],
-        ['MULTIJUGADOR','Cada jugador puede recibir información diferente y necesitar del equipo para avanzar.'],
-        ['BOX INTERACTIVA','Objetos, sobres, mapas y piezas físicas conectados con la investigación digital.'],
-        ['MUNDO REAL','GPS, recorridos, lugares y pistas que llevan la experiencia fuera de la pantalla.']
-      ]
     }
   ];
 
