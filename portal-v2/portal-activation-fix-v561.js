@@ -1,10 +1,11 @@
 (()=>{
-  // Portal V5.6.1 · Activation reliability hotfix.
+  // Portal V5.6.1 · Activation reliability hotfix + direct portal routes.
   if(window.__pcActivationFixV561)return;
   window.__pcActivationFixV561=true;
 
   const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().trim();
   let busy=false;
+  let routeHandled=false;
 
   function codeFromInline(el){
     const raw=String(el?.getAttribute?.('onclick')||'');
@@ -77,6 +78,56 @@
     }
   }
 
+  function requestedView(){
+    try{
+      const raw=String(new URL(location.href).searchParams.get('view')||'').toLowerCase().trim();
+      return ['home','library','explore','account'].includes(raw)?raw:'';
+    }catch{return ''}
+  }
+
+  function clearViewParam(){
+    try{
+      const u=new URL(location.href);
+      if(!u.searchParams.has('view'))return;
+      u.searchParams.delete('view');
+      history.replaceState({},document.title,u.pathname+(u.search?u.search:'')+(u.hash||''));
+    }catch{}
+  }
+
+  function handlePortalRoute(){
+    const view=requestedView();
+    if(!view||routeHandled)return true;
+    if(!document.body.classList.contains('pcV50PortalReady'))return false;
+
+    if(view==='library'){
+      if(typeof window.pcV50OpenLibrary!=='function')return false;
+      routeHandled=true;clearViewParam();window.pcV50OpenLibrary();return true;
+    }
+    if(view==='account'){
+      if(typeof window.pcV50OpenAccount!=='function')return false;
+      routeHandled=true;clearViewParam();window.pcV50OpenAccount();return true;
+    }
+    if(typeof window.pcV5SetView!=='function')return false;
+    routeHandled=true;clearViewParam();window.pcV5SetView(view);return true;
+  }
+
+  function externalPurchaseCode(){
+    try{
+      const u=new URL(location.href);
+      const fromUrl=String(u.searchParams.get('access_code')||'').trim();
+      if(fromUrl)return fromUrl;
+      return String(localStorage.getItem('pc_access01_purchase_code')||'').trim();
+    }catch{return ''}
+  }
+
+  function prefillPurchaseCode(){
+    const input=document.getElementById('pcV50Code');
+    if(!input)return false;
+    const code=externalPurchaseCode();
+    if(code&&!input.value)input.value=code;
+    return true;
+  }
+
   document.addEventListener('click',e=>{
     const libBtn=e.target.closest?.('#myGamesGrid .pcSmartCard.smartStatePending .pcSmartMainActions>.btn:first-child,#myGamesGrid .pcSmartCard.smartStatePending .actions .btn.primary');
     if(libBtn&&norm(libBtn.textContent).includes('ACTIVAR')){
@@ -101,4 +152,13 @@
 
   window.pcActivateOwnedSafeV561=safeActivate;
   window.pcActivationCodeForCardV561=codeFromCard;
+
+  let routeTries=0;
+  const routeTimer=setInterval(()=>{
+    routeTries++;
+    const routed=handlePortalRoute();
+    prefillPurchaseCode();
+    if((routed&&prefillPurchaseCode())||routeTries>70)clearInterval(routeTimer);
+  },100);
+  window.addEventListener('pageshow',()=>{setTimeout(()=>{handlePortalRoute();prefillPurchaseCode()},0)});
 })();
