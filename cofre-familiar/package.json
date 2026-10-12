@@ -11,7 +11,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "check": "npm run typecheck && npm run build",
-    "preflight": "node scripts/recovery-preflight.mjs && node scripts/r03-preflight.mjs && node scripts/r04-preflight.mjs"
+    "preflight": "node scripts/recovery-preflight.mjs && node scripts/r03-preflight.mjs && node scripts/r04-preflight.mjs && node scripts/r05-preflight.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",
