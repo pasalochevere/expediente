@@ -1,0 +1,3 @@
+"use client";
+import { trashItem } from "@/app/c/[cofreId]/trash-actions";
+export default function TrashButton({cofreId,entityType,entityId,label="Enviar a papelera"}:{cofreId:string;entityType:string;entityId:string;label?:string}){return <form action={trashItem} onSubmit={(e)=>{if(!window.confirm("¿Enviar este elemento a la papelera? Podrás restaurarlo después."))e.preventDefault()}}><input type="hidden" name="cofreId" value={cofreId}/><input type="hidden" name="entityType" value={entityType}/><input type="hidden" name="entityId" value={entityId}/><button className="text-button" type="submit">{label}</button></form>}
