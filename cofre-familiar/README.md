@@ -18,7 +18,7 @@ Recovery source construido el 2026-10-12 a partir del backend RC que sigue vivo 
 - TypeScript 5.9.3
 - `@supabase/ssr` 0.12.7
 - `@supabase/supabase-js` 2.117.3
-- Node >= 20.9
+- Node >= 22.0
 
 ## Flujo recuperado
 
@@ -54,6 +54,7 @@ Copiar `.env.example` a `.env.local` para desarrollo.
 
 ```bash
 npm install
+npm run preflight
 npm run typecheck
 npm run build
 npm start
