@@ -5,7 +5,6 @@ import { getCofre } from "@/lib/cofre";
 function text(fd: FormData, key: string, max = 5000) { return String(fd.get(key) || "").trim().slice(0,max); }
 function nullable(v: string) { return v || null; }
 function path(id: string, suffix = "") { return `/c/${id}${suffix}`; }
-function allowed(v:string, values:readonly string[]){return values.includes(v)?v:null;}
 
 export async function addMemory(fd: FormData) {
   const cofreId=text(fd,"cofreId",64); const {db,userId}=await getCofre(cofreId);
@@ -46,18 +45,37 @@ export async function addCapsule(fd: FormData) {
 }
 export async function createGiftProject(fd: FormData) {
   const cofreId=text(fd,"cofreId",64); const {db}=await getCofre(cofreId);
-  const budget=allowed(text(fd,"budget",40),["free","low","medium","special","unspecified"] as const);
-  const horizon=allowed(text(fd,"horizon",40),["today","week","month","no_rush"] as const);
-  const {error}=await db.rpc("create_gift_project_secure",{p_cofre_id:cofreId,p_title:text(fd,"title",160),p_target_person_id:null,p_occasion_campaign_id:null,p_budget_level:budget,p_time_horizon:horizon,p_surprise_mode:Boolean(fd.get("surprise")),p_target_date:nullable(text(fd,"targetDate",40))});
+  const budget=text(fd,"budget",40); const horizon=text(fd,"horizon",40);
+  const validBudgets=new Set(["free","low","medium","special","unspecified"]); const validHorizons=new Set(["today","week","month","no_rush"]);
+  const {error}=await db.rpc("create_gift_project_secure",{p_cofre_id:cofreId,p_title:text(fd,"title",160),p_target_person_id:null,p_occasion_campaign_id:null,p_budget_level:validBudgets.has(budget)?budget:null,p_time_horizon:validHorizons.has(horizon)?horizon:null,p_surprise_mode:Boolean(fd.get("surprise")),p_target_date:nullable(text(fd,"targetDate",40))});
   if(error) throw new Error(error.message); revalidatePath(path(cofreId,"/projects"));
 }
 export async function updateCofreSettings(fd: FormData) {
   const cofreId=text(fd,"cofreId",64); const {db}=await getCofre(cofreId);
-  const visibility=allowed(text(fd,"visibility",20),["members","private"] as const)||"members";
-  const {error}=await db.rpc("update_cofre_settings_secure",{p_cofre_id:cofreId,p_name:text(fd,"name",80),p_tagline:nullable(text(fd,"tagline",160)),p_start_date:nullable(text(fd,"startDate",10)),p_theme_key:text(fd,"theme",40)||"classic",p_timezone:"America/Argentina/Buenos_Aires",p_default_content_visibility:visibility});
+  const visibility=text(fd,"visibility",20); const safeVisibility=visibility==="private"?"private":"members";
+  const {error}=await db.rpc("update_cofre_settings_secure",{p_cofre_id:cofreId,p_name:text(fd,"name",80),p_tagline:nullable(text(fd,"tagline",160)),p_start_date:nullable(text(fd,"startDate",10)),p_theme_key:text(fd,"theme",40)||"classic",p_timezone:"America/Argentina/Buenos_Aires",p_default_content_visibility:safeVisibility});
   if(error) throw new Error(error.message); revalidatePath(path(cofreId,"/settings")); revalidatePath(path(cofreId));
 }
 export async function markNotificationRead(fd: FormData) {
   const cofreId=text(fd,"cofreId",64); const id=text(fd,"notificationId",64); const {db}=await getCofre(cofreId);
   const {error}=await db.from("notifications").update({read_at:new Date().toISOString()}).eq("id",id); if(error) throw new Error(error.message); revalidatePath(path(cofreId,"/notifications"));
+}
+
+export type InvitationActionState={ok:boolean;message:string;inviteUrl?:string;expiresAt?:string};
+export async function createInvitation(_prev:InvitationActionState,fd:FormData):Promise<InvitationActionState>{
+  const cofreId=text(fd,"cofreId",64); const {db}=await getCofre(cofreId);
+  const role=text(fd,"role",20); const safeRole=role==="admin"?"admin":"member";
+  const expiresRaw=Number(text(fd,"expiresHours",5)||168); const expiresHours=[24,72,168,336,720].includes(expiresRaw)?expiresRaw:168;
+  const email=nullable(text(fd,"email",254).toLowerCase());
+  const {data,error}=await db.rpc("create_cofre_invitation",{p_cofre_id:cofreId,p_email:email,p_role:safeRole,p_expires_hours:expiresHours});
+  if(error)return{ok:false,message:error.message};
+  const row=Array.isArray(data)?data[0]:data as any; if(!row?.raw_token)return{ok:false,message:"No se pudo generar el enlace."};
+  const site=(process.env.NEXT_PUBLIC_SITE_URL||"").replace(/\/$/,""); const inviteUrl=`${site}/invite/${encodeURIComponent(row.raw_token)}`;
+  revalidatePath(path(cofreId,"/members"));
+  return{ok:true,message:"Invitación creada. Copiá este enlace ahora: por seguridad no se puede recuperar después.",inviteUrl,expiresAt:row.expires_at};
+}
+export async function revokeInvitation(fd:FormData){
+  const cofreId=text(fd,"cofreId",64); const invitationId=text(fd,"invitationId",64); const {db}=await getCofre(cofreId);
+  const {error}=await db.rpc("revoke_cofre_invitation",{p_invitation_id:invitationId}); if(error)throw new Error(error.message);
+  revalidatePath(path(cofreId,"/members"));
 }
