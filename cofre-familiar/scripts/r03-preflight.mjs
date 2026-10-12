@@ -20,4 +20,13 @@ add('R03 collaboration requests',projects.includes('addCollaborationRequest')&&d
 add('R03 public contribution context',publicPage.includes('get_collaboration_contribution_context'));
 add('R03 public contribution submit',publicAction.includes('submit_collaboration_contribution')&&exists('components/contribution-form.tsx'));
 add('R03 no raw link persistence',!read('components/project-link-form.tsx').includes('localStorage')&&!read('components/invitation-form.tsx').includes('localStorage'));
+const trash=read('app/c/[cofreId]/trash-actions.ts'),exportRoute=read('app/c/[cofreId]/export/route.ts');
+add('R03 trash secure actions',trash.includes('trash_cofre_item_secure')&&trash.includes('restore_cofre_item_secure'));
+add('R03 trash page',exists('app/c/[cofreId]/trash/page.tsx')&&read('app/c/[cofreId]/trash/page.tsx').includes('get_cofre_trash_secure'));
+add('R03 trash confirmation UI',exists('components/trash-button.tsx')&&read('components/trash-button.tsx').includes('window.confirm'));
+add('R03 trash modules wired',['memories','people','dates','dreams','projects'].every(x=>read(`app/c/[cofreId]/${x}/page.tsx`).includes('TrashButton')));
+add('R03 trash navigation',read('lib/nav.ts').includes('["Papelera", "/trash"]'));
+add('R03 export download route',exists('app/c/[cofreId]/export/route.ts')&&exportRoute.includes('Content-Disposition')&&exportRoute.includes('json-manifest-v1'));
+add('R03 export audit RPC',exportRoute.includes('record_manifest_export_secure'));
+add('R03 export excludes raw tokens',!exportRoute.includes('token_hash')&&!exportRoute.includes('raw_token')&&!exportRoute.includes('project_access_links'));
 let pass=0;for(const[n,ok]of checks){console.log(`${ok?'PASS':'FAIL'} · ${n}`);if(ok)pass++}console.log(`\n${pass} PASS / ${checks.length-pass} FAIL · ${checks.length} R03 checks`);if(pass!==checks.length)process.exit(1);
