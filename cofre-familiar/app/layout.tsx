@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: { default: "Cofre Familiar", template: "%s · Cofre Familiar" },
   description: "Recuerdos, personas, fechas, cartas, cápsulas, sueños y proyectos de tu familia.",
   robots: { index: false, follow: false },
+  icons: { icon: "/favicon.svg" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
