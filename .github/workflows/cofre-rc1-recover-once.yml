@@ -1,0 +1,74 @@
+name: COFRE RC1 recover once
+
+on:
+  push:
+    branches: [cofre-rc1-staging]
+    paths:
+      - '.github/workflows/cofre-rc1-recover-once.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout staging
+        uses: actions/checkout@v4
+
+      - name: Rebuild staged archives
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p recovered/payload recovered/runtime recovered/diagnostics
+
+          recover_set() {
+            local name="$1"
+            local src="cofre-rc1/$name"
+            local b64="recovered/diagnostics/${name}.b64"
+            local gz="recovered/diagnostics/${name}.gz"
+            local decoded="recovered/diagnostics/${name}.decoded"
+
+            cat "$src"/chunk-* > "$b64"
+            base64 -d "$b64" > "$gz"
+            gzip -t "$gz"
+            gzip -dc "$gz" > "$decoded"
+
+            {
+              echo "== $name =="
+              echo "chunks: $(find "$src" -maxdepth 1 -name 'chunk-*' | wc -l)"
+              echo "base64 bytes: $(wc -c < "$b64")"
+              echo "gzip bytes: $(wc -c < "$gz")"
+              echo "decoded bytes: $(wc -c < "$decoded")"
+              file "$gz"
+              file "$decoded"
+              sha256sum "$gz" "$decoded"
+            } >> recovered/diagnostics/report.txt
+
+            if tar -tf "$decoded" >/dev/null 2>&1; then
+              tar -xf "$decoded" -C "recovered/$name"
+              echo "format: tar" >> recovered/diagnostics/report.txt
+            elif unzip -t "$decoded" >/dev/null 2>&1; then
+              unzip -q "$decoded" -d "recovered/$name"
+              echo "format: zip" >> recovered/diagnostics/report.txt
+            else
+              cp "$decoded" "recovered/$name/decoded.bin"
+              echo "format: raw" >> recovered/diagnostics/report.txt
+            fi
+            echo >> recovered/diagnostics/report.txt
+          }
+
+          recover_set payload
+          recover_set runtime
+
+          echo "== recovered tree ==" >> recovered/diagnostics/report.txt
+          find recovered/payload recovered/runtime -maxdepth 5 -type f -printf '%p\t%s bytes\n' | sort >> recovered/diagnostics/report.txt
+
+      - name: Upload recovered COFRE RC1
+        uses: actions/upload-artifact@v4
+        with:
+          name: cofre-rc1-recovered
+          path: recovered/
+          if-no-files-found: error
+          retention-days: 7
