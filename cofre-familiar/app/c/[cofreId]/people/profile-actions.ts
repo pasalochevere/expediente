@@ -23,7 +23,7 @@ export async function addPersonPreference(fd: FormData) {
   const label = text(fd, "label", 180); if (!label) return;
   const categoryRaw = text(fd, "category", 40); const sentimentRaw = text(fd, "sentiment", 20);
   const category = ["interest","hobby","food","place","size","style","other"].includes(categoryRaw) ? categoryRaw : "other";
-  const sentiment = sentimentRaw === "negative" ? "negative" : "like";
+  const sentiment = sentimentRaw === "dislike" ? "dislike" : "like";
   const { error } = await db.from("person_preferences").insert({ cofre_id: cofreId, person_id: personId, category, label, sentiment, source_type: "manual", confirmed: true, visibility: "members", created_by: userId });
   if (error) throw new Error(error.message); refresh(cofreId, personId);
 }
