@@ -24,6 +24,10 @@ function friendlyName(asset: any) {
   return `${kindLabel(asset.kind)}${date ? ` · ${date}` : ""}`;
 }
 
+function cardTitle(asset: any) {
+  return asset.display_name || kindLabel(asset.kind);
+}
+
 function sizeLabel(bytes: number) {
   if (!bytes) return "0 MB";
   const mb = bytes / 1024 / 1024;
@@ -38,7 +42,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   const [{ data: assets, error: assetsError }, { data: albums, error: albumsError }, { data: membership }] = await Promise.all([
     db.from("media_assets")
       .select("id,kind,storage_bucket,storage_path,original_filename,display_name,media_date,album_id,mime_type,size_bytes,status,uploaded_by,created_at")
-      .eq("cofre_id", cofreId).is("deleted_at", null).order("media_date", { ascending: false, nullsFirst: false }).order("created_at", { ascending: false }).limit(240),
+      .eq("cofre_id", cofreId).eq("status", "ready").is("deleted_at", null).order("media_date", { ascending: false, nullsFirst: false }).order("created_at", { ascending: false }).limit(240),
     db.from("media_albums")
       .select("id,name,description,event_date,created_by,created_at")
       .eq("cofre_id", cofreId).is("deleted_at", null).order("event_date", { ascending: false, nullsFirst: false }).order("created_at", { ascending: false }),
@@ -48,7 +52,6 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   if (albumsError) throw new Error(albumsError.message);
 
   const ready = await Promise.all((assets || []).map(async (asset: any) => {
-    if (asset.status !== "ready") return { ...asset, url: null };
     const { data: signed } = await supabase.storage.from(asset.storage_bucket).createSignedUrl(asset.storage_path, 60 * 20);
     return { ...asset, url: signed?.signedUrl || null };
   }));
@@ -132,13 +135,16 @@ export default async function Page({ params, searchParams }: { params: Promise<{
 
     {filtered.length ? groups.map(group => <section className="media-group" key={group.id}>
       <div className="media-group-head">
-        <div><span className="media-section-kicker">ÁLBUM</span><h2>{group.name}</h2>{group.description && <p>{group.description}</p>}</div>
-        <div className="media-group-date">{shortDate(group.date) || `${group.items.length} ${group.items.length === 1 ? "archivo" : "archivos"}`}</div>
+        <div>
+          <div className="media-group-kicker-row"><span className="media-section-kicker">ÁLBUM</span><span className="media-group-count">{group.items.length} {group.items.length === 1 ? "archivo" : "archivos"}</span></div>
+          <h2>{group.name}</h2>
+          <div className="media-group-subline">{group.date && <time>{shortDate(group.date)}</time>}{group.description && <p>{group.description}</p>}</div>
+        </div>
       </div>
-      <div className="media-library-grid">
+      <div className={`media-library-grid media-count-${Math.min(group.items.length, 3)}`}>
         {group.items.map((asset: any) => {
           const editable = canAdmin || asset.uploaded_by === userId;
-          const album = asset.album_id ? albumMap.get(asset.album_id) as any : null;
+          const displayDate = shortDate(asset.media_date || asset.created_at);
           return <article className="media-library-card" key={asset.id}>
             <div className="media-preview">
               {asset.kind === "image" && asset.url ? <img src={asset.url} alt={friendlyName(asset)} /> :
@@ -147,22 +153,24 @@ export default async function Page({ params, searchParams }: { params: Promise<{
                <div className="media-file-icon">{kindLabel(asset.kind)}</div>}
             </div>
             <div className="media-card-body">
-              <div className="media-card-title"><div><small>{kindLabel(asset.kind)}</small><h3>{friendlyName(asset)}</h3></div>{album && <span className="media-album-badge">{album.name}</span>}</div>
-              <p className="media-meta">{shortDate(asset.media_date || asset.created_at)} · {sizeLabel(Number(asset.size_bytes || 0))}</p>
+              <div className="media-card-title"><div><small>{kindLabel(asset.kind)}</small><h3>{cardTitle(asset)}</h3></div></div>
+              <p className="media-meta">{displayDate}{displayDate ? " · " : ""}{sizeLabel(Number(asset.size_bytes || 0))}</p>
+
+              {asset.url && <a className="media-open-original" href={asset.url} target="_blank" rel="noreferrer">Ver original ↗</a>}
 
               {editable && <details className="media-edit">
-                <summary>Editar nombre y organización</summary>
+                <summary>Editar</summary>
                 <form action={updateMediaMetadataAction} className="media-form compact">
                   <input type="hidden" name="cofreId" value={cofreId} />
                   <input type="hidden" name="mediaId" value={asset.id} />
                   <label>Nombre visible<input name="displayName" maxLength={120} defaultValue={asset.display_name || ""} placeholder={friendlyName(asset)} /></label>
                   <label>Fecha<input name="mediaDate" type="date" defaultValue={asset.media_date || ""} /></label>
                   <label className="full">Álbum<select name="albumId" defaultValue={asset.album_id || ""}><option value="">Sin álbum</option>{albumList.map((a: any) => <option key={a.id} value={a.id}>{a.name}</option>)}</select></label>
-                  <button className="primary" type="submit">Guardar cambios</button>
+                  <button className="primary" type="submit">Guardar</button>
                 </form>
               </details>}
 
-              <details className="media-technical"><summary>Detalles del archivo</summary><p>{asset.original_filename || "Sin nombre original"}</p><p>{asset.mime_type} · {asset.status}</p></details>
+              <details className="media-technical"><summary>Información</summary><p>{asset.original_filename || "Sin nombre original"}</p><p>{asset.mime_type} · {sizeLabel(Number(asset.size_bytes || 0))}</p></details>
             </div>
           </article>;
         })}
