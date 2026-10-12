@@ -27,9 +27,9 @@
       <p>Tu guía, el pack completo de personajes y Creator Plus quedan organizados acá para que puedas volver cuando quieras mientras tu licencia <b>PSQ-FACTORY</b> esté activa.</p>
     </div>
     <div class="hero-stats">
-      <div class="stat"><b>50</b><span>Personajes</span></div>
-      <div class="stat"><b>5</b><span>Colecciones</span></div>
-      <div class="stat"><b>150</b><span>Láminas</span></div>
+      <div class="stat"><b>60</b><span>Personajes</span></div>
+      <div class="stat"><b>6</b><span>Colecciones</span></div>
+      <div class="stat"><b>240</b><span>Láminas</span></div>
       <div class="stat"><b>PLUS</b><span>Creator</span></div>
     </div>
   </section>
@@ -66,12 +66,12 @@
         <img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/cosmic_friends/soli/hero.webp" alt="Soli">
         <img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/magic_objects/poci/hero.webp" alt="Poci">
       </div>
-      <div class="tag">PACK COMPLETO · 50 PERSONAJES</div>
+      <div class="tag">PACK COMPLETO · 60 PERSONAJES</div>
       <h3>La colección completa</h3>
-      <p>5 colecciones · 50 personajes · 150 láminas. Frente + dorso + coloring.</p>
-      <div class="details"><span class="chip">50 PERSONAJES</span><span class="chip">5 COLECCIONES</span><span class="chip">150 LÁMINAS</span></div>
+      <p>6 colecciones · 60 personajes · 240 láminas. Frente + dorso + coloring frente + coloring dorso.</p>
+      <div class="details"><span class="chip">60 PERSONAJES</span><span class="chip">6 COLECCIONES</span><span class="chip">240 LÁMINAS</span></div>
       <div class="available">DISPONIBLE</div>
-      <div class="card-actions"><button class="btn primary download-btn" data-key="master" disabled>DESCARGAR LOS 50 PERSONAJES</button></div>
+      <div class="card-actions"><button class="btn primary download-btn" data-key="master" disabled>DESCARGAR LOS 60 PERSONAJES</button></div>
     </article>
 
     <article class="download-card" data-resource="creator">
@@ -156,9 +156,9 @@ async function downloadResource(key,btn){
     const {data:blob,error}=await sb.storage.from(BUCKET).download(row.storage_path);
     if(error)throw error;
     const url=URL.createObjectURL(blob),a=document.createElement('a');
-    a.href=url;a.download=row.download_name;document.body.appendChild(a);a.click();a.remove();
+    const dlName=key==='master'?'02_PAPER_SQUISHY_60_PERSONAJES.pdf':row.download_name;a.href=url;a.download=dlName;document.body.appendChild(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),10000);
-    $('#message').className='msg good';$('#message').textContent='✓ Descarga iniciada: '+row.download_name;
+    $('#message').className='msg good';$('#message').textContent='✓ Descarga iniciada: '+(key==='master'?'02_PAPER_SQUISHY_60_PERSONAJES.pdf':row.download_name);
   }catch(e){
     $('#message').className='msg bad';$('#message').textContent='No pudimos iniciar la descarga. '+String(e?.message||e);
     if(String(e?.message||e).toLowerCase().includes('license')||String(e?.message||e).toLowerCase().includes('licencia')) boot();
