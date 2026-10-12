@@ -22,7 +22,7 @@ jobs:
       - name: Rebuild staged archives
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           mkdir -p recovered/payload recovered/runtime recovered/diagnostics
 
           cat cofre-rc1/payload/chunk-000 \
@@ -32,65 +32,89 @@ jobs:
               > recovered/diagnostics/payload.raw
           git show 0e9d58315bd6d3fa0d30da9cab96dbd9d38efcee:cofre-rc1/payload/chunk-004005 \
               >> recovered/diagnostics/payload.raw
-
           cat cofre-rc1/runtime/chunk-* > recovered/diagnostics/runtime.raw
 
-          decode_b64() {
-            local name="$1"
-            python3 - "$name" <<'PY'
-          import base64, pathlib, string, sys
-          name=sys.argv[1]
-          p=pathlib.Path(f"recovered/diagnostics/{name}.raw")
-          raw=p.read_bytes()
+          python3 <<'PY'
+          import base64, pathlib, string, zlib, lzma, traceback
+
+          d=pathlib.Path('recovered/diagnostics')
+          report=[]
           alphabet=set((string.ascii_letters+string.digits+'+/=').encode())
-          clean=bytes(b for b in raw if b in alphabet)
-          removed=[b for b in raw if b not in alphabet]
-          clean += b'=' * ((-len(clean)) % 4)
-          pathlib.Path(f"recovered/diagnostics/{name}.b64").write_bytes(clean)
-          decoded=base64.b64decode(clean, validate=True)
-          pathlib.Path(f"recovered/diagnostics/{name}.gz").write_bytes(decoded)
-          with open("recovered/diagnostics/report.txt","a",encoding="utf-8") as f:
-              f.write(f"== {name} base64 ==\n")
-              f.write(f"raw bytes: {len(raw)}\n")
-              f.write(f"clean base64 bytes: {len(clean)}\n")
-              f.write(f"removed bytes: {len(removed)}\n")
-              if removed:
-                  f.write("removed byte values: "+repr(sorted(set(removed)))+"\n")
+
+          def decode64(name):
+              raw=(d/f'{name}.raw').read_bytes()
+              clean=bytes(b for b in raw if b in alphabet)
+              removed=[b for b in raw if b not in alphabet]
+              clean += b'='*((-len(clean))%4)
+              (d/f'{name}.b64').write_bytes(clean)
+              data=base64.b64decode(clean, validate=True)
+              (d/f'{name}.packed').write_bytes(data)
+              report += []
+              return raw, clean, removed, data
+
+          # Payload is GZIP. Salvage decompressed bytes even if the final gzip footer is missing.
+          raw, clean, removed, packed = decode64('payload')
+          report.append('== payload ==')
+          report.append(f'raw={len(raw)} clean_b64={len(clean)} removed={len(removed)} packed={len(packed)} magic={packed[:8].hex()}')
+          if removed: report.append('removed_values='+repr(sorted(set(removed))))
+          try:
+              z=zlib.decompressobj(16+zlib.MAX_WBITS)
+              out=z.decompress(packed)
+              try:
+                  out += z.flush()
+              except Exception as e:
+                  report.append('payload_flush_error='+repr(e))
+              (d/'payload.decoded').write_bytes(out)
+              report.append(f'payload_decoded={len(out)} eof={z.eof} unused={len(z.unused_data)} unconsumed={len(z.unconsumed_tail)}')
+          except Exception as e:
+              report.append('payload_decompress_error='+repr(e))
+              traceback.print_exc()
+              out=b''
+
+          # Runtime is XZ.
+          raw, clean, removed, packed = decode64('runtime')
+          report.append('== runtime ==')
+          report.append(f'raw={len(raw)} clean_b64={len(clean)} removed={len(removed)} packed={len(packed)} magic={packed[:8].hex()}')
+          if removed: report.append('removed_values='+repr(sorted(set(removed))))
+          try:
+              dec=lzma.LZMADecompressor(format=lzma.FORMAT_XZ)
+              rout=dec.decompress(packed)
+              (d/'runtime.decoded').write_bytes(rout)
+              report.append(f'runtime_decoded={len(rout)} eof={dec.eof} unused={len(dec.unused_data)}')
+          except Exception as e:
+              report.append('runtime_decompress_error='+repr(e))
+              traceback.print_exc()
+
+          (d/'report.txt').write_text('\n'.join(report)+'\n',encoding='utf-8')
           PY
 
-            local gz="recovered/diagnostics/${name}.gz"
-            local decoded="recovered/diagnostics/${name}.decoded"
-            gzip -t "$gz"
-            gzip -dc "$gz" > "$decoded"
-
-            {
-              echo "gzip bytes: $(wc -c < "$gz")"
-              echo "decoded bytes: $(wc -c < "$decoded")"
-              file "$gz"
-              file "$decoded"
-              sha256sum "$gz" "$decoded"
-            } >> recovered/diagnostics/report.txt
-
-            if tar -tf "$decoded" >/dev/null 2>&1; then
-              tar -xf "$decoded" -C "recovered/$name"
-              echo "format: tar" >> recovered/diagnostics/report.txt
-            elif unzip -t "$decoded" >/dev/null 2>&1; then
-              unzip -q "$decoded" -d "recovered/$name"
-              echo "format: zip" >> recovered/diagnostics/report.txt
+          for name in payload runtime; do
+            decoded="recovered/diagnostics/${name}.decoded"
+            echo "== ${name} file inspection ==" >> recovered/diagnostics/report.txt
+            if [ -f "$decoded" ]; then
+              file "$decoded" >> recovered/diagnostics/report.txt || true
+              sha256sum "$decoded" >> recovered/diagnostics/report.txt || true
+              if tar -tf "$decoded" > "recovered/diagnostics/${name}-tar-list.txt" 2>&1; then
+                tar -xf "$decoded" -C "recovered/$name" || true
+                echo "extract=tar-pass" >> recovered/diagnostics/report.txt
+              elif unzip -t "$decoded" > "recovered/diagnostics/${name}-zip-test.txt" 2>&1; then
+                unzip -q "$decoded" -d "recovered/$name" || true
+                echo "extract=zip-pass" >> recovered/diagnostics/report.txt
+              else
+                cp "$decoded" "recovered/$name/decoded.bin"
+                echo "extract=not-recognized" >> recovered/diagnostics/report.txt
+              fi
             else
-              cp "$decoded" "recovered/$name/decoded.bin"
-              echo "format: raw" >> recovered/diagnostics/report.txt
+              echo "decoded file missing" >> recovered/diagnostics/report.txt
             fi
-            echo >> recovered/diagnostics/report.txt
-          }
-
-          decode_b64 payload
-          decode_b64 runtime
+          done
 
           echo "== recovered tree ==" >> recovered/diagnostics/report.txt
-          find recovered/payload recovered/runtime -maxdepth 8 -type f -printf '%p\t%s bytes\n' | sort >> recovered/diagnostics/report.txt
+          find recovered/payload recovered/runtime -maxdepth 10 -type f -printf '%p\t%s bytes\n' | sort >> recovered/diagnostics/report.txt
+          cat recovered/diagnostics/report.txt
 
       - name: Upload recovered COFRE RC1
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cofre-rc1-recovered
