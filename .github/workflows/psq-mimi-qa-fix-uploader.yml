@@ -1,0 +1,30 @@
+name: PSQ Mimi QA Fix Uploader
+on:
+  push:
+    paths:
+      - '.github/workflows/psq-mimi-qa-fix-uploader.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update Mimi QA fix package validator
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('paper-squishy/admin-upload-mimi-preview-v28.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("size:933928,sha:'a50e2e0fcd2863958b7ab56ddf8fcde49b690f8a2c4f09c68f6a886aebe786f4'","size:932743,sha:'59588251305d0e1d3129abe70a85d1be92b4389f77a8592be076293fe7c50e36'")
+          s=s.replace('Esperando PSQ_MIMI_PREVIEW_V28_PACK.zip…','Esperando PSQ_MIMI_PREVIEW_V28_QA_FIX_PACK.zip…')
+          s=s.replace('Mimi Preview Pilot · V2.8','Mimi Preview Pilot · V2.8 QA FIX')
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add paper-squishy/admin-upload-mimi-preview-v28.html
+          git commit -m 'fix(psq): update Mimi preview QA fix uploader' || exit 0
+          git push
