@@ -1,0 +1,37 @@
+name: PSQ Bind Catalog V27
+on:
+  push:
+    paths:
+      - '.github/workflows/psq-bind-catalog-v27.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bind PSQ catalog v2.7 runtime
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('paper-squishy/factory.html')
+          s=p.read_text(encoding='utf-8')
+          needle="  html=html.replace('</body>','<script src=\"./psq-i18n-v26.js?v=2600\"></scr'+'ipt></body>');"
+          catalog="  html=html.replace('</body>','<script src=\"./psq-catalog-v27.js?v=2702\"></scr'+'ipt></body>');"
+          if 'psq-catalog-v27.js' not in s:
+              if needle not in s:
+                  raise SystemExit('i18n insertion marker not found')
+              s=s.replace(needle,catalog+'\n'+needle)
+          s=s.replace('PSQ 2.5 · Creator Plus · 60 personajes','PSQ 2.7 · Creator Plus · 60 personajes')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add paper-squishy/factory.html
+          git commit -m 'feat(psq): activate 60-character catalog v2.7 runtime'
+          git push
