@@ -2,17 +2,27 @@ import Link from "next/link";
 import { Card, PageHeader, Stat } from "@/components/ui";
 import { getCofre } from "@/lib/cofre";
 
-async function count(db: any, table: string, cofreId: string) {
-  const { count } = await db.from(table).select("*", { count: "exact", head: true }).eq("cofre_id", cofreId);
-  return count ?? 0;
+async function count(db:any,table:string,cofreId:string){const{count}=await db.from(table).select("*",{count:"exact",head:true}).eq("cofre_id",cofreId).is("deleted_at",null);return count??0}
+export default async function CofreHome({params}:{params:Promise<{cofreId:string}>}){
+ const{cofreId}=await params;const{db,cofre}=await getCofre(cofreId);const now=new Date(),today=localYmd(now,cofre.timezone||"America/Argentina/Buenos_Aires");
+ const[memories,people,dateCount,dreams,{data:recent},{data:dates},{data:capsules},{data:letters},{data:datedMemories}]=await Promise.all([
+  count(db,"memories",cofreId),count(db,"people",cofreId),count(db,"important_dates",cofreId),count(db,"dreams",cofreId),
+  db.from("memories").select("id,title,story,memory_date,memory_type").eq("cofre_id",cofreId).is("deleted_at",null).order("created_at",{ascending:false}).limit(5),
+  db.from("important_dates").select("id,title,event_type,event_date,repeat_rule,reminder_days").eq("cofre_id",cofreId).is("deleted_at",null),
+  db.from("capsules").select("id,title,open_at,status").eq("cofre_id",cofreId).eq("status","sealed").gte("open_at",now.toISOString()).order("open_at").limit(5),
+  db.from("letters").select("id,title,open_at,status,open_mode").eq("cofre_id",cofreId).eq("status","sealed").eq("open_mode","date").gte("open_at",now.toISOString()).order("open_at").limit(5),
+  db.from("memories").select("id,title,memory_date,memory_type").eq("cofre_id",cofreId).is("deleted_at",null).not("memory_date","is",null).limit(300)
+ ]);
+ const upcoming=(dates||[]).map((d:any)=>({...d,...nextOccurrence(d.event_date,d.repeat_rule,today)})).filter((d:any)=>d.next&&d.days>=0).sort((a:any,b:any)=>a.days-b.days).slice(0,5);const mmdd=today.slice(5),year=Number(today.slice(0,4));const anniversaries=(datedMemories||[]).filter((m:any)=>m.memory_date?.slice(5)===mmdd&&Number(m.memory_date.slice(0,4))<year).map((m:any)=>({...m,years:year-Number(m.memory_date.slice(0,4))})).slice(0,5);const future=[...(capsules||[]).map((x:any)=>({...x,kind:"Cápsula",href:`/c/${cofreId}/capsules`})),...(letters||[]).map((x:any)=>({...x,kind:"Carta",href:`/c/${cofreId}/letters`}))].sort((a:any,b:any)=>new Date(a.open_at).getTime()-new Date(b.open_at).getTime()).slice(0,5);
+ return <><PageHeader eyebrow="TU ESPACIO" title={cofre.name} text={cofre.tagline||"Todo lo importante, sin ruido."}/>
+ <div className="stats-grid"><Stat value={memories} label="Recuerdos" href={`/c/${cofreId}/memories`}/><Stat value={people} label="Personas" href={`/c/${cofreId}/people`}/><Stat value={dateCount} label="Fechas" href={`/c/${cofreId}/dates`}/><Stat value={dreams} label="Sueños" href={`/c/${cofreId}/dreams`}/></div>
+ <div className="two-col"><Card><div className="section-title"><h2>Lo próximo</h2><Link href={`/c/${cofreId}/dates`}>Fechas</Link></div>{upcoming.length?<div className="simple-list">{upcoming.map((d:any)=><article key={d.id}><small>{d.days===0?"HOY":d.days===1?"MAÑANA":`EN ${d.days} DÍAS`} · {d.event_type}</small><b>{d.title}</b><p>{formatDate(d.next)}{d.reminder_days?.length?` · avisos ${d.reminder_days.join("/")} días antes`:""}</p></article>)}</div>:<p className="muted">No hay fechas próximas cargadas.</p>}</Card>
+ <Card><div className="section-title"><h2>Se abre pronto</h2><Link href={`/c/${cofreId}/capsules`}>Futuro</Link></div>{future.length?<div className="simple-list">{future.map((x:any)=><article key={`${x.kind}-${x.id}`}><small>{x.kind.toUpperCase()}</small><b>{x.title}</b><p>{new Date(x.open_at).toLocaleString("es-AR")}</p><Link className="text-button" href={x.href}>Ver</Link></article>)}</div>:<p className="muted">No hay cartas o cápsulas programadas próximas.</p>}</Card></div>
+ {anniversaries.length>0&&<Card><div className="section-title"><h2>Hoy hace…</h2><Link href={`/c/${cofreId}/history`}>Historia</Link></div><div className="simple-list">{anniversaries.map((m:any)=><article key={m.id}><small>HACE {m.years} {m.years===1?"AÑO":"AÑOS"}</small><b>{m.title}</b><p>{m.memory_type}</p></article>)}</div></Card>}
+ <div className="two-col"><Card><div className="section-title"><h2>Últimos recuerdos</h2><Link href={`/c/${cofreId}/memories`}>Ver todos</Link></div>{recent?.length?<div className="simple-list">{recent.map((m:any)=><article key={m.id}><small>{m.memory_date||"Sin fecha"} · {m.memory_type}</small><b>{m.title}</b><p>{m.story||""}</p></article>)}</div>:<p className="muted">Todavía no guardaste recuerdos.</p>}</Card>
+ <Card><h2>Guardar algo hoy</h2><p className="muted">Sumá un recuerdo, una persona importante o algo que quieras preparar para el futuro.</p><div className="quick-links"><Link href={`/c/${cofreId}/memories`}>+ Recuerdo</Link><Link href={`/c/${cofreId}/people`}>+ Persona</Link><Link href={`/c/${cofreId}/letters`}>+ Carta</Link><Link href={`/c/${cofreId}/capsules`}>+ Cápsula</Link></div><Link className="text-button" href={`/c/${cofreId}/notifications`}>Configurar avisos</Link></Card></div></>;
 }
-export default async function CofreHome({ params }: { params: Promise<{cofreId:string}> }) {
-  const { cofreId } = await params; const { db, cofre } = await getCofre(cofreId);
-  const [memories, people, dates, dreams] = await Promise.all([count(db,"memories",cofreId),count(db,"people",cofreId),count(db,"important_dates",cofreId),count(db,"dreams",cofreId)]);
-  const { data: recent } = await db.from("memories").select("id,title,story,memory_date,memory_type").eq("cofre_id",cofreId).is("deleted_at",null).order("created_at",{ascending:false}).limit(5);
-  return <><PageHeader eyebrow="TU ESPACIO" title={cofre.name} text={cofre.tagline || "Todo lo importante, sin ruido."} />
-    <div className="stats-grid"><Stat value={memories} label="Recuerdos" href={`/c/${cofreId}/memories`}/><Stat value={people} label="Personas" href={`/c/${cofreId}/people`}/><Stat value={dates} label="Fechas" href={`/c/${cofreId}/dates`}/><Stat value={dreams} label="Sueños" href={`/c/${cofreId}/dreams`}/></div>
-    <div className="two-col"><Card><div className="section-title"><h2>Últimos recuerdos</h2><Link href={`/c/${cofreId}/memories`}>Ver todos</Link></div>{recent?.length ? <div className="simple-list">{recent.map((m:any)=><article key={m.id}><small>{m.memory_date || "Sin fecha"} · {m.memory_type}</small><b>{m.title}</b><p>{m.story || ""}</p></article>)}</div> : <p className="muted">Todavía no guardaste recuerdos.</p>}</Card>
-    <Card><h2>Guardar algo hoy</h2><p className="muted">Sumá un recuerdo, una persona importante o algo que quieras preparar para el futuro.</p><div className="quick-links"><Link href={`/c/${cofreId}/memories`}>+ Recuerdo</Link><Link href={`/c/${cofreId}/people`}>+ Persona</Link><Link href={`/c/${cofreId}/letters`}>+ Carta</Link><Link href={`/c/${cofreId}/capsules`}>+ Cápsula</Link></div></Card></div>
-  </>;
-}
+function localYmd(date:Date,timeZone:string){const parts=new Intl.DateTimeFormat("en-US",{timeZone,year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date);const get=(x:string)=>parts.find(p=>p.type===x)?.value||"";return`${get("year")}-${get("month")}-${get("day")}`}
+function nextOccurrence(eventDate:string,repeatRule:string,today:string){if(!eventDate)return{next:null,days:-1};let candidate=eventDate;if(repeatRule==="yearly"){const year=Number(today.slice(0,4)),md=eventDate.slice(5);candidate=`${year}-${md}`;if(daysBetween(today,candidate)<0)candidate=`${year+1}-${md}`}const days=daysBetween(today,candidate);return{next:candidate,days}}
+function daysBetween(a:string,b:string){const A=Date.UTC(Number(a.slice(0,4)),Number(a.slice(5,7))-1,Number(a.slice(8,10))),B=Date.UTC(Number(b.slice(0,4)),Number(b.slice(5,7))-1,Number(b.slice(8,10)));return Math.round((B-A)/86400000)}
+function formatDate(v:string){return new Date(`${v}T12:00:00`).toLocaleDateString("es-AR",{day:"2-digit",month:"long",year:"numeric"})}
