@@ -1,0 +1,44 @@
+name: PSQ Bind Mimi Preview V28
+on:
+  push:
+    paths:
+      - '.github/workflows/psq-bind-mimi-preview-v28.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bind Mimi preview assets with print fallback
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('paper-squishy/psq-viewer-v28.js')
+          s=p.read_text(encoding='utf-8')
+          old="const SHEETS=new Set(['front_print','back_print','coloring','coloring_back','character_card','tutorial']);"
+          new=old+"\nconst MIMI_PREVIEW_BASE='https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.8/previews/ocean_buddies/mimi/';"
+          if 'MIMI_PREVIEW_BASE' not in s:
+              if old not in s: raise SystemExit('sheet marker missing')
+              s=s.replace(old,new)
+          old2="function assetOf(ch,key){return ch?.assets?.[key]?.path||''}"
+          new2="function assetOf(ch,key){return ch?.assets?.[key]?.path||''}\nfunction isMimi(ch){return !!ch&&String(ch.name||'').trim()==='Mimi Medusa'}\nfunction displayAssetOf(ch,key){return isMimi(ch)?MIMI_PREVIEW_BASE+key+'.webp':assetOf(ch,key)}"
+          if 'function displayAssetOf' not in s:
+              if old2 not in s: raise SystemExit('assetOf marker missing')
+              s=s.replace(old2,new2)
+          s=s.replace("const key=ORDER[state.index],src=assetOf(ch,key);","const key=ORDER[state.index],src=displayAssetOf(ch,key);")
+          s=s.replace("const media=q('v28Media');media.className='v28-media '+(SHEETS.has(key)?'sheet':'art');const img=q('v28Image');img.src=src;img.alt=LABELS[key]+' · '+ch.name;","const media=q('v28Media');media.className='v28-media '+(SHEETS.has(key)?'sheet':'art');const img=q('v28Image');img.onerror=()=>{const fallback=assetOf(ch,key);if(fallback&&img.src!==fallback)img.src=fallback};img.src=src;img.alt=LABELS[key]+' · '+ch.name;")
+          s=s.replace("ORDER.forEach((k,i)=>{const p=assetOf(ch,k);if(!p)return;","ORDER.forEach((k,i)=>{const p=displayAssetOf(ch,k);if(!p)return;")
+          s=s.replace("b.querySelector('img').src=p;b.querySelector('img').alt=LABELS[k];","b.querySelector('img').onerror=()=>{const fallback=assetOf(ch,k);if(fallback&&b.querySelector('img').src!==fallback)b.querySelector('img').src=fallback};b.querySelector('img').src=p;b.querySelector('img').alt=LABELS[k];")
+          oldp="q('v28Print').onclick=()=>window.print();"
+          newp="q('v28Print').onclick=()=>{const key=ORDER[state.index],src=assetOf(state.ch,key);if(!src)return;const w=window.open('','_blank');if(!w)return;w.document.write('<!doctype html><title>Imprimir</title><style>html,body{margin:0;background:white}body{display:grid;place-items:center;min-height:100vh}img{display:block;max-width:210mm;max-height:297mm;object-fit:contain}@page{size:A4;margin:0}</style><img src=\"'+src+'\" onload=\"setTimeout(()=>window.print(),250)\">');w.document.close();};"
+          if oldp in s: s=s.replace(oldp,newp)
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add paper-squishy/psq-viewer-v28.js
+          git commit -m 'fix(psq): bind Mimi individual previews v2.8' || exit 0
+          git push
