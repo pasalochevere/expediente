@@ -44,4 +44,9 @@ add('R05.2A Google feature flag safe default',env.includes('NEXT_PUBLIC_GOOGLE_C
 add('R05.2A visual stylesheet loaded',layout.includes('import "./r05-2a.css"')&&syncCss.includes('.people-sync-grid')&&syncCss.includes('.person-profile-hero'));
 add('R05.2A mobile sync UI',syncCss.includes('@media(max-width:620px)')&&syncCss.includes('.people-sync-grid'));
 add('R05.2A no service role',!syncMigration.includes('service_role')&&!importer.includes('service_role')&&!callback.includes('service_role'));
+add('R05.2A.1 native phone contact picker',importer.includes('nav.contacts.select')&&importer.includes('setProvider("phone")')&&syncMigration.includes("'phone'"));
+add('R05.2A.1 native picker only selected contacts',importer.includes('multiple: true')&&importer.includes('Cofre sólo recibe los contactos que vos selecciones'));
+add('R05.2A.1 easy three-step flow',importer.includes('Elegí de dónde traerlos')&&importer.includes('Revisá la lista')&&importer.includes('Importá')&&syncCss.includes('.easy-import-steps'));
+add('R05.2A.1 source priority phone google file',importer.indexOf('Elegir del teléfono')<importer.indexOf('Conectar Google')&&importer.indexOf('Conectar Google')<importer.indexOf('vCard o CSV'));
+add('R05.2A.1 unsupported phone fallback',importer.includes('Chrome en Android')&&importer.includes('Google o vCard'));
 let pass=0;for(const[n,ok]of checks){console.log(`${ok?'PASS':'FAIL'} · ${n}`);if(ok)pass++}console.log(`\n${pass} PASS / ${checks.length-pass} FAIL · ${checks.length} R05 checks`);if(pass!==checks.length)process.exit(1);
