@@ -29,4 +29,11 @@ add('R03 trash navigation',read('lib/nav.ts').includes('["Papelera", "/trash"]')
 add('R03 export download route',exists('app/c/[cofreId]/export/route.ts')&&exportRoute.includes('Content-Disposition')&&exportRoute.includes('json-manifest-v1'));
 add('R03 export audit RPC',exportRoute.includes('record_manifest_export_secure'));
 add('R03 export excludes raw tokens',!exportRoute.includes('token_hash')&&!exportRoute.includes('raw_token')&&!exportRoute.includes('project_access_links'));
+const notif=read('app/c/[cofreId]/notification-actions.ts'),dates=read('app/c/[cofreId]/date-actions.ts'),home=read('app/c/[cofreId]/page.tsx');
+add('R03 notification preferences action',notif.includes('notification_preferences')&&notif.includes('emotional_frequency'));
+add('R03 notification preferences UI',read('app/c/[cofreId]/notifications/page.tsx').includes('Guardar preferencias'));
+add('R03 configurable date reminders',dates.includes('getAll("reminderDays")')&&read('app/c/[cofreId]/dates/page.tsx').includes('Actualizar avisos'));
+add('R03 dynamic home upcoming dates',home.includes('Lo próximo')&&home.includes('nextOccurrence'));
+add('R03 dynamic home future openings',home.includes('Se abre pronto')&&home.includes('capsules')&&home.includes('letters'));
+add('R03 dynamic home anniversaries',home.includes('Hoy hace')&&home.includes('datedMemories'));
 let pass=0;for(const[n,ok]of checks){console.log(`${ok?'PASS':'FAIL'} · ${n}`);if(ok)pass++}console.log(`\n${pass} PASS / ${checks.length-pass} FAIL · ${checks.length} R03 checks`);if(pass!==checks.length)process.exit(1);
