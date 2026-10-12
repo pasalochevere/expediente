@@ -1,25 +1,32 @@
-# COFRE FAMILIAR · RC1
+# COFRE FAMILIAR · RC1 RECOVERY
 
-Ruta objetivo de publicación:
+Ruta objetivo estable:
 
 `https://pasalochevere.github.io/expediente/cofre-familiar/`
 
-## Estado
+## Estado actual · 2026-10-12
 
-- Base: COFRE 0.9.15 · RC1 FROZEN
-- Preflight verificado: 62 PASS / 0 FAIL
-- Carpeta nueva e independiente de `primavera-dai/`
-- `primavera-dai/cofre.html` no debe modificarse
+- Base funcional: **COFRE 0.9.15 · RC1 FROZEN**.
+- El ZIP `COFRE_P0_9_15_RC1_Candidate_rc3.zip` no pudo recuperarse.
+- Se realizó una **reconstrucción controlada** contra el backend V2 real todavía activo en Supabase.
+- Schema usado: `cofre` + `cofre_private`.
+- Edge Functions recuperadas/contractualmente fijadas: media upload, media finalize y gift reveal.
+- Recovery preflight: **62 PASS / 0 FAIL**.
+- `primavera-dai/cofre.html` queda fuera de alcance y no se modifica.
 
-## Regla de release
+## Arquitectura de publicación
 
-No publicar un `index.html` sustituto ni copiar el Cofre Gas + Dai como RC1.
-La carpeta debe recibir únicamente el build/export correcto de Cofre Familiar.
+Cofre Familiar es una aplicación Next.js con Auth, Supabase, RLS y funciones dinámicas. GitHub Pages no puede ejecutar ese runtime. Por lo tanto:
 
-## Pendiente para publicación
+1. `cofre-familiar/` conserva el source versionado y aislado dentro de este repositorio.
+2. El runtime real se valida/despliega en Railway.
+3. La URL de GitHub Pages `/expediente/cofre-familiar/` podrá actuar como acceso/landing estable hacia el runtime una vez aprobado el E2E.
 
-1. Recuperar el source/build RC1 correcto (`cofre-frontend-v1 0.9.15` / candidato `cofre_P0_9_15_RC1_Candidate_rc3.zip`).
-2. Generar o validar una salida compatible con GitHub Pages bajo `/expediente/cofre-familiar/`.
-3. Copiar los assets con rutas relativas o base path correcto.
-4. Ejecutar smoke desktop + mobile.
-5. Recién entonces integrar a `main`.
+## Gate pendiente
+
+1. Build remoto real (`npm install` + typecheck + `next build`).
+2. Smoke público.
+3. Auth register/login/callback.
+4. Flujo autenticado de punta a punta.
+5. QA mobile.
+6. Recién después, integrar a `main` y publicar el acceso estable.
