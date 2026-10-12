@@ -1,0 +1,88 @@
+name: PSQ master60 prep
+on:
+  push:
+    paths:
+      - '.github/workflows/psq-master60-prep.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch factory/downloads and add uploader
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          # ---- downloads.html ----
+          p=Path('paper-squishy/downloads.html')
+          s=p.read_text(encoding='utf-8')
+          repl={
+            '<div class="stat"><b>50</b><span>Personajes</span></div>':'<div class="stat"><b>60</b><span>Personajes</span></div>',
+            '<div class="stat"><b>5</b><span>Colecciones</span></div>':'<div class="stat"><b>6</b><span>Colecciones</span></div>',
+            '<div class="stat"><b>150</b><span>Láminas</span></div>':'<div class="stat"><b>240</b><span>Láminas</span></div>',
+            'PACK COMPLETO · 50 PERSONAJES':'PACK COMPLETO · 60 PERSONAJES',
+            '5 colecciones · 50 personajes · 150 láminas. Frente + dorso + coloring.':'6 colecciones · 60 personajes · 240 láminas. Frente + dorso + coloring frente + coloring dorso.',
+            '<span class="chip">50 PERSONAJES</span><span class="chip">5 COLECCIONES</span><span class="chip">150 LÁMINAS</span>':'<span class="chip">60 PERSONAJES</span><span class="chip">6 COLECCIONES</span><span class="chip">240 LÁMINAS</span>',
+            'DESCARGAR LOS 50 PERSONAJES':'DESCARGAR LOS 60 PERSONAJES',
+            "a.href=url;a.download=row.download_name;document.body.appendChild(a);a.click();a.remove();":"const dlName=key==='master'?'02_PAPER_SQUISHY_60_PERSONAJES.pdf':row.download_name;a.href=url;a.download=dlName;document.body.appendChild(a);a.click();a.remove();",
+            "$('#message').className='msg good';$('#message').textContent='✓ Descarga iniciada: '+row.download_name;":"$('#message').className='msg good';$('#message').textContent='✓ Descarga iniciada: '+(key==='master'?'02_PAPER_SQUISHY_60_PERSONAJES.pdf':row.download_name);"
+          }
+          for a,b in repl.items():
+              if a not in s:
+                  raise SystemExit('downloads.html pattern not found: '+a[:80])
+              s=s.replace(a,b)
+          p.write_text(s,encoding='utf-8')
+
+          # ---- factory.html ----
+          p=Path('paper-squishy/factory.html')
+          s=p.read_text(encoding='utf-8')
+          repl={
+            'Abriendo la fábrica completa · 50 personajes · 5 colecciones · Creator Plus':'Abriendo la fábrica completa · 60 personajes · 6 colecciones · Creator Plus',
+            'Opening the full factory · 50 characters · 5 collections · Creator Plus':'Opening the full factory · 60 characters · 6 collections · Creator Plus',
+            ".replace('Tres mundos para crear','Cinco mundos para crear')":".replace('Tres mundos para crear','Seis mundos para crear')",
+            '<div class="hero-proof"><div><b>50</b><span>personajes</span></div><div><b>5</b><span>colecciones</span></div><div><b>150</b><span>láminas</span></div></div><div class="psq-license-note">CREATOR PLUS · 12 MESES · HASTA 2 DISPOSITIVOS</div>':'<div class="hero-proof"><div><b>60</b><span>personajes</span></div><div><b>6</b><span>colecciones</span></div><div><b>240</b><span>láminas</span></div></div><div class="psq-license-note">CREATOR PLUS · 12 MESES · HASTA 2 DISPOSITIVOS</div>',
+            "PSQ 2.5 · Creator Plus · 50 personajes":"PSQ 2.5 · Creator Plus · 60 personajes"
+          }
+          for a,b in repl.items():
+              if a not in s:
+                  raise SystemExit('factory.html pattern not found: '+a[:80])
+              s=s.replace(a,b)
+          p.write_text(s,encoding='utf-8')
+
+          # ---- manifest ----
+          p=Path('paper-squishy/p2.5-manifest.json')
+          data=json.loads(p.read_text(encoding='utf-8'))
+          data['stats']['characters']=60
+          data['stats']['collections']=6
+          data['stats']['printable_sheets']=240
+          data['notes']='Storage keeps the legacy master object path for compatibility; the current master content is the 60-character / 6-collection / 240-sheet edition. Access remains controlled by PSQ-FACTORY.'
+          for x in data['downloads']:
+              if x.get('key')=='master':
+                  x['display_filename']='02_PAPER_SQUISHY_60_PERSONAJES.pdf'
+                  x['storage_alias']='02_PAPER_SQUISHY_50_PERSONAJES.pdf'
+          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          # ---- one-file admin uploader ----
+          uploader='''<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PSQ · Actualizar master 60</title><style>:root{--bg:#fff8ee;--ink:#34251f;--yellow:#ffd45b;--green:#238c5b;--red:#bd302f;--line:#dfcfc2}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:760px;margin:auto;padding:34px 18px}.card{background:#fff;border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:0 18px 45px rgba(65,45,34,.08)}h1{margin:0 0 10px}.ey{font-weight:950;letter-spacing:.12em;font-size:12px}.btn{display:inline-flex;align-items:center;justify-content:center;border:3px solid var(--ink);border-radius:16px;background:var(--yellow);padding:13px 18px;font-weight:950;cursor:pointer}.btn:disabled{opacity:.45}.ok{color:var(--green);font-weight:900}.bad{color:var(--red);font-weight:900}pre{white-space:pre-wrap;background:#171311;color:#fff7ed;border-radius:18px;padding:16px;min-height:120px}input{width:100%;margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:14px}</style></head><body><main class="wrap"><section class="card"><div class="ey">PAPER SQUISHY FACTORY · ADMIN</div><h1>Actualizar pack maestro a 60 personajes</h1><p>Sube únicamente <b>02_PAPER_SQUISHY_60_PERSONAJES_APP_COMPLETO.pdf</b>. Se valida tamaño y SHA-256 antes de reemplazar el master privado actual.</p><div id="session">Comprobando sesión…</div><input id="file" type="file" accept="application/pdf,.pdf"><button id="upload" class="btn" disabled>SUBIR MASTER 60</button><p id="status"></p><pre id="log">Esperando archivo…</pre></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const URL='https://fzbndgfnqxcacsvlitui.supabase.co',KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo',BUCKET='paper-squishy-downloads',ADMIN='pasalochevere@gmail.com';
+const EXPECT={name:'02_PAPER_SQUISHY_60_PERSONAJES_APP_COMPLETO.pdf',size:37120732,sha:'d38b882a1193dbc2eaea06ecfe87fc6c124da4a00a65421ce4b6c72448f441d5'};
+const DEST='P2.5/02_PAPER_SQUISHY_50_PERSONAJES.pdf';
+const sb=supabase.createClient(URL,KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}}),$=x=>document.getElementById(x),hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');let admin=false,busy=false;
+function log(t){$('log').textContent+='\\n'+t}function ready(){$('upload').disabled=busy||!admin||!$('file').files[0]}
+async function check(){const{data:{user},error}=await sb.auth.getUser();admin=!error&&String(user?.email||'').toLowerCase()===ADMIN;$('session').innerHTML=admin?'<span class="ok">✓ '+user.email+' · administradora</span>':'<span class="bad">Iniciá sesión en el Portal PasaloChévere con la cuenta administradora.</span>';ready()}
+$('file').addEventListener('change',ready);sb.auth.onAuthStateChange(()=>setTimeout(check,0));check();
+$('upload').onclick=async()=>{if(busy)return;busy=true;ready();$('log').textContent='Inicio…';$('status').textContent='';try{await check();if(!admin)throw new Error('Sesión administradora requerida.');const f=$('file').files[0];if(!f)throw new Error('Seleccioná el PDF.');if(f.name!==EXPECT.name)throw new Error('Nombre incorrecto: '+f.name);if(f.size!==EXPECT.size)throw new Error('Tamaño incorrecto: '+f.size+' bytes');log('Calculando SHA-256…');const sha=hex(await crypto.subtle.digest('SHA-256',await f.arrayBuffer()));if(sha!==EXPECT.sha)throw new Error('SHA-256 incorrecto.');log('✓ Integridad OK');log('Subiendo al master privado…');const{error}=await sb.storage.from(BUCKET).upload(DEST,f,{upsert:true,contentType:'application/pdf',cacheControl:'3600'});if(error)throw error;log('✓ Upload OK');const{data,error:le}=await sb.storage.from(BUCKET).list('P2.5',{limit:30});if(le)throw le;if(!(data||[]).some(x=>x.name==='02_PAPER_SQUISHY_50_PERSONAJES.pdf'))throw new Error('No pude confirmar el objeto master.');$('status').innerHTML='<span class="ok">✓ MASTER 60 PUBLICADO EN LA FÁBRICA</span>';log('✓ Verificación final OK');}catch(e){$('status').innerHTML='<span class="bad">'+String(e.message||e)+'</span>';log('FALLO: '+String(e.message||e))}finally{busy=false;ready()}};
+</script></body></html>'''
+          Path('paper-squishy/admin-upload-master60.html').write_text(uploader,encoding='utf-8')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper-squishy/downloads.html paper-squishy/factory.html paper-squishy/p2.5-manifest.json paper-squishy/admin-upload-master60.html
+          git commit -m "feat(psq): prepare 60-character master pack"
+          git push
