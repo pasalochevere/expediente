@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 
 type ContactCandidate = {
@@ -17,6 +17,13 @@ type ContactCandidate = {
   profileUrl?: string;
   relationship?: string;
   sourceLabel?: string;
+};
+
+type NativeContact = { name?: string[]; email?: string[]; tel?: string[] };
+type ContactsNavigator = Navigator & {
+  contacts?: {
+    select: (properties: Array<"name" | "email" | "tel">, options: { multiple: boolean }) => Promise<NativeContact[]>;
+  };
 };
 
 type Props = {
@@ -149,10 +156,16 @@ export default function PeopleImporter({ cofreId, batchId, stagedContacts, googl
   const initial = useMemo(() => fromStaged(stagedContacts), [stagedContacts]);
   const [contacts, setContacts] = useState<ContactCandidate[]>(initial);
   const [selected, setSelected] = useState<Set<string>>(() => new Set(initial.map((c) => c.key)));
-  const [provider, setProvider] = useState(batchId ? "google" : "csv");
+  const [provider, setProvider] = useState(batchId ? "google" : "phone");
   const [relationship, setRelationship] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
+  const [phonePickerAvailable, setPhonePickerAvailable] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const nav = navigator as ContactsNavigator;
+    setPhonePickerAvailable(Boolean(nav.contacts?.select));
+  }, []);
 
   async function readFile(file: File) {
     setStatus("");
@@ -163,6 +176,44 @@ export default function PeopleImporter({ cofreId, batchId, stagedContacts, googl
     setContacts(parsed);
     setSelected(new Set(parsed.map((c) => c.key)));
     setStatus(parsed.length ? `${parsed.length} contactos listos para revisar.` : "No pude encontrar contactos válidos en ese archivo.");
+  }
+
+  async function pickPhoneContacts() {
+    const nav = navigator as ContactsNavigator;
+    if (!nav.contacts?.select) {
+      setStatus("Este navegador no permite abrir la agenda directamente. Probalo desde Chrome en Android o usá Google/vCard.");
+      return;
+    }
+    setBusy(true);
+    setStatus("Elegí los contactos que querés sumar al Cofre…");
+    try {
+      const picked = await nav.contacts.select(["name", "email", "tel"], { multiple: true });
+      const parsed = picked.map((item, index) => {
+        const name = clean(item.name?.[0]) || clean(item.email?.[0]) || clean(item.tel?.[0]) || `Contacto ${index + 1}`;
+        const parts = name.split(/\s+/).filter(Boolean);
+        return {
+          key: `phone-${index}-${clean(item.tel?.[0]) || clean(item.email?.[0]) || name}`,
+          name,
+          firstName: parts[0] || name,
+          lastName: parts.slice(1).join(" "),
+          displayName: name,
+          email: clean(item.email?.[0]),
+          phone: clean(item.tel?.[0]),
+          relationship,
+          sourceLabel: "Teléfono",
+        } satisfies ContactCandidate;
+      }).filter((c) => c.name || c.email || c.phone);
+      setProvider("phone");
+      setContacts(parsed);
+      setSelected(new Set(parsed.map((c) => c.key)));
+      setStatus(parsed.length ? `${parsed.length} contactos elegidos. Revisalos antes de importar.` : "No elegiste contactos.");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "No se pudo abrir la agenda.";
+      if (/cancel|abort/i.test(message)) setStatus("Selección cancelada. No se guardó nada.");
+      else setStatus(message);
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function importSelected() {
@@ -185,7 +236,10 @@ export default function PeopleImporter({ cofreId, batchId, stagedContacts, googl
   }
 
   async function connectGoogle() {
-    if (!googleEnabled) return;
+    if (!googleEnabled) {
+      setStatus("Google Contacts está preparado, pero todavía falta activar el OAuth externo del producto.");
+      return;
+    }
     setBusy(true); setStatus("Abriendo Google para autorizar sólo lectura de contactos…");
     const supabase = createBrowserSupabase();
     const redirectTo = `${window.location.origin}/auth/callback?contacts=google&cofreId=${encodeURIComponent(cofreId)}&next=${encodeURIComponent(`/c/${cofreId}/people/import`)}`;
@@ -203,24 +257,37 @@ export default function PeopleImporter({ cofreId, batchId, stagedContacts, googl
 
   const selectedCount = selected.size;
   return <div className="people-import-stack">
-    <section className="people-sync-grid">
+    <div className="easy-import-steps" aria-label="Pasos para importar contactos">
+      <span><b>1</b> Elegí de dónde traerlos</span><span><b>2</b> Revisá la lista</span><span><b>3</b> Importá</span>
+    </div>
+
+    <section className="people-sync-grid easy-flow-grid">
+      <article className="sync-source-card sync-phone">
+        <span>MÁS RÁPIDO</span>
+        <h2>Elegir del teléfono</h2>
+        <p>Abrí tu agenda, marcá las personas y volvé al Cofre. No hace falta exportar ningún archivo.</p>
+        <button className="occasion-primary" type="button" onClick={pickPhoneContacts} disabled={busy || phonePickerAvailable === null}>{phonePickerAvailable === null ? "Comprobando…" : phonePickerAvailable ? "Elegir contactos" : "No disponible en este navegador"}</button>
+        <small>{phonePickerAvailable === false ? "Abrí esta misma pantalla desde Chrome en Android. Si no aparece, usá Google o vCard." : "Cofre sólo recibe los contactos que vos selecciones."}</small>
+      </article>
+
       <article className="sync-source-card sync-google">
         <span>GOOGLE CONTACTS</span>
-        <h2>Traer tu agenda</h2>
-        <p>Nombre, cumpleaños, email y teléfono cuando estén disponibles. Cofre pide acceso de sólo lectura.</p>
-        <button className="occasion-primary" type="button" onClick={connectGoogle} disabled={!googleEnabled || busy}>{googleEnabled ? "Conectar Google" : "Listo para activar OAuth"}</button>
-        {!googleEnabled && <small>La interfaz y el callback ya están preparados. Falta la configuración OAuth externa de Google/Supabase antes de habilitar este botón.</small>}
+        <h2>Conectar Google</h2>
+        <p>Ideal para importar muchos contactos desde PC o Android. Primero revisás la lista y elegís a quién sumar.</p>
+        <button className="occasion-secondary" type="button" onClick={connectGoogle} disabled={busy}>{googleEnabled ? "Conectar Google" : "Activación pendiente"}</button>
+        {!googleEnabled && <small>La integración está construida. Falta activar una vez el OAuth de Google/Supabase.</small>}
       </article>
-      <article className="sync-source-card">
-        <span>ARCHIVO</span>
+
+      <article className="sync-source-card sync-file">
+        <span>RESPALDO</span>
         <h2>vCard o CSV</h2>
-        <p>Sirve para exportaciones del teléfono, Google, Outlook u otra agenda. Nada se guarda hasta que confirmes.</p>
+        <p>Para iPhone, Outlook u otras agendas cuando no esté disponible el selector directo.</p>
         <label className="import-file-button">Elegir archivo<input type="file" accept=".vcf,.csv,text/vcard,text/csv" onChange={(e) => e.target.files?.[0] && readFile(e.target.files[0])}/></label>
       </article>
     </section>
 
     {contacts.length > 0 && <section className="import-review-panel">
-      <div className="import-review-head"><div><span>REVISAR ANTES DE GUARDAR</span><h2>{contacts.length} contactos encontrados</h2></div><b>{selectedCount} seleccionados</b></div>
+      <div className="import-review-head"><div><span>PASO 2 · REVISAR ANTES DE GUARDAR</span><h2>{contacts.length} contactos encontrados</h2></div><b>{selectedCount} seleccionados</b></div>
       {!batchId && <label className="import-global-relation">Vínculo por defecto<input value={relationship} onChange={(e) => setRelationship(e.target.value)} placeholder="Amigo, familia, trabajo…"/></label>}
       <div className="import-select-actions"><button type="button" onClick={() => setSelected(new Set(contacts.map((c) => c.key)))}>Seleccionar todos</button><button type="button" onClick={() => setSelected(new Set())}>Ninguno</button></div>
       <div className="import-contact-list">{contacts.map((c) => <label className="import-contact-row" key={c.key}>
