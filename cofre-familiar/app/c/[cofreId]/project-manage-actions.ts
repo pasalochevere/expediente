@@ -1,0 +1,34 @@
+"use server";
+import { revalidatePath } from "next/cache";
+import { getCofre } from "@/lib/cofre";
+
+function t(fd:FormData,key:string,max=5000){return String(fd.get(key)||"").trim().slice(0,max)}
+function n(v:string){return v||null}
+function num(v:string){const x=Number(v);return Number.isFinite(x)?x:null}
+function projectPath(cofreId:string,projectId:string){return `/c/${cofreId}/projects/${projectId}`}
+function refresh(cofreId:string,projectId:string){revalidatePath(projectPath(cofreId,projectId));revalidatePath(`/c/${cofreId}/projects`);revalidatePath(`/c/${cofreId}`)}
+
+export async function addProjectParticipant(fd:FormData){
+ const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64),identity=t(fd,"identity",120),role=t(fd,"role",30);const{db}=await getCofre(cofreId);
+ const validRole=new Set(["organizer","coorganizer","participant","contributor","guest","reviewer"]);let userId:string|null=null,personId:string|null=null;
+ if(identity.startsWith("user:"))userId=identity.slice(5);else if(identity.startsWith("person:"))personId=identity.slice(7);
+ const display=n(t(fd,"displayName",120)),email=n(t(fd,"email",240));if(!userId&&!personId&&!display&&!email)throw new Error("Elegí una persona/miembro o completá nombre/email.");
+ const{error}=await db.rpc("add_project_participant_secure",{p_project_id:projectId,p_user_id:userId,p_person_id:personId,p_display_name:display,p_email:email,p_role:validRole.has(role)?role:"participant"});if(error)throw new Error(error.message);refresh(cofreId,projectId)
+}
+
+export type ProjectLinkState={ok:boolean;url?:string;expiresAt?:string;error?:string};
+export async function createProjectContributionLink(_prev:ProjectLinkState,fd:FormData):Promise<ProjectLinkState>{
+ try{const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64),purpose=t(fd,"purpose",20),hours=Math.max(1,Math.min(8760,Number(t(fd,"hours",10))||168)),rawMax=t(fd,"maxUses",10);const maxUses=rawMax?Math.max(1,Math.min(10000,Number(rawMax)||1)):null;const{db}=await getCofre(cofreId);const safePurpose=purpose==="guest"?"guest":"contribute";const{data,error}=await db.rpc("create_project_access_link",{p_project_id:projectId,p_purpose:safePurpose,p_expires_hours:hours,p_max_uses:maxUses,p_permissions:{submit:true}});if(error)throw new Error(error.message);const row=Array.isArray(data)?data[0]:data as any;if(!row?.raw_token)throw new Error("No se generó el enlace.");const base=process.env.NEXT_PUBLIC_SITE_URL||"";refresh(cofreId,projectId);return{ok:true,url:`${base}/contribute/${encodeURIComponent(row.raw_token)}`,expiresAt:row.expires_at}}catch(e:any){return{ok:false,error:e?.message||"No se pudo generar el enlace."}}
+}
+export async function revokeProjectLink(fd:FormData){const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64),linkId=t(fd,"linkId",64);const{db}=await getCofre(cofreId);const{error}=await db.rpc("revoke_project_access_link",{p_link_id:linkId});if(error)throw new Error(error.message);refresh(cofreId,projectId)}
+export async function revealProject(fd:FormData){const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64);const{db}=await getCofre(cofreId);const{error}=await db.rpc("reveal_project_secure",{p_project_id:projectId});if(error)throw new Error(error.message);refresh(cofreId,projectId)}
+
+export async function addGiftIdea(fd:FormData){const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64),cost=t(fd,"cost",20),difficulty=t(fd,"difficulty",20);const{db,userId}=await getCofre(cofreId);const validCost=new Set(["free","low","medium","special"]),validDifficulty=new Set(["easy","medium","advanced"]);const days=num(t(fd,"days",10));const{error}=await db.from("gift_ideas").insert({cofre_id:cofreId,gift_project_id:projectId,idea_type:t(fd,"ideaType",40)||"custom",title:t(fd,"title",180),description:n(t(fd,"description",3000)),cost_level:validCost.has(cost)?cost:null,estimated_days:days===null?null:Math.max(0,Math.floor(days)),difficulty:validDifficulty.has(difficulty)?difficulty:null,generated_by:"member",created_by:userId,status:"proposed",metadata:{}});if(error)throw new Error(error.message);refresh(cofreId,projectId)}
+
+export async function addExperienceOption(fd:FormData){const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64),cost=t(fd,"cost",20),location=t(fd,"locationType",30);const{db,userId}=await getCofre(cofreId);const validCost=new Set(["free","low","medium","special"]),validLocation=new Set(["home","nearby","out","travel","custom"]);const duration=num(t(fd,"duration",10));const{error}=await db.from("experience_options").insert({cofre_id:cofreId,experience_project_id:projectId,title:t(fd,"title",180),description:n(t(fd,"description",3000)),estimated_cost_level:validCost.has(cost)?cost:null,estimated_duration_minutes:duration&&duration>0?Math.floor(duration):null,location_type:validLocation.has(location)?location:null,generated_by:"member",created_by:userId,status:"proposed",metadata:{}});if(error)throw new Error(error.message);refresh(cofreId,projectId)}
+export async function selectExperienceOption(fd:FormData){const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64),optionId=t(fd,"optionId",64);const{db}=await getCofre(cofreId);const{error}=await db.rpc("select_experience_option_secure",{p_experience_project_id:projectId,p_option_id:optionId});if(error)throw new Error(error.message);refresh(cofreId,projectId)}
+
+export async function createCreationRevision(fd:FormData){const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64);const{db}=await getCofre(cofreId);const configuration={notes:t(fd,"notes",5000),updated_from:"cofre-ui"};const{error}=await db.rpc("create_creation_revision_secure",{p_creation_project_id:projectId,p_configuration:configuration});if(error)throw new Error(error.message);refresh(cofreId,projectId)}
+export async function approveCreationRevision(fd:FormData){const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64),revisionId=t(fd,"revisionId",64);const{db}=await getCofre(cofreId);const{error}=await db.rpc("approve_creation_revision_secure",{p_revision_id:revisionId});if(error)throw new Error(error.message);refresh(cofreId,projectId)}
+
+export async function addCollaborationRequest(fd:FormData){const cofreId=t(fd,"cofreId",64),projectId=t(fd,"projectId",64),requestType=t(fd,"requestType",30);const{db,userId}=await getCofre(cofreId);const valid=new Set(["photo","video","audio","memory","message","letter","song","document","recipe","quote"]);const max=num(t(fd,"maxItems",10));const{error}=await db.from("collaboration_requests").insert({cofre_id:cofreId,room_project_id:projectId,request_type:valid.has(requestType)?requestType:"message",prompt:t(fd,"prompt",1000),required:Boolean(fd.get("required")),max_items:max&&max>0?Math.floor(max):null,due_at:n(t(fd,"dueAt",40)),position:0,created_by:userId});if(error)throw new Error(error.message);refresh(cofreId,projectId)}
