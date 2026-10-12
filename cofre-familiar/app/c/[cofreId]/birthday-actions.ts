@@ -119,7 +119,7 @@ export async function createBirthdayGift(fd: FormData) {
       db.from("person_preferences").select("label,category,sentiment").eq("person_id", person.id).eq("cofre_id", cofreId).is("deleted_at", null).limit(5),
       db.from("person_wishes").select("text,category").eq("person_id", person.id).eq("cofre_id", cofreId).is("deleted_at", null).limit(5),
     ]);
-    const preference = prefs?.find((p: any) => p.sentiment !== "negative")?.label || prefs?.[0]?.label;
+    const preference = prefs?.find((p: any) => p.sentiment === "love" || p.sentiment === "like")?.label;
     const wish = wishes?.[0]?.text;
     const ideas = [
       {
