@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout staging
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Rebuild staged archives
         shell: bash
@@ -23,21 +25,30 @@ jobs:
           set -euo pipefail
           mkdir -p recovered/payload recovered/runtime recovered/diagnostics
 
-          recover_set() {
+          # Payload: current verified 000-003 + historical tail 004005.
+          cat cofre-rc1/payload/chunk-000 \
+              cofre-rc1/payload/chunk-001 \
+              cofre-rc1/payload/chunk-002 \
+              cofre-rc1/payload/chunk-003 \
+              > recovered/diagnostics/payload.b64
+          git show 0e9d58315bd6d3fa0d30da9cab96dbd9d38efcee:cofre-rc1/payload/chunk-004005 \
+              >> recovered/diagnostics/payload.b64
+
+          # Runtime: latest three chunks.
+          cat cofre-rc1/runtime/chunk-* > recovered/diagnostics/runtime.b64
+
+          recover_b64() {
             local name="$1"
-            local src="cofre-rc1/$name"
             local b64="recovered/diagnostics/${name}.b64"
             local gz="recovered/diagnostics/${name}.gz"
             local decoded="recovered/diagnostics/${name}.decoded"
 
-            cat "$src"/chunk-* > "$b64"
             base64 -d "$b64" > "$gz"
             gzip -t "$gz"
             gzip -dc "$gz" > "$decoded"
 
             {
               echo "== $name =="
-              echo "chunks: $(find "$src" -maxdepth 1 -name 'chunk-*' | wc -l)"
               echo "base64 bytes: $(wc -c < "$b64")"
               echo "gzip bytes: $(wc -c < "$gz")"
               echo "decoded bytes: $(wc -c < "$decoded")"
@@ -59,11 +70,11 @@ jobs:
             echo >> recovered/diagnostics/report.txt
           }
 
-          recover_set payload
-          recover_set runtime
+          recover_b64 payload
+          recover_b64 runtime
 
           echo "== recovered tree ==" >> recovered/diagnostics/report.txt
-          find recovered/payload recovered/runtime -maxdepth 5 -type f -printf '%p\t%s bytes\n' | sort >> recovered/diagnostics/report.txt
+          find recovered/payload recovered/runtime -maxdepth 6 -type f -printf '%p\t%s bytes\n' | sort >> recovered/diagnostics/report.txt
 
       - name: Upload recovered COFRE RC1
         uses: actions/upload-artifact@v4
