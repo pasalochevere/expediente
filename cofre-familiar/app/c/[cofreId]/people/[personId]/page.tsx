@@ -17,8 +17,8 @@ export default async function PersonProfilePage({ params }: { params: Promise<{ 
     db.from("person_wishes").select("id,text,category,status,source_type").eq("person_id", personId).eq("cofre_id", cofreId).is("deleted_at", null).order("created_at", { ascending: false }),
   ]);
   const name = person.display_name || [person.first_name, person.last_name].filter(Boolean).join(" ");
-  const likes = (prefs || []).filter((p:any) => p.sentiment !== "negative");
-  const dislikes = (prefs || []).filter((p:any) => p.sentiment === "negative");
+  const likes = (prefs || []).filter((p:any) => p.sentiment === "love" || p.sentiment === "like" || p.sentiment === "neutral");
+  const dislikes = (prefs || []).filter((p:any) => p.sentiment === "dislike");
   return <div className="person-profile-page">
     <Link className="occasion-back" href={`/c/${cofreId}/people`}>← Volver a Personas</Link>
     <section className="person-profile-hero">
@@ -54,7 +54,7 @@ export default async function PersonProfilePage({ params }: { params: Promise<{ 
         <span>INTELIGENCIA PARA REGALOS</span><h2>Gustos y datos útiles</h2>
         <form action={addPersonPreference} className="intel-inline-form"><input type="hidden" name="cofreId" value={cofreId}/><input type="hidden" name="personId" value={personId}/>
           <select name="category" defaultValue="interest"><option value="interest">Interés</option><option value="hobby">Hobby</option><option value="food">Comida</option><option value="place">Lugar</option><option value="size">Talle / medida</option><option value="style">Estilo</option><option value="other">Otro</option></select>
-          <select name="sentiment" defaultValue="like"><option value="like">Le gusta</option><option value="negative">Evitar / no le gusta</option></select>
+          <select name="sentiment" defaultValue="like"><option value="like">Le gusta</option><option value="dislike">Evitar / no le gusta</option></select>
           <input name="label" required placeholder="Ej: café de especialidad, running, talle M…"/>
           <button className="occasion-primary" type="submit">Agregar</button>
         </form>
