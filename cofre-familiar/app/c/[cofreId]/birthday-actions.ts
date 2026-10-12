@@ -73,7 +73,7 @@ export async function createBirthdayGift(fd: FormData) {
   const cofreId = text(fd, "cofreId", 64);
   const dateId = text(fd, "dateId", 64);
   const prepared = await ensureCampaign(cofreId, dateId);
-  if (!prepared.date.person_id) throw new Error("Este cumpleaños todavía no está vinculado a una persona.");
+  if (!prepared.date.person_id) redirect(`/c/${cofreId}/people`);
   const { db, userId } = await getCofre(cofreId);
 
   const { data: person } = await db
@@ -82,7 +82,7 @@ export async function createBirthdayGift(fd: FormData) {
     .eq("id", prepared.date.person_id)
     .eq("cofre_id", cofreId)
     .single();
-  if (!person) throw new Error("Persona no encontrada.");
+  if (!person) redirect(`/c/${cofreId}/people`);
   const name = person.display_name || [person.first_name, person.last_name].filter(Boolean).join(" ") || "alguien especial";
   const horizon = prepared.days <= 7 ? "week" : prepared.days <= 31 ? "month" : "no_rush";
 
