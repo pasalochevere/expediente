@@ -1,15 +1,19 @@
 "use client";
-import { FormEvent, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 
 export default function LoginPage() {
   const router = useRouter();
-  const search = useSearchParams();
-  const next = search.get("next") || "/select";
+  const [next, setNext] = useState("/select");
   const [mode, setMode] = useState<"login"|"register">("login");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const candidate = new URLSearchParams(window.location.search).get("next");
+    if (candidate?.startsWith("/") && !candidate.startsWith("//")) setNext(candidate);
+  }, []);
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault(); setBusy(true); setMessage("");
@@ -24,7 +28,7 @@ export default function LoginPage() {
     if (mode === "register" && !result.data.session) {
       setMessage("Cuenta creada. Revisá tu correo para confirmar el acceso."); setBusy(false); return;
     }
-    router.replace(next.startsWith("/") ? next : "/select"); router.refresh();
+    router.replace(next); router.refresh();
   }
 
   return <main className="auth-screen"><section className="auth-card">
