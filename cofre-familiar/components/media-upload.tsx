@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 
 const MAX_BYTES = 25 * 1024 * 1024;
+type Tone = "idle" | "success" | "partial" | "error";
 
 function mediaKind(type: string) {
   if (type.startsWith("image/")) return "image";
@@ -22,6 +23,7 @@ export function MediaUpload({ cofreId }: { cofreId: string }) {
   const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
   const [state, setState] = useState("");
+  const [tone, setTone] = useState<Tone>("idle");
   const [busy, setBusy] = useState(false);
   const [dragging, setDragging] = useState(false);
 
@@ -30,9 +32,16 @@ export function MediaUpload({ cofreId }: { cofreId: string }) {
     if (!incoming.length) return;
     const tooBig = incoming.find(file => file.size > MAX_BYTES);
     const empty = incoming.find(file => !file.size);
-    if (empty) return setState(`“${empty.name}” está vacío.`);
-    if (tooBig) return setState(`“${tooBig.name}” supera 25 MB.`);
+    if (empty) {
+      setTone("error");
+      return setState(`“${empty.name}” está vacío.`);
+    }
+    if (tooBig) {
+      setTone("error");
+      return setState(`“${tooBig.name}” supera 25 MB.`);
+    }
     setFiles(incoming);
+    setTone("idle");
     setState("");
   }
 
@@ -48,34 +57,68 @@ export function MediaUpload({ cofreId }: { cofreId: string }) {
 
   async function uploadOne(file: File, index: number, total: number) {
     const supabase = createBrowserSupabase();
-    setState(`Preparando ${index + 1} de ${total} · ${file.name}`);
-    const { data: reservation, error: reserveError } = await supabase.functions.invoke("cofre-media-upload-url", {
-      body: { cofreId, kind: mediaKind(file.type), filename: file.name, mimeType: file.type || "application/octet-stream", sizeBytes: file.size },
-    });
-    if (reserveError || !reservation) throw new Error(reserveError?.message || "No pude reservar la subida.");
+    let mediaId: string | null = null;
+    try {
+      setTone("idle");
+      setState(`Preparando ${index + 1} de ${total} · ${file.name}`);
+      const { data: reservation, error: reserveError } = await supabase.functions.invoke("cofre-media-upload-url", {
+        body: { cofreId, kind: mediaKind(file.type), filename: file.name, mimeType: file.type || "application/octet-stream", sizeBytes: file.size },
+      });
+      if (reserveError || !reservation) throw new Error(reserveError?.message || "No pude reservar la subida.");
+      mediaId = reservation.mediaId;
 
-    setState(`Subiendo ${index + 1} de ${total} · ${file.name}`);
-    const signed = reservation.signedUpload;
-    const { error: uploadError } = await supabase.storage.from(reservation.bucket).uploadToSignedUrl(reservation.path, signed.token, file, {
-      contentType: file.type || "application/octet-stream",
-    });
-    if (uploadError) throw uploadError;
+      setState(`Subiendo ${index + 1} de ${total} · ${file.name}`);
+      const signed = reservation.signedUpload;
+      const { error: uploadError } = await supabase.storage.from(reservation.bucket).uploadToSignedUrl(reservation.path, signed.token, file, {
+        contentType: file.type || "application/octet-stream",
+      });
+      if (uploadError) throw uploadError;
 
-    setState(`Guardando ${index + 1} de ${total} · ${file.name}`);
-    const { error: finalError } = await supabase.functions.invoke("cofre-media-finalize", { body: { mediaId: reservation.mediaId } });
-    if (finalError) throw finalError;
+      setState(`Guardando ${index + 1} de ${total} · ${file.name}`);
+      const { error: finalError } = await supabase.functions.invoke("cofre-media-finalize", { body: { mediaId } });
+      if (finalError) throw finalError;
+    } catch (error) {
+      if (mediaId) {
+        await supabase.schema("cofre").rpc("cancel_my_media_upload_secure", {
+          p_cofre_id: cofreId,
+          p_media_id: mediaId,
+          p_reason: "client_upload_failed",
+        }).catch(() => null);
+      }
+      throw error;
+    }
   }
 
   async function uploadSelected() {
     if (!files.length || busy) return;
     setBusy(true);
+    const pending: File[] = [];
+    const messages: string[] = [];
+    let saved = 0;
+
     try {
-      for (let index = 0; index < files.length; index++) await uploadOne(files[index], index, files.length);
-      setState(files.length === 1 ? "Archivo guardado." : `${files.length} archivos guardados.`);
-      setFiles([]);
+      for (let index = 0; index < files.length; index++) {
+        try {
+          await uploadOne(files[index], index, files.length);
+          saved++;
+        } catch (error: any) {
+          pending.push(files[index]);
+          messages.push(error?.message || `No se pudo subir ${files[index].name}.`);
+        }
+      }
+
+      setFiles(pending);
+      if (!pending.length) {
+        setTone("success");
+        setState(saved === 1 ? "Archivo guardado." : `${saved} archivos guardados.`);
+      } else if (saved) {
+        setTone("partial");
+        setState(`${saved} ${saved === 1 ? "archivo guardado" : "archivos guardados"} · ${pending.length} ${pending.length === 1 ? "quedó pendiente" : "quedaron pendientes"}. Podés reintentar sólo los pendientes.`);
+      } else {
+        setTone("error");
+        setState(messages[0] || "No se pudo completar la subida. La carga incompleta fue descartada.");
+      }
       router.refresh();
-    } catch (error: any) {
-      setState(error?.message || "No se pudo completar la subida.");
     } finally {
       setBusy(false);
     }
@@ -100,6 +143,6 @@ export function MediaUpload({ cofreId }: { cofreId: string }) {
       <button className="primary" type="button" onClick={uploadSelected} disabled={busy}>{busy ? "Subiendo…" : files.length === 1 ? "Guardar archivo" : `Guardar ${files.length} archivos`}</button>
     </div>}
 
-    {state && <p className={`media-upload-state ${state.includes("guardado") ? "success" : ""}`}>{state}</p>}
+    {state && <p className={`media-upload-state ${tone}`}>{state}</p>}
   </div>;
 }
