@@ -11,8 +11,12 @@ export default function LoginPage() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const candidate = new URLSearchParams(window.location.search).get("next");
+    const params = new URLSearchParams(window.location.search);
+    const candidate = params.get("next");
     if (candidate?.startsWith("/") && !candidate.startsWith("//")) setNext(candidate);
+    if (params.get("error") === "auth_callback") {
+      setMessage("No pude completar la confirmación. Probá ingresar nuevamente o pedí un nuevo enlace.");
+    }
   }, []);
 
   async function submit(e: FormEvent<HTMLFormElement>) {
@@ -23,7 +27,11 @@ export default function LoginPage() {
     const supabase = createBrowserSupabase();
     const result = mode === "login"
       ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password });
+      : await supabase.auth.signUp({
+          email,
+          password,
+          options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+        });
     if (result.error) { setMessage(result.error.message); setBusy(false); return; }
     if (mode === "register" && !result.data.session) {
       setMessage("Cuenta creada. Revisá tu correo para confirmar el acceso."); setBusy(false); return;
