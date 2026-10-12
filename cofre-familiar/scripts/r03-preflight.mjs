@@ -33,7 +33,7 @@ const notif=read('app/c/[cofreId]/notification-actions.ts'),dates=read('app/c/[c
 add('R03 notification preferences action',notif.includes('notification_preferences')&&notif.includes('emotional_frequency'));
 add('R03 notification preferences UI',read('app/c/[cofreId]/notifications/page.tsx').includes('Guardar preferencias'));
 add('R03 configurable date reminders',dates.includes('getAll("reminderDays")')&&read('app/c/[cofreId]/dates/page.tsx').includes('Actualizar avisos'));
-add('R03 dynamic home upcoming dates',home.includes('Lo próximo')&&home.includes('nextOccurrence'));
-add('R03 dynamic home future openings',home.includes('Se abre pronto')&&home.includes('capsules')&&home.includes('letters'));
-add('R03 dynamic home anniversaries',home.includes('Hoy hace')&&home.includes('datedMemories'));
+add('R03 dynamic home upcoming dates',home.includes('nextOccurrence')&&home.includes('otherDates')&&home.includes('CALENDARIO EMOCIONAL'));
+add('R03 dynamic home future openings',home.includes('future=')&&home.includes('capsules')&&home.includes('letters')&&home.includes('Lo que espera su momento'));
+add('R03 dynamic home anniversaries',home.includes('anniversaries=')&&home.includes('datedMemories')&&home.includes('Hoy en tu historia'));
 let pass=0;for(const[n,ok]of checks){console.log(`${ok?'PASS':'FAIL'} · ${n}`);if(ok)pass++}console.log(`\n${pass} PASS / ${checks.length-pass} FAIL · ${checks.length} R03 checks`);if(pass!==checks.length)process.exit(1);
