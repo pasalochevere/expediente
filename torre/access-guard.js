@@ -4,7 +4,7 @@
   const PORTAL = 'https://pasalochevere.github.io/expediente/portal-v2/';
   const SUPABASE_URL = 'https://fzbndgfnqxcacsvlitui.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
-  const PRODUCT_CODES = new Set(['TORRE-MEGA', 'T5XL-001']);
+  const PRODUCT_CODES = new Set(['TORRE-MEGA', 'T5XL-001', 'MONSTER-001']);
   const DEVICE_KEY = 'pc_device_id';
 
   function getDeviceId() {
@@ -119,7 +119,7 @@
     );
 
     if (!license) {
-      showGate('Esta cuenta no tiene una licencia activa para MEGA PACK VERDAD O RETO +800 o 5 EN 1 XL + DIGITAL.', true);
+      showGate('Esta cuenta no tiene una licencia activa para VERDAD O RETO +800, MONSTER + DIGITAL o 5 EN 1 XL + DIGITAL.', true);
       return;
     }
 
