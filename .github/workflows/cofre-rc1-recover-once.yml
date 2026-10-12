@@ -25,31 +25,45 @@ jobs:
           set -euo pipefail
           mkdir -p recovered/payload recovered/runtime recovered/diagnostics
 
-          # Payload: current verified 000-003 + historical tail 004005.
           cat cofre-rc1/payload/chunk-000 \
               cofre-rc1/payload/chunk-001 \
               cofre-rc1/payload/chunk-002 \
               cofre-rc1/payload/chunk-003 \
-              > recovered/diagnostics/payload.b64
+              > recovered/diagnostics/payload.raw
           git show 0e9d58315bd6d3fa0d30da9cab96dbd9d38efcee:cofre-rc1/payload/chunk-004005 \
-              >> recovered/diagnostics/payload.b64
+              >> recovered/diagnostics/payload.raw
 
-          # Runtime: latest three chunks.
-          cat cofre-rc1/runtime/chunk-* > recovered/diagnostics/runtime.b64
+          cat cofre-rc1/runtime/chunk-* > recovered/diagnostics/runtime.raw
 
-          recover_b64() {
+          decode_b64() {
             local name="$1"
-            local b64="recovered/diagnostics/${name}.b64"
+            python3 - "$name" <<'PY'
+          import base64, pathlib, string, sys
+          name=sys.argv[1]
+          p=pathlib.Path(f"recovered/diagnostics/{name}.raw")
+          raw=p.read_bytes()
+          alphabet=set((string.ascii_letters+string.digits+'+/=').encode())
+          clean=bytes(b for b in raw if b in alphabet)
+          removed=[b for b in raw if b not in alphabet]
+          clean += b'=' * ((-len(clean)) % 4)
+          pathlib.Path(f"recovered/diagnostics/{name}.b64").write_bytes(clean)
+          decoded=base64.b64decode(clean, validate=True)
+          pathlib.Path(f"recovered/diagnostics/{name}.gz").write_bytes(decoded)
+          with open("recovered/diagnostics/report.txt","a",encoding="utf-8") as f:
+              f.write(f"== {name} base64 ==\n")
+              f.write(f"raw bytes: {len(raw)}\n")
+              f.write(f"clean base64 bytes: {len(clean)}\n")
+              f.write(f"removed bytes: {len(removed)}\n")
+              if removed:
+                  f.write("removed byte values: "+repr(sorted(set(removed)))+"\n")
+          PY
+
             local gz="recovered/diagnostics/${name}.gz"
             local decoded="recovered/diagnostics/${name}.decoded"
-
-            base64 -d "$b64" > "$gz"
             gzip -t "$gz"
             gzip -dc "$gz" > "$decoded"
 
             {
-              echo "== $name =="
-              echo "base64 bytes: $(wc -c < "$b64")"
               echo "gzip bytes: $(wc -c < "$gz")"
               echo "decoded bytes: $(wc -c < "$decoded")"
               file "$gz"
@@ -70,11 +84,11 @@ jobs:
             echo >> recovered/diagnostics/report.txt
           }
 
-          recover_b64 payload
-          recover_b64 runtime
+          decode_b64 payload
+          decode_b64 runtime
 
           echo "== recovered tree ==" >> recovered/diagnostics/report.txt
-          find recovered/payload recovered/runtime -maxdepth 6 -type f -printf '%p\t%s bytes\n' | sort >> recovered/diagnostics/report.txt
+          find recovered/payload recovered/runtime -maxdepth 8 -type f -printf '%p\t%s bytes\n' | sort >> recovered/diagnostics/report.txt
 
       - name: Upload recovered COFRE RC1
         uses: actions/upload-artifact@v4
