@@ -27,6 +27,7 @@ const DESC={
  mockup:isEN?'Finished reference':'Referencia terminada'
 };
 const SHEETS=new Set(['front_print','back_print','coloring','coloring_back','character_card','tutorial']);
+const MIMI_PREVIEW_BASE='https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.8/previews/ocean_buddies/mimi/';
 let state={open:false,ch:null,index:0};
 
 const css=document.createElement('style');
@@ -74,6 +75,8 @@ document.body.appendChild(root);
 const q=id=>document.getElementById(id);
 const oldViewer=()=>document.getElementById('viewer');
 function assetOf(ch,key){return ch?.assets?.[key]?.path||''}
+function isMimi(ch){return !!ch&&String(ch.name||'').trim()==='Mimi Medusa'}
+function displayAssetOf(ch,key){return isMimi(ch)?MIMI_PREVIEW_BASE+key+'.webp':assetOf(ch,key)}
 function matchCharacterBySrc(src){if(!src)return null;src=String(src).split('?')[0];for(const ch of LIB.characters){for(const key of ORDER){const p=assetOf(ch,key);if(p&&src===String(p).split('?')[0])return ch;}}return null}
 function matchCharacterByName(){const text=[...document.querySelectorAll('h1,h2,h3,[id*=Name],[id*=name]')].filter(x=>x.offsetParent!==null).map(x=>x.textContent.trim()).join(' · ');return LIB.characters.find(ch=>text.includes(ch.name))||null}
 function detectCharacter(){
@@ -85,18 +88,18 @@ function detectCharacter(){
 function viewIndexFromSrc(ch,src){src=String(src||'').split('?')[0];const i=ORDER.findIndex(k=>String(assetOf(ch,k)).split('?')[0]===src);return i>=0?i:0}
 function render(){
  const ch=state.ch;if(!ch)return;
- const key=ORDER[state.index],src=assetOf(ch,key);
+ const key=ORDER[state.index],src=displayAssetOf(ch,key);
  q('v28Name').textContent=ch.name||'Paper Squishy';q('v28Label').textContent=LABELS[key];q('v28Desc').textContent=DESC[key];q('v28Count').textContent=(state.index+1)+' / 9';
- const media=q('v28Media');media.className='v28-media '+(SHEETS.has(key)?'sheet':'art');const img=q('v28Image');img.src=src;img.alt=LABELS[key]+' · '+ch.name;
+ const media=q('v28Media');media.className='v28-media '+(SHEETS.has(key)?'sheet':'art');const img=q('v28Image');img.onerror=()=>{const fallback=assetOf(ch,key);if(fallback&&img.src!==fallback)img.src=fallback};img.src=src;img.alt=LABELS[key]+' · '+ch.name;
  q('v28Print').style.display=SHEETS.has(key)?'inline-block':'none';
  const thumbs=q('v28Thumbs');thumbs.innerHTML='';
- ORDER.forEach((k,i)=>{const p=assetOf(ch,k);if(!p)return;const b=document.createElement('button');b.className='v28-thumb '+(SHEETS.has(k)?'sheet ':'')+(i===state.index?'active':'');b.innerHTML='<img alt=""><span></span>';b.querySelector('img').src=p;b.querySelector('img').alt=LABELS[k];b.querySelector('span').textContent=LABELS[k];b.onclick=()=>{state.index=i;render();setTimeout(()=>b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'}),0)};thumbs.appendChild(b)});
+ ORDER.forEach((k,i)=>{const p=displayAssetOf(ch,k);if(!p)return;const b=document.createElement('button');b.className='v28-thumb '+(SHEETS.has(k)?'sheet ':'')+(i===state.index?'active':'');b.innerHTML='<img alt=""><span></span>';b.querySelector('img').onerror=()=>{const fallback=assetOf(ch,k);if(fallback&&b.querySelector('img').src!==fallback)b.querySelector('img').src=fallback};b.querySelector('img').src=p;b.querySelector('img').alt=LABELS[k];b.querySelector('span').textContent=LABELS[k];b.onclick=()=>{state.index=i;render();setTimeout(()=>b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'}),0)};thumbs.appendChild(b)});
 }
 function open(ch,index=0){if(!ch)return;state={open:true,ch,index:Math.max(0,Math.min(8,index))};const ov=oldViewer();if(ov)ov.classList.add('psq-v28-suppressed');root.classList.add('on');document.documentElement.style.overflow='hidden';render();}
 function close(){state.open=false;root.classList.remove('on');document.documentElement.style.overflow='';const ov=oldViewer();if(ov){ov.classList.remove('psq-v28-suppressed');ov.classList.add('hidden');ov.style.display='';}}
 function move(d){state.index=(state.index+d+9)%9;render()}
 q('v28Prev').onclick=()=>move(-1);q('v28Next').onclick=()=>move(1);q('v28Close').onclick=close;q('v28Back').onclick=close;
-q('v28Print').onclick=()=>window.print();
+q('v28Print').onclick=()=>{const key=ORDER[state.index],src=assetOf(state.ch,key);if(!src)return;const w=window.open('','_blank');if(!w)return;w.document.write('<!doctype html><title>Imprimir</title><style>html,body{margin:0;background:white}body{display:grid;place-items:center;min-height:100vh}img{display:block;max-width:210mm;max-height:297mm;object-fit:contain}@page{size:A4;margin:0}</style><img src="'+src+'" onload="setTimeout(()=>window.print(),250)">');w.document.close();};
 window.addEventListener('keydown',e=>{if(!state.open)return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1)});
 
 function patchEntryButtons(){
