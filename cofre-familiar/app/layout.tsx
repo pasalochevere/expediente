@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./r04.css";
+import "./r04-5.css";
 
 export const metadata: Metadata = {
   title: { default: "Cofre Familiar", template: "%s · Cofre Familiar" },
