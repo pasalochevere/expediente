@@ -1,0 +1,29 @@
+name: PSQ Bump V27R1 Cache
+on:
+  push:
+    paths:
+      - '.github/workflows/psq-bump-v27r1.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bump PSQ catalog cache key
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('paper-squishy/factory.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('psq-catalog-v27.js?v=2702','psq-catalog-v27.js?v=2711')
+          s=s.replace('PSQ 2.7 · Creator Plus · 60 personajes','PSQ 2.7R1 · Creator Plus · 60 personajes')
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'lunchpack-arg'
+          git config user.email 'pasalochevere@gmail.com'
+          git add paper-squishy/factory.html
+          git commit -m 'fix(psq): activate normalized 9-view v2.7R1' || exit 0
+          git push
