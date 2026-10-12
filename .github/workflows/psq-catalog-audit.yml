@@ -1,0 +1,56 @@
+name: PSQ Catalog Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/psq-catalog-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch current PSQ core and inspect catalog
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit
+          CORE='https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/factory-core.html?v=2424'
+          curl -L --fail --silent --show-error "$CORE" -o audit/factory-core.html
+          python - <<'PY'
+          from pathlib import Path
+          import re, json, hashlib
+          p=Path('audit/factory-core.html')
+          txt=p.read_text(encoding='utf-8',errors='replace')
+          out=[]
+          out.append(f'bytes={p.stat().st_size}')
+          out.append(f'sha256={hashlib.sha256(p.read_bytes()).hexdigest()}')
+          # candidate URLs and storage paths
+          urls=sorted(set(re.findall(r'https://[^\"\'\\s<>]+',txt)))
+          out.append('\n[URLS]')
+          out.extend(urls)
+          # likely catalog/character declarations and collection names
+          out.append('\n[CATALOG_LINES]')
+          for i,line in enumerate(txt.splitlines(),1):
+              low=line.lower()
+              if any(k in low for k in ['collections','characters','sweet','food squad','animal cuties','cosmic friends','magic objects','front_print','back_print','editor_asset','character_card','tutorial','mockup','library']):
+                  out.append(f'{i}: {line[:1000]}')
+          # slugs around asset webp paths
+          out.append('\n[WEBP_PATHS]')
+          webps=sorted(set(re.findall(r'[A-Za-z0-9_./-]+\.webp',txt)))
+          out.extend(webps)
+          # strings ending in likely json
+          out.append('\n[JSON_PATHS]')
+          out.extend(sorted(set(re.findall(r'[A-Za-z0-9_./-]+\.json',txt))))
+          Path('audit/audit.txt').write_text('\n'.join(out),encoding='utf-8')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: psq-catalog-audit
+          path: audit/
+          retention-days: 2
