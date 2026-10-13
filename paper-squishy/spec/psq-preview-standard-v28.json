@@ -1,0 +1,95 @@
+{
+  "standard_id": "PSQ-APP-V2.8R2A",
+  "status": "LOCKED",
+  "canvas": {
+    "width_px": 1600,
+    "height_px": 1600,
+    "color_space": "sRGB",
+    "format": "webp",
+    "quality_min": 90,
+    "quality_max": 92,
+    "preferred_max_bytes": 921600,
+    "hard_max_bytes": 1258291,
+    "background_color": "#FFF9F1",
+    "safe_margin_px": 120
+  },
+  "views": [
+    "hero",
+    "front_print",
+    "back_print",
+    "coloring",
+    "coloring_back",
+    "editor_asset",
+    "character_card",
+    "tutorial",
+    "mockup"
+  ],
+  "occupancy": {
+    "hero_editor_mockup": {
+      "target_ratio": 0.76,
+      "min_ratio": 0.72,
+      "max_ratio": 0.80,
+      "max_center_drift_px": 24
+    },
+    "front_back": {
+      "target_ratio": 0.78,
+      "shared_scale": true,
+      "max_pair_size_delta_ratio": 0.03,
+      "max_center_delta_px": 20
+    },
+    "coloring_front_back": {
+      "target_ratio": 0.78,
+      "shared_scale": true,
+      "max_pair_size_delta_ratio": 0.025,
+      "max_center_delta_px": 16
+    }
+  },
+  "geometry": {
+    "true_back_required": true,
+    "mirror_back_at_asset_generation_when_required": true,
+    "viewer_must_not_mirror_back": true,
+    "cutline_offset_mm_min": 2,
+    "cutline_offset_mm_max": 3,
+    "same_physical_silhouette_system": true
+  },
+  "character_card": {
+    "character_height_ratio_min": 0.58,
+    "character_height_ratio_max": 0.64,
+    "character_width_ratio_min": 0.60,
+    "avoid_large_blank_regions": true
+  },
+  "tutorial": {
+    "benchmark": "legacy_donita_style",
+    "title_template": "Cómo armar a {character_name}",
+    "steps": ["Imprimí", "Recortá", "Pegá", "Rellená", "Cerrá"],
+    "min_body_text_px": 34,
+    "min_step_label_px": 30,
+    "requires_visual_per_step": true,
+    "forbid_full_a4_screenshot_preview": true,
+    "avoid_large_blank_regions": true
+  },
+  "viewer": {
+    "required_view_count": 9,
+    "thumbnail_object_fit": "contain",
+    "desktop_long_side_px_min": 600,
+    "desktop_long_side_px_max": 760,
+    "mobile_width_ratio_min": 0.80,
+    "mobile_width_ratio_max": 0.90,
+    "print_uses_original_assets_only": true
+  },
+  "storage": {
+    "preview_path_template": "v2.8/previews/{collection_slug}/{character_slug}/{asset_key}.webp"
+  },
+  "qa_fail_if": [
+    "missing_preview",
+    "coloring_pair_size_delta_gt_0.025",
+    "front_back_pair_size_delta_gt_0.03",
+    "subject_clipped_or_inside_safe_margin",
+    "subject_visibly_off_center",
+    "back_is_front_facing_art",
+    "viewer_double_mirrors_back",
+    "tutorial_is_sparse_a4_page",
+    "thumbnail_uses_inconsistent_scale",
+    "print_resolves_to_preview"
+  ]
+}
