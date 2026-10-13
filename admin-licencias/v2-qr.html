@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PasaloChevere · Admin Maestro de Licencias</title>
+<style>
+html,body{margin:0;width:100%;height:100%;background:#0d0e10;overflow:hidden}iframe{border:0;width:100%;height:100%;display:block;background:#0d0e10}
+</style>
+</head>
+<body>
+<iframe id="adminFrame" src="./v2.html" title="Admin Maestro de Licencias"></iframe>
+<script>
+const PORTAL='https://pasalochevere.github.io/expediente/portal-v2/';
+const frame=document.getElementById('adminFrame');
+function safe(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function licenseData(doc){
+  const code=doc.getElementById('purchaseCode')?.textContent?.trim()||'';
+  const product=doc.getElementById('resultTitle')?.textContent?.trim()||'PasaloChevere';
+  const meta=doc.getElementById('resultMeta')?.textContent?.trim()||'';
+  const saleRef=doc.getElementById('saleRef')?.value?.trim()||'';
+  return {code,product,meta,saleRef};
+}
+function printLabels(doc,copies){
+  const d=licenseData(doc); if(!d.code){alert('Primero generá o recuperá un código de activación.');return}
+  const qrUrl=PORTAL+'?code='+encodeURIComponent(d.code);
+  const labels=Array.from({length:copies},(_,i)=>`<article class="label"><div class="brand">PASALOCHEVERE</div><div class="product">${safe(d.product)}</div><div class="body"><div id="qr${i}" class="qr"></div><div class="info"><div class="kicker">CÓDIGO DE ACTIVACIÓN</div><div class="code">${safe(d.code)}</div>${d.saleRef?`<div class="ref">Ref. ${safe(d.saleRef)}</div>`:''}<div class="steps">1. Escaneá el QR<br>2. Verificá tu email<br>3. Activá con este código</div></div></div><div class="foot">${safe(PORTAL.replace('https://',''))}</div></article>`).join('');
+  const w=window.open('','_blank','width=1000,height=800'); if(!w){alert('El navegador bloqueó la ventana de impresión. Habilitá ventanas emergentes para este sitio.');return}
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Etiquetas QR · ${safe(d.code)}</title><style>
+  @page{size:A4;margin:8mm}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#111;background:#fff}.sheet{display:grid;grid-template-columns:${copies===1?'1fr':'1fr 1fr'};gap:6mm;align-content:start}.label{border:1.2px solid #111;border-radius:4mm;padding:5mm;min-height:${copies===1?'92mm':'62mm'};break-inside:avoid}.brand{font-size:10pt;font-weight:900;letter-spacing:.12em}.product{font-size:${copies===1?'17pt':'12pt'};font-weight:900;margin:2mm 0 4mm}.body{display:flex;gap:5mm;align-items:center}.qr{width:${copies===1?'42mm':'29mm'};height:${copies===1?'42mm':'29mm'};display:flex;align-items:center;justify-content:center}.qr img,.qr canvas{max-width:100%!important;max-height:100%!important}.info{flex:1}.kicker{font-size:7.5pt;font-weight:800;letter-spacing:.08em}.code{font-family:monospace;font-size:${copies===1?'18pt':'12pt'};font-weight:900;margin:2mm 0;word-break:break-all}.ref{font-size:7.5pt;margin-bottom:2mm}.steps{font-size:${copies===1?'10pt':'8pt'};line-height:1.4}.foot{font-size:7pt;margin-top:4mm;border-top:1px solid #bbb;padding-top:2mm}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  </style><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script></head><body><main class="sheet">${labels}</main><script>window.onload=function(){for(let i=0;i<${copies};i++)new QRCode(document.getElementById('qr'+i),{text:${JSON.stringify(qrUrl)},width:${copies===1?190:130},height:${copies===1?190:130},correctLevel:QRCode.CorrectLevel.M});setTimeout(()=>window.print(),500)};<\/script></body></html>`);
+  w.document.close();
+}
+function install(){
+  const doc=frame.contentDocument; if(!doc)return;
+  const result=doc.getElementById('resultCard'); if(!result)return;
+  const actions=result.querySelector('.actions'); if(!actions||doc.getElementById('printQrBtn'))return;
+  const mk=(id,text,primary=false)=>{const b=doc.createElement('button');b.id=id;b.type='button';b.className=primary?'btn primary':'btn';b.textContent=text;return b};
+  const one=mk('printQrBtn','IMPRIMIR ETIQUETA QR',true);one.onclick=()=>printLabels(doc,1);
+  const sheet=mk('printQrSheetBtn','IMPRIMIR HOJA · 8');sheet.onclick=()=>printLabels(doc,8);
+  const pdf=mk('saveQrPdfBtn','GUARDAR PDF');pdf.onclick=()=>{printLabels(doc,1);setTimeout(()=>alert('En el cuadro de impresión elegí “Guardar como PDF”.'),300)};
+  actions.insertBefore(one,actions.firstChild); actions.insertBefore(sheet,one.nextSibling); actions.insertBefore(pdf,sheet.nextSibling);
+  const note=doc.createElement('div');note.id='qrPrintHint';note.className='msg';note.textContent='QR restaurado: la etiqueta incluye el código de activación y abre el Portal PasaloChevere.';actions.insertAdjacentElement('afterend',note);
+}
+frame.addEventListener('load',()=>{install();setTimeout(install,800);setInterval(install,2500)});
+</script>
+</body>
+</html>
