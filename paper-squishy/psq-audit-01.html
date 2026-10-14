@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PSQ-AUDIT 0.1 · Functional Smoke + Button Map</title>
+<style>
+:root{--bg:#fff8ee;--ink:#34251f;--muted:#78685f;--line:#e7d7ca;--ok:#238c5b;--bad:#b93c39;--warn:#a66b00;--yellow:#ffd45b;--blue:#2a7697}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Arial,sans-serif}.wrap{max-width:1180px;margin:auto;padding:24px}.hero,.card{background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:0 14px 38px rgba(70,48,35,.07)}.hero{padding:26px}.ey{font-size:11px;font-weight:1000;letter-spacing:.14em;color:#ff7467}.hero h1{margin:6px 0 8px;font-size:clamp(34px,5vw,54px)}.hero p{margin:0;color:var(--muted);line-height:1.5}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{border:2px solid var(--ink);border-radius:14px;padding:10px 14px;background:#fff;color:var(--ink);font-weight:900;text-decoration:none;cursor:pointer}.btn.primary{background:var(--yellow);box-shadow:3px 3px 0 var(--ink)}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.stat{padding:15px;text-align:center;border:1px solid var(--line);background:#fff;border-radius:18px}.stat b{display:block;font-size:25px}.stat span{font-size:10px;color:var(--muted);font-weight:900}.card{padding:18px;margin-top:16px}.card h2{margin:0 0 12px;font-size:23px}.row{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:12px;padding:10px 0;border-bottom:1px solid #f0e7df}.row:last-child{border:0}.row small{display:block;color:var(--muted);margin-top:3px;line-height:1.4}.state{text-align:right;font-weight:1000}.PASS{color:var(--ok)}.FAIL{color:var(--bad)}.WARN,.REVIEW{color:var(--warn)}.PENDING{color:var(--blue)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:9px 7px;border-bottom:1px solid #eee}th{font-size:10px;letter-spacing:.07em;color:var(--muted)}code{font-family:ui-monospace,Consolas,monospace;background:#f7f1eb;border-radius:6px;padding:2px 5px}.note{padding:13px 15px;border-radius:15px;background:#fff4cf;border:1px solid #ead38b;color:#6b5614;margin-top:12px}#frame{position:fixed;width:1280px;height:900px;left:-99999px;top:0;border:0;visibility:hidden}.log{background:#1d1714;color:#f4ece7;border-radius:16px;padding:14px;white-space:pre-wrap;max-height:250px;overflow:auto;font:12px ui-monospace,Consolas,monospace}@media(max-width:700px){.summary{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr 80px}.wrap{padding:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero"><div class="ey">PSQ-AUDIT 0.1 · SELLABLE QA</div><h1>Functional Smoke + Button Map</h1><p>Auditoría no destructiva de PAPER SQUISHY FACTORY. Valida estructura, catálogo, hotfixes, botones críticos, Creator Plus, visor, impresión, descargas e idioma. No modifica personajes ni archivos.</p><div class="actions"><button id="run" class="btn primary">EJECUTAR AUDITORÍA</button><a class="btn" href="./factory.html" target="_blank">ABRIR FACTORY</a><a class="btn" href="./downloads.html" target="_blank">ABRIR DESCARGAS</a></div></section>
+<section class="summary"><div class="stat"><b id="pass">0</b><span>PASS</span></div><div class="stat"><b id="warn">0</b><span>WARN / REVIEW</span></div><div class="stat"><b id="fail">0</b><span>FAIL</span></div><div class="stat"><b id="total">0</b><span>CONTROLES</span></div></section>
+<section class="card"><h2>Resultado</h2><div id="checks"></div></section>
+<section class="card"><h2>Button Map</h2><table><thead><tr><th>Zona</th><th>Control</th><th>Selector</th><th>Estado</th></tr></thead><tbody id="map"></tbody></table><div class="note">Los controles de impresión que abren el diálogo nativo del navegador se marcan REVIEW: el smoke valida que existan y estén cableados, pero no fuerza una impresión real.</div></section>
+<section class="card"><h2>Registro</h2><div id="log" class="log">Listo para ejecutar.</div></section>
+</div>
+<iframe id="frame" title="PSQ audit sandbox"></iframe>
+<script>
+const $=s=>document.querySelector(s),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let counts={PASS:0,WARN:0,REVIEW:0,FAIL:0,PENDING:0};
+function reset(){counts={PASS:0,WARN:0,REVIEW:0,FAIL:0,PENDING:0};$('#checks').innerHTML='';$('#map').innerHTML='';$('#log').textContent='';paint()}
+function paint(){$('#pass').textContent=counts.PASS;$('#warn').textContent=counts.WARN+counts.REVIEW;$('#fail').textContent=counts.FAIL;$('#total').textContent=Object.values(counts).reduce((a,b)=>a+b,0)}
+function log(s){$('#log').textContent+=(($('#log').textContent?'\n':'')+s)}
+function add(name,state,detail=''){counts[state]=(counts[state]||0)+1;paint();const r=document.createElement('div');r.className='row';r.innerHTML='<div><b>'+name+'</b><small>'+detail+'</small></div><div class="state '+state+'">'+state+'</div>';$('#checks').appendChild(r);log(state+' · '+name+(detail?' · '+detail:''))}
+function map(zone,label,selector,state){const tr=document.createElement('tr');tr.innerHTML='<td>'+zone+'</td><td><b>'+label+'</b></td><td><code>'+selector.replaceAll('<','&lt;')+'</code></td><td class="'+state+'"><b>'+state+'</b></td>';$('#map').appendChild(tr)}
+function textButton(doc,re){return [...doc.querySelectorAll('button,a')].find(el=>re.test((el.textContent||'').trim()))||null}
+async function waitFor(fn,ms=18000,step=250){const t=Date.now();while(Date.now()-t<ms){try{const v=fn();if(v)return v}catch{}await sleep(step)}return null}
+async function audit(){reset();$('#run').disabled=true;$('#run').textContent='AUDITANDO…';
+ try{
+  const frame=$('#frame');frame.src='./factory.html?audit=01&t='+Date.now();
+  const win=await waitFor(()=>frame.contentWindow&&frame.contentWindow.document?.body&&frame.contentWindow,20000);
+  if(!win){add('Factory carga en sandbox','FAIL','No se obtuvo DOM de la Factory.');return}
+  const doc=win.document;
+  const lib=await waitFor(()=>win.PS_LIBRARY&&Array.isArray(win.PS_LIBRARY.characters)&&win.PS_LIBRARY,20000);
+  const path=win.location.pathname;
+  if(path.includes('/portal-v2/')) add('Sesión / licencia para QA','WARN','El sandbox fue redirigido al Portal; parte del smoke dinámico no puede ejecutarse sin una sesión PSQ válida.');
+  else add('Factory accesible','PASS','Carga actual: '+path);
+
+  if(lib){
+   const chars=lib.characters||[],cols=lib.collections||[];
+   add('Catálogo · 60 personajes',chars.length===60?'PASS':'FAIL','Detectados: '+chars.length);
+   add('Catálogo · 6 colecciones',cols.length===6?'PASS':'FAIL','Detectadas: '+cols.length);
+   const keys=['hero','front_print','back_print','coloring','coloring_back','editor_asset','character_card','tutorial','mockup'];
+   const missing=[];for(const ch of chars){for(const k of keys){if(!ch?.assets?.[k]?.path)missing.push((ch.name||ch.slug||'?')+' · '+k)}}
+   add('Catálogo · 9 vistas por personaje',missing.length?'WARN':'PASS',missing.length?('Faltantes declarados: '+missing.length+' · '+missing.slice(0,8).join(', ')):('540/540 rutas declaradas'));
+  }else add('PS_LIBRARY disponible','FAIL','No se cargó la biblioteca dentro del tiempo de espera.');
+
+  const expected=[
+   ['Navegación','Inicio','[data-go="home"]'],['Navegación','Personajes','[data-go="library"]'],['Navegación','Creator Plus','#headerCreateBtn'],['Navegación','Mis descargas','.psq-download-nav'],
+   ['Inicio','Crear en Creator Plus','#blankStartBtn'],['Inicio','Mis descargas','.psq-download-home'],
+   ['Personaje','Galería','#galleryBtn'],['Personaje','Colorear frente','#colorBtn'],['Personaje','Colorear dorso','#colorBackBtn'],
+   ['Visor','Anterior','#v28Prev'],['Visor','Siguiente','#v28Next'],['Visor','Cerrar','#v28Close'],['Visor','Imprimir hoja','#v28Print'],['Visor','Volver al personaje','#v28Back'],
+   ['Creator Plus','Canvas','#canvas'],['Creator Plus','Listo','#editorDone'],['Creator Plus','Control tamaño','#size'],
+   ['Idioma','Selector idioma','#psqLangSwitch'],['Idioma','ES','[data-psq-lang="es"]'],['Idioma','EN','[data-psq-lang="en"]']
+  ];
+  let buttonMissing=0;for(const [z,l,s] of expected){const ok=!!doc.querySelector(s);if(!ok)buttonMissing++;map(z,l,s,ok?'PASS':'FAIL')}
+  add('Button Map · controles críticos',buttonMissing?'FAIL':'PASS',buttonMissing?('Selectores faltantes: '+buttonMissing):('20 controles críticos presentes'));
+
+  const hotfixes=[['Donita','PSQ_DONITA_V291'],['Cuppy','PSQ_CUPPY_V294'],['Editor Listo','PSQ_EDITOR_V295'],['Heladín','PSQ_HELADIN_V296']];
+  await sleep(2500);
+  for(const [label,key] of hotfixes){const ok=!!win[key];add('Hotfix · '+label,ok?'PASS':'WARN',ok?(key+' activo'):(key+' todavía no expuso bandera; puede depender de carga de imagen/CORS.'))}
+
+  const cmText=(doc.body?.innerText||'');
+  const cmVisible=/\b(8|12|17)\s*cm\b/i.test(cmText);
+  add('Impresión · sin centímetros visibles',cmVisible?'FAIL':'PASS',cmVisible?'Todavía aparece una medida en cm en la interfaz.':'Mini / Normal / XL sin promesa de cm visible.');
+  const sizeBtns=[...doc.querySelectorAll('[data-size]')];
+  add('Impresión · 3 tamaños',sizeBtns.length===3?'PASS':'WARN','Botones [data-size] detectados: '+sizeBtns.length);
+  const printBtn=textButton(doc,/^\s*🖨️?\s*Imprimir\s*$/i)||textButton(doc,/Imprimir/i);
+  add('Impresión · botón principal',printBtn?'REVIEW':'FAIL',printBtn?'Control presente; diálogo nativo requiere prueba manual.':'No encontré botón de impresión.');
+
+  const done=doc.querySelector('#editorDone');
+  if(done&&doc.querySelector('#headerCreateBtn')){
+   try{
+    doc.querySelector('#headerCreateBtn').click();await sleep(300);
+    const editor=doc.querySelector('#editor');
+    add('Creator Plus · abrir editor',editor&&editor.classList.contains('active')?'PASS':'REVIEW','Se disparó Creator Plus en sandbox.');
+    if(editor&&editor.classList.contains('active')){
+      done.click();await sleep(450);const ex=doc.querySelector('#export');
+      add('Creator Plus · botón Listo',ex&&ex.classList.contains('active')?'PASS':'REVIEW',ex&&ex.classList.contains('active')?'Listo avanzó a exportación.':'No pude confirmar automáticamente el cambio a exportación.');
+    }else add('Creator Plus · botón Listo','REVIEW','No se ejecutó porque el editor no quedó activo en el sandbox.');
+   }catch(e){add('Creator Plus · smoke','WARN',String(e.message||e))}
+  }else add('Creator Plus · smoke','FAIL','Falta #headerCreateBtn o #editorDone.');
+
+  try{const r=await fetch('./downloads.html?t='+Date.now(),{cache:'no-store'});const t=await r.text();add('Descargas · página accesible',r.ok?'PASS':'FAIL','HTTP '+r.status);add('Descargas · licencia PSQ-FACTORY',t.includes("product_code==='PSQ-FACTORY'")?'PASS':'WARN','Validación de licencia en código.');add('Descargas · RPC protegida',t.includes('pc_psq_download_resource')?'PASS':'FAIL','Recurso de descarga validado por RPC.')}catch(e){add('Descargas · smoke','FAIL',String(e.message||e))}
+
+  try{const r=await fetch('./rc-smoke.html?t='+Date.now(),{cache:'no-store'}),t=await r.text();const stale=t.includes('5 colecciones')||t.includes('50 personajes')||t.includes('400 assets');add('QA legado rc-smoke','WARN',stale?'Está desactualizado (50/5/400); no usarlo como autoridad para PSQ actual.':'No detecté contadores viejos.')}catch(e){add('QA legado rc-smoke','WARN',String(e.message||e))}
+  try{const r=await fetch('./psq-i18n-v26.js?t='+Date.now(),{cache:'no-store'}),t=await r.text();const oldCm=t.includes('XL · 17 cm:');const sixEn=t.includes('Seis mundos para crear');add('Idioma · textos de impresión actuales',oldCm?'WARN':'PASS',oldCm?'El diccionario todavía contiene la frase vieja con 17 cm; revisar EN en PSQ-AUDIT 0.2.':'Sin frase vieja detectada.');add('Idioma · 6 colecciones',sixEn?'PASS':'WARN',sixEn?'Existe traducción de “Seis mundos para crear”.':'No aparece una entrada explícita para “Seis mundos para crear”; revisar versión EN.')}catch(e){add('Idioma · source check','WARN',String(e.message||e))}
+
+  add('PSQ-AUDIT 0.1 · criterio comercial',counts.FAIL===0?'PASS':'WARN',counts.FAIL===0?'Sin bloqueos P0 detectados por este smoke. Mantener SELLABLE · QA CONTINUO.':'Hay al menos un FAIL técnico para revisar antes de considerarlo limpio.');
+ }catch(e){add('Auditoría','FAIL',String(e.stack||e))}
+ finally{$('#run').disabled=false;$('#run').textContent='REPETIR AUDITORÍA'}
+}
+$('#run').addEventListener('click',audit);audit();
+</script>
+</body>
+</html>
