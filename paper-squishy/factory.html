@@ -4,7 +4,7 @@
   const frozen='https://cdn.jsdelivr.net/gh/pasalochevere/expediente@e7f545d189846a48d14e1d3ce6e0c5c21b9b0e13/paper-squishy/factory.html';
   const r=await fetch(frozen,{cache:'no-store'});if(!r.ok)throw new Error('No pude cargar la fábrica congelada ('+r.status+').');
   let html=await r.text();
-  html=html.replace('psq-catalog-v27.js?v=2711','psq-catalog-v27.js?v=2941');
+  html=html.replace('psq-catalog-v27.js?v=2711','psq-catalog-v27.js?v=2951');
   document.open();document.write(html);document.close();
  }catch(e){document.querySelector('.spin').style.display='none';document.getElementById('msg').textContent='No pude abrir la fábrica: '+String(e.message||e);}
 })();
