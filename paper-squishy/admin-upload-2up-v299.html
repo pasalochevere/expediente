@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PSQ 2.9.9 · Carga 2 por hoja</title>
+<style>
+:root{--bg:#fff8ee;--ink:#34251f;--coral:#ff7467;--yellow:#ffd45b;--mint:#bee6d1;--green:#238c5b;--red:#bd302f;--line:#dfcfc2}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#fff0b8,transparent 30%),var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:920px;margin:auto;padding:32px 18px 70px}.card{background:#fff;border:1px solid var(--line);border-radius:26px;padding:24px;margin:16px 0;box-shadow:0 18px 45px rgba(65,45,34,.08)}h1{font-size:clamp(26px,5vw,42px);margin:6px 0}.ey{font-weight:950;letter-spacing:.12em;color:var(--coral);font-size:12px}.file{display:grid;gap:8px;border:1px dashed #cdb6a6;border-radius:18px;padding:18px;margin:12px 0}.file b{font-size:15px}.file small{color:#74645b;line-height:1.45}.btn{display:inline-flex;align-items:center;justify-content:center;border:3px solid var(--ink);border-radius:18px;background:#fff;padding:14px 19px;font-weight:950;font-size:15px;cursor:pointer;color:var(--ink);text-decoration:none}.primary{background:var(--yellow)}.mint{background:var(--mint)}.btn:disabled{opacity:.5;cursor:not-allowed}.bar{height:14px;border-radius:999px;background:#eee1d5;overflow:hidden;margin:16px 0}.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--coral),var(--yellow));transition:.2s}.ok{color:var(--green);font-weight:900}.bad{color:var(--red);font-weight:900}pre{white-space:pre-wrap;background:#171311;color:#fff7ed;border-radius:18px;padding:18px;min-height:150px;max-height:360px;overflow:auto;font-size:12px}.actions{display:flex;gap:10px;flex-wrap:wrap}.hint{margin-top:8px;font-size:13px;color:#74645b}@media(max-width:620px){.btn{width:100%}}
+</style>
+</head>
+<body><main class="wrap">
+<section class="card"><div class="ey">PSQ 2.9.9 · ADMIN</div><h1>Agregar los PDFs “2 por hoja”</h1><p>Sube los dos archivos nuevos al bucket privado <b>paper-squishy-downloads</b>. Se valida nombre, tamaño y SHA-256 antes de guardar.</p><div id="session">Comprobando sesión…</div><div class="hint">Los archivos quedan en <b>P2.5/</b> y se muestran en “Mis descargas” sólo con licencia PSQ-FACTORY activa.</div></section>
+<section class="card">
+<div class="file"><b>04 · 60 personajes · COLOR · 2 por hoja</b><small>04_PAPER_SQUISHY_60_COLOR_2_POR_HOJA_FRENTE_DORSO.pdf · 16.722.718 bytes · SHA-256 c9375754…5551a</small><input id="color2up" type="file" accept="application/pdf,.pdf"></div>
+<div class="file"><b>05 · 60 personajes · COLORING · 2 por hoja</b><small>05_PAPER_SQUISHY_60_COLORING_2_POR_HOJA_FRENTE_DORSO.pdf · 19.713.651 bytes · SHA-256 65ea747c…108e0</small><input id="coloring2up" type="file" accept="application/pdf,.pdf"></div>
+<div class="actions"><button id="upload" class="btn primary" disabled>SUBIR LOS 2 PDFs</button><button id="refresh" class="btn" type="button">ACTUALIZAR SESIÓN</button><a class="btn mint" href="./downloads.html">VER MIS DESCARGAS</a><a class="btn" href="./factory.html">VOLVER A FACTORY</a></div>
+<div class="bar"><i id="fill"></i></div><div id="status"></div><pre id="log">Esperando archivos…</pre>
+</section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co',KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo',BUCKET='paper-squishy-downloads',ADMIN='pasalochevere@gmail.com';
+const sb=supabase.createClient(SUPABASE_URL,KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+const EXPECT={
+ color2up:{id:'color2up',name:'04_PAPER_SQUISHY_60_COLOR_2_POR_HOJA_FRENTE_DORSO.pdf',size:16722718,sha:'c937575464f40a3184e076964d7d46819233d222a07a38ad45aae49edbc5551a'},
+ coloring2up:{id:'coloring2up',name:'05_PAPER_SQUISHY_60_COLORING_2_POR_HOJA_FRENTE_DORSO.pdf',size:19713651,sha:'65ea747c095acef10eacd8241fc572947fb2271f1f72f54909645760afe108e0'}
+};
+const $=x=>document.getElementById(x),log=t=>{$('log').textContent+='\n'+t;$('log').scrollTop=$('log').scrollHeight},hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+let admin=false,busy=false;
+function filesReady(){return Object.values(EXPECT).every(e=>$(e.id).files[0])}
+function refreshButton(){$('upload').disabled=busy||!admin||!filesReady()}
+async function checkSession(){try{const{data:{user},error}=await sb.auth.getUser();admin=!error&&String(user?.email||'').toLowerCase()===ADMIN;$('session').innerHTML=admin?'<span class="ok">✓ '+user.email+' · cuenta administradora</span>':'<span class="bad">No está activa la sesión administradora. Iniciá sesión desde el Portal PasaloChévere.</span>';refreshButton();return admin}catch(e){admin=false;$('session').innerHTML='<span class="bad">No pude leer la sesión.</span>';refreshButton();return false}}
+Object.values(EXPECT).forEach(e=>$(e.id).addEventListener('change',refreshButton));$('refresh').onclick=checkSession;sb.auth.onAuthStateChange(()=>setTimeout(checkSession,0));checkSession();
+async function validate(file,e){if(!file)throw new Error('Falta '+e.name);log('Validando '+file.name+'…');if(file.name!==e.name)throw new Error('Nombre incorrecto. Esperado: '+e.name);if(file.size!==e.size)throw new Error('Tamaño incorrecto para '+e.name+': '+file.size+' bytes');const sha=hex(await crypto.subtle.digest('SHA-256',await file.arrayBuffer()));if(sha!==e.sha)throw new Error('SHA-256 incorrecto para '+e.name);log('✓ Integridad OK · '+e.name);return file}
+async function put(file,e){const path='P2.5/'+e.name;log('Subiendo '+e.name+'…');const{error}=await sb.storage.from(BUCKET).upload(path,file,{upsert:true,contentType:'application/pdf',cacheControl:'3600'});if(error)throw error;log('✓ Subido · '+e.name)}
+$('upload').onclick=async()=>{if(busy)return;try{busy=true;refreshButton();$('log').textContent='Inicio PSQ 2.9.9…';$('status').textContent='';$('fill').style.width='5%';if(!await checkSession())throw new Error('Sesión administradora requerida.');let i=0;for(const e of Object.values(EXPECT)){const f=await validate($(e.id).files[0],e);$('fill').style.width=(20+i*20)+'%';await put(f,e);i++;$('fill').style.width=(55+i*20)+'%'}const{data,error}=await sb.storage.from(BUCKET).list('P2.5',{limit:50});if(error)throw error;const names=(data||[]).map(x=>x.name);for(const e of Object.values(EXPECT))if(!names.includes(e.name))throw new Error('No pude confirmar '+e.name+' en Storage.');$('fill').style.width='100%';$('status').innerHTML='<span class="ok">✓ LOS 2 PDFs QUEDARON CARGADOS EN LA FACTORY</span>';log('✓ Verificación final OK.')}catch(e){$('status').innerHTML='<span class="bad">'+String(e.message||e)+'</span>';log('FALLO: '+String(e.message||e))}finally{busy=false;refreshButton()}};
+</script></body></html>
