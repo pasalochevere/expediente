@@ -6,171 +6,44 @@
 <meta name="theme-color" content="#fff8ee">
 <title>PAPER SQUISHY FACTORY · Mis Descargas</title>
 <style>
-:root{--cream:#fff8ee;--cream2:#fffdf8;--ink:#34251f;--muted:#78685f;--line:#e7d7ca;--pink:#ff9fc4;--coral:#ff7467;--yellow:#ffd45b;--mint:#bee6d1;--purple:#c9b6ff;--green:#238c5b;--red:#b93c39;--shadow:0 20px 55px rgba(70,48,35,.10)}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 88% -5%,#fff0b8 0,transparent 28%),radial-gradient(circle at 0 32%,#ffe4ef 0,transparent 24%),var(--cream);color:var(--ink);font-family:Inter,ui-rounded,"Arial Rounded MT Bold",system-ui,-apple-system,"Segoe UI",sans-serif}button,a{font:inherit}.wrap{max-width:1120px;margin:auto;padding:22px 18px 72px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:10px;font-weight:950}.brand-dot{width:42px;height:42px;border-radius:15px;background:var(--yellow);display:grid;place-items:center;border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}.back{display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:950;border:2px solid var(--ink);border-radius:15px;padding:10px 14px;background:#fff}.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#fffdf8 0,#fff5db 54%,#ffe6ef 100%);border:1px solid var(--line);border-radius:32px;padding:30px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:center}.hero:after{content:"";position:absolute;width:270px;height:270px;border-radius:50%;right:-90px;top:-110px;background:radial-gradient(circle,rgba(255,116,103,.18),transparent 68%)}.ey{font-size:11px;font-weight:1000;letter-spacing:.14em;color:var(--coral);text-transform:uppercase}.hero h1{font-size:clamp(34px,6vw,58px);line-height:.92;margin:7px 0 12px;letter-spacing:-.045em}.hero p{color:var(--muted);font-size:16px;line-height:1.55;margin:0;max-width:62ch}.hero-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;position:relative;z-index:2}.stat{background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:18px;padding:15px;text-align:center}.stat b{display:block;font-size:23px}.stat span{display:block;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase}.state{margin:16px 0 0;border:1px solid var(--line);border-radius:20px;background:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 12px 30px rgba(70,48,35,.06)}.state-copy b{display:block;font-size:14px}.state-copy span{display:block;color:var(--muted);font-size:12px;margin-top:4px;line-height:1.4}.state.ok .state-copy b{color:var(--green)}.state.bad .state-copy b{color:var(--red)}.state-pill{white-space:nowrap;border-radius:999px;padding:8px 11px;font-size:10px;font-weight:1000;letter-spacing:.06em;background:#f4ece5}.state.ok .state-pill{background:#e4f6eb;color:var(--green)}.state.bad .state-pill{background:#fff0ef;color:var(--red)}.state .activate{display:none}.state.bad .activate{display:inline-flex}.activate{border:2px solid var(--ink);background:var(--yellow);color:var(--ink);border-radius:14px;text-decoration:none;padding:11px 14px;font-size:12px;font-weight:1000;white-space:nowrap}.section-head{margin:30px 2px 14px;display:flex;align-items:end;justify-content:space-between;gap:12px}.section-head h2{font-size:30px;margin:3px 0 0}.section-head p{margin:0;color:var(--muted);font-size:13px;max-width:520px;text-align:right}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.download-card{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:430px}.download-card.primary{grid-column:span 1;border:2px solid #e4bd4e;box-shadow:0 24px 60px rgba(95,65,35,.14)}.download-card.primary:before{content:"PACK PRINCIPAL";position:absolute;right:12px;top:12px;background:var(--yellow);border:2px solid var(--ink);border-radius:999px;padding:6px 9px;font-size:8px;font-weight:1000;letter-spacing:.08em;z-index:3}.preview{height:168px;border-radius:21px;background:#fff7e8;overflow:hidden;display:grid;place-items:center;border:1px solid #eee0d4;margin-bottom:16px;position:relative}.preview img{width:100%;height:100%;object-fit:cover}.preview.triptych{grid-template-columns:repeat(3,1fr);gap:5px;padding:7px}.preview.triptych img{border-radius:15px;object-fit:cover}.download-card .tag{font-size:9px;font-weight:1000;letter-spacing:.12em;color:var(--coral);text-transform:uppercase}.download-card h3{font-size:22px;line-height:1.05;margin:7px 0 9px}.download-card p{color:var(--muted);font-size:13px;line-height:1.48;margin:0}.details{display:flex;flex-wrap:wrap;gap:6px;margin:13px 0}.chip{border:1px solid var(--line);border-radius:999px;background:#fffaf4;padding:6px 8px;font-size:9px;font-weight:900;color:#66574f}.available{margin-top:auto;display:flex;align-items:center;gap:6px;color:var(--green);font-size:10px;font-weight:1000;letter-spacing:.05em}.available:before{content:"●";font-size:9px}.card-actions{display:grid;gap:8px;margin-top:10px}.btn{border:3px solid var(--ink);border-radius:16px;min-height:49px;padding:12px 14px;font-weight:1000;color:var(--ink);background:#fff;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:7px}.btn.primary{background:var(--yellow)}.btn.mint{background:var(--mint)}.btn.pink{background:#ffddea}.btn:disabled{opacity:.44;cursor:not-allowed;filter:grayscale(.18)}.creator-open{background:var(--ink);color:#fff}.msg{margin-top:16px;min-height:22px;color:var(--muted);font-size:12px}.msg.good{color:var(--green);font-weight:900}.msg.bad{color:var(--red);font-weight:900}.footer-card{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px 20px;display:flex;justify-content:space-between;gap:18px;align-items:center}.footer-card b{font-size:15px}.footer-card span{display:block;color:var(--muted);font-size:12px;margin-top:4px}.license-meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.license-meta i{font-style:normal;background:#fff6d5;border:1px solid #e8d59a;border-radius:999px;padding:7px 9px;font-size:10px;font-weight:900}
-@media(max-width:900px){.hero{grid-template-columns:1fr}.hero-stats{grid-template-columns:repeat(4,1fr)}.grid{grid-template-columns:1fr 1fr}.download-card.primary{grid-column:span 2}.download-card.primary .preview{height:220px}}
-@media(max-width:640px){.wrap{padding:14px 12px 60px}.top{align-items:flex-start}.brand span:last-child{font-size:12px}.back{font-size:11px;padding:9px 11px}.hero{padding:22px 17px;border-radius:25px}.hero-stats{grid-template-columns:1fr 1fr}.state{align-items:flex-start;flex-direction:column}.state-pill{display:none}.state.bad .activate{width:100%;justify-content:center}.section-head{align-items:flex-start;flex-direction:column}.section-head p{text-align:left}.grid{grid-template-columns:1fr}.download-card.primary{grid-column:span 1}.download-card{min-height:auto}.preview,.download-card.primary .preview{height:190px}.footer-card{align-items:flex-start;flex-direction:column}.license-meta{justify-content:flex-start}.btn{width:100%}}
+:root{--cream:#fff8ee;--ink:#34251f;--muted:#78685f;--line:#e7d7ca;--coral:#ff7467;--yellow:#ffd45b;--mint:#bee6d1;--green:#238c5b;--red:#b93c39;--shadow:0 20px 55px rgba(70,48,35,.10)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 88% -5%,#fff0b8 0,transparent 28%),radial-gradient(circle at 0 32%,#ffe4ef 0,transparent 24%),var(--cream);color:var(--ink);font-family:Inter,ui-rounded,"Arial Rounded MT Bold",system-ui,-apple-system,"Segoe UI",sans-serif}button,a{font:inherit}.wrap{max-width:1160px;margin:auto;padding:22px 18px 72px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:10px;font-weight:950}.brand-dot{width:42px;height:42px;border-radius:15px;background:var(--yellow);display:grid;place-items:center;border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}.back{display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:950;border:2px solid var(--ink);border-radius:15px;padding:10px 14px;background:#fff}.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#fffdf8 0,#fff5db 54%,#ffe6ef 100%);border:1px solid var(--line);border-radius:32px;padding:30px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:center}.hero h1{font-size:clamp(34px,6vw,58px);line-height:.92;margin:7px 0 12px;letter-spacing:-.045em}.hero p{color:var(--muted);font-size:16px;line-height:1.55;margin:0;max-width:62ch}.ey{font-size:11px;font-weight:1000;letter-spacing:.14em;color:var(--coral);text-transform:uppercase}.hero-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat{background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:18px;padding:15px;text-align:center}.stat b{display:block;font-size:23px}.stat span{display:block;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase}.state{margin:16px 0 0;border:1px solid var(--line);border-radius:20px;background:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 12px 30px rgba(70,48,35,.06)}.state-copy b{display:block;font-size:14px}.state-copy span{display:block;color:var(--muted);font-size:12px;margin-top:4px;line-height:1.4}.state.ok .state-copy b{color:var(--green)}.state.bad .state-copy b{color:var(--red)}.state-pill{white-space:nowrap;border-radius:999px;padding:8px 11px;font-size:10px;font-weight:1000;letter-spacing:.06em;background:#f4ece5}.state.ok .state-pill{background:#e4f6eb;color:var(--green)}.state.bad .state-pill{background:#fff0ef;color:var(--red)}.state .activate{display:none}.state.bad .activate{display:inline-flex}.activate{border:2px solid var(--ink);background:var(--yellow);color:var(--ink);border-radius:14px;text-decoration:none;padding:11px 14px;font-size:12px;font-weight:1000;white-space:nowrap}.section-head{margin:30px 2px 14px;display:flex;align-items:end;justify-content:space-between;gap:12px}.section-head h2{font-size:30px;margin:3px 0 0}.section-head p{margin:0;color:var(--muted);font-size:13px;max-width:560px;text-align:right}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.download-card{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:425px}.download-card.primary{border:2px solid #e4bd4e}.download-card.primary:before{content:"PACK PRINCIPAL";position:absolute;right:12px;top:12px;background:var(--yellow);border:2px solid var(--ink);border-radius:999px;padding:6px 9px;font-size:8px;font-weight:1000;letter-spacing:.08em;z-index:3}.download-card.new:before{content:"NUEVO";position:absolute;right:12px;top:12px;background:var(--mint);border:2px solid var(--ink);border-radius:999px;padding:6px 9px;font-size:8px;font-weight:1000;letter-spacing:.08em;z-index:3}.preview{height:168px;border-radius:21px;background:#fff7e8;overflow:hidden;display:grid;place-items:center;border:1px solid #eee0d4;margin-bottom:16px}.preview.triptych{grid-template-columns:repeat(3,1fr);gap:5px;padding:7px}.preview img{width:100%;height:100%;object-fit:cover}.preview.triptych img{border-radius:15px}.preview.gray img{filter:grayscale(1) contrast(1.12)}.download-card .tag{font-size:9px;font-weight:1000;letter-spacing:.12em;color:var(--coral);text-transform:uppercase}.download-card h3{font-size:22px;line-height:1.05;margin:7px 0 9px}.download-card p{color:var(--muted);font-size:13px;line-height:1.48;margin:0}.details{display:flex;flex-wrap:wrap;gap:6px;margin:13px 0}.chip{border:1px solid var(--line);border-radius:999px;background:#fffaf4;padding:6px 8px;font-size:9px;font-weight:900;color:#66574f}.available{margin-top:auto;display:flex;align-items:center;gap:6px;color:var(--green);font-size:10px;font-weight:1000;letter-spacing:.05em}.available:before{content:"●";font-size:9px}.card-actions{display:grid;gap:8px;margin-top:10px}.btn{border:3px solid var(--ink);border-radius:16px;min-height:49px;padding:12px 14px;font-weight:1000;color:var(--ink);background:#fff;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:7px}.btn.primary{background:var(--yellow)}.btn.mint{background:var(--mint)}.btn.pink{background:#ffddea}.btn:disabled{opacity:.44;cursor:not-allowed;filter:grayscale(.18)}.creator-open{background:var(--ink);color:#fff}.msg{margin-top:16px;min-height:22px;color:var(--muted);font-size:12px}.msg.good{color:var(--green);font-weight:900}.msg.bad{color:var(--red);font-weight:900}.footer-card{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px 20px;display:flex;justify-content:space-between;gap:18px;align-items:center}.footer-card b{font-size:15px}.footer-card span{display:block;color:var(--muted);font-size:12px;margin-top:4px}.license-meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.license-meta i{font-style:normal;background:#fff6d5;border:1px solid #e8d59a;border-radius:999px;padding:7px 9px;font-size:10px;font-weight:900}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.hero-stats{grid-template-columns:repeat(4,1fr)}.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.wrap{padding:14px 12px 60px}.top{align-items:flex-start}.back{font-size:11px;padding:9px 11px}.hero{padding:22px 17px;border-radius:25px}.hero-stats{grid-template-columns:1fr 1fr}.state{align-items:flex-start;flex-direction:column}.state-pill{display:none}.state.bad .activate{width:100%;justify-content:center}.section-head{align-items:flex-start;flex-direction:column}.section-head p{text-align:left}.grid{grid-template-columns:1fr}.download-card{min-height:auto}.preview{height:190px}.footer-card{align-items:flex-start;flex-direction:column}.license-meta{justify-content:flex-start}.btn{width:100%}}
 </style>
 <link rel="stylesheet" href="./psq-i18n-v26.css?v=2600">
 </head>
 <body>
 <main class="wrap">
-  <header class="top">
-    <div class="brand"><span class="brand-dot">P</span><span>pasalochevere · PAPER SQUISHY FACTORY</span></div>
-    <a class="back" href="./factory.html">← VOLVER A LA FACTORY</a>
-  </header>
-
-  <section class="hero">
-    <div>
-      <div class="ey">MIS DESCARGAS · PSQ 2.5</div>
-      <h1>Todo tu Paper Squishy Factory,<br>siempre en un solo lugar.</h1>
-      <p>Tu guía, el pack completo de personajes y Creator Plus quedan organizados acá para que puedas volver cuando quieras mientras tu licencia <b>PSQ-FACTORY</b> esté activa.</p>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><b>60</b><span>Personajes</span></div>
-      <div class="stat"><b>6</b><span>Colecciones</span></div>
-      <div class="stat"><b>240</b><span>Láminas</span></div>
-      <div class="stat"><b>PLUS</b><span>Creator</span></div>
-    </div>
-  </section>
-
-  <div id="accessState" class="state">
-    <div class="state-copy"><b>Comprobando tu acceso…</b><span>Estamos validando tu sesión y la licencia PSQ-FACTORY.</span></div>
-    <span class="state-pill">VALIDANDO</span>
-    <a class="activate" href="../portal-v2/?producto=paper-squishy">ACTIVAR MI COMPRA</a>
-  </div>
-
-  <div class="section-head">
-    <div><div class="ey">TU BIBLIOTECA DE ARCHIVOS</div><h2>Listo para descargar</h2></div>
-    <p>Las descargas se habilitan solamente con una sesión válida y una licencia PSQ-FACTORY activa.</p>
-  </div>
-
-  <section class="grid">
-    <article class="download-card" data-resource="welcome">
-      <div class="preview triptych">
-        <img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/sweet_squishies/donita/hero.webp" alt="Donita">
-        <img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/animal_cuties/oso_teddy/hero.webp" alt="Oso Teddy">
-        <img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/cosmic_friends/luni/hero.webp" alt="Luni">
-      </div>
-      <div class="tag">GUÍA DE BIENVENIDA</div>
-      <h3>Empezá por acá</h3>
-      <p>Todo lo que necesitás para empezar, imprimir y armar tus paper squishies.</p>
-      <div class="details"><span class="chip">A4 PREMIUM</span><span class="chip">ES + EN</span><span class="chip">PASO A PASO</span></div>
-      <div class="available">DISPONIBLE</div>
-      <div class="card-actions"><button class="btn pink download-btn" data-key="welcome" disabled>DESCARGAR GUÍA</button></div>
-    </article>
-
-    <article class="download-card primary" data-resource="master">
-      <div class="preview triptych">
-        <img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/food_squad/burgui/hero.webp" alt="Burgui">
-        <img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/cosmic_friends/soli/hero.webp" alt="Soli">
-        <img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/magic_objects/poci/hero.webp" alt="Poci">
-      </div>
-      <div class="tag">PACK COMPLETO · 60 PERSONAJES</div>
-      <h3>La colección completa</h3>
-      <p>6 colecciones · 60 personajes · 240 láminas. Frente + dorso + coloring frente + coloring dorso.</p>
-      <div class="details"><span class="chip">60 PERSONAJES</span><span class="chip">6 COLECCIONES</span><span class="chip">240 LÁMINAS</span></div>
-      <div class="available">DISPONIBLE</div>
-      <div class="card-actions"><button class="btn primary download-btn" data-key="master" disabled>DESCARGAR LOS 60 PERSONAJES</button></div>
-    </article>
-
-    <article class="download-card" data-resource="creator">
-      <div class="preview">
-        <img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/magic_objects/libri/hero.webp" alt="Creator Plus">
-      </div>
-      <div class="tag">CREATOR PLUS</div>
-      <h3>Tu imaginación sigue</h3>
-      <p>Guía de acceso, activación y uso de Creator Plus.</p>
-      <div class="details"><span class="chip">12 MESES</span><span class="chip">HASTA 2 DISPOSITIVOS</span><span class="chip">EDITOR</span></div>
-      <div class="available">DISPONIBLE</div>
-      <div class="card-actions">
-        <button class="btn mint download-btn" data-key="creator" disabled>DESCARGAR GUÍA CREATOR PLUS</button>
-        <a id="creatorOpen" class="btn creator-open" href="./factory.html#creator-plus">ABRIR CREATOR PLUS</a>
-      </div>
-    </article>
-  </section>
-
-  <div id="message" class="msg" aria-live="polite"></div>
-
-  <section class="footer-card">
-    <div><b>Acceso incluido con tu licencia PSQ-FACTORY</b><span>Producto 100% digital. No se envía ningún artículo físico.</span></div>
-    <div class="license-meta"><i>12 meses desde activación</i><i>Hasta 2 dispositivos</i></div>
-  </section>
+<header class="top"><div class="brand"><span class="brand-dot">P</span><span>pasalochevere · PAPER SQUISHY FACTORY</span></div><a class="back" href="./factory.html">← VOLVER A LA FACTORY</a></header>
+<section class="hero"><div><div class="ey">MIS DESCARGAS · PSQ 2.9.9</div><h1>Tu Paper Squishy Factory,<br>ordenada para imprimir.</h1><p>Pack completo, versiones 2 por hoja y Creator Plus. Todo queda disponible mientras tu licencia <b>PSQ-FACTORY</b> esté activa.</p></div><div class="hero-stats"><div class="stat"><b>60</b><span>Personajes</span></div><div class="stat"><b>6</b><span>Colecciones</span></div><div class="stat"><b>240</b><span>Láminas master</span></div><div class="stat"><b>2×</b><span>Formatos 2 por hoja</span></div></div></section>
+<div id="accessState" class="state"><div class="state-copy"><b>Comprobando tu acceso…</b><span>Estamos validando tu sesión y la licencia PSQ-FACTORY.</span></div><span class="state-pill">VALIDANDO</span><a class="activate" href="../portal-v2/?producto=paper-squishy">ACTIVAR MI COMPRA</a></div>
+<div class="section-head"><div><div class="ey">TU BIBLIOTECA DE ARCHIVOS</div><h2>Listo para descargar</h2></div><p>Las dos nuevas versiones ponen frente y dorso juntos en una hoja A4 apaisada: una a color y otra sólo para colorear.</p></div>
+<section class="grid">
+<article class="download-card" data-resource="welcome"><div class="preview triptych"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/sweet_squishies/donita/hero.webp" alt="Donita"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/animal_cuties/oso_teddy/hero.webp" alt="Oso Teddy"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/cosmic_friends/luni/hero.webp" alt="Luni"></div><div class="tag">GUÍA DE BIENVENIDA</div><h3>Empezá por acá</h3><p>Guía de uso, impresión y armado de los paper squishies.</p><div class="details"><span class="chip">A4</span><span class="chip">ES + EN</span><span class="chip">PASO A PASO</span></div><div class="available">DISPONIBLE</div><div class="card-actions"><button class="btn pink download-btn" data-key="welcome" disabled>DESCARGAR GUÍA</button></div></article>
+<article class="download-card primary" data-resource="master"><div class="preview triptych"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/food_squad/burgui/hero.webp" alt="Burgui"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/cosmic_friends/soli/hero.webp" alt="Soli"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/magic_objects/poci/hero.webp" alt="Poci"></div><div class="tag">PACK COMPLETO · 60 PERSONAJES</div><h3>La colección completa</h3><p>6 colecciones · 60 personajes · frente + dorso + coloring frente + coloring dorso.</p><div class="details"><span class="chip">60 PERSONAJES</span><span class="chip">240 LÁMINAS</span><span class="chip">A4 100%</span></div><div class="available">DISPONIBLE</div><div class="card-actions"><button class="btn primary download-btn" data-key="master" disabled>DESCARGAR LOS 60 PERSONAJES</button></div></article>
+<article class="download-card new" data-resource="color2up"><div class="preview triptych"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/sweet_squishies/donita/hero.webp" alt="Donita"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/food_squad/burgui/hero.webp" alt="Burgui"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/ocean_buddies/kiko_cangrejo/hero.webp" alt="Kiko"></div><div class="tag">2 POR HOJA · COLOR</div><h3>Frente + dorso juntos</h3><p>Los 60 personajes a color, con frente y dorso en la misma hoja A4 apaisada.</p><div class="details"><span class="chip">60 PÁGINAS</span><span class="chip">A4 APAISADO</span><span class="chip">SOLO COLOR</span></div><div class="available">DISPONIBLE</div><div class="card-actions"><button class="btn mint download-btn" data-key="color2up" disabled>DESCARGAR COLOR · 2 POR HOJA</button></div></article>
+<article class="download-card new" data-resource="coloring2up"><div class="preview triptych gray"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/sweet_squishies/donita/hero.webp" alt="Donita"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/animal_cuties/oso_teddy/hero.webp" alt="Oso Teddy"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/cosmic_friends/luni/hero.webp" alt="Luni"></div><div class="tag">2 POR HOJA · COLORING</div><h3>Para colorear</h3><p>Los 60 personajes en blanco y negro, con coloring frente + coloring dorso juntos.</p><div class="details"><span class="chip">60 PÁGINAS</span><span class="chip">A4 APAISADO</span><span class="chip">COLORING</span></div><div class="available">DISPONIBLE</div><div class="card-actions"><button class="btn pink download-btn" data-key="coloring2up" disabled>DESCARGAR COLORING · 2 POR HOJA</button></div></article>
+<article class="download-card" data-resource="creator"><div class="preview"><img src="https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.4/magic_objects/libri/hero.webp" alt="Creator Plus"></div><div class="tag">CREATOR PLUS</div><h3>Tu imaginación sigue</h3><p>Guía de acceso, activación y uso de Creator Plus.</p><div class="details"><span class="chip">12 MESES</span><span class="chip">2 DISPOSITIVOS</span><span class="chip">EDITOR</span></div><div class="available">DISPONIBLE</div><div class="card-actions"><button class="btn mint download-btn" data-key="creator" disabled>DESCARGAR GUÍA CREATOR PLUS</button><a id="creatorOpen" class="btn creator-open" href="./factory.html#creator-plus">ABRIR CREATOR PLUS</a></div></article>
+</section>
+<div id="message" class="msg" aria-live="polite"></div>
+<section class="footer-card"><div><b>Acceso incluido con tu licencia PSQ-FACTORY</b><span>Producto 100% digital. No se envía ningún artículo físico.</span></div><div class="license-meta"><i>12 meses desde activación</i><i>Hasta 2 dispositivos</i></div></section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
 const KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
 const BUCKET='paper-squishy-downloads';
+const EXTRA={
+ color2up:{storage_path:'P2.5/04_PAPER_SQUISHY_60_COLOR_2_POR_HOJA_FRENTE_DORSO.pdf',download_name:'04_PAPER_SQUISHY_60_COLOR_2_POR_HOJA_FRENTE_DORSO.pdf'},
+ coloring2up:{storage_path:'P2.5/05_PAPER_SQUISHY_60_COLORING_2_POR_HOJA_FRENTE_DORSO.pdf',download_name:'05_PAPER_SQUISHY_60_COLORING_2_POR_HOJA_FRENTE_DORSO.pdf'}
+};
 const sb=supabase.createClient(SUPABASE_URL,KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-let access={session:false,active:false,status:'none'};
-
-function setAccess(type,title,copy,pill){
-  const el=$('#accessState'); el.className='state '+type;
-  el.querySelector('.state-copy b').textContent=title;
-  el.querySelector('.state-copy span').textContent=copy;
-  el.querySelector('.state-pill').textContent=pill;
-  $$('.download-btn').forEach(b=>b.disabled=!access.active);
-  $('#creatorOpen').style.pointerEvents=access.active?'auto':'none';
-  $('#creatorOpen').style.opacity=access.active?'1':'.45';
-}
-
-async function boot(){
-  try{
-    const {data:{session}}=await sb.auth.getSession();
-    access.session=!!session;
-    if(!session){
-      access.active=false; access.status='signed_out';
-      setAccess('bad','ACCESO NO ACTIVADO','Iniciá sesión en el Portal PasaloChévere y activá tu compra para acceder a tus descargas.','SIN SESIÓN');
-      return;
-    }
-    const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'me'}});
-    if(error||!data?.ok) throw error||new Error(data?.error||'No pude validar tu acceso.');
-    const licenses=(data.licenses||[]).filter(x=>x.product_code==='PSQ-FACTORY');
-    const active=licenses.find(x=>x.status==='active'&&(!x.expires_at||new Date(x.expires_at)>new Date()));
-    if(active){
-      access.active=true; access.status='active'; access.license=active;
-      setAccess('ok','ACCESO ACTIVO','Tu licencia PSQ-FACTORY está activa. Los tres recursos están habilitados.','DISPONIBLE');
-      return;
-    }
-    const expired=licenses.find(x=>x.status==='expired'||(x.expires_at&&new Date(x.expires_at)<=new Date()));
-    access.active=false; access.status=expired?'expired':'inactive';
-    setAccess('bad',expired?'ACCESO VENCIDO':'ACCESO NO ACTIVADO',expired?'Tu licencia PSQ-FACTORY venció. Volvé al Portal para revisar tu acceso.':'Esta cuenta todavía no tiene una licencia PSQ-FACTORY activa.','NO DISPONIBLE');
-  }catch(e){
-    access.active=false; access.status='error';
-    setAccess('bad','NO PUDIMOS VALIDAR TU ACCESO','Volvé a intentar o regresá al Portal PasaloChévere.','ERROR');
-    console.warn(e);
-  }
-}
-
-async function downloadResource(key,btn){
-  if(!access.active)return;
-  const original=btn.textContent;
-  btn.disabled=true;btn.textContent='PREPARANDO DESCARGA…';
-  $('#message').className='msg';$('#message').textContent='Validando tu licencia…';
-  try{
-    const {data:row,error:re}=await sb.rpc('pc_psq_download_resource',{p_resource:key}).maybeSingle();
-    if(re)throw re;
-    if(!row?.storage_path||!row?.download_name)throw new Error('Tu licencia ya no habilita este recurso.');
-    const {data:blob,error}=await sb.storage.from(BUCKET).download(row.storage_path);
-    if(error)throw error;
-    const url=URL.createObjectURL(blob),a=document.createElement('a');
-    const dlName=key==='master'?'02_PAPER_SQUISHY_60_PERSONAJES.pdf':row.download_name;a.href=url;a.download=dlName;document.body.appendChild(a);a.click();a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),10000);
-    $('#message').className='msg good';$('#message').textContent='✓ Descarga iniciada: '+(key==='master'?'02_PAPER_SQUISHY_60_PERSONAJES.pdf':row.download_name);
-  }catch(e){
-    $('#message').className='msg bad';$('#message').textContent='No pudimos iniciar la descarga. '+String(e?.message||e);
-    if(String(e?.message||e).toLowerCase().includes('license')||String(e?.message||e).toLowerCase().includes('licencia')) boot();
-  }finally{
-    btn.textContent=original;btn.disabled=!access.active;
-  }
-}
-$$('.download-btn').forEach(btn=>btn.addEventListener('click',()=>downloadResource(btn.dataset.key,btn)));
-$('#creatorOpen').addEventListener('click',e=>{if(!access.active)e.preventDefault()});
-sb.auth.onAuthStateChange(()=>setTimeout(boot,0));
-boot();
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];let access={session:false,active:false,status:'none'};
+function setAccess(type,title,copy,pill){const el=$('#accessState');el.className='state '+type;el.querySelector('.state-copy b').textContent=title;el.querySelector('.state-copy span').textContent=copy;el.querySelector('.state-pill').textContent=pill;$$('.download-btn').forEach(b=>b.disabled=!access.active);$('#creatorOpen').style.pointerEvents=access.active?'auto':'none';$('#creatorOpen').style.opacity=access.active?'1':'.45'}
+async function boot(){try{const{data:{session}}=await sb.auth.getSession();access.session=!!session;if(!session){access.active=false;access.status='signed_out';setAccess('bad','ACCESO NO ACTIVADO','Iniciá sesión en el Portal PasaloChévere y activá tu compra para acceder a tus descargas.','SIN SESIÓN');return}const{data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'me'}});if(error||!data?.ok)throw error||new Error(data?.error||'No pude validar tu acceso.');const licenses=(data.licenses||[]).filter(x=>x.product_code==='PSQ-FACTORY');const active=licenses.find(x=>x.status==='active'&&(!x.expires_at||new Date(x.expires_at)>new Date()));if(active){access.active=true;access.status='active';access.license=active;setAccess('ok','ACCESO ACTIVO','Tu licencia PSQ-FACTORY está activa. Los cinco recursos están habilitados.','DISPONIBLE');return}const expired=licenses.find(x=>x.status==='expired'||(x.expires_at&&new Date(x.expires_at)<=new Date()));access.active=false;access.status=expired?'expired':'inactive';setAccess('bad',expired?'ACCESO VENCIDO':'ACCESO NO ACTIVADO',expired?'Tu licencia PSQ-FACTORY venció. Volvé al Portal para revisar tu acceso.':'Esta cuenta todavía no tiene una licencia PSQ-FACTORY activa.','NO DISPONIBLE')}catch(e){access.active=false;access.status='error';setAccess('bad','NO PUDIMOS VALIDAR TU ACCESO','Volvé a intentar o regresá al Portal PasaloChévere.','ERROR');console.warn(e)}}
+async function downloadResource(key,btn){if(!access.active)return;const original=btn.textContent;btn.disabled=true;btn.textContent='PREPARANDO DESCARGA…';$('#message').className='msg';$('#message').textContent='Validando tu licencia…';try{let row;if(EXTRA[key]){row=EXTRA[key]}else{const{data,error:re}=await sb.rpc('pc_psq_download_resource',{p_resource:key}).maybeSingle();if(re)throw re;row=data}if(!row?.storage_path||!row?.download_name)throw new Error('Tu licencia ya no habilita este recurso.');const{data:blob,error}=await sb.storage.from(BUCKET).download(row.storage_path);if(error)throw error;const url=URL.createObjectURL(blob),a=document.createElement('a');const dlName=key==='master'?'02_PAPER_SQUISHY_60_PERSONAJES.pdf':row.download_name;a.href=url;a.download=dlName;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);$('#message').className='msg good';$('#message').textContent='✓ Descarga iniciada: '+dlName}catch(e){$('#message').className='msg bad';$('#message').textContent='No pudimos iniciar la descarga. '+String(e?.message||e);if(String(e?.message||e).toLowerCase().includes('license')||String(e?.message||e).toLowerCase().includes('licencia'))boot()}finally{btn.textContent=original;btn.disabled=!access.active}}
+$$('.download-btn').forEach(btn=>btn.addEventListener('click',()=>downloadResource(btn.dataset.key,btn)));$('#creatorOpen').addEventListener('click',e=>{if(!access.active)e.preventDefault()});sb.auth.onAuthStateChange(()=>setTimeout(boot,0));boot();
 </script>
 <script src="./psq-i18n-v26.js?v=2600"></script>
-</body>
-</html>
+</body></html>
