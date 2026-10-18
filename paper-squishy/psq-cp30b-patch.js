@@ -1,7 +1,7 @@
 /* CP3.0B — Creator Plus Upgrade | patch inserted INSIDE the validated factory IIFE.
  * Test-only: no changes to licensed core, library master assets or published factory.
  */
-const CP30B_VERSION='3.0B.TEST.1';
+const CP30B_VERSION='3.0B.R1.TEST.2';
 const cp3OldRenderTools=renderTools;
 const cp3OldBlank=blankEditor;
 const cp3OldStart=startEditor;
@@ -20,7 +20,7 @@ let cp3Collection='';
 const cp3Css=document.createElement('style');
 cp3Css.id='psq-cp30b-css';
 cp3Css.textContent=`
-.tool-tabs{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+.tool-tabs{grid-template-columns:repeat(5,minmax(0,1fr))!important}.tool-tabs button[data-tool=cpPresets]{box-shadow:0 0 0 1px #fac26f inset}.tool-tabs button[data-tool=cpPresets].active{box-shadow:none}
 .tool-tabs button{min-width:0;padding:8px 1px!important}
 .cp3-banner{border:1px solid #dbbddf;background:linear-gradient(135deg,#fff0fa,#fff6d9);padding:13px;border-radius:16px;margin:5px 0 13px}
 .cp3-banner b{display:block;font-size:15px}.cp3-banner small{display:block;line-height:1.35;color:#6d596a;margin-top:5px}
@@ -36,9 +36,9 @@ cp3Css.textContent=`
 .cp3-style-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
 .cp3-style{display:flex;flex-direction:column;align-items:center;border:1px solid #e9daca;background:#fff;border-radius:13px;min-width:0;overflow:hidden;cursor:pointer;padding:4px 3px 8px}
 .cp3-style.active{outline:2px solid #f0897c}
-.cp3-style img{width:100%;aspect-ratio:1;object-fit:contain;display:block;background:#fff9ed;border-radius:8px}
+.cp3-style-preview{position:relative;width:100%;aspect-ratio:1;border-radius:8px;overflow:hidden}.cp3-style img{width:100%;height:100%;object-fit:contain;display:block}.cp3-preview-stickers{position:absolute;inset:auto 0 2px;text-align:center;font-size:19px;text-shadow:0 1px 4px white,0 2px 5px #fff}
 .cp3-style strong{font-size:10px;line-height:1.2;margin-top:5px;min-height:24px}
-.cp3-style small{font-size:9px;color:#73635b}
+.cp3-style small{font-size:9px;color:#73635b;text-align:center}.cp3-style-preview img{filter:drop-shadow(0 3px 4px rgba(77,46,21,.12))}
 .cp3-pillgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
 .cp3-pillgrid button{display:flex;align-items:center;justify-content:center;min-height:42px;font-size:23px;border:1px solid #eaddd3;border-radius:10px;background:#fffdf8;cursor:pointer}
 .cp3-form{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}.cp3-form input[type=text]{width:100%;min-width:0;border:1px solid #dfcfc3;border-radius:9px;padding:10px}.cp3-form button{border:0;background:#ffd66e;border-radius:9px;padding:10px;font-weight:900;cursor:pointer}
@@ -91,8 +91,10 @@ function cp3RenderPanel(){
   const t=document.createElement('strong');t.textContent=ch.name;b.appendChild(t);b.onclick=()=>{if(editor.objects.length&&editor.sourceId!==ch.id&&!confirm('Cambiar de personaje reinicia las decoraciones actuales. ¿Continuar?'))return;cp3Collection=ch.collection_id;startEditor(ch.id);};grid.appendChild(b);}box.appendChild(grid);
  const styleLabel=document.createElement('div');styleLabel.className='cp3-divider';styleLabel.textContent='3 · PRESETS EDITABLES';box.appendChild(styleLabel);
  const styles=document.createElement('div');styles.className='cp3-style-grid';for(const st of cp3Styles){const b=document.createElement('button');b.type='button';b.className='cp3-style';b.classList.toggle('active',editor.cpPreset===st.id);b.disabled=!selected;
- const img=document.createElement('img');img.alt='Vista del personaje real para '+st.name;img.src=selected?.assets?.hero?.path||chars[0]?.assets?.hero?.path||'';img.style.background=`linear-gradient(135deg,${st.colors.join(',')})`;
- const strong=document.createElement('strong');strong.textContent=st.name;const sml=document.createElement('small');sml.textContent=st.emoji+' decorar';b.append(img,strong,sml);b.onclick=()=>cp3ApplyStyle(st.id);styles.appendChild(b);}box.appendChild(styles);
+ const preview=document.createElement('div');preview.className='cp3-style-preview';preview.style.background=`linear-gradient(135deg,${st.colors.join(',')})`;
+ const img=document.createElement('img');img.alt='Personaje original con estilo '+st.name;img.src=selected?.assets?.hero?.path||chars[0]?.assets?.hero?.path||'';preview.appendChild(img);
+ const corners=document.createElement('div');corners.className='cp3-preview-stickers';corners.textContent=st.id==='choco'?'🍫 ✨':st.id==='vanilla'?'🍒 🌸':'🫐 🌟';preview.appendChild(corners);
+ const strong=document.createElement('strong');strong.textContent=st.name;const sml=document.createElement('small');sml.textContent=st.emoji+' · Decoración editable';b.append(preview,strong,sml);b.onclick=()=>cp3ApplyStyle(st.id);styles.appendChild(b);}box.appendChild(styles);
  const shapeLabel=document.createElement('div');shapeLabel.className='cp3-divider';shapeLabel.textContent='4 · FORMAS DECORATIVAS';box.appendChild(shapeLabel);
  const shapeColor=document.createElement('div');shapeColor.className='cp3-form-next';shapeColor.innerHTML='<label style="font-size:10px;display:flex;align-items:center;gap:8px">Color de formas <input id="cp3ShapeColor" type="color" value="#ffa6cb" aria-label="Color de formas"></label>';box.appendChild(shapeColor);
  const shapeGrid=document.createElement('div');shapeGrid.className='cp3-pillgrid';for(const sh of cp3Shapes){const b=document.createElement('button');b.type='button';b.title=sh.name;b.textContent=sh.icon;b.onclick=()=>cp3AddShape(sh.type,360+Math.random()*260,320+Math.random()*320);shapeGrid.appendChild(b);}box.appendChild(shapeGrid);
@@ -106,14 +108,50 @@ function cp3RenderPanel(){
  updateEditorUI();
 }
 renderTools=function(){
- $$('.tool-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tool===editor.tool));
- if(editor.tool==='cpPresets'){cp3RenderPanel();return;}cp3OldRenderTools();
+ const box=document.querySelector('#toolBox');
+ try{
+  $$('.tool-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tool===editor.tool));
+  if(editor.tool==='cpPresets')cp3RenderPanel();else cp3OldRenderTools();
+  if(box&&!box.children.length)throw new Error('Herramientas no renderizadas');
+ }catch(error){
+  console.error('[CP3.0B-R1] Render recuperado:',error);
+  editor.tool='cpPresets';
+  $$('.tool-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tool==='cpPresets'));
+  try{cp3RenderPanel()}catch(fatal){
+   console.error('[CP3.0B-R1] Panel de emergencia:',fatal);
+   if(box)box.innerHTML='<div class="cp3-banner"><b>🪄 PRESETS · Recuperación</b><small>El panel tuvo un problema. Tocá “Recargar presets” para intentar de nuevo.</small><button id="cp3Retry" type="button" style="padding:10px;margin-top:10px;border-radius:9px;background:#ffd66e;border:0;font-weight:800">Recargar presets</button></div>';
+   document.querySelector('#cp3Retry')?.addEventListener('click',()=>{editor.tool='cpPresets';renderTools()});
+  }
+ }
 };
-function cp3BeginBlank(){cp3OldBlank();editor.tool='cpPresets';renderTools();}
-function cp3StartCharacter(id){cp3OldStart(id);cp3Collection=cp3CurrentCharacter()?.collection_id||cp3Collection;editor.cpPreset=null;editor.tool='cpPresets';renderTools();}
+function cp3BeginBlank(){
+ activeCharacter=null;baseImage=null;
+ editor=freshEditor({tool:'cpPresets'});
+ $('#editorName').textContent='Mi Squishy desde cero';
+ show('editor');
+}
+function cp3StartCharacter(id){
+ const ch=getChar(id);if(!ch){toast('El personaje no está disponible');return;}
+ const src=ch.assets?.editor_asset?.path||EDITOR_ASSETS[id];
+ if(!src){toast('Este personaje todavía no tiene imagen editable');return;}
+ activeCharacter=id;cp3Collection=ch.collection_id;
+ baseImage=null;
+ editor=freshEditor({sourceId:id,sourceName:ch.name,baseSrc:src,baseShape:null,tool:'cpPresets',cpPreset:null});
+ $('#editorName').textContent=ch.name+' · mi remix';
+ loadBase(src);
+ show('editor');
+}
 blankEditor=cp3BeginBlank;
 startEditor=cp3StartCharacter;
 for(const id of ['headerCreateBtn','blankStartBtn','blankStartBtn2']){const b=document.getElementById(id);if(b)b.onclick=cp3BeginBlank;}
+// Direct action remains available even when an old tab has stale selection.
+const cp3QuickOpen=document.createElement('button');cp3QuickOpen.id='cp3QuickOpen';cp3QuickOpen.type='button';cp3QuickOpen.textContent='🪄 ABRIR PRESETS';cp3QuickOpen.style.cssText='flex:0 0 auto;background:#fff7de;border:1px solid #e9c87c;border-radius:999px;padding:8px 13px;font-size:12px;font-weight:1000;cursor:pointer;color:#5a3626';
+cp3QuickOpen.onclick=()=>{editor.tool='cpPresets';renderTools();updateEditorUI();document.querySelector('.tools')?.scrollTo({top:0,behavior:'smooth'})};
+const cp3Guide=document.querySelector('.editor-guide');if(cp3Guide)cp3Guide.prepend(cp3QuickOpen);
+const cp3BaseTab=document.querySelector('[data-tool="bases"]');
+if(cp3BaseTab)cp3BaseTab.addEventListener('click',event=>{
+ if(editor.baseSrc){event.preventDefault();event.stopImmediatePropagation();editor.tool='cpPresets';renderTools();toast('Para remixar a este personaje elegí un preset');}
+},true);
 loadBase=function(src){if(!src){baseImage=null;drawEditor();return;}baseImage=new Image();baseImage.crossOrigin='anonymous';baseImage.decoding='async';baseImage.onload=drawEditor;baseImage.onerror=()=>{toast('No se pudo cargar el personaje. Revisá la conexión');console.warn('[CP30B] Asset no disponible',src)};baseImage.src=src;};
 function cp3DrawShape(o){ctx.save();ctx.translate(o.x,o.y);ctx.rotate((o.rotation||0)*Math.PI/180);const s=cp3Limit(o.size||50,25,240);ctx.fillStyle=o.color||'#ffadc9';ctx.strokeStyle='#5f3d4e';ctx.lineWidth=Math.max(1,s*.035);ctx.beginPath();const k=o.value;
  if(k==='circle'){ctx.arc(0,0,s*.46,0,Math.PI*2)}
@@ -139,4 +177,8 @@ updateEditorUI=function(){cp3UpdateOriginal();const o=selectedObject(),range=doc
 let cp3RotGesture=false;const cp3RotRange=document.querySelector('#cp3Rotation');if(cp3RotRange){cp3RotRange.addEventListener('pointerdown',()=>{if(selectedObject()?.cp30b){snapshot();cp3RotGesture=true}});cp3RotRange.addEventListener('input',e=>{const o=selectedObject();if(!o?.cp30b)return;if(!cp3RotGesture){snapshot();cp3RotGesture=true}o.rotation=+e.target.value;document.querySelector('#cp3RotationValue').textContent=o.rotation+'°';drawEditor()});cp3RotRange.addEventListener('change',()=>{cp3RotGesture=false})}
 canvas.addEventListener('pointerup',()=>{const o=editor.objects[editor.selected];if(o?.cp30b){o.x=cp3Limit(o.x,240,760);o.y=cp3Limit(o.y,240,760);drawEditor();}});
 window.PSQ_CP30B={active:true,release:CP30B_VERSION,getCollections:()=>cp3Collections().map(x=>x.name),getCharacterCount:()=>cp3Characters().length,selectCharacter:(id)=>startEditor(id),getCurrent:()=>({sourceId:editor.sourceId,preset:editor.cpPreset,objects:editor.objects.length}),testApply:(id)=>cp3ApplyStyle(id),exportPng:cp3ExportPng};
+// Only on the CP3.0B test URL: open Donita as a hands-on starting example.
+if(location.pathname.endsWith('/psq-cp30b-test.html')&&new URLSearchParams(location.search).get('demo')==='donita'){
+ setTimeout(()=>{try{startEditor('sweet_squishies_donita')}catch(e){console.error('[CP30B] Inicio de demo',e)}},100);
+}
 console.info('[PSQ] Creator Plus CP3.0B TEST listo',window.PSQ_CP30B);
