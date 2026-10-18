@@ -57,6 +57,7 @@ function cp3CurrentCharacter(){return cp3Characters().find(ch=>ch.id===editor.so
 function cp3ValidateCollection(){const current=cp3CurrentCharacter();if(!cp3Collections().some(c=>c.id===cp3Collection))cp3Collection=current?.collection_id||cp3Collections()[0]?.id||'';}
 function cp3Limit(v,lo,hi){return Math.min(hi,Math.max(lo,v));}
 function cp3AddShape(type,x=340,y=330,size=52,color='#ffa6cb',preset=false){
+  if(!preset)color=document.querySelector('#cp3ShapeColor')?.value||color;
   snapshot();editor.objects.push({type:'cpShape',value:type,x:cp3Limit(x,240,760),y:cp3Limit(y,240,760),size:cp3Limit(size,28,180),color,cp30b:true,cpPresetItem:preset});
   editor.selected=editor.objects.length-1;drawEditor();updateEditorUI();
 }
@@ -67,7 +68,7 @@ function cp3AddSticker(value,x=330,y=360,size=64,preset=false){
 function cp3AddText(){const input=document.querySelector('#cp3TextInput');const value=(input?.value||'').trim().slice(0,18);if(!value){toast('Escribí una frase corta');return;}
   const where=document.querySelector('#cp3TextPosition')?.value||'bottom';const color=document.querySelector('#cp3TextColor')?.value||'#5e3159';
   const pos=where==='top'?[500,285]:where==='side'?[650,590]:[500,725];
-  snapshot();editor.objects.push({type:'text',value,color,x:pos[0],y:pos[1],size:50,cp30b:true});
+  snapshot();editor.objects.push({type:'text',value,color,x:pos[0],y:pos[1],size:where==='side'?28:50,cp30b:true});
   editor.selected=editor.objects.length-1;drawEditor();updateEditorUI();toast('Texto agregado · movelo con el mouse');
 }
 function cp3ApplyStyle(styleId){const style=cp3Styles.find(x=>x.id===styleId);if(!style)return;
@@ -93,6 +94,7 @@ function cp3RenderPanel(){
  const img=document.createElement('img');img.alt='Vista del personaje real para '+st.name;img.src=selected?.assets?.hero?.path||chars[0]?.assets?.hero?.path||'';img.style.background=`linear-gradient(135deg,${st.colors.join(',')})`;
  const strong=document.createElement('strong');strong.textContent=st.name;const sml=document.createElement('small');sml.textContent=st.emoji+' decorar';b.append(img,strong,sml);b.onclick=()=>cp3ApplyStyle(st.id);styles.appendChild(b);}box.appendChild(styles);
  const shapeLabel=document.createElement('div');shapeLabel.className='cp3-divider';shapeLabel.textContent='4 · FORMAS DECORATIVAS';box.appendChild(shapeLabel);
+ const shapeColor=document.createElement('div');shapeColor.className='cp3-form-next';shapeColor.innerHTML='<label style="font-size:10px;display:flex;align-items:center;gap:8px">Color de formas <input id="cp3ShapeColor" type="color" value="#ffa6cb" aria-label="Color de formas"></label>';box.appendChild(shapeColor);
  const shapeGrid=document.createElement('div');shapeGrid.className='cp3-pillgrid';for(const sh of cp3Shapes){const b=document.createElement('button');b.type='button';b.title=sh.name;b.textContent=sh.icon;b.onclick=()=>cp3AddShape(sh.type,360+Math.random()*260,320+Math.random()*320);shapeGrid.appendChild(b);}box.appendChild(shapeGrid);
  const stickerLabel=document.createElement('div');stickerLabel.className='cp3-divider';stickerLabel.textContent='5 · STICKERS';box.appendChild(stickerLabel);
  const stickerGrid=document.createElement('div');stickerGrid.className='cp3-pillgrid';for(const em of cp3Stickers){const b=document.createElement('button');b.type='button';b.title='Agregar sticker '+em;b.textContent=em;b.onclick=()=>cp3AddSticker(em,355+Math.random()*250,325+Math.random()*315);stickerGrid.appendChild(b);}box.appendChild(stickerGrid);
@@ -121,7 +123,7 @@ function cp3DrawShape(o){ctx.save();ctx.translate(o.x,o.y);ctx.rotate((o.rotatio
  else if(k==='flower'){for(let i=0;i<6;i++){const a=Math.PI*2*i/6;ctx.moveTo(0,0);ctx.arc(Math.cos(a)*s*.25,Math.sin(a)*s*.25,s*.24,0,Math.PI*2)}ctx.moveTo(s*.12,0);ctx.arc(0,0,s*.12,0,Math.PI*2)}
  else if(k==='cloud'){ctx.moveTo(-s*.43,s*.22);ctx.bezierCurveTo(-s*.63,-s*.09,-s*.35,-s*.36,-s*.14,-s*.26);ctx.bezierCurveTo(s*.02,-s*.55,s*.28,-s*.36,s*.3,-s*.12);ctx.bezierCurveTo(s*.63,-s*.12,s*.63,s*.3,s*.26,s*.31);ctx.lineTo(-s*.34,s*.31);ctx.closePath()}
  ctx.fill();ctx.stroke();ctx.restore();}
-drawObject=function(o,i){if(o.type==='cpShape'){cp3DrawShape(o);if(i===editor.selected&&!cp3Exporting){ctx.save();const sz=Math.max(90,(o.size||90)*1.35);ctx.strokeStyle='#ff8068';ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.strokeRect(o.x-sz/2,o.y-sz/2,sz,sz);ctx.restore();}return;}if(cp3Exporting){const old=editor.selected;editor.selected=null;cp3OldDrawObject(o,i);editor.selected=old;}else cp3OldDrawObject(o,i);};
+drawObject=function(o,i){if(o.cp30b&&o.type!=='cpShape'&&o.rotation){ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.rotation*Math.PI/180);cp3OldDrawObject({...o,x:0,y:0},-1);ctx.restore();if(i===editor.selected&&!cp3Exporting){ctx.save();const sz=Math.max(90,(o.size||90)*1.35);ctx.strokeStyle='#ff8068';ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.strokeRect(o.x-sz/2,o.y-sz/2,sz,sz);ctx.restore();}return;}if(o.type==='cpShape'){cp3DrawShape(o);if(i===editor.selected&&!cp3Exporting){ctx.save();const sz=Math.max(90,(o.size||90)*1.35);ctx.strokeStyle='#ff8068';ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.strokeRect(o.x-sz/2,o.y-sz/2,sz,sz);ctx.restore();}return;}if(cp3Exporting){const old=editor.selected;editor.selected=null;cp3OldDrawObject(o,i);editor.selected=old;}else cp3OldDrawObject(o,i);};
 drawEditor=function(){if(!cp3Exporting)return cp3OldDrawEditor();ctx.clearRect(0,0,CW,CH);
  if(baseImage?.complete&&baseImage.naturalWidth>0){const ratio=Math.min(820/baseImage.naturalWidth,820/baseImage.naturalHeight);const w=baseImage.naturalWidth*ratio,h=baseImage.naturalHeight*ratio;ctx.drawImage(baseImage,(CW-w)/2,(CH-h)/2,w,h)}
  else if(!editor.baseSrc){const p=shapePath(editor.baseShape||'circle');ctx.fillStyle=editor.baseColor||'#fff8ef';ctx.fill(p,'evenodd');ctx.strokeStyle='#3c2b23';ctx.lineWidth=10;ctx.stroke(p)}
@@ -130,7 +132,11 @@ drawEditor=function(){if(!cp3Exporting)return cp3OldDrawEditor();ctx.clearRect(0
 function cp3ExportPng(){const selected=editor.selected;try{cp3Exporting=true;editor.selected=null;drawEditor();return canvas.toDataURL('image/png');}finally{cp3Exporting=false;editor.selected=selected;drawEditor();}}
 const cp3Done=document.querySelector('#editorDone');if(cp3Done)cp3Done.onclick=()=>{try{const data=cp3ExportPng();document.querySelector('#exportPreview').src=data;show('export')}catch(e){console.error('[CP30B] PNG export:',e);toast('No se pudo exportar. Revisá carga del personaje')}};
 const cp3Download=document.querySelector('#downloadPng');if(cp3Download)cp3Download.onclick=()=>{try{download((editor.sourceName||'Mi-Squishy')+'-cp30b.png',cp3ExportPng(),'url')}catch(e){toast('No se pudo descargar PNG');console.error(e)}};
-const cp3Print=document.querySelector('#printRemixBtn');if(cp3Print)cp3Print.onclick=()=>{if(editor.cpPreset){alert('CP3.0B: impresión del remix todavía en validación. Primero debemos comprobar que frente y dorso coincidan al 100%. Podés descargar el PNG de prueba.');return;}prepareRemixPrint();};
+const cp3Print=document.querySelector('#printRemixBtn');if(cp3Print)cp3Print.onclick=()=>{if(editor.cpPreset||editor.objects.some(o=>o.cp30b)){alert('CP3.0B: impresión del remix todavía en validación. Primero debemos comprobar que frente y dorso coincidan al 100%. Podés descargar el PNG de prueba.');return;}prepareRemixPrint();};
+const cp3Rotate=document.createElement('div');cp3Rotate.className='cp3-form-next';cp3Rotate.style.cssText='align-items:center;margin-top:10px;padding:8px;background:#fff7e7;border-radius:10px';cp3Rotate.innerHTML='<label style="font-size:10px;white-space:nowrap;font-weight:900">↻ Girar capa</label><input id="cp3Rotation" type="range" min="-45" max="45" step="5" value="0" disabled><output id="cp3RotationValue" style="font-size:11px">0°</output>';const cp3SelectedPanel=document.querySelector('.selected-tools');if(cp3SelectedPanel)cp3SelectedPanel.appendChild(cp3Rotate);
+const cp3UpdateOriginal=updateEditorUI;
+updateEditorUI=function(){cp3UpdateOriginal();const o=selectedObject(),range=document.querySelector('#cp3Rotation'),label=document.querySelector('#cp3RotationValue');if(range){range.disabled=!o?.cp30b;range.value=o?.rotation||0;if(label)label.textContent=(o?.rotation||0)+'°';}};
+let cp3RotGesture=false;const cp3RotRange=document.querySelector('#cp3Rotation');if(cp3RotRange){cp3RotRange.addEventListener('pointerdown',()=>{if(selectedObject()?.cp30b){snapshot();cp3RotGesture=true}});cp3RotRange.addEventListener('input',e=>{const o=selectedObject();if(!o?.cp30b)return;if(!cp3RotGesture){snapshot();cp3RotGesture=true}o.rotation=+e.target.value;document.querySelector('#cp3RotationValue').textContent=o.rotation+'°';drawEditor()});cp3RotRange.addEventListener('change',()=>{cp3RotGesture=false})}
 canvas.addEventListener('pointerup',()=>{const o=editor.objects[editor.selected];if(o?.cp30b){o.x=cp3Limit(o.x,240,760);o.y=cp3Limit(o.y,240,760);drawEditor();}});
 window.PSQ_CP30B={active:true,release:CP30B_VERSION,getCollections:()=>cp3Collections().map(x=>x.name),getCharacterCount:()=>cp3Characters().length,selectCharacter:(id)=>startEditor(id),getCurrent:()=>({sourceId:editor.sourceId,preset:editor.cpPreset,objects:editor.objects.length}),testApply:(id)=>cp3ApplyStyle(id),exportPng:cp3ExportPng};
 console.info('[PSQ] Creator Plus CP3.0B TEST listo',window.PSQ_CP30B);
