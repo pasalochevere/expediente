@@ -10,7 +10,7 @@
     if(!shell.includes(marker))throw new Error('La Factory maestra cambió su sistema de carga.');
     const addon=`
       // Test-only patch. The master HTML and the licensing check remain untouched.
-      const cpResponse=await fetch('./psq-cp30b-patch.js?v=301',{cache:'no-store'});
+      const cpResponse=await fetch('./psq-cp30b-patch.js?v=302',{cache:'no-store'});
       if(!cpResponse.ok)throw new Error('No se pudo cargar CP3.0B.');
       const cpSource=await cpResponse.text();
       const cpAnchor="renderHome();renderCollections();show('home');\\n})();";
