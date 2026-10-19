@@ -17,7 +17,7 @@ async function loadAssets(){
     R();
   }catch{}
 }
-function logo(){return'<div class="logo"><b>PASALO</b><b>CHEVERE</b><i>★</i></div>'}
+function logo(){return'<div class="logo mp-brand-icon" aria-label="MODO PREVIA, de pasalochevere"><b>M</b><b>P</b><i>✦</i></div>'}
 function shuffle(xs){const a=[...xs];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function sh(){return shuffle([...Array(42)].map((_,i)=>i))}
 function save(){G&&localStorage.setItem(K,JSON.stringify(G))}
@@ -75,10 +75,10 @@ function next(skip=0){
   if(G.i>=total())S='done';save();R();
 }
 function age(){
-  return`<section class="done">${logo()}<span class="over">CONTENIDO +18</span><h1>TORRE YENGA<br><em>BORRACHO</em></h1><p>Incluye consignas relacionadas con bebidas. Podés jugar sin alcohol y pasar cualquier consigna.</p><button class="btn" onclick="localStorage.setItem(A,'1');R()">SOY MAYOR DE 18</button><small>Si vas a conducir: alcohol cero.</small></section>`
+  return`<section class="done">${logo()}<span class="over">MODO PREVIA · CONTENIDO +18</span><h1>MODO<br><em>PREVIA</em></h1><p>Incluye consignas relacionadas con bebidas. Podés jugar sin alcohol y pasar cualquier consigna.</p><button class="btn" onclick="localStorage.setItem(A,'1');R()">SOY MAYOR DE 18</button><small>Si vas a conducir: alcohol cero.</small></section>`
 }
 function productSet(){
-  if(IMG_SET)return`<img src="${IMG_SET}" alt="Torre Yenga Borracho con bolso y chupitos">`;
+  if(IMG_SET)return`<img src="${IMG_SET}" alt="Torre real de madera natural con bolso">`;
   return`<div class="asset-loader"><span></span><span></span><span></span><small>Preparando la torre…</small></div>`;
 }
 function towerImage(){
@@ -89,8 +89,10 @@ function home(){
   let x=load();if(x&&x.mode==='ruleta')x=upgradeGame(x);let lm=x&&M[x.l]?M[x.l]:M.tranqui;const max=x&&x.total||42;const label=x?.mode==='ruleta'?'RULETA COMPLETA':x?.mode==='individual'?'RULETA INDIVIDUAL · '+lm[0]:lm[0];
   return`<section class="hero">
     <div class="hero-head">${logo()}<div><span class="over">PASALOCHEVERE · +18</span><b class="microtitle">JUEGOS PARA ROMPER LA RUTINA</b></div><span class="hero-spark" aria-hidden="true">✳</span></div>
-    <div class="hero-copy"><span class="party-kicker">⚡ ACTIVÁ LA PREVIA</span><h1>TORRE YENGA<br><em>BORRACHO</em></h1><p>3 intensidades. 126 retos digitales.<br>Elegí cómo querés jugar.</p><div class="party-tags"><span>🎲 AZAR</span><span>🔥 DESAFÍOS</span><span>💥 RISAS</span></div></div>
-    <div class="product-stage"><span class="product-note">EL KIT ORIGINAL · + DIGITAL</span>${productSet()}</div><div class="mode-separator"><span>✦ TRES FORMAS DE JUGAR</span><i></i></div>
+    <div class="hero-copy"><span class="party-kicker">⚡ LA PREVIA TAMBIÉN ES UN PLAN</span><h1>MODO<br><em>PREVIA.</em></h1><p>Una torre real, dos ruletas digitales y 126 desafíos.<br>Elegí cómo querés jugar.</p><div class="party-tags"><span>🎲 AZAR</span><span>🔥 DESAFÍOS</span><span>💥 RISAS</span></div></div>
+    <div class="mp-home-cover"><img src="modo-previa-party-pop.svg" alt="Portada MODO PREVIA Party Pop, con torre de madera natural y celular con ruleta digital" loading="eager"></div>
+    <div class="mp-real-product"><span class="mp-product-label">EL JUEGO REAL · MADERA NATURAL</span>${productSet()}</div>
+    <div class="mode-separator"><span>✦ TRES FORMAS DE JUGAR</span><i></i></div>
     ${x&&x.i<max?`
       <div class="resume-card">
         <div><small>PARTIDA EN CURSO</small><strong>${label}</strong></div>
