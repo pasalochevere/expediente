@@ -2,7 +2,8 @@ const D=window.JB_DATA;
 const L={tranqui:0,sube:1,maximo:2};
 const M={tranqui:['TRANQUI','g','#688d6c'],sube:['SUBE','o','#da8932'],maximo:['AL MÁXIMO','r','#bf5940']};
 const K='pc.jb07.game',A='pc.jb07.age';
-let G=null,S='home',O=null,P='tranqui',IMG_SET='',IMG_TOWER='';
+let G=null,S='home',O=null,P='tranqui',P_MODE='torre',IMG_SET='',IMG_TOWER='';
+let wheelBusy=false;
 const q=s=>document.querySelector(s);
 
 async function loadAssets(){
@@ -20,10 +21,10 @@ function logo(){return'<div class="logo"><b>PASALO</b><b>CHEVERE</b><i>★</i></
 function sh(){let a=[...Array(42)].map((_,i)=>i);for(let i=41;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function save(){G&&localStorage.setItem(K,JSON.stringify(G))}
 function load(){try{return JSON.parse(localStorage.getItem(K))}catch{return null}}
-function resume(){G=load();S='game';R();if(G&&G.timer&&G.timer.status==='run')tick()}
-function newg(l){return{l,deck:sh(),i:0,rev:false,h:[],rules:[],timer:null,t:Date.now()}}
+function resume(){G=load();if(!G)return;P_MODE=G.mode==='ruleta'?'ruleta':'torre';wheelBusy=false;S='game';R();if(G.timer&&G.timer.status==='run')tick()}
+function newg(l,mode='torre'){return{l,mode,deck:sh(),i:0,rev:false,h:[],rules:[],timer:null,wheelAngle:0,t:Date.now()}}
 function card(){let s=G.deck[G.i],d=D[s];return{slot:s+1,text:d[L[G.l]],cat:d[3],tmp:!!d[4]}}
-function start(l){G=newg(l);save();S='game';R()}
+function start(l,mode=P_MODE){P_MODE=mode;wheelBusy=false;G=newg(l,mode);save();S='game';R()}
 function next(skip=0){
   let c=card();
   G.h.push({...c,l:G.l,skip});
@@ -32,7 +33,7 @@ function next(skip=0){
     G.rules.push({text:c.text,slot:c.slot,tr});
     if(G.rules.length>2)G.rules.shift();
   }
-  G.i++;G.rev=false;G.timer=null;
+  G.i++;G.rev=false;G.timer=null;wheelBusy=false;
   if(G.i>=42)S='done';
   save();R();
 }
@@ -59,8 +60,8 @@ function home(){
         <span class="badge" style="--c:${lm[2]}">${x.i+1} / 42</span>
       </div>
       <button class="btn resume-btn" onclick="resume()"><span>VOLVER A LA MESA</span><b>CONTINUAR · ${x.i+1}/42</b></button>
-      <button class="btn s" onclick="S='levels';R()">NUEVA PARTIDA</button>`
-      :`<button class="btn" onclick="S='levels';R()">JUGAR</button>`}
+      <button class="btn s" onclick="P_MODE='torre';S='levels';R()">NUEVA PARTIDA · TORRE</button><button class="btn o" onclick="P_MODE='ruleta';S='levels';R()">RULETA DIGITAL</button>`
+      :`<button class="btn" onclick="P_MODE='torre';S='levels';R()">JUGAR CON TORRE</button><button class="btn o" onclick="P_MODE='ruleta';S='levels';R()">RULETA DIGITAL · SIN TORRE</button>`}
     <div class="home-links"><button class="link" onclick="S='how';R()">Cómo jugar</button><button class="link" onclick="S='care';R()">Consumo responsable</button></div>
   </section>`
 }
@@ -71,7 +72,7 @@ function levels(){
     ['maximo','LA MESA YA ESTÁ ENCENDIDA','Más intensidad, cadenas y mini-prendas.','El nivel más intenso.']
   ];
   return`<div class="top"><button class="back" onclick="S='home';R()">‹</button>${logo()}</div>
-    <span class="over">ELEGÍ TU INTENSIDAD</span><h1>¿CÓMO VIENE<br>LA NOCHE?</h1>
+    <span class="over">ELEGÍ TU INTENSIDAD · ${P_MODE==='ruleta'?'RULETA DIGITAL':'TORRE'}</span><h1>¿CÓMO VIENE<br>LA NOCHE?</h1>
     <div class="levels">${list.map(x=>`<article class="lvl" style="--c:${M[x[0]][2]}">
       <span class="badge" style="--c:${M[x[0]][2]}">${M[x[0]][0]}</span>
       <h3>${x[1]}</h3>
@@ -82,6 +83,11 @@ function levels(){
 }
 function pre(){
   let m=M[P];
+  if(P_MODE==='ruleta')return '<div class="top"><button class="back" onclick="S=\'levels\';R()">‹</button>'+logo()+'</div>'
+    +'<span class="over">RULETA DIGITAL · '+m[0]+'</span><h1>GIRÁ.<br>DESCUBRÍ.<br>JUGÁ.</h1>'
+    +'<div class="care"><b>1 · GIRÁ</b><p>Hacé girar la ruleta.</p><b>2 · REVELÁ</b><p>Descubrí la consigna original del casillero.</p><b>3 · SEGUÍ</b><p>Jugá o pasá la consigna y continuá.</p></div>'
+    +'<p>42 casilleros sin repetir. Podés jugar sin alcohol y pasar cualquier consigna.</p>'
+    +'<button class="btn '+m[1]+'" onclick="start(P)">EMPEZAR RULETA</button>';
   return`<div class="top"><button class="back" onclick="S='levels';R()">‹</button>${logo()}</div><span class="over">ANTES DE EMPEZAR · ${m[0]}</span><h1>TRES PASOS.<br>Y A JUGAR.</h1><div class="care"><b>1 · SACÁ</b><p>Retirá un bloque de la torre.</p><b>2 · LEÉ</b><p>Mostrá la consigna del celular.</p><b>3 · CUMPLÍ</b><p>Hacé la consigna, apilá y seguí.</p></div><p>Un sorbo siempre es pequeño. Cualquiera puede pasar y también podés jugar sin alcohol.</p><button class="btn ${m[1]}" onclick="start(P)">EMPEZAR PARTIDA</button>`
 }
 function how(){
@@ -109,14 +115,44 @@ function timerHTML(){
   let sec=G.l==='tranqui'?15:G.l==='sube'?20:30,
       rem=G.timer?Math.max(0,Math.ceil((G.timer.end-Date.now())/1000)):sec,
       done=G.timer&&(G.timer.status==='done'||rem<=0),m=M[G.l];
-  return`<small>MINIJUEGO · #42</small><h2 style="font-size:42px">SIN DECIR<br>SÍ NI NO</h2><div class="timer-ring" style="--c:${m[2]}"><b style="font-size:64px">${rem}</b><small>segundos</small></div><div class="actions">${!G.timer?`<button class="btn ${m[1]}" onclick="startTimer()">INICIAR</button>`:done?`<button class="btn ${m[1]}" onclick="next()">TERMINADO</button>`:''}<button class="link" onclick="next(1)">Pasar consigna</button></div>`
+  return`<small>MINIJUEGO · #42</small><h2 style="font-size:42px">SIN DECIR<br>SÍ NI NO</h2>${G.mode==='ruleta'?`<p class="wheel-task-text">${card().text}</p>`:''}<div class="timer-ring" style="--c:${m[2]}"><b style="font-size:64px">${rem}</b><small>segundos</small></div><div class="actions">${!G.timer?`<button class="btn ${m[1]}" onclick="startTimer()">INICIAR</button>`:done?`<button class="btn ${m[1]}" onclick="next()">TERMINADO</button>`:''}<button class="link" onclick="next(1)">Pasar consigna</button></div>`
 }
+
+function wheelSVG(){
+  const step=360/42,colors=['#d9a34f','#bf5940','#688d6c','#e5af71','#926949','#99aa90'],sectors=[],labels=[];
+  for(let i=0;i<42;i++){
+    const a=(-90+i*step)*Math.PI/180,a0=a-step*Math.PI/360,a1=a+step*Math.PI/360;
+    const point=(rad,r)=>(200+r*Math.cos(rad)).toFixed(2)+' '+(200+r*Math.sin(rad)).toFixed(2);
+    sectors.push('<path d="M200 200 L'+point(a0,185)+' A185 185 0 0 1 '+point(a1,185)+' Z" fill="'+colors[i%6]+'" stroke="#fff2df" stroke-width="1.1"/>');
+    labels.push('<text x="'+(200+159*Math.cos(a)).toFixed(2)+'" y="'+(200+159*Math.sin(a)).toFixed(2)+'" font-size="12" font-weight="900" fill="#fff" text-anchor="middle" dominant-baseline="central">'+String(i+1).padStart(2,'0')+'</text>');
+  }
+  return '<svg viewBox="0 0 400 400" role="img" aria-label="Ruleta de 42 casilleros"><circle cx="200" cy="200" r="192" fill="#fff2dc" stroke="#b58e52" stroke-width="7"/>'+sectors.join('')+labels.join('')+'</svg>';
+}
+function wheelHTML(n){
+  return '<div class="wheel-wrap"><span class="over">TURNO '+n+' · RULETA DIGITAL</span><h2>¡GIRÁ LA RULETA!</h2>'
+    +'<div class="wheel-stage"><span class="wheel-pointer" aria-hidden="true">▼</span><div class="wheel-disc" id="wheel-disc" style="transform:rotate('+(Number(G.wheelAngle)||0)+'deg)">'+wheelSVG()+'</div><div class="wheel-hub"><b>42</b><small>CONSIGNAS</small></div></div>'
+    +'<p class="wheel-hint">Las mismas frases, sin repeticiones.</p><div class="actions"><button class="btn '+M[G.l][1]+'" id="wheel-spin" onclick="spinWheel()">GIRAR RULETA</button></div></div>';
+}
+function spinWheel(){
+  if(wheelBusy||!G||G.mode!=='ruleta'||G.rev)return;
+  const disc=q('#wheel-disc'),btn=q('#wheel-spin');if(!disc||!btn)return;
+  wheelBusy=true;btn.disabled=true;btn.textContent='GIRANDO…';
+  const current=Number(G.wheelAngle)||0,step=360/42;
+  const target=(360-(card().slot-1)*step)%360,from=((current%360)+360)%360;
+  const angle=current+360*6+(target-from+360)%360;
+  const session=G,turn=G.i;
+  G.wheelAngle=angle;save();disc.style.transform='rotate('+angle+'deg)';
+  const reduced=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(()=>{wheelBusy=false;if(G!==session||S!=='game'||G.i!==turn)return;G.rev=true;save();R()},reduced?120:3500);
+}
+
 function game(){
   let c=card(),m=M[G.l],n=G.i+1,body;
-  if(!G.rev)body=`${towerImage()}<span class="over">TURNO ${n}</span><h1>SACÁ<br>UN BLOQUE</h1><p>Cuando estén listos, revelá la consigna.</p><button class="btn ${m[1]}" onclick="G.rev=true;save();R()">MOSTRAR CONSIGNA</button>`;
+  if(!G.rev&&G.mode==='ruleta')body=wheelHTML(n);
+  else if(!G.rev)body=`${towerImage()}<span class="over">TURNO ${n}</span><h1>SACÁ<br>UN BLOQUE</h1><p>Cuando estén listos, revelá la consigna.</p><button class="btn ${m[1]}" onclick="G.rev=true;save();R()">MOSTRAR CONSIGNA</button>`;
   else if(c.slot===42)body=timerHTML();
   else body=`<small>${c.cat} · #${String(c.slot).padStart(2,'0')}</small><p class="txt">${c.text}</p><div class="actions"><button class="btn ${m[1]}" onclick="next()">${c.tmp?'ACTIVAR Y SEGUIR':'SIGUIENTE →'}</button><button class="link" onclick="next(1)">Pasar consigna</button></div>`;
-  return`<div class="top">${logo()}<button class="menu" onclick="O='menu';R()">•••</button></div><div class="game-meta"><span class="badge" style="--c:${m[2]}">${m[0]}</span><b>${n} / 42</b></div><div class="bar" style="--c:${m[2]}"><i style="width:${G.i/42*100}%"></i></div>${G.rules.length?`<button class="rulechip" onclick="O='rules';R()">REGLAS ACTIVAS · ${G.rules.length}</button>`:''}<section class="card">${body}</section>${overlay()}${extra()}`
+  return`<div class="top">${logo()}<button class="menu" onclick="O='menu';R()">•••</button></div><div class="game-meta"><span class="badge" style="--c:${m[2]}">${m[0]}</span><b>${G.mode==='ruleta'?'RULETA · ':''}${n} / 42</b></div><div class="bar" style="--c:${m[2]}"><i style="width:${G.i/42*100}%"></i></div>${G.rules.length?`<button class="rulechip" onclick="O='rules';R()">REGLAS ACTIVAS · ${G.rules.length}</button>`:''}<section class="card">${body}</section>${overlay()}${extra()}`
 }
 function overlay(){
   if(!O)return'';
@@ -130,7 +166,7 @@ function extra(){
   return''
 }
 function done(){
-  return`<section class="done">${logo()}<span class="over">42 / 42</span><h1>LA TORRE<br>SIGUE EN PIE.</h1><h2>¿USTEDES?</h2><p>Tomá agua. La revancha puede esperar.</p><button class="btn ${M[G.l][1]}" onclick="start(G.l)">VOLVER A MEZCLAR</button><button class="btn s" onclick="localStorage.removeItem(K);G=null;S='home';R()">VOLVER AL INICIO</button></section>`
+  return`<section class="done">${logo()}<span class="over">42 / 42</span><h1>${G.mode==='ruleta'?'LA RULETA<br>SE DETUVO.':'LA TORRE<br>SIGUE EN PIE.'}</h1><h2>¿USTEDES?</h2><p>Tomá agua. La revancha puede esperar.</p><button class="btn ${M[G.l][1]}" onclick="start(G.l,G.mode||'torre')">VOLVER A MEZCLAR</button><button class="btn s" onclick="localStorage.removeItem(K);G=null;S='home';R()">VOLVER AL INICIO</button></section>`
 }
 function R(){
   let a=q('#app');
