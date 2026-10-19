@@ -26,7 +26,7 @@ iframe{position:fixed;inset:0;width:100%;height:100%;border:0}
    if(!w||!d||!d.body||!w.PSQ_V27?.active||!w.PSQ_EDITOR_V295?.active||!Array.isArray(w.PS_LIBRARY?.characters))return;
    injected=true;
    const s=d.createElement('script');
-   s.src='./psq-cp33-presets.js?v=3301';
+   s.src='./psq-cp33-presets.js?v=3302';
    s.onload=()=>{
     if(w.PSQ_CP33?.active){const bridge=d.createElement('script');bridge.src='./psq-cp33-bridge-r2.js?v=3302';bridge.onload=()=>{if(w.PSQ_CP33_FIX2?.active){done=true;notice.classList.add('ready')}else{notice.textContent='CP3.3R2 · No se activó el editor de prueba.';notice.classList.add('error')}};bridge.onerror=()=>{notice.textContent='CP3.3R2 · No se pudo cargar el editor de prueba.';notice.classList.add('error')};d.body.appendChild(bridge)}
     else{notice.textContent='CP3.3 · El selector no se pudo iniciar.';notice.classList.add('error')}
