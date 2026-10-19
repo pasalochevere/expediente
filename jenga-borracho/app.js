@@ -1,6 +1,6 @@
 const D=window.JB_DATA;
 const L={tranqui:0,sube:1,maximo:2};
-const M={tranqui:['TRANQUI','g','#688d6c'],sube:['SUBE','o','#da8932'],maximo:['AL MÁXIMO','r','#bf5940']};
+const M={tranqui:['TRANQUI','g','#46dfab'],sube:['SUBE','o','#ffac49'],maximo:['AL MÁXIMO','r','#ff647d']};
 const K='pc.jb07.game',A='pc.jb07.age';
 let G=null,S='home',O=null,P='tranqui',P_MODE='torre',IMG_SET='',IMG_TOWER='';
 let wheelBusy=false;
@@ -88,9 +88,9 @@ function towerImage(){
 function home(){
   let x=load();if(x&&x.mode==='ruleta')x=upgradeGame(x);let lm=x&&M[x.l]?M[x.l]:M.tranqui;const max=x&&x.total||42;const label=x?.mode==='ruleta'?'RULETA COMPLETA':x?.mode==='individual'?'RULETA INDIVIDUAL · '+lm[0]:lm[0];
   return`<section class="hero">
-    <div class="hero-head">${logo()}<div><span class="over">PASALOCHEVERE · +18</span><b class="microtitle">FÍSICO + DIGITAL</b></div></div>
-    <div class="hero-copy"><h1>TORRE YENGA<br><em>BORRACHO</em></h1><p>3 intensidades. 126 retos digitales.<br>Elegí cómo querés jugar.</p></div>
-    <div class="product-stage"><span class="product-note">TORRE + BOLSO + CHUPITOS</span>${productSet()}</div><div class="mode-separator"><span>✦ TRES FORMAS DE JUGAR</span><i></i></div>
+    <div class="hero-head">${logo()}<div><span class="over">PASALOCHEVERE · +18</span><b class="microtitle">JUEGOS PARA ROMPER LA RUTINA</b></div><span class="hero-spark" aria-hidden="true">✳</span></div>
+    <div class="hero-copy"><span class="party-kicker">⚡ ACTIVÁ LA PREVIA</span><h1>TORRE YENGA<br><em>BORRACHO</em></h1><p>3 intensidades. 126 retos digitales.<br>Elegí cómo querés jugar.</p><div class="party-tags"><span>🎲 AZAR</span><span>🔥 DESAFÍOS</span><span>💥 RISAS</span></div></div>
+    <div class="product-stage"><span class="product-note">EL KIT ORIGINAL · + DIGITAL</span>${productSet()}</div><div class="mode-separator"><span>✦ TRES FORMAS DE JUGAR</span><i></i></div>
     ${x&&x.i<max?`
       <div class="resume-card">
         <div><small>PARTIDA EN CURSO</small><strong>${label}</strong></div>
@@ -167,7 +167,7 @@ function timerHTML(){
 }
 
 function wheelSVG(){
-  const names=['TRANQUI','SUBE','AL MÁXIMO'],colors=['#527d67','#c2853f','#a9534b'],paths=[],labels=[];
+  const names=['TRANQUI','SUBE','AL MÁXIMO'],colors=['#219e85','#fa9a39','#f34f72'],paths=[],labels=[];
   for(let i=0;i<3;i++){
     const center=(-90+120*i)*Math.PI/180,a0=center-Math.PI/3,a1=center+Math.PI/3;
     const p=(a,r)=>(200+r*Math.cos(a)).toFixed(2)+' '+(200+r*Math.sin(a)).toFixed(2);
@@ -186,7 +186,7 @@ function wheelHTML(){
 }
 
 function individualWheelSVG(){
-  const colors=['#d9a34f','#bf5940','#688d6c','#e5af71','#926949','#99aa90'],step=360/42,sectors=[],labels=[];
+  const colors=['#ffaf41','#f05474','#1eb89e','#7c67e8','#f7ca6e','#338ca1'],step=360/42,sectors=[],labels=[];
   const point=(a,r)=>(200+r*Math.cos(a)).toFixed(2)+' '+(200+r*Math.sin(a)).toFixed(2);
   for(let i=0;i<42;i++){
     const a=(-90+i*step)*Math.PI/180;
