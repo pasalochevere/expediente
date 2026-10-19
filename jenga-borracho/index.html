@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#10121b">
+<meta name="theme-color" content="#151025">
 <title>MODO PREVIA · Torre + 2 Ruletas · pasalochevere</title>
 <meta name="description" content="MODO PREVIA: torre de madera, ruleta individual y ruleta completa. 126 desafíos digitales +18 de pasalochevere.">
 <link rel="manifest" href="manifest.webmanifest">
@@ -1095,12 +1095,46 @@ button:focus-visible{outline:3px solid #e1ff83;outline-offset:3px}
 }
 @media(max-width:335px){.hero-copy h1{font-size:52px}}
 
+
+/* MP06B · PANTALLA DE LICENCIA. El juego no monta antes de la autorización JWT. */
+.mp-auth-screen{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:85vh;width:min(96%,700px);margin:auto;padding:34px 18px;
+  background:radial-gradient(circle at 73% 16%,#983e8644,transparent 50%),linear-gradient(160deg,#211330,#11121f);
+  border:1px solid #d4f66b46;border-radius:27px;box-shadow:0 24px 50px #0008;color:#fff8f0;text-align:center
+}
+.mp-auth-brand{display:flex;flex-direction:column;align-items:center;gap:0;transform:rotate(-2deg);
+  filter:drop-shadow(0 6px 0 #080612)}
+.mp-auth-brand span,.mp-auth-brand strong{font-family:Impact,"Arial Black",Arial,sans-serif;line-height:.86;
+  font-size:clamp(70px,15vw,118px);font-weight:1000;letter-spacing:-.045em;-webkit-text-stroke:2px #100c1c}
+.mp-auth-brand span{color:#f8f6f3;text-shadow:3px 5px #fa3485}
+.mp-auth-brand strong{background:linear-gradient(90deg,#fe2798,#ffb32c,#e9f52e,#38eebb,#22d2f8);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
+.mp-auth-tag{margin:20px 0;color:#dfff92;font-size:12px;letter-spacing:.08em;font-weight:950}
+.mp-auth-status{width:min(100%,500px);border:1px solid #e4bbff6b;background:#191725;
+  padding:26px;border-radius:22px}
+.mp-auth-status h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px;color:#fff;line-height:1.1}
+.mp-auth-status p{font-size:15px;color:#eee6fa;line-height:1.5;margin:0 0 19px}
+.mp-auth-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:19px}
+.mp-auth-actions a,.mp-auth-actions button{padding:14px 20px;min-height:46px;border-radius:13px;
+  border:1px solid #d2ff79;color:#171726;font-weight:950;text-decoration:none;
+  background:#ddff85;cursor:pointer;font-size:13px}
+.mp-auth-actions button{background:transparent;color:#fce9ff;border-color:#c89dd2}
+.mp-auth-status small{color:#cbbed9;font-size:12px;line-height:1.55}
+.mp-auth-status small b{color:#efffa9}
+.mp-auth-actions :is(a,button):focus-visible{outline:3px solid #ffdc71;outline-offset:3px}
+@media(max-width:440px){
+ .mp-auth-screen{padding:25px 13px;min-height:90vh}
+ .mp-auth-status{padding:20px 12px}
+ .mp-auth-brand span,.mp-auth-brand strong{font-size:clamp(57px,17vw,83px)}
+ .mp-auth-actions a,.mp-auth-actions button{width:100%;display:block}
+}
+
 </style>
 </head>
 <body>
 <main id="app"></main>
-<script src="data.js"></script>
-<script src="app.js"></script>
-<script src="manuals.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="license-gate.js?v=mp06b2"></script>
 </body>
 </html>
