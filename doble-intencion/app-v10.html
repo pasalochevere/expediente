@@ -1,73 +1,67 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Doble Intención · compatibilidad de acceso</title>
-<meta name="robots" content="noindex">
-<style>
-html,body{margin:0;height:100%;display:grid;place-items:center;background:#120d12;color:#d8b07a;font:13px/1.5 system-ui,sans-serif;letter-spacing:.08em;text-align:center}
-small{color:#9f8998;display:block;margin-top:8px;max-width:520px}.bad{color:#ffb0a8}.btn{display:inline-block;margin-top:18px;padding:11px 15px;border:1px solid #8f604d;border-radius:12px;color:#f0c8aa;text-decoration:none}
-</style>
-</head>
-<body><div id="status">ABRIENDO DOBLE INTENCIÓN<small>Buscando tu licencia personal…</small></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Doble Intención · Acceso</title><meta name="robots" content="noindex"><style>html,body{min-height:100%;margin:0;display:grid;place-items:center;background:#120d12;color:#f1c7de;font:14px/1.6 system-ui,sans-serif;text-align:center}#status{padding:25px;max-width:540px}small{color:#d1a8bf;display:block;margin-top:8px}.bad{color:#ffaea5}.btn{display:inline-block;margin:18px 5px 0;padding:12px 16px;border:1px solid #9b5479;border-radius:12px;color:#f9d6e7;text-decoration:none}</style></head><body><div id="status">ABRIENDO DOBLE INTENCIÓN<small>Validando tu licencia personal…</small></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 (async function(){
-  const status=document.getElementById('status');
-  const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
-  const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
-  const V11_CONTENT_URL='https://awuzunqfsbqyjsxlkdsb.supabase.co/functions/v1/doble-intencion-content-v11';
-  const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
-  const fail=(msg)=>{status.innerHTML='NO PUDE VALIDAR EL ACCESO<small class="bad">'+msg+'</small><a class="btn" href="../portal-v2/">VOLVER A MI BIBLIOTECA</a>'};
-  try{
-    let search=window.location.search||'';
-    try{if(window.parent&&window.parent!==window)search=window.parent.location.search||search}catch(e){}
-    const qs=new URLSearchParams(search);
-    let code=(qs.get('access')||sessionStorage.getItem('pc_di_trilogia_access')||'').trim().toUpperCase();
-    const {data:{session}}=await sb.auth.getSession();
-    if(!session?.user?.email)throw new Error('Tu sesión no está iniciada. Entrá nuevamente desde Mi Biblioteca.');
-    if(!code){
-      const {data,error}=await sb.functions.invoke('pasalochevere-access',{body:{action:'me'}});
-      if(error)throw error;
-      const list=Array.isArray(data?.licenses)?data.licenses:[];
-      const now=Date.now();
-      const matches=list.filter(l=>{
-        const pc=String(l.product_code||'').toUpperCase();
-        const pn=String(l.product_name||'').toUpperCase();
-        const gu=String(l.game_url||'').toLowerCase();
-        const active=!l.expires_at||new Date(l.expires_at).getTime()>now;
-        return active&&(pc==='DI-TRILOGIA'||pc.startsWith('DI-')||pn.includes('DOBLE INTENCIÓN')||pn.includes('DOBLE INTENCION')||gu.includes('doble-intencion'));
-      });
-      const lic=matches.find(l=>String(l.product_code||'').toUpperCase()==='DI-TRILOGIA')||matches[0];
-      code=String(lic?.activation_code||'').trim().toUpperCase();
-    }
-    if(!code)throw new Error('Tu cuenta no tiene una licencia de Doble Intención que pueda recuperar automáticamente.');
-    sessionStorage.setItem('pc_di_trilogia_access',code);
-    history.replaceState(null,'',location.pathname+'?access='+encodeURIComponent(code));
-    status.innerHTML='LICENCIA ENCONTRADA<small>Preparando Doble Intención V11…</small>';
-
-    const r=await fetch('engine-v10.html?v=compat5',{cache:'no-store'});
-    if(!r.ok)throw new Error('No pude cargar el motor del juego.');
-    let html=await r.text();
-
+ const state=document.getElementById('status');
+ const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+ const SUPABASE_KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+ const V11_CONTENT_URL='https://awuzunqfsbqyjsxlkdsb.supabase.co/functions/v1/doble-intencion-content-v11';
+ const client=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+ const goPortal='<a class="btn" href="../portal-v2/">VOLVER A MI BIBLIOTECA</a>';
+ const fail=(msg)=>{state.innerHTML='NO PUDE VALIDAR EL ACCESO<small class="bad">'+String(msg).replaceAll('<','&lt;')+'</small>'+goPortal};
+ const qs=new URLSearchParams(location.search);
+ let code=String(qs.get('access')||sessionStorage.getItem('pc_di_trilogia_access')||'').trim().toUpperCase();
+ const deviceId=()=>{let v=localStorage.getItem('pc_device_id');if(!v){v=crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2);localStorage.setItem('pc_device_id',v)}return v};
+ try{
+  const {data:{session}}=await client.auth.getSession();
+  if(!session?.user?.email)throw new Error('La sesión no está iniciada. Entrá desde Mi Biblioteca.');
+  if(!code){
+   const {data,error}=await client.functions.invoke('pasalochevere-access',{body:{action:'me'}});
+   if(error)throw error;
+   const list=Array.isArray(data?.licenses)?data.licenses:[],now=Date.now();
+   const matches=list.filter(l=>{const pc=String(l.product_code||'').toUpperCase(),pn=String(l.product_name||'').toUpperCase(),gu=String(l.game_url||'').toLowerCase();return(!l.expires_at||new Date(l.expires_at).getTime()>now)&&(pc==='DI-TRILOGIA'||pc.startsWith('DI-')||pn.includes('DOBLE INTENCIÓN')||pn.includes('DOBLE INTENCION')||gu.includes('doble-intencion'))});
+   const lic=matches.find(l=>String(l.product_code||'').toUpperCase()==='DI-TRILOGIA')||matches[0];
+   code=String(lic?.activation_code||'').trim().toUpperCase();
+  }
+  if(!code)throw new Error('No encontré una licencia válida de Doble Intención en tu cuenta.');
+  sessionStorage.setItem('pc_di_trilogia_access',code);
+  history.replaceState(null,'',location.pathname+(qs.get('classic')==='1'?'?classic=1':''));
+  const {data:registration,error:re}=await client.functions.invoke('pasalochevere-access',{body:{action:'register_device',activation_code:code,device_id:deviceId(),device_label:(navigator.platform||'Browser').slice(0,100)}});
+  if(re||!registration?.ok)throw new Error(registration?.error||'No se pudo registrar este dispositivo.');
+  const l=registration.license||{},pc=String(l.product_code||'').toUpperCase(),pn=String(l.product_name||'').toUpperCase(),gu=String(l.game_url||'').toLowerCase();
+  if(!(pc==='DI-TRILOGIA'||pc.startsWith('DI-')||pn.includes('DOBLE INTENCIÓN')||pn.includes('DOBLE INTENCION')||gu.includes('doble-intencion')))throw new Error('La licencia no corresponde a Doble Intención.');
+  const query=async(check_only=false)=>{
+    const sess=(await client.auth.getSession()).data.session;if(!sess?.access_token)throw new Error('Sesión vencida. Volvé a Mi Biblioteca.');
+    const resp=await fetch(V11_CONTENT_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+sess.access_token},body:JSON.stringify({activation_code:code,device_id:deviceId(),check_only})});
+    const data=await resp.json().catch(()=>({}));if(!resp.ok||!data?.ok)throw new Error(data.error||'Tu licencia no se pudo validar.');
+    return data;
+  };
+  const content=await query(false);
+  if(!Array.isArray(content.cards)||content.cards.length!==126)throw new Error('El catálogo de desafíos está incompleto.');
+  if(qs.get('classic')==='1'){
+    // Recuperación: motor anterior; solo se activa por selección explícita.
+    const legacy=await fetch('engine-v10.html?v=compat5',{cache:'no-store'});if(!legacy.ok)throw new Error('No pude cargar el motor anterior.');
+    let h=await legacy.text();
     const oldCheck="if(data.license?.product_code!=='DI-TRILOGIA')throw new Error('Este código no corresponde a Doble Intención.');";
     const newCheck="const __lic=data.license||{};const __pc=String(__lic.product_code||'').toUpperCase(),__pn=String(__lic.product_name||'').toUpperCase(),__gu=String(__lic.game_url||'').toLowerCase();if(!(__pc==='DI-TRILOGIA'||__pc.startsWith('DI-')||__pn.includes('DOBLE INTENCIÓN')||__pn.includes('DOBLE INTENCION')||__gu.includes('doble-intencion')))throw new Error('Este código no corresponde a Doble Intención.');";
-    if(!html.includes(oldCheck))throw new Error('No pude aplicar la compatibilidad de licencia.');
-    html=html.replace(oldCheck,newCheck).replace(/V10/g,'V11');
-
+    h=h.replace(oldCheck,newCheck).replace(/V10/g,'V11');
     const oldContent="const {data:content,error:ce}=await sbAccess.functions.invoke('doble-intencion-content',{body:{activation_code:code,device_id:deviceId(),check_only:checkOnly}});";
     const newContent="const __sess=(await sbAccess.auth.getSession()).data.session;if(!__sess?.access_token)throw new Error('Sesión vencida. Volvé a Mi Biblioteca.');const __resp=await fetch('"+V11_CONTENT_URL+"',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+__sess.access_token},body:JSON.stringify({activation_code:code,device_id:deviceId(),check_only:checkOnly})});const content=await __resp.json();const ce=!__resp.ok;";
-    if(!html.includes(oldContent))throw new Error('El motor cambió y no pude aplicar el contenido V11.');
-    html=html.replace(oldContent,newContent);
-
-    document.open();
-    document.write(html);
-    document.close();
-  }catch(e){
-    fail(e?.message||'No pude recuperar tu acceso.');
+    if(!h.includes(oldContent))throw new Error('El motor de compatibilidad cambió.');
+    h=h.replace(oldContent,newContent);document.open();document.write(h);document.close();return;
   }
+  state.innerHTML='LICENCIA VALIDADA<small>Cargando las cuatro ruletas…</small>';
+  const iconMap={"DI-CHI-01":"mirada","DI-CHI-02":"dialogo","DI-CHI-03":"dialogo","DI-CHI-04":"musica","DI-CHI-05":"abrazo","DI-CHI-06":"beso","DI-CHI-07":"dialogo","DI-CHI-08":"dialogo","DI-CHI-09":"recuerdo","DI-CHI-10":"dialogo","DI-CHI-11":"reloj","DI-CHI-12":"susurro","DI-CHI-13":"dialogo","DI-CHI-14":"corazones","DI-CHI-15":"beso","DI-CHI-16":"musica","DI-CHI-17":"beso","DI-CHI-18":"caricia","DI-CHI-19":"beso","DI-CHI-20":"susurro","DI-CHI-21":"beso","DI-CHI-22":"dado","DI-CHI-23":"fantasia","DI-CHI-24":"corazones","DI-CHI-25":"mirada","DI-CHI-26":"fantasia","DI-CHI-27":"recuerdo","DI-CHI-28":"beso","DI-CHI-29":"corazones","DI-CHI-30":"fantasia","DI-CHI-31":"corona","DI-CHI-32":"caricia","DI-CHI-33":"caricia","DI-CHI-34":"dialogo","DI-CHI-35":"dialogo","DI-CHI-36":"corazones","DI-CHI-37":"reloj","DI-CHI-38":"corazones","DI-CHI-39":"beso","DI-CHI-40":"desafio","DI-CHI-41":"dado","DI-CHI-42":"dado","DI-FUE-01":"fuego","DI-FUE-02":"beso","DI-FUE-03":"fantasia","DI-FUE-04":"beso","DI-FUE-05":"caricia","DI-FUE-06":"fuego","DI-FUE-07":"dado","DI-FUE-08":"beso","DI-FUE-09":"caricia","DI-FUE-10":"mirada","DI-FUE-11":"susurro","DI-FUE-12":"musica","DI-FUE-13":"fuego","DI-FUE-14":"beso","DI-FUE-15":"caricia","DI-FUE-16":"fuego","DI-FUE-17":"dialogo","DI-FUE-18":"caricia","DI-FUE-19":"beso","DI-FUE-20":"corona","DI-FUE-21":"corona","DI-FUE-22":"beso","DI-FUE-23":"beso","DI-FUE-24":"fuego","DI-FUE-25":"fuego","DI-FUE-26":"beso","DI-FUE-27":"beso","DI-FUE-28":"fuego","DI-FUE-29":"fuego","DI-FUE-30":"dado","DI-FUE-31":"beso","DI-FUE-32":"beso","DI-FUE-33":"fuego","DI-FUE-34":"beso","DI-FUE-35":"musica","DI-FUE-36":"desafio","DI-FUE-37":"fuego","DI-FUE-38":"dado","DI-FUE-39":"fantasia","DI-FUE-40":"fuego","DI-FUE-41":"dado","DI-FUE-42":"fuego","DI-DOM-01":"fantasia","DI-DOM-02":"corona","DI-DOM-03":"dialogo","DI-DOM-04":"reloj","DI-DOM-05":"corona","DI-DOM-06":"fantasia","DI-DOM-07":"secreto","DI-DOM-08":"mirada","DI-DOM-09":"corona","DI-DOM-10":"reloj","DI-DOM-11":"corona","DI-DOM-12":"corona","DI-DOM-13":"corona","DI-DOM-14":"caricia","DI-DOM-15":"caricia","DI-DOM-16":"corona","DI-DOM-17":"corona","DI-DOM-18":"caricia","DI-DOM-19":"fantasia","DI-DOM-20":"beso","DI-DOM-21":"beso","DI-DOM-22":"fantasia","DI-DOM-23":"secreto","DI-DOM-24":"dialogo","DI-DOM-25":"corona","DI-DOM-26":"corona","DI-DOM-27":"dialogo","DI-DOM-28":"reloj","DI-DOM-29":"corona","DI-DOM-30":"mirada","DI-DOM-31":"corona","DI-DOM-32":"caricia","DI-DOM-33":"corona","DI-DOM-34":"reloj","DI-DOM-35":"corona","DI-DOM-36":"reloj","DI-DOM-37":"fantasia","DI-DOM-38":"dialogo","DI-DOM-39":"corona","DI-DOM-40":"fantasia","DI-DOM-41":"dado","DI-DOM-42":"corona"};
+  const mapped=content.cards.map(c=>{const id=String(c.id||'').toUpperCase();const m=id.slice(3,6);return{id,n:Number(c.number||id.slice(-2)),nivel:String(c.intensity||'SUAVE').toUpperCase(),modo:({CHI:'chispa',FUE:'fuego',DOM:'dominio'})[m],text:String(c.physical||''),alt:String(c.digital||''),icon:iconMap[id]||'dado'};});
+  if(mapped.length!==126||new Set(mapped.map(c=>c.id)).size!==126||mapped.some(c=>!c.modo||!c.text||!c.alt||!['SUAVE','INTENSO','MÁXIMO'].includes(c.nivel)))throw new Error('El catálogo autenticado no pasó la validación de integridad.');
+  const response=await fetch('v2-ruletas.html?v=2.1g1',{cache:'no-store'});if(!response.ok)throw new Error('No pude cargar la nueva interfaz.');
+  let h=await response.text();
+  const needle='const DATABASE=window.__DI_AUTHORIZED_CARDS || [];';
+  if(!h.includes(needle))throw new Error('La versión visual del juego no es compatible.');
+  const json=JSON.stringify(mapped).replace(/</g,'\\u003c');
+  h=h.replace(needle,'const DATABASE='+json+';');
+  document.open();document.write(h);document.close();
+  // Mantiene el chequeo periódico de licencia; el motor nuevo no entrega retos sin acceso.
+  let checking=false;
+  setInterval(async()=>{if(checking)return;checking=true;try{await query(true)}catch(e){document.body.innerHTML='<div style="padding:36px;color:#f4d0df;text-align:center">SESIÓN O LICENCIA VENCIDA<br><a href="../portal-v2/" style="color:#ffc1db">Volver a Mi Biblioteca</a></div>'}finally{checking=false}},60000);
+ }catch(e){fail(e?.message||'No pude completar el acceso.');}
 })();
-</script>
-</body>
-</html>
+</script></body></html>
