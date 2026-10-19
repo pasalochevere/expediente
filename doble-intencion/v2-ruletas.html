@@ -44,13 +44,21 @@
 .site-grid{grid-template-columns:1fr!important;max-width:450px;margin:auto}.site-shell{max-width:520px!important}.device{max-width:420px}.unpublished{font-size:9px}@media(max-width:450px){.preview-top{gap:7px}}
 </style></head><body>
 <div class="site-shell"><header class="preview-top"><div class="brand-left"><span class="mark">DI</span><span class="brand-stamp">DOBLE INTENCIÓN<br>CHISPA · FUEGO · DOMINIO</span></div><span class="unpublished"><span class="status-dot"></span>18+ · ACCESO PERSONAL</span></header>
+<section aria-label="Cartas imprimibles oficiales" style="margin:0 auto 13px;max-width:540px;padding:12px 13px;border:1px solid #75425f;border-radius:17px;background:linear-gradient(145deg,#281222,#17101d);text-align:center">
+ <div style="font:800 10px 'Segoe UI',Arial,sans-serif;letter-spacing:1.7px;color:#ffc6db;margin-bottom:9px">CARTAS IMPRIMIBLES · 126 DESAFÍOS</div>
+ <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
+ <button type="button" id="di-pdf-color" style="min-width:155px;flex:1;background:linear-gradient(105deg,#bb205e,#6b133f);border:1px solid #ff76a7;border-radius:12px;color:#fff5f6;padding:11px 12px;font:800 12px 'Segoe UI',Arial,sans-serif;cursor:pointer">↓ DESCARGAR COLOR PDF</button>
+ <button type="button" id="di-pdf-bn" style="min-width:155px;flex:1;background:#f8f0ef;border:1px solid #d7bdd0;border-radius:12px;color:#2a1122;padding:11px 12px;font:800 12px 'Segoe UI',Arial,sans-serif;cursor:pointer">↓ DESCARGAR B/N PDF</button></div>
+ <div id="di-pdf-status" aria-live="polite" role="status" style="font:500 11px/1.4 'Segoe UI',Arial,sans-serif;color:#d7b9c8;min-height:16px;margin-top:8px">16 hojas A4 apaisadas por versión · 8 cartas por hoja</div>
+</section>
 <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:-4px auto 16px">
-<button id="di-dl-mode" type="button" style="border:1px solid #82445f;border-radius:12px;background:#391629;color:#ffe6ed;padding:9px 12px;font:700 11px Arial;cursor:pointer">MATERIAL DEL MODO</button>
-<button id="di-dl-all" type="button" style="border:1px solid #82445f;border-radius:12px;background:#391629;color:#ffe6ed;padding:9px 12px;font:700 11px Arial;cursor:pointer">TRILOGÍA A4</button>
+<button id="di-dl-mode" type="button" style="border:1px solid #82445f;border-radius:12px;background:#391629;color:#ffe6ed;padding:9px 12px;font:700 11px Arial;cursor:pointer">LISTADO DEL MODO</button>
+<button id="di-dl-all" type="button" style="border:1px solid #82445f;border-radius:12px;background:#391629;color:#ffe6ed;padding:9px 12px;font:700 11px Arial;cursor:pointer">LISTADO COMPLETO</button>
 </div>
 <div class="site-grid"><main class="device" aria-label="Doble Intención para usuarios con licencia"><div class="screen" id="app" aria-live="polite"></div></main>
 </div>
-<footer class="site-footer">PASALOCHEVERE · DOBLE INTENCIÓN · 18+</footer></div><script>
+<footer class="site-footer">PASALOCHEVERE · DOBLE INTENCIÓN · 18+</footer></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
 /* DI-V2.1G · licensed runtime; no challenge text embedded */
 const DATABASE=window.__DI_AUTHORIZED_CARDS || [];
 const ICON_PATHS = Object.freeze({
@@ -134,6 +142,58 @@ app.addEventListener('click',e=>{const b=e.target.closest('button[data-action]')
  }});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.screen!=='home'&&!state.spinning)doBack()});
 render();
+
+const DI_PRINT_ENDPOINT = "https://fzbndgfnqxcacsvlitui.supabase.co/functions/v1/doble-intencion-printables-v1";
+let diPrinting=false, diPdfAuthClient=null;
+const diPdfStatus=document.getElementById("di-pdf-status");
+const diPdfColor=document.getElementById("di-pdf-color"),diPdfBN=document.getElementById("di-pdf-bn");
+async function diDownloadOfficialPDF(edition){
+ if(diPrinting)return;
+ if(!Array.isArray(DATABASE)||DATABASE.length!==126){diPdfStatus.textContent="Abrí Doble Intención desde Mi Biblioteca para descargar.";return;}
+ diPrinting=true;diPdfColor.disabled=true;diPdfBN.disabled=true;
+ diPdfColor.style.opacity=".6";diPdfBN.style.opacity=".6";
+ diPdfStatus.textContent="Validando tu licencia y preparando el PDF…";
+ try{
+  if(!window.supabase?.createClient)throw new Error("No se pudo cargar la sesión. Recargá el juego.");
+  diPdfAuthClient ||= window.supabase.createClient(
+    "https://fzbndgfnqxcacsvlitui.supabase.co",
+    "sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo",
+    {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}
+  );
+  const {data:{session},error:sessionError}=await diPdfAuthClient.auth.getSession();
+  if(sessionError||!session?.access_token)throw new Error("Tu sesión venció. Volvé a Mi Biblioteca.");
+  const activation_code=String(sessionStorage.getItem("pc_di_trilogia_access")||"").trim().toUpperCase();
+  const device_id=String(localStorage.getItem("pc_device_id")||"").trim();
+  if(!activation_code||!device_id)throw new Error("No se encontró tu licencia activa. Abrí el juego desde Mi Biblioteca.");
+  const response=await fetch(DI_PRINT_ENDPOINT,{
+   method:"POST",
+   headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},
+   body:JSON.stringify({edition,activation_code,device_id}),
+   cache:"no-store"
+  });
+  if(!response.ok){
+   let message="No pudimos validar la descarga.";
+   try{const result=await response.json();if(result?.error)message=String(result.error);}catch{}
+   throw new Error(message);
+  }
+  const blob=await response.blob();
+  if(blob.type!=="application/pdf"||blob.size<180000)throw new Error("El archivo recibido no es un PDF válido.");
+  const fileName=edition==="color"?"DOBLE_INTENCION_126_CARTAS_COLOR_A4.pdf":"DOBLE_INTENCION_126_CARTAS_BLANCO_Y_NEGRO_A4.pdf";
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");link.href=url;link.download=fileName;
+  document.body.appendChild(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),120000);
+  diPdfStatus.textContent="Descarga iniciada · "+(edition==="color"?"Color premium":"Blanco y negro")+".";
+ }catch(error){
+  diPdfStatus.textContent="⚠ "+String(error?.message||"Error de descarga");
+ }finally{
+  diPrinting=false;diPdfColor.disabled=false;diPdfBN.disabled=false;
+  diPdfColor.style.opacity="1";diPdfBN.style.opacity="1";
+ }
+}
+if(DATABASE.length!==126){diPdfColor.disabled=true;diPdfBN.disabled=true;diPdfColor.style.opacity=".5";diPdfBN.style.opacity=".5";}
+diPdfColor.addEventListener("click",()=>diDownloadOfficialPDF("color"));
+diPdfBN.addEventListener("click",()=>diDownloadOfficialPDF("bn"));
 
 function diDownloadMaterial(modes){
  if(DATABASE.length!==126)return;
