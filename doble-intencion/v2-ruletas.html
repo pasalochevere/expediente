@@ -44,6 +44,10 @@
 .site-grid{grid-template-columns:1fr!important;max-width:450px;margin:auto}.site-shell{max-width:520px!important}.device{max-width:420px}.unpublished{font-size:9px}@media(max-width:450px){.preview-top{gap:7px}}
 </style></head><body>
 <div class="site-shell"><header class="preview-top"><div class="brand-left"><span class="mark">DI</span><span class="brand-stamp">DOBLE INTENCIÓN<br>CHISPA · FUEGO · DOMINIO</span></div><span class="unpublished"><span class="status-dot"></span>18+ · ACCESO PERSONAL</span></header>
+<div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:-4px auto 16px">
+<button id="di-dl-mode" type="button" style="border:1px solid #82445f;border-radius:12px;background:#391629;color:#ffe6ed;padding:9px 12px;font:700 11px Arial;cursor:pointer">MATERIAL DEL MODO</button>
+<button id="di-dl-all" type="button" style="border:1px solid #82445f;border-radius:12px;background:#391629;color:#ffe6ed;padding:9px 12px;font:700 11px Arial;cursor:pointer">TRILOGÍA A4</button>
+</div>
 <div class="site-grid"><main class="device" aria-label="Doble Intención para usuarios con licencia"><div class="screen" id="app" aria-live="polite"></div></main>
 </div>
 <footer class="site-footer">PASALOCHEVERE · DOBLE INTENCIÓN · 18+</footer></div><script>
@@ -130,4 +134,21 @@ app.addEventListener('click',e=>{const b=e.target.closest('button[data-action]')
  }});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.screen!=='home'&&!state.spinning)doBack()});
 render();
+
+function diDownloadMaterial(modes){
+ if(DATABASE.length!==126)return;
+ const esc=v=>String(v??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+ const sections=modes.map(mode=>{
+  const rows=DATABASE.filter(c=>c.modo===mode.toLowerCase()).sort((a,b)=>a.n-b.n).map(c=>"<tr><td>"+esc(String(c.n).padStart(2,"0"))+"</td><td>"+esc(c.nivel)+"</td><td>"+esc(c.text)+"</td><td>"+esc(c.alt)+"</td></tr>").join("");
+  return "<section><h2>"+esc(mode)+"</h2><table><thead><tr><th>Nº</th><th>Intensidad</th><th>Reto</th><th>Frase alternativa</th></tr></thead><tbody>"+rows+"</tbody></table></section>";
+ }).join("");
+ const doc='<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Doble Intención · Material A4</title><style>@page{size:A4;margin:12mm}body{font:12px Arial;color:#141018}header{border-bottom:2px solid #141018;margin-bottom:20px;padding-bottom:12px}h1{font-size:27px}h2{font-size:21px;break-before:page}section:first-of-type h2{break-before:auto}table{border-collapse:collapse;width:100%;font-size:10px}th,td{border:1px solid #aaa;padding:6px;vertical-align:top;overflow-wrap:anywhere}th{background:#f2e9ed}tr{break-inside:avoid}p{font-size:11px}</style><header><h1>Doble Intención · PasaloChévere</h1><p>Material personal de apoyo · +18 · 42 retos por edición. Podés elegir cualquier frase alternativa o pasar un desafío.</p></header>'+sections+'</html>';
+ const blob=new Blob([doc],{type:"text/html;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="Doble_Intencion_"+(modes.length===3?"Trilogia":modes[0])+"_Material_A4.html";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200);
+}
+const diMode=document.getElementById("di-dl-mode"),diAll=document.getElementById("di-dl-all");
+if(DATABASE.length!==126){diMode.disabled=true;diAll.disabled=true;diMode.style.opacity=".35";diAll.style.opacity=".35";}
+diMode.addEventListener("click",()=>diDownloadMaterial(state.mode==="total"?["CHISPA","FUEGO","DOMINIO"]:[state.mode.toUpperCase()]));
+diAll.addEventListener("click",()=>diDownloadMaterial(["CHISPA","FUEGO","DOMINIO"]));
+
 </script></body></html>
