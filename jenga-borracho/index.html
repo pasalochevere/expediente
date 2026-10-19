@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#24211e">
 <title>Torre Yenga Borracho · PasaloChevere</title>
-<meta name="description" content="42 consignas, 3 intensidades. Web app +18 de PasaloChevere.">
+<meta name="description" content="Ruleta de tres intensidades y 126 retos digitales +18 de pasalochevere.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
@@ -372,6 +372,115 @@ button:focus-visible{outline:3px solid #dba154;outline-offset:3px}
 }
 @media(max-width:340px){.wheel-stage{width:min(100%,270px)}.hero-copy h1{font-size:43px}.lvl h3{font-size:21px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.wheel-disc,.btn,.bar i{transition:none!important}}
+
+/* JB11 — Ruleta tres intensidades / sistema visual nocturno */
+:root{
+  --jb-deep:#201c1c;--jb-espresso:#322622;--jb-brass:#e6ba77;
+  --jb-ivory:#fdf3e3;--jb-green:#527d67;--jb-amber:#c2853f;--jb-terracotta:#a9534b;
+}
+#app{background:radial-gradient(ellipse at 91% 0%,#f1d6a451 0,transparent 29%),linear-gradient(177deg,#fdf9f1 0%,#f4eadc 67%,#eee3d5)}
+.hero-copy{padding-top:12px}
+.hero-copy h1{letter-spacing:-.022em}
+.hero-copy p{max-width:390px}
+.mode-separator span{font-size:11px;color:#946a36}
+.mode-wheel.btn.o{background:linear-gradient(130deg,#cb8c49 0%,#a45a36 100%);border:1px solid #e9b87677;box-shadow:0 14px 26px #9e582d3b}
+.mode-wheel .mode-ico{font-family:Georgia,serif;font-size:30px;color:#fff4dd}
+.mode-btn{transition:transform .17s ease,box-shadow .17s ease}
+.mode-btn:active{transform:scale(.985)}
+.levels{padding-bottom:15px}
+.roulette-intro{display:flex;flex-direction:column;align-items:stretch;gap:15px}
+.roulette-intro h1{font-size:clamp(44px,11vw,58px);line-height:.95;letter-spacing:-.018em;margin:5px 0}
+.roulette-intro h1 em{font-style:normal;color:#b67c38}
+.roulette-intro>p{font-size:16px;color:#584f44;line-height:1.55;max-width:380px;margin:0}
+.roulette-intro>small{color:#776757;font-size:12px;text-align:center;margin-top:1px}
+.intensity-preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 2px}
+.intensity{
+  color:white;text-align:center;
+  min-height:64px;display:grid;place-items:center;
+  padding:10px 4px;border-radius:14px;
+  font-size:clamp(10px,2.8vw,13px);font-weight:900;letter-spacing:.03em;
+  border:1px solid #ffffff44;box-shadow:0 8px 17px #3020171c
+}
+.intensity.tranqui{background:linear-gradient(145deg,#70957e,#496f5a)}
+.intensity.sube{background:linear-gradient(145deg,#dda25b,#b77132)}
+.intensity.maximo{background:linear-gradient(145deg,#cd7768,#9d453d)}
+.roulette-intro .care{padding:23px}
+.roulette-intro .care p{margin:6px 0 15px}
+.roulette-intro .btn{font-size:15px}
+.card.is-wheel.is-pick{
+  min-height:clamp(470px,69svh,660px);
+  padding:24px 17px 22px;
+  background:radial-gradient(ellipse at 50% 5%,#49372d 0,#2b2523 54%,#171719 100%);
+  border:1px solid #a7835655;
+  box-shadow:0 24px 53px #3c291b4d,inset 0 1px 0 #ffffff18;
+}
+.card.is-wheel.is-pick::before{background:linear-gradient(90deg,transparent,#b48550,#f8ddb0,#b48550,transparent)}
+.card.is-wheel.is-pick::after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;left:50%;top:41%;transform:translate(-50%,-50%);background:#d3ab6621;filter:blur(52px);pointer-events:none}
+.card.is-wheel.is-pick .wheel-wrap .over{color:#efc68b}
+.card.is-wheel.is-pick .wheel-wrap h2{
+ color:#fff3e2;font-size:clamp(29px,8vw,37px);
+ line-height:1.06;letter-spacing:.005em;margin:13px 0 14px;
+ text-shadow:0 3px 15px #0008
+}
+.wheel-wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
+.wheel-stage{width:min(100%,343px);margin:0 auto;isolation:isolate}
+.wheel-stage:before{background:radial-gradient(circle,#fcebd4 54%,#c9a06e 69%,#f2d2a0 78%,transparent 80%);filter:drop-shadow(0 13px 17px #0006)}
+.wheel-disc{inset:8px;filter:drop-shadow(0 7px 14px #0008);transition:transform 3.4s cubic-bezier(.10,.67,.17,1)}
+.wheel-pointer{top:-16px;z-index:6;background:linear-gradient(145deg,#e9c489,#ad7a38);color:#302015;border-color:#fff0d2;box-shadow:0 8px 16px #0007}
+.wheel-hub{
+  width:110px;height:110px;z-index:5;
+  border:5px solid #f3d3a0;
+  background:radial-gradient(circle at 34% 13%,#504138,#27211e 57%,#151415);
+  color:#ffe3af;box-shadow:0 5px 0 #93683c,0 12px 24px #000a,inset 0 1px 3px #ffffff20;
+  pointer-events:auto;cursor:pointer;touch-action:manipulation;
+  transition:transform .17s ease,filter .17s ease;
+}
+.wheel-hub:hover{filter:brightness(1.15)}
+.wheel-hub:active{transform:translate(-50%,-50%) scale(.96)}
+.wheel-hub:focus-visible{outline:3px solid #fff4d8;outline-offset:6px}
+.wheel-hub b{font-family:Impact,"Arial Narrow",sans-serif;font-size:24px;color:#ffe6ba;letter-spacing:.055em}
+.wheel-hub small{color:#e1b16a;font-size:24px;font-weight:900;line-height:1}
+.wheel-hub:disabled{opacity:1;cursor:wait}
+.wheel-hub:disabled b{font-size:22px;letter-spacing:.1em}
+.wheel-hint{font-size:13px;color:#efd9be;margin:18px 0 4px;line-height:1.5;text-align:center}
+.card.is-revealed{
+  background:radial-gradient(ellipse at 50% 5%,#46352c,#272322 56%,#19191a);
+  border-color:#b98d5880;box-shadow:0 26px 55px #3923144a,inset 0 1px 0 #ffffff1a
+}
+.card.is-revealed .challenge-tag{
+  color:#fff5e7;background:var(--c,#b78d5c);
+  border:1px solid #ffffff40;box-shadow:0 7px 21px #0003;
+  padding:10px 17px;letter-spacing:.13em;font-size:11px
+}
+.card.is-wheel.is-revealed .txt{
+  font-size:clamp(30px,8.1vw,42px);line-height:1.16;
+  color:#fff7ec;letter-spacing:.003em;margin:35px 0;
+  text-shadow:0 2px 14px #0003
+}
+.card.is-revealed .actions .btn{min-height:64px}
+.card.is-revealed .actions .link{display:block;margin:7px auto 0;color:#ecd7b7}
+.card.is-revealed .timer-ring{margin-top:6px;margin-bottom:16px}
+.card.is-revealed .timer-challenge{font-family:Impact,"Arial Narrow",sans-serif;font-size:clamp(26px,6.8vw,34px);line-height:1.13;margin:18px 0}
+.card.is-wheel .wheel-wrap .wheel-hub[disabled] {animation:none}
+.rulechip{margin:0 auto 14px}
+@media(max-width:380px){
+  .wheel-stage{width:min(100%,297px)}
+  .card.is-wheel.is-pick{min-height:440px;padding:20px 13px 22px}
+  .card.is-wheel.is-pick .wheel-wrap h2{font-size:29px}
+  .wheel-hub{width:93px;height:93px}
+  .wheel-hub b{font-size:21px}
+  .wheel-hub small{font-size:21px}
+  .card.is-wheel.is-revealed .txt{font-size:clamp(28px,8vw,36px)}
+}
+@media(max-width:340px){
+  .wheel-stage{width:min(100%,264px)}
+  .intensity{font-size:10px;padding:9px 1px;min-height:56px}
+}
+@media(prefers-reduced-motion:reduce){
+  .wheel-disc{transition:none!important}
+  .wheel-hub,.mode-btn{transition:none!important}
+}
+
 </style>
 </head>
 <body>
