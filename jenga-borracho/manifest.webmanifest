@@ -1,6 +1,6 @@
 {
-  "name": "Torre Yenga Borracho · PasaloChevere",
-  "short_name": "Yenga Borracho",
+  "name": "MODO PREVIA · Torre + 2 Ruletas",
+  "short_name": "MODO PREVIA",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -14,5 +14,6 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "description": "Torre, ruleta individual y ruleta completa · 126 desafíos +18"
 }
