@@ -70,6 +70,117 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 #drawer-adult .pcJB122Play:focus-visible{outline:3px solid #fff;outline-offset:3px}
 @media(max-width:440px){.pcJB122Art{gap:12px;padding:14px;min-height:138px}.pcJB122Circle{width:93px;height:93px;flex-basis:93px}.pcJB122Circle b{width:42px;height:42px;font-size:.6rem}.pcJB122ArtCopy strong{font-size:1.45rem}}
 
+
+/* JB123 · Product hero + vista previa y precio pendiente de backend */
+#drawer-adult .pcJB123ProductCard{overflow:hidden!important;padding-top:0!important;background:linear-gradient(150deg,#1b1623,#14131a);border:1px solid #67516d7a}
+#drawer-adult .pcJB123ProductCard>.pcV4Cover{display:none!important}
+#drawer-adult .pcJB123ProductCard>.pcJB122Art{display:none!important}
+.pcJB123Media{
+  position:relative;display:block;width:calc(100% + 36px);height:273px;overflow:hidden;text-align:left;
+  margin:-1px -18px 22px;padding:0;border:0;border-bottom:1px solid #85628782;
+  border-radius:22px 22px 0 0;color:#fff;cursor:pointer;isolation:isolate;
+  background:radial-gradient(circle at 76% 42%,#754498a8,transparent 46%),
+             radial-gradient(circle at 2% 100%,#26244e,transparent 51%),
+             linear-gradient(121deg,#13151f 3%,#29203c 57%,#41274b)
+}
+.pcJB123Media:focus-visible{outline:3px solid #d9ff81;outline-offset:-4px}
+.pcJB123Media:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 27px,#ffffff05 28px 29px);pointer-events:none}
+.pcJB123Glow{position:absolute;inset:0;background:radial-gradient(circle at 75% 45%,#fa78d123,transparent 46%);z-index:0}
+.pcJB123Brand{position:absolute;top:18px;left:22px;right:20px;display:flex;align-items:center;justify-content:space-between;z-index:3}
+.pcJB123Brand small{font-size:.65rem;letter-spacing:.16em;font-weight:950;color:#ddff8b}
+.pcJB123Brand b{font-size:.68rem;padding:6px 9px;border:1px solid #e5ff8c8f;border-radius:100px;background:#d3ff8522;color:#f3ffcb}
+.pcJB123Copy{position:absolute;left:22px;top:65px;display:flex;flex-direction:column;gap:9px;z-index:3;width:54%;pointer-events:none}
+.pcJB123Copy>small{color:#f1baed;font-size:.64rem;letter-spacing:.1em;font-weight:900}
+.pcJB123Copy strong{font:950 clamp(2.4rem,4.8vw,3.7rem)/.85 Impact,"Arial Narrow","Arial Black",sans-serif;letter-spacing:-.02em;color:#fff;text-shadow:0 8px 16px #0008}
+.pcJB123Copy strong span{color:#deff83}
+.pcJB123Copy em{font-size:.7rem;font-style:normal;letter-spacing:.05em;font-weight:900;color:#e2ffa0}
+.pcJB123Phone{
+ position:absolute;top:51px;right:18px;width:159px;height:195px;border-radius:19px;
+ background:linear-gradient(152deg,#3a2f58,#161829 71%);
+ border:4px solid #101526;box-shadow:0 13px 33px #000a,0 0 0 1px #b9b1dd77,0 0 31px #c869ff38;
+ transform:rotate(8deg);display:flex;align-items:center;justify-content:flex-start;flex-direction:column;padding:10px 5px;gap:9px;z-index:2;
+}
+.pcJB123PhoneHead{font-size:.44rem;font-weight:950;color:#f9e8ff;letter-spacing:.07em;white-space:nowrap}
+.pcJB123Wheel{
+ position:relative;flex:0 0 117px;width:117px;height:117px;border-radius:50%;
+ background:conic-gradient(from -60deg,#42dbae 0 120deg,#ffb04d 120deg 240deg,#fc6b8d 240deg 360deg);
+ border:7px solid #f3e4c6;display:grid;place-items:center;box-shadow:0 8px 19px #0007
+}
+.pcJB123Wheel:after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from -60deg,transparent 0 119deg,#1417266c 119deg 121deg,transparent 121deg 239deg,#1417266c 239deg 241deg,transparent 241deg 359deg,#1417266c 359deg)}
+.pcJB123WheelFace{z-index:1;position:relative;display:grid;place-items:center;width:48px;height:48px;background:#28233f;border-radius:50%;border:4px solid #ddff83;color:#eaff9a;font-size:.68rem;font-weight:950;font-style:normal}
+.pcJB123PhoneFoot{font-size:.4rem;letter-spacing:.02em;color:#f6eafb;font-weight:900;white-space:nowrap}
+.pcJB123PreviewPill{
+ position:absolute;left:20px;bottom:17px;z-index:5;
+ border-radius:100px;padding:9px 12px;background:#d7ff83;color:#172021;
+ font-size:.66rem;font-weight:950;letter-spacing:.035em;box-shadow:0 7px 17px #05050d8a
+}
+#drawer-adult .pcJB123ProductCard>.status{margin-top:3px}
+#drawer-adult .pcJB123ProductCard>.accent{color:#ffcf9b;font-size:.8rem;font-weight:850;line-height:1.45}
+#drawer-adult .pcJB123ProductCard>p{color:#e1d8ea;line-height:1.54}
+.pcJB123PriceRow{
+ display:flex;gap:12px;align-items:center;justify-content:space-between;margin:18px 0 16px;
+ padding:13px 15px;border-radius:15px;background:#231d2d;border:1px solid #ad8cb054
+}
+.pcJB123PriceRow>div{display:flex;flex-direction:column;gap:6px}
+.pcJB123PriceRow small{font-size:.64rem;letter-spacing:.055em;color:#d2c4db;font-weight:900}
+.pcJB123PriceRow strong{font-size:1.55rem;font-weight:950;color:#e7ffa0;line-height:1}
+.pcJB123LicenseState{
+ max-width:148px;font-size:.68rem;line-height:1.35;text-align:center;
+ color:#ffe1ae;border:1px solid #e5b26b66;background:#96622724;border-radius:11px;padding:8px 9px;font-weight:850
+}
+#drawer-adult .pcJB123Actions{display:flex;gap:8px;flex-wrap:wrap}
+#drawer-adult .pcJB123Actions .btn{flex:1 1 142px;text-align:center;display:inline-flex;justify-content:center;align-items:center;min-height:47px;font-size:.74rem;letter-spacing:.025em}
+#drawer-adult .pcJB123PreviewButton{background:linear-gradient(120deg,#daff7f,#b2f46b);color:#142018;border:1px solid #e7ffb8;font-weight:950}
+#drawer-adult .pcJB123Test{color:#f4eefe;background:#352c45;border:1px solid #9b81aa77;text-decoration:none}
+#drawer-adult .pcJB123CommerceNote{font-size:.72rem;color:#c2b7c9;margin:13px 0 3px}
+.pcJB123Modal[hidden],.pcJB123Slide[hidden]{display:none!important}
+.pcJB123Modal{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:18px;background:#070710dd;backdrop-filter:blur(9px)}
+.pcJB123Dialog{background:linear-gradient(160deg,#292237,#151723);color:#fff;width:min(100%,650px);max-height:min(94vh,850px);overflow-y:auto;overscroll-behavior:contain;border:1px solid #9783ae80;border-radius:23px;box-shadow:0 28px 80px #000c;padding:24px}
+.pcJB123ModalHead{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:17px}
+.pcJB123ModalHead small{font-size:.65rem;letter-spacing:.13em;color:#e6ff9c;font-weight:900}
+.pcJB123ModalHead h2{font-size:clamp(1.7rem,5vw,2.5rem);margin:8px 0;color:#fff;line-height:1.05}
+.pcJB123Close{font-size:1.4rem;background:#373049;border:1px solid #cdbad18a;border-radius:12px;color:#fff;width:39px;height:39px;cursor:pointer}
+.pcJB123Tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:17px}
+.pcJB123Tabs button{min-height:45px;background:#373047;border:1px solid #aa8dbe75;border-radius:12px;color:#efe4f4;font-weight:850;font-size:.75rem;cursor:pointer;padding:8px}
+.pcJB123Tabs button[aria-selected="true"]{background:#d6ff83;color:#101a16;border-color:#e7ffb7}
+.pcJB123Slide{
+ min-height:255px;padding:24px 20px;display:flex;align-items:center;justify-content:space-between;gap:24px;
+ border-radius:17px;background:radial-gradient(circle at 85% 48%,#514080,transparent 62%),#171a2a;border:1px solid #6a588b81
+}
+.pcJB123SlideCopy{max-width:330px;flex:1;display:flex;flex-direction:column;gap:11px}
+.pcJB123SlideCopy small{color:#d6ff88;font-size:.74rem;font-weight:900;letter-spacing:.1em}
+.pcJB123SlideCopy strong{color:#fff;font-size:clamp(1.5rem,4vw,2.1rem);font-weight:950;line-height:1.05}
+.pcJB123SlideCopy p{color:#e2d9ed;line-height:1.5;font-size:.86rem;margin:0}
+.pcJB123DemoWheel{flex:0 0 165px;width:165px;height:165px;border:9px solid #e7d2ac;border-radius:50%;display:grid;place-items:center;box-shadow:0 10px 25px #0008;background:conic-gradient(from -60deg,#42dbae 0 120deg,#ffb04d 120deg 240deg,#fc6b8d 240deg 360deg)}
+.pcJB123DemoWheel.individual{background:repeating-conic-gradient(from -90deg,#4ac8d9 0deg 8deg,#f9bf68 8deg 16deg,#e87c95 16deg 24deg,#9173e5 24deg 32deg)}
+.pcJB123DemoWheel.tower{background:linear-gradient(135deg,#b88b5b,#f4ca93)}
+.pcJB123DemoWheel b{display:grid;place-items:center;width:67px;height:67px;border-radius:50%;background:#22233c;border:4px solid #e3ff91;color:#e9ffb2;font-weight:950;font-size:.82rem}
+.pcJB123DemoWheel.tower b{background:#553723;color:#fff3e1;border-color:#ffe0b3}
+.pcJB123ModalFooter{margin-top:15px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.pcJB123ModalFooter p{font-size:.77rem;color:#d6cbe0;margin:0}
+.pcJB123ModalFooter a{border-radius:12px;background:#d6ff83;color:#17201a;padding:11px 14px;font-weight:950;font-size:.75rem;text-decoration:none}
+@media(max-width:560px){
+ .pcJB123Media{height:238px}
+ .pcJB123Copy{top:61px}
+ .pcJB123Copy strong{font-size:clamp(2.1rem,8vw,3rem)}
+ .pcJB123Phone{width:132px;height:169px;right:9px;top:51px;gap:7px}
+ .pcJB123Wheel{width:99px;height:99px;flex-basis:99px}
+ .pcJB123WheelFace{width:42px;height:42px;font-size:.6rem}
+ .pcJB123Slide{flex-direction:column-reverse;gap:15px;text-align:center}
+ .pcJB123SlideCopy{align-items:center}
+ .pcJB123DemoWheel{flex-basis:145px;width:145px;height:145px}
+ .pcJB123Tabs button{font-size:.66rem;padding:7px 4px}
+}
+@media(max-width:370px){
+ .pcJB123Phone{right:4px;width:116px;transform:rotate(7deg)}
+ .pcJB123Copy strong{font-size:2rem}
+ .pcJB123Copy em{font-size:.58rem}
+ .pcJB123Brand small{font-size:.57rem}
+ .pcJB123PreviewPill{font-size:.56rem}
+ .pcJB123PriceRow{align-items:flex-start;flex-direction:column}
+ .pcJB123LicenseState{max-width:none}
+}
+
 </style></head><body><div class="wrap">
 <header class="top"><div class="brandwrap"><div class="seal"><span>PASALO<br>CHEVERE</span></div><div class="brand">PASALOCHEVERE<small>ACCESO PERSONAL · BIBLIOTECA DIGITAL</small></div></div><div class="pill">VIGENCIA SEGÚN TU ACCESO · HASTA 2 DISPOSITIVOS</div></header>
 
@@ -92,16 +203,31 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
       <div class="drawerHead"><div><div class="eyebrow">♥ PAREJA & ADULTOS</div><h3>Conexión, risas y desafíos +18</h3></div><button class="drawerClose" onclick="closeCategories()">CERRAR ×</button></div>
       <div class="drawerGrid">
         <article class="card" data-cat="adult"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18</div><p>Un solo código desbloquea las tres ediciones, el juego digital y el material descargable.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-        <article class="card pcJB122Card" data-cat="adult" id="pc-jb122-adult-card" data-pc-game="jenga-borracho">
-          <div class="pcJB122Art" role="img" aria-label="Ruleta de tres intensidades de Al Borracho">
-            <div class="pcJB122Circle"><b>GIRÁ</b></div>
-            <div class="pcJB122ArtCopy"><small>PREVIA MODE · +18</small><strong>AL<br>BORRACHO</strong><span>TORRE + RULETAS</span></div>
-          </div>
-          <span class="status live">● DISPONIBLE PARA JUGAR</span>
+        <article class="card pcJB122Card pcJB123ProductCard" data-cat="adult" id="pc-jb122-adult-card" data-pc-game="jenga-borracho" data-product-code="JB-BORRACHO">
+          <button class="pcJB123Media" type="button" onclick="openJB123Preview()" aria-label="Ver vista previa de Al Borracho: torre y dos ruletas">
+            <span class="pcJB123Glow" aria-hidden="true"></span>
+            <span class="pcJB123Brand"><small>PASALOCHEVERE</small><b>+18</b></span>
+            <span class="pcJB123Copy"><small>EL JUEGO DE LA PREVIA</small><strong>AL<br>BORRACHO<span>.</span></strong><em>TORRE + DOS RULETAS</em></span>
+            <span class="pcJB123Phone" aria-hidden="true">
+              <span class="pcJB123PhoneHead">RULETA · 3 INTENSIDADES</span>
+              <span class="pcJB123Wheel"><i class="pcJB123WheelFace">GIRAR</i></span>
+              <span class="pcJB123PhoneFoot">TRANQUI · SUBE · AL MÁXIMO</span>
+            </span>
+            <span class="pcJB123PreviewPill">◉ VER PREVIEW DEL JUEGO</span>
+          </button>
+          <span class="status live">● JUEGO PUBLICADO</span>
           <h3>AL BORRACHO · TORRE YENGA</h3>
-          <div class="accent">TORRE · RULETA INDIVIDUAL · RULETA COMPLETA · +18</div>
-          <p>Una previa distinta cada vez: jugá con bloques, con la ruleta individual o combinando las tres intensidades. Incluye 126 consignas originales.</p>
-          <div class="actions"><a class="btn primary pcJB122Play" href="../jenga-borracho/?v=jb122" target="_blank" rel="noopener noreferrer" aria-label="Abrir Al Borracho en otra pestaña">JUGAR ONLINE ↗</a></div>
+          <div class="accent">MODO TORRE · RULETA INDIVIDUAL · RULETA COMPLETA</div>
+          <p>Una previa diferente cada vez. Tres intensidades, 126 consignas y dos formas de girar la ruleta.</p>
+          <div class="pcJB123PriceRow">
+            <div><small>PRECIO DE LISTA SOLICITADO</small><strong>$ 14.999</strong></div>
+            <span class="pcJB123LicenseState">Licencias en configuración</span>
+          </div>
+          <div class="actions pcJB123Actions">
+            <button class="btn primary pcJB123PreviewButton" type="button" onclick="openJB123Preview()">VER PREVIEW</button>
+            <a class="btn pcJB123Test" href="../jenga-borracho/?v=jb122" target="_blank" rel="noopener noreferrer" aria-label="Abrir la versión jugable de prueba de Al Borracho">ABRIR JUEGO DE PRUEBA ↗</a>
+          </div>
+          <p class="pcJB123CommerceNote">La vista jugable está publicada. La venta y activación de licencias de este producto aún no están conectadas al portal.</p>
         </article>
       </div>
     </section>
@@ -177,6 +303,33 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 <section class="box support" id="soporte"><div><div class="eyebrow">SOPORTE OFICIAL PASALOCHEVERE</div><h3>¿Necesitás ayuda?</h3><div class="sub">Soporte para activaciones, códigos, dispositivos, acceso a juegos y consultas sobre nuevos casos.</div><div class="note" style="margin-top:10px">WhatsApp: <b>11 5377-4769</b> · Correo: <b>pasalochevere@gmail.com</b></div></div><div class="support-actions"><a class="btn primary" href="https://wa.me/5491153774769?text=Hola%20PasaloChevere%2C%20necesito%20ayuda%20con%20mi%20acceso%20o%20juego." target="_blank" rel="noopener">WHATSAPP</a><a class="btn" href="mailto:pasalochevere@gmail.com?subject=Soporte%20PasaloChevere">CORREO</a></div></section>
 <footer class="note" style="padding:18px 0 30px">PasaloChevere · Acceso personal · Vigencia según tu acceso · Hasta 2 dispositivos.</footer>
 </div>
+<div class="pcJB123Modal" id="pcJB123PreviewModal" role="dialog" aria-modal="true" aria-labelledby="pcJB123Title" hidden onclick="if(event.target===this)closeJB123Preview()">
+  <div class="pcJB123Dialog">
+    <div class="pcJB123ModalHead">
+      <div><small>PASALOCHEVERE · PREVIEW REAL DE MODOS</small><h2 id="pcJB123Title">Al Borracho · Party Night</h2></div>
+      <button class="pcJB123Close" id="pcJB123Close" type="button" aria-label="Cerrar vista previa" onclick="closeJB123Preview()">×</button>
+    </div>
+    <div class="pcJB123Tabs" role="tablist" aria-label="Modalidades disponibles">
+      <button type="button" role="tab" aria-selected="true" aria-controls="pcJB123Slide0" onclick="showJB123Slide(0)">TORRE</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="pcJB123Slide1" onclick="showJB123Slide(1)">INDIVIDUAL</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="pcJB123Slide2" onclick="showJB123Slide(2)">COMPLETA</button>
+    </div>
+    <div class="pcJB123Slide" id="pcJB123Slide0" role="tabpanel">
+      <div class="pcJB123SlideCopy"><small>01 · MODO TORRE</small><strong>EL CLÁSICO, MÁS DIVERTIDO.</strong><p>Usá los bloques de la torre, elegí intensidad y descubrí qué reto toca. Las consignas originales siguen intactas.</p></div>
+      <div class="pcJB123DemoWheel tower" aria-hidden="true"><b>TORRE</b></div>
+    </div>
+    <div class="pcJB123Slide" id="pcJB123Slide1" role="tabpanel" hidden>
+      <div class="pcJB123SlideCopy"><small>02 · RULETA INDIVIDUAL</small><strong>UN MODO. 42 CASILLEROS.</strong><p>Elegí TRANQUI, SUBE o AL MÁXIMO. La ruleta selecciona una consigna sin repetir casilleros.</p></div>
+      <div class="pcJB123DemoWheel individual" aria-hidden="true"><b>42</b></div>
+    </div>
+    <div class="pcJB123Slide" id="pcJB123Slide2" role="tabpanel" hidden>
+      <div class="pcJB123SlideCopy"><small>03 · RULETA COMPLETA</small><strong>3 INTENSIDADES. 126 RETOS.</strong><p>Una sola ruleta mezcla TRANQUI, SUBE y AL MÁXIMO. Primero gira, después aparece el reto.</p></div>
+      <div class="pcJB123DemoWheel" aria-hidden="true"><b>GIRAR</b></div>
+    </div>
+    <div class="pcJB123ModalFooter"><p>Vista ilustrativa · no revela retos ni activa licencias.</p><a href="../jenga-borracho/?v=jb122" target="_blank" rel="noopener noreferrer">ABRIR PRUEBA ↗</a></div>
+  </div>
+</div>
+
 <div id="deviceModal" class="deviceModal hidden" role="dialog" aria-modal="true" aria-labelledby="deviceModalTitle"><div class="deviceDialog"><div class="deviceHead"><div><div class="eyebrow">GESTIÓN DE DISPOSITIVOS</div><h3 id="deviceModalTitle">Tus dispositivos</h3><div id="deviceModalSub" class="sub"></div></div><button class="btn" onclick="closeDevices()">CERRAR</button></div><div id="deviceList" class="deviceList"></div><div id="deviceMsg" class="msg"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -384,6 +537,41 @@ async function renderSession(){
    await loadMyGames();
  }
 }
+
+let jb123PreviousFocus=null;
+function openJB123Preview(){
+  const modal=document.getElementById('pcJB123PreviewModal');if(!modal)return;
+  jb123PreviousFocus=document.activeElement;
+  modal.hidden=false;
+  showJB123Slide(0);
+  document.getElementById('pcJB123Close')?.focus();
+}
+function closeJB123Preview(){
+  const modal=document.getElementById('pcJB123PreviewModal');if(!modal||modal.hidden)return;
+  modal.hidden=true;
+  if(jb123PreviousFocus?.isConnected)jb123PreviousFocus.focus();
+}
+function showJB123Slide(n){
+  const modal=document.getElementById('pcJB123PreviewModal');if(!modal)return;
+  const i=Math.max(0,Math.min(2,Number(n)||0));
+  modal.querySelectorAll('.pcJB123Slide').forEach((el,index)=>el.hidden=index!==i);
+  modal.querySelectorAll('.pcJB123Tabs [role="tab"]').forEach((el,index)=>{
+    const active=index===i;
+    el.setAttribute('aria-selected',active?'true':'false');
+    el.tabIndex=active?0:-1;
+  });
+}
+document.addEventListener('keydown',event=>{
+  const modal=document.getElementById('pcJB123PreviewModal');
+  if(!modal||modal.hidden)return;
+  if(event.key==='Escape'){event.preventDefault();closeJB123Preview()}
+  if(event.key==='Tab'){
+    const buttons=[...modal.querySelectorAll('button:not([hidden]),a[href]')].filter(el=>el.offsetParent!==null);
+    if(!buttons.length)return;
+    if(event.shiftKey&&document.activeElement===buttons[0]){event.preventDefault();buttons[buttons.length-1].focus()}
+    else if(!event.shiftKey&&document.activeElement===buttons[buttons.length-1]){event.preventDefault();buttons[0].focus()}
+  }
+});
 
 function openCategory(key){
  document.querySelectorAll('.categoryDrawer').forEach(el=>el.classList.toggle('active',el.id==='drawer-'+key));
