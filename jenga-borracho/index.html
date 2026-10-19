@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#171717">
+<meta name="theme-color" content="#24211e">
 <title>Torre Yenga Borracho · PasaloChevere</title>
 <meta name="description" content="42 consignas, 3 intensidades. Web app +18 de PasaloChevere.">
 <link rel="manifest" href="manifest.webmanifest">
@@ -164,6 +164,214 @@ small{line-height:1.4}
 .btn:disabled{opacity:.7;cursor:wait;transform:none!important}
 @media(max-width:380px){.wheel-stage{width:min(100%,290px)}.wheel-hub{width:88px;height:88px}.wheel-hub b{font-size:38px}}
 @media(prefers-reduced-motion:reduce){.wheel-disc{transition:none}}
+
+/* JB10 · Estética integral premium · versión responsive */
+:root{
+ --bg:#f3ede4;--surf:#fffcf7;--surf2:#faf4eb;--ink:#24211e;--mut:#70665d;
+ --gold:#c18d43;--gold-dark:#896128;--g:#5f866d;--o:#c18140;--r:#b75c4a;
+ --line:#53381920;--shadow:0 25px 56px #4830181a,0 5px 14px #4830180c;
+ --shadow2:0 12px 30px #48301814;
+}
+html{background:#e6d9ca;scroll-behavior:smooth}
+body{
+ background:radial-gradient(ellipse at 50% -10%,#fbf6ef,transparent 64%),linear-gradient(135deg,#dfd1c1,#e9dfd1);
+ -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility
+}
+#app{
+ position:relative;width:min(100%,480px);min-height:100vh;min-height:100svh;
+ padding:clamp(17px,5vw,25px);padding-bottom:max(30px,env(safe-area-inset-bottom));
+ overflow-x:hidden;
+ background:radial-gradient(circle at 90% -10%,#eac58f44,transparent 39%),
+ linear-gradient(180deg,#fcf9f3 0%,#f4ede3 62%,#f1e8dc 100%);
+ box-shadow:0 0 76px #34200f25;border-left:1px solid #fff9;border-right:1px solid #fff9
+}
+#app:before{
+ content:"";position:absolute;inset:0 0 auto;height:5px;
+ background:linear-gradient(90deg,#65482e,#d7a45c 44%,#f3d59d 62%,#806049)
+}
+h1,h2{font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;letter-spacing:-.012em;line-height:.99}
+h1{font-size:clamp(44px,11.8vw,59px);margin:.26em 0 .18em}
+h2{font-size:clamp(30px,8vw,38px)}
+h3{letter-spacing:-.01em}
+p{line-height:1.52}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid #dba154;outline-offset:3px}
+.logo{
+ width:70px;height:70px;flex-shrink:0;border:3px solid #daac63;
+ background:radial-gradient(circle at 20% 10%,#40352c,#171717 74%);
+ box-shadow:0 10px 24px #32201230,inset 0 0 0 1px #fff3
+}
+.logo i{color:#f0c579}
+.over{display:inline-block;color:#976b32;font-size:10px;font-weight:900;letter-spacing:.13em;line-height:1.6}
+.over:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#ca974d;box-shadow:0 0 0 3px #d9ab6540;vertical-align:2px;margin-right:9px}
+.btn{
+ min-height:60px;border-radius:19px;padding:14px 18px;font-size:14px;font-weight:900;
+ letter-spacing:.026em;background:linear-gradient(150deg,#37302b,#201b19);
+ border:1px solid #fff2;box-shadow:0 12px 25px #36281728,inset 0 1px 0 #fff2;
+ transition:transform .16s ease,box-shadow .16s ease,filter .16s ease
+}
+.btn:hover{filter:brightness(1.035);box-shadow:0 17px 30px #33261727}
+.btn:active{transform:scale(.986)}
+.btn.s{color:#2e281f;background:linear-gradient(145deg,#fffdf8,#f7eddf);border:1px solid #d8c7ad;box-shadow:0 6px 17px #482e1712,inset 0 1px 0 #fff}
+.btn.g{background:linear-gradient(150deg,#73977c,#47715a);box-shadow:0 12px 25px #42725033}
+.btn.o{background:linear-gradient(145deg,#dda456,#bd763a);box-shadow:0 13px 28px #90552138}
+.btn.r{background:linear-gradient(145deg,#d57e65,#ad5447);box-shadow:0 13px 28px #93413438}
+.link{font-size:13px;font-weight:800;color:#655b4f}
+.link:hover{text-decoration:underline;text-underline-offset:4px}
+.hero{gap:13px}
+.hero-head{padding:7px 0 2px;gap:14px}
+.microtitle{font-size:11px;margin-top:6px;color:#786857;letter-spacing:.13em;font-weight:850}
+.hero-copy{padding:10px 0 3px}
+.hero-copy h1{font-size:clamp(48px,12.1vw,63px);margin:.05em 0 .18em;line-height:.94}
+.hero-copy h1 em{color:#b5843d;text-shadow:1px 2px #e9d1ad}
+.hero-copy p{font-size:16px;line-height:1.43;color:#5d544b;margin:.5em 0}
+.product-stage{
+ min-height:265px;padding:20px 15px;border-radius:29px;isolation:isolate;
+ background:radial-gradient(ellipse at 50% 47%,#fffdf5,#f5e5cb 69%,#e0c7a4);
+ border:1px solid #fff8eb;box-shadow:var(--shadow),inset 0 0 0 1px #d4ad7333
+}
+.product-stage:before{height:5px;width:61%;background:linear-gradient(90deg,transparent,#d3a364,#f0d29e)}
+.product-stage:after{content:"";position:absolute;left:12%;right:12%;bottom:16px;height:20px;border-radius:50%;background:#78562924;filter:blur(13px);z-index:-1}
+.product-stage img{
+ position:relative;z-index:1;height:248px;max-width:400px;
+ background:transparent;mix-blend-mode:multiply;
+ filter:saturate(1.08) contrast(1.03) drop-shadow(0 13px 13px #49301a22)
+}
+.product-note{z-index:3;top:13px;right:13px;background:#fffaf0e8;border:1px solid #d8b989;color:#845f2b}
+.mode-separator{display:flex;align-items:center;gap:13px;padding:9px 2px 1px}
+.mode-separator span{font-size:10px;white-space:nowrap;font-weight:950;letter-spacing:.13em;color:#97703d}
+.mode-separator i{height:1px;flex:1;background:linear-gradient(90deg,#d5ae76,transparent)}
+.mode-btn{
+ display:grid;grid-template-columns:43px minmax(0,1fr) 19px;gap:13px;align-items:center;
+ padding:13px 16px;min-height:78px;text-align:left;border-radius:20px;margin-top:7px
+}
+.mode-ico{width:43px;height:43px;display:grid;place-items:center;font-size:27px;border-radius:14px;border:1px solid #ffffff44;background:#ffffff1a;color:#f5d6a3}
+.mode-copy{display:flex;flex-direction:column;min-width:0;gap:4px}
+.mode-copy b{font-size:14px;line-height:1.2}
+.mode-copy small{font-size:11px;opacity:.8;font-weight:600;letter-spacing:0;line-height:1.3}
+.mode-arrow{font-size:28px;line-height:1;opacity:.7}
+.mode-wheel .mode-ico{background:#fff4db33;color:#fff8e7}
+.mode-tower.btn.s .mode-ico{background:#b9904a22;border-color:#b9904a66;color:#8a5f23}
+.resume-card{background:linear-gradient(145deg,#fffefa,#f8f1e8);border:1px solid #e4d4be;border-radius:20px;padding:15px 18px}
+.resume-card strong{font-size:16px}
+.resume-btn{background:linear-gradient(150deg,#41352a,#22201d)}
+.resume-btn span{color:#f3d29b}
+.home-links{margin-top:8px}
+.top{margin-bottom:23px}
+.back,.menu{
+ width:46px;height:46px;display:grid;place-items:center;font-size:24px;
+ background:linear-gradient(140deg,#fffefa,#f2e7d9);color:#3b2e22;
+ border:1px solid #e3d0b5;box-shadow:0 6px 15px #3f29140f
+}
+.levels{gap:14px;margin-top:22px}
+.lvl{
+ padding:21px 21px 18px;border-radius:25px;border:1px solid #e5d7c2;
+ background:linear-gradient(150deg,#fffefa,#f9f2e8);
+ box-shadow:0 12px 30px #38271512,inset 0 1px 0 #fff;
+}
+.lvl:before{width:6px}
+.lvl:after{width:165px;height:165px;right:-88px;top:-99px}
+.level-number{position:absolute;right:19px;top:12px;color:color-mix(in srgb,var(--c) 20%,transparent);font:900 49px/1 Impact,"Arial Narrow",sans-serif}
+.lvl h3{font-size:23px;margin:15px 0 8px;max-width:93%}
+.lvl p{font-size:14px}
+.lvl .badge{position:relative;z-index:1;font-size:10px}
+.level-foot{border-top:1px solid #5a412019;padding-top:10px;margin-top:13px}
+.level-foot small{font-size:11px}
+.lvl .btn{min-height:55px;margin-top:16px;border-radius:16px;font-size:14px}
+.badge{box-shadow:none;border:1px solid #ffffff33;padding:8px 13px}
+.game-meta{gap:12px}
+.game-meta>b{font-size:12px;letter-spacing:.07em;color:#756657;white-space:nowrap}
+.bar{height:8px;background:#d9c7afaa;margin:13px 0 20px}
+.bar i{border-radius:9px;transition:width .2s ease}
+.card{
+ position:relative;min-height:clamp(425px,64svh,640px);padding:25px 21px;overflow:hidden;
+ background:radial-gradient(ellipse at 50% 3%,#fffefa,#f8f1e6 72%,#f5e9db);
+ border:1px solid #fff5e6;border-radius:29px;
+ box-shadow:var(--shadow),inset 0 1px 0 #fff
+}
+.card:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,transparent,#cd9b55,#ecd09e,transparent);pointer-events:none}
+.card.is-revealed{
+ background:radial-gradient(ellipse at 50% 3%,#423529,#2d2925 51%,#1c1b1a);
+ color:#fff2de;border-color:#7f6546;
+ box-shadow:0 25px 55px #33211340,inset 0 1px 0 #ffffff22
+}
+.card.is-revealed:before{background:linear-gradient(90deg,#6c4b29,#e9bd76,#966b39)}
+.card.is-revealed small{color:#eac899}
+.card .challenge-tag{display:inline-block;border-radius:100px;padding:9px 15px;font-size:11px;font-weight:900;letter-spacing:.1em;border:1px solid #b38b5a66;background:#e3bc7c19}
+.card .txt{
+ width:100%;max-width:386px;margin:27px auto;position:relative;
+ font-size:clamp(28px,7.3vw,40px);line-height:1.12;
+ overflow-wrap:break-word;text-wrap:balance;letter-spacing:0
+}
+.card.is-revealed .actions .link{color:#ebd7bd}
+.card.is-tower.is-pick h1{font-size:clamp(50px,12.6vw,64px);margin:10px 0}
+.card.is-tower.is-pick p{max-width:280px;color:#6f6152}
+.turn-image{width:158px;height:194px;filter:drop-shadow(0 16px 17px #49301733)}
+.rulechip{border:1px solid #d8b677;background:#fcf1d9;color:#825727;padding:10px 16px}
+.wheel-wrap{width:100%;position:relative;z-index:1}
+.wheel-wrap h2{font-size:clamp(28px,8vw,38px);margin:11px 0 17px}
+.wheel-stage{isolation:isolate;width:min(100%,342px)}
+.wheel-stage:before{
+ content:"";position:absolute;inset:-4px;border-radius:50%;
+ background:radial-gradient(circle,#fffdf4 53%,#e8ceaa 71%,#f9e9d1 79%,transparent 80%);
+ filter:drop-shadow(0 12px 13px #58402020);pointer-events:none
+}
+.wheel-disc{inset:11px;filter:drop-shadow(0 10px 10px #49311b36)}
+.wheel-pointer{
+ z-index:4;top:-17px;width:38px;height:39px;display:grid;place-items:center;
+ border-radius:12px;border:3px solid #e1b771;
+ background:linear-gradient(145deg,#3b3229,#191713);
+ box-shadow:0 7px 12px #37251330;color:#f5d39c;font-size:23px;text-shadow:none
+}
+.wheel-hub{
+ width:103px;height:103px;border:5px solid #eec178;
+ background:radial-gradient(circle at 20% 15%,#4b4035,#24201c 60%,#141311);
+ box-shadow:0 6px 0 #976934,0 10px 25px #24170e4d,inset 0 0 0 2px #ffffff1b
+}
+.wheel-hub b{font-size:47px;color:#f5d69b}
+.wheel-hub small{font-size:9px;color:#fff2d9;letter-spacing:.12em}
+.wheel-hint{font-size:13px;color:#776757;margin:16px 0 7px}
+.wheel-hint span{color:#bd8a48;font-size:17px}
+.wheel-wrap .actions .btn{min-height:66px;font-size:16px;letter-spacing:.055em}
+.sheet{background:#1c1917ab;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sheet>div{
+ border:1px solid #dfccb3;border-bottom:0;
+ border-radius:29px 29px 0 0;
+ padding:26px 22px max(24px,env(safe-area-inset-bottom));
+ background:linear-gradient(160deg,#fffcf6,#f2e8db);
+ box-shadow:0 -20px 52px #1b120b40
+}
+.sheet h2{font-size:34px;margin:6px 0 20px}
+.hist article,.rule{background:linear-gradient(140deg,#fffdfa,#f9f2e8);padding:17px;border:1px solid #e8d9c5;border-radius:17px}
+.care{padding:21px 22px;border:1px solid #e3c993;border-radius:23px;background:linear-gradient(145deg,#fffaf0,#f6e8d2)}
+.care b{font-size:14px;color:#75512c}
+.care p{color:#685b4b;font-size:15px;margin:9px 0 17px}
+.care b:not(:first-child){display:block;padding-top:15px;border-top:1px solid #c9a77844}
+.care p:last-child{margin-bottom:0}
+.timer-ring{background:radial-gradient(circle,#fff,#f3e8d9);box-shadow:0 0 0 6px #ffffff14,0 14px 30px #0002}
+.is-revealed .timer-ring{color:#231f19}
+.is-revealed .timer-ring small{color:#7a6651}
+.is-revealed .wheel-task-text{color:#f5e7d3}
+.done{min-height:88svh;align-items:center;gap:9px}
+.done .logo{margin:3px auto 24px}
+.done h1{font-size:clamp(47px,11.8vw,58px);max-width:420px}
+.done h2{margin:6px 0}
+.done p{max-width:356px;color:#6a6055;font-size:16px}
+.done>.btn{max-width:388px}
+.done>small{color:#74665a;margin:10px auto}
+@media(max-width:380px){
+ #app{padding:17px 16px max(28px,env(safe-area-inset-bottom))}
+ .hero-copy h1{font-size:clamp(44px,12vw,54px)}
+ .mode-btn{grid-template-columns:38px minmax(0,1fr) 16px;gap:10px;padding:12px 13px}
+ .mode-ico{width:38px;height:38px}.mode-copy b{font-size:12.5px}
+ .card{min-height:415px;padding:20px 16px}
+ .card .txt{font-size:clamp(27px,7.7vw,35px)}
+ .wheel-stage{width:min(100%,295px)}.wheel-disc{inset:9px}
+ .wheel-hub{width:86px;height:86px}.wheel-hub b{font-size:39px}.wheel-hub small{font-size:8px}
+ .lvl{padding:19px 17px 17px}
+}
+@media(max-width:340px){.wheel-stage{width:min(100%,270px)}.hero-copy h1{font-size:43px}.lvl h3{font-size:21px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.wheel-disc,.btn,.bar i{transition:none!important}}
 </style>
 </head>
 <body>
