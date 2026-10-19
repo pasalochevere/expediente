@@ -36,7 +36,7 @@ function upgradeGame(g){
   g.wheelAngle=Number(g.wheelAngle)||0;
   return g;
 }
-function resume(){G=upgradeGame(load());if(!G)return;P_MODE=G.mode==='ruleta'?'ruleta':'torre';wheelBusy=false;S=G.i>=total()?'done':'game';save();R();if(G.timer&&G.timer.status==='run')tick()}
+function resume(){G=upgradeGame(load());if(!G)return;P_MODE=['ruleta','individual'].includes(G.mode)?G.mode:'torre';wheelBusy=false;S=G.i>=total()?'done':'game';save();R();if(G.timer&&G.timer.status==='run')tick()}
 function newg(l,mode='torre'){
   const g={l,mode,deck:sh(),i:0,rev:false,h:[],rules:[],timer:null,wheelAngle:0,t:Date.now(),total:mode==='ruleta'?126:42};
   if(mode==='ruleta'){g.modeDecks={tranqui:sh(),sube:sh(),maximo:sh()};g.modePos={tranqui:0,sube:0,maximo:0};g.current=null}
@@ -86,19 +86,19 @@ function towerImage(){
   return`<div class="mini-tower">${Array(10).fill('<i></i>').join('')}</div>`;
 }
 function home(){
-  let x=load();if(x&&x.mode==='ruleta')x=upgradeGame(x);let lm=x&&M[x.l]?M[x.l]:M.tranqui;const max=x&&x.total||42;
+  let x=load();if(x&&x.mode==='ruleta')x=upgradeGame(x);let lm=x&&M[x.l]?M[x.l]:M.tranqui;const max=x&&x.total||42;const label=x?.mode==='ruleta'?'RULETA COMPLETA':x?.mode==='individual'?'RULETA INDIVIDUAL · '+lm[0]:lm[0];
   return`<section class="hero">
     <div class="hero-head">${logo()}<div><span class="over">PASALOCHEVERE · +18</span><b class="microtitle">FÍSICO + DIGITAL</b></div></div>
-    <div class="hero-copy"><h1>TORRE YENGA<br><em>BORRACHO</em></h1><p>3 intensidades. 126 retos digitales.<br>Una noche distinta cada vez.</p></div>
-    <div class="product-stage"><span class="product-note">TORRE + BOLSO + CHUPITOS</span>${productSet()}</div><div class="mode-separator"><span>✦ DOS FORMAS DE JUGAR</span><i></i></div>
+    <div class="hero-copy"><h1>TORRE YENGA<br><em>BORRACHO</em></h1><p>3 intensidades. 126 retos digitales.<br>Elegí cómo querés jugar.</p></div>
+    <div class="product-stage"><span class="product-note">TORRE + BOLSO + CHUPITOS</span>${productSet()}</div><div class="mode-separator"><span>✦ TRES FORMAS DE JUGAR</span><i></i></div>
     ${x&&x.i<max?`
       <div class="resume-card">
-        <div><small>PARTIDA EN CURSO</small><strong>${x.mode==='ruleta'?'RULETA · 3 MODOS':lm[0]}</strong></div>
+        <div><small>PARTIDA EN CURSO</small><strong>${label}</strong></div>
         <span class="badge" style="--c:${lm[2]}">${x.i+1} / ${max}</span>
       </div>
       <button class="btn resume-btn" onclick="resume()"><span>VOLVER A LA MESA</span><b>CONTINUAR · ${x.i+1}/${max}</b></button>
-      <button class="btn s mode-btn mode-tower" onclick="P_MODE='torre';S='levels';R()"><span class="mode-ico">▦</span><span class="mode-copy"><b>NUEVA PARTIDA · TORRE</b><small>Sacá un bloque y descubrí la consigna</small></span><span class="mode-arrow">›</span></button><button class="btn o mode-btn mode-wheel" onclick="P_MODE='ruleta';S='pre';R()"><span class="mode-ico">◉</span><span class="mode-copy"><b>RULETA DIGITAL</b><small>Girá y jugá desde el celular</small></span><span class="mode-arrow">›</span></button>`
-      :`<button class="btn mode-btn mode-tower" onclick="P_MODE='torre';S='levels';R()"><span class="mode-ico">▦</span><span class="mode-copy"><b>JUGAR CON LA TORRE</b><small>El clásico juego bloque por bloque</small></span><span class="mode-arrow">›</span></button><button class="btn o mode-btn mode-wheel" onclick="P_MODE='ruleta';S='pre';R()"><span class="mode-ico">◉</span><span class="mode-copy"><b>RULETA DIGITAL</b><small>Sin torre, directo desde tu celular</small></span><span class="mode-arrow">›</span></button>`}
+      <button class="btn s mode-btn mode-tower" onclick="P_MODE='torre';S='levels';R()"><span class="mode-ico">▦</span><span class="mode-copy"><b>NUEVA PARTIDA · TORRE</b><small>Sacá un bloque y descubrí la consigna</small></span><span class="mode-arrow">›</span></button><button class="btn s mode-btn mode-individual" onclick="P_MODE='individual';S='levels';R()"><span class="mode-ico">◉</span><span class="mode-copy"><b>RULETA INDIVIDUAL</b><small>Elegí una intensidad · 42 retos</small></span><span class="mode-arrow">›</span></button><button class="btn o mode-btn mode-wheel" onclick="P_MODE='ruleta';S='pre';R()"><span class="mode-ico">◉</span><span class="mode-copy"><b>RULETA COMPLETA</b><small>Las tres intensidades · 126 retos</small></span><span class="mode-arrow">›</span></button>`
+      :`<button class="btn mode-btn mode-tower" onclick="P_MODE='torre';S='levels';R()"><span class="mode-ico">▦</span><span class="mode-copy"><b>JUGAR CON LA TORRE</b><small>El clásico juego bloque por bloque</small></span><span class="mode-arrow">›</span></button><button class="btn s mode-btn mode-individual" onclick="P_MODE='individual';S='levels';R()"><span class="mode-ico">◉</span><span class="mode-copy"><b>RULETA INDIVIDUAL</b><small>Elegí una intensidad · 42 retos</small></span><span class="mode-arrow">›</span></button><button class="btn o mode-btn mode-wheel" onclick="P_MODE='ruleta';S='pre';R()"><span class="mode-ico">◉</span><span class="mode-copy"><b>RULETA COMPLETA</b><small>Las tres intensidades · 126 retos</small></span><span class="mode-arrow">›</span></button>`}
     <div class="home-links"><button class="link" onclick="S='how';R()">Cómo jugar</button><button class="link" onclick="S='care';R()">Consumo responsable</button></div>
   </section>`
 }
@@ -109,7 +109,7 @@ function levels(){
     ['maximo','LA MESA YA ESTÁ ENCENDIDA','Más intensidad, cadenas y mini-prendas.','El nivel más intenso.']
   ];
   return`<div class="top"><button class="back" onclick="S='home';R()">‹</button>${logo()}</div>
-    <span class="over">ELEGÍ TU INTENSIDAD · ${P_MODE==='ruleta'?'RULETA DIGITAL':'TORRE'}</span><h1>¿CÓMO VIENE<br>LA NOCHE?</h1>
+    <span class="over">ELEGÍ TU INTENSIDAD · ${P_MODE==='individual'?'RULETA INDIVIDUAL':'TORRE'}</span><h1>¿CÓMO VIENE<br>LA NOCHE?</h1>
     <div class="levels">${list.map((x,i)=>`<article class="lvl" style="--c:${M[x[0]][2]}"><span class="level-number">${String(i+1).padStart(2,'0')}</span>
       <span class="badge" style="--c:${M[x[0]][2]}">${M[x[0]][0]}</span>
       <h3>${x[1]}</h3>
@@ -127,6 +127,15 @@ function pre(){
   <div class="care"><b>GIRÁ</b><p>Elegimos uno de los tres modos.</p><b>DESCUBRÍ</b><p>Se revela una consigna de ese modo, sin números.</p><b>SEGUÍ JUGANDO</b><p>Los retos no se repiten hasta agotar cada banco.</p></div>
   <small>Podés pasar cualquier reto. Se puede jugar sin alcohol.</small>
   <button class="btn o" onclick="start('tranqui','ruleta')">ENTRAR A LA RULETA →</button></section>`;
+  if(P_MODE==='individual')return `<div class="top"><button class="back" onclick="S='levels';R()">‹</button>${logo()}</div>
+  <section class="individual-intro"><span class="over">RULETA INDIVIDUAL · ${m[0]}</span>
+  <h1>UN MODO.<br><em>42 RETOS.</em></h1><p>Elegiste ${m[0]}. Girá la ruleta de 42 casilleros y descubrí sus consignas sin repeticiones.</p>
+  <div class="intensity-preview"><span class="intensity ${P}">${m[0]}</span></div>
+  <div class="care"><b>1 · GIRÁ</b><p>La ruleta selecciona un casillero.</p>
+  <b>2 · DESCUBRÍ</b><p>Leé el desafío del modo elegido.</p>
+  <b>3 · SEGUÍ</b><p>Resolvelo o pasalo y volvé a girar.</p></div>
+  <small>Podés pasar retos y jugar sin alcohol.</small>
+  <button class="btn ${m[1]}" onclick="start(P,'individual')">EMPEZAR RULETA →</button></section>`;
   return`<div class="top"><button class="back" onclick="S='levels';R()">‹</button>${logo()}</div><span class="over">ANTES DE EMPEZAR · ${m[0]}</span><h1>TRES PASOS.<br>Y A JUGAR.</h1><div class="care"><b>1 · SACÁ</b><p>Retirá un bloque de la torre.</p><b>2 · LEÉ</b><p>Mostrá la consigna del celular.</p><b>3 · CUMPLÍ</b><p>Hacé la consigna, apilá y seguí.</p></div><p>Un sorbo siempre es pequeño. Cualquiera puede pasar y también podés jugar sin alcohol.</p><button class="btn ${m[1]}" onclick="start(P)">EMPEZAR PARTIDA</button>`
 }
 function how(){
@@ -154,7 +163,7 @@ function timerHTML(){
   let sec=G.l==='tranqui'?15:G.l==='sube'?20:30,
       rem=G.timer?Math.max(0,Math.ceil((G.timer.end-Date.now())/1000)):sec,
       done=G.timer&&(G.timer.status==='done'||rem<=0),m=M[G.l];
-  return`<small class="challenge-tag" style="--c:${m[2]}">${G.mode==='ruleta'?m[0]:'MINIJUEGO · #42'}</small>${G.mode==='ruleta'?`<p class="txt timer-challenge">${card().text}</p>`:'<h2 style="font-size:42px">SIN DECIR<br>SÍ NI NO</h2>'}<div class="timer-ring" style="--c:${m[2]}"><b style="font-size:64px">${rem}</b><small>segundos</small></div><div class="actions">${!G.timer?`<button class="btn ${m[1]}" onclick="startTimer()">INICIAR</button>`:done?`<button class="btn ${m[1]}" onclick="next()">TERMINADO</button>`:''}<button class="link" onclick="next(1)">Pasar consigna</button></div>`
+  return`<small class="challenge-tag" style="--c:${m[2]}">${G.mode!=='torre'?m[0]:'MINIJUEGO · #42'}</small>${G.mode!=='torre'?`<p class="txt timer-challenge">${card().text}</p>`:'<h2 style="font-size:42px">SIN DECIR<br>SÍ NI NO</h2>'}<div class="timer-ring" style="--c:${m[2]}"><b style="font-size:64px">${rem}</b><small>segundos</small></div><div class="actions">${!G.timer?`<button class="btn ${m[1]}" onclick="startTimer()">INICIAR</button>`:done?`<button class="btn ${m[1]}" onclick="next()">TERMINADO</button>`:''}<button class="link" onclick="next(1)">Pasar consigna</button></div>`
 }
 
 function wheelSVG(){
@@ -175,18 +184,46 @@ function wheelHTML(){
   <button class="wheel-hub" id="wheel-spin" aria-label="Girar ruleta" onclick="spinWheel()"><b>GIRAR</b><small>✦</small></button></div>
   <p class="wheel-hint">Tocá el centro para descubrir el reto</p></div>`;
 }
+
+function individualWheelSVG(){
+  const colors=['#d9a34f','#bf5940','#688d6c','#e5af71','#926949','#99aa90'],step=360/42,sectors=[],labels=[];
+  const point=(a,r)=>(200+r*Math.cos(a)).toFixed(2)+' '+(200+r*Math.sin(a)).toFixed(2);
+  for(let i=0;i<42;i++){
+    const a=(-90+i*step)*Math.PI/180;
+    sectors.push('<path d="M200 200 L'+point(a-step*Math.PI/360,185)+' A185 185 0 0 1 '+point(a+step*Math.PI/360,185)+' Z" fill="'+colors[i%6]+'" stroke="#fff2df" stroke-width="1.1"/>');
+    labels.push('<text x="'+(200+159*Math.cos(a)).toFixed(2)+'" y="'+(200+159*Math.sin(a)).toFixed(2)+'" font-size="12" font-weight="900" fill="#fff" text-anchor="middle" dominant-baseline="central">'+String(i+1).padStart(2,'0')+'</text>');
+  }
+  return '<svg viewBox="0 0 400 400" role="img" aria-label="Ruleta individual con 42 casilleros numerados"><circle cx="200" cy="200" r="192" fill="#fff2dc" stroke="#b58e52" stroke-width="7"/>'+sectors.join('')+labels.join('')+'</svg>';
+}
+function individualWheelHTML(){
+  return `<div class="wheel-wrap wheel-wrap-individual">
+    <span class="over">RULETA INDIVIDUAL · ${M[G.l][0]}</span><h2>¡GIRÁ LA RULETA!</h2>
+    <div class="wheel-stage"><span class="wheel-pointer" aria-hidden="true">▼</span>
+      <div class="wheel-disc" id="wheel-disc" style="transform:rotate(${Number(G.wheelAngle)||0}deg)">${individualWheelSVG()}</div>
+      <div class="wheel-hub wheel-hub-static"><b>42</b><small>RETOS</small></div>
+    </div><p class="wheel-hint">42 desafíos de ${M[G.l][0]}, sin repetir.</p>
+    <div class="actions"><button class="btn ${M[G.l][1]}" id="wheel-spin" onclick="spinWheel()">GIRAR RULETA ↗</button></div>
+  </div>`;
+}
+
 function spinWheel(){
-  if(wheelBusy||!G||G.mode!=='ruleta'||G.rev)return;
-  const disc=q('#wheel-disc'),btn=q('#wheel-spin');if(!disc||!btn)return;
-  if(!G.current){
+  if(wheelBusy||!G||!['ruleta','individual'].includes(G.mode)||G.rev)return;
+  const disc=q('#wheel-disc'),btn=q('#wheel-spin');
+  if(!disc||!btn)return;
+  if(G.mode==='ruleta'&&!G.current){
     const l=chooseMode();if(!l)return;
     const slot=G.modeDecks[l][G.modePos[l]++];
     G.current={l,slot:slot+1};G.l=l;
   }
+  const c=card();if(!c)return;
   wheelBusy=true;btn.disabled=true;
-  const centerLabel=btn.querySelector('b');if(centerLabel)centerLabel.textContent='···';
-  const index=MODES.indexOf(G.current.l),current=Number(G.wheelAngle)||0;
-  const target=(360-index*120)%360,from=((current%360)+360)%360;
+  const center=btn.querySelector('b');
+  if(center)center.textContent='···';else btn.textContent='GIRANDO…';
+  const current=Number(G.wheelAngle)||0;
+  const target=G.mode==='ruleta'
+    ?(360-MODES.indexOf(c.l)*120)%360
+    :(360-(c.slot-1)*360/42)%360;
+  const from=((current%360)+360)%360;
   const angle=current+360*5+(target-from+360)%360;
   const session=G,turn=G.i;
   G.wheelAngle=angle;save();
@@ -198,10 +235,11 @@ function spinWheel(){
 function game(){
   let c=card(),m=c?M[c.l]:M[G.l],n=G.i+1,body;
   if(!G.rev&&G.mode==='ruleta')body=wheelHTML();
+  else if(!G.rev&&G.mode==='individual')body=individualWheelHTML();
   else if(!G.rev)body=`${towerImage()}<span class="over">TURNO ${n}</span><h1>SACÁ<br>UN BLOQUE</h1><p>Cuando estén listos, revelá la consigna.</p><button class="btn ${m[1]}" onclick="G.rev=true;save();R()">MOSTRAR CONSIGNA</button>`;
   else if(c.slot===42)body=timerHTML();
   else body=`<small class="challenge-tag" style="--c:${m[2]}">${G.mode==='ruleta'?m[0]:c.cat+' · #'+String(c.slot).padStart(2,'0')}</small><p class="txt">${c.text}</p><div class="actions"><button class="btn ${m[1]}" onclick="next()">${c.tmp?'ACTIVAR Y SEGUIR':'SIGUIENTE RETO →'}</button><button class="link" onclick="next(1)">Pasar reto</button></div>`;
-  return`<div class="top">${logo()}<button class="menu" aria-label="Menú de la partida" onclick="O='menu';R()">•••</button></div><div class="game-meta"><span class="badge" style="--c:${m[2]}">${G.mode==='ruleta'?(G.rev?m[0]:'3 MODOS'):m[0]}</span><b>${n} / ${total()}</b></div><div class="bar" style="--c:${m[2]}"><i style="width:${G.i/total()*100}%"></i></div>${G.rules.length?`<button class="rulechip" onclick="O='rules';R()">REGLAS ACTIVAS · ${G.rules.length}</button>`:''}<section class="card ${G.rev?'is-revealed':'is-pick'} ${G.mode==='ruleta'?'is-wheel':'is-tower'}">${body}</section>${overlay()}${extra()}`
+  return`<div class="top">${logo()}<button class="menu" aria-label="Menú de la partida" onclick="O='menu';R()">•••</button></div><div class="game-meta"><span class="badge" style="--c:${m[2]}">${G.mode==='ruleta'?(G.rev?m[0]:'3 MODOS'):m[0]}</span><b>${n} / ${total()}</b></div><div class="bar" style="--c:${m[2]}"><i style="width:${G.i/total()*100}%"></i></div>${G.rules.length?`<button class="rulechip" onclick="O='rules';R()">REGLAS ACTIVAS · ${G.rules.length}</button>`:''}<section class="card ${G.rev?'is-revealed':'is-pick'} ${G.mode!=='torre'?'is-wheel':'is-tower'}">${body}</section>${overlay()}${extra()}`
 }
 function overlay(){
   if(!O)return'';
@@ -215,7 +253,7 @@ function extra(){
   return''
 }
 function done(){
-  return`<section class="done">${logo()}<span class="over">${total()} / ${total()}</span><h1>${G.mode==='ruleta'?'LA RULETA<br>SE DETUVO.':'LA TORRE<br>SIGUE EN PIE.'}</h1><h2>¿USTEDES?</h2><p>Tomá agua. La revancha puede esperar.</p><button class="btn ${M[G.l][1]}" onclick="start(G.l,G.mode||'torre')">VOLVER A MEZCLAR</button><button class="btn s" onclick="localStorage.removeItem(K);G=null;S='home';R()">VOLVER AL INICIO</button></section>`
+  return`<section class="done">${logo()}<span class="over">${total()} / ${total()}</span><h1>${G.mode!=='torre'?'LA RULETA<br>SE DETUVO.':'LA TORRE<br>SIGUE EN PIE.'}</h1><h2>¿USTEDES?</h2><p>Tomá agua. La revancha puede esperar.</p><button class="btn ${M[G.l][1]}" onclick="start(G.l,G.mode||'torre')">VOLVER A MEZCLAR</button><button class="btn s" onclick="localStorage.removeItem(K);G=null;S='home';R()">VOLVER AL INICIO</button></section>`
 }
 function R(){
   let a=q('#app');
