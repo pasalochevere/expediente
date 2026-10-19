@@ -100,6 +100,7 @@ function setup(){
  const ref=$('#headerCreateBtn')||$('#blankStartBtn');
  if(ref?.parentNode)ref.parentNode.insertBefore(entry,ref.nextSibling);
  else{entry.style.cssText+=';position:fixed;right:12px;bottom:12px;z-index:99';document.body.append(entry)}
+ const done=$('#editorDone');if(done?.parentNode){const second=entry.cloneNode(true);second.removeAttribute('id');second.onclick=open;done.parentNode.insertBefore(second,done)}
  window.PSQ_CP34B2={release,open,close,getState:()=>({side:state.side,preset:state.preset,ready:!!state.url})};
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
