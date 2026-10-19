@@ -1,4 +1,4 @@
-const CACHE='pasalochevere-yenga-borracho-jb10-premium-v1';
+const CACHE='pasalochevere-yenga-borracho-jb11-three-modes-v1';
 const CORE=['./','./index.html','./data.js','./app.js','./manuals.js','./manifest.webmanifest','./icon.svg','./product-set.b64','./product-tower.b64','./manual-juego.b64','./guia-webapp.b64'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('pasalochevere-yenga-borracho-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
