@@ -1,39 +1,38 @@
-# MODO PREVIA · MP06 — Integración comercial (pendiente de backend)
+# MODO PREVIA — MP06B · Protección y licencia de prueba
+
 Fecha: 2026-10-19
+Estado: **GATE PUBLICADO / PRUEBA CON CUENTA REAL PENDIENTE**.
 
-## Estado
-- **Portal:** `/expediente/portal-v2/` — ficha en Pareja & Adultos y modal preview Party Pop publicados.
-- **Juego:** `/expediente/jenga-borracho/` — identidad MODO PREVIA, 3 modos, 126 consignas originales intactas.
-- **Precio propuesto:** ARS 14.999.
-- **Código de producto propuesto:** `MP-001`. El Portal también reconoce `JB-BORRACHO` como código legado para el acceso desde Mi biblioteca.
-- **Importante:** la venta de `MP-001` permanece deshabilitada hasta que el backend responda con `sales_enabled: true` y un precio válido.
-- **El enlace directo al juego todavía es público. NO afirmar que el contenido tiene protección de licencia.**
+## Publicado y verificado
+- Producto `MP-001` registrado en proyecto Supabase `fzbndgfnqxcacsvlitui` (`expediente-dev`), precio ARS 14.999, duración comercial 8760 horas, 2 dispositivos, `sales_enabled=false`.
+- Funciones `pasalochevere-access` (v29) y `pasalochevere-admin-license` (v16) reconocen `MP-001`.
+- Portal en `portal-v2/` muestra MODO PREVIA, preview Party Pop, botón de activación y acceso desde `Mis juegos`.
+- Nueva Edge Function `modo-previa-content` v1 `verify_jwt=true`; valida JWT con `auth.getUser`, licencia activada del titular, vencimiento, código de producto y dispositivo registrado.
+- Banco de 42×3=126 desafíos migrado **sin modificaciones** a la Edge Function. Archivo público `jenga-borracho/data.js` retirado del HEAD del repositorio público. `index.html` ahora carga `license-gate.js` antes de cargar `app.js` y `manuals.js`.
+- La función responde con `Cache-Control: no-store`; el service worker limpia cachés antiguas y ya no precachea el banco.
+- La verificación se repite cada diez minutos durante sesiones prolongadas.
+- Despliegue final GitHub Pages: commit `46e173ac31805be9df1ed1671e82a1c96e1b7796`, GitHub Actions SUCCESS.
+- Escenarios simulados de gate (válido, sin sesión, licencia rechazada, sin código): PASS. También se verificó sintaxis JS e identidad de las 126 consignas.
 
-## Supabase real del Portal
-- Proyecto: `fzbndgfnqxcacsvlitui`
-- El conector Supabase disponible en ChatGPT no tiene permisos para administrar ese proyecto.
-- No realizar cambios en proyectos alternativos `pasalochevere-juegos` o `pasalochevere-gamefactory` como sustituto del backend del Portal.
+## Licencia de prueba real
+- Registro único de prueba con `product_code=MP-001`, `status=available`.
+- Código de compra: `DEMO-MP-8771B1F01F15`.
+- Vigencia: 24 horas **desde que el usuario active** la compra, no desde su creación.
+- Dispositivos permitidos: 2.
+- `order_ref=TEST:MP06B:20261019`. Solo para prueba, no venta.
+- Se activará con la **primera cuenta autenticada** que lo utilice; no está preasignada a un email. No enviar a terceros.
 
-## Flujo deseado
-1. Usuario entra en Pareja & Adultos y abre la ficha de MODO PREVIA.
-2. Explora el preview, ve precio (ARS 14.999), modalidades y descripción.
-3. Elige **TENGO UN CÓDIGO · ACTIVAR**, que lo lleva al inicio de sesión y sección de activación existente del Portal.
-4. Backend del Portal valida código de compra y asocia licencia del producto `MP-001` al usuario autenticado.
-5. Se muestra la licencia en **Mis juegos** y el botón **JUGAR**.
-6. El Portal valida registro de dispositivo con `pasalochevere-access` y redirige a `../jenga-borracho/?access=<codigo>&v=mp04`.
-7. **Pendiente imprescindible:** el juego debe verificar autorización real y expiración al cargar, y no exponer todas las consignas al navegador sin validación. En GitHub Pages los archivos estáticos `data.js` y `app.js` son públicamente descargables; un simple bloqueo visual en JS no constituye protección comercial real.
+## Prueba de punta a punta pendiente con una cuenta real
+1. Abrir `https://pasalochevere.github.io/expediente/portal-v2/`.
+2. Iniciar sesión y verificar correo.
+3. En `Activar compra`, ingresar el código de prueba.
+4. En `Mis juegos`, ubicar MODO PREVIA y pulsar `JUGAR`.
+5. Debe abrirse `/expediente/jenga-borracho/?access=...&v=mp04` y cargar los tres modos.
+6. Cerrar y reabrir desde `Mis juegos`, probar refresco, otro navegador y un código inválido o vencido.
+7. Revisar consola de navegador, flujos de activación, dispositivos y contenido contra un usuario no autorizado.
 
-## Para completar MP06, una vez concedido el acceso correcto
-- Inspeccionar el esquema actual del producto, las tablas de códigos, licencias y dispositivos y las funciones existentes, sin asumir nombres ni columnas.
-- Registrar `MP-001` con el nombre MODO PREVIA, precio `14999`, `game_url` de este repositorio, estado inicial de ventas deshabilitadas. Verificar vigencia y límite de dispositivos con el usuario antes de fijarlos.
-- Adaptar `pasalochevere-access`, `pasalochevere-catalog` y checkout si fuera necesario, siguiendo sus contratos actuales.
-- Proteger la entrega del contenido: idealmente suministrar consignas desde endpoint autenticado o por token de licencia y mover el banco sensible fuera del repositorio estático.
-- Probar en un dispositivo de prueba real: email / enlace mágico → código de compra → licencia → Mis juegos → registro de dispositivo → acceso al contenido → reabrir → expirar/revocar → error visible.
-- SOLO entonces habilitar `sales_enabled` y CTA comprar.
-
-## Verificaciones locales ya realizadas
-- Motor ruleta individual: 3 × 42 giros sin repetición.
-- Motor ruleta completa: 126 giros, alineación puntero/sector verificada.
-- Modo Torre y reanudación de partidas conservados.
-- HTML y JS de Portal y Juego verificaron sintaxis; despliegue de Pages finalizó con SUCCESS.
-- Falta prueba de renderizado en navegador real y prueba con una licencia real.
+## Limitaciones y próximos controles
+- **No considerar la venta lista** hasta que un usuario complete el paso anterior. La última prueba fue simulada y no una sesión real.
+- **Exposición histórica:** GitHub conserva historial público del antiguo `data.js`, que puede haber sido cacheado o clonado. El gate protege la entrega nueva, pero no puede hacer confidenciales copias ya distribuidas. No borrar ni reescribir la historia de todo el repositorio sin un plan específico y autorización.
+- Las licencias de 12 meses deben verificar autoría, caducidad y dispositivo en backend antes de entregar desafíos. No esconder/mostrar solamente elementos del frontend.
+- Si se decide vender el producto, habilitar `sales_enabled` solo luego de completar QA extremo a extremo y revisar riesgos del historial.
