@@ -181,6 +181,38 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
  .pcJB123LicenseState{max-width:none}
 }
 
+
+/* MP04 — MODO PREVIA / Party Pop · portal + preview + activación */
+#drawer-adult .pcJB123ProductCard{border-color:#ec84ec73;background:linear-gradient(165deg,#20142c,#14131e);box-shadow:0 13px 33px #0004}
+#drawer-adult .pcMPMedia{height:auto;min-height:200px;aspect-ratio:1200/690;border-radius:18px 18px 0 0;background:#100e20;overflow:hidden}
+.pcMPHeroArt{display:block;width:100%;height:100%;position:absolute;inset:0;object-fit:cover}
+#drawer-adult .pcMPPreviewPill{
+  position:absolute;right:14px;bottom:13px;left:auto;z-index:7;
+  background:#e3ff83;color:#182019;border-radius:100px;
+  font-size:.68rem;font-weight:950;padding:10px 13px;box-shadow:0 7px 20px #0008
+}
+#drawer-adult .pcJB123ProductCard>h3{color:#fff;font-size:1.55rem;line-height:1.14}
+#drawer-adult .pcJB123ProductCard>.accent{color:#dfffa7}
+#drawer-adult .pcJB123ProductCard .pcJB123PriceRow strong{color:#e3ff91}
+#drawer-adult .pcJB123ProductCard .pcJB123LicenseState{color:#ffe2ad;background:#4d372b}
+#drawer-adult .pcJB123Actions .pcMPActivate{
+  background:#30263e;color:#fff3fb;border:1px solid #e8a9ed7a;
+  font-weight:900;
+}
+#drawer-adult .pcJB123Actions .pcMPBuy{
+  background:#eeae47;color:#151521;border:1px solid #fff0b7;font-weight:950
+}
+#drawer-adult .pcJB123Actions .pcMPBuy[hidden]{display:none!important}
+.pcMPModalBanner{display:block;width:100%;aspect-ratio:1200/690;object-fit:cover;border-radius:14px;margin:0 0 18px;border:1px solid #ecc2f54d}
+.pcJB123ModalFooter button{background:#dbff81;color:#101720;font-size:.77rem;font-weight:950;border:0;border-radius:12px;padding:12px;cursor:pointer;white-space:nowrap}
+.pcJB123ModalFooter button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media(max-width:440px){
+ #drawer-adult .pcMPMedia{min-height:185px}
+ #drawer-adult .pcMPPreviewPill{right:8px;bottom:8px;font-size:.59rem;padding:8px 10px}
+ .pcJB123ModalFooter{flex-direction:column;align-items:stretch}
+ .pcJB123ModalFooter button{width:100%}
+}
+
 </style></head><body><div class="wrap">
 <header class="top"><div class="brandwrap"><div class="seal"><span>PASALO<br>CHEVERE</span></div><div class="brand">PASALOCHEVERE<small>ACCESO PERSONAL · BIBLIOTECA DIGITAL</small></div></div><div class="pill">VIGENCIA SEGÚN TU ACCESO · HASTA 2 DISPOSITIVOS</div></header>
 
@@ -203,30 +235,25 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
       <div class="drawerHead"><div><div class="eyebrow">♥ PAREJA & ADULTOS</div><h3>Conexión, risas y desafíos +18</h3></div><button class="drawerClose" onclick="closeCategories()">CERRAR ×</button></div>
       <div class="drawerGrid">
         <article class="card" data-cat="adult"><span class="status live">● DISPONIBLE</span><h3>DOBLE INTENCIÓN</h3><div class="accent">TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18</div><p>Un solo código desbloquea las tres ediciones, el juego digital y el material descargable.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
-        <article class="card pcJB122Card pcJB123ProductCard" data-cat="adult" id="pc-jb122-adult-card" data-pc-game="jenga-borracho" data-product-code="JB-BORRACHO">
-          <button class="pcJB123Media" type="button" onclick="openJB123Preview()" aria-label="Ver vista previa de Al Borracho: torre y dos ruletas">
-            <span class="pcJB123Glow" aria-hidden="true"></span>
-            <span class="pcJB123Brand"><small>PASALOCHEVERE</small><b>+18</b></span>
-            <span class="pcJB123Copy"><small>EL JUEGO DE LA PREVIA</small><strong>AL<br>BORRACHO<span>.</span></strong><em>TORRE + DOS RULETAS</em></span>
-            <span class="pcJB123Phone" aria-hidden="true">
-              <span class="pcJB123PhoneHead">RULETA · 3 INTENSIDADES</span>
-              <span class="pcJB123Wheel"><i class="pcJB123WheelFace">GIRAR</i></span>
-              <span class="pcJB123PhoneFoot">TRANQUI · SUBE · AL MÁXIMO</span>
-            </span>
-            <span class="pcJB123PreviewPill">◉ VER PREVIEW DEL JUEGO</span>
+        <article class="card pcJB122Card pcJB123ProductCard" data-cat="adult" id="pc-jb122-adult-card" data-pc-game="jenga-borracho" data-product-code="MP-001">
+          <button class="pcJB123Media pcMPMedia" type="button" onclick="openJB123Preview()" aria-label="Ver preview MODO PREVIA, juego con torre y dos ruletas digitales">
+            <img class="pcMPHeroArt" src="../jenga-borracho/modo-previa-party-pop.svg" loading="lazy" alt="MODO PREVIA: Torre de madera natural, dos ruletas digitales, 126 desafíos y tres intensidades">
+            <span class="pcMPPreviewPill">◉ MIRÁ CÓMO SE JUEGA</span>
           </button>
           <span class="status">● PREVIEW DISPONIBLE · +18</span>
-          <h3>AL BORRACHO · TORRE YENGA</h3>
+          <h3>MODO PREVIA · TORRE + 2 RULETAS</h3>
           <div class="accent">MODO TORRE · RULETA INDIVIDUAL · RULETA COMPLETA</div>
-          <p>Una previa diferente cada vez. Tres intensidades, 126 consignas y dos formas de girar la ruleta.</p>
+          <p>El juego de la previa: torre de madera, ruleta individual y ruleta completa. 126 desafíos en tres intensidades.</p>
           <div class="pcJB123PriceRow">
             <div><small>PRECIO DE LISTA SOLICITADO</small><strong>$ 14.999</strong></div>
-            <span class="pcJB123LicenseState">Licencias en configuración</span>
+            <span class="pcJB123LicenseState" id="mpLicenseStatus">Licencias en preparación</span>
           </div>
           <div class="actions pcJB123Actions">
-            <button class="btn primary pcJB123PreviewButton" type="button" onclick="openJB123Preview()">VER PREVIEW DEL JUEGO</button>
+            <button class="btn primary pcJB123PreviewButton" type="button" onclick="openJB123Preview()">VER PREVIEW</button>
+            <button class="btn pcMPActivate" type="button" onclick="goToMPActivation()">TENGO UN CÓDIGO · ACTIVAR</button>
+            <button class="btn pcMPBuy" id="mpBuyNow" type="button" onclick="buyNow('MP-001')" hidden disabled>COMPRAR AHORA</button>
           </div>
-          <p class="pcJB123CommerceNote">Precio previsto: $14.999. Las compras y activaciones estarán disponibles cuando finalice la integración de licencias.</p>
+          <p class="pcJB123CommerceNote">Precio previsto: $14.999. Podés ingresar a la activación del portal; la venta de MODO PREVIA se habilitará solamente cuando el sistema confirme este producto.</p>
         </article>
       </div>
     </section>
@@ -268,7 +295,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 <section class="newsWrap">
   <div class="newsHead"><div><div class="eyebrow">NOVEDADES</div><h2>Lo nuevo de PasaloChevere</h2></div><span>Un vistazo rápido, sin llenar la portada de productos.</span></div>
   <div class="newsCarousel">
-    <article class="newsCard" id="pc-jb122-news" onclick="openCategory('adult')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCategory('adult')}" role="button" tabindex="0" style="cursor:pointer"><span class="newsTag new">NUEVO · +18</span><b>AL BORRACHO · TORRE YENGA</b><p>126 retos. Torre, ruleta individual y ruleta completa en una experiencia juvenil para la previa.</p></article>
+    <article class="newsCard" id="pc-jb122-news" onclick="openCategory('adult')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCategory('adult')}" role="button" tabindex="0" style="cursor:pointer"><span class="newsTag new">NUEVO · +18</span><b>MODO PREVIA · TORRE + RULETAS</b><p>126 retos. Torre, ruleta individual y ruleta completa en una experiencia juvenil para la previa.</p></article>
     <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>MESA TAROT</b><p>Guía Interactiva de Tarot con 78 cartas, tiradas, combinaciones y práctica guiada. Disponible para activar.</p></article>
     <article class="newsCard" onclick="openCategory('wellbeing')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>VÍNCORES DIGITAL</b><p>Campo interactivo con práctica guiada, bitácora y biblioteca de escenas. Disponible para activar.</p></article>
     <article class="newsCard" onclick="openCategory('mystery')" style="cursor:pointer"><span class="newsTag new">NUEVO</span><b>EXPEDIENTES · CASO 002</b><p>La Habitación que No Existe · Hotel Orfeo, 3 jugadores, Habitación 317 y kit Premium.</p></article>
@@ -305,9 +332,10 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
 <div class="pcJB123Modal" id="pcJB123PreviewModal" role="dialog" aria-modal="true" aria-labelledby="pcJB123Title" hidden onclick="if(event.target===this)closeJB123Preview()">
   <div class="pcJB123Dialog">
     <div class="pcJB123ModalHead">
-      <div><small>PASALOCHEVERE · PREVIEW REAL DE MODOS</small><h2 id="pcJB123Title">Al Borracho · Party Night</h2></div>
+      <div><small>PASALOCHEVERE · PREVIEW DEL JUEGO</small><h2 id="pcJB123Title">MODO PREVIA · Party Pop</h2></div>
       <button class="pcJB123Close" id="pcJB123Close" type="button" aria-label="Cerrar vista previa" onclick="closeJB123Preview()">×</button>
     </div>
+    <img class="pcMPModalBanner" src="../jenga-borracho/modo-previa-party-pop.svg" alt="MODO PREVIA, torre y dos ruletas digitales">
     <div class="pcJB123Tabs" role="tablist" aria-label="Modalidades disponibles">
       <button type="button" role="tab" aria-selected="true" aria-controls="pcJB123Slide0" onclick="showJB123Slide(0)">TORRE</button>
       <button type="button" role="tab" aria-selected="false" aria-controls="pcJB123Slide1" onclick="showJB123Slide(1)">INDIVIDUAL</button>
@@ -325,7 +353,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
       <div class="pcJB123SlideCopy"><small>03 · RULETA COMPLETA</small><strong>3 INTENSIDADES. 126 RETOS.</strong><p>Una sola ruleta mezcla TRANQUI, SUBE y AL MÁXIMO. Primero gira, después aparece el reto.</p></div>
       <div class="pcJB123DemoWheel" aria-hidden="true"><b>GIRAR</b></div>
     </div>
-    <div class="pcJB123ModalFooter"><p>Vista ilustrativa · no revela retos. Licencias y compra en preparación.</p></div>
+    <div class="pcJB123ModalFooter"><p>Vista ilustrativa sin revelar consignas. Activación mediante código del portal.</p><button type="button" onclick="closeJB123Preview();goToMPActivation()">ACTIVAR CÓDIGO ↗</button></div>
   </div>
 </div>
 
@@ -383,6 +411,7 @@ async function loadMyGames(){
  try{const d=await callAccess({action:'me'});renderLicenses(d.licenses||[])}catch(e){console.warn(e)}
 }
 function gameHref(l){
+ if(['MP-001','JB-BORRACHO'].includes(l.product_code))return '../jenga-borracho/?access='+encodeURIComponent(l.activation_code||'')+'&v=mp04';
  if(!l.game_url)return '#';
  if(l.product_code==='EXP-001')return '../caso001/intro/?access='+encodeURIComponent(l.activation_code)+'&v=20260923-v10';
  if(l.product_code==='EXP-002')return '../caso002/?access='+encodeURIComponent(l.activation_code);
@@ -399,7 +428,7 @@ async function openGame(code,url){
 }
 function licenseCategory(l){
  const code=String(l.product_code||'').toUpperCase(),name=String(l.product_name||'').toUpperCase();
- if(code.startsWith('DI-')||name.includes('DOBLE INTENCIÓN')||name.includes('DOBLE INTENCION')||name.includes('BORRACHO')||name.includes('CHUPITOS')||code.startsWith('JB-'))return {key:'adult',label:'♥ PAREJA & ADULTOS'};
+ if(code.startsWith('DI-')||name.includes('DOBLE INTENCIÓN')||name.includes('DOBLE INTENCION')||name.includes('BORRACHO')||name.includes('CHUPITOS')||name.includes('MODO PREVIA')||code==='MP-001'||code.startsWith('JB-'))return {key:'adult',label:'♥ PAREJA & ADULTOS'};
  if(code.startsWith('EXP-')||name.includes('EXPEDIENTES'))return {key:'mystery',label:'⌕ MISTERIO & GRUPO'};
  if(code.startsWith('TK-')||code.includes('TORRE')||name.includes('TORRE'))return {key:'family',label:'★ FAMILIA & KIDS'};
  if(code.includes('VINC')||name.includes('VÍNCORES')||name.includes('VINCORES')||code.startsWith('TAROT-')||name.includes('MESA TAROT'))return {key:'wellbeing',label:'✦ BIENESTAR & VÍNCULOS'};
@@ -425,10 +454,10 @@ function renderLicenses(list){
      const deviceManage=active&&l.activation_code?'<br><button class="copy" onclick="openDevices(\''+escapeHtml(l.activation_code)+'\',\''+escapeHtml(l.product_name)+'\');return false">GESTIONAR DISPOSITIVOS</button>':'';
      let action='';
      if(pending) action='<button class="btn primary" onclick="activateOwned(\''+escapeHtml(l.product_code)+'\')">ACTIVAR · '+duration+'</button>';
-     else if(active&&l.game_url) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
+     else if(active&&(l.game_url||['MP-001','JB-BORRACHO'].includes(l.product_code))) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
      else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
      else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
-     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':l.product_name)+'</h3><div class="accent">Código de acceso: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos registrados: <b>'+l.devices_used+' de '+l.device_limit+'</b>'+deviceManage+'</p><div class="actions">'+action+'</div></article>';
+     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':['MP-001','JB-BORRACHO'].includes(l.product_code)?'MODO PREVIA':l.product_name)+'</h3><div class="accent">Código de acceso: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos registrados: <b>'+l.devices_used+' de '+l.device_limit+'</b>'+deviceManage+'</p><div class="actions">'+action+'</div></article>';
    }).join('');
    return '<section class="libraryGroup"><div class="libraryGroupTitle"><b>'+group.label+'</b><span></span></div><div class="grid">'+cards+'</div></section>';
  }).join('');
@@ -486,6 +515,22 @@ async function loadCatalog(){
    const {data,error}=await sb.functions.invoke('pasalochevere-catalog',{body:{}});
    if(error||!data?.ok)return;
    publicCatalog=Object.fromEntries((data.products||[]).map(p=>[p.product_code,p]));
+   const mp=publicCatalog['MP-001'];
+   const mpPrice=document.querySelector('#pc-jb122-adult-card .pcJB123PriceRow strong');
+   const mpState=document.getElementById('mpLicenseStatus');
+   const mpBuy=document.getElementById('mpBuyNow');
+   if(mpPrice&&mpState&&mpBuy){
+     const price=Number(mp?.price_ars||0);
+     if(mp&&price>0){
+       mpPrice.textContent=new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(price);
+       const enabled=mp.sales_enabled===true;
+       mpState.textContent=enabled?'VENTA HABILITADA':'LICENCIAS EN PREPARACIÓN';
+       mpBuy.hidden=!enabled;mpBuy.disabled=!enabled;
+     }else{
+       mpState.textContent='LICENCIAS EN PREPARACIÓN';
+       mpBuy.hidden=true;mpBuy.disabled=true;
+     }
+   }
    const p=publicCatalog['EXP-001'],price=document.getElementById('exp001Price'),btn=document.getElementById('exp001Buy');
    if(p&&price&&btn){
      if(p.sales_enabled&&Number(p.price_ars)>0){
@@ -537,6 +582,13 @@ async function renderSession(){
  }
 }
 
+function goToMPActivation(){
+  const modal=document.getElementById('pcJB123PreviewModal');
+  if(modal&&!modal.hidden)closeJB123Preview();
+  scrollToActivation();
+  const input=document.getElementById('purchaseCode');
+  if(input){setTimeout(()=>{if(input.offsetParent!==null)input.focus({preventScroll:true})},250)}
+}
 let jb123PreviousFocus=null;
 function openJB123Preview(){
   const modal=document.getElementById('pcJB123PreviewModal');if(!modal)return;
