@@ -481,6 +481,60 @@ button:focus-visible{outline:3px solid #dba154;outline-offset:3px}
   .wheel-hub,.mode-btn{transition:none!important}
 }
 
+
+/* JB12 — tres modos: Torre, Individual, Completa */
+.mode-individual.btn.s{
+ background:linear-gradient(150deg,#fffdf6,#e9dac4);
+ border-color:#c4a779;color:#34271d;
+ box-shadow:0 8px 19px #34271d16,inset 0 1px #fff;
+}
+.mode-individual .mode-ico{
+ font-family:Georgia,serif;font-size:29px;
+ color:#a27640!important;background:#b9935829!important;
+ border:1px solid #b68f6070!important;
+}
+.mode-individual .mode-copy small{opacity:1;color:#65513f}
+.mode-wheel .mode-copy small{color:#fff3e2;opacity:.95}
+.mode-btn{min-height:75px}
+.roulette-intro .intensity-preview{gap:8px;margin-top:2px}
+.roulette-intro .intensity{
+ font-size:clamp(10px,2.5vw,12px);min-height:48px;
+ line-height:1.2;white-space:normal;text-wrap:balance;
+ padding:9px 3px;user-select:none;-webkit-user-select:none;
+}
+.individual-intro{display:flex;flex-direction:column;gap:15px}
+.individual-intro h1{margin:3px 0;font-size:clamp(45px,11vw,57px);line-height:.98}
+.individual-intro h1 em{color:#b48342;font-style:normal}
+.individual-intro>p{font-size:16px;line-height:1.55;color:#66594d;margin:0}
+.individual-intro>small{font-size:12px;color:#77685a;text-align:center}
+.individual-intro .intensity-preview{display:block;margin:0}
+.individual-intro .intensity{font-size:15px;min-height:55px;letter-spacing:.12em}
+.individual-intro .care{margin:2px 0}
+.wheel-wrap-individual .wheel-hub-static{
+ pointer-events:none!important;cursor:default!important;
+ display:flex;flex-direction:column;gap:2px;
+}
+.wheel-wrap-individual .wheel-hub-static b{
+ font-family:Impact,"Arial Narrow",sans-serif;
+ font-size:46px;color:#f6d597;letter-spacing:0;line-height:1
+}
+.wheel-wrap-individual .wheel-hub-static small{
+ font-size:11px;color:#f2d7b4;font-weight:900;letter-spacing:.11em;line-height:1.1
+}
+.wheel-wrap-individual .wheel-hint{margin:14px 0 7px}
+.wheel-wrap-individual .actions{margin-top:6px}
+.wheel-wrap-individual .actions .btn{min-height:60px;font-size:15px;letter-spacing:.04em}
+@media(max-width:380px){
+ .wheel-wrap-individual .wheel-hub-static b{font-size:40px}
+ .mode-btn{min-height:69px}
+ .roulette-intro .intensity{font-size:10px}
+}
+@media(max-width:340px){
+ .individual-intro h1{font-size:42px}
+ .roulette-intro .intensity-preview{gap:5px}
+ .roulette-intro .intensity{font-size:9px;padding:8px 2px}
+}
+
 </style>
 </head>
 <body>
