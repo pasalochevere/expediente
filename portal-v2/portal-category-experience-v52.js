@@ -3,7 +3,7 @@
   window.__pcCategoryExperienceV52=true;
 
   const META={
-    adult:{eyebrow:'PAREJA & ADULTOS',title:'Conexión, humor e intensidad',sub:'Experiencias para compartir de a dos y elegir el clima de cada partida.'},
+    adult:{eyebrow:'PAREJA & ADULTOS',title:'Conexión, risas y desafíos +18',sub:'Experiencias de pareja, juegos de previa y desafíos para compartir con amigos.'},
     family:{eyebrow:'FAMILIA & KIDS',title:'Jugar, aprender y compartir',sub:'Propuestas para chicos, familia, aprendizaje y momentos de juego.'},
     mystery:{eyebrow:'MISTERIO & GRUPO',title:'Casos, pistas y decisiones',sub:'Investigaciones y experiencias para resolver en equipo.'},
     wellbeing:{eyebrow:'BIENESTAR & VÍNCULOS',title:'Explorar, practicar y descubrir',sub:'Herramientas interactivas para vínculos, reflexión y práctica guiada.'},
