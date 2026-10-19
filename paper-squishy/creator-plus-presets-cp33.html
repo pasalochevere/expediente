@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>CP3.3 · Presets Creator Plus · Staging</title>
+<style>
+html,body{margin:0;height:100%;background:#fff9ef;font-family:system-ui,Arial,sans-serif}
+iframe{position:fixed;inset:0;width:100%;height:100%;border:0}
+#notice{position:fixed;z-index:9000;left:50%;top:12px;transform:translateX(-50%);max-width:90%;padding:9px 14px;background:#34251f;color:#fff;font-size:12px;border-radius:20px;box-shadow:0 4px 18px #0003;text-align:center}
+#notice.ready{display:none}#notice.error{background:#9a3024}
+</style>
+</head>
+<body>
+<div id="notice" role="status">CP3.3 · Cargando Factory y presets de prueba...</div>
+<iframe id="factory" src="./factory.html?v=2981" title="Factory de prueba Creator Plus" loading="eager" allow="clipboard-write"></iframe>
+<script>
+(()=>{
+ const f=document.getElementById('factory'),notice=document.getElementById('notice');
+ let injected=false,done=false;
+ function check(){
+  if(injected||done)return;
+  try{
+   const w=f.contentWindow,d=f.contentDocument;
+   if(!w||!d||!d.body||!w.PSQ_V27?.active||!w.PSQ_EDITOR_V295?.active||!Array.isArray(w.PS_LIBRARY?.characters))return;
+   injected=true;
+   const s=d.createElement('script');
+   s.src='./psq-cp33-presets.js?v=3301';
+   s.onload=()=>{
+    if(w.PSQ_CP33?.active){done=true;notice.classList.add('ready')}
+    else{notice.textContent='CP3.3 · El selector no se pudo iniciar.';notice.classList.add('error')}
+   };
+   s.onerror=()=>{notice.textContent='CP3.3 · No se pudo cargar el script de presets.';notice.classList.add('error')};
+   d.body.appendChild(s);
+  }catch(e){console.warn('[CP3.3] Esperando la fábrica',e)}
+ }
+ const interval=setInterval(()=>{if(done){clearInterval(interval);return}check()},450);
+ f.addEventListener('load',check);
+ setTimeout(()=>{if(!done&&!injected){notice.textContent='La fábrica todavía no terminó de cargar. Revisá tu conexión o recargá esta página.';notice.classList.add('error')}},25000);
+ check();
+})();
+</script>
+</body></html>
