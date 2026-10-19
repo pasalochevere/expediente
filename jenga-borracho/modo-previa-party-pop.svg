@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 690" role="img" aria-labelledby="title desc">
+<title id="title">MODO PREVIA · Torre y dos ruletas digitales</title>
+<desc id="desc">Portada ilustrada Party Pop con torre de piezas de madera natural, celular con ruleta de tres intensidades y logo Modo Previa.</desc>
+<defs>
+<linearGradient id="back" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#10101b"/><stop offset=".55" stop-color="#1d1030"/><stop offset="1" stop-color="#150e24"/></linearGradient>
+<radialGradient id="glow"><stop stop-color="#ed3fc8" stop-opacity=".45"/><stop offset="1" stop-color="#ed3fc8" stop-opacity="0"/></radialGradient>
+<linearGradient id="hot" x1="0" x2="1"><stop stop-color="#ff258e"/><stop offset=".38" stop-color="#ff9c1e"/><stop offset=".65" stop-color="#f4ec2e"/><stop offset=".83" stop-color="#35eaa2"/><stop offset="1" stop-color="#19e6df"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#f8deb4"/><stop offset=".48" stop-color="#eac596"/><stop offset="1" stop-color="#d4a774"/></linearGradient>
+<linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d0a275"/><stop offset="1" stop-color="#98704e"/></linearGradient>
+<linearGradient id="screen" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#3d1f53"/><stop offset="1" stop-color="#101322"/></linearGradient>
+<filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#000" flood-opacity=".72"/></filter>
+<filter id="soft"><feGaussianBlur stdDeviation="30"/></filter>
+<pattern id="grain" width="52" height="27" patternUnits="userSpaceOnUse"><path d="M0 7 Q21 1 52 14 M-6 20 Q25 9 58 23" stroke="#9f6b3d" stroke-opacity=".22" stroke-width="1.1" fill="none"/></pattern>
+</defs>
+<rect width="1200" height="690" rx="32" fill="url(#back)"/>
+<ellipse cx="965" cy="360" rx="320" ry="295" fill="url(#glow)"/>
+<ellipse cx="260" cy="140" rx="330" ry="160" fill="#3a185f" opacity=".5" filter="url(#soft)"/>
+<g opacity=".9" stroke-linecap="round" stroke-width="10"><path d="M47 90l27-34 M97 125l-37 4" stroke="#ff2d98"/><path d="M670 95l26-29 M734 74v-26" stroke="#dcff2e"/><path d="M1056 52l20 29" stroke="#3bebd8"/><path d="M25 550l27-22 M1130 588l33-28" stroke="#d6ff45"/></g>
+<g font-family="Arial,sans-serif" font-weight="900" text-anchor="middle"><text x="350" y="128" font-size="28" letter-spacing="8" fill="#e9ff9f">PASALOCHEVERE · +18</text></g>
+<g stroke="#0b0b11" stroke-linejoin="round" paint-order="stroke" font-family="Arial Black,Arial,sans-serif" font-weight="1000">
+<text x="70" y="294" font-size="165" letter-spacing="-5" stroke-width="19" fill="#fcf7ed">MODO</text>
+<text x="72" y="428" font-size="150" letter-spacing="-5" stroke-width="20" fill="url(#hot)">PREVIA</text>
+</g>
+<g transform="translate(565 137) rotate(8)"><path d="M-23 10L-32-11L-15 0L0-27L12 0L30-10L24 12Z" fill="#f8ef2e" stroke="#11131b" stroke-width="7"/></g>
+<path d="M76 455h485l-27 45H60Z" fill="#fbe522" stroke="#10121b" stroke-width="6"/>
+<text x="302" y="486" text-anchor="middle" font-size="31" fill="#14141b" font-family="Arial Black,Arial" font-weight="900">TORRE + 2 RULETAS</text>
+<path d="M87 519h430l-13 38H67Z" fill="#fff6ee" stroke="#10121b" stroke-width="5"/>
+<text x="291" y="546" text-anchor="middle" font-size="25" fill="#10121b" font-family="Arial Black,Arial" font-weight="900">126 DESAFÍOS · +18</text>
+<g font-family="Arial Black,Arial,sans-serif" font-size="18" font-weight="900">
+<rect x="54" y="583" rx="20" width="154" height="43" fill="#3ce8ba"/><text x="131" y="610" text-anchor="middle" fill="#10151a">TRANQUI</text>
+<rect x="226" y="583" rx="20" width="132" height="43" fill="#ffb144"/><text x="292" y="610" text-anchor="middle" fill="#10151a">SUBE</text>
+<rect x="376" y="583" rx="20" width="185" height="43" fill="#ff729c"/><text x="467" y="610" text-anchor="middle" fill="#10151a">AL MÁXIMO</text>
+</g>
+<g transform="translate(720 53)" filter="url(#shadow)">
+<ellipse cx="144" cy="560" rx="173" ry="27" fill="#05030a" opacity=".6"/>
+
+<rect x="27" y="512" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="30" y="515" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M37 522q20-4 46 1 M36 531q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="102" y="512" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="105" y="515" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M112 522q20-4 46 1 M111 531q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="177" y="512" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="180" y="515" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M187 522q20-4 46 1 M186 531q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="42" y="479" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="45" y="482" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M52 489q20-4 46 1 M51 498q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="117" y="479" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="120" y="482" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M127 489q20-4 46 1 M126 498q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="192" y="479" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="195" y="482" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M202 489q20-4 46 1 M201 498q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="27" y="446" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="30" y="449" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M37 456q20-4 46 1 M36 465q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="102" y="446" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="105" y="449" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M112 456q20-4 46 1 M111 465q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="177" y="446" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="180" y="449" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M187 456q20-4 46 1 M186 465q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="42" y="413" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="45" y="416" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M52 423q20-4 46 1 M51 432q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="117" y="413" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="120" y="416" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M127 423q20-4 46 1 M126 432q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="192" y="413" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="195" y="416" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M202 423q20-4 46 1 M201 432q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="27" y="380" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="30" y="383" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M37 390q20-4 46 1 M36 399q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="102" y="380" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="105" y="383" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M112 390q20-4 46 1 M111 399q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="177" y="380" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="180" y="383" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M187 390q20-4 46 1 M186 399q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="42" y="347" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="45" y="350" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M52 357q20-4 46 1 M51 366q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="117" y="347" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="120" y="350" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M127 357q20-4 46 1 M126 366q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="192" y="347" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="195" y="350" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M202 357q20-4 46 1 M201 366q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="27" y="314" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="30" y="317" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M37 324q20-4 46 1 M36 333q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="102" y="314" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="105" y="317" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M112 324q20-4 46 1 M111 333q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="177" y="314" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="180" y="317" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M187 324q20-4 46 1 M186 333q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="42" y="281" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="45" y="284" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M52 291q20-4 46 1 M51 300q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="117" y="281" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="120" y="284" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M127 291q20-4 46 1 M126 300q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="192" y="281" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="195" y="284" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M202 291q20-4 46 1 M201 300q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="27" y="248" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="30" y="251" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M37 258q20-4 46 1 M36 267q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="102" y="248" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="105" y="251" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M112 258q20-4 46 1 M111 267q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="177" y="248" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="180" y="251" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M187 258q20-4 46 1 M186 267q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="42" y="215" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="45" y="218" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M52 225q20-4 46 1 M51 234q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="117" y="215" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="120" y="218" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M127 225q20-4 46 1 M126 234q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="192" y="215" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="195" y="218" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M202 225q20-4 46 1 M201 234q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="27" y="182" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="30" y="185" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M37 192q20-4 46 1 M36 201q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="102" y="182" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="105" y="185" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M112 192q20-4 46 1 M111 201q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="177" y="182" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="180" y="185" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M187 192q20-4 46 1 M186 201q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="42" y="149" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="45" y="152" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M52 159q20-4 46 1 M51 168q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="117" y="149" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="120" y="152" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M127 159q20-4 46 1 M126 168q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="192" y="149" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="195" y="152" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M202 159q20-4 46 1 M201 168q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="27" y="116" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="30" y="119" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M37 126q20-4 46 1 M36 135q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="102" y="116" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="105" y="119" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M112 126q20-4 46 1 M111 135q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="177" y="116" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="180" y="119" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M187 126q20-4 46 1 M186 135q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="42" y="83" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="45" y="86" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M52 93q20-4 46 1 M51 102q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="117" y="83" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="120" y="86" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M127 93q20-4 46 1 M126 102q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+<rect x="192" y="83" width="73" height="31" rx="5" fill="url(#wood)" stroke="#aa7f56" stroke-width="1.8"/>
+  <rect x="195" y="86" width="67" height="23" rx="4" fill="url(#grain)" opacity=".9"/>
+  <path d="M202 93q20-4 46 1 M201 102q23-3 52 1" fill="none" stroke="#a87447" stroke-width="1" opacity=".27"/>
+</g>
+<g transform="translate(965 238) rotate(11)" filter="url(#shadow)">
+<rect x="-103" y="-80" width="212" height="337" rx="36" fill="#0f1120" stroke="#b487f9" stroke-width="6"/>
+<rect x="-89" y="-54" width="185" height="276" rx="22" fill="url(#screen)"/>
+<rect x="-24" y="-69" width="65" height="7" rx="4" fill="#8d8ba1"/>
+<text x="5" y="-29" font-size="13" text-anchor="middle" font-weight="900" font-family="Arial" letter-spacing="1.2" fill="#fff5e8">RULETA COMPLETA</text>
+<circle cx="5" cy="87" r="83" fill="#f4e3c6" stroke="#151521" stroke-width="4"/>
+
+<path d="M5 87 L-61.68 48.50 A77 77 0 0 1 71.68 48.50 Z" fill="#43e5ad" stroke="#f8e7bc" stroke-width="2"/>
+<path d="M5 87 L71.68 48.50 A77 77 0 0 1 5.00 164.00 Z" fill="#ffaf45" stroke="#f8e7bc" stroke-width="2"/>
+<path d="M5 87 L5.00 164.00 A77 77 0 0 1 -61.68 48.50 Z" fill="#ff6693" stroke="#f8e7bc" stroke-width="2"/>
+<circle cx="5" cy="87" r="28" fill="#231c39" stroke="#d8ff80" stroke-width="5"/><text x="5" y="94" text-anchor="middle" font-family="Arial Black,Arial" font-size="13" fill="#efffbd">GIRÁ</text>
+<text x="5" y="198" font-family="Arial" font-weight="900" font-size="11" letter-spacing="1.2" fill="#f4defa" text-anchor="middle">3 INTENSIDADES</text>
+</g>
+<g stroke-width="7" stroke-linecap="round" fill="none"><path d="M580 90l13-21 13 21-13 19Z" stroke="#ff4eaf"/><path d="M1163 238l-12 19h18l-14 23" stroke="#ffe92d"/><path d="M654 617l-17 18 27 10" stroke="#16eee6"/></g>
+</svg>
