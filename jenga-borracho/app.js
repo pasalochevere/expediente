@@ -167,13 +167,13 @@ function timerHTML(){
 }
 
 function wheelSVG(){
-  const names=['TRANQUI','SUBE','AL MÁXIMO'],colors=['#219e85','#fa9a39','#f34f72'],paths=[],labels=[];
+  const names=['TRANQUI','SUBE','AL MÁXIMO'],colors=['#39d3a9','#ffac49','#ff738f'],paths=[],labels=[];
   for(let i=0;i<3;i++){
     const center=(-90+120*i)*Math.PI/180,a0=center-Math.PI/3,a1=center+Math.PI/3;
     const p=(a,r)=>(200+r*Math.cos(a)).toFixed(2)+' '+(200+r*Math.sin(a)).toFixed(2);
     paths.push('<path d="M200 200 L'+p(a0,182)+' A182 182 0 0 1 '+p(a1,182)+' Z" fill="'+colors[i]+'" stroke="#f4d29c" stroke-width="3"/>');
     const x=(200+111*Math.cos(center)).toFixed(2),y=(200+111*Math.sin(center)).toFixed(2);
-    labels.push('<text x="'+x+'" y="'+y+'" text-anchor="middle" dominant-baseline="central" font-size="'+(i===2?19:22)+'" fill="#fff6e5" font-weight="900" letter-spacing=".5" paint-order="stroke" stroke="#281b1633" stroke-width="2">'+(i===2?'<tspan x="'+x+'" dy="-10">AL</tspan><tspan x="'+x+'" dy="23">MÁXIMO</tspan>':names[i])+'</text>');
+    labels.push('<text x="'+x+'" y="'+y+'" text-anchor="middle" dominant-baseline="central" font-size="'+(i===2?20:24)+'" fill="#111827" font-weight="900" letter-spacing=".5" paint-order="stroke" stroke="#ffffff66" stroke-width="1.5">'+(i===2?'<tspan x="'+x+'" dy="-10">AL</tspan><tspan x="'+x+'" dy="23">MÁXIMO</tspan>':names[i])+'</text>');
   }
   return '<svg viewBox="0 0 400 400" role="img" aria-label="Ruleta Tranqui, Sube y Al Máximo"><circle cx="200" cy="200" r="194" fill="#f5e3c5" stroke="#ad8049" stroke-width="8"/>'+paths.join('')+labels.join('')+'<circle cx="200" cy="200" r="183" fill="none" stroke="#f9dfb1" stroke-width="4"/></svg>';
 }
@@ -186,12 +186,12 @@ function wheelHTML(){
 }
 
 function individualWheelSVG(){
-  const colors=['#ffaf41','#f05474','#1eb89e','#7c67e8','#f7ca6e','#338ca1'],step=360/42,sectors=[],labels=[];
+  const colors=['#ffb34e','#ff6988','#38d4bb','#aa91fa','#ffdc73','#4dc5e1'],step=360/42,sectors=[],labels=[];
   const point=(a,r)=>(200+r*Math.cos(a)).toFixed(2)+' '+(200+r*Math.sin(a)).toFixed(2);
   for(let i=0;i<42;i++){
     const a=(-90+i*step)*Math.PI/180;
     sectors.push('<path d="M200 200 L'+point(a-step*Math.PI/360,185)+' A185 185 0 0 1 '+point(a+step*Math.PI/360,185)+' Z" fill="'+colors[i%6]+'" stroke="#fff2df" stroke-width="1.1"/>');
-    labels.push('<text x="'+(200+159*Math.cos(a)).toFixed(2)+'" y="'+(200+159*Math.sin(a)).toFixed(2)+'" font-size="12" font-weight="900" fill="#fff" text-anchor="middle" dominant-baseline="central">'+String(i+1).padStart(2,'0')+'</text>');
+    labels.push('<text x="'+(200+159*Math.cos(a)).toFixed(2)+'" y="'+(200+159*Math.sin(a)).toFixed(2)+'" font-size="14" font-weight="900" fill="#111827" stroke="#ffffff6b" stroke-width="1" paint-order="stroke" text-anchor="middle" dominant-baseline="central">'+String(i+1).padStart(2,'0')+'</text>');
   }
   return '<svg viewBox="0 0 400 400" role="img" aria-label="Ruleta individual con 42 casilleros numerados"><circle cx="200" cy="200" r="192" fill="#fff2dc" stroke="#b58e52" stroke-width="7"/>'+sectors.join('')+labels.join('')+'</svg>';
 }
