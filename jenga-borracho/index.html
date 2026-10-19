@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10121b">
-<title>Torre Yenga Borracho · PasaloChevere</title>
-<meta name="description" content="Ruleta de tres intensidades y 126 retos digitales +18 de pasalochevere.">
+<title>MODO PREVIA · Torre + 2 Ruletas · pasalochevere</title>
+<meta name="description" content="MODO PREVIA: torre de madera, ruleta individual y ruleta completa. 126 desafíos digitales +18 de pasalochevere.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
@@ -1035,6 +1035,65 @@ button:focus-visible{outline:3px solid #e1ff83;outline-offset:3px}
   .party-tags span{font-size:10px}
   .product-note{font-size:10px}
 }
+
+
+/* MP05 · PARTY POP · REBRANDING FUNCIONAL (SIN TOCAR EL MOTOR) */
+:root{--bg:#0b0b12;--surf:#1f2032;--surf2:#25263b;--ink:#fff;--mut:#e0def0;--g:#35e6b7;--o:#ffb04a;--r:#ff7298;--gold:#e2ff7e}
+#app{
+  background:radial-gradient(ellipse at 100% 9%,#8b29783d,transparent 40%),
+  radial-gradient(ellipse at 0% 52%,#165d6460,transparent 37%),
+  linear-gradient(180deg,#171325,#100e1d 58%,#13121f 100%);
+}
+.logo.mp-brand-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:70px;height:70px;flex-basis:70px;
+  border:3px solid #e6fd77;border-radius:21px;
+  background:linear-gradient(135deg,#211832,#141121);
+  transform:rotate(-8deg);box-shadow:0 8px 23px #0009,0 0 0 3px #ff32a929;
+  gap:0;position:relative
+}
+.logo.mp-brand-icon b{
+  color:#fef7eb!important;font:950 31px/.95 Impact,"Arial Black",system-ui,sans-serif;
+  letter-spacing:-.08em;display:block;text-shadow:3px 3px #140f20
+}
+.logo.mp-brand-icon b:nth-child(2){color:#fe3396!important;transform:translateY(4px);margin-left:-1px}
+.logo.mp-brand-icon i{
+  position:absolute;top:-16px;right:-10px;color:#f5ef43;font-size:20px;transform:rotate(19deg)
+}
+.hero-copy h1{font-size:clamp(61px,15vw,83px);line-height:.85;letter-spacing:-.055em;text-shadow:5px 6px #07030c}
+.hero-copy h1 em{
+  background:linear-gradient(98deg,#ff2994 3%,#ff912e 35%,#ffef39 52%,#40eea4 76%,#25dfeb 96%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  font-style:normal;letter-spacing:-.04em;
+  -webkit-text-stroke:1px #f4e9ff22;filter:drop-shadow(0 4px 0 #07050b)
+}
+.party-kicker{font-size:12px;color:#e7ff95}
+.mp-home-cover{width:100%;overflow:hidden;border-radius:24px;border:2px solid #fba5ed70;background:#211931;box-shadow:0 15px 39px #000a;isolation:isolate}
+.mp-home-cover img{display:block;width:100%;height:auto;aspect-ratio:1200/690;object-fit:cover}
+.mp-real-product{
+  display:flex;align-items:center;flex-direction:column;gap:8px;
+  background:#faf3e5;border-radius:20px;padding:12px;margin-top:1px;
+  border:2px solid #f7bf7280;box-shadow:0 12px 25px #0006
+}
+.mp-real-product .mp-product-label{
+  font-weight:950;font-size:10.5px;letter-spacing:.09em;color:#553b2c
+}
+.mp-real-product img{display:block;width:100%;height:172px;max-height:172px;object-fit:contain;mix-blend-mode:multiply}
+.mp-real-product .asset-loader{min-height:130px;color:#564131}
+.mode-separator span{color:#e7ff9d}
+.mode-tower{box-shadow:0 13px 25px #2113548f}
+.mode-individual.btn.s{background:linear-gradient(125deg,#174e66,#135a65)!important}
+.mode-wheel.btn.o{background:linear-gradient(123deg,#ffb544,#fb8045)!important}
+.roulette-intro .care,.individual-intro .care{border-color:#f064af60}
+.lvl .badge{color:#112025;font-weight:950}
+.card.is-revealed .challenge-tag{color:#10121c}
+@media(max-width:380px){
+ .hero-copy h1{font-size:clamp(58px,15.8vw,74px)}
+ .mp-real-product img{height:145px;max-height:145px}
+ .logo.mp-brand-icon{width:61px;height:61px;flex-basis:61px}
+ .logo.mp-brand-icon b{font-size:26px}
+}
+@media(max-width:335px){.hero-copy h1{font-size:52px}}
 
 </style>
 </head>
