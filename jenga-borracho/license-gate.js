@@ -4,7 +4,7 @@
 (function(){
   'use strict';
   const PORTAL='https://pasalochevere.github.io/expediente/portal-v2/';
-  const URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+  const SUPABASE_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
   const ANON='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
   const STORE='pc_mp01_access';
   const DEV='pc_device_id';
@@ -53,7 +53,7 @@
   });
   async function validate(){
     if(typeof supabase==='undefined')throw new Error('No se pudo conectar con el inicio de sesión. Revisá tu conexión.');
-    client ||= supabase.createClient(URL,ANON,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+    client ||= supabase.createClient(SUPABASE_URL,ANON,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
     const {data:{session},error}=await client.auth.getSession();
     if(error||!session?.user?.email||session.user.is_anonymous)throw new Error('Necesitás iniciar sesión y verificar tu correo en el Portal.');
     const code=accessCode();
