@@ -8,5 +8,4 @@ document.write('<script src="./psq-donita-v291.js?v=2911"><\/script>');
 document.write('<script src="./psq-cuppy-v292.js?v=2941"><\/script>');
 document.write('<script src="./psq-editor-v295.js?v=2951"><\/script>');
 document.write('<script src="./psq-heladin-v296.js?v=2961"><\/script>');
-document.write('<script src="./psq-cp34b2.js?v=3423"><\/script>');
 })();
