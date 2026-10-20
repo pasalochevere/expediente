@@ -138,6 +138,11 @@ jobs:
         with:
           path: "."
 
+      # Allow GitHub Actions artifact metadata to become visible before Pages resolves it.
+      - name: Wait for Pages artifact registration
+        shell: bash
+        run: sleep 20
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
