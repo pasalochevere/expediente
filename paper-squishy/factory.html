@@ -6,7 +6,7 @@
   let html=await r.text();
   html=html.replace("let html=new TextDecoder().decode(ab);","let html=new TextDecoder().decode(ab);html=html.replaceAll('Mini · 8 cm','Mini').replaceAll('Normal · 12 cm','Normal').replaceAll('XL · 17 cm','XL');");
   html=html.replaceAll('XL · 17 cm: frente y dorso se imprimen en 2 hojas A4, una por hoja.','XL: frente y dorso se imprimen en 2 hojas A4, una por hoja.');
-  html=html.replace('psq-catalog-v27.js?v=2711','psq-catalog-v27.js?v=3423');
+  html=html.replace('psq-catalog-v27.js?v=2711','psq-catalog-v27.js?v=3424');
   html=html.replace("document.open();document.write(html);document.close();","html=html.replace('</body>','<script src=\"./psq-baseline-v298.js?v=2981\"><\\/script></body>');document.open();document.write(html);document.close();");
   document.open();document.write(html);document.close();
  }catch(e){document.querySelector('.spin').style.display='none';document.getElementById('msg').textContent='No pude abrir la fábrica: '+String(e.message||e);}
