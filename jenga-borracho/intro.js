@@ -39,8 +39,9 @@
     if(target&&typeof target.focus==='function')target.focus({preventScroll:true});
   }
   function show(opts={}){
-    if(root)close();
+    if(root&&!opts.force)return false;
     if(!opts.force&&seen())return false;
+    if(root)close();
     const app=document.getElementById('app');
     if(!app)return false;
     priorFocus=document.activeElement;
