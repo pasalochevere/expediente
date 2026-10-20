@@ -1,60 +1,59 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-AR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Doble Intención · Intro V11 · PasaloChévere</title>
-<meta name="theme-color" content="#100b10">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#130914"><title>Doble Intención · PasaloChévere</title>
 <style>
-:root{color-scheme:dark;--night:#100b10;--plum:#4a2037;--plum2:#6d345b;--copper:#c77d52;--copper2:#e4b58e;--cream:#f7eee7;--muted:#c9b7c1;--line:#c77d5248}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--night);color:var(--cream);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button{font:inherit}
-#intro{position:fixed;inset:0;overflow:hidden;background:radial-gradient(circle at 18% 12%,rgba(109,52,91,.28),transparent 34%),radial-gradient(circle at 82% 86%,rgba(199,125,82,.18),transparent 38%),linear-gradient(145deg,#0c080c 15%,#1b1019 64%,#0d090d)}
-#intro:before{content:"";position:absolute;inset:-12%;background:radial-gradient(circle at 50% 44%,rgba(109,52,91,.22),transparent 27%);animation:breathe 7s ease-in-out infinite alternate;pointer-events:none}
-@keyframes breathe{to{transform:scale(1.07) translate3d(1%,-1%,0)}}
-.top{position:absolute;z-index:5;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));top:max(16px,env(safe-area-inset-top));display:flex;justify-content:space-between;gap:10px}
-.ghost{border:1px solid rgba(199,125,82,.36);background:rgba(18,13,18,.58);color:#ccb9c2;border-radius:999px;padding:10px 14px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(12px)}
-#stage{position:absolute;inset:0;display:grid;place-items:center;padding:clamp(24px,5vw,64px)}
-.scene{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:clamp(28px,5vw,70px);opacity:0;transform:scale(1.035);transition:opacity .6s ease,transform 1.05s ease}
-.scene.active{opacity:1;transform:none}.scene.exit{opacity:0;transform:scale(.99)}
-.inner{width:min(100%,980px);margin:auto}.kicker{font-size:clamp(9px,1vw,12px);letter-spacing:.38em;text-transform:uppercase;color:#b99278;margin-bottom:20px}
-.big{font-family:Georgia,"Times New Roman",serif;font-size:clamp(42px,7vw,92px);line-height:.98;font-weight:400;letter-spacing:-.04em;margin:0;color:#f8f0ea;text-wrap:balance}.big em{font-style:normal;color:#d78c5e}
-.copy{max-width:720px;margin:24px auto 0;color:#cdbcc5;font-size:clamp(16px,2vw,22px);line-height:1.55;text-wrap:balance}.line{width:64px;height:1px;background:var(--copper);margin:24px auto}
-.triad{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:30px}.tag{border:1px solid rgba(199,125,82,.34);border-radius:999px;padding:10px 14px;font-size:10px;letter-spacing:.18em}.tag.chispa{color:#f2a93b}.tag.fuego{color:#e86b55}.tag.dominio{color:#bb87ad}
-.whisper{margin-top:18px;color:#8f7d88;font-size:10px;letter-spacing:.23em;text-transform:uppercase}.brand{font-weight:950;font-size:clamp(46px,8vw,110px);line-height:.86;letter-spacing:.12em;text-transform:uppercase;color:#f8f0ea;text-shadow:0 20px 55px rgba(0,0,0,.45)}.brand span{display:block;color:#d78c5e}.sub{margin-top:26px;font:400 clamp(17px,2.5vw,28px) Georgia,serif;color:#e2cab9;letter-spacing:.06em}.meta{margin-top:18px;color:#9b8792;font-size:10px;letter-spacing:.26em;text-transform:uppercase}
-#enterNow{margin-top:30px;border:1px solid #e0ad86;background:linear-gradient(120deg,#e4b58e,#c77d52);color:#20121a;border-radius:999px;padding:15px 24px;font-weight:900;font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,.42)}
-#progress{position:absolute;z-index:5;left:50%;bottom:max(22px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:6px}.bar{width:28px;height:2px;background:rgba(255,255,255,.12);overflow:hidden}.bar i{display:block;width:0;height:100%;background:var(--copper)}.bar.on i{animation:load 2.5s linear forwards}@keyframes load{to{width:100%}}
-@media(max-width:700px){.top{left:10px;right:10px}.ghost{padding:9px 11px;font-size:9px}.scene{padding:54px 20px 48px}.big{font-size:clamp(40px,12vw,64px)}.copy{font-size:16px}.brand{font-size:clamp(42px,13vw,70px);letter-spacing:.07em}.sub{font-size:18px}.triad{margin-top:24px}}
-@media(max-height:520px) and (orientation:landscape){.scene{padding:46px 24px 30px}.kicker{margin-bottom:12px}.big{font-size:clamp(36px,7vw,62px)}.copy{font-size:15px;margin-top:16px}.triad{margin-top:18px}.brand{font-size:clamp(40px,8vw,72px)}.sub{margin-top:18px;font-size:18px}#enterNow{margin-top:18px;padding:12px 20px}#progress{bottom:10px}}
-@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
-</style>
-</head>
+:root{color-scheme:dark;--night:#130914;--bg2:#21101f;--cream:#fff3f4;--muted:#c4a4b9;--pink:#ff3d92;--pink2:#ff82b8;--gold:#f8c992;--orange:#ff8d5f;--purple:#ad72eb;--line:#74405f;--sans:'Aptos','Segoe UI',Arial,sans-serif;--serif:'Bodoni MT','Times New Roman',Georgia,serif}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:var(--night);color:var(--cream);font-family:var(--sans);-webkit-font-smoothing:antialiased}button{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+#intro{position:fixed;inset:0;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 65% 60% at 70% 6%,rgba(93,15,58,.68),transparent 75%),radial-gradient(ellipse 60% 80% at 5% 95%,rgba(76,30,91,.52),transparent 68%),linear-gradient(155deg,#160916 2%,#25101f 48%,#0d0710 100%)}
+#intro:before{content:"";position:absolute;z-index:-1;width:min(80vw,840px);aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(255,131,176,.14);box-shadow:0 0 0 75px rgba(255,70,146,.022),0 0 0 160px rgba(255,145,205,.015),inset 0 0 140px rgba(250,50,130,.12),0 0 180px rgba(135,37,95,.13);animation:halo 9s ease-in-out infinite alternate;pointer-events:none}
+#intro:after{content:"";position:absolute;z-index:-1;inset:-12%;pointer-events:none;background:radial-gradient(circle at 80% 76%,rgba(255,132,79,.12),transparent 17%),radial-gradient(circle at 20% 24%,rgba(175,88,235,.12),transparent 21%);animation:ambient 13s ease-in-out infinite alternate}
+@keyframes halo{to{transform:translate(-50%,-50%) scale(1.075);opacity:.63}}@keyframes ambient{to{transform:translate3d(-2%,2%,0) scale(1.06)}}
+.top{position:absolute;z-index:8;left:max(22px,env(safe-area-inset-left));right:max(22px,env(safe-area-inset-right));top:max(22px,env(safe-area-inset-top));display:flex;justify-content:space-between;align-items:center;gap:16px}
+.signature{display:flex;align-items:center;gap:12px;min-width:0}.monogram{font:700 37px/.86 var(--serif);color:var(--pink2);letter-spacing:-.09em;text-shadow:0 0 25px rgba(255,61,146,.25)}.wordmark{font-size:10px;font-weight:800;color:#f5ccdd;line-height:1.28;letter-spacing:.14em}.controls{display:flex;gap:10px;align-items:center;flex-shrink:0}
+.ghost{border:1px solid rgba(255,157,199,.29);background:rgba(55,18,43,.6);color:#f6c9dc;border-radius:999px;padding:12px 17px;font-weight:800;font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;box-shadow:inset 0 1px rgba(255,255,255,.04);transition:background .2s,border-color .2s}
+.ghost:hover{background:rgba(105,30,72,.7);border-color:var(--pink2)}
+#stage{position:absolute;inset:0;display:grid;place-items:center;padding:clamp(55px,7vw,100px) clamp(24px,5vw,68px)}.scene{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:clamp(80px,9vw,120px) clamp(22px,5vw,65px) clamp(75px,8vw,110px);opacity:0;transform:translateY(14px) scale(1.025);transition:opacity .65s ease,transform .85s ease;pointer-events:none}.scene.active{opacity:1;transform:none;pointer-events:auto}.scene.exit{opacity:0;transform:translateY(-12px) scale(.992)}
+.inner{width:min(100%,870px);margin:auto;position:relative}.scene:not(.brand-scene) .inner{padding:34px 10px}
+.kicker{font-size:clamp(10px,1.05vw,12px);letter-spacing:.27em;font-weight:800;text-transform:uppercase;color:var(--pink2);margin-bottom:22px}.kicker:before{content:'✦';font-size:13px;color:var(--gold);margin-right:13px}
+.big{font-family:var(--serif);font-weight:700;font-size:clamp(51px,7.8vw,100px);line-height:.97;letter-spacing:-.045em;margin:0;color:#fff2f4;text-wrap:balance;text-shadow:0 17px 45px rgba(0,0,0,.3)}.big em{font-style:normal;color:var(--pink2);text-shadow:0 0 42px rgba(255,61,146,.26)}.copy{max-width:680px;margin:24px auto 0;color:#e2c4d2;font-size:clamp(15px,1.8vw,21px);line-height:1.55;text-wrap:balance}.line{width:78px;height:2px;margin:26px auto;background:linear-gradient(90deg,transparent,var(--pink),var(--gold),transparent);border-radius:9px}
+.triad{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:31px}.tag{display:inline-flex;align-items:center;gap:9px;justify-content:center;padding:12px 17px;border:1px solid rgba(255,131,176,.3);border-radius:14px;background:rgba(42,14,33,.8);font-size:12px;font-weight:800;letter-spacing:.06em}.tag svg{width:20px;height:20px;stroke-width:1.6;fill:none;stroke:currentColor}.tag.chispa{color:#ff87bc;border-color:rgba(255,61,146,.4)}.tag.fuego{color:#ff9b75;border-color:rgba(255,141,95,.4)}.tag.dominio{color:#cfabff;border-color:rgba(173,114,235,.4)}.tag.total{color:#f8c992;border-color:rgba(248,201,146,.38)}
+.whisper{margin-top:23px;color:#c8a8ba;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:750}
+.brand-scene .inner{max-width:920px}.brand-eyebrow{font:750 12px var(--sans);letter-spacing:.36em;color:var(--gold);margin-bottom:18px}.brand{font:750 clamp(67px,11vw,145px)/.78 var(--serif);letter-spacing:-.055em;color:#fff3f4;text-transform:uppercase;text-shadow:0 22px 55px #0007}.brand span{display:block;color:var(--pink2);text-shadow:0 0 70px rgba(255,61,146,.23)}.sub{font:400 clamp(18px,2.3vw,28px)/1.4 var(--serif);color:#edc9dd;margin-top:28px}.meta{font-size:11px;letter-spacing:.23em;color:#d4acbd;font-weight:750;text-transform:uppercase;margin-top:24px}
+#enterNow{margin-top:32px;min-height:58px;min-width:245px;border:1px solid #ff95be;border-radius:50px;background:linear-gradient(115deg,#fe438b,#b01658);color:#fff7f9;padding:18px 30px;font-size:12px;font-weight:850;letter-spacing:.15em;box-shadow:0 13px 42px rgba(239,37,121,.24),inset 0 1px rgba(255,255,255,.4);cursor:pointer;transition:transform .2s,filter .2s}#enterNow:hover{filter:brightness(1.1);transform:translateY(-2px)}
+#progress{position:absolute;z-index:7;bottom:max(29px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:7px}.bar{width:36px;height:3px;border-radius:999px;background:rgba(255,184,216,.18);overflow:hidden}.bar i{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--pink),var(--pink2));box-shadow:0 0 10px var(--pink)}.bar.on i{animation:load 2.5s linear forwards}@keyframes load{to{width:100%}}
+
+
+@media(max-width:700px){.top{left:14px;right:14px;top:max(14px,env(safe-area-inset-top))}.monogram{font-size:29px}.wordmark{font-size:8px}.controls{gap:5px}.ghost{padding:10px 11px;font-size:9px}.scene{padding:88px 17px 74px}.big{font-size:clamp(43px,11vw,74px)}.kicker{font-size:9px;letter-spacing:.18em}.copy{font-size:15px}.brand{font-size:clamp(58px,11.8vw,86px)}.sub{font-size:20px}.triad{gap:7px;margin-top:24px}.tag{font-size:10px;padding:9px 12px;border-radius:11px}.tag svg{width:16px;height:16px}#progress{bottom:25px}}
+@media(max-width:350px){.brand{font-size:46px;letter-spacing:-.065em}.monogram{font-size:24px}.wordmark{font-size:7px}.ghost{padding:9px 8px;font-size:8px}.controls{gap:4px}.signature{gap:7px}.top{left:9px;right:9px}}
+@media(max-height:620px){.scene{padding-top:60px;padding-bottom:48px}.big{font-size:clamp(39px,8vh,72px)}.kicker{margin-bottom:13px}.copy{margin-top:16px;font-size:14px}.triad{margin-top:15px}.brand{font-size:clamp(50px,12vh,100px)}.sub{margin-top:15px}#enterNow{margin-top:15px;min-height:44px;padding:10px 18px}}
+@media(max-width:350px){.brand{font-size:45px;letter-spacing:-.06em}.monogram{font-size:24px}.wordmark{font-size:7px}.ghost{padding:9px 8px;font-size:8px}.controls{gap:4px}.signature{gap:7px}.top{left:9px;right:9px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style></head>
 <body>
 <section id="intro" aria-label="Introducción cinematográfica Doble Intención">
-  <div class="top"><button class="ghost" id="sound"><span id="soundText">AMBIENTE</span></button><button class="ghost" id="skip">SALTAR INTRO</button></div>
-  <div id="stage">
-    <div class="scene active"><div class="inner"><div class="kicker">Hay noches que empiezan antes del primer toque</div><h1 class="big">No hace falta decirlo.<br><em>Se nota.</em></h1><div class="line"></div><p class="copy">Una mirada dura un segundo más. Una pregunta queda flotando. Algo cambia entre los dos.</p></div></div>
-    <div class="scene"><div class="inner"><div class="kicker">Primera señal</div><h2 class="big">Dos intenciones.<br><em>Una sola regla.</em></h2><p class="copy">Lo que pasa, se elige entre los dos.</p></div></div>
-    <div class="scene"><div class="inner"><div class="kicker">Elegir la intensidad</div><h2 class="big">De la <em>chispa</em><br>al control.</h2><div class="triad"><span class="tag chispa">CHISPA</span><span class="tag fuego">FUEGO</span><span class="tag dominio">DOMINIO</span></div><p class="whisper">42 consignas por edición · 126 en la trilogía</p></div></div>
-    
-    <div class="scene"><div class="inner"><div class="kicker">PasaloChévere presenta</div><div class="brand">DOBLE<span>INTENCIÓN</span></div><div class="line"></div><div class="sub">Una noche. Dos intenciones.</div><div class="meta">CHISPA · FUEGO · DOMINIO</div></div></div>
-    <div class="scene"><div class="inner"><div class="kicker">La noche empieza acá</div><div class="brand">DOBLE<span>INTENCIÓN</span></div><div class="sub">Sacá una consigna. Mostrá tus intenciones.</div><button id="enterNow">ENTRAR AL JUEGO</button></div></div>
-  </div>
-  <div id="progress"></div>
+<div class="top"><div class="signature" aria-label="Doble Intención"><span class="monogram">DI</span><span class="wordmark">DOBLE INTENCIÓN<br>PASALOCHEVERE</span></div><div class="controls"><button class="ghost" id="sound"><span id="soundText">AMBIENTE</span></button><button class="ghost" id="skip">SALTAR INTRO</button></div></div>
+<div id="stage">
+<div class="scene active"><div class="inner"><div class="kicker">Hay noches que empiezan antes del primer toque</div><h1 class="big">No hace falta decirlo.<br><em>Se nota.</em></h1><div class="line"></div><p class="copy">Una mirada dura un segundo más. Una pregunta queda flotando. Algo cambia entre los dos.</p></div></div>
+<div class="scene"><div class="inner"><div class="kicker">Primera señal</div><h2 class="big">Dos intenciones.<br><em>Una sola regla.</em></h2><p class="copy">Lo que pasa, se elige entre los dos.</p></div></div>
+<div class="scene"><div class="inner"><div class="kicker">Elegir la intensidad</div><h2 class="big">De la <em>chispa</em><br>al control.</h2><div class="triad"><span class="tag chispa"><svg viewBox="0 0 24 24"><path d="M3 13c3-4 6-5 9-2 3-3 6-2 9 2-4 4-7 5-9 5s-5-1-9-5zM3 13c5 2 13 2 18 0"/></svg>CHISPA</span><span class="tag fuego"><svg viewBox="0 0 24 24"><path d="M12 2c1 6 8 7 8 13a8 8 0 0 1-16 0c0-3 2-6 4-7 0 4 1 4 2 5 3-4 3-7 2-11Z"/></svg>FUEGO</span><span class="tag dominio"><svg viewBox="0 0 24 24"><path d="m3 8 5 4 4-7 4 7 5-4-2 11H5L3 8Z"/></svg>DOMINIO</span><span class="tag total">✦ RULETA TOTAL</span></div><p class="whisper">126 retos · cuatro ruletas</p></div></div>
+<div class="scene brand-scene"><div class="inner"><div class="brand-eyebrow">PASALOCHEVERE PRESENTA</div><div class="brand">DOBLE<span>INTENCIÓN</span></div><div class="line"></div><div class="sub">Una noche. Dos intenciones.</div><div class="meta">CHISPA · FUEGO · DOMINIO</div></div></div>
+<div class="scene brand-scene"><div class="inner"><div class="kicker">La noche empieza acá</div><div class="brand">DOBLE<span>INTENCIÓN</span></div><div class="sub">Sacá una consigna. Mostrá tus intenciones.</div><button id="enterNow">ENTRAR AL JUEGO &nbsp;→</button></div></div>
+</div><div id="progress"></div>
 </section>
 <script>
 (()=>{
  const scenes=[...document.querySelectorAll('.scene')],progress=document.getElementById('progress');
  let timer=null,audioCtx=null,drone=null,muted=false,leaving=false;
  scenes.forEach(()=>{const b=document.createElement('span');b.className='bar';b.innerHTML='<i></i>';progress.appendChild(b)});const bars=[...progress.children];
- function target(){const q=new URLSearchParams(location.search);q.set('v','v11fix2');return 'app-v10.html?'+q.toString()+(location.hash||'')}
  function stopAmbience(){if(drone){try{drone.gain.gain.setTargetAtTime(0,audioCtx.currentTime,.08);setTimeout(()=>drone.osc.stop(),300)}catch(e){}drone=null}}
+ function target(){const q=new URLSearchParams(location.search);q.set('v','di-v21j');return 'app-v10.html?'+q.toString()+(location.hash||'')}
  function enterGame(){if(leaving)return;leaving=true;clearTimeout(timer);stopAmbience();document.body.style.opacity='0';document.body.style.transition='opacity .32s ease';setTimeout(()=>location.replace(target()),260)}
- function ambience(){if(muted||drone)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();osc.type='sine';osc.frequency.value=66;filter.type='lowpass';filter.frequency.value=160;gain.gain.value=.012;osc.connect(filter);filter.connect(gain);gain.connect(audioCtx.destination);osc.start();drone={osc,gain}}catch(e){}}
+ function ambience(){if(muted||drone)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();osc.type='sine';osc.frequency.value=66;filter.type='lowpass';filter.frequency.value=160;gain.gain.value=.012;osc.connect(filter);filter.connect(gain);gain.connect(audioCtx.destination);osc.start();drone={osc,gain}}catch(e){}}
  function show(i){scenes.forEach((s,n)=>{s.classList.toggle('active',n===i);s.classList.remove('exit')});bars.forEach((b,n)=>{b.classList.remove('on');b.querySelector('i').style.width=n<i?'100%':''});void bars[i].offsetWidth;bars[i].classList.add('on');clearTimeout(timer);if(i<scenes.length-1)timer=setTimeout(()=>{scenes[i].classList.add('exit');setTimeout(()=>show(i+1),360)},2500)}
  document.getElementById('skip').onclick=enterGame;document.getElementById('enterNow').onclick=enterGame;
  document.getElementById('sound').onclick=()=>{muted=!muted;document.getElementById('soundText').textContent=muted?'AMBIENTE OFF':'AMBIENTE';if(muted)stopAmbience();else ambience()};
  document.getElementById('intro').addEventListener('pointerdown',ambience,{once:true});show(0);
 })();
-</script>
-</body>
-</html>
+</script></body></html>
