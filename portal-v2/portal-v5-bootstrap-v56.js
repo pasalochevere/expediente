@@ -102,7 +102,7 @@
       await ensureScript('pc-preview-premium-v59-js','portal-preview-premium-v59.js?v='+VERSION);
       await ensureScript('pc-preview-premium-v60-js','portal-preview-premium-v60.js?v='+VERSION);
       await ensureScript('pc-preview-closure-v61-js','portal-preview-closure-v61.js?v='+VERSION);
-      await ensureScript('pc-preview-missing-v64-js','portal-preview-missing-v64.js?v='+VERSION);
+      await ensureScript('pc-preview-missing-v64-js','portal-preview-missing-v64.js?v=20261020-di-v21k');
       await ensureScript('pc-delivery-v601-js','portal-delivery-v601.js?v='+VERSION);
       await ensureScript('pc-delivery-exp001-v013-js','portal-delivery-exp001-v013.js?v='+VERSION);
       await ensureScript('pc-delivery-support-v016-js','portal-delivery-support-v016.js?v='+VERSION);
