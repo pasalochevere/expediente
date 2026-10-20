@@ -390,14 +390,49 @@ async function sendMagicLink(){
  }
 }
 async function callAccess(body){const {data,error}=await sb.functions.invoke('pasalochevere-access',{body});if(error){let t=error.message;try{t=(await error.context?.json())?.error||t}catch{}throw new Error(t)}if(!data?.ok)throw new Error(data?.error||'No se pudo completar la operación.');return data}
+// MP06C — Actualización de Biblioteca sin recargar la página.
+let pcLibraryRows=[];
+let pcPendingActivations=[];
+let pcLibraryRequest=0;
+function mergeMyGamesWithNewActivations(rows){
+ const fresh=Array.isArray(rows)?[...rows]:[];
+ pcPendingActivations=pcPendingActivations.filter(lic=>{
+   const exists=fresh.some(row=>row.product_code===lic.product_code&&row.activation_code===lic.activation_code);
+   return !exists;
+ });
+ for(const lic of pcPendingActivations){
+   if(!fresh.some(row=>row.product_code===lic.product_code&&row.activation_code===lic.activation_code))fresh.unshift(lic);
+ }
+ return fresh;
+}
+function showActivatedGames(licenses){
+ const valid=(Array.isArray(licenses)?licenses:[licenses]).filter(lic=>lic&&lic.product_code&&lic.activation_code);
+ if(!valid.length)return false;
+ // La respuesta del servidor ya certificó la activación. Se dibuja antes del siguiente fetch.
+ for(const lic of valid){
+   const immediate={...lic,status:'active',can_activate:false,devices_used:Math.max(1,Number(lic.devices_used||1))};
+   pcPendingActivations=pcPendingActivations.filter(row=>row.activation_code!==lic.activation_code);
+   pcPendingActivations.push(immediate);
+ }
+ pcLibraryRows=mergeMyGamesWithNewActivations(pcLibraryRows);
+ renderLicenses(pcLibraryRows);
+ const library=document.getElementById('myGames');
+ if(library){
+   library.classList.remove('hidden');
+   setTimeout(()=>library.scrollIntoView({behavior:'smooth',block:'start'}),80);
+ }
+ return true;
+}
 async function activatePurchase(){
  const code=document.getElementById('purchaseCode').value.trim();if(!code){msg('activateMsg','Ingresá el código recibido con tu compra.','bad');return}
  const b=document.getElementById('activateBtn');b.disabled=true;msg('activateMsg','Activando compra y generando código…');
  try{
    const d=await callAccess({action:'activate',purchase_code:code,device_id:deviceId(),device_label:deviceLabel()});
-   if(d.master) msg('activateMsg','✅ Código maestro activado. Se habilitaron todos los juegos de prueba disponibles.','good');
-   else msg('activateMsg','✅ Compra activada. Tu código personal es '+d.license.activation_code,'good');
-   document.getElementById('purchaseCode').value='';await loadMyGames()
+   const ready=showActivatedGames(d.master?d.licenses:d.license);
+   if(d.master)msg('activateMsg','✅ Código maestro activado. Tus juegos ya aparecen en Mis juegos.','good');
+   else msg('activateMsg','✅ Compra activada. Tu código personal es '+d.license.activation_code+'. '+(ready?'Ya podés tocar JUGAR en Mis juegos.':'Actualizando tus accesos…'),'good');
+   document.getElementById('purchaseCode').value='';
+   await loadMyGames();
  }catch(e){msg('activateMsg',e.message,'bad')}finally{b.disabled=false}
 }
 async function reconcilePayment(){
@@ -408,7 +443,21 @@ async function reconcilePayment(){
  }catch(e){console.warn('payment reconcile',e);return null}
 }
 async function loadMyGames(){
- try{const d=await callAccess({action:'me'});renderLicenses(d.licenses||[])}catch(e){console.warn(e)}
+ const request=++pcLibraryRequest;
+ try{
+   const d=await callAccess({action:'me'});
+   if(request!==pcLibraryRequest)return false;
+   pcLibraryRows=mergeMyGamesWithNewActivations(d.licenses||[]);
+   renderLicenses(pcLibraryRows);
+   return true;
+ }catch(e){
+   console.warn('No se pudo actualizar Mis juegos',e);
+   if(pcPendingActivations.length){
+     pcLibraryRows=mergeMyGamesWithNewActivations(pcLibraryRows);
+     renderLicenses(pcLibraryRows);
+   }
+   return false;
+ }
 }
 function gameHref(l){
  if(['MP-001','JB-BORRACHO'].includes(l.product_code))return '../jenga-borracho/?access='+encodeURIComponent(l.activation_code||'')+'&v=mp04';
@@ -501,7 +550,8 @@ document.getElementById('deviceModal').addEventListener('click',e=>{if(e.target.
 async function activateOwned(productCode){
  try{
    const d=await callAccess({action:'activate_owned',product_code:productCode,device_id:deviceId(),device_label:deviceLabel()});
-   alert('✅ Acceso activado. Tu código personal es '+d.license.activation_code);
+   showActivatedGames(d.license);
+   msg('activateMsg','✅ Acceso activado. Ya podés jugar desde Mis juegos.','good');
    await loadMyGames();
  }catch(e){alert(e.message||'No pude activar esta compra.')}
 }
