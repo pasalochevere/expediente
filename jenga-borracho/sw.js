@@ -1,6 +1,6 @@
 /* MP06B · No precachear consignas. Cache seguro y navegación siempre network-first. */
-const CACHE='pasalochevere-yenga-borracho-mp06b2-gated';
-const CORE=['./','./index.html','./license-gate.js','./app.js','./manuals.js','./manifest.webmanifest','./icon.svg','./modo-previa-party-pop.svg','./product-set.b64','./product-tower.b64','./manual-juego.b64','./guia-webapp.b64'];
+const CACHE='pasalochevere-yenga-borracho-mp07a-party-intro';
+const CORE=['./','./index.html','./license-gate.js','./intro.js','./intro.css','./app.js','./manuals.js','./manifest.webmanifest','./icon.svg','./modo-previa-party-pop.svg','./product-set.b64','./product-tower.b64','./manual-juego.b64','./guia-webapp.b64'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting()));
 });
