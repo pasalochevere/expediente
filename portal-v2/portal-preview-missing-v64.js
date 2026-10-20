@@ -6,7 +6,7 @@
   if(window.__pcMissingCategoryPreviewV64)return;
   window.__pcMissingCategoryPreviewV64=true;
 
-  const VERSION='20261009-v641';
+  const VERSION='20261020-di-v21k';
   const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
   let queued=false,applying=false;
 
@@ -81,24 +81,11 @@
         #drawer-wellbeing .pcV641TarotCard .pcV62TarotCards i{width:42px!important}
       }
     `;
+    st.textContent += "\n/* DI-V2.1K · Vista comercial coherente con Intro 2.1H. No modifica otros productos. */\n#drawer-adult .card.pcV64DiCard .pcV64DiMedia{border-bottom-color:rgba(255,100,163,.30)!important}\n.pcV64DiArt.pcV21KArt{background:radial-gradient(circle at 74% 26%,rgba(255,67,147,.26),transparent 31%),linear-gradient(118deg,#130914 0%,#261025 43%,#361027 72%,#181021 100%)!important;color:#fff2f5}\n.pcV64DiArt.pcV21KArt:before{background:radial-gradient(circle at 16% 75%,rgba(177,80,192,.16),transparent 38%)!important}\n.pcV64DiArt.pcV21KArt:after{background:linear-gradient(90deg,rgba(8,4,14,.18),transparent 52%),linear-gradient(180deg,transparent 55%,rgba(8,4,12,.45))!important;box-shadow:inset 0 0 44px rgba(8,3,12,.2)!important;pointer-events:none}\n.pcV21KArt .pcV64DiCopy{left:5.8%;top:14%;width:53%;max-width:270px;z-index:3}\n.pcV21KArt .pcV64DiCopy small{font-size:clamp(8px,.67vw,10px);color:#ffc4dc;letter-spacing:.13em}\n.pcV21KArt .pcV64DiCopy strong{font-family:Georgia,serif;font-size:clamp(27px,3.4vw,44px);line-height:.91;margin-top:11px;letter-spacing:-.055em;color:#fff4f4;overflow-wrap:normal}\n.pcV21KArt .pcV64DiCopy strong em{display:block;color:#ff86b8;font-style:normal}\n.pcV21KArt .pcV64DiCopy>span{font-size:clamp(8px,.71vw,10px);color:#f7c992;letter-spacing:.12em;font-weight:800;line-height:1.4;margin-top:12px}\n.pcV21KWheelArt{position:absolute;z-index:2;right:7%;top:45%;transform:translateY(-50%) rotate(-13deg);width:min(37%,164px);aspect-ratio:1;border-radius:50%;border:4px solid #442036;background:conic-gradient(from -40deg,#e84489 0 120deg,#f07a59 120deg 240deg,#9861bd 240deg 360deg);box-shadow:0 10px 27px rgba(0,0,0,.46),0 0 0 4px rgba(255,178,205,.16),inset 0 0 0 2px rgba(255,235,241,.50)}\n.pcV21KWheelArt:before{content:\"\";position:absolute;inset:12%;border-radius:50%;border:1px solid rgba(255,220,227,.52);box-shadow:0 0 26px rgba(20,0,18,.34) inset}\n.pcV21KWheelArt:after{content:\"\";position:absolute;left:50%;top:-13px;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:18px solid #ffe3cf;filter:drop-shadow(0 2px 3px #140613)}\n.pcV21KWheelCore{position:absolute;z-index:2;inset:34%;display:flex;flex-direction:column;justify-content:center;align-items:center;border-radius:50%;background:#220c22;color:#fff1f1;border:2px solid #ffadd1;transform:rotate(13deg);box-shadow:0 0 12px rgba(0,0,0,.65)}\n.pcV21KWheelCore b{font:900 clamp(12px,1.6vw,18px)/1 Georgia,serif}.pcV21KWheelCore small{font:800 5px/1.1 Arial,sans-serif;letter-spacing:.08em;margin-top:2px;color:#ff95c1}\n.pcV21KHeroStat{position:absolute;z-index:3;right:4%;bottom:8%;color:#f9c7df;font:800 8px/1.3 'Segoe UI',Arial,sans-serif;letter-spacing:.06em;text-align:right}\n.pcV64DiBadge{color:#ffe3f0!important;border-color:rgba(255,99,164,.52)!important;background:rgba(26,6,23,.92)!important}\n#drawer-adult .pcV64DiCard .accent{color:#eeb5d0}\n.pcV21KScene{position:relative;overflow:hidden;width:100%;height:100%;min-height:240px;background:linear-gradient(130deg,#160a17,#34122e 64%,#130a18);color:#fff3f5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Segoe UI',Arial,sans-serif;padding:16px 18px 54px;box-sizing:border-box}\n.pcV21KScene .pcV64DiArt.pcV21KArt{position:absolute;inset:0}\n.pcV21KScene .pcV21KArt .pcV64DiCopy{left:7%;top:17%;text-align:left}\n.pcV21KScene .pcV21KArt .pcV64DiCopy strong{font-size:clamp(26px,4vw,49px)}\n.pcV21KScene .pcV21KWheelArt{right:12%;top:45%;width:min(32%,195px)}\n.pcV21KScene .pcV21KHeroStat{right:8%;bottom:23%}\n.pcV21KScene h3{font:800 clamp(19px,2.6vw,30px)/1.04 Georgia,serif;letter-spacing:-.03em;margin:0 0 7px}\n.pcV21KScene p{margin:7px 0;font-size:clamp(10px,1.3vw,13px);line-height:1.35;color:#e9c7db;max-width:340px}\n.pcV21KDemoWheel{position:relative;width:clamp(108px,24%,165px);aspect-ratio:1;margin:12px auto;border-radius:50%;background:conic-gradient(from 20deg,#e84489 0 120deg,#f07958 120deg 240deg,#925ac5 240deg 360deg);border:4px solid #4a1e41;box-shadow:0 0 0 3px #cf79a3,0 14px 25px #0e040c}\n.pcV21KDemoWheel:before{content:\"\";position:absolute;top:-17px;left:calc(50% - 9px);border-left:9px solid transparent;border-right:9px solid transparent;border-top:19px solid #ffe5f4}\n.pcV21KDemoWheel:after{content:\"DI\";position:absolute;inset:37%;border-radius:50%;background:#290b26;border:2px solid #f3b0ce;display:grid;place-items:center;font:900 clamp(13px,2.3vw,22px)/1 Georgia,serif}\n.pcV21KModes{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin-top:6px}\n.pcV21KModes span{border:1px solid rgba(255,188,216,.36);border-radius:99px;padding:5px 8px;background:#32152e;font:700 9px/1.1 'Segoe UI',Arial,sans-serif;letter-spacing:.04em}\n.pcV21KModes span:nth-child(2){border-color:#fa9868}.pcV21KModes span:nth-child(3){border-color:#c9a5f5}.pcV21KModes span:nth-child(4){border-color:#f7c992}\n.pcV21KMiniPrints{display:flex;gap:12px;justify-content:center;align-items:center;margin:13px auto 8px}\n.pcV21KMiniPrint{width:112px;height:150px;border-radius:12px;border:2px solid #fa8bad;background:linear-gradient(170deg,#49102c,#250c26);box-shadow:0 9px 18px #090409;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:13px 9px;box-sizing:border-box}\n.pcV21KMiniPrint.bw{background:#f7f5f3;border-color:#9b8992;color:#231621}\n.pcV21KMiniPrint b{font:850 10px/1.2 'Segoe UI',Arial,sans-serif;letter-spacing:.06em}\n.pcV21KMiniPrint strong{font:700 34px/1 Georgia,serif}.pcV21KMiniPrint small{font:700 8px/1.2 'Segoe UI',Arial,sans-serif;letter-spacing:.1em}\n.pcV21KScene .pcV21KPrintBadge{border:1px solid rgba(251,172,210,.45);border-radius:99px;color:#ffb8d6;padding:6px 10px;font:800 10px/1.1 'Segoe UI',Arial,sans-serif}\n@media(max-width:620px){\n .pcV21KArt .pcV64DiCopy{left:5%;top:13%;width:57%}\n .pcV21KArt .pcV64DiCopy small{font-size:7px}\n .pcV21KArt .pcV64DiCopy strong{font-size:clamp(24px,6.6vw,34px);margin-top:7px}\n .pcV21KArt .pcV64DiCopy>span{font-size:7px;margin-top:8px}\n .pcV21KWheelArt{right:6%;width:34%;top:48%}\n .pcV21KHeroStat{font-size:6px;bottom:10%;right:5%}\n .pcV21KScene{padding-bottom:48px}\n .pcV21KScene .pcV21KWheelArt{top:47%;right:7%;width:36%}\n .pcV21KScene .pcV21KArt .pcV64DiCopy strong{font-size:clamp(24px,5.2vw,40px)}\n}\n@media(max-width:350px){\n .pcV21KArt .pcV64DiCopy strong{font-size:22px}\n .pcV21KWheelArt{right:5%;width:32%}\n .pcV21KHeroStat{font-size:5.5px}\n}\n";
     document.head.appendChild(st);
   }
 
-  function diArt(){
-    return `<div class="pcV64DiArt">
-      <div class="pcV64DiOrbit" aria-hidden="true"></div>
-      <div class="pcV64DiCopy">
-        <small>PASALOCHEVERE · EXPERIENCIA +18</small>
-        <strong>Doble<em>Intención.</em></strong>
-        <span>TRES CLIMAS · UNA EXPERIENCIA PARA DOS</span>
-      </div>
-      <div class="pcV64DiLevels" aria-hidden="true">
-        <div class="pcV64DiLevel"><i>✦</i><b>CHISPA</b><span>Conexión y complicidad</span></div>
-        <div class="pcV64DiLevel"><i>◐</i><b>FUEGO</b><span>Más intensidad</span></div>
-        <div class="pcV64DiLevel"><i>◆</i><b>DOMINIO</b><span>Otro nivel</span></div>
-      </div>
-    </div>`;
-  }
+  function diArt(){return "<div class=\"pcV64DiArt pcV21KArt\">\n <div class=\"pcV21KGlow\" aria-hidden=\"true\"></div>\n <div class=\"pcV64DiCopy\">\n  <small>PASALOCHEVERE · EXPERIENCIA +18</small>\n  <strong>Doble<em>Intención.</em></strong>\n  <span>UNA TORRE · CUATRO RULETAS</span>\n </div>\n <div class=\"pcV21KWheelArt\" aria-hidden=\"true\">\n  <span class=\"pcV21KWheelArrow\"></span>\n  <div class=\"pcV21KWheelCore\"><b>DI</b><small>RULETA</small></div>\n </div>\n <div class=\"pcV21KHeroStat\" aria-hidden=\"true\">✦ CHISPA &nbsp; ◈ FUEGO &nbsp; ♛ DOMINIO</div>\n </div>";}
 
   function findDobleCard(){
     return [...document.querySelectorAll('#drawer-adult .drawerGrid > .card:not(.pcComingCard)')].find(card=>norm(card.textContent).includes('DOBLE INTENCION'))||null;
@@ -107,12 +94,21 @@
   function patchDobleProduct(){
     const p=window.PC_REAL_PREVIEWS_V2?.['DI-TRILOGIA'];
     if(!p)return false;
+    if(p.__v21k)return true;
     p.title='Doble Intención';
-    p.subtitle='Trilogía · Chispa · Fuego · Dominio · +18';
-    p.summary='Tres intensidades para compartir de a dos. Elegí CHISPA, FUEGO o DOMINIO, jugá por número o al azar y decidan juntos el clima de cada partida.';
-    p.focus='3 ediciones · juego digital + material descargable';
-    p.__v64=true;
-    p.__v641=true;
+    p.subtitle='Trilogía · CHISPA · FUEGO · DOMINIO · +18';
+    p.summary='Una torre, cuatro ruletas y 126 desafíos. Jugá desde el celular y descargá las cartas en PDF color o blanco y negro con tu acceso personal.';
+    p.format='Digital + 126 cartas imprimibles';
+    p.use='Pareja · +18';
+    p.focus='4 ruletas · 3 modos · Ruleta Total';
+    p.safe='Retos protegidos por licencia';
+    p.slides=[
+      {kind:'ui',label:'Nueva identidad',note:'Imagen de presentación alineada con la intro V2.1H.',render:()=>"<div class=\"pcV21KScene\"><div class=\"pcV64DiArt pcV21KArt\">\n <div class=\"pcV21KGlow\" aria-hidden=\"true\"></div>\n <div class=\"pcV64DiCopy\">\n  <small>PASALOCHEVERE · EXPERIENCIA +18</small>\n  <strong>Doble<em>Intención.</em></strong>\n  <span>UNA TORRE · CUATRO RULETAS</span>\n </div>\n <div class=\"pcV21KWheelArt\" aria-hidden=\"true\">\n  <span class=\"pcV21KWheelArrow\"></span>\n  <div class=\"pcV21KWheelCore\"><b>DI</b><small>RULETA</small></div>\n </div>\n <div class=\"pcV21KHeroStat\" aria-hidden=\"true\">✦ CHISPA &nbsp; ◈ FUEGO &nbsp; ♛ DOMINIO</div>\n </div></div>"},
+      {kind:'ui',label:'Las cuatro ruletas',note:'Tres modos y una Ruleta Total, sin mostrar retos protegidos.',render:()=>"<div class=\"pcV21KScene\"><h3>Cuatro formas de jugar</h3><p>Elegí CHISPA, FUEGO, DOMINIO o dejá que la RULETA TOTAL sorprenda.</p><div class=\"pcV21KDemoWheel\" aria-hidden=\"true\"></div><div class=\"pcV21KModes\"><span>✦ CHISPA</span><span>◈ FUEGO</span><span>♛ DOMINIO</span><span>↻ TOTAL</span></div></div>"},
+      {kind:'ui',label:'Cartas imprimibles',note:'126 cartas listas para imprimir en color o blanco y negro.',render:()=>"<div class=\"pcV21KScene\"><h3>También se juega en papel</h3><div class=\"pcV21KMiniPrints\"><div class=\"pcV21KMiniPrint\"><b>CHISPA · FUEGO · DOMINIO</b><strong>✦</strong><small>PDF COLOR</small></div><div class=\"pcV21KMiniPrint bw\"><b>CHISPA · FUEGO · DOMINIO</b><strong>♛</strong><small>PDF B/N</small></div></div><div class=\"pcV21KPrintBadge\">126 CARTAS · 16 HOJAS A4 POR VERSIÓN</div><p>Descarga disponible con licencia activa.</p></div>"}
+    ];
+    p.__v21k=true;
+    p.__v64=true;p.__v641=true;
     return true;
   }
 
@@ -138,7 +134,7 @@
     }
     const h=card.querySelector('h3');if(h)h.textContent='DOBLE INTENCIÓN';
     const accent=card.querySelector('.accent');if(accent)accent.textContent='TRILOGÍA · CHISPA · FUEGO · DOMINIO · +18';
-    const p=card.querySelector('p');if(p)p.textContent='Elegí el clima de la partida. Un solo código desbloquea las tres ediciones, el juego digital y el material descargable.';
+    const p=card.querySelector('p');if(p)p.textContent='Cuatro ruletas, 126 desafíos y cartas imprimibles en color y B/N. Un acceso para las tres ediciones.';
     return true;
   }
 
@@ -249,9 +245,9 @@
   window.pcApplyMissingCategoryPreviewV64=apply;
   window.pcV64PreviewAudit=()=>({
     version:VERSION,
-    alignment:'V6.4.1',
+    alignment:'DI-V2.1K',
     dobleCard:!!document.querySelector('#drawer-adult .pcV64DiCard .pcV64DiMedia'),
-    doblePreview:!!window.PC_REAL_PREVIEWS_V2?.['DI-TRILOGIA']?.__v641,
+    doblePreview:!!window.PC_REAL_PREVIEWS_V2?.['DI-TRILOGIA']?.__v21k,
     tarotAligned:!!document.querySelector('#drawer-wellbeing .pcV641TarotCard>.pcLiveMediaV62'),
     vincAligned:!!document.querySelector('#drawer-wellbeing .pcV641VincCard>.pcLiveMediaV62'),
     runasAligned:!!document.querySelector('#drawer-wellbeing .pcV641RunasCard>.pcV641RunasMedia'),
