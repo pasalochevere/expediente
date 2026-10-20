@@ -94,7 +94,7 @@
       await loadScript('manuals.js?v=mp06b2');
       ready=true;
       // Intro independiente: si falla la animación, el juego igual queda disponible.
-      try{await loadScript('intro.js?v=mp07a')}catch(introErr){
+      try{await loadScript('intro.js?v=mp07a2')}catch(introErr){
         console.warn('La intro no pudo cargarse, pero el juego continúa.',introErr);
       }
       // Revalida la licencia durante partidas largas; la sesión/estado se comprueban también al ingresar.
