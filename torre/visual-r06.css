@@ -1,0 +1,25 @@
+/* VR800 R06 - visual unification of authenticated original home */
+html,body{background:#f4e9d9}
+body{background:radial-gradient(circle at 95% 10%,rgba(207,119,125,.16),transparent 30%),radial-gradient(circle at 3% 75%,rgba(221,175,99,.12),transparent 38%),linear-gradient(145deg,#f9f1e5,#eadcca 70%,#f1ded5)!important;color:#261d20}
+:root{--bg:#f5ecdf;--ink:#261d20;--muted:#70625f;--card:#fffaf4;--line:#e6d5c7;--gold:#c88b4a;--shadow:0 18px 55px rgba(65,35,24,.10);--shadow-sm:0 10px 27px rgba(65,35,24,.075)}
+.app{max-width:680px!important}
+.brand{background:#fff9f0!important;border:1px solid #e9d8c6!important;box-shadow:0 10px 30px rgba(65,35,24,.075)!important}
+.hero{background:#fffaf4!important;border:1px solid #eadac8!important;border-radius:27px!important;box-shadow:0 20px 49px rgba(65,35,24,.11)!important}
+.intro{background:linear-gradient(145deg,#fffcf7,#f8ebdf)!important}
+.intro h1{letter-spacing:-.035em}
+.intro h1 b{color:#bd5268!important}
+.intro h1 span{color:#8d4d63!important}
+.intro p{color:#6d605d!important}
+.mega-kicker{background:linear-gradient(115deg,#6b2944,#9b5267)!important;color:#fff6e8!important;border-color:#efd5bf!important}
+.stat{background:#f8eadb!important;color:#513d3e!important;border:1px solid #e8d6c6!important}
+.stat.fun-green{background:#e7f4e9!important}.stat.fun-blue{background:#e9effa!important}.stat.fun-yellow{background:#fff0cd!important}.stat.fun-red{background:#f8e3e7!important}
+.section-title{color:#5b3b4b!important}
+.edition{background:linear-gradient(145deg,#fffdfa,#f8eee6)!important;border:1px solid #e2d0c3!important;border-radius:19px!important;box-shadow:0 12px 29px rgba(65,35,24,.08)!important}
+.edition h2{color:#281e24}.edition p{color:#716361}
+.edition:before{width:5px}
+.info{background:linear-gradient(125deg,#50283e,#321e2d)!important;border-color:#c38b6a!important}
+#pc-vr800-mode-chooser{background:linear-gradient(140deg,#fffaf4,#f6e7da)!important;border:1px solid #e6d1c2!important;box-shadow:0 14px 34px rgba(65,35,24,.09)!important;border-radius:23px!important}
+#pc-vr800-mode-chooser .vr-heading{color:#392330}
+#pc-vr800-mode-chooser .vr-option{border-radius:16px}
+#pc-vr800-mode-chooser .vr-option.vr-new{background:linear-gradient(125deg,#6b2944,#3b1c30)!important;border-color:#c38b6a!important}
+@media(min-width:800px){.app{max-width:730px!important}}
