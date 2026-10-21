@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <!-- Access guard inherited from TORRE-MEGA: session, entitlement, device. No commercial prompts in the static page. -->
+  <script>document.documentElement.classList.add('pc-access-pending');</script>
+  <link rel="stylesheet" href="../access-guard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../access-guard.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#100c11" />
+  <meta name="description" content="VR800-R05: Ruleta Sin Escape autenticada para licencias activas. El contenido comercial se entrega desde Supabase." />
+  <title>Ruleta Sin Escape · VR800-R05 · pasalochevere</title>
+  <style>
+    :root {color-scheme:dark;--bg:#110d12;--surface:#1b131b;--surface2:#241722;--hair:rgba(242,200,154,.18);--muted:#b8a4ac;--gold:#e6bb79;--cream:#ffeedb;--copper:#cb8b5a;--rose:#994a60;--ease:cubic-bezier(.13,.71,.09,1)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -30%,#492431 0%,transparent 51%),linear-gradient(120deg,#0d0a10,#181016 50%,#0d0b10);color:var(--cream);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.83' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.3'/%3E%3C/svg%3E")}
+    button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid #f7ce96;outline-offset:3px}button:disabled{opacity:.55;cursor:wait}
+    .app{max-width:1320px;margin:0 auto;padding:25px clamp(14px,3vw,40px) 28px;position:relative}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:24px}
+    .brand{display:flex;align-items:center;gap:11px;font-size:13px;letter-spacing:.095em;font-weight:800;text-transform:lowercase;color:#f6dfba}.brand-mark{display:grid;place-items:center;width:33px;height:33px;border-radius:9px;border:1px solid #b48659;background:#37232a;color:#f5d2a2;font:italic 700 21px Georgia,serif}
+    .top-status{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.13em;color:#bcaab0;font-weight:800}.status-dot{width:7px;height:7px;background:#dab279;border-radius:50%;box-shadow:0 0 12px #dab279}.preview-chip{border:1px solid #76563d;color:#f8d7a7;border-radius:30px;padding:9px 13px;font-size:10px;font-weight:900;letter-spacing:.1em}
+    .main{display:grid;grid-template-columns:minmax(290px,.86fr) minmax(340px,1.15fr) minmax(290px,.86fr);gap:18px;align-items:stretch}
+    .panel{border:1px solid var(--hair);border-radius:22px;background:linear-gradient(145deg,rgba(45,29,41,.91),rgba(25,18,27,.96));box-shadow:0 10px 45px rgba(0,0,0,.18);padding:25px}
+    .intro{display:flex;flex-direction:column;position:relative;overflow:hidden}
+    .intro:before{content:"";height:270px;position:absolute;left:-90px;right:-90px;top:-145px;background:radial-gradient(ellipse,#6a273d 0%,transparent 65%);opacity:.48;pointer-events:none}
+    .eyebrow{color:var(--gold);font-size:10px;font-weight:900;letter-spacing:.19em;text-transform:uppercase}.eyebrow .line{display:inline-block;background:var(--gold);width:17px;height:1px;vertical-align:middle;margin-right:8px}
+    h1{position:relative;font:700 clamp(50px,5.4vw,78px)/.93 Georgia,"Times New Roman",serif;letter-spacing:-.064em;margin:24px 0 18px}h1 span{display:block;font-style:italic;color:var(--gold);font-weight:500}
+    .lede{color:#ccb7bb;line-height:1.65;font-size:14px;max-width:310px;margin:0 0 23px}.rule{height:1px;background:linear-gradient(90deg,#98694c,transparent);margin:0 0 27px}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.section-head strong{font-size:12px;letter-spacing:.11em;text-transform:uppercase}.section-head .number{color:var(--gold);font:italic 19px Georgia,serif}
+    .editions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.edition{padding:13px 8px;border-radius:11px;border:1px solid rgba(251,214,171,.15);color:#cbbbc2;background:#231923;font-size:10px;letter-spacing:.055em;font-weight:850;min-height:48px;transition:background .2s,border-color .2s,transform .2s}.edition:hover{background:#392531}.edition[aria-pressed="true"]{background:linear-gradient(145deg,#704152,#482c3a);color:#fff1db;border-color:#eac38b;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}.edition:active{transform:scale(.985)}
+    .mode-label{font-size:11px;letter-spacing:.11em;color:#c7b4bb;text-transform:uppercase;font-weight:800;margin:28px 0 11px}.toggle-bar{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:5px;background:#100c12;border:1px solid #624652;border-radius:13px}.mode-btn{border:0;border-radius:9px;padding:12px 5px;background:transparent;color:#bda5af;font-size:11px;font-weight:750;transition:background .2s,color .2s}.mode-btn[aria-pressed="true"]{background:#47303d;color:#ffe9ca;box-shadow:0 3px 14px #0003}.mode-help{margin:12px 0 24px;color:#bcaab1;font-size:12px;line-height:1.5;min-height:36px}
+    .players{margin-top:auto;border-top:1px solid var(--hair);padding-top:20px}.players-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.players-top strong{font-size:11px;letter-spacing:.11em;text-transform:uppercase}.edit-players{border:0;background:transparent;color:var(--gold);font-size:11px;font-weight:800;text-decoration:underline;text-underline-offset:3px}.player-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}.player-chip{font-size:11px;color:#cebec6;border:1px solid #5b4450;border-radius:20px;padding:7px 10px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.player-chip.current{border-color:#e4b778;background:#503344;color:#fff0d6}.player-editor{display:none;margin-top:12px}.player-editor.open{display:block}.player-editor input{width:100%;padding:10px 11px;border:1px solid #86614f;border-radius:10px;background:#110b12;color:#fff1df;font-size:12px}.player-editor p{color:#b3a0aa;font-size:10px;line-height:1.5}.player-actions{display:flex;gap:8px}.small-action{border:1px solid #86614f;background:#382633;border-radius:9px;color:#f9dcba;padding:9px 12px;font-size:11px;font-weight:800}
+    .wheel-panel{background:radial-gradient(ellipse at 52% 43%,rgba(107,47,59,.54) 0%,rgba(30,18,29,.88) 48%,#1a121b 90%);border:1px solid #775042;border-radius:25px;padding:24px 19px 24px;text-align:center;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center}
+    .wheel-panel:before,.wheel-panel:after{content:"";position:absolute;border:1px solid rgba(228,174,120,.055);border-radius:50%;width:680px;height:680px;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}.wheel-panel:after{width:560px;height:560px}
+    .wheel-head{position:relative;z-index:1;width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#d1abb0;font-size:10px;letter-spacing:.125em;text-transform:uppercase;font-weight:800}.wheel-head b{color:#f3cb92}
+    .wheel-hint{font:italic 21px Georgia,serif;color:#f5c88e;margin:18px 0 4px}.wheel-wrap{position:relative;width:min(100%,480px);aspect-ratio:1;margin:auto;filter:drop-shadow(0 18px 28px rgba(0,0,0,.35))}
+    #wheelSvg{width:100%;height:100%;display:block;overflow:visible}.spin-rotor{transform-origin:200px 200px;transition:transform 3800ms cubic-bezier(.12,.72,.07,1);will-change:transform}.wheel-text{fill:#fff3db;font-size:15px;font-weight:900;letter-spacing:.07em;paint-order:stroke;stroke:rgba(0,0,0,.28);stroke-width:2px;stroke-linejoin:round}.wheel-sub{fill:#ebd4b3;font-size:9px;font-weight:750;letter-spacing:.13em}.led{fill:#f8dcb4}.led:nth-child(2n){fill:#a76d4c}
+    .spin-button{width:min(100%,380px);position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto;background:linear-gradient(110deg,#c58659 0%,#f5d39c 50%,#c7895d 100%);color:#21121a;border:0;border-radius:13px;padding:20px 18px;font-weight:950;letter-spacing:.105em;font-size:13px;box-shadow:0 7px 25px rgba(217,148,88,.22),inset 0 1px 0 #ffecc8;transition:filter .2s,transform .2s}.spin-button:hover{filter:brightness(1.08)}.spin-button:active{transform:translateY(2px)}.spin-button:disabled{opacity:.7}.spin-button svg{width:17px;height:17px}.spin-button:after{content:"";position:absolute;inset:0;transform:translateX(-130%);background:linear-gradient(90deg,transparent,#fff9 50%,transparent);pointer-events:none}.spin-button:hover:after{transform:translateX(130%);transition:transform .8s}
+    .settings-strip{display:flex;align-items:center;justify-content:center;gap:13px;margin-top:17px;flex-wrap:wrap}.mini-toggle{display:flex;align-items:center;gap:5px;background:none;border:0;padding:6px;color:#c8b4ba;font-size:11px}.mini-toggle svg{width:15px;height:15px}.mini-toggle[aria-pressed="true"]{color:#f4cb8c}.divider-vert{height:15px;width:1px;background:#65434b}
+    .right-panel{display:flex;flex-direction:column;gap:18px}.game-header{display:flex;justify-content:space-between;align-items:center;gap:10px}.game-header span{font-size:10px;color:var(--gold);font-weight:850;letter-spacing:.12em}.game-header .round{font-size:11px;border:1px solid #614951;border-radius:20px;padding:9px 12px;color:#ddc9cf}
+    .result{position:relative;display:flex;flex-direction:column;flex:1;border:1px solid #72515a;border-radius:16px;background:radial-gradient(ellipse at 15% 5%,#482630,#2a1b27 65%,#231923);padding:22px;min-height:285px;overflow:hidden}.result:after{content:"✦";position:absolute;right:-15px;bottom:-50px;font-size:210px;color:rgba(222,167,115,.045);pointer-events:none}.result-label{color:#eec796;font-size:10px;text-transform:uppercase;letter-spacing:.15em;font-weight:900}.result .waiting{margin:auto 0;position:relative;z-index:1}.sparkle{font-size:40px;color:#e9b578;line-height:1}.waiting h2,.result-revealed h2{font:italic 33px/1.1 Georgia,serif;letter-spacing:-.035em;margin:20px 0 11px}.waiting p,.result-revealed p{color:#d2bac2;font-size:13px;line-height:1.65;margin:0}.result-revealed{display:none;flex-direction:column;flex:1;position:relative;z-index:1}.result.revealed .waiting{display:none}.result.revealed .result-revealed{display:flex}.tag{display:inline-block;align-self:flex-start;background:#9b5260;border:1px solid #c2797a;border-radius:40px;padding:8px 12px;font-weight:850;font-size:10px;letter-spacing:.13em;color:white;margin:18px 0 7px}.prompt-text{white-space:pre-line;font:600 23px/1.37 Georgia,serif;color:#fff1dc;margin:15px 0 auto;overflow-wrap:anywhere}.result-caption{font-size:11px;color:#bca9b1;margin:15px 0 10px;line-height:1.6}.result-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.outline-btn{border:1px solid #957052;border-radius:10px;background:#3e2930;color:#f6d19d;padding:11px 12px;font-size:11px;font-weight:800}.outline-btn:disabled{opacity:.45}
+    .history-card{border:1px solid var(--hair);border-radius:16px;padding:19px;background:#1e161e}.history-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px}.history-title b{font-size:11px;letter-spacing:.13em;text-transform:uppercase}.history-title button{border:0;background:transparent;color:#d2a879;font-size:10px;font-weight:800}.history-list{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:166px;overflow:auto}.history-item{display:flex;align-items:center;gap:9px;color:#d4c2c9;font-size:11px}.history-number{color:#ae8990;width:22px;flex:none}.history-dot{width:8px;height:8px;flex:none;border-radius:50%}.history-player{margin-left:auto;color:#ab909f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:90px}.history-empty{color:#987f89;font-size:11px;line-height:1.55;padding:11px 0}
+    .footer{margin-top:20px;padding:16px 2px 0;border-top:1px solid rgba(246,205,156,.12);display:flex;align-items:start;justify-content:space-between;gap:14px;color:#a897a1;font-size:11px;line-height:1.5}.footer b{color:#e4c199}.footer .legal{max-width:650px}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,18px);opacity:0;pointer-events:none;z-index:12;padding:12px 18px;background:#f1c98f;color:#23121a;border-radius:12px;font-size:12px;font-weight:800;box-shadow:0 13px 32px #0007;transition:opacity .2s,transform .2s}.toast.show{transform:translate(-50%,0);opacity:1}
+    .reduced *{transition-duration:.001ms!important;animation-duration:.001ms!important}
+    @media(max-width:1150px){.main{grid-template-columns:minmax(250px,.83fr) minmax(340px,1.17fr)}.intro{grid-column:1;grid-row:1/3}.wheel-panel{grid-column:2;grid-row:1}.right-panel{grid-column:2;grid-row:2}.wheel-wrap{max-width:420px}.result{min-height:260px}h1{font-size:clamp(54px,6.5vw,78px)}}
+    @media(max-width:760px){.app{padding:14px 12px 26px}.topbar{margin-bottom:12px}.brand{font-size:12px}.top-status{display:none}.preview-chip{font-size:9px;padding:7px 8px}.main{display:flex;flex-direction:column;gap:12px}.panel{padding:19px;border-radius:17px}.intro{display:contents}.intro .intro-hero{order:0;border:1px solid var(--hair);border-radius:17px;padding:25px 22px 16px;background:linear-gradient(115deg,#351d2a,#21161e);overflow:hidden}.intro .intro-controls{order:1;border:1px solid var(--hair);border-radius:17px;padding:18px;background:#211720}.intro .players{order:4;border:1px solid var(--hair);border-radius:17px;padding:18px;background:#211720;margin-top:0}.wheel-panel{order:2;padding:15px 12px 20px}.right-panel{order:3}.intro-hero h1{font-size:clamp(52px,12vw,68px);margin:15px 0}.intro-hero .lede{max-width:none;margin-bottom:10px}.intro-hero .rule{display:none}.wheel-wrap{max-width:440px;margin:-2px auto 3px}.wheel-hint{margin:13px 0 3px;font-size:18px}.wheel-panel:before,.wheel-panel:after{display:none}.right-panel{gap:12px}.right-panel.panel{padding:14px}.result{min-height:240px}.prompt-text{white-space:pre-line;font-size:23px}.footer{flex-direction:column}.mode-help{min-height:0;margin-bottom:0}.players{border-top:none}.intro .section-head{margin-top:3px}}
+    .source-strip{display:flex;align-items:center;justify-content:space-between;gap:9px;margin:10px auto 0;border:1px solid #624652;border-radius:9px;background:#211923;padding:11px 13px;max-width:390px;width:100%;font-size:11px;color:#d2bbc2}.source-strip strong{color:#f2cf92}.source-strip[data-kind="real"]{border-color:#497d60;background:#183326}.source-strip[data-kind="real"] strong{color:#99efba}
+    .lab{margin:17px auto 0;border:1px solid rgba(232,182,128,.2);background:linear-gradient(135deg,#2b1c2a,#19131d);border-radius:17px;overflow:hidden}.lab summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:17px 20px;font-size:12px;font-weight:900;color:#f3d09c;letter-spacing:.055em}.lab summary::-webkit-details-marker{display:none}.lab summary:after{content:'+';color:#f3d09c;font-size:19px}.lab[open] summary:after{content:'−'}.lab-inner{padding:0 20px 20px;color:#d0bdc4;font-size:12px;line-height:1.65}.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}.lab-copy{color:#bdaab4;margin:0 0 13px}.lab-controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.lab-controls input[type=file]{width:min(100%,420px);background:#170f19;border:1px dashed #8e6759;border-radius:10px;padding:10px;color:#f2d8c2;font-size:11px}.lab button{border:1px solid #99745a;color:#ffe1bc;background:#3a2935;border-radius:10px;padding:10px 12px;font-size:11px;font-weight:850}.lab button:hover{background:#513646}.lab button:disabled{opacity:.4;cursor:not-allowed}.lab-counts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.lab-count{border:1px solid #604651;border-radius:10px;padding:12px;background:#1a151c}.lab-count b{display:block;color:#f3cda0;margin:0 0 5px;font-size:10px}.lab-count span{font-variant-numeric:tabular-nums;font-size:12px}.lab-result{color:#eed2b7;border-left:3px solid #b8885b;padding:10px 13px;background:#211821;border-radius:0 8px 8px 0;white-space:pre-wrap;margin:12px 0 0}.lab-result.ok{border-color:#79ba8e;background:#1a3025}.lab-result.error{border-color:#e17d81;background:#372229}.lab-code{display:inline-block;background:#171218;border:1px solid #5c4151;padding:1px 5px;border-radius:4px;font-family:monospace;color:#e9cd9d}
+    @media(max-width:800px){.lab-grid{grid-template-columns:1fr}}
+    @media(max-width:380px){.wheel-text{font-size:13px}.wheel-sub{font-size:8px}.spin-button{padding:17px 12px}.result{padding:18px}.brand{font-size:10px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.spin-rotor{transition-duration:.01ms!important}}
+  
+/* VR800-R04B: controles de original por nivel y segmento */
+.r04b-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.r04b-choice{display:flex;flex-direction:column;gap:7px;color:#dccabf;font-size:11px;font-weight:800;letter-spacing:.01em}
+.r04b-choice select{min-width:0;width:100%;padding:11px 10px;border:1px solid rgba(224,181,132,.32);border-radius:12px;background:#271b24;color:#fae6ce;font-weight:700;font-size:12px}
+.r04b-choice[hidden]{display:none}
+.r04b-adult{display:flex;align-items:flex-start;gap:10px;margin-top:14px;padding:12px;border:1px solid rgba(224,181,132,.23);border-radius:11px;color:#d4bec1;background:rgba(37,27,36,.7);font-size:11px;line-height:1.55}
+.r04b-adult input{accent-color:#dbab73;width:18px;height:18px;flex-shrink:0;margin:0}
+@media(max-width:540px){.r04b-controls{grid-template-columns:1fr}}
+@media(max-width:760px){.intro:before{display:none!important}html,body{overflow-x:clip;max-width:100%}}
+</style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">p.</span><span>pasalochevere</span></div>
+      <div class="top-status"><span class="status-dot"></span> EXPERIENCIA INTERACTIVA</div>
+      <div class="preview-chip">R05 · MODO ADICIONAL</div>
+    </header>
+    <main class="main">
+      <section class="panel intro" aria-label="Configuración de juego">
+        <div class="intro-hero">
+          <div class="eyebrow"><span class="line"></span> MEGA PACK VERDAD O RETO +800</div>
+          <h1>Ruleta <span>Sin Escape.</span></h1>
+          <p class="lede">Seis caminos. Seis categorías. Una sola pregunta: <strong style="color:#f6d39c">¿te animás a girar?</strong></p>
+          <div class="rule"></div>
+        </div>
+        <div class="intro-controls">
+          <div class="section-head"><strong>Elegí tu versión</strong><span class="number">01</span></div>
+          <div class="editions" role="group" aria-label="Versión de contenido">
+            <button type="button" class="edition" data-edition="kids" aria-pressed="false">KIDS</button>
+            <button type="button" class="edition" data-edition="general" aria-pressed="true">GENERAL</button>
+            <button type="button" class="edition" data-edition="fiesta" aria-pressed="false">FIESTA 18+</button>
+            <button type="button" class="edition" data-edition="filtro" aria-pressed="false">SIN FILTRO 18+</button>
+          </div>
+          <div class="mode-label">Modo de juego</div>
+          <div class="toggle-bar" role="group" aria-label="Modalidad">
+            <button type="button" class="mode-btn" data-mode="fisico" aria-pressed="true">▤ &nbsp; Torre física</button>
+            <button type="button" class="mode-btn" data-mode="digital" aria-pressed="false">▣ &nbsp; Solo digital</button>
+          </div>
+          <p id="modeHelp" class="mode-help">Girás, sacás una pieza de la torre y cumplís el desafío que aparece.</p>
+          <div class="r04b-controls" aria-label="Preferencias de la partida">
+            <label class="r04b-choice">Intensidad máxima
+              <select id="intensitySelect" aria-label="Intensidad máxima">
+                <option value="1">Nivel 1 · Suave</option>
+                <option value="2">Nivel 2 · Medio</option>
+                <option value="3">Nivel 3 · Alto</option>
+                <option value="4" selected>Nivel 4 · Todo el contenido</option>
+              </select>
+            </label>
+            <label class="r04b-choice" id="drinkOptions" hidden>Fiesta: tipo de bebida
+              <select id="drinkSelect" aria-label="Fiesta: bebida">
+                <option value="soft" selected>Sin alcohol (predeterminado)</option>
+                <option value="alcohol">Con bebida (18+, opcional)</option>
+              </select>
+            </label>
+          </div>
+          <label class="r04b-adult" for="adultCheck"><input type="checkbox" id="adultCheck" /> <span>Para Fiesta o Sin Filtro, confirmo que todos los participantes son mayores de 18 años. Cualquiera puede pasar sin penalización.</span></label>
+        </div>
+        <div class="players">
+          <div class="players-top"><strong>Jugadores</strong><button type="button" id="editPlayers" class="edit-players" aria-expanded="false">Editar nombres</button></div>
+          <div class="player-chips" id="playerChips" aria-label="Turnos"></div>
+          <div id="playerEditor" class="player-editor">
+            <label for="playersInput" class="eyebrow" style="display:block;margin:0 0 8px;font-size:9px">Separá nombres con comas</label>
+            <input id="playersInput" type="text" maxlength="150" placeholder="Ej.: Sol, Pedro, Juli" value="Jugador 1, Jugador 2" autocomplete="off" />
+            <p>Entre 1 y 8 jugadores. Se alternan automáticamente al girar.</p>
+            <div class="player-actions"><button type="button" class="small-action" id="savePlayers">Aplicar</button><button type="button" class="small-action" id="cancelPlayers">Cancelar</button></div>
+          </div>
+        </div>
+      </section>
+      <section class="wheel-panel" aria-label="Ruleta">
+        <div class="wheel-head"><span>EL AZAR MANDA</span><span>RONDA <b id="roundLabel">01</b></span></div>
+        <div class="wheel-hint">Tu próximo desafío te espera.</div>
+        <div class="wheel-wrap" aria-label="Seis categorías: Verdad, Reto, Doble, Todos, Comodín y Sorpresa">
+          <svg id="wheelSvg" viewBox="0 0 400 400" role="img" aria-label="Ruleta de seis categorías">
+            <defs>
+              <radialGradient id="goldRing" cx="28%" cy="20%" r="90%"><stop offset="0" stop-color="#fff0cb"/><stop offset=".35" stop-color="#c99a62"/><stop offset=".7" stop-color="#765031"/><stop offset="1" stop-color="#f5ce90"/></radialGradient>
+              <radialGradient id="centerGradient" cx="30%" cy="20%" r="85%"><stop offset="0" stop-color="#674352"/><stop offset="1" stop-color="#24141e"/></radialGradient>
+              <filter id="wheelShadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="5" stdDeviation="8" flood-opacity=".45"/></filter>
+              <linearGradient id="wheelGlass" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".15"/><stop offset=".47" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".15"/></linearGradient>
+            </defs>
+            <circle cx="200" cy="200" r="194" fill="#1c1119" stroke="url(#goldRing)" stroke-width="5"/>
+            <circle cx="200" cy="200" r="183" fill="#261620" stroke="#83593d" stroke-width="1.5"/>
+            <g id="leds"></g>
+            <g id="wheelRotor" class="spin-rotor" style="transform:rotate(0deg)">
+              <g id="wheelSlices"></g>
+              <circle cx="200" cy="200" r="159.3" fill="url(#wheelGlass)" pointer-events="none"/>
+              <circle cx="200" cy="200" r="161" fill="none" stroke="#f5cb8d" stroke-opacity=".73" stroke-width="2"/>
+            </g>
+            <circle cx="200" cy="200" r="51" fill="#170e17" stroke="url(#goldRing)" stroke-width="7" filter="url(#wheelShadow)"/>
+            <circle cx="200" cy="200" r="42" fill="url(#centerGradient)" stroke="#9b6c4c" stroke-width="1"/>
+            <text x="200" y="198" text-anchor="middle" fill="#fbe4bd" font-size="19" font-weight="900" letter-spacing=".02em">+800</text>
+            <text x="200" y="215" text-anchor="middle" fill="#f0be7f" font-size="8.5" font-weight="900" letter-spacing=".13em">SIN ESCAPE</text>
+            <path d="M181 5 L219 5 L200 43 Z" fill="#1c1119" stroke="url(#goldRing)" stroke-width="2.5"/>
+            <path d="M187 10 L213 10 L200 34 Z" fill="#ffe5b1"/>
+          </svg>
+        </div>
+        <button type="button" class="spin-button" id="spinButton" disabled><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M5.8 9a7 7 0 0 1 12-2L20 12M4 12l2.2 5a7 7 0 0 0 12-2"/></svg><span id="spinLabel">GIRAR RULETA</span></button>
+        <div id="contentSource" class="source-strip" data-kind="secure"><span id="sourceLabel">VALIDANDO LICENCIA...</span><strong id="sourceCount">—</strong></div>
+        <div class="settings-strip">
+          <button type="button" id="soundToggle" class="mini-toggle" aria-pressed="false" title="Activar o desactivar sonido"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/></svg><span>Sonido <b id="soundLabel">OFF</b></span></button>
+          <span class="divider-vert"></span>
+          <button type="button" id="hapticToggle" class="mini-toggle" aria-pressed="true" title="Activar o desactivar vibración"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17h2M3 8v8M21 8v8"/></svg><span>Vibración <b id="hapticLabel">ON</b></span></button>
+        </div>
+      </section>
+      <aside class="panel right-panel" aria-label="Desafío y últimas rondas">
+        <div class="game-header"><span id="currentPlayerLabel">TURNO: JUGADOR 1</span><span class="round" id="currentRoundBadge">RONDA 01</span></div>
+        <div class="result" id="result" aria-live="polite" aria-atomic="true">
+          <div class="result-label">TU DESTINO ESTÁ EN LA RULETA</div>
+          <div class="waiting"><div class="sparkle" aria-hidden="true">✦</div><h2>Que decida<br>la suerte.</h2><p>Elegí tu versión, girá y descubrí qué consigna te toca. Estás jugando con las 832 consignas originales, sin modificar el juego clásico.</p></div>
+          <div class="result-revealed"><span class="tag" id="resultCategory">VERDAD</span><div class="prompt-text" id="resultPrompt"></div><div class="result-caption" id="resultNote"></div><div class="result-actions"><button type="button" id="anotherPrompt" class="outline-btn">↻ Otra consigna</button><button type="button" id="passButton" class="outline-btn">Pasar turno →</button></div></div>
+        </div>
+        <div class="history-card"><div class="history-title"><b>Últimas jugadas</b><button type="button" id="resetButton">Reiniciar partida</button></div><ul class="history-list" id="historyList"><li class="history-empty">Tu historial aparecerá después del primer giro.</li></ul></div>
+      </aside>
+    </main>
+    <div class="r05-security" style="margin:16px 0 10px;padding:13px 17px;border:1px solid #64483f;border-radius:13px;background:#23171f;color:#dfc7bd;font-size:12px;line-height:1.5">
+      Acceso personal · Licencia y dispositivo verificados. Las consignas originales se cargan solo para usuarios autorizados.
+      <a style="color:#f6ce90;white-space:nowrap" href="../">Volver al juego clásico</a>
+    </div>
+    <footer class="footer"><span><b>pasalochevere</b> · Jugá distinto.</span><span class="legal">VR800-R05 · Contenido protegido vía Supabase. El juego clásico conserva sus funciones y licencias.</span></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(() => {
+  'use strict';
+  const sectors = [
+    {key:'verdad',name:'VERDAD',color:'#a84657',sub:'CONFESIÓN'},
+    {key:'reto',name:'RETO',color:'#cc7f4f',sub:'ACCIÓN'},
+    {key:'doble',name:'DOBLE',color:'#694e80',sub:'DOBLE RONDA'},
+    {key:'todos',name:'TODOS',color:'#337d76',sub:'EN GRUPO'},
+    {key:'comodin',name:'COMODÍN',color:'#947044',sub:'TU VENTAJA'},
+    {key:'sorpresa',name:'SORPRESA',color:'#88466f',sub:'INESPERADO'}
+  ];
+  // VR800-R04B: banco original recuperado; NO se incluye contenido de demostración.
+  // VR800-R04: motor de importación y validación. La muestra R03 jamás se presenta como contenido comercial.
+  const expected={verdad:54,reto:54,bonus:100};
+  const editionsMap={kids:['kids','kid','infantil','niños','ninos','niñas','ninas'],general:['general','familiar','adulto general','todo publico'],fiesta:['fiesta','fiesta 18+','fiesta18','party'],filtro:['filtro','sin filtro','sin filtro 18+','sinfiltro','sin filtro18','sin_filtro']};
+  const typeMap={verdad:['verdad','verdades','truth','pregunta'],reto:['reto','retos','challenge','desafio','desafío'],bonus:['bonus','bonos','extra','extras','comodin','comodín']};
+  const MASTER_CATALOG={kids:{verdad:[],reto:[],bonus:[]},general:{verdad:[],reto:[],bonus:[]},fiesta:{verdad:[],reto:[],bonus:[]},filtro:{verdad:[],reto:[],bonus:[]}};
+  let officialCatalog=MASTER_CATALOG;
+  const labelEdition={kids:'KIDS',general:'GENERAL',fiesta:'FIESTA 18+',filtro:'SIN FILTRO 18+'};
+  const SB_URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+  const SB_PUBLISHABLE='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+  let sb=null;
+  const cachedEditions=new Set();
+  function updateSource(){
+    const status=document.getElementById('contentSource');
+    status.dataset.kind=cachedEditions.has(state.edition)?'real':'secure';
+    document.getElementById('sourceLabel').textContent=cachedEditions.has(state.edition)?'BANCO OFICIAL · ACCESO AUTENTICADO':'VALIDANDO LICENCIA Y CONTENIDO';
+    document.getElementById('sourceCount').textContent=cachedEditions.has(state.edition)?'208 / 208':'—';
+  }
+  async function loadEditionSecure(edition){
+    if(cachedEditions.has(edition))return;
+    if(!window.supabase)throw Error('No se pudo conectar con el servicio de licencias.');
+    if(!sb)sb=window.supabase.createClient(SB_URL,SB_PUBLISHABLE,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    const deviceId=localStorage.getItem('pc_device_id')||'';
+    if(!deviceId)throw Error('Volvé a entrar desde Mis juegos para registrar este dispositivo.');
+    const {data,error}=await sb.functions.invoke('pasalochevere-vr800',{body:{edition,device_id:deviceId}});
+    if(error||!data?.ok){
+      let explanation=data?.error||error?.message||'Error de validación de licencia.';
+      try{if(error?.context){const x=await error.context.clone().json();explanation=x?.error||explanation}}catch(_){}
+      throw Error(explanation);
+    }
+    if(!Array.isArray(data.items)||data.items.length!==208||data.edition!==edition)throw Error('El banco oficial está incompleto.');
+    const groups={verdad:[],reto:[],bonus:[]};
+    const ids=new Set();
+    for(const v of data.items){
+      if(!groups[v.type]||!v.text||!v.id||ids.has(v.id))throw Error('Contenido inválido.');
+      groups[v.type].push({id:v.id,text:v.text,level:v.level,number:v.number,category:v.category});ids.add(v.id);
+    }
+    if(groups.verdad.length!==54||groups.reto.length!==54||groups.bonus.length!==100)throw Error('Contenido no validado.');
+    officialCatalog[edition]=groups;
+    cachedEditions.add(edition);
+  }
+  function formatOriginal(text){
+    let s=String(text);
+    if(state.edition==='fiesta'){
+      const alcohol=state.drinkMode==='alcohol';
+      const map={
+        '{{DRINK}}':alcohol?'tomá 1 sorbo de lo que tengas servido':'cumplí una mini penitencia',
+        '{{SIP}}':alcohol?'tomá 1 sorbo de lo que tengas servido':'tomá 1 sorbo de tu bebida sin alcohol',
+        '{{SHOT}}':alcohol?'tomá 1 chupito pequeño o 1 sorbo si no usan chupitos':'tomá un chupito sin alcohol o hacé un reto express',
+        '{{BEER}}':alcohol?'tomá 2 sorbos de cerveza o de lo que tengas servido':'tomá 2 sorbos de tu bebida sin alcohol',
+        '{{MIX}}':alcohol?'mezclá en un vaso aparte una pequeña cantidad de dos bebidas que ya tengan servidas y probá 1 sorbo':'mezclá una pequeña cantidad de dos bebidas sin alcohol y probá 1 sorbo',
+        '{{WATER}}':'tomá agua'
+      };
+      Object.entries(map).forEach(([key,value])=>s=s.replaceAll(key,value));
+    }
+    return s;
+  }
+  function getEntry(edition,type,qualifies=()=>true){
+    const key=edition+'/'+type,items=officialCatalog?.[edition]?.[type]||[];
+    const pool=items.filter(item=>(Number(item.level)||1)<=state.maxLevel&&qualifies(item));
+    if(!pool.length)throw Error('No hay consignas disponibles en '+edition+'/'+type+' para esta intensidad.');
+    if(!state.used[key])state.used[key]=new Set();
+    let allowed=pool.filter(item=>!state.used[key].has(item.id));
+    if(!allowed.length){pool.forEach(item=>state.used[key].delete(item.id));allowed=pool;}
+    const chosen=allowed[Math.floor(Math.random()*allowed.length)];
+    state.used[key].add(chosen.id);
+    return chosen;
+  }
+  const isGroup=(item)=>/en grupo|señalá|regla/i.test(item.category||'');
+  const isWild=(item)=>/comod[ií]n/i.test(item.category||'');
+  const itemText=(item)=>formatOriginal(item.text);
+  function generateOfficial(index){
+    const ed=state.edition,key=sectors[index].key;
+    if(key==='verdad'||key==='reto')return itemText(getEntry(ed,key));
+    if(key==='doble')return '01 · VERDAD\n'+itemText(getEntry(ed,'verdad'))+'\n\n02 · RETO\n'+itemText(getEntry(ed,'reto'));
+    if(key==='todos'){
+      const candidates=officialCatalog[ed].bonus.filter(b=>Number(b.level)<=state.maxLevel && isGroup(b));
+      return 'TODOS JUEGAN · BONUS ORIGINAL\n\n'+itemText(getEntry(ed,'bonus',candidates.length?isGroup:()=>true));
+    }
+    if(key==='comodin'){
+      const candidates=officialCatalog[ed].bonus.filter(b=>Number(b.level)<=state.maxLevel && isWild(b));
+      if(!candidates.length)return 'COMODÍN DE RULETA · REGLA ADICIONAL\n\nElegí: volver a girar, cambiar de categoría o pasar sin penalización.';
+      return 'COMODÍN ORIGINAL\n\n'+itemText(getEntry(ed,'bonus',isWild));
+    }
+    return 'SORPRESA · BONUS ORIGINAL\n\n'+itemText(getEntry(ed,'bonus',item=>!isWild(item)&&!isGroup(item)));
+  }
+  const $ = (id) => document.getElementById(id);
+  const state = {loading:true,edition:'general',mode:'fisico',drinkMode:'soft',maxLevel:4,players:['Jugador 1','Jugador 2'],round:0,angle:0,spinning:false,sound:false,haptic:true,used:{},history:[],current:null};
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NS='http://www.w3.org/2000/svg';
+  const svgEl=(tag,attrs)=>{const node=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,v));return node};
+  const polar=(angle,r)=>[200+r*Math.cos(angle*Math.PI/180),200+r*Math.sin(angle*Math.PI/180)];
+  const slices=$('wheelSlices');
+  sectors.forEach((s,i)=>{
+    const start=-90+i*60,end=start+60,mid=start+30;
+    const [ax,ay]=polar(start,160),[bx,by]=polar(end,160),[tx,ty]=polar(mid,111);
+    slices.appendChild(svgEl('path',{d:`M200 200 L${ax.toFixed(3)} ${ay.toFixed(3)} A160 160 0 0 1 ${bx.toFixed(3)} ${by.toFixed(3)} Z`,fill:s.color,stroke:'#2a1721','stroke-width':'3'}));
+    slices.appendChild(svgEl('path',{d:`M${polar(start+2,155).join(' ')} A155 155 0 0 1 ${polar(end-2,155).join(' ')}`,fill:'none',stroke:'rgba(255,228,187,.14)','stroke-width':'4'}));
+    const t=svgEl('text',{x:tx.toFixed(2),y:(ty-4).toFixed(2),'text-anchor':'middle','class':'wheel-text'});t.textContent=s.name;slices.appendChild(t);
+    const sub=svgEl('text',{x:tx.toFixed(2),y:(ty+14).toFixed(2),'text-anchor':'middle','class':'wheel-sub'});sub.textContent=s.sub;slices.appendChild(sub);
+  });
+  for(let i=0;i<36;i++){const [x,y]=polar(i*10-90,174);$('leds').appendChild(svgEl('circle',{cx:x.toFixed(3),cy:y.toFixed(3),r:i%3===0?'3.3':'2.3','class':'led'}))}
+  const notify=(message)=>{const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>e.classList.remove('show'),2200)};
+  const updateEdits=()=>{document.querySelectorAll('.edition').forEach(e=>e.setAttribute('aria-pressed',String(e.dataset.edition===state.edition)));document.querySelectorAll('.mode-btn').forEach(e=>e.setAttribute('aria-pressed',String(e.dataset.mode===state.mode)));$('modeHelp').textContent=state.mode==='fisico'?'Girás, sacás una pieza de la torre y cumplís el desafío que aparece.':'Girás y cumplís el desafío directamente desde el celular. No necesitás una torre.'};
+  const updatePlayers=()=>{const chips=$('playerChips');chips.replaceChildren();state.players.forEach((p,i)=>{const span=document.createElement('span');span.className='player-chip'+(i===state.round%state.players.length?' current':'');span.textContent=p;chips.appendChild(span)});const current=state.current?state.current.player:state.players[state.round%state.players.length];$('currentPlayerLabel').textContent='TURNO: '+current.toLocaleUpperCase('es-AR');$('roundLabel').textContent=String(state.round+1).padStart(2,'0');$('currentRoundBadge').textContent='RONDA '+String(Math.max(1,state.round)).padStart(2,'0')};
+  const renderHistory=()=>{const list=$('historyList');list.replaceChildren();if(!state.history.length){const item=document.createElement('li');item.className='history-empty';item.textContent='Tu historial aparecerá después del primer giro.';list.appendChild(item);return;}state.history.slice(0,5).forEach(h=>{const item=document.createElement('li');item.className='history-item';const no=document.createElement('span');no.className='history-number';no.textContent='#'+h.round;const dot=document.createElement('span');dot.className='history-dot';dot.style.background=sectors[h.index].color;const cat=document.createElement('span');cat.textContent=sectors[h.index].name;const who=document.createElement('span');who.className='history-player';who.textContent=h.player;item.append(no,dot,cat,who);list.appendChild(item)})};
+  const drawResult=()=>{const r=$('result');if(!state.current){r.classList.remove('revealed');return;}r.classList.add('revealed');const s=sectors[state.current.index];$('resultCategory').textContent=s.name;$('resultCategory').style.background=s.color;$('resultCategory').style.borderColor=s.color;$('resultPrompt').textContent=state.current.prompt;$('resultNote').textContent='Le toca a '+state.current.player+'. '+(state.mode==='fisico'?'Retirá una pieza de la torre y completá el desafío.':'Completá el desafío para cerrar tu turno.')+' Siempre podés pasar.'};
+  function sample(index){return generateOfficial(index)}
+  function beep(freq=600,duration=.08,type='sine',gain=.09){if(!state.sound)return;try{const AudioCtx=window.AudioContext||window.webkitAudioContext;if(!AudioCtx)return;const ctx=beep.ctx||new AudioCtx();beep.ctx=ctx;if(ctx.state==='suspended')ctx.resume();const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(gain,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+duration);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+duration)}catch(e){}}
+  function vibrate(pattern){if(state.haptic&&navigator.vibrate)navigator.vibrate(pattern)}
+  function setBusy(value){state.spinning=value;const dis=value||state.loading;document.querySelectorAll('.edition,.mode-btn').forEach(b=>b.disabled=dis);$('spinButton').disabled=dis;$('anotherPrompt').disabled=dis;$('passButton').disabled=dis;$('resetButton').disabled=dis;$('savePlayers').disabled=dis;$('spinLabel').textContent=state.loading?'CARGANDO…':value?'GIRANDO…':'GIRAR RULETA'}
+  let spinTimer=null;
+  function spin(){if(state.spinning||state.loading||!cachedEditions.has(state.edition))return;setBusy(true);state.current=null;drawResult();const i=Math.floor(Math.random()*6);const target=(((-30-i*60)%360)+360)%360;const normal=((state.angle%360)+360)%360;const toTarget=(target-normal+360)%360;state.angle+=(prefersReducedMotion?0:360*6)+toTarget;const player=state.players[state.round%state.players.length];const edition=state.edition;const next=()=>{state.round++;state.current={index:i,player,edition,prompt:sample(i)};state.history.unshift({index:i,player,round:state.round});renderHistory();drawResult();updatePlayers();setBusy(false);beep(630,.13,'sine',.11);setTimeout(()=>beep(870,.2,'sine',.085),110);vibrate([40,50,80]);if(window.innerWidth<=760)$('result').scrollIntoView({behavior:prefersReducedMotion?'auto':'smooth',block:'nearest'})};
+    beep(350,.12,'triangle',.07);vibrate(30);$('wheelRotor').style.transform=`rotate(${state.angle}deg)`;
+    clearTimeout(spinTimer);spinTimer=setTimeout(next,prefersReducedMotion?80:3870);
+  }
+  document.querySelectorAll('.edition').forEach(b=>b.addEventListener('click',async()=>{
+    if(state.spinning||state.loading)return;
+    const edition=b.dataset.edition;
+    if((edition==='fiesta'||edition==='filtro')&&!$('adultCheck').checked){notify('Primero confirmá que todos tienen 18 años o más');$('adultCheck').focus();return;}
+    state.loading=true;setBusy(false);
+    try{
+      await loadEditionSecure(edition);
+      state.edition=edition;state.current=null;state.used={};drawResult();
+      $('drinkOptions').hidden=edition!=='fiesta';
+      updateSource();updateEdits();notify('Versión: '+b.textContent.trim());
+    }catch(err){notify('No se pudo cargar la versión: '+String(err.message||err));}
+    finally{state.loading=false;setBusy(false);}
+  }));
+  $('adultCheck').addEventListener('change',()=>{if(state.loading)return;
+    if(!$('adultCheck').checked&&(state.edition==='fiesta'||state.edition==='filtro')){
+      state.edition='general';state.current=null;state.used={};drawResult();updateEdits();$('drinkOptions').hidden=true;
+      notify('Se cambió a la versión General');
+    }
+  });
+  $('intensitySelect').addEventListener('change',()=>{state.maxLevel=Number($('intensitySelect').value);state.used={};state.current=null;drawResult();notify('Intensidad: nivel '+state.maxLevel)});
+  $('drinkSelect').addEventListener('change',()=>{state.drinkMode=$('drinkSelect').value;state.used={};state.current=null;drawResult();notify(state.drinkMode==='soft'?'Fiesta sin alcohol':'Fiesta con bebida opcional')});
+  document.querySelectorAll('.mode-btn').forEach(b=>b.addEventListener('click',()=>{if(state.spinning)return;state.mode=b.dataset.mode;updateEdits();drawResult()}));
+  $('spinButton').addEventListener('click',spin);
+  $('anotherPrompt').addEventListener('click',()=>{if(state.spinning||state.loading||!state.current)return;state.current.prompt=sample(state.current.index);drawResult();notify('Nueva consigna · '+sectors[state.current.index].name)});
+  $('passButton').addEventListener('click',()=>{if(state.spinning||!state.current)return;state.current=null;drawResult();updatePlayers();notify('Turno pasado · girá de nuevo')});
+  $('resetButton').addEventListener('click',()=>{if(state.spinning)return;state.current=null;state.round=0;state.used={};state.history=[];drawResult();renderHistory();updatePlayers();notify('Partida reiniciada')});
+  $('soundToggle').addEventListener('click',()=>{state.sound=!state.sound;$('soundToggle').setAttribute('aria-pressed',String(state.sound));$('soundLabel').textContent=state.sound?'ON':'OFF';if(state.sound)beep(760,.08)});
+  $('hapticToggle').addEventListener('click',()=>{state.haptic=!state.haptic;$('hapticToggle').setAttribute('aria-pressed',String(state.haptic));$('hapticLabel').textContent=state.haptic?'ON':'OFF';if(state.haptic)vibrate(25)});
+  const editor=(open)=>{$('playerEditor').classList.toggle('open',open);$('editPlayers').setAttribute('aria-expanded',String(open));if(open){$('playersInput').value=state.players.join(', ');$('playersInput').focus()}};
+  $('editPlayers').addEventListener('click',()=>editor(!$('playerEditor').classList.contains('open')));
+  $('cancelPlayers').addEventListener('click',()=>editor(false));
+  $('savePlayers').addEventListener('click',()=>{if(state.spinning)return;const p=$('playersInput').value.split(',').map(x=>x.trim().slice(0,24)).filter(Boolean).slice(0,8);if(!p.length){notify('Ingresá al menos un jugador');return;}state.players=p;state.round=0;state.current=null;state.history=[];drawResult();renderHistory();updatePlayers();editor(false);notify('Jugadores actualizados')});
+  $('playersInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('savePlayers').click();if(e.key==='Escape')editor(false)});
+  function wait(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
+  async function bootSecure(){
+    const started=Date.now();
+    while(!window.__PC_TORRE_ACCESS_OK__ && Date.now()-started<20000)await wait(150);
+    if(!window.__PC_TORRE_ACCESS_OK__)return;
+    try{
+      await loadEditionSecure('general');
+      state.loading=false;
+      setBusy(false);
+      updateSource();
+      notify('Licencia y contenidos verificados · ¡ya podés jugar!');
+    }catch(err){
+      document.getElementById('sourceLabel').textContent='NO SE PUDO VALIDAR: '+String(err.message||err);
+      document.getElementById('sourceCount').textContent='BLOQUEADO';
+      document.getElementById('spinLabel').textContent='VOLVÉ AL PORTAL';
+      notify('No se pudo abrir la ruleta. Entrá desde Mis juegos.');
+    }
+  }
+  window.addEventListener('DOMContentLoaded',bootSecure,{once:true});
+  updateSource();setBusy(false);
+  updateEdits();renderHistory();updatePlayers();drawResult();
+})();
+</script>
+</body>
+</html>
