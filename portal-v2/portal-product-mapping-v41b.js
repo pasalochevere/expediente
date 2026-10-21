@@ -15,7 +15,7 @@
     exp002:{title:'Hotel Orfeo · 317',subtitle:'Expedientes · Caso 002',family:'MISTERIO · INVESTIGACIÓN',cover:'Hotel Orfeo · 317',description:'Una experiencia inmersiva para tres jugadores con roles privados, pistas y caminos variables.',accent:'#d4b26a'},
     tarot:{title:'Guía Interactiva de Tarot',subtitle:'Tiradas · práctica · lectura guiada',family:'BIENESTAR · TAROT',cover:'Guía Interactiva de Tarot',description:'Explorá cartas y tiradas con práctica guiada y herramientas para desarrollar tu lectura.',accent:'#b995d1'},
     vincores:{title:'Víncores',subtitle:'Campo de vínculos interactivo',family:'BIENESTAR · VÍNCULOS',cover:'Víncores Digital',description:'Representá vínculos, posiciones, escenas y emociones dentro de un espacio interactivo.',accent:'#76b5a2'},
-    squishy:{title:'Paper Squishy Factory',subtitle:'Creator Plus · 50 diseños actuales',family:'CREATIVOS · FACTORY',cover:'Paper Squishy Factory',description:'Elegí, personalizá e imprimí tus Paper Squishies desde una fábrica creativa en expansión.',accent:'#d98eb2'},
+    squishy:{title:'PAPER SQUISHY FACTORY',subtitle:'Creator Plus · 50 diseños actuales',family:'CREATIVOS · FACTORY',cover:'PAPER SQUISHY FACTORY',description:'Elegí, personalizá e imprimí tus Paper Squishies desde una fábrica creativa en expansión.',accent:'#d98eb2'},
     quimera:{title:'Quimera',subtitle:'Investigación · Escape room procedural',family:'MISTERIO · EXPERIENCIA',cover:'Quimera',description:'Una investigación rejugable con salas, pistas y recorridos que cambian entre partidas.',accent:'#c7a568'}
   };
 
