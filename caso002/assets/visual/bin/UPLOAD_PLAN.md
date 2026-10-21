@@ -1,1 +1,0 @@
-Binary assets are committed via Git objects; JS overrides only reference files after the binary objects are attached to main.
