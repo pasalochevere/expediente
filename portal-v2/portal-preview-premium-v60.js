@@ -88,10 +88,8 @@ if(!boot()){let n=0;const t=setInterval(()=>{if(boot()||++n>60)clearInterval(t)}
   }
 
   function removeReleasedUpcoming(){
-    let changed=false;
-    document.querySelectorAll('#drawer-mystery .pcComingCard[data-coming-code="QUIMERA"]').forEach(n=>{n.remove();changed=true});
-    document.querySelectorAll('.pcComingShelfItem[data-coming-preview="QUIMERA"]').forEach(n=>{n.remove();changed=true});
-    return changed;
+    // QUIMERA volvió a Próximamente el 21/10/2026: no eliminar su ficha en desarrollo.
+    return false;
   }
 
   function keyFor(card){
