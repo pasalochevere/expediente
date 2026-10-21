@@ -213,6 +213,12 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
  .pcJB123ModalFooter button{width:100%}
 }
 
+
+/* VR800-R05: solo en licencias originales de Verdad o Reto +800 */
+.card[data-vr800="true"]{min-height:345px}
+.card[data-vr800="true"] .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.card[data-vr800="true"] .actions .btn{font-size:.7rem;padding:11px 6px;min-width:0;white-space:normal;display:flex;align-items:center;justify-content:center}
+.card[data-vr800="true"] .actions .btn:nth-child(3){grid-column:1/-1}
 </style></head><body><div class="wrap">
 <header class="top"><div class="brandwrap"><div class="seal"><span>PASALO<br>CHEVERE</span></div><div class="brand">PASALOCHEVERE<small>ACCESO PERSONAL · BIBLIOTECA DIGITAL</small></div></div><div class="pill">VIGENCIA SEGÚN TU ACCESO · HASTA 2 DISPOSITIVOS</div></header>
 
@@ -506,7 +512,13 @@ function renderLicenses(list){
      else if(active&&(l.game_url||['MP-001','JB-BORRACHO'].includes(l.product_code))) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
      else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
      else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
-     return '<article class="card" data-cat="'+k+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':['MP-001','JB-BORRACHO'].includes(l.product_code)?'MODO PREVIA':l.product_name)+'</h3><div class="accent">Código de acceso: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos registrados: <b>'+l.devices_used+' de '+l.device_limit+'</b>'+deviceManage+'</p><div class="actions">'+action+'</div></article>';
+     const isVr800=active&&['TORRE-MEGA','T5XL-001','MONSTER-001'].includes(l.product_code);
+     if(isVr800){
+       action=action.replace('>JUGAR</a>','>JUEGO CLÁSICO</a>');
+       action=action.replace('<button class="btn" onclick="copyCode',
+         '<a class="btn gold" href="#" onclick="openGame(\\''+escapeHtml(l.activation_code||'')+'\\',\\'../torre/ruleta/\\');return false">RULETA SIN ESCAPE</a><button class="btn" onclick="copyCode');
+     }
+     return '<article class="card" data-cat="'+k+'" data-vr800="'+(isVr800?'true':'false')+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':['MP-001','JB-BORRACHO'].includes(l.product_code)?'MODO PREVIA':l.product_name)+'</h3><div class="accent">Código de acceso: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos registrados: <b>'+l.devices_used+' de '+l.device_limit+'</b>'+deviceManage+'</p><div class="actions">'+action+'</div></article>';
    }).join('');
    return '<section class="libraryGroup"><div class="libraryGroupTitle"><b>'+group.label+'</b><span></span></div><div class="grid">'+cards+'</div></section>';
  }).join('');
