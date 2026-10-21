@@ -503,8 +503,9 @@ function renderLicenses(list){
      const active=l.status==='active'&&l.expires_at&&new Date(l.expires_at).getTime()>Date.now();
      const pending=!!l.can_activate;
      const hours=Number(l.duration_hours||8760);const duration=hours===8760?'12 MESES':hours===24?'1 DÍA':hours%24===0?`${hours/24} DÍAS`:`${hours} HORAS`;const date=l.expires_at?new Date(l.expires_at).toLocaleDateString('es-AR'):'Empieza al activar';
-     const badge=active?'● ACTIVO':pending?'● PENDIENTE DE ACTIVAR':l.status==='revoked'?'● ANULADO':'● VENCIDO';
-     const badgeClass=(active||pending)?'live':'';
+     const quimeraPaused=l.product_code==='QMR-001';
+     const badge=quimeraPaused?'● EN REDISEÑO':active?'● ACTIVO':pending?'● PENDIENTE DE ACTIVAR':l.status==='revoked'?'● ANULADO':'● VENCIDO';
+     const badgeClass=!quimeraPaused&&(active||pending)?'live':'';
      const code=l.activation_code||'Se genera al activar';
      const deviceManage=active&&l.activation_code?'<br><button class="copy" onclick="openDevices(\''+escapeHtml(l.activation_code)+'\',\''+escapeHtml(l.product_name)+'\');return false">GESTIONAR DISPOSITIVOS</button>':'';
      let action='';
@@ -512,6 +513,8 @@ function renderLicenses(list){
      else if(active&&(l.game_url||['MP-001','JB-BORRACHO'].includes(l.product_code))) action='<a class="btn primary" href="#" onclick="openGame(\''+escapeHtml(l.activation_code||'')+'\',\''+escapeHtml(gameHref(l))+'\');return false">JUGAR</a><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
      else if(active) action='<span class="btn" style="opacity:.6">URL PENDIENTE</span><button class="btn" onclick="copyCode(\''+escapeHtml(l.activation_code||'')+'\');return false">COPIAR CÓDIGO</button>';
      else action='<span class="btn" style="opacity:.45">SIN ACCESO</span>';
+     // Quimera retirada temporalmente del portal; no modificar licencias.
+     if(quimeraPaused) action='<span class="btn" style="opacity:.78;pointer-events:none">PRÓXIMAMENTE · EN REDISEÑO</span>';
      const isVr800=active&&['TORRE-MEGA','T5XL-001','MONSTER-001'].includes(l.product_code);
      if(isVr800){
        action=action.replace('>JUGAR</a>','>JUEGO CLÁSICO</a>');
