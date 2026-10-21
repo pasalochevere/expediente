@@ -4,6 +4,12 @@
 
   const PRODUCTS=[
     {
+      code:'QUIMERA',category:'mystery',image:'assets/upcoming/quimera.webp?v=20261021-en-redisenio',
+      title:'Project Quimera',subtitle:'El Archivo Negro · Nueva versión en desarrollo',
+      description:'Quimera está en rediseño. Estamos transformando su exploración, ambientación y tensión narrativa para ofrecer una experiencia inmersiva.',
+      detail:'Se está reconstruyendo la experiencia de juego. Por ahora no está disponible para la venta ni se anuncia una fecha de lanzamiento.'
+    },
+    {
       code:'TORRE-AMERICA',category:'family',image:'assets/upcoming/torre-america.webp?v=20260928-hd1200',
       title:'Torre de América',subtitle:'Trivia, desafíos y pasión futbolera',
       description:'Una torre temática con preguntas, retos y momentos épicos inspirados en el fútbol de toda América.',
@@ -67,6 +73,11 @@
     <div class="actions"><button class="btn pcComingPreviewBtn" type="button" data-coming-preview="${esc(p.code)}">👁 VER PREVIEW</button></div>`}
 
   function injectCards(){
+    // QUIMERA retirada comercialmente: reemplazar solo cards públicas, sin tocar Mis juegos.
+    document.querySelectorAll('#drawer-mystery .drawerGrid > article.card:not(.pcComingCard)').forEach(card=>{
+      const title=(card.querySelector('h3')?.textContent||'').trim().toUpperCase();
+      if(title==='PROJECT QUIMERA'||title==='QUIMERA')card.remove();
+    });
     let added=false;
     PRODUCTS.forEach(p=>{
       const grid=document.querySelector(`#drawer-${p.category} .drawerGrid`);if(!grid)return;
