@@ -74,7 +74,7 @@
       {kind:'ui',label:'Biblioteca de 78 cartas',note:'Vista conceptual de la navegación por cartas.',render:ui.tarotLibrary},
       {kind:'ui',label:'Práctica de tiradas',note:'La preview muestra posiciones, no respuestas ni interpretaciones completas.',render:ui.tarotSpread}
     ],catalogCodes:['TAROT-GUIDE','TAROT-78']},
-    'PSQ-FACTORY':{category:'CREATIVOS · FACTORY',title:'Paper Squishy Factory',subtitle:'Creator Plus · 50 diseños actuales',summary:'Elegí diseños, personalizalos en Creator Plus y prepará tu proyecto para imprimir. Los archivos finales requieren licencia activa.',format:'Factory digital',use:'Biblioteca + editor',focus:'Crear · personalizar · imprimir',safe:'DESCARGA BLOQUEADA SIN LICENCIA',slides:[
+    'PSQ-FACTORY':{category:'CREATIVOS · FACTORY',title:'PAPER SQUISHY FACTORY',subtitle:'Creator Plus · 50 diseños actuales',summary:'Elegí diseños, personalizalos en Creator Plus y prepará tu proyecto para imprimir. Los archivos finales requieren licencia activa.',format:'Factory digital',use:'Biblioteca + editor',focus:'Crear · personalizar · imprimir',safe:'DESCARGA BLOQUEADA SIN LICENCIA',slides:[
       {kind:'ui',label:'Biblioteca creativa',note:'Representación segura de colecciones; no entrega archivos de diseño.',render:ui.squishyLibrary},
       {kind:'ui',label:'Creator Plus',note:'Vista fiel del concepto de editor sin assets descargables.',render:ui.squishyEditor},
       {kind:'ui',label:'Flujo de producción',note:'Elegir → personalizar → imprimir con licencia activa.',render:ui.squishyLibrary}
