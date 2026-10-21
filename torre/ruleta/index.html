@@ -62,6 +62,7 @@
 @media(max-width:540px){.r04b-controls{grid-template-columns:1fr}}
 @media(max-width:760px){.intro:before{display:none!important}html,body{overflow-x:clip;max-width:100%}}
 </style>
+<link rel="stylesheet" href="./vr800-r07-roulette.css?v=20261021-r07" />
 </head>
 <body>
   <div class="app">
@@ -147,8 +148,8 @@
             <path d="M181 5 L219 5 L200 43 Z" fill="#1c1119" stroke="url(#goldRing)" stroke-width="2.5"/>
             <path d="M187 10 L213 10 L200 34 Z" fill="#ffe5b1"/>
           </svg>
+          <div class="wheel-center-ui"><span class="center-kicker">+800</span><span class="center-main">GIRAR</span><button type="button" class="wheel-center-button" id="spinButton" disabled><span id="spinLabel">GIRAR</span></button></div>
         </div>
-        <button type="button" class="spin-button" id="spinButton" disabled><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M5.8 9a7 7 0 0 1 12-2L20 12M4 12l2.2 5a7 7 0 0 0 12-2"/></svg><span id="spinLabel">GIRAR RULETA</span></button>
         <div id="contentSource" class="source-strip" data-kind="secure"><span id="sourceLabel">VALIDANDO LICENCIA...</span><strong id="sourceCount">—</strong></div>
         <div class="settings-strip">
           <button type="button" id="soundToggle" class="mini-toggle" aria-pressed="false" title="Activar o desactivar sonido"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/></svg><span>Sonido <b id="soundLabel">OFF</b></span></button>
@@ -294,7 +295,7 @@
   function sample(index){return generateOfficial(index)}
   function beep(freq=600,duration=.08,type='sine',gain=.09){if(!state.sound)return;try{const AudioCtx=window.AudioContext||window.webkitAudioContext;if(!AudioCtx)return;const ctx=beep.ctx||new AudioCtx();beep.ctx=ctx;if(ctx.state==='suspended')ctx.resume();const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(gain,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+duration);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+duration)}catch(e){}}
   function vibrate(pattern){if(state.haptic&&navigator.vibrate)navigator.vibrate(pattern)}
-  function setBusy(value){state.spinning=value;const dis=value||state.loading;document.querySelectorAll('.edition,.mode-btn').forEach(b=>b.disabled=dis);$('spinButton').disabled=dis;$('anotherPrompt').disabled=dis;$('passButton').disabled=dis;$('resetButton').disabled=dis;$('savePlayers').disabled=dis;$('spinLabel').textContent=state.loading?'CARGANDO…':value?'GIRANDO…':'GIRAR RULETA'}
+  function setBusy(value){state.spinning=value;const dis=value||state.loading;document.querySelectorAll('.edition,.mode-btn').forEach(b=>b.disabled=dis);$('spinButton').disabled=dis;$('anotherPrompt').disabled=dis;$('passButton').disabled=dis;$('resetButton').disabled=dis;$('savePlayers').disabled=dis;$('spinLabel').textContent=state.loading?'CARGANDO…':value?'GIRANDO…':'GIRAR'}
   let spinTimer=null;
   function spin(){if(state.spinning||state.loading||!cachedEditions.has(state.edition))return;setBusy(true);state.current=null;drawResult();const i=Math.floor(Math.random()*6);const target=(((-30-i*60)%360)+360)%360;const normal=((state.angle%360)+360)%360;const toTarget=(target-normal+360)%360;state.angle+=(prefersReducedMotion?0:360*6)+toTarget;const player=state.players[state.round%state.players.length];const edition=state.edition;const next=()=>{state.round++;state.current={index:i,player,edition,prompt:sample(i)};state.history.unshift({index:i,player,round:state.round});renderHistory();drawResult();updatePlayers();setBusy(false);beep(630,.13,'sine',.11);setTimeout(()=>beep(870,.2,'sine',.085),110);vibrate([40,50,80]);if(window.innerWidth<=760)$('result').scrollIntoView({behavior:prefersReducedMotion?'auto':'smooth',block:'nearest'})};
     beep(350,.12,'triangle',.07);vibrate(30);$('wheelRotor').style.transform=`rotate(${state.angle}deg)`;

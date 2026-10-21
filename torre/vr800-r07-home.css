@@ -1,0 +1,47 @@
+/* VR800-R07 — Identidad maestra Cálido Premium. Sólo presentación; las 4 ediciones y reglas no cambian. */
+:root{--bg:#f5ecdf;--ink:#261d20;--muted:#756864;--card:#fffaf5;--line:#e4d4c5;--gold:#c88b4a;--dark:#422131;--shadow:0 19px 54px rgba(65,35,24,.10);--shadow-sm:0 8px 22px rgba(65,35,24,.08)}
+html,body{background:#f5ecdf!important}
+body{background:radial-gradient(circle at 84% 8%,rgba(180,119,115,.11),transparent 28%),radial-gradient(circle at 6% 28%,rgba(228,193,139,.20),transparent 25%),linear-gradient(160deg,#f9f2e9,#f2e4d3 58%,#e9d9c6)!important;color:#281f20}
+body:before{opacity:.18!important}
+.bg-play{opacity:.36}
+.bg-play .piece,.bg-play .dice,.bg-play .fun-chip{opacity:.36!important}
+.bg-play .spark{opacity:.38!important}
+.app{max-width:560px;padding:19px 17px calc(34px + env(safe-area-inset-bottom))}
+.brand{background:#fffbf7!important;border:1px solid #ead7c2!important;box-shadow:0 8px 27px rgba(66,37,26,.08)!important}
+.brand-left{color:#4f293c}
+.tag{border-color:#ad8057!important;background:#4c263a!important;color:#ffe1aa!important}
+.hero{border:1px solid #ebdccc!important;border-radius:27px!important;background:#fffbf7!important;box-shadow:0 20px 52px rgba(72,39,29,.12)!important}
+.photo{height:255px}
+.intro{background:#fffaf5!important;padding:25px 24px 23px}
+.intro h1{font-size:clamp(31px,5vw,39px);line-height:1;letter-spacing:-.045em;color:#2c2025}
+.intro h1 b{color:#a43a54!important;text-shadow:none!important}
+.intro h1 span{color:#906740!important}
+.intro p{color:#766963!important;font-size:13px;line-height:1.55}
+.mega-kicker{background:#fae7c7!important;border:1px solid #e6cda3!important;color:#663b39!important;box-shadow:none!important}
+.stats{gap:8px}.stat{font-size:10px!important;letter-spacing:.01em;min-height:40px;border:1px solid #e8d9c7!important;border-radius:11px;background:#f7e9d8!important;box-shadow:none!important;color:#593e3e!important}
+.stat.fun-green{background:#e9f5ed!important}.stat.fun-blue{background:#eaf1fa!important}.stat.fun-yellow{background:#fff0cc!important}.stat.fun-red{background:#fbe7e5!important}
+.section-title{margin-top:24px;color:#604c47;font-size:11px;letter-spacing:.13em}
+.section-title:after{background:linear-gradient(90deg,#c49b70,#e7d3b9,transparent)}
+.edition{border-radius:19px!important;border-width:1px!important;background:#fffcf8!important;box-shadow:0 11px 24px rgba(59,37,28,.09)!important;padding:16px!important;transform:none!important}
+.edition:before{width:5px}
+.edition:hover{transform:translateY(-2px)!important;box-shadow:0 15px 31px rgba(59,37,28,.14)!important}
+.edition h2{font-size:18px;letter-spacing:-.025em;color:#34262a}
+.edition p{color:#776b67}
+.edition .icon{box-shadow:none;border-radius:16px}
+.edition .badge{font-size:9px}
+.info{background:linear-gradient(125deg,#46253a,#2e1d2d)!important;border:1px solid #7b5360!important}
+.info strong{color:#fbd8aa}
+.footer{color:#86746d}
+/* Selector de modo — integrado dentro de la misma identidad */
+#pc-vr800-mode-chooser{background:#fffaf5!important;border:1px solid #e5d3c1!important;border-radius:22px!important;box-shadow:0 13px 35px rgba(76,41,33,.10)!important;padding:18px!important}
+#pc-vr800-mode-chooser .vr-heading{font-size:18px;color:#422637}
+#pc-vr800-mode-chooser .vr-tag{background:#f4e6d3!important;border:1px solid #dab488;color:#774938!important}
+#pc-vr800-mode-chooser .vr-option{background:#fffefd;color:#412e32;border:1px solid #e4d4c5;border-radius:15px;box-shadow:none}
+#pc-vr800-mode-chooser .vr-option.vr-new{background:linear-gradient(125deg,#5c2844,#412238)!important;border-color:#98615e!important;color:#fff4e4!important;box-shadow:0 11px 24px rgba(79,31,51,.18)!important}
+#pc-vr800-mode-chooser .vr-option small{color:#7a6a65}
+#pc-vr800-mode-chooser .vr-option.vr-new small{color:#edd3cf}
+#pc-vr800-mode-chooser .vr-caption{color:#806b62}
+.gamebar{background:linear-gradient(95deg,#55283f,#301d2d)!important;border-bottom:1px solid #a47a71!important}
+.gamebar button{background:#72455a!important;border:1px solid #a7797f!important;color:#fff5e6!important}
+#gameFrame{background:#f5ecdf}
+@media(max-width:420px){.app{padding-left:12px;padding-right:12px}.photo{height:230px}.intro{padding:20px 17px}.stats .stat{font-size:9px!important}.edition{padding:13px!important}.edition h2{font-size:17px}#pc-vr800-mode-chooser{padding:12px!important}#pc-vr800-mode-chooser .vr-option{padding:13px 10px}}

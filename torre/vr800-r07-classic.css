@@ -1,0 +1,42 @@
+/* VR800-R07 — Clásico: base cálida coherente, con acentos propios en las 4 ediciones. */
+:root{--cream:#f6ede3;--cream-2:#ede0d1;--white:#fffaf4;--ink:#2e2429;--coal:#4f253b;--muted:#766962;--line:#e4d4c5;--shadow:0 19px 50px rgba(69,35,34,.12);--shadow-sm:0 8px 24px rgba(69,35,34,.09);--r-xl:25px;--r-lg:19px}
+body{background:radial-gradient(circle at 8% 3%,rgba(229,195,137,.19),transparent 30%),radial-gradient(circle at 90% 18%,rgba(175,102,117,.10),transparent 28%),linear-gradient(165deg,#fbf4eb,#f0e4d7)!important;color:#2b2027!important}
+.app{max-width:560px}
+.brandbar{padding:9px 12px;border:1px solid #e6d3c0;border-radius:15px;background:#fffbf7;box-shadow:0 7px 22px rgba(70,37,22,.06)}
+.brandmark{color:#452538}
+.version{background:#f3e5d5!important;border-color:#e4caa9!important;color:#704c3e!important}
+.hero{border:1px solid #e4d4c5!important;background:linear-gradient(140deg,#fffdfb,#fcf7f1)!important;border-radius:24px!important;box-shadow:0 18px 48px rgba(76,39,32,.11)!important}
+.hero:before{background:rgba(198,143,81,.09)!important}.hero:after{background:rgba(175,78,106,.07)!important}
+.hero h1,.hero h1 span,.hero .kicker,.hero .hero-sub{color:#33252b!important;text-shadow:none!important}
+.hero h1{font-size:clamp(35px,9.2vw,43px)}
+.hero h1 span{color:#935e4d!important;font-size:14px}
+.hero .stat{background:#f8ecdc!important;border:1px solid #eadac6!important;color:#704d42!important}
+.choice-btn{border-radius:16px!important;box-shadow:0 7px 20px rgba(64,37,28,.08)!important}
+.choice-btn.primary{background:linear-gradient(125deg,#68314c,#4b263e)!important;color:#fff4e6!important}
+.choice-btn.primary .choice-icon{background:#ffffff19!important;color:#ffebc4!important}
+.choice-btn.secondary{background:#fffcf8!important;border:1px solid #e6d4c0!important;color:#30252a!important}
+.choice-btn.secondary .choice-icon{background:#f3e6d9!important}
+.choice-btn .choice-copy strong{font-size:16px}
+.choice-btn .choice-copy small{opacity:.88!important}
+.topbar .back{border-color:#e0cab3!important;background:#fffaf5!important;color:#503346!important;border-radius:13px}
+.topbar .titleBox h2{color:#362837!important;font-size:22px}
+.topbar .titleBox p,.sectionLabel,.meta{color:#79675d!important}
+.home-chip{background:#f7e9d9!important;color:#784c41!important;border-color:#e4cab3!important}
+.mode-card,.panel,.content-card,.bonus-card,.timer-screen{background:linear-gradient(145deg,#fffdfb,#fff8f0)!important;border:1px solid #e8d8c7!important;border-radius:20px!important;box-shadow:0 13px 36px rgba(60,39,30,.09)!important;color:#302328!important}
+.mode-card h3,.panel h3,.content-card .content-title,.bonus-card .content-title{color:#33252b!important}
+.mode-card p,.panel .copy,.content-foot,.content-card .content-foot{color:#74665f!important}
+.mode-card.locked{background:repeating-linear-gradient(135deg,#f1e9df 0 12px,#e9ded2 12px 24px)!important}
+.content-text,.content-card .content-text,.bonus-card .content-text{color:#2f252a!important;line-height:1.5}
+.btn{border-radius:13px!important}
+.btn-primary{background:linear-gradient(125deg,#682d47,#4e253b)!important;color:#fff5e8!important;border-color:#82435b!important}
+.btn-secondary,.btn-ghost{background:#fffaf5!important;color:#482f37!important;border:1px solid #d9bd9c!important}
+.btn-orange{background:linear-gradient(110deg,#e5a164,#f1c18c)!important;color:#3c2630!important}
+.pack-nav a{background:#fffaf5!important;color:#644250!important;border:1px solid #ead2ba!important;box-shadow:0 6px 15px #5031290d}
+.drink-card,.consent-box{border-radius:17px}
+/* Fiesta y Sin Filtro mantienen identidad adulta sin oscurecer todo el escenario. */
+body[data-vr800-edition="fiesta"]{--vr-edition-accent:#bd596c}
+body[data-vr800-edition="sin-filtro"]{--vr-edition-accent:#8f4265}
+body[data-vr800-edition="kids"]{--vr-edition-accent:#47a776}
+body[data-vr800-edition="general"]{--vr-edition-accent:#5f86c8}
+body[data-vr800-edition] .hero{border-top:4px solid var(--vr-edition-accent,#c88b4a)!important}
+@media(max-width:420px){.app{padding:12px 12px 28px}.hero{padding:23px 15px 18px!important}.choice-btn{padding:13px!important}.content-card .content-text{font-size:20px!important}}

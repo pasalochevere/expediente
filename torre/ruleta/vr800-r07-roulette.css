@@ -1,0 +1,42 @@
+/* VR800-R07 — Ruleta Cálido Premium. Conserva motor seguro y seis sectores; giro exclusivamente central. */
+:root{color-scheme:light;--bg:#f5ecdf;--surface:#fffaf5;--surface2:#fffefb;--hair:#e4d4c5;--muted:#75655f;--gold:#b97d43;--cream:#2e2229;--copper:#bf8155;--rose:#bc5c72}
+html,body{background:#f5ecdf!important}
+body{background:radial-gradient(circle at 85% 0%,rgba(183,105,117,.11),transparent 27%),radial-gradient(circle at 5% 12%,rgba(220,179,114,.18),transparent 25%),linear-gradient(160deg,#fbf4eb,#f1e5d7 60%,#ead7c5)!important;color:#302329!important}
+body:before{opacity:.045!important}
+.topbar{background:#fffaf5;border:1px solid #e6d7c8;border-radius:16px;padding:11px 13px;margin-bottom:20px;box-shadow:0 7px 20px rgba(76,44,38,.05)}
+.brand{color:#4e283b}.brand-mark{background:#65314b;border-color:#b87c57;color:#ffdfa7}
+.top-status{color:#7e6764}.preview-chip{border-color:#d6b391;background:#f7ead9;color:#87593f}
+.panel{background:linear-gradient(145deg,#fffdfb,#fff8f1)!important;border:1px solid #e3d4c4!important;box-shadow:0 13px 36px rgba(66,40,30,.08)!important;color:#35262f!important}
+.eyebrow,.section-head .number{color:#b17a4c}.section-head strong,.mode-label,.players-top strong,.game-header span{color:#644655!important}
+.intro:before{background:radial-gradient(ellipse,rgba(180,103,130,.11),transparent 65%);opacity:1}
+h1{color:#3c2635!important;font-size:clamp(49px,5.1vw,75px)}h1 span{color:#af7652!important}
+.lede,.mode-help,.player-editor p{color:#786963!important}.rule{background:linear-gradient(90deg,#d6a97d,transparent)}
+.edition{background:#fffaf6!important;color:#634b4c!important;border:1px solid #e6d4c5!important;border-radius:13px!important}
+.edition:hover{background:#f5e8db!important}.edition[aria-pressed="true"]{background:#f1e1d9!important;color:#543146!important;border:2px solid #ad7164!important;box-shadow:0 5px 14px rgba(94,42,52,.07)!important}
+.toggle-bar{background:#f4e9dd;border:1px solid #dfc7af}.mode-btn{color:#7c6664}.mode-btn[aria-pressed="true"]{background:#63304a!important;color:#fff4e7!important}
+.players{border-top:1px solid #e8d9c7}.edit-players{color:#985a4b}.player-chip{color:#614c4e;border-color:#ddc6b3;background:#fffdfb}.player-chip.current{border-color:#b87e62;background:#f0dbd2;color:#4d2c3e}
+.player-editor input{background:#fffaf5;color:#392834;border:1px solid #c6aa92}.small-action{background:#f6e7dc;color:#613c42;border-color:#d3ae91}
+.wheel-panel{background:radial-gradient(ellipse at 52% 39%,#87465d 0%,#552b42 46%,#301c2c 92%)!important;border:1px solid #a27367!important;box-shadow:0 18px 45px rgba(67,29,49,.20)!important;color:#fff2df!important}
+.wheel-head,.wheel-hint{color:#f4d1bd!important}.wheel-head b{color:#f8dba9}
+.wheel-panel .source-strip{color:#f3d0b0;border-color:#b08070}
+/* Resultado y registro visibles en el mismo lenguaje cálido */
+.right-panel{gap:16px}.game-header .round{color:#765b5c;border:1px solid #e4d1c0;background:#f6ebe1}
+.result{background:linear-gradient(150deg,#fff7ed,#f4e4dd)!important;border:1px solid #e0c1ae!important;color:#35232d;min-height:300px}
+.result:after{color:rgba(144,86,100,.06)}.result-label{color:#a2674d}.sparkle{color:#b98053}
+.waiting h2,.result-revealed h2{color:#4b2b3b}.waiting p,.result-revealed p,.result-caption{color:#765f61}
+.prompt-text{color:#35252d!important}.tag{background:#713650;border-color:#a47672;color:#fff7e5}
+.outline-btn{background:#fffaf4;color:#6a3f46;border:1px solid #d3aa8d}
+.history-card{background:#fffaf5!important;border:1px solid #e4d4c5!important;color:#3b2b35}
+.history-title b{color:#60434d}.history-title button{color:#a36746}.history-item{color:#725f63}.history-number{color:#9a7b75}
+.footer{color:#876e67}.footer a{color:#8a503f}
+/* El botón principal queda SOLO en el centro, a la altura del pulgar. */
+.spin-button{display:none!important}
+.wheel-center-ui{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:31%;height:31%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:radial-gradient(circle at 30% 27%,#7a4960,#311928);border:5px solid #f5d49b;box-shadow:0 7px 20px #170b17a6;z-index:6;text-align:center;padding:6px;color:#ffe3b1}
+.wheel-center-ui .center-kicker{font-size:10px;font-weight:950;letter-spacing:.13em;line-height:1;color:#ffe0af}
+.wheel-center-ui .center-main{font:bold clamp(15px,2vw,24px)/1 Georgia,serif;color:#ffe5bd}
+.wheel-center-button{appearance:none;border:0;border-radius:999px;padding:9px 10px;min-width:86px;max-width:93%;background:linear-gradient(110deg,#df9b5d,#ffe1a4,#d28c58);color:#322032;font-size:10px;font-weight:950;letter-spacing:.085em;box-shadow:0 7px 18px rgba(217,148,88,.24),inset 0 1px 0 #fff2d0;transition:filter .2s}
+.wheel-center-button:hover{filter:brightness(1.08)}.wheel-center-button:disabled{opacity:.72;cursor:wait}
+/* La biblioteca, controles avanzados y mensajes respetan los contrastes anteriores. */
+.lab{background:#fffaf5;border-color:#e4d4c5}.lab summary{color:#794e45}.lab summary:after{color:#794e45}.lab-inner,.lab-copy{color:#746461}.lab-count{background:#f7ece1;border-color:#e4d4c5}.lab-count b,.lab-count span{color:#5e4145}.lab button{background:#f6e8db;color:#784a42;border-color:#cfa88d}.lab-controls input[type=file]{background:#fff;color:#33262c;border-color:#cfa88d}.lab-result{color:#554048;background:#f6eee6}
+@media(max-width:760px){.topbar{margin-bottom:13px}.intro .intro-hero,.intro .intro-controls,.intro .players{background:#fffaf5!important;border-color:#e2d3c3!important;color:#35262f!important}.wheel-panel{padding:17px 12px}.wheel-wrap{margin:6px auto 12px}.wheel-center-ui{width:33%;height:33%}.right-panel.panel{padding:15px}.result{min-height:240px}}
+@media(max-width:370px){.wheel-center-ui{width:35%;height:35%;border-width:4px;gap:3px}.wheel-center-ui .center-kicker{font-size:8px}.wheel-center-ui .center-main{font-size:15px}.wheel-center-button{font-size:9px;min-width:68px;padding:7px 7px}}

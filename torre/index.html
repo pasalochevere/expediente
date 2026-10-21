@@ -147,6 +147,7 @@ body:before{background:repeating-linear-gradient(0deg,rgba(124,83,43,.025) 0 1px
 @media(max-width:390px){#pc-vr800-mode-chooser{padding:12px}#pc-vr800-mode-chooser .vr-options{gap:8px}#pc-vr800-mode-chooser .vr-option{padding:11px 9px;min-height:138px}#pc-vr800-mode-chooser .vr-option b{font-size:12.5px}#pc-vr800-mode-chooser .vr-option small{font-size:10px}}
 
 </style>
+<link rel="stylesheet" href="./vr800-r07-home.css?v=20261021-r07" />
 </head>
 <body>
 <div class="bg-play" aria-hidden="true">
@@ -200,7 +201,7 @@ const GAMES={"kids":"PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVzIj4KPGhlYWQ+CjxtZXR
 const TITLES={'kids':'TORRE KIDS','general':'TORRE GENERAL','fiesta':'TORRE FIESTA 18+','sin-filtro':'TORRE SIN FILTRO 18+'};
 let currentGame=null;
 function decodeGame(b64){const bin=atob(b64);const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder('utf-8').decode(bytes)}
-function openGame(key){currentGame=key;document.getElementById('gameTitle').textContent=TITLES[key];const layer=document.getElementById('gameLayer');const load=document.getElementById('loading');layer.classList.add('open');layer.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';load.classList.add('show');const frame=document.getElementById('gameFrame');frame.onload=()=>load.classList.remove('show');let html=decodeGame(GAMES[key]);const fix=`
+function openGame(key){currentGame=key;document.getElementById('gameTitle').textContent=TITLES[key];const layer=document.getElementById('gameLayer');const load=document.getElementById('loading');layer.classList.add('open');layer.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';load.classList.add('show');const frame=document.getElementById('gameFrame');frame.onload=()=>load.classList.remove('show');let html=decodeGame(GAMES[key]);html=html.replace('<body>','<body data-vr800-edition="'+key+'">');const fix=`
 <style id="gas-readability-fix">
 :root{color-scheme:light only}
 .hero{background:rgba(255,252,249,.93)!important;border-color:rgba(255,255,255,.88)!important;box-shadow:0 24px 56px rgba(22,16,23,.18)!important}
@@ -231,6 +232,7 @@ function openGame(key){currentGame=key;document.getElementById('gameTitle').text
   .content-card .content-text{font-size:20px!important}
 }
 </style>
+<link rel="stylesheet" href="https://pasalochevere.github.io/expediente/torre/vr800-r07-classic.css?v=20261021-r07" />
 `;html=html.includes('</head>')?html.replace('</head>',fix+'</head>'):fix+html;frame.srcdoc=html;}
 function closeGame(){const layer=document.getElementById('gameLayer');layer.classList.remove('open');layer.setAttribute('aria-hidden','true');document.body.style.overflow='';document.getElementById('gameFrame').srcdoc='';currentGame=null;window.scrollTo(0,0)}
 function reloadGame(){if(currentGame)openGame(currentGame)}
