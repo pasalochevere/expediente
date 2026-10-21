@@ -515,8 +515,9 @@ function renderLicenses(list){
      const isVr800=active&&['TORRE-MEGA','T5XL-001','MONSTER-001'].includes(l.product_code);
      if(isVr800){
        action=action.replace('>JUGAR</a>','>JUEGO CLÁSICO</a>');
-       action=action.replace('<button class="btn" onclick="copyCode',
-         '<a class="btn gold" href="#" onclick="openGame(\\''+escapeHtml(l.activation_code||'')+'\\',\\'../torre/ruleta/\\');return false">RULETA SIN ESCAPE</a><button class="btn" onclick="copyCode');
+       const q=String.fromCharCode(39);
+       const rouletteButton='<a class="btn gold" href="#" onclick="openGame('+q+escapeHtml(l.activation_code||'')+q+','+q+'../torre/ruleta/'+q+');return false">RULETA SIN ESCAPE</a>';
+       action=action.replace('<button class="btn" onclick="copyCode',rouletteButton+'<button class="btn" onclick="copyCode');
      }
      return '<article class="card" data-cat="'+k+'" data-vr800="'+(isVr800?'true':'false')+'"><span class="status '+badgeClass+'">'+badge+'</span><h3>'+escapeHtml(l.product_code==='TORRE-MEGA'?'MEGA PACK VERDAD O RETO +800':['MP-001','JB-BORRACHO'].includes(l.product_code)?'MODO PREVIA':l.product_name)+'</h3><div class="accent">Código de acceso: <code>'+escapeHtml(code)+'</code></div><p>Vigencia: <b>'+duration+'</b><br>Vence: <b>'+date+'</b><br>Dispositivos registrados: <b>'+l.devices_used+' de '+l.device_limit+'</b>'+deviceManage+'</p><div class="actions">'+action+'</div></article>';
    }).join('');
