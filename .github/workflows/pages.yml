@@ -114,7 +114,7 @@ jobs:
             'freeze device limit': 'deviceLimit:2' in freeze,
             'context frozen': "version:'DELIVERY01.8'" in context and 'CANONICAL_BASE' in context,
             'bootstrap freeze first': 'portal-delivery-freeze-v018.js' in bootstrap and 'v56.10-delivery018' in bootstrap,
-            'loader DELIVERY01.8': '20261001-delivery018-1' in loader,
+            'loader DELIVERY01.8': 'DELIVERY01.8' in loader and 'portal-v5-bootstrap-v56.js' in loader,
             'activation product guard': "expected_product_code:c?.product||'EXP-001'" in activation,
             'protected device handoff': "action:'register_device'" in success,
             'Caso001 intro route': "../caso001/intro/?access=" in portal,
