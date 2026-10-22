@@ -148,6 +148,7 @@ body:before{background:repeating-linear-gradient(0deg,rgba(124,83,43,.025) 0 1px
 
 </style>
 <link rel="stylesheet" href="./vr800-r07-home.css?v=20261021-r07" />
+<link rel="stylesheet" href="./vr800-r08-home.css?v=20261022-r08" />
 </head>
 <body>
 <div class="bg-play" aria-hidden="true">
@@ -232,7 +233,58 @@ function openGame(key){currentGame=key;document.getElementById('gameTitle').text
   .content-card .content-text{font-size:20px!important}
 }
 </style>
-<link rel="stylesheet" href="https://pasalochevere.github.io/expediente/torre/vr800-r07-classic.css?v=20261021-r07" />
+<style id="vr800-r08-classic-inline">
+/* VR800-R07 — Clásico: base cálida coherente, con acentos propios en las 4 ediciones. */
+:root{--cream:#f6ede3;--cream-2:#ede0d1;--white:#fffaf4;--ink:#2e2429;--coal:#4f253b;--muted:#766962;--line:#e4d4c5;--shadow:0 19px 50px rgba(69,35,34,.12);--shadow-sm:0 8px 24px rgba(69,35,34,.09);--r-xl:25px;--r-lg:19px}
+body{background:radial-gradient(circle at 8% 3%,rgba(229,195,137,.19),transparent 30%),radial-gradient(circle at 90% 18%,rgba(175,102,117,.10),transparent 28%),linear-gradient(165deg,#fbf4eb,#f0e4d7)!important;color:#2b2027!important}
+.app{max-width:560px}
+.brandbar{padding:9px 12px;border:1px solid #e6d3c0;border-radius:15px;background:#fffbf7;box-shadow:0 7px 22px rgba(70,37,22,.06)}
+.brandmark{color:#452538}
+.version{background:#f3e5d5!important;border-color:#e4caa9!important;color:#704c3e!important}
+.hero{border:1px solid #e4d4c5!important;background:linear-gradient(140deg,#fffdfb,#fcf7f1)!important;border-radius:24px!important;box-shadow:0 18px 48px rgba(76,39,32,.11)!important}
+.hero:before{background:rgba(198,143,81,.09)!important}.hero:after{background:rgba(175,78,106,.07)!important}
+.hero h1,.hero h1 span,.hero .kicker,.hero .hero-sub{color:#33252b!important;text-shadow:none!important}
+.hero h1{font-size:clamp(35px,9.2vw,43px)}
+.hero h1 span{color:#935e4d!important;font-size:14px}
+.hero .stat{background:#f8ecdc!important;border:1px solid #eadac6!important;color:#704d42!important}
+.choice-btn{border-radius:16px!important;box-shadow:0 7px 20px rgba(64,37,28,.08)!important}
+.choice-btn.primary{background:linear-gradient(125deg,#68314c,#4b263e)!important;color:#fff4e6!important}
+.choice-btn.primary .choice-icon{background:#ffffff19!important;color:#ffebc4!important}
+.choice-btn.secondary{background:#fffcf8!important;border:1px solid #e6d4c0!important;color:#30252a!important}
+.choice-btn.secondary .choice-icon{background:#f3e6d9!important}
+.choice-btn .choice-copy strong{font-size:16px}
+.choice-btn .choice-copy small{opacity:.88!important}
+.topbar .back{border-color:#e0cab3!important;background:#fffaf5!important;color:#503346!important;border-radius:13px}
+.topbar .titleBox h2{color:#362837!important;font-size:22px}
+.topbar .titleBox p,.sectionLabel,.meta{color:#79675d!important}
+.home-chip{background:#f7e9d9!important;color:#784c41!important;border-color:#e4cab3!important}
+.mode-card,.panel,.content-card,.bonus-card,.timer-screen{background:linear-gradient(145deg,#fffdfb,#fff8f0)!important;border:1px solid #e8d8c7!important;border-radius:20px!important;box-shadow:0 13px 36px rgba(60,39,30,.09)!important;color:#302328!important}
+.mode-card h3,.panel h3,.content-card .content-title,.bonus-card .content-title{color:#33252b!important}
+.mode-card p,.panel .copy,.content-foot,.content-card .content-foot{color:#74665f!important}
+.mode-card.locked{background:repeating-linear-gradient(135deg,#f1e9df 0 12px,#e9ded2 12px 24px)!important}
+.content-text,.content-card .content-text,.bonus-card .content-text{color:#2f252a!important;line-height:1.5}
+.btn{border-radius:13px!important}
+.btn-primary{background:linear-gradient(125deg,#682d47,#4e253b)!important;color:#fff5e8!important;border-color:#82435b!important}
+.btn-secondary,.btn-ghost{background:#fffaf5!important;color:#482f37!important;border:1px solid #d9bd9c!important}
+.btn-orange{background:linear-gradient(110deg,#e5a164,#f1c18c)!important;color:#3c2630!important}
+.pack-nav a{background:#fffaf5!important;color:#644250!important;border:1px solid #ead2ba!important;box-shadow:0 6px 15px #5031290d}
+.drink-card,.consent-box{border-radius:17px}
+/* Fiesta y Sin Filtro mantienen identidad adulta sin oscurecer todo el escenario. */
+body[data-vr800-edition="fiesta"]{--vr-edition-accent:#bd596c}
+body[data-vr800-edition="sin-filtro"]{--vr-edition-accent:#8f4265}
+body[data-vr800-edition="kids"]{--vr-edition-accent:#47a776}
+body[data-vr800-edition="general"]{--vr-edition-accent:#5f86c8}
+body[data-vr800-edition] .hero{border-top:4px solid var(--vr-edition-accent,#c88b4a)!important}
+@media(max-width:420px){.app{padding:12px 12px 28px}.hero{padding:23px 15px 18px!important}.choice-btn{padding:13px!important}.content-card .content-text{font-size:20px!important}}
+/* VR800-R08 — Todas las pantallas clásicas sin desbordes, interfaz cálida consistente. */
+:root{color-scheme:light;--cream:#f5ecdf;--cream-2:#ecdbc9;--white:#fffaf5;--ink:#33242c;--muted:#766962;--line:#e5d4c4;--coal:#50283d;--shadow:0 15px 43px rgba(74,38,43,.10);--shadow-sm:0 7px 21px rgba(74,38,43,.07)}
+html{width:100%!important;min-width:0!important;overflow-x:clip!important}body{margin:0!important;width:100%!important;min-width:0!important;min-height:100dvh!important;overflow-x:clip!important;background:radial-gradient(circle at 90% 6%,#efd1c6 0%,transparent 30%),linear-gradient(150deg,#faf1e7,#f0e3d7)!important;color:#33262e!important}
+*,*:before,*:after{box-sizing:border-box}.app{width:100%!important;max-width:940px!important;padding:clamp(12px,2vw,24px)!important;margin:0 auto!important;min-width:0!important}.app > *{max-width:100%;min-width:0}.pack-nav{max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;overscroll-behavior-x:contain}.pack-nav a{flex-shrink:0}.brandbar,.topbar{max-width:100%;border-radius:14px;background:#fff9f2!important;border:1px solid #e4d1c0!important;color:#4a2e3f!important}.brandbar .brandmark{color:#4c2a42!important}.titleBox h2{font-size:clamp(17px,4.8vw,26px)!important}
+.hero{background:linear-gradient(145deg,#fffdf9,#fdf6ed)!important;color:#382730!important;border:1px solid #e6d5c3!important;border-radius:23px!important;box-shadow:var(--shadow)!important;overflow:hidden}.hero:before,.hero:after{opacity:.17}.hero h1,.hero h1 span,.hero .kicker,.hero .hero-sub{color:#3b2932!important;text-shadow:none!important}.hero h1{font-size:clamp(30px,6.5vw,46px)!important;line-height:1.07!important;overflow-wrap:anywhere}.hero h1 span{color:#a86555!important}.hero p,.hero .hero-sub{line-height:1.5!important}.hero .stat,.version{background:#f7eadb!important;color:#76544a!important;border:1px solid #e5cbaa!important;border-radius:12px!important}.sectionLabel{color:#624858!important}.panel,.mode-card,.content-card,.bonus-card,.timer-screen{border:1px solid #e4d3c2!important;border-radius:18px!important;background:linear-gradient(155deg,#fffefa,#fff7ef)!important;color:#3a2c30!important;box-shadow:0 12px 33px #50312714!important;min-width:0!important}.panel h3,.panel p.big,.mode-card h3,.content-card .content-title,.bonus-card .content-title{color:#3e2b38!important}.mode-card p,.panel p.copy,.content-foot,.content-card .content-foot,.meta,.titleBox p{color:#796961!important}.content-card .content-text,.bonus-card .content-text,.content-text{color:#33272d!important;line-height:1.5!important;overflow-wrap:anywhere!important}.choice-btn{border-radius:16px!important;min-width:0!important}.choice-btn.primary{background:linear-gradient(130deg,#66304c,#48263d)!important;color:#fff7eb!important;border:1px solid #9a6571!important}.choice-btn.primary .choice-copy strong,.choice-btn.primary .choice-copy small,.choice-btn.primary .choice-arrow{color:#fff7eb!important}.choice-btn.secondary{background:#fffdf9!important;color:#3f2e35!important;border:1px solid #e0cfbc!important}.choice-btn.secondary .choice-copy strong,.choice-btn.secondary .choice-copy small,.choice-btn.secondary .choice-arrow{color:#49313f!important}.choice-btn .choice-copy{min-width:0}.mode-card.locked{opacity:.86;border:2px dashed #c8ab9c!important;background:repeating-linear-gradient(135deg,#f5ece2 0 12px,#eee2d7 12px 24px)!important}.btn,.choice-btn,.mode-card{touch-action:manipulation}
+body[data-vr800-edition="kids"]{--vr-edition-accent:#43a983}body[data-vr800-edition="general"]{--vr-edition-accent:#5684ba}body[data-vr800-edition="fiesta"]{--vr-edition-accent:#c45e75}body[data-vr800-edition="sin-filtro"]{--vr-edition-accent:#90516d}body[data-vr800-edition] .hero{border-top:4px solid var(--vr-edition-accent)!important}
+@media(max-width:620px){html,body{width:100%!important}.app{max-width:100%!important;width:100%!important;padding:12px 11px calc(24px + env(safe-area-inset-bottom))!important}.hero{padding:19px 15px!important}.hero h1{font-size:clamp(29px,8vw,40px)!important}.choice-btn{padding:13px!important}.mode-card{padding:15px!important}.content-card,.bonus-card{padding:16px!important}.content-text,.content-card .content-text,.bonus-card .content-text{font-size:clamp(17px,4.5vw,22px)!important}.pack-nav{padding-left:8px;padding-right:8px}button,input,select{max-width:100%}}
+@media(max-width:360px){.app{padding:9px 8px calc(20px + env(safe-area-inset-bottom))!important}.hero h1{font-size:29px!important}.hero{padding:15px 12px!important}.content-card,.mode-card{padding:12px!important}}
+</style>
 `;html=html.includes('</head>')?html.replace('</head>',fix+'</head>'):fix+html;frame.srcdoc=html;}
 function closeGame(){const layer=document.getElementById('gameLayer');layer.classList.remove('open');layer.setAttribute('aria-hidden','true');document.body.style.overflow='';document.getElementById('gameFrame').srcdoc='';currentGame=null;window.scrollTo(0,0)}
 function reloadGame(){if(currentGame)openGame(currentGame)}
