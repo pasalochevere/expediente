@@ -17,7 +17,7 @@
  function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
  const prefs=load();prefs.custom=Array.isArray(prefs.custom)?prefs.custom:[];prefs.favs=Array.isArray(prefs.favs)?prefs.favs:[];prefs.recent=Array.isArray(prefs.recent)?prefs.recent:[];
  function save(){try{localStorage.setItem(KEY,JSON.stringify(prefs))}catch(e){}}
- let tab='all',search='',questionIndex=0,current='welcome',helpVisible=false;
+ let tab='all',search='',questionIndex=0,current='welcome',helpVisible=false,guideHidden=false;
  const prompts={
  welcome:[['Representá primero lo importante para tu pregunta.','Sumá una figura o elegí una práctica para comenzar.'],['¿Qué querés observar de esta distribución?','La guía es opcional: podés mover libremente todas las piezas.']],
  selected:[['¿Qué lugar ocupa esta figura en el campo?','Arrastrala para moverla. Hacé doble clic o doble toque para editar su apariencia.'],['¿Hacia dónde está orientada esta figura?','La orientación puede cambiarse desde Personalizar.']],
@@ -31,10 +31,10 @@
  guide.innerHTML='<section id="vcr8Guide" aria-label="Guía interactiva sobre el campo"><div class="vcr8-guideText"><small>VÍNCORES · GUÍA SOBRE LA CONSTELACIÓN</small><b id="vcr8Question"></b><p id="vcr8Suggestion"></p></div><div class="vcr8-guideActions"><button type="button" id="vcr8Other" class="vcr8-btn">Otra idea</button><button type="button" id="vcr8How" class="vcr8-btn">¿Cómo lo hago?</button><button type="button" id="vcr8GuideToggle" class="vcr8-btn">Ocultar</button></div></section><div id="vcr8Help" hidden></div>';
  const frame=stage.querySelector('.boardFrame');if(frame)stage.insertBefore(guide,frame);
  function showGuide(){const ps=prompts[current]||prompts.welcome;const p=ps[questionIndex%ps.length];$('vcr8Question').textContent=p[0];$('vcr8Suggestion').textContent=p[1];$('vcr8Help').textContent=p[1]}
- function guideEvent(kind){current=kind;questionIndex=0;showGuide();if($('vcr8Guide')?.hidden){$('vcr8Guide').hidden=false;$('vcr8GuideToggle').textContent='Ocultar'}}
+ function guideEvent(kind){current=kind;questionIndex=0;showGuide()}
  $('vcr8Other').onclick=function(){questionIndex++;showGuide()};
  $('vcr8How').onclick=function(){helpVisible=!helpVisible;$('vcr8Help').hidden=!helpVisible;showGuide()};
- $('vcr8GuideToggle').onclick=function(){const g=$('vcr8Guide');g.hidden=true;const b=document.createElement('button');b.className='vcr8-btn';b.id='vcr8Reopen';b.textContent='✦ Mostrar guía';guide.prepend(b);b.onclick=function(){g.hidden=false;b.remove()};};
+ $('vcr8GuideToggle').onclick=function(){const g=$('vcr8Guide');g.hidden=true;guideHidden=true;if($('vcr8Reopen'))return;const b=document.createElement('button');b.className='vcr8-btn';b.id='vcr8Reopen';b.textContent='✦ Mostrar guía';guide.prepend(b);b.onclick=function(){g.hidden=false;guideHidden=false;b.remove()};};
  showGuide();
  // Herramientas de zoom originales P1.8: conservar sus métodos y añadir un acceso de 100 %.
  const fit=$('p18Fit');
@@ -57,12 +57,12 @@
  $('vcr8CustomForm').onsubmit=e=>{e.preventDefault();const name=$('vcr8CustomName').value.trim().toLocaleUpperCase('es-AR');if(!name)return;const names=new Set(allItems().map(i=>norm(i.name)));if(names.has(norm(name))){$('vcr8LibStatus').textContent='Esta emoción o concepto ya está en la biblioteca.';return}prefs.custom.push({name,group:$('vcr8CustomGroup').value});save();$('vcr8CustomName').value='';tab='custom';search='';$('vcr8Search').value='';renderLibrary();insert({name,type:'custom'});};
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.hidden)closeLibrary()});
  // Una acción selecciona; el arrastre sigue siendo nativo. La edición requiere doble clic.
- let lastTap={id:null,time:0};
+ let lastTap={id:null,time:0};const pointerStart=new Map();
  function openEditor(){const edit=document.querySelector('.p18-tab[data-rtab="piece"]');if(document.fullscreenElement&&document.exitFullscreen){document.exitFullscreen().then(()=>edit?.click()).catch(()=>edit?.click())}else edit?.click()}
  board.addEventListener('dblclick',e=>{if(e.target.closest('.node')?._meta?.kind==='figure')openEditor()});
- board.addEventListener('pointerup',e=>{const n=e.target.closest('.node');if(!n)return;if(n._meta?.kind==='figure'){const id=n._meta.id;if(e.pointerType==='touch'&&lastTap.id===id&&Date.now()-lastTap.time<370){openEditor();lastTap={id:null,time:0}}else lastTap={id,time:Date.now()}}setTimeout(()=>guideEvent('selected'),40)});
- board.addEventListener('pointermove',e=>{if(e.buttons||e.pressure>0){const n=e.target.closest('.node');if(n){current='move';questionIndex=0;showGuide()}}},{passive:true});
- board.addEventListener('pointerdown',e=>{if(e.target.closest('.node')&&typeof linkMode!=='undefined'&&linkMode)guideEvent('link')});
+ board.addEventListener('pointerup',e=>{const n=e.target.closest('.node');if(!n)return;const start=pointerStart.get(e.pointerId);pointerStart.delete(e.pointerId);const moved=!!start&&Math.hypot(e.clientX-start.x,e.clientY-start.y)>5;if(n._meta?.kind==='figure'&&!moved){const id=n._meta.id;if(e.pointerType==='touch'&&lastTap.id===id&&Date.now()-lastTap.time<370){openEditor();lastTap={id:null,time:0}}else lastTap={id,time:Date.now()}}else if(moved)lastTap={id:null,time:0};setTimeout(()=>guideEvent(moved?'move':'selected'),40)});
+ board.addEventListener('pointercancel',e=>{pointerStart.delete(e.pointerId)});
+ board.addEventListener('pointerdown',e=>{if(e.target.closest('.node'))pointerStart.set(e.pointerId,{x:e.clientX,y:e.clientY});if(e.target.closest('.node')&&typeof linkMode!=='undefined'&&linkMode)guideEvent('link')});
  stage.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;if(t.id==='saveStageBtn'||t.id==='p18Snapshot')guideEvent('stage')});
  document.querySelector('.left')?.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;if(t.matches('.sizes button,.caseBtn'))setTimeout(()=>guideEvent('add'),50);if(t.classList.contains('linkBtn'))setTimeout(()=>guideEvent('link'),50)});
  const ob=new MutationObserver(records=>{if(records.some(r=>Array.from(r.addedNodes).some(n=>n.nodeType===1&&n.classList?.contains('node'))))guideEvent('add')});
