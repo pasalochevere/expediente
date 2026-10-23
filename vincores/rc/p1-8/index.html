@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- VÍNCORES P1.8 · PREMIUM GUIDED FIELD · SELL READY -->
+<!-- VÍNCORES P1.9 · CINEMA ENGINE V1 + PREMIUM GUIDED FIELD · SELL READY -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -39,7 +39,9 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
 
 </style>
 <link rel="stylesheet" href="p18/p18.css?v=1805">
-<link rel="stylesheet" href="p18/p188.css?v=1883">
+<link rel="stylesheet" href="p18/p188.css?v=1890">
+<link rel="stylesheet" href="cinema/cinema.css?v=1900">
+<link rel="stylesheet" href="p19r8/integracion.css?v=1918">
 </head>
 <body>
 <header class="top">
@@ -277,8 +279,8 @@ function renderFigure(n){
  l.style.transform='rotate('+(-m.rotation)+'deg) scale('+(1/m.scale)+')';l.style.transformOrigin='top center';renderRelations();
 }
 function bindNode(n){
- let drag=null;n.addEventListener('pointerdown',e=>{if(e.button!==undefined&&e.button!==0)return;if(linkMode&&n._meta?.kind==='figure'){e.preventDefault();handleLinkNode(n);return}selectNode(n);const r=board.getBoundingClientRect();drag={id:e.pointerId,r,before:JSON.stringify(serializeState())};n.setPointerCapture?.(e.pointerId);e.preventDefault()});
- n.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;let x=(e.clientX-drag.r.left)/drag.r.width*100,y=(e.clientY-drag.r.top)/drag.r.height*100;n.style.left=Math.max(3,Math.min(97,x))+'%';n.style.top=Math.max(5,Math.min(95,y))+'%';renderRelations()});
+ let drag=null;n.addEventListener('pointerdown',e=>{if(e.button!==undefined&&e.button!==0)return;if(linkMode&&n._meta?.kind==='figure'){e.preventDefault();handleLinkNode(n);return}selectNode(n);const r=board.getBoundingClientRect();drag={id:e.pointerId,r,before:JSON.stringify(serializeState()),startX:e.clientX,startY:e.clientY,left:parseFloat(n.style.left)||50,top:parseFloat(n.style.top)||50};n.setPointerCapture?.(e.pointerId);e.preventDefault()});
+ n.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;let x=drag.left+(e.clientX-drag.startX)/(drag.r.width||1)*100,y=drag.top+(e.clientY-drag.startY)/(drag.r.height||1)*100;if(Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)<4)return;n.style.left=Math.max(3,Math.min(97,x))+'%';n.style.top=Math.max(5,Math.min(95,y))+'%';renderRelations()});
  n.addEventListener('pointerup',e=>{if(!drag||drag.id!==e.pointerId)return;const changed=drag.before!==JSON.stringify(serializeState());drag=null;if(changed)commitHistory()});
 }
 function selectNode(n){document.querySelectorAll('.node.selected').forEach(x=>x.classList.remove('selected'));selected=n;if(!n||n._meta.kind!=='figure'){props.classList.add('hidden');nothing.classList.remove('hidden');return}n.classList.add('selected');n.style.zIndex=++z;props.classList.remove('hidden');nothing.classList.add('hidden');const m=n._meta;$('nameInput').value=m.label;$('mode').value=m.mode;$('hair').value=m.hair;$('eyes').value=m.eyes;$('mouth').value=m.mouth;$('hairColor').value=m.hairColor;$('rotation').value=m.rotation;$('scale').value=Math.round(m.scale*100);$('rotVal').textContent=m.rotation+'°';$('scaleVal').textContent=Math.round(m.scale*100)+'%';renderPalette()}
@@ -446,5 +448,7 @@ afterReady(()=>{
 </script>
 
 <script src="p18/p18.js?v=1805"></script>
-<script src="p18/p188.js?v=1883"></script>
+<script src="p18/p188.js?v=1890"></script>
+<script src="cinema/cinema.js?v=1900"></script>
+<script src="p19r8/integracion.js?v=1918"></script>
 </body></html>
