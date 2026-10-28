@@ -32,7 +32,8 @@ var sb=supabase.createClient("https://fzbndgfnqxcacsvlitui.supabase.co","sb_publ
 var $=function(id){return document.getElementById(id)};
 var esc=function(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
 var status=function(s){$("status").textContent=s};
-async function api(body){var r=await sb.functions.invoke("pasalochevere-digital-delivery",{body:body});if(r.error){var m=r.error.message;try{m=(await r.error.context.json()).error||m}catch(e){}throw new Error(m)}if(!r.data||!r.data.ok)throw new Error(r.data&&r.data.error||"Error de descarga");return r.data}
+function explainError(value){if(typeof value==="string")return value;if(value&&typeof value==="object"){if(value.error)return explainError(value.error);if(typeof value.message==="string")return value.message;if(typeof value.error_description==="string")return value.error_description;if(typeof value.code==="string")return "Error de consulta ("+value.code+"). Reintentá."; }return "No se pudo completar la consulta. Reintentá."}
+async function api(body){var r=await sb.functions.invoke("pasalochevere-digital-delivery",{body:body});if(r.error){var data;try{data=await r.error.context?.json()}catch(e){}throw new Error(explainError(data||r.error))}if(!r.data||!r.data.ok)throw new Error(explainError(r.data));return r.data}
 function ready(p){return p.status==="active"&&p.expires_at&&new Date(p.expires_at).getTime()>Date.now()}
 function render(products){
 $("list").innerHTML=products.length?products.map(function(p){
