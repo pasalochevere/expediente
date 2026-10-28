@@ -1,0 +1,14 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#fff9ef"><title>PAPER SQUISHY FACTORY · Butter Mania · Native Staging</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fff9ef;color:#34251f;font-family:system-ui,sans-serif;text-align:center;padding:24px}.box{max-width:620px}.spin{width:34px;height:34px;margin:18px auto;border:4px solid #eadfd4;border-top-color:#ff7867;border-radius:50%;animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}a{color:#34251f;font-weight:900}</style></head><body><div class="box"><b style="font-size:26px">PAPER SQUISHY FACTORY</b><p>Abriendo la fábrica completa · 60 personajes · 6 colecciones · Creator Plus</p><div class="spin"></div><p id="msg">Cargando versión estable…</p></div><script>
+(async()=>{
+ try{
+  const frozen='https://cdn.jsdelivr.net/gh/pasalochevere/expediente@e7f545d189846a48d14e1d3ce6e0c5c21b9b0e13/paper-squishy/factory.html';
+  const r=await fetch(frozen,{cache:'no-store'});if(!r.ok)throw new Error('No pude cargar la fábrica congelada ('+r.status+').');
+  let html=await r.text();
+  html=html.replace("let html=new TextDecoder().decode(ab);","let html=new TextDecoder().decode(ab);html=html.replaceAll('Mini · 8 cm','Mini').replaceAll('Normal · 12 cm','Normal').replaceAll('XL · 17 cm','XL');");
+  html=html.replaceAll('XL · 17 cm: frente y dorso se imprimen en 2 hojas A4, una por hoja.','XL: frente y dorso se imprimen en 2 hojas A4, una por hoja.');
+  html=html.replace('psq-catalog-v27.js?v=2711','psq-catalog-v27.js?v=3424');
+  html=html.replace("document.open();document.write(html);document.close();","html=html.replace('</body>','<script src=\"./psq-baseline-v298.js?v=2981\"><\\/script><script src=\"./psq-butter-native.js?v=bm20n2\"><\\/script></body>');document.open();document.write(html);document.close();");
+  document.open();document.write(html);document.close();
+ }catch(e){document.querySelector('.spin').style.display='none';document.getElementById('msg').textContent='No pude abrir la fábrica: '+String(e.message||e);}
+})();
+</script></body></html>
