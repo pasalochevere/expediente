@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const VERSION='BM20-NATIVE-STAGING-R1';
+const VERSION='BM20-NATIVE-STAGING-R3';
 if(window.PSQ_BM_NATIVE?.ready)return;
 const CONFIG={base:'./butter-mania/',downloadBase:'P2.5/BM20/',supabaseUrl:'https://fzbndgfnqxcacsvlitui.supabase.co',pubKey:'sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo'};
 const KEYS=['hero','front_print','back_print','coloring','coloring_back','editor_asset','character_card','tutorial','mockup'];
@@ -54,10 +54,20 @@ function addPrinterEntry(){
  const mo=new MutationObserver(toggle);mo.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});toggle();
 }
 async function init(){if(busy)return;busy=true;window.PSQ_BM_NATIVE={ready:false,loading:true};try{
+ window.PSQ_BM_NATIVE={ready:false,loading:true,phase:'Biblioteca original'};
  const lib=await waitLibrary();const parts=Array.from({length:12},(_,i)=>'native-'+String(i+1).padStart(2,'0')+'.zip');
- const requests=await Promise.all([fetch(CONFIG.base+'manifest.json',{cache:'no-store'}),...parts.map(n=>fetch(CONFIG.base+n,{cache:'no-store'}))]);
- if(requests.some(r=>!r.ok))throw Error('No cargaron los archivos de la colección');manifest=await requests[0].json();
- const bundles=await Promise.all(requests.slice(1).map(r=>r.arrayBuffer()));urls=Object.assign({},...bundles.map(unzip));
+ window.PSQ_BM_NATIVE.phase='Catálogo';
+ const mr=await fetch(CONFIG.base+'manifest.json',{cache:'no-store'});
+ if(!mr.ok)throw Error('Catálogo HTTP '+mr.status);
+ manifest=await mr.json();urls={};
+ for(let i=0;i<parts.length;i+=3){
+  window.PSQ_BM_NATIVE.phase='Recursos '+Math.min(i+3,parts.length)+' / '+parts.length;
+  const group=parts.slice(i,i+3),responses=await Promise.all(group.map(n=>fetch(CONFIG.base+n,{cache:'no-store'})));
+  for(let j=0;j<responses.length;j++){
+   if(!responses[j].ok)throw Error('Recurso '+group[j]+' HTTP '+responses[j].status);
+   Object.assign(urls,unzip(await responses[j].arrayBuffer()));
+  }
+ }
  if(manifest.collection_id!=='butter_mania'||manifest.characters?.length!==20)throw Error('Manifiesto incompleto');
  for(const ch of manifest.characters)for(const key of KEYS)if(!urls[ch.code+'_'+key+'.webp'])throw Error('Falta vista '+ch.code+' '+key);
  if(Object.keys(urls).length!==180)throw Error('Se esperaban 180 vistas, se recibieron '+Object.keys(urls).length);
