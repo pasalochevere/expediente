@@ -58,3 +58,145 @@ $("ddReload").onclick=refresh;$("ddUpload").onclick=upload;$("ddSearch").oninput
 sb.auth.onAuthStateChange(function(_ev,session){if(session&&session.user&&session.user.email&&session.user.email.toLowerCase()==="pasalochevere@gmail.com")refresh()});
 refresh();
 })();
+
+/* LIC-P3 · Fichas y vinculación de clientes. Aditivo: no cambia la titularidad de las licencias. */
+(function(){
+"use strict";
+var base=document.getElementById("ddPanel");
+if(!base||typeof sb==="undefined")return;
+var state={catalog:[],licenses:[],assignments:[],events:[],assets:[],products:[]},selected=null,limit=30,created=null;
+var el=function(id){return document.getElementById(id)};
+var esc=function(x){return String(x==null?"":x).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var date=function(v){return v?new Date(v).toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"}):"—"};
+var style=document.createElement("style");
+style.textContent='#crPanel{margin-top:20px}#crPanel h3{margin:15px 0 10px}#crPanel .cr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}#crPanel .cr-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}#crPanel label{display:block;color:#aab0bb;font-size:12px;margin-bottom:5px}#crPanel input,#crPanel select,#crPanel textarea{background:#0f1114;color:#fff;border:1px solid #454953;border-radius:9px;padding:11px;width:100%;min-width:0;font:inherit}#crPanel textarea{min-height:85px;resize:vertical}#crPanel .cr-box{border:1px solid #343840;background:#1a1c21;border-radius:14px;padding:15px;margin:15px 0}#crPanel .cr-note{font-size:13px;color:#acb2be;line-height:1.6}#crPanel .cr-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}#crPanel .cr-scroll{overflow:auto;max-height:490px}#crPanel table{width:100%;border-collapse:collapse;font-size:13px}#crPanel th{text-align:left;color:#aab0bb;font-size:11px;padding:10px}#crPanel td{border-top:1px solid #343840;padding:10px;vertical-align:top}#crPanel td small{display:block;color:#aab0bb;margin-top:4px}#crPanel .cr-code{font:800 16px ui-monospace,monospace;color:#f6d67e;word-break:break-word}#crPanel .cr-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}#crPanel [hidden]{display:none!important}#crPanel .cr-pill{font-size:11px;padding:5px 8px;border-radius:12px;background:#35413c;color:#a9e5d2}#crPanel .cr-card{padding:12px;border:1px solid #383d45;border-radius:10px;background:#212429}#crPanel .cr-card strong{display:block;margin-top:6px;word-break:break-word}@media(max-width:740px){#crPanel .cr-grid,#crPanel .cr-grid.three{grid-template-columns:1fr}}';
+document.head.appendChild(style);
+var panel=document.createElement("section");panel.id="crPanel";panel.className="card";
+panel.innerHTML='<div class="cr-top"><div><div class="eyebrow">LIC-P3 · CLIENTES Y ENTREGAS</div><h2>Ficha individual del comprador</h2><p class="cr-note">Relacioná cada venta, su licencia y las descargas realizadas. El contacto no activa la licencia.</p></div><button id="crRefresh" class="btn ghost" type="button">Actualizar fichas</button></div>'
++'<div class="msg" id="crMsg">Cargando…</div>'
++'<div class="cr-box"><h3>Asignar una entrega a un comprador</h3><p class="cr-note">Genera un código o recupera el existente para el mismo producto y operación. Para Mercado Libre solo necesitás el número de venta; el contacto es opcional.</p>'
++'<div class="cr-grid three"><div><label for="crProduct">Producto</label><select id="crProduct"></select></div><div><label for="crChannel">Canal</label><select id="crChannel"><option value="ML">Mercado Libre</option><option value="TN">Tienda Nube</option><option value="ETSY">Etsy</option><option value="DIRECT">Venta directa</option><option value="RETAIL">Juguetería</option><option value="WHOLESALE">Mayorista</option><option value="EVENT">Feria / Evento</option><option value="OTHER">Otro</option></select></div><div><label for="crSale" id="crSaleLabel">Número de venta ML (16 dígitos)</label><input id="crSale" autocomplete="off" inputmode="numeric" maxlength="80" placeholder="2000018505705824"/></div></div>'
++'<div class="cr-grid" style="margin-top:12px"><div><label for="crName">Nombre o alias (opcional)</label><input id="crName" maxlength="100" placeholder="Nombre del comprador"/></div><div><label for="crContact">Email de contacto (opcional)</label><input id="crContact" maxlength="254" type="email" placeholder="Solo si fue proporcionado"/></div><div><label for="crBuyerId">ID comprador (opcional)</label><input id="crBuyerId" maxlength="100" placeholder="Identificador de la plataforma"/></div><div><label for="crNote">Nota interna (opcional)</label><input id="crNote" maxlength="500" placeholder="Entrega / reclamo"/></div></div>'
++'<div class="cr-actions"><button class="btn primary" id="crCreate" type="button">Crear o recuperar licencia + asociar</button></div><div class="cr-box" id="crCreated" hidden></div></div>'
++'<div class="cr-top"><div><h3>Ventas existentes</h3><p class="cr-note" id="crCount"></p></div><input id="crSearch" style="max-width:340px" placeholder="Buscar número, producto, cliente o código"/></div>'
++'<div class="cr-scroll"><table><thead><tr><th>Operación y producto</th><th>Comprador</th><th>Estado</th><th>Descargas</th><th></th></tr></thead><tbody id="crRows"></tbody></table></div>'
++'<div class="cr-actions"><button class="btn" id="crMore" type="button" hidden>Ver más ventas</button></div><div class="cr-box" id="crDetail" hidden></div>';
+base.insertAdjacentElement("afterend",panel);
+function notice(v,bad){el("crMsg").textContent=v;el("crMsg").className="msg "+(bad?"bad":"good")}
+function errorText(v){if(typeof v==="string")return v;if(v&&typeof v.error==="string")return v.error;if(v&&typeof v.message==="string")return v.message;return "No se pudo completar la operación."}
+async function api(slug,body){var r=await sb.functions.invoke(slug,{body:body});if(r.error){var data;try{data=await r.error.context?.json()}catch(_){}throw new Error(errorText(data||r.error))}if(!r.data||!r.data.ok)throw new Error(errorText(r.data));return r.data}
+function license(id){return state.licenses.find(function(l){return l.id===id})}
+function assignment(id){return state.assignments.find(function(a){return a.license_id===id})||{}}
+function product(code){return state.catalog.find(function(p){return p.product_code===code})||{}}
+function events(id){
+ var grouped=new Map();
+ state.events.filter(function(e){return e.license_id===id}).forEach(function(e){
+  var x=grouped.get(e.attempt_id)||{asset_id:e.asset_id,created_at:e.created_at,status:"requested"};
+  if(e.event_type==="received")x.status="received";
+  if(e.event_type==="failed"&&x.status!=="received")x.status="failed";
+  if(e.event_type==="requested")x.created_at=e.created_at;
+  grouped.set(e.attempt_id,x)
+ });
+ var rows=[...grouped.values()].sort(function(a,b){return Date.parse(b.created_at)-Date.parse(a.created_at)});
+ return {rows:rows,received:rows.filter(function(e){return e.status==="received"}).length}
+}
+function status(l){if(l.status==="revoked")return "Revocada";if(l.status==="available")return "Sin activar";if(l.status==="active"&&l.expires_at&&Date.parse(l.expires_at)<Date.now())return "Vencida";return l.status==="active"?"Activa":l.status}
+function renderList(){
+ var q=el("crSearch").value.trim().toLowerCase(),rows=state.licenses.filter(function(l){
+ var a=assignment(l.id),p=product(l.product_code);
+ return [l.order_ref,l.license_key,l.product_code,p.title,l.owner_email,a.buyer_name,a.contact_email,a.marketplace_buyer_id].join(" ").toLowerCase().includes(q)});
+ el("crCount").textContent=rows.length+" ventas encontradas (hasta las últimas 500 licencias del sistema).";
+ el("crRows").innerHTML=rows.slice(0,limit).map(function(l){
+  var a=assignment(l.id),p=product(l.product_code),d=events(l.id);
+  return '<tr><td><strong>'+esc(l.order_ref||"Sin referencia")+'</strong><small>'+esc(p.title||l.product_code)+'</small></td><td>'+esc(a.buyer_name||a.marketplace_buyer_id||l.owner_email||"Sin contacto")+'<small>'+esc(a.contact_email||"")+'</small></td><td><span class="cr-pill">'+esc(status(l))+'</span></td><td>'+d.received+' recibidas<small>'+d.rows.length+' solicitudes</small></td><td><button type="button" class="btn ghost" data-cr-id="'+esc(l.id)+'">Abrir ficha</button></td></tr>'
+ }).join("")||'<tr><td colspan="5" class="cr-note">No hay ventas que coincidan con la búsqueda.</td></tr>';
+ el("crMore").hidden=rows.length<=limit;
+ panel.querySelectorAll("[data-cr-id]").forEach(function(b){b.onclick=function(){openDetail(b.dataset.crId,true)}});
+}
+function renderProducts(){
+ var current=el("crProduct").value;
+ var valid=new Set(state.products.map(function(p){return p.product_code}));
+ var items=state.catalog.filter(function(p){return valid.has(p.product_code)});
+ el("crProduct").innerHTML=items.map(function(p){return '<option value="'+esc(p.product_code)+'">'+esc(p.title)+'</option>'}).join("");
+ if(items.some(function(p){return p.product_code===current}))el("crProduct").value=current;
+ el("crCreate").disabled=!items.length
+}
+async function refresh(){
+ notice("Cargando fichas…");
+ try{
+  var u=await sb.auth.getUser();if(u.data.user?.email?.toLowerCase()!=="pasalochevere@gmail.com")throw new Error("Ingresá con la cuenta administradora.");
+  var r=await api("pasalochevere-digital-delivery",{action:"admin_overview"});
+  var cfg=await api("pasalochevere-admin-license",{action:"config"});
+  Object.assign(state,{catalog:r.catalog||[],assets:r.assets||[],events:r.events||[],licenses:r.licenses||[],assignments:r.assignments||[],products:cfg.products||[]});
+  renderProducts();renderList();if(selected&&license(selected))openDetail(selected,false);
+  notice("Fichas actualizadas. Nombre y correo son datos de contacto; no habilitan descargas.");
+ }catch(e){notice(e.message||String(e),true)}
+}
+function access(l){return "https://pasalochevere.github.io/expediente/acceso/?code="+encodeURIComponent(l.license_key)}
+function buyerMessage(l){return "¡Gracias por tu compra en PasaloChévere!\nProducto: "+(product(l.product_code).title||l.product_code)+"\nCódigo: "+l.license_key+"\nActivá tu producto: "+access(l)+"\n\nPara archivos imprimibles, después de activar ingresá a https://pasalochevere.github.io/expediente/descargas/"}
+async function copy(t){try{await navigator.clipboard.writeText(t)}catch(_){var e=document.createElement("textarea");e.value=t;document.body.appendChild(e);e.select();document.execCommand("copy");e.remove()}}
+function createdView(l,reused){
+ created=l;el("crCreated").hidden=false;el("crCreated").innerHTML='<h3>'+(reused?"Código de una venta existente":"Nueva licencia creada")+'</h3><p class="cr-code">'+esc(l.license_key)+'</p><div class="cr-actions"><button id="crCopyCode" class="btn primary">Copiar código</button><button id="crCopyBuyer" class="btn">Copiar mensaje al comprador</button><button id="crJump" class="btn">Abrir ficha</button></div><p class="cr-note">El comprador deberá activar este código desde su cuenta verificada.</p>';
+ el("crCopyCode").onclick=function(){copy(l.license_key);this.textContent="Copiado"};
+ el("crCopyBuyer").onclick=function(){copy(buyerMessage(l));this.textContent="Mensaje copiado"};
+ el("crJump").onclick=function(){openDetail(l.id,true)};
+}
+async function create(){
+ var ref=el("crSale").value.trim(),channel=el("crChannel").value,code=el("crProduct").value,
+ name=el("crName").value.trim(),email=el("crContact").value.trim(),buyerId=el("crBuyerId").value.trim(),note=el("crNote").value.trim();
+ if(!ref||!code){notice("Seleccioná producto y número de venta.",true);return}
+ if(channel==="ML"&&!/^\d{16}$/.test(ref)){notice("Mercado Libre requiere un número de venta de 16 dígitos.",true);return}
+ if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){notice("Email de contacto inválido.",true);return}
+ var b=el("crCreate"),l=null,reused=false;b.disabled=true;
+ try{
+  notice("Generando o recuperando el código sin duplicar la operación…");
+  // Este correo es SOLO para contacto. Nunca se remite al generador como owner_email.
+  var result=await api("pasalochevere-admin-license",{action:"create_license",product_code:code,channel:channel,sale_ref:ref,access_kind:"commercial"});
+  l=result.license;reused=!!result.reused;
+  if(!l?.id||!l?.license_key)throw new Error("No se recibió una licencia completa.");
+  if(name||email||buyerId||note)await api("pasalochevere-digital-delivery",{action:"customer_assign",license_id:l.id,buyer_name:name,contact_email:email,marketplace_buyer_id:buyerId,delivery_note:note});
+  createdView(l,reused);await refresh();
+  notice(reused?"Se recuperó la licencia existente y se asociaron los datos.":"Licencia creada y datos vinculados. Enviá el código al comprador.");
+ }catch(e){if(l)createdView(l,reused);notice((l?"El código existe, pero el contacto no pudo guardarse: ":"")+(e.message||String(e)),true)}
+ finally{b.disabled=false}
+}
+function openDetail(id,scroll){
+ var l=license(id);if(!l)return;selected=id;
+ var a=assignment(id),p=product(l.product_code),d=events(id),files=new Map(state.assets.map(function(x){return [x.id,x]}));
+ var history=d.rows.map(function(x){var f=files.get(x.asset_id)||{};return '<tr><td>'+date(x.created_at)+'</td><td>'+esc(f.file_name||"Archivo")+'</td><td>'+esc(x.status==="received"?"Recibido en navegador":x.status==="failed"?"Fallido":"Solicitado")+'</td></tr>'}).join("")||'<tr><td colspan="3" class="cr-note">Sin movimientos registrados.</td></tr>';
+ el("crDetail").hidden=false;
+ el("crDetail").innerHTML='<div class="cr-top"><div><div class="eyebrow">FICHA DE VENTA · '+esc(l.order_ref||"—")+'</div><h3>'+esc(p.title||l.product_code)+'</h3></div><button id="crClose" class="btn" type="button">Cerrar</button></div>'
+ +'<div class="cr-grid three"><div class="cr-card"><small>Licencia</small><strong class="cr-code">'+esc(l.license_key)+'</strong></div><div class="cr-card"><small>Estado</small><strong>'+esc(status(l))+'</strong></div><div class="cr-card"><small>Descargas recientes</small><strong>'+d.received+' recibidas / '+d.rows.length+' solicitudes</strong></div></div>'
+ +'<p class="cr-note">Cuenta que activó: <strong>'+esc(l.activated_at?l.owner_email||"No informada":"Pendiente")+'</strong> · Canal: '+esc(l.source)+' · Fecha: '+date(l.created_at)+'</p>'
+ +'<div class="cr-grid"><div><label for="crEditName">Nombre o alias</label><input id="crEditName" maxlength="100" value="'+esc(a.buyer_name||"")+'"/></div><div><label for="crEditContact">Email de contacto (no otorga acceso)</label><input type="email" id="crEditContact" maxlength="254" value="'+esc(a.contact_email||"")+'"/></div><div><label for="crEditBuyerId">ID del comprador</label><input id="crEditBuyerId" maxlength="100" value="'+esc(a.marketplace_buyer_id||"")+'"/></div><div><label for="crEditNote">Notas internas / reclamo</label><textarea id="crEditNote" maxlength="500">'+esc(a.delivery_note||"")+'</textarea></div></div>'
+ +'<div class="cr-actions"><button class="btn primary" id="crSave">Guardar ficha</button><button class="btn" id="crCodeCopy">Copiar código</button><button class="btn" id="crMessageCopy">Copiar mensaje</button><button class="btn" id="crCsv">Exportar ficha CSV</button>'+(a.license_id?'<button class="btn ghost" id="crRemove">Desvincular contacto</button>':"")+'</div>'
+ +'<p class="cr-note" id="crDetailMsg">Los datos de contacto son administrativos y no reemplazan la activación por código.</p><h3>Historial de descargas</h3><p class="cr-note">Muestra hasta los 500 eventos más recientes del módulo; una recepción no demuestra que el cliente abrió o guardó el archivo.</p><div class="cr-scroll"><table><thead><tr><th>Fecha</th><th>Archivo</th><th>Resultado</th></tr></thead><tbody>'+history+'</tbody></table></div>';
+ el("crClose").onclick=function(){el("crDetail").hidden=true;selected=null};
+ el("crSave").onclick=function(){save(id)};
+ el("crCodeCopy").onclick=function(){copy(l.license_key);this.textContent="Copiado"};
+ el("crMessageCopy").onclick=function(){copy(buyerMessage(l));this.textContent="Copiado"};
+ el("crCsv").onclick=function(){exportCsv(l,a,d)};
+ if(el("crRemove"))el("crRemove").onclick=function(){remove(id)};
+ if(scroll)el("crDetail").scrollIntoView({behavior:"smooth",block:"start"});
+}
+async function save(id){
+ var b=el("crSave");b.disabled=true;el("crDetailMsg").textContent="Guardando…";
+ try{await api("pasalochevere-digital-delivery",{action:"customer_assign",license_id:id,buyer_name:el("crEditName").value,contact_email:el("crEditContact").value,marketplace_buyer_id:el("crEditBuyerId").value,delivery_note:el("crEditNote").value});await refresh();el("crDetailMsg").textContent="Ficha guardada. Licencia y titularidad sin cambios."}catch(e){el("crDetailMsg").textContent="No se pudo guardar: "+(e.message||String(e))}finally{if(el("crSave"))el("crSave").disabled=false}
+}
+async function remove(id){
+ if(!confirm("¿Desvincular el contacto? El número de venta, la licencia y el historial de descargas se conservan."))return;
+ try{await api("pasalochevere-digital-delivery",{action:"customer_unassign",license_id:id});await refresh();notice("Contacto desvinculado. Se conservó la venta y su historial.")}catch(e){notice(e.message||String(e),true)}
+}
+function exportCsv(l,a,d){
+ var q=function(v){var s=String(v??"");if(/^[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};var rows=[["Campo","Valor"],["Venta",l.order_ref],["Producto",product(l.product_code).title||l.product_code],["Código",l.license_key],["Estado",status(l)],["Comprador",a.buyer_name],["Correo contacto",a.contact_email],["ID comprador",a.marketplace_buyer_id],["Cuenta activada",l.activated_at?l.owner_email:"Pendiente"],["Nota",a.delivery_note],["Solicitudes recientes",d.rows.length],["Recepciones recientes",d.received]];
+ d.rows.forEach(function(x){rows.push(["Descarga "+date(x.created_at),x.status+" - "+(state.assets.find(function(f){return f.id===x.asset_id})||{}).file_name])});
+ var url=URL.createObjectURL(new Blob(["\ufeff"+rows.map(function(x){return x.map(q).join(",")}).join("\r\n")],{type:"text/csv;charset=utf-8"})),node=document.createElement("a");node.href=url;node.download="PasaloChevere_Ficha_"+l.product_code+".csv";document.body.appendChild(node);node.click();node.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);
+}
+el("crChannel").onchange=function(){var ml=this.value==="ML";el("crSaleLabel").textContent=ml?"Número de venta ML (16 dígitos)":"Referencia de venta / pedido";el("crSale").value="";el("crSale").placeholder=ml?"2000018505705824":"PEDIDO-001";el("crSale").inputMode=ml?"numeric":"text"};
+el("crSale").oninput=function(){if(el("crChannel").value==="ML")this.value=this.value.replace(/\D/g,"").slice(0,16)};
+el("crRefresh").onclick=refresh;el("crCreate").onclick=create;
+el("crSearch").oninput=function(){limit=30;renderList()};
+el("crMore").onclick=function(){limit+=30;renderList()};
+sb.auth.onAuthStateChange(function(_event,session){if(session?.user?.email?.toLowerCase()==="pasalochevere@gmail.com")setTimeout(refresh,250)});
+refresh();
+})();
