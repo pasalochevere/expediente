@@ -1,0 +1,329 @@
+{
+  "collection_id": "butter_mania",
+  "name": "Butter Mania",
+  "release": "BM20-F8-A4-20261028",
+  "kind": "printable_collection",
+  "characters": [
+    {
+      "code": "BM01",
+      "slug": "bm01",
+      "name": "Mantequita clásica",
+      "cut_mm": [
+        120.0,
+        100.14
+      ],
+      "assets": {
+        "front_color": "BM01_front_color.webp",
+        "back_color": "BM01_back_color.webp",
+        "front_bn": "BM01_front_bn.webp",
+        "back_bn": "BM01_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM02",
+      "slug": "bm02",
+      "name": "Quesito triangular",
+      "cut_mm": [
+        117.54,
+        119.99
+      ],
+      "assets": {
+        "front_color": "BM02_front_color.webp",
+        "back_color": "BM02_back_color.webp",
+        "front_bn": "BM02_front_bn.webp",
+        "back_bn": "BM02_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM03",
+      "slug": "bm03",
+      "name": "Cremita frutilla",
+      "cut_mm": [
+        103.9,
+        120.0
+      ],
+      "assets": {
+        "front_color": "BM03_front_color.webp",
+        "back_color": "BM03_back_color.webp",
+        "front_bn": "BM03_front_bn.webp",
+        "back_bn": "BM03_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM04",
+      "slug": "bm04",
+      "name": "Manteca derretida",
+      "cut_mm": [
+        120.0,
+        98.35
+      ],
+      "assets": {
+        "front_color": "BM04_front_color.webp",
+        "back_color": "BM04_back_color.webp",
+        "front_bn": "BM04_front_bn.webp",
+        "back_bn": "BM04_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM05",
+      "slug": "bm05",
+      "name": "Manteca corazón",
+      "cut_mm": [
+        119.97,
+        107.89
+      ],
+      "assets": {
+        "front_color": "BM05_front_color.webp",
+        "back_color": "BM05_back_color.webp",
+        "front_bn": "BM05_front_bn.webp",
+        "back_bn": "BM05_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM06",
+      "slug": "bm06",
+      "name": "Manteca flor",
+      "cut_mm": [
+        119.98,
+        102.32
+      ],
+      "assets": {
+        "front_color": "BM06_front_color.webp",
+        "back_color": "BM06_back_color.webp",
+        "front_bn": "BM06_front_bn.webp",
+        "back_bn": "BM06_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM07",
+      "slug": "bm07",
+      "name": "Crema frutilla copete",
+      "cut_mm": [
+        119.98,
+        119.21
+      ],
+      "assets": {
+        "front_color": "BM07_front_color.webp",
+        "back_color": "BM07_back_color.webp",
+        "front_bn": "BM07_front_bn.webp",
+        "back_bn": "BM07_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM08",
+      "slug": "bm08",
+      "name": "Crema arándanos",
+      "cut_mm": [
+        119.98,
+        119.21
+      ],
+      "assets": {
+        "front_color": "BM08_front_color.webp",
+        "back_color": "BM08_back_color.webp",
+        "front_bn": "BM08_front_bn.webp",
+        "back_bn": "BM08_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM09",
+      "slug": "bm09",
+      "name": "Manteca vainilla",
+      "cut_mm": [
+        119.98,
+        107.82
+      ],
+      "assets": {
+        "front_color": "BM09_front_color.webp",
+        "back_color": "BM09_back_color.webp",
+        "front_bn": "BM09_front_bn.webp",
+        "back_bn": "BM09_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM10",
+      "slug": "bm10",
+      "name": "Manteca chocolate",
+      "cut_mm": [
+        119.98,
+        107.82
+      ],
+      "assets": {
+        "front_color": "BM10_front_color.webp",
+        "back_color": "BM10_back_color.webp",
+        "front_bn": "BM10_front_bn.webp",
+        "back_bn": "BM10_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM11",
+      "slug": "bm11",
+      "name": "Manteca matcha",
+      "cut_mm": [
+        119.98,
+        107.82
+      ],
+      "assets": {
+        "front_color": "BM11_front_color.webp",
+        "back_color": "BM11_back_color.webp",
+        "front_bn": "BM11_front_bn.webp",
+        "back_bn": "BM11_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM12",
+      "slug": "bm12",
+      "name": "Manteca miel",
+      "cut_mm": [
+        120.0,
+        98.35
+      ],
+      "assets": {
+        "front_color": "BM12_front_color.webp",
+        "back_color": "BM12_back_color.webp",
+        "front_bn": "BM12_front_bn.webp",
+        "back_bn": "BM12_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM13",
+      "slug": "bm13",
+      "name": "Quesito suizo",
+      "cut_mm": [
+        119.99,
+        102.66
+      ],
+      "assets": {
+        "front_color": "BM13_front_color.webp",
+        "back_color": "BM13_back_color.webp",
+        "front_bn": "BM13_front_bn.webp",
+        "back_bn": "BM13_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM14",
+      "slug": "bm14",
+      "name": "Quesito cheddar",
+      "cut_mm": [
+        119.94,
+        96.29
+      ],
+      "assets": {
+        "front_color": "BM14_front_color.webp",
+        "back_color": "BM14_back_color.webp",
+        "front_bn": "BM14_front_bn.webp",
+        "back_bn": "BM14_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM15",
+      "slug": "bm15",
+      "name": "Mozzarella con albahaca",
+      "cut_mm": [
+        120.0,
+        114.66
+      ],
+      "assets": {
+        "front_color": "BM15_front_color.webp",
+        "back_color": "BM15_back_color.webp",
+        "front_bn": "BM15_front_bn.webp",
+        "back_bn": "BM15_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM16",
+      "slug": "bm16",
+      "name": "Quesito con hierbas",
+      "cut_mm": [
+        119.94,
+        96.29
+      ],
+      "assets": {
+        "front_color": "BM16_front_color.webp",
+        "back_color": "BM16_back_color.webp",
+        "front_bn": "BM16_front_bn.webp",
+        "back_bn": "BM16_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM17",
+      "slug": "bm17",
+      "name": "Crema de vainilla",
+      "cut_mm": [
+        119.98,
+        119.21
+      ],
+      "assets": {
+        "front_color": "BM17_front_color.webp",
+        "back_color": "BM17_back_color.webp",
+        "front_bn": "BM17_front_bn.webp",
+        "back_bn": "BM17_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM18",
+      "slug": "bm18",
+      "name": "Untable frutilla",
+      "cut_mm": [
+        119.98,
+        119.21
+      ],
+      "assets": {
+        "front_color": "BM18_front_color.webp",
+        "back_color": "BM18_back_color.webp",
+        "front_bn": "BM18_front_bn.webp",
+        "back_bn": "BM18_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM19",
+      "slug": "bm19",
+      "name": "Untable arándanos",
+      "cut_mm": [
+        119.98,
+        119.21
+      ],
+      "assets": {
+        "front_color": "BM19_front_color.webp",
+        "back_color": "BM19_back_color.webp",
+        "front_bn": "BM19_front_bn.webp",
+        "back_bn": "BM19_back_bn.webp"
+      }
+    },
+    {
+      "code": "BM20",
+      "slug": "bm20",
+      "name": "Crema corazones",
+      "cut_mm": [
+        119.98,
+        119.21
+      ],
+      "assets": {
+        "front_color": "BM20_front_color.webp",
+        "back_color": "BM20_back_color.webp",
+        "front_bn": "BM20_front_bn.webp",
+        "back_bn": "BM20_back_bn.webp"
+      }
+    }
+  ],
+  "orientation": "A4_landscape",
+  "sheets_per_variant": 20,
+  "access": "PSQ-FACTORY",
+  "state": "preview_only_pending_private_upload",
+  "original_collections_unchanged": true,
+  "resources": {
+    "color": {
+      "path": "P2.5/BM20/BUTTER_MANIA_20_A4_APAISADO_COLOR.pdf",
+      "download_name": "BUTTER_MANIA_20_A4_APAISADO_COLOR.pdf",
+      "sha256": "324535beb709db44689f3193516212744c700fc74362acba7621a3802abf636c",
+      "size": 24850286
+    },
+    "bn": {
+      "path": "P2.5/BM20/BUTTER_MANIA_20_A4_APAISADO_BN.pdf",
+      "download_name": "BUTTER_MANIA_20_A4_APAISADO_BN.pdf",
+      "sha256": "6a0fe31d6b1a3e9739067fc8bc89bba0c8a0a11c1464ffa64cc621656e1c8dc8",
+      "size": 8240058
+    }
+  },
+  "storage_bucket": "paper-squishy-downloads",
+  "preview_archive": "./previews.zip"
+}
