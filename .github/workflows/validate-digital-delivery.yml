@@ -1,0 +1,35 @@
+name: Validate digital-delivery frontend
+on:
+  push:
+    paths:
+      - admin-licencias/digital-delivery-v1.js
+      - descargas/index.html
+      - .github/workflows/validate-digital-delivery.yml
+  pull_request:
+    paths:
+      - admin-licencias/digital-delivery-v1.js
+      - descargas/index.html
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check admin module
+        run: node --check admin-licencias/digital-delivery-v1.js
+      - name: Extract buyer page inline JavaScript
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          html=Path('descargas/index.html').read_text()
+          scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',html,re.S)
+          assert scripts and scripts[-1].strip(),"Inline JavaScript missing"
+          Path('/tmp/pc-downloads-inline.js').write_text(scripts[-1])
+          PY
+      - name: Check buyer JavaScript
+        run: node --check /tmp/pc-downloads-inline.js
