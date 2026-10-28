@@ -5,7 +5,7 @@ const script=d.createElement('script');script.src='./psq-butter-mania-addon.js?v
  const maxWait=30000,startedAt=Date.now();
  const readiness=setInterval(()=>{
   const state=w.PSQ_BM20_20261028;
-  if(state?.ready){clearInterval(readiness);done=true;notice.classList.remove('error');notice.classList.add('ready');return}
+  if(state?.ready){clearInterval(readiness);done=true;notice.classList.remove('error');notice.classList.add('ready');try{state.open?.()}catch(error){console.warn('[BM20] Galería lista, no se pudo abrir automáticamente:',error)}return}
   if(state?.error){clearInterval(readiness);notice.classList.add('error');notice.textContent='No se pudo cargar Butter Mania: '+state.error;return}
   if(Date.now()-startedAt>maxWait){clearInterval(readiness);notice.classList.add('error');notice.textContent='Butter Mania no terminó de cargar el catálogo y las miniaturas. Revisá la conexión e intentá recargar.';}
  },200);
