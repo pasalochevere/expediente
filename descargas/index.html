@@ -17,7 +17,7 @@ h1{font-size:clamp(28px,5vw,39px);margin:7px 0}.sub{color:var(--muted);line-heig
 </head>
 <body>
 <main>
-<div class="top"><div class="brand">PASALOCHÉVERE · MIS DESCARGAS</div><a class="btn" href="../portal-v2/">Volver a mis juegos</a></div>
+<div class="top"><div class="brand">PASALOCHÉVERE · MIS DESCARGAS</div><a class="btn" href="../portal-v2/">Volver a mis juegos</a><a class="btn" id="adminBtn" style="display:none;border-color:var(--orange);color:var(--orange)" href="../admin-licencias/">Administrar licencias y archivos</a></div>
 <h1>Tus productos digitales, en un solo lugar</h1>
 <p class="sub">Accedé a los archivos que compraste con tu cuenta verificada. Las descargas se registran por licencia y operación para ayudarte si necesitás asistencia.</p>
 <div id="status" class="status" role="status">Verificando tu sesión…</div>
@@ -32,6 +32,7 @@ var sb=supabase.createClient("https://fzbndgfnqxcacsvlitui.supabase.co","sb_publ
 var $=function(id){return document.getElementById(id)};
 var esc=function(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
 var status=function(s){$("status").textContent=s};
+var adminMode=false;
 function explainError(value){if(typeof value==="string")return value;if(value&&typeof value==="object"){if(value.error)return explainError(value.error);if(typeof value.message==="string")return value.message;if(typeof value.error_description==="string")return value.error_description;if(typeof value.code==="string")return "Error de consulta ("+value.code+"). Reintentá."; }return "No se pudo completar la consulta. Reintentá."}
 async function api(body){var r=await sb.functions.invoke("pasalochevere-digital-delivery",{body:body});if(r.error){var data;try{data=await r.error.context?.json()}catch(e){}throw new Error(explainError(data||r.error))}if(!r.data||!r.data.ok)throw new Error(explainError(r.data));return r.data}
 function ready(p){return p.status==="active"&&p.expires_at&&new Date(p.expires_at).getTime()>Date.now()}
@@ -40,7 +41,7 @@ $("list").innerHTML=products.length?products.map(function(p){
 var good=ready(p),files=p.files||[];
 var buttons=!good?'<p class="sub">Necesitás activar o renovar tu licencia desde el Portal.</p>':!files.length?'<p class="sub">Los archivos de este producto todavía no están habilitados. Contactanos para recibir ayuda.</p>':files.map(function(f){return '<div class="file"><div><strong>'+esc(f.file_name)+'</strong><small>'+((f.file_size||0)/1048576).toFixed(1)+' MB · Acceso protegido</small></div><button class="btn primary" data-license="'+esc(p.license_id)+'" data-asset="'+esc(f.id)+'">Descargar</button></div>'}).join("");
 return '<section class="card"><div class="header"><div><div class="code">'+esc(p.product_code)+'</div><h2>'+esc(p.title)+'</h2></div><span class="badge">'+(good?"Licencia activa":"Sin acceso activo")+'</span></div>'+buttons+'</section>'
-}).join(""):'<section class="card"><h2>No encontramos descargas asociadas a esta cuenta</h2><p class="sub">Si ya compraste un PDF, activá tu código desde el Portal. Si todavía no te enviaron un código, consultanos con tu número de operación.</p><a class="btn" href="../portal-v2/">Activar mi compra</a></section>';
+}).join(""):adminMode?'<section class="card"><span class="badge">Cuenta administradora</span><h2>Estás viendo la página de los compradores</h2><p class="sub">Todavía no hay compras descargables activadas en esta cuenta. Para cargar los PDF, consultar licencias y registrar entregas, ingresá al Admin Maestro de Licencias.</p><a class="btn primary" style="background:var(--orange);color:#111" href="../admin-licencias/">Ir al administrador de licencias</a></section>':'<section class="card"><h2>No encontramos descargas asociadas a esta cuenta</h2><p class="sub">Si ya compraste un PDF, activá tu código desde el Portal. Si todavía no te enviaron un código, consultanos con tu número de operación.</p><a class="btn" href="../portal-v2/">Activar mi compra</a></section>';
 document.querySelectorAll("[data-asset]").forEach(function(b){b.onclick=function(){download(b)}});
 }
 async function download(btn){
@@ -58,7 +59,9 @@ btn.textContent="Descarga iniciada";status("Archivo recibido por el navegador y 
 }
 async function start(){
 try{var r=await sb.auth.getUser(),user=r.data.user;if(!user||!user.email){status("No tenés una sesión activa. Ingresá al Portal, verificá tu email y volvé aquí.");$("list").innerHTML='<a class="btn" href="../portal-v2/">Iniciar sesión / activar código</a>';return}
-status("Cuenta verificada: "+user.email);
+adminMode=user.email.trim().toLowerCase()==="pasalochevere@gmail.com";
+$("adminBtn").style.display=adminMode?"inline-block":"none";
+status(adminMode?"Cuenta administradora verificada: "+user.email+" · Esta sección es para verificar entregas de compradores.":"Cuenta verificada: "+user.email);
 var result=await api({action:"me"});render(result.products);
 }catch(e){status("No se pudieron consultar las licencias: "+e.message)}
 }
