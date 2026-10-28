@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PasaloChévere · Mis descargas</title>
+<style>
+:root{--bg:#101114;--card:#1d2025;--line:#373b43;--orange:#f7941d;--muted:#b5bac2;--ink:#fff}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(ellipse at top,#27201b,#101114 55%);color:var(--ink);min-height:100vh;margin:0}
+main{max-width:950px;margin:0 auto;padding:27px 20px 60px}.brand{color:var(--orange);font-size:13px;font-weight:900;letter-spacing:.14em}.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:30px}
+a.btn,button.btn{display:inline-block;border:1px solid var(--line);border-radius:11px;text-decoration:none;color:var(--ink);background:#292c32;padding:12px 16px;font-weight:750;font-size:14px;cursor:pointer}button.primary{background:var(--orange);color:#111;border-color:var(--orange)}button:disabled{opacity:.55;cursor:wait}
+h1{font-size:clamp(28px,5vw,39px);margin:7px 0}.sub{color:var(--muted);line-height:1.6;max-width:730px}.status{padding:14px;border-radius:12px;border:1px solid var(--line);background:#1b1d21;margin:22px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin:18px 0}
+.header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}.code{color:var(--muted);font-size:12px}.badge{padding:7px 11px;background:#26443a;border-radius:30px;font-size:12px;color:#a9e6cb}
+.file{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line);flex-wrap:wrap}.file:first-of-type{margin-top:10px}
+.file strong{display:block}.file small{display:block;color:var(--muted);margin-top:5px}.help{background:#242124;padding:17px;border-radius:14px;color:var(--muted);line-height:1.6;margin-top:30px}
+@media(max-width:600px){.file .btn{width:100%}.file{align-items:stretch}main{padding:18px 14px}.card{padding:16px}}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><div class="brand">PASALOCHÉVERE · MIS DESCARGAS</div><a class="btn" href="../portal-v2/">Volver a mis juegos</a></div>
+<h1>Tus productos digitales, en un solo lugar</h1>
+<p class="sub">Accedé a los archivos que compraste con tu cuenta verificada. Las descargas se registran por licencia y operación para ayudarte si necesitás asistencia.</p>
+<div id="status" class="status" role="status">Verificando tu sesión…</div>
+<div id="list"></div>
+<div class="help">Los archivos pueden usarse según la licencia de tu compra. Si no encontrás un producto, activá primero su código en el <a href="../portal-v2/" style="color:#f7941d">Portal PasaloChévere</a>. No compartas tus códigos ni enlaces temporales de descarga.</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+"use strict";
+var sb=supabase.createClient("https://fzbndgfnqxcacsvlitui.supabase.co","sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo",{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+var $=function(id){return document.getElementById(id)};
+var esc=function(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var status=function(s){$("status").textContent=s};
+async function api(body){var r=await sb.functions.invoke("pasalochevere-digital-delivery",{body:body});if(r.error){var m=r.error.message;try{m=(await r.error.context.json()).error||m}catch(e){}throw new Error(m)}if(!r.data||!r.data.ok)throw new Error(r.data&&r.data.error||"Error de descarga");return r.data}
+function ready(p){return p.status==="active"&&p.expires_at&&new Date(p.expires_at).getTime()>Date.now()}
+function render(products){
+$("list").innerHTML=products.length?products.map(function(p){
+var good=ready(p),files=p.files||[];
+var buttons=!good?'<p class="sub">Necesitás activar o renovar tu licencia desde el Portal.</p>':!files.length?'<p class="sub">Los archivos de este producto todavía no están habilitados. Contactanos para recibir ayuda.</p>':files.map(function(f){return '<div class="file"><div><strong>'+esc(f.file_name)+'</strong><small>'+((f.file_size||0)/1048576).toFixed(1)+' MB · Acceso protegido</small></div><button class="btn primary" data-license="'+esc(p.license_id)+'" data-asset="'+esc(f.id)+'">Descargar</button></div>'}).join("");
+return '<section class="card"><div class="header"><div><div class="code">'+esc(p.product_code)+'</div><h2>'+esc(p.title)+'</h2></div><span class="badge">'+(good?"Licencia activa":"Sin acceso activo")+'</span></div>'+buttons+'</section>'
+}).join(""):'<section class="card"><h2>No encontramos descargas asociadas a esta cuenta</h2><p class="sub">Si ya compraste un PDF, activá tu código desde el Portal. Si todavía no te enviaron un código, consultanos con tu número de operación.</p><a class="btn" href="../portal-v2/">Activar mi compra</a></section>';
+document.querySelectorAll("[data-asset]").forEach(function(b){b.onclick=function(){download(b)}});
+}
+async function download(btn){
+var assetId=btn.dataset.asset,licenseId=btn.dataset.license,attempt="",name="producto.pdf";
+btn.disabled=true;btn.textContent="Preparando…";
+try{
+var d=await api({action:"request_download",asset_id:assetId,license_id:licenseId});attempt=d.attempt_id;name=d.file_name;
+btn.textContent="Descargando archivo…";
+var response=await fetch(d.url,{cache:"no-store"});if(!response.ok)throw new Error("La transferencia no se completó ("+response.status+").");
+var blob=await response.blob();if(!blob.size)throw new Error("El archivo se recibió vacío.");
+await api({action:"download_result",attempt_id:attempt,success:true});
+var url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},60000);
+btn.textContent="Descarga iniciada";status("Archivo recibido por el navegador y registrado. Si no aparece en tu carpeta Descargas, revisá los permisos del navegador.");
+}catch(e){if(attempt)await api({action:"download_result",attempt_id:attempt,success:false}).catch(function(){});status("No se pudo completar: "+(e.message||String(e)));btn.textContent="Reintentar"}finally{btn.disabled=false}
+}
+async function start(){
+try{var r=await sb.auth.getUser(),user=r.data.user;if(!user||!user.email){status("No tenés una sesión activa. Ingresá al Portal, verificá tu email y volvé aquí.");$("list").innerHTML='<a class="btn" href="../portal-v2/">Iniciar sesión / activar código</a>';return}
+status("Cuenta verificada: "+user.email);
+var result=await api({action:"me"});render(result.products);
+}catch(e){status("No se pudieron consultar las licencias: "+e.message)}
+}
+start();
+})();
+</script>
+</body></html>
