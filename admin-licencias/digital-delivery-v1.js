@@ -19,7 +19,8 @@ panel.innerHTML=[
 ].join("");
 root.closest("section.card").insertAdjacentElement("afterend",panel);
 var setMessage=function(msg,bad){$("ddMsg").textContent=msg;$("ddMsg").className="msg "+(bad?"bad":"good")};
-async function api(body){var r=await sb.functions.invoke("pasalochevere-digital-delivery",{body:body});if(r.error){var m=r.error.message;try{m=(await r.error.context.json()).error||m}catch(e){}throw new Error(m)}if(!r.data||!r.data.ok)throw new Error(r.data&&r.data.error||"Solicitud fallida");return r.data}
+function explainError(value){if(typeof value==="string")return value;if(value&&typeof value==="object"){if(value.error)return explainError(value.error);if(typeof value.message==="string")return value.message;if(typeof value.error_description==="string")return value.error_description;if(typeof value.code==="string")return "Error de consulta ("+value.code+"). Reintentá."; }return "No se pudo completar la consulta. Reintentá."}
+async function api(body){var r=await sb.functions.invoke("pasalochevere-digital-delivery",{body:body});if(r.error){var data;try{data=await r.error.context?.json()}catch(e){}throw new Error(explainError(data||r.error))}if(!r.data||!r.data.ok)throw new Error(explainError(r.data));return r.data}
 function attempts(){var m=new Map();state.events.forEach(function(e){var v=m.get(e.attempt_id)||{license_id:e.license_id,asset_id:e.asset_id,date:e.created_at,status:"requested"};if(e.event_type==="received")v.status="received";else if(e.event_type==="failed"&&v.status!=="received")v.status="failed";if(e.event_type==="requested")v.date=e.created_at;m.set(e.attempt_id,v)});return Array.from(m.values())}
 function dates(s){return s?new Date(s).toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"}):"—"}
 function render(){
