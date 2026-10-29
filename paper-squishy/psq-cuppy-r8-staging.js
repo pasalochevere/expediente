@@ -3,11 +3,13 @@
    This is a staging feature flag, NOT an authentication mechanism.
    Never release before uploading/reviewing assets and full E2E QA. */
 const FLAG='cp34b1-r8-cuppy';
-const enabled=location.searchParams?.has?.(FLAG) || new URLSearchParams(location.search).get(FLAG)==='preview';
+const host=String(location.hostname||'').toLowerCase();
+const isSafeHost=host==='localhost'||host==='127.0.0.1'||host.endsWith('.vercel.app');
+const enabled=isSafeHost && new URLSearchParams(location.search).get(FLAG)==='preview';
 if(!enabled){window.PSQ_CUPPY_R8={active:false,reason:'feature-flag-off'};return;}
 const lib=window.PS_LIBRARY, ch=lib?.characters?.find(c=>c.slug==='cuppy');
 if(!ch){window.PSQ_CUPPY_R8={active:false,reason:'cuppy-not-loaded'};return;}
-const paths={original:{front:ch.assets?.front_print?.path,back:ch.assets?.back_print?.path},
+const paths={original:{front:'./cp34b1-r8-assets/cuppy_original_front.png',back:'./cp34b1-r8-assets/cuppy_original_back.png'},
 lavanda:{front:'./cp34b1-r8-assets/cuppy_lavanda_front.png',back:'./cp34b1-r8-assets/cuppy_lavanda_back.png'},
 menta:{front:'./cp34b1-r8-assets/cuppy_menta_front.png',back:'./cp34b1-r8-assets/cuppy_menta_back.png'}};
 let state={preset:'original',side:'front',ready:false},inflight=0;
@@ -25,6 +27,21 @@ el.querySelectorAll('[data-r8-side]').forEach(b=>b.onclick=()=>{state.side=b.dat
 el.querySelector('#cpR8Pair').onclick=async()=>{status('Comprobando el par…');try{const [f,b]=await Promise.all([load(paths[state.preset].front),load(paths[state.preset].back)]);status('Par disponible: '+f.naturalWidth+'×'+f.naturalHeight+' / '+b.naturalWidth+'×'+b.naturalHeight+'. Impresión no liberada.');}catch(e){status('Par bloqueado: '+e.message)}};
 el.querySelector('#cpR8Close').onclick=()=>{el.classList.remove('open');document.documentElement.style.overflow=''};
 function open(){el.classList.add('open');document.documentElement.style.overflow='hidden';preview();}
-window.PSQ_CUPPY_R8={active:true,release:'R8-staging',open,close:()=>el.querySelector('#cpR8Close').click(),assetPaths:paths};
-const btn=document.createElement('button');btn.textContent='🧁 Cuppy · colores (prueba R8)';btn.style.cssText='position:fixed;bottom:18px;right:18px;z-index:9000;background:#ffdeaa;border:2px solid #8c5a4b;border-radius:14px;padding:11px;font-weight:800';btn.onclick=open;document.body.append(btn);
+window.PSQ_CUPPY_R8={active:false,release:'R8-staging',reason:'awaiting-server-license'};
+async function verifyServerLicense(){
+ const factory=window.supabase?.createClient;
+ if(typeof factory!=='function')throw Error('Supabase Auth no disponible en preview');
+ const client=factory('https://fzbndgfnqxcacsvlitui.supabase.co','sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+ const {data:userResult,error:authError}=await client.auth.getUser();
+ if(authError||!userResult?.user)throw Error('Sesión autenticada no disponible');
+ const {data,error}=await client.functions.invoke('pasalochevere-access',{body:{action:'me'}});
+ if(error||!data?.ok)throw Error('Acceso a licencias rechazado');
+ const approved=(data.licenses||[]).some(l=>l.product_code==='PSQ-FACTORY'&&l.status==='active'&&(!l.expires_at||Date.parse(l.expires_at)>Date.now()));
+ if(!approved)throw Error('La licencia PSQ-FACTORY no está activa');
+ return true;
+}
+verifyServerLicense().then(()=>{
+ window.PSQ_CUPPY_R8={active:true,release:'R8-staging',open,close:()=>el.querySelector('#cpR8Close').click(),assetPaths:paths,licenseVerified:true};
+ const btn=document.createElement('button');btn.textContent='🧁 Cuppy · colores (prueba R8)';btn.style.cssText='position:fixed;bottom:18px;right:18px;z-index:9000;background:#ffdeaa;border:2px solid #8c5a4b;border-radius:14px;padding:11px;font-weight:800';btn.onclick=open;document.body.append(btn);
+}).catch(err=>{window.PSQ_CUPPY_R8={active:false,release:'R8-staging',reason:'server-license-not-verified'};console.warn('[Cuppy R8] Acceso de prueba bloqueado:',String(err?.message||err));});
 })();
