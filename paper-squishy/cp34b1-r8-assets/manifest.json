@@ -1,0 +1,81 @@
+{
+  "release": "CP3.4B1-R8-R2",
+  "status": "assets-installed-staging-only",
+  "branch": "staging/cp34b1-r8-cuppy",
+  "artworks": {
+    "original": {
+      "front": "cuppy_original_front.png",
+      "back": "cuppy_original_back.png"
+    },
+    "lavanda": {
+      "front": "cuppy_lavanda_front.png",
+      "back": "cuppy_lavanda_back.png"
+    },
+    "menta": {
+      "front": "cuppy_menta_front.png",
+      "back": "cuppy_menta_back.png"
+    }
+  },
+  "files": [
+    {
+      "name": "cuppy_original_front.png",
+      "bytes": 1207817,
+      "sha256": "fc0a025f20fc1c2b216672cf41d3562c45254c72f50173839557e41aa6e68856",
+      "dimensions": [
+        1364,
+        1929
+      ]
+    },
+    {
+      "name": "cuppy_original_back.png",
+      "bytes": 1203006,
+      "sha256": "d99ba1a258876869c1aba5b199217ac9af158d7f591ce6f5240d216cec7bfaf9",
+      "dimensions": [
+        1364,
+        1929
+      ]
+    },
+    {
+      "name": "cuppy_lavanda_front.png",
+      "bytes": 1226852,
+      "sha256": "6b5e313147207b5b2c05698afe4730b63be46520d3e9f12ec31c9cc588ab24c7",
+      "dimensions": [
+        1364,
+        1929
+      ]
+    },
+    {
+      "name": "cuppy_lavanda_back.png",
+      "bytes": 1201971,
+      "sha256": "b43fd23bc7936700b519457a63dde3a3013af0abd58709bc486ed8c32b9e9676",
+      "dimensions": [
+        1364,
+        1929
+      ]
+    },
+    {
+      "name": "cuppy_menta_front.png",
+      "bytes": 1227140,
+      "sha256": "a4be19541ea48e00ba56c1a6a3253ef42d25a87bd756bcffea9e45d24a04124a",
+      "dimensions": [
+        1364,
+        1929
+      ]
+    },
+    {
+      "name": "cuppy_menta_back.png",
+      "bytes": 1208252,
+      "sha256": "7b42d5478e35eadc920fb36ca4b1577b30586c2c45ac1e9e1b6774bc466378ff",
+      "dimensions": [
+        1364,
+        1929
+      ]
+    }
+  ],
+  "preview": {
+    "state": "blocked",
+    "reason": "Vercel 403 — no project creation permission",
+    "allowed_hosts": []
+  },
+  "production_release": false
+}
