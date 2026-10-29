@@ -4,7 +4,7 @@
    Never release before uploading/reviewing assets and full E2E QA. */
 const FLAG='cp34b1-r8-cuppy';
 const host=String(location.hostname||'').toLowerCase();
-const isSafeHost=host==='localhost'||host==='127.0.0.1'||host.endsWith('.vercel.app');
+const allowedPreviewHosts=[]; // populate only after verified protected Vercel deployment\nconst isSafeHost=host==='localhost'||host==='127.0.0.1'||allowedPreviewHosts.includes(host);
 const enabled=isSafeHost && new URLSearchParams(location.search).get(FLAG)==='preview';
 if(!enabled){window.PSQ_CUPPY_R8={active:false,reason:'feature-flag-off'};return;}
 const lib=window.PS_LIBRARY, ch=lib?.characters?.find(c=>c.slug==='cuppy');
