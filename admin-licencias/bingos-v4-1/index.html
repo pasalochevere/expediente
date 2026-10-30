@@ -8,11 +8,11 @@ main{width:min(1040px,100%);margin:auto;padding:24px 17px 80px}h1{font-size:clam
 @media(max-width:560px){main{padding:15px 12px 60px}.panel{padding:14px}}
 </style></head><body><main>
 <div class="bar"><span class="eyebrow">PASALOCHÉVERE · ADMIN DE LICENCIAS</span><a href="../">← Volver al administrador</a></div>
-<h1>Subida de Bingos Musicales <span style="color:#ffb357">V4.1</span></h1>
-<p>Cargador seguro para cinco ediciones, diez PDFs y sus carátulas. Cada producto queda asociado al código de su edición; no comparte archivos con otros compradores.</p>
+<h1>Carátulas de Bingos Musicales <span style="color:#ffb357">V4.1</span></h1>
+<p>Cargá las carátulas de los cinco bingos sin tocar los diez PDFs ya subidos. Las imágenes se publican en un almacenamiento exclusivo para portadas comerciales; los PDFs siguen protegidos por licencia.</p>
 <div class="panel"><h2>1 · Cuenta administradora</h2><div id="authStatus" class="status">Comprobando sesión…</div><p>Tenés que haber iniciado sesión con <strong>pasalochevere@gmail.com</strong> en el <a href="../../portal-v2/">Portal PasaloChévere</a>.</p><button class="secondary" id="checkAuth">Volver a comprobar sesión</button></div>
-<div class="panel"><h2>2 · Paquete de archivos</h2><p>Seleccioná <b>PasaloChevere_Bingos_V4_1_SUBIDA_PORTAL.zip</b>, el archivo generado con los diez PDFs originales y cinco imágenes de portada.</p><input id="zip" type="file" accept=".zip,application/zip"><div id="zipStatus" class="status" style="margin-top:12px">Todavía no elegiste el paquete.</div><div class="actions"><button id="inspect">Verificar ZIP</button><button id="upload" disabled>Subir 10 PDFs y 5 carátulas</button></div></div>
-<div class="panel"><h2>3 · Ediciones y resultados</h2><div id="cards" class="grid"></div><div class="actions"><button class="secondary" id="refresh">Verificar archivos ya cargados</button></div><p class="hint">Cada edición se habilita recién cuando el sistema confirma PDF color, PDF B/N y carátula. Las tres ediciones nuevas permanecen deshabilitadas hasta completar la subida.</p></div>
+<div class="panel"><h2>2 · Carátulas originales</h2><p>Seleccioná <b>PasaloChevere_Bingos_V4_1_SOLO_CARATULAS.zip</b> (cinco imágenes JPG, aproximadamente 1,4 MB). También se admite el ZIP original completo. No es necesario volver a cargar los PDFs.</p><input id="zip" type="file" accept=".zip,application/zip"><div id="zipStatus" class="status" style="margin-top:12px">Elegí el ZIP de las cinco carátulas.</div><div class="actions"><button id="inspect">Verificar ZIP</button><button id="upload" disabled>Completar carátulas faltantes</button></div></div>
+<div class="panel"><h2>3 · Ediciones y resultados</h2><div id="cards" class="grid"></div><div class="actions"><button class="secondary" id="refresh">Verificar archivos ya cargados</button></div><p class="hint">El programa reutiliza los dos PDF existentes por producto y solo incorpora carátulas faltantes. Luego habilita cada edición si verifica que los tres archivos corresponden al mismo código.</p></div>
 <div class="panel"><h2>Registro de operación</h2><div id="log" class="log">Sin actividad.</div></div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -31,16 +31,24 @@ const $=id=>document.getElementById(id);
 let zip=null,busy=false,admin=false;
 const cards=Object.fromEntries(names.map(([code,title])=>[code,{title,files:[],cover:false,published:false}]));
 function log(msg,err){const el=$("log"),d=new Date().toLocaleTimeString("es-AR"),line="["+d+"] "+msg;el.textContent=(el.textContent==="Sin actividad."?"":el.textContent+"\n")+line;if(err)console.error(msg);el.scrollTop=el.scrollHeight}
-function paint(){ $("cards").innerHTML=names.map(([code,title])=>{const o=cards[code];return '<div class="item"><h3>'+title+'</h3><div class="tag">'+code+'</div><div class="tag">'+(o.files.includes(code+"_COLOR_V4_1.pdf")?"✅":"□")+' PDF color</div><div class="tag">'+(o.files.includes(code+"_BN_V4_1.pdf")?"✅":"□")+' PDF blanco y negro</div><div class="tag">'+(o.cover?"✅":"□")+' Carátula</div><div class="tag '+(o.published?"success":"hint")+'">'+(o.published?"● HABILITADO":"○ Pendiente de completar")+'</div></div>'}).join("")}
+function paint(){
+ $("cards").innerHTML=names.map(([code,title])=>{
+ const o=cards[code],pdfColor=o.files.includes(code+"_COLOR_V4_1.pdf"),pdfBN=o.files.includes(code+"_BN_V4_1.pdf");
+ const complete=o.published&&o.cover&&pdfColor&&pdfBN;
+ const state=complete?"● COMPLETO":o.published?"● PDF HABILITADOS · FALTA CARÁTULA":"○ PENDIENTE DE COMPLETAR";
+ const pic=o.cover?'<img loading="lazy" alt="Carátula de '+title+'" src="https://fzbndgfnqxcacsvlitui.supabase.co/functions/v1/pasalochevere-bingo-covers?product_code='+code+'">':'<div class="tag hint">Carátula pendiente</div>';
+ return '<div class="item"><h3>'+title+'</h3>'+pic+'<div class="tag">'+code+'</div><div class="tag">'+(pdfColor?"✅":"□")+' PDF color</div><div class="tag">'+(pdfBN?"✅":"□")+' PDF blanco y negro</div><div class="tag">'+(o.cover?"✅":"□")+' Carátula</div><div class="tag '+(complete?"success":"hint")+'">'+state+'</div></div>';
+ }).join("");
+}
 function parseError(r){if(typeof r==="string")return r;return r?.error||r?.message||String(r)}
 async function api(fn,body){const r=await sb.functions.invoke(fn,{body});if(r.error){let v;try{v=await r.error.context?.json()}catch{}throw Error(parseError(v||r.error))}if(!r.data?.ok)throw Error(parseError(r.data));return r.data}
 async function auth(){try{const {data,error}=await sb.auth.getUser();const u=data.user;admin=!error&&u?.email?.toLowerCase()==="pasalochevere@gmail.com"&&!u.is_anonymous;$("authStatus").textContent=admin?"✓ Sesión administrativa activa: "+u.email:"Cuenta no autorizada o sin sesión. Abrí el Portal e iniciá sesión con el correo administrador."; $("authStatus").className="status "+(admin?"success":"error");if(admin)await refresh();return admin}catch(e){admin=false;$("authStatus").textContent="Error de sesión: "+e.message;return false}}
 async function refresh(){if(!admin)return;try{const r=await api("pasalochevere-digital-delivery",{action:"admin_overview"});const existing=r.assets||[];const catalogue=new Map((r.catalog||[]).map(x=>[x.product_code,x]));for(const [code] of names){cards[code].files=existing.filter(x=>x.product_code===code&&x.enabled).map(x=>x.file_name);cards[code].published=!!catalogue.get(code)?.enabled;const status=await api("pasalochevere-bingo-covers",{action:"status",product_code:code});cards[code].cover=!!status.has_cover;}paint();log("Estado de PDFs y carátulas consultado. Los archivos existentes por edición aparecen marcados.")}catch(e){log("No pude consultar el catálogo: "+e.message,true)}}
 async function inspect(){const f=$("zip").files?.[0];if(!f){$("zipStatus").textContent="Seleccioná el ZIP primero.";return false}if(typeof JSZip==="undefined"){ $("zipStatus").textContent="No se pudo cargar JSZip; revisá la conexión.";return false }
-try{zip=await JSZip.loadAsync(f);const missing=[];for(const [code] of names){for(const ext of ["COLOR","BN"]){const p="pdfs/"+code+"_"+ext+"_V4_1.pdf";if(!zip.file(p))missing.push(p)}if(!zip.file("covers/"+code+".jpg"))missing.push("covers/"+code+".jpg")}
+try{zip=await JSZip.loadAsync(f);const missing=[];for(const [code] of names){for(const ext of ["COLOR","BN"]){const p="pdfs/"+code+"_"+ext+"_V4_1.pdf";if(!zip.file(p)&&!cards[code].files.includes(code+"_"+ext+"_V4_1.pdf"))missing.push(p)}if(!zip.file("covers/"+code+".jpg"))missing.push("covers/"+code+".jpg")}
 if(missing.length){$("zipStatus").textContent="Faltan archivos: "+missing.join(", ");zip=null;$("upload").disabled=true;return false}
-$("zipStatus").textContent="✓ Paquete completo: 10 PDF + 5 carátulas. Apto para cargar.";
-$("upload").disabled=!admin;log("ZIP verificado: 15 archivos y 5 productos.");return true}catch(e){zip=null;$("zipStatus").textContent="Error de ZIP: "+e.message;log(e.message,true);return false}}
+$("zipStatus").textContent="✓ Las 5 carátulas están presentes y los PDF ya cargados se reutilizarán.";
+$("upload").disabled=!admin;log("ZIP verificado: las cinco carátulas están listas para asociarse sin duplicar los PDF.");return true}catch(e){zip=null;$("zipStatus").textContent="Error de ZIP: "+e.message;log(e.message,true);return false}}
 async function assetUpload(code,path){const entry=zip.file(path);const blob=await entry.async("blob");const filename=path.split("/").pop();const file=new File([blob],filename,{type:"application/pdf"});
 const d=await api("pasalochevere-digital-delivery",{action:"admin_prepare_upload",product_code:code,file_name:file.name,file_size:file.size});
 const u=await sb.storage.from(d.bucket).uploadToSignedUrl(d.path,d.token,file,{contentType:"application/pdf"});if(u.error)throw u.error;
@@ -49,9 +57,9 @@ cards[code].files.push(filename);paint();log("✓ PDF incorporado: "+filename);
 }
 async function coverUpload(code){const filePath="covers/"+code+".jpg",blob=await zip.file(filePath).async("blob");const file=new File([blob],code+".jpg",{type:"image/jpeg"});const d=await api("pasalochevere-bingo-covers",{action:"prepare",product_code:code,file_name:file.name,file_size:file.size});const u=await sb.storage.from(d.bucket).uploadToSignedUrl(d.path,d.token,file,{contentType:"image/jpeg"});if(u.error)throw u.error;await api("pasalochevere-bingo-covers",{action:"finish",product_code:code,path:d.path});cards[code].cover=true;paint();log("✓ Carátula publicada: "+code)}
 async function upload(){if(busy||!admin||!zip)return;busy=true;$("upload").disabled=true;$("inspect").disabled=true;let n=0,failures=0;try{for(const [code,title] of names){log("—— Iniciando "+title+" ——");let good=true;for(const ext of ["COLOR","BN"]){const filename=code+"_"+ext+"_V4_1.pdf";if(cards[code].files.includes(filename)){log("Existente, omitido: "+filename);continue}try{await assetUpload(code,"pdfs/"+filename);n++}catch(e){good=false;failures++;log("ERROR PDF "+filename+": "+e.message,true)}}
-try{await coverUpload(code);n++}catch(e){good=false;failures++;log("ERROR portada "+code+": "+e.message,true)}
+if(cards[code].cover){log("Carátula ya vinculada; no se duplica: "+code)}else{try{await coverUpload(code);n++}catch(e){good=false;failures++;log("ERROR portada "+code+": "+e.message,true)}}
 if(good){try{await api("pasalochevere-bingo-covers",{action:"publish",product_code:code});cards[code].published=true;paint();log("✓ EDICIÓN HABILITADA PARA DESCARGAS: "+title)}catch(e){failures++;log("No se pudo habilitar "+title+": "+e.message,true)}}}
-log("Operación finalizada. "+n+" archivos transferidos, "+failures+" incidencias. Revisá los cinco estados antes de dar acceso.");}
+log("Operación finalizada. "+n+" archivos transferidos, "+failures+" incidencias. Revisá que los cinco estados estén COMPLETOS.");}
 finally{busy=false;$("upload").disabled=false;$("inspect").disabled=false;await refresh();}}
 $("checkAuth").onclick=auth;$("refresh").onclick=refresh;$("inspect").onclick=inspect;$("upload").onclick=upload;paint();auth();
 })();
