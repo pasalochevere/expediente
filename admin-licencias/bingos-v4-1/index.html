@@ -13,6 +13,15 @@ main{width:min(1040px,100%);margin:auto;padding:24px 17px 80px}h1{font-size:clam
 <div class="panel"><h2>1 · Cuenta administradora</h2><div id="authStatus" class="status">Comprobando sesión…</div><p>Tenés que haber iniciado sesión con <strong>pasalochevere@gmail.com</strong> en el <a href="../../portal-v2/">Portal PasaloChévere</a>.</p><button class="secondary" id="checkAuth">Volver a comprobar sesión</button></div>
 <div class="panel"><h2>2 · Carátulas originales</h2><p>Seleccioná <b>PasaloChevere_Bingos_V4_1_SOLO_CARATULAS.zip</b> (cinco imágenes JPG, aproximadamente 1,4 MB). También se admite el ZIP original completo. No es necesario volver a cargar los PDFs.</p><input id="zip" type="file" accept=".zip,application/zip"><div id="zipStatus" class="status" style="margin-top:12px">Elegí el ZIP de las cinco carátulas.</div><div class="actions"><button id="inspect">Verificar ZIP</button><button id="upload" disabled>Completar carátulas faltantes</button></div></div>
 <div class="panel"><h2>3 · Ediciones y resultados</h2><div id="cards" class="grid"></div><div class="actions"><button class="secondary" id="refresh">Verificar archivos ya cargados</button></div><p class="hint">El programa reutiliza los dos PDF existentes por producto y solo incorpora carátulas faltantes. Luego habilita cada edición si verifica que los tres archivos corresponden al mismo código.</p></div>
+<div class="panel" id="popUpgradePanel"><h2>4 · Actualizar POP MANÍA 2000s (Vol. 5)</h2>
+<p><strong>Sin subir los otros ocho PDFs.</strong> Elegí los dos PDF V4.2 nuevos y la carátula provisional renombrada. Al finalizar, se deshabilitan las dos versiones antiguas de «Fiebre 2000s» sin eliminarlas, y el QR de Spotify conserva el mismo enlace.</p>
+<div class="grid">
+ <div><label for="popColor"><b>1. PDF a color · V4.2</b></label><input type="file" id="popColor" accept="application/pdf,.pdf"></div>
+ <div><label for="popBN"><b>2. PDF blanco y negro · V4.2</b></label><input type="file" id="popBN" accept="application/pdf,.pdf"></div>
+ <div><label for="popCover"><b>3. Carátula de POP MANÍA</b></label><input type="file" id="popCover" accept="image/jpeg,image/png,.jpg,.jpeg,.png"></div>
+</div><div class="actions"><button id="popUpgrade">Actualizar Vol. 5 y reemplazar las versiones antiguas</button><a href="../../portal-v2/" target="_blank" class="btn secondary">Ver catálogo</a></div>
+<div id="popUpgradeStatus" class="status" style="margin-top:12px">Aguardando los tres archivos nuevos.</div>
+</div>
 <div class="panel"><h2>Registro de operación</h2><div id="log" class="log">Sin actividad.</div></div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -61,6 +70,57 @@ if(cards[code].cover){log("Carátula ya vinculada; no se duplica: "+code)}else{t
 if(good){try{await api("pasalochevere-bingo-covers",{action:"publish",product_code:code});cards[code].published=true;paint();log("✓ EDICIÓN HABILITADA PARA DESCARGAS: "+title)}catch(e){failures++;log("No se pudo habilitar "+title+": "+e.message,true)}}}
 log("Operación finalizada. "+n+" archivos transferidos, "+failures+" incidencias. Revisá que los cinco estados estén COMPLETOS.");}
 finally{busy=false;$("upload").disabled=false;$("inspect").disabled=false;await refresh();}}
+
+async function upgradePop(){
+ if(busy||!admin){$("popUpgradeStatus").textContent="Iniciá sesión con la cuenta administradora.";return}
+ const color=$("popColor").files?.[0],bn=$("popBN").files?.[0],cover=$("popCover").files?.[0];
+ if(!color||!bn||!cover){$("popUpgradeStatus").textContent="Elegí los dos PDFs V4.2 y la carátula de POP MANÍA.";return}
+ if(!/\.pdf$/i.test(color.name)||!/\.pdf$/i.test(bn.name)||!/\.(jpe?g|png)$/i.test(cover.name)){ $("popUpgradeStatus").textContent="Formato inválido: dos PDF y una imagen JPG/PNG.";return }
+ const code="BINGO-2000-30";
+ if(!confirm("Actualizar POP MANÍA 2000s con los dos PDF V4.2 y su carátula. Los dos PDF antiguos se deshabilitarán solo si las tres cargas se completan correctamente. ¿Continuar?"))return;
+ busy=true;$("popUpgrade").disabled=true;$("popUpgradeStatus").textContent="Subiendo actualización V4.2…";
+ try{
+  async function uploadPdf(file,filename){
+   const d=await api("pasalochevere-digital-delivery",{action:"admin_prepare_upload",product_code:code,file_name:filename,file_size:file.size});
+   const r=await sb.storage.from(d.bucket).uploadToSignedUrl(d.path,d.token,new File([file],filename,{type:"application/pdf"}),{contentType:"application/pdf"});
+   if(r.error)throw r.error;
+   await api("pasalochevere-digital-delivery",{action:"admin_finish_upload",product_code:code,path:d.path,file_name:filename});
+   log("✓ Nuevo PDF: "+filename);
+  }
+  let state=await api("pasalochevere-digital-delivery",{action:"admin_overview"});
+  const newNames=[code+"_COLOR_V4_2.pdf",code+"_BN_V4_2.pdf"];
+  if(!state.assets.some(a=>a.product_code===code&&a.enabled&&a.file_name===newNames[0]))await uploadPdf(color,newNames[0]);
+  if(!state.assets.some(a=>a.product_code===code&&a.enabled&&a.file_name===newNames[1]))await uploadPdf(bn,newNames[1]);
+  const coverName=code+"."+(/\.png$/i.test(cover.name)?"png":"jpg");
+  const d=await api("pasalochevere-bingo-covers",{action:"prepare",product_code:code,file_name:coverName,file_size:cover.size});
+  const r=await sb.storage.from(d.bucket).uploadToSignedUrl(d.path,d.token,cover,{contentType:coverName.endsWith(".png")?"image/png":"image/jpeg"});
+  if(r.error)throw r.error;
+  await api("pasalochevere-bingo-covers",{action:"finish",product_code:code,path:d.path});
+  log("✓ Carátula actualizada: POP MANÍA 2000s");
+  state=await api("pasalochevere-digital-delivery",{action:"admin_overview"});
+  const enabled=new Set(state.assets.filter(a=>a.product_code===code&&a.enabled).map(a=>a.file_name));
+  if(!newNames.every(n=>enabled.has(n)))throw Error("Los dos nuevos PDF todavía no figuran como activos. No se deshabilitaron los anteriores.");
+  const coverState=await api("pasalochevere-bingo-covers",{action:"status",product_code:code});
+  if(!coverState.has_cover)throw Error("No se verificó la carátula. No se deshabilitaron los anteriores.");
+  const old=state.assets.filter(a=>a.product_code===code&&a.enabled&&/_V4_1\.pdf$/i.test(a.file_name));
+  for(const asset of old){
+   await api("pasalochevere-digital-delivery",{action:"admin_toggle_asset",asset_id:asset.id,enabled:false});
+   log("Versión anterior deshabilitada: "+asset.file_name);
+  }
+  await api("pasalochevere-bingo-covers",{action:"publish",product_code:code});
+  const check=await api("pasalochevere-digital-delivery",{action:"admin_overview"});
+  const final=check.assets.filter(a=>a.product_code===code&&a.enabled);
+  if(!newNames.every(n=>final.some(a=>a.file_name===n)))throw Error("No se verificaron los PDF finales.");
+  if(final.some(a=>/_V4_1\.pdf$/i.test(a.file_name)))throw Error("Persisten PDF antiguos activos; revisá Productos y descargas.");
+  $("popUpgradeStatus").textContent="✓ POP MANÍA 2000s completo: 2 PDF V4.2, portada actualizada y versiones anteriores deshabilitadas. El QR de Spotify se conserva.";
+  log("✓ VOL. 5 ACTUALIZADO Y VERIFICADO");
+  await refresh();
+ }catch(e){
+  $("popUpgradeStatus").textContent="Actualización incompleta: "+e.message+". Los archivos existentes se conservan; revisá el registro antes de reintentar.";
+  log("ERROR actualización POP MANÍA: "+e.message,true);
+ }finally{busy=false;$("popUpgrade").disabled=false}
+}
+$("popUpgrade").onclick=upgradePop;
 $("checkAuth").onclick=auth;$("refresh").onclick=refresh;$("inspect").onclick=inspect;$("upload").onclick=upload;paint();auth();
 })();
 </script></body></html>
