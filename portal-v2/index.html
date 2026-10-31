@@ -327,7 +327,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
           <article class="card" data-cat="printables"><span class="status">● PRODUCTO IMPRIMIBLE</span><h3>EXPEDIENTES · CASO 001</h3><div class="accent">Investigación policial · edición imprimible</div><p>Activá el código de compra para vincularlo a tu cuenta. Consultá los archivos habilitados en Mis descargas.</p><div class="actions"><button class="btn" type="button" onclick="scrollToActivation()">ACTIVAR COMPRA</button><a class="btn" href="../descargas/">MIS DESCARGAS</a></div></article>
         </div></div>
         <div class="printGroup"><h4>🎭 Caretas y máscaras</h4><div class="drawerGrid">
-          <article class="card" data-cat="printables"><span class="status">● PREPARANDO ARCHIVOS</span><h3>CARETAS DE NAVIDAD</h3><div class="accent">Niños y adultos · colección de 20</div><p>Colección registrada para incorporar sus PDF finales en color y blanco y negro. Todavía no habilitada para entrega digital.</p></article>
+          <article class="card" data-cat="printables" id="navidad-mask-card"><span class="status" id="navidad-mask-state">● VERIFICANDO ARCHIVOS</span><h3>MÁSCARAS DE NAVIDAD · 20 DISEÑOS</h3><div class="accent">Niños y grandes · 4 PDFs A4 + guía</div><p id="navidad-mask-note">Dos tamaños, color y para colorear. Verificando si los archivos protegidos ya están habilitados.</p><div class="actions" id="navidad-mask-actions" style="display:none"><button class="btn" type="button" onclick="scrollToActivation()">ACTIVAR COMPRA</button><a class="btn" href="../descargas/">MIS DESCARGAS</a></div></article>
           <article class="card" data-cat="printables"><span class="status">● PREPARANDO ARCHIVOS</span><h3>CARETAS HALLOWEEN</h3><div class="accent">Colección imprimible · 20 diseños</div><p>Colección registrada para incorporar sus PDF finales en color y blanco y negro. Todavía no habilitada para entrega digital.</p></article>
           <article class="card" data-cat="printables"><span class="status">● PREPARANDO ARCHIVOS</span><h3>HALLOWEEN ADULTOS</h3><div class="accent">20 máscaras para adultos</div><p>Colección registrada para incorporar sus PDF finales en color y blanco y negro. Todavía no habilitada para entrega digital.</p></article>
         </div></div>
@@ -743,4 +743,17 @@ function closeCategories(){
 
 sb.auth.onAuthStateChange(()=>setTimeout(renderSession,0));
 setTimeout(renderSession,100);setTimeout(loadCatalog,120);setTimeout(renderPaymentReturn,160);
-</script><script src="c002-rc.js?v=20261020-di-v21k"></script></body></html>
+</script><script src="c002-rc.js?v=20261020-di-v21k"></script><script>
+/* MASK-NAV-20: el estado lo determina el catálogo privado, nunca este HTML. */
+(function(){
+ const state=document.getElementById("navidad-mask-state"),note=document.getElementById("navidad-mask-note"),actions=document.getElementById("navidad-mask-actions");
+ if(!state||!note||!actions)return;
+ fetch("https://fzbndgfnqxcacsvlitui.supabase.co/functions/v1/pasalochevere-navidad-publish",{
+  method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({action:"public_status"}),cache:"no-store"
+ }).then(r=>{if(!r.ok)throw Error("Estado no disponible");return r.json()}).then(d=>{
+  if(d.ok&&d.enabled){state.textContent="● DISPONIBLE PARA ACTIVAR";state.classList.add("live");note.textContent="20 máscaras imprimibles en tamaño niños y grandes, a color y para colorear. Activá tu compra y descargá los 4 PDF + guía desde Mis descargas.";actions.style.display="flex"}
+  else{state.textContent="● PREPARANDO ARCHIVOS";note.textContent="Colección registrada. La entrega se habilita al completar la carga protegida de los cinco archivos."}
+ }).catch(()=>{state.textContent="● CONSULTÁ DISPONIBILIDAD";note.textContent="El estado del catálogo no se pudo consultar. Si compraste el kit, revisá Mis descargas o contactá a soporte."});
+})();
+</script>
+</body></html>
