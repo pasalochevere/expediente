@@ -42,7 +42,7 @@ const cards=Object.fromEntries(names.map(([code,title])=>[code,{title,files:[],c
 function log(msg,err){const el=$("log"),d=new Date().toLocaleTimeString("es-AR"),line="["+d+"] "+msg;el.textContent=(el.textContent==="Sin actividad."?"":el.textContent+"\n")+line;if(err)console.error(msg);el.scrollTop=el.scrollHeight}
 function paint(){
  $("cards").innerHTML=names.map(([code,title])=>{
- const o=cards[code],pdfColor=o.files.includes(code+"_COLOR_V4_1.pdf"),pdfBN=o.files.includes(code+"_BN_V4_1.pdf");
+ const o=cards[code],pdfColor=o.files.some(n=>n===code+"_COLOR_V4_1.pdf"||n===code+"_COLOR_V4_2.pdf"),pdfBN=o.files.some(n=>n===code+"_BN_V4_1.pdf"||n===code+"_BN_V4_2.pdf");
  const complete=o.published&&o.cover&&pdfColor&&pdfBN;
  const state=complete?"● COMPLETO":o.published?"● PDF HABILITADOS · FALTA CARÁTULA":"○ PENDIENTE DE COMPLETAR";
  const pic=o.cover?'<img loading="lazy" alt="Carátula de '+title+'" src="https://fzbndgfnqxcacsvlitui.supabase.co/functions/v1/pasalochevere-bingo-covers?product_code='+code+'">':'<div class="tag hint">Carátula pendiente</div>';
@@ -54,7 +54,7 @@ async function api(fn,body){const r=await sb.functions.invoke(fn,{body});if(r.er
 async function auth(){try{const {data,error}=await sb.auth.getUser();const u=data.user;admin=!error&&u?.email?.toLowerCase()==="pasalochevere@gmail.com"&&!u.is_anonymous;$("authStatus").textContent=admin?"✓ Sesión administrativa activa: "+u.email:"Cuenta no autorizada o sin sesión. Abrí el Portal e iniciá sesión con el correo administrador."; $("authStatus").className="status "+(admin?"success":"error");if(admin)await refresh();return admin}catch(e){admin=false;$("authStatus").textContent="Error de sesión: "+e.message;return false}}
 async function refresh(){if(!admin)return;try{const r=await api("pasalochevere-digital-delivery",{action:"admin_overview"});const existing=r.assets||[];const catalogue=new Map((r.catalog||[]).map(x=>[x.product_code,x]));for(const [code] of names){cards[code].files=existing.filter(x=>x.product_code===code&&x.enabled).map(x=>x.file_name);cards[code].published=!!catalogue.get(code)?.enabled;const status=await api("pasalochevere-bingo-covers",{action:"status",product_code:code});cards[code].cover=!!status.has_cover;}paint();log("Estado de PDFs y carátulas consultado. Los archivos existentes por edición aparecen marcados.")}catch(e){log("No pude consultar el catálogo: "+e.message,true)}}
 async function inspect(){const f=$("zip").files?.[0];if(!f){$("zipStatus").textContent="Seleccioná el ZIP primero.";return false}if(typeof JSZip==="undefined"){ $("zipStatus").textContent="No se pudo cargar JSZip; revisá la conexión.";return false }
-try{zip=await JSZip.loadAsync(f);const missing=[];for(const [code] of names){for(const ext of ["COLOR","BN"]){const p="pdfs/"+code+"_"+ext+"_V4_1.pdf";if(!zip.file(p)&&!cards[code].files.includes(code+"_"+ext+"_V4_1.pdf"))missing.push(p)}if(!zip.file("covers/"+code+".jpg"))missing.push("covers/"+code+".jpg")}
+try{zip=await JSZip.loadAsync(f);const missing=[];for(const [code] of names){for(const ext of ["COLOR","BN"]){const p="pdfs/"+code+"_"+ext+"_V4_1.pdf";if(!zip.file(p)&&!cards[code].files.some(n=>n===code+"_"+ext+"_V4_1.pdf"||n===code+"_"+ext+"_V4_2.pdf"))missing.push(p)}if(!zip.file("covers/"+code+".jpg"))missing.push("covers/"+code+".jpg")}
 if(missing.length){$("zipStatus").textContent="Faltan archivos: "+missing.join(", ");zip=null;$("upload").disabled=true;return false}
 $("zipStatus").textContent="✓ Las 5 carátulas están presentes y los PDF ya cargados se reutilizarán.";
 $("upload").disabled=!admin;log("ZIP verificado: las cinco carátulas están listas para asociarse sin duplicar los PDF.");return true}catch(e){zip=null;$("zipStatus").textContent="Error de ZIP: "+e.message;log(e.message,true);return false}}
@@ -75,7 +75,7 @@ async function upgradePop(){
  if(busy||!admin){$("popUpgradeStatus").textContent="Iniciá sesión con la cuenta administradora.";return}
  const color=$("popColor").files?.[0],bn=$("popBN").files?.[0],cover=$("popCover").files?.[0];
  if(!color||!bn||!cover){$("popUpgradeStatus").textContent="Elegí los dos PDFs V4.2 y la carátula de POP MANÍA.";return}
- if(!/\.pdf$/i.test(color.name)||!/\.pdf$/i.test(bn.name)||!/\.(jpe?g|png)$/i.test(cover.name)){ $("popUpgradeStatus").textContent="Formato inválido: dos PDF y una imagen JPG/PNG.";return }
+ if(!/POP_MANIA_2000S_COLOR_V4_2\.pdf$/i.test(color.name)||!/POP_MANIA_2000S_BN_V4_2\.pdf$/i.test(bn.name)||!/\.(jpe?g|png)$/i.test(cover.name)){ $("popUpgradeStatus").textContent="Elegí los PDF POP_MANIA_2000S V4_2, uno COLOR y otro BN, más una imagen JPG/PNG.";return }
  const code="BINGO-2000-30";
  if(!confirm("Actualizar POP MANÍA 2000s con los dos PDF V4.2 y su carátula. Los dos PDF antiguos se deshabilitarán solo si las tres cargas se completan correctamente. ¿Continuar?"))return;
  busy=true;$("popUpgrade").disabled=true;$("popUpgradeStatus").textContent="Subiendo actualización V4.2…";
