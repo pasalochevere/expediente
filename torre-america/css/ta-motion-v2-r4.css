@@ -117,6 +117,9 @@ body.ta-v2-p02.ta-motion-r4 #result.active.ta-outcome-fail #resultIcon{
   box-shadow:0 0 0 1px rgba(234,123,131,.24),0 0 38px rgba(189,61,78,.17),0 18px 35px #0005;
 }
 /* Poderes: símbolo y regla ganan jerarquía, sin retardar decisiones */
+body.ta-v2-p02.ta-motion-r4 #power #powerIcon{
+  position:relative;isolation:isolate;
+}
 body.ta-v2-p02.ta-motion-r4 #power.active #powerIcon{
   animation:taR4Trophy 420ms ease-out both;
 }
