@@ -25,9 +25,14 @@
     if(!actions)return;
     const strip=make('div','ta-home-strip');
     const middle=make('span','', 'LA COPA SE JUEGA BLOQUE A BLOQUE');
-    strip.append(document.createElement('span'),middle,document.createElement('span'));
+    strip.append(middle);
     strip.setAttribute('aria-hidden','true');
     home.insertBefore(strip,actions);
+    if(!home.querySelector('.ta-back-stable')){
+      const link=make('a','ta-back-stable','← VOLVER A LA VERSIÓN ESTABLE');
+      link.href='./';
+      home.append(link);
+    }
     const top=home.querySelector('.hero-premium-top');
     if(top && !top.querySelector('.ta-preview-tag')){
       const old=top.querySelector('.visual-release');
