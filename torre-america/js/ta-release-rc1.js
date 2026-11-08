@@ -5,7 +5,7 @@
 (function(){
   "use strict";
   const info=window.TA_RELEASE_RC;
-  if(!info||info.build!=="TA-V2.0-RC1-P05R1-20261108")return;
+  if(!info||info.build!=="TA-V2.0-RC1-P05R2-20261108")return;
   const style=document.createElement("style");
   style.id="ta-rc-pwa-policy";
   style.textContent='body[data-ta-commercial-candidate="RC1"] #installBtn,'+
