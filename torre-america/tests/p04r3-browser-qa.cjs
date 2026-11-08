@@ -32,6 +32,7 @@ const server=http.createServer((req,res)=>{
  await open();
  await check('CTA Inicio real',async()=>{
   const btn=page.locator('#home button').filter({hasText:'ENTRAR A LA CANCHA'}).first();
+  const skip=page.locator('#cinemaIntro button').filter({hasText:'ENTRAR DIRECTO'});if(await skip.count())await skip.first().click({timeout:4000});
   await btn.click({timeout:4000});
   const a=await state();ok(a.active.includes('format'),'CTA did not open format');return a;
  });
