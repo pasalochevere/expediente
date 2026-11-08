@@ -1,4 +1,4 @@
-name: TA P0.4R2-R3 isolated browser QA
+name: TA P0.4R2-R4 isolated browser QA
 on:
   push:
     branches:
@@ -20,9 +20,12 @@ jobs:
       - name: Run R3 regression suite
         if: always()
         run: node torre-america/tests/p04r3-browser-qa.cjs
+      - name: Run R4 powers and timers regression
+        if: always()
+        run: node torre-america/tests/p04r4-browser-qa.cjs
       - name: Upload screenshots and report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ta-p04r2-r3-browser-evidence
+          name: ta-p04r2-r4-browser-evidence
           path: torre-america/tests/output/
