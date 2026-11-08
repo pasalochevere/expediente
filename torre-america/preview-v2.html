@@ -1,1 +1,105 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050807"><meta name="description" content="Torre de América de PasaloChévere: 222 desafíos de fútbol, con torre física o 100% digital."><meta name="application-name" content="Torre de América"><title>Torre de América · TA-UI V2.0 Preview P0.3</title><meta name="robots" content="noindex,nofollow"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./assets/icon.svg" type="image/svg+xml"><link rel="preload" as="image" href="https://d2ol7oe51mr4n9.cloudfront.net/user_3HsxoUqhL2jq6HZbpDZ6JgCwUeq/4d51a726-4e8c-4ea2-8bbf-7553718faae2.png" type="image/png"><link rel="stylesheet" href="./css/app-1.css"><link rel="stylesheet" href="./css/app-2.css"><link rel="stylesheet" href="./css/app-3.css"><link rel="stylesheet" href="./css/app-4.css"><link rel="stylesheet" href="./css/visual-sprint-1.css?v=20260921-3"><link rel="stylesheet" href="./css/cinema-v11.css?v=20260921-3"><link rel="stylesheet" href="./css/wallpaper-cinema.css?v=20260921-8"><link rel="stylesheet" href="./css/ta-ui-v2-p02.css?v=20261108-2"><link rel="stylesheet" href="./css/ta-ui-v2-p02-r1.css?v=20261108-qa3"><link rel="stylesheet" href="./css/ta-ui-v2-p03.css?v=20261108-p03a"></head><body><div style="min-height:100vh;display:grid;place-items:center;background:#050807;color:#e6c35a;font:800 14px system-ui">⚽ CARGANDO TORRE DE AMÉRICA…</div><script>(async()=>{const fs=["./fragments/body-1.html", "./fragments/body-2.html", "./fragments/body-3.html", "./fragments/body-4.html"];const ps=await Promise.all(fs.map(x=>fetch(x).then(r=>{if(!r.ok)throw Error(x);return r.text()})));document.body.innerHTML=ps.join('');document.body.classList.add('ta-v2-p02');const load=s=>new Promise((ok,fail)=>{const x=document.createElement('script');x.src=s;x.onload=ok;x.onerror=fail;document.body.appendChild(x)});for(const s of ["./js/app-1.js", "./js/app-2.js", "./js/app-3.js", "./js/app-4.js", "./js/app-5.js", "./js/app-6.js", "./js/app-7.js", "./js/app-8.js", "./js/visual-sprint-1.js?v=20260921-3", "./js/wallpaper-cinema.js?v=20260921-9", "./js/v1-freeze-hotfix.js?v=20260922-1"])await load(s);try{await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')}catch(e){if(navigator.onLine)throw e}await load('./js/ta-ui-v2-p02.js?v=20261108-2');await load('./js/ta-ui-v2-p02-r1.js?v=20261108-r2');await load('./js/ta-reto-qa-r2.js?v=20261108-qa3');await load('./js/ta-ui-v2-p03.js?v=20261108-p03a');await load('./js/access.js?v=20260921-2')})().catch(e=>{console.error(e);document.body.innerHTML='<div style="padding:32px;color:white;background:#050807;min-height:100vh;font-family:system-ui"><h1>⚠️ No pude cargar el juego</h1><p>Revisá tu conexión y volvé a intentarlo.</p></div>'})</script></body></html>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050807"><meta name="description" content="Torre de América de PasaloChévere: 222 desafíos de fútbol, con torre física o 100% digital."><meta name="application-name" content="Torre de América"><title>Torre de América · TA-UI V2.0 Preview P0.3R1</title><meta name="robots" content="noindex,nofollow"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./assets/icon.svg" type="image/svg+xml"><link rel="preload" as="image" href="https://d2ol7oe51mr4n9.cloudfront.net/user_3HsxoUqhL2jq6HZbpDZ6JgCwUeq/4d51a726-4e8c-4ea2-8bbf-7553718faae2.png" type="image/png"><link rel="stylesheet" href="./css/app-1.css"><link rel="stylesheet" href="./css/app-2.css"><link rel="stylesheet" href="./css/app-3.css"><link rel="stylesheet" href="./css/app-4.css"><link rel="stylesheet" href="./css/visual-sprint-1.css?v=20260921-3"><link rel="stylesheet" href="./css/cinema-v11.css?v=20260921-3"><link rel="stylesheet" href="./css/wallpaper-cinema.css?v=20260921-8"><link rel="stylesheet" href="./css/ta-ui-v2-p02.css?v=20261108-2"><link rel="stylesheet" href="./css/ta-ui-v2-p02-r1.css?v=20261108-qa3"><link rel="stylesheet" href="./css/ta-ui-v2-p03.css?v=20261108-p03a"></head><body><div style="min-height:100vh;display:grid;place-items:center;background:#050807;color:#e6c35a;font:800 14px system-ui">⚽ CARGANDO TORRE DE AMÉRICA…</div><script>
+(async function(){
+  const assets=[];
+  const save=function(path,category,error){
+    assets.push({path,category,error:String(error&&error.message||error||"No disponible")});
+    console.warn("[TA Preview]",category,path,error);
+  };
+  const showError=function(error){
+    console.error("[TA Preview] No se pudo iniciar:",error);
+    const root=document.createElement("main");
+    root.style.cssText="min-height:100vh;display:grid;place-items:center;padding:24px;background:#08130e;color:#f8f5e9;font:16px/1.5 system-ui";
+    const card=document.createElement("div");
+    card.style.cssText="width:min(560px,100%);padding:29px;border:1px solid #96753e;border-radius:23px;background:#14251c";
+    const title=document.createElement("h1");title.textContent="No se pudo iniciar Torre de América";
+    title.style.cssText="font-size:26px;line-height:1.2;margin:0 0 13px";
+    const paragraph=document.createElement("p");
+    paragraph.textContent="Hubo un error al cargar un archivo esencial. No se modificó tu partida.";
+    const details=document.createElement("pre");
+    details.textContent=String(error&&error.message||error||"Error desconocido");
+    details.style.cssText="font:13px/1.5 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;padding:14px;background:#07130c;border-radius:10px;color:#ffdc9a";
+    const stable=document.createElement("a");stable.href="./";
+    stable.textContent="Abrir la versión estable";
+    stable.style.cssText="display:inline-block;background:#f0c36b;color:#1a241b;border-radius:12px;padding:13px 18px;text-decoration:none;font-weight:800;margin:11px 7px 0 0";
+    const retry=document.createElement("button");retry.textContent="Reintentar carga";
+    retry.style.cssText="padding:13px 18px;border:1px solid #a3b5a9;border-radius:12px;background:#1d3b2b;color:white;font:800 15px system-ui;cursor:pointer;margin-top:11px";
+    retry.onclick=()=>location.reload();
+    card.append(title,paragraph,details,stable,retry);
+    root.append(card);document.body.replaceChildren(root);
+  };
+  async function fetchFragment(path){
+    let response;
+    try{response=await fetch(path,{cache:"no-store"})}
+    catch(error){throw new Error("No se pudo descargar "+path+": "+error.message)}
+    if(!response.ok)throw new Error("El archivo "+path+" devolvió HTTP "+response.status);
+    const html=await response.text();
+    if(!html.includes("class=\"screen\"")&&!html.includes("id=\"licenseGate\"")){
+      throw new Error("El archivo "+path+" no contiene las pantallas esperadas (posible caché incorrecta).");
+    }
+    return html;
+  }
+  function loadScript(path,required){
+    return new Promise((resolve,reject)=>{
+      const script=document.createElement("script");
+      script.src=path;
+      script.async=false;
+      script.onload=()=>resolve(true);
+      script.onerror=()=>{
+        const error=new Error("No se pudo cargar "+path);
+        if(required)reject(error);
+        else{save(path,"capa visual opcional",error);resolve(false)}
+      };
+      document.body.appendChild(script);
+    });
+  }
+  try{
+    const paths=["./fragments/body-1.html","./fragments/body-2.html","./fragments/body-3.html","./fragments/body-4.html"];
+    const fragments=await Promise.all(paths.map(fetchFragment));
+    document.body.innerHTML=fragments.join("");
+    document.body.classList.add("ta-v2-p02");
+
+    // Motor original: las dependencias de juego sí son obligatorias.
+    for(const path of ["./js/app-1.js","./js/app-2.js","./js/app-3.js","./js/app-4.js",
+                       "./js/app-5.js","./js/app-6.js","./js/app-7.js","./js/app-8.js"]){
+      await loadScript(path,true);
+    }
+
+    // La intro y sus efectos se cargan sin interrumpir la partida si faltan.
+    const cinema=await loadScript("./js/visual-sprint-1.js?v=20260921-3",false);
+    if(cinema)await loadScript("./js/wallpaper-cinema.js?v=20260921-9",false);
+
+    // Hotfix del motor estable.
+    await loadScript("./js/v1-freeze-hotfix.js?v=20260922-1",true);
+
+    // Validador: dos proveedores; el control de licencia jamás se omite.
+    try{
+      await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2",true);
+    }catch(primaryError){
+      save("Supabase CDN principal","validador",primaryError);
+      try{
+        await loadScript("https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js",true);
+      }catch(secondaryError){
+        save("Supabase CDN alternativo","validador",secondaryError);
+        // access.js muestra error de licencia si no hay cliente disponible.
+      }
+    }
+
+    // La presentación y la auditoría editorial son opcionales: NUNCA frenan el juego.
+    for(const path of [
+      "./js/ta-ui-v2-p02.js?v=20261108-2",
+      "./js/ta-ui-v2-p02-r1.js?v=20261108-r2",
+      "./js/ta-reto-qa-r2.js?v=20261108-qa3",
+      "./js/ta-ui-v2-p03.js?v=20261108-p03a"
+    ]){
+      await loadScript(path,false);
+    }
+
+    // Siempre requerido: no se abre el juego sin control de licencia.
+    await loadScript("./js/access.js?v=20260921-2",true);
+    window.TA_PREVIEW_LOAD_WARNINGS=assets;
+    if(assets.length)console.warn("[TA Preview] Recursos opcionales no disponibles:",assets);
+  }catch(error){
+    showError(error);
+  }
+})();
+</script></body></html>
