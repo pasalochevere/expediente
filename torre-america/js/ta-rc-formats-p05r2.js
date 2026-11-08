@@ -12,8 +12,14 @@ function apply(formats,productCode){
   if(!["FUT-AMERICA","FUT-AMERICA-DIG","FUT-AMERICA-PHY"].includes(productCode)){
     throw new Error("Edición no reconocida.");
   }
+  // Seguridad adicional: el cliente comprueba el perfil esperado por SKU.
+  const expected=productCode==="FUT-AMERICA-DIG"?["DIGITAL"]:["DIGITAL","FISICA"];
+  if(expected.length!==formats.length||expected.some(x=>!formats.includes(x))){
+    throw new Error("Los permisos recibidos no coinciden con la edición comprada.");
+  }
   const allowed=new Set(formats);
   const digitalOnly=allowed.has("DIGITAL")&&!allowed.has("FISICA");
+  document.body.dataset.taRcDigitalOnly=digitalOnly?"1":"0";
   const decide=function(){
     if(typeof S==="undefined")return;
     if(digitalOnly){
