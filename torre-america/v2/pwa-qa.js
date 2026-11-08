@@ -23,7 +23,50 @@ btn.style.cssText="font:800 13px system-ui;border:0;border-radius:10px;backgroun
 btn.disabled=true;
 const reload=document.createElement("button");reload.type="button";reload.textContent="Revisar";
 reload.style.cssText="font:800 13px system-ui;border:1px solid #7fa58d;border-radius:10px;background:#214535;color:#edf5e9;padding:10px 13px;cursor:pointer";
-controls.append(btn,reload);status.append(head,detail,controls);
+const diagnostic=document.createElement("button");diagnostic.type="button";diagnostic.textContent="Comprobar convivencia";
+diagnostic.style.cssText="font:800 12px system-ui;border:1px solid #8fb39b;border-radius:10px;background:#244e37;color:#f0f6e9;padding:10px 12px;cursor:pointer";
+const feedback=document.createElement("div");feedback.style.cssText="font-size:12px;color:#dcead7;margin-top:9px;white-space:pre-wrap";
+const copy=document.createElement("button");copy.type="button";copy.textContent="Copiar informe QA";
+copy.style.cssText="display:none;font:800 12px system-ui;border:1px solid #8fb39b;border-radius:9px;background:#183729;color:#eff7e9;padding:9px 12px;margin-top:8px;cursor:pointer";
+controls.append(btn,reload);status.append(head,detail,controls,diagnostic,feedback,copy);
+async function runCoexistenceQA(){
+ const prefix="/torre-america/";
+ const regs=supported?await navigator.serviceWorker.getRegistrations():[];
+ const own=regs.filter(r=>r.scope.includes(prefix));
+ const v1=own.find(r=>r.scope.endsWith(prefix));
+ const v2=own.find(r=>r.scope.endsWith(prefix+"v2/"));
+ const controller=navigator.serviceWorker?.controller?.scriptURL||"";
+ const cacheNames=(typeof caches==="undefined")?[]:await caches.keys();
+ const oldCaches=cacheNames.filter(k=>k.startsWith("torre-america-v1-"));
+ const newCaches=cacheNames.filter(k=>k.startsWith("ta-v2-qa-"));
+ const manifest=document.querySelector('link[rel="manifest"]')?.href||"";
+ const report={
+  version:"P0.5R4",origin:location.origin,scopeExpected:location.origin+prefix+"v2/",
+  v1Registered:!!v1,v2Registered:!!v2,
+  v2WorkerActive:!!v2?.active,
+  v2ControllingPage:controller.includes(prefix+"v2/sw.js"),
+  manifestV2:manifest.includes(prefix+"v2/manifest.webmanifest"),
+  v1CachePresent:oldCaches.length>0,
+  v2CachePresent:newCaches.length>0,
+  v1CacheGlobalDeletionRisk:!!v1,
+  offlineGameplayEnabled:false,
+  requiresRealDeviceValidation:true
+ };
+ window.TA_PWA_QA.report=report;
+ feedback.textContent=(report.v2ControllingPage?"✓ V2 controla esta página":"! V2 todavía no controla esta página")+
+ "\n"+(report.v2CachePresent?"✓ Caché V2 presente":"! Caché V2 ausente")+
+ "\n"+(report.v1Registered?"Aviso: V1 también está registrada; probar actualización de caché.":"V1 no registrada en este navegador.");
+ copy.style.display="inline-block";
+ return report;
+}
+diagnostic.addEventListener("click",()=>runCoexistenceQA().catch(err=>{
+ feedback.textContent="No se pudo completar el diagnóstico: "+String(err?.message||err);
+}));
+copy.addEventListener("click",async()=>{
+ const text=JSON.stringify(window.TA_PWA_QA.report||{},null,2);
+ try{await navigator.clipboard.writeText(text);copy.textContent="Informe copiado"}
+ catch(e){feedback.textContent+="\nNo se pudo copiar; revisá los permisos del navegador."}
+});
 document.body.appendChild(status);
 function refresh(){
  const ctrl=navigator.serviceWorker?.controller;
