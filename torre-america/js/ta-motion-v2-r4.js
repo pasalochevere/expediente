@@ -67,12 +67,15 @@
       if(!sh){
         previous=null;return;
       }
-      const total=(Array.isArray(sh.kicksA)?sh.kicksA.length:0)+(Array.isArray(sh.kicksB)?sh.kicksB.length:0);
-      if(previous===null){previous=total;return;}
-      if(total<=previous){previous=total;return;}
-      previous=total;
-      if(doc.body.classList.contains("fx-off")||reduced?.matches)return;
-      const last=sh.side==="A"?a:b;
+      const current={
+        a:Array.isArray(sh.kicksA)?sh.kicksA.length:0,
+        b:Array.isArray(sh.kicksB)?sh.kicksB.length:0
+      };
+      if(previous===null){previous=current;return;}
+      const scoredFor=current.a>previous.a?"A":current.b>previous.b?"B":null;
+      previous=current;
+      if(!scoredFor||doc.body.classList.contains("fx-off")||reduced?.matches)return;
+      const last=scoredFor==="A"?a:b;
       last.classList.remove("ta-r4-new-kick");
       void last.offsetWidth;
       last.classList.add("ta-r4-new-kick");
