@@ -79,8 +79,8 @@
     "answer": "Pierde quien repite un club, dice un año incorrecto o no responde a tiempo. El rival puede salvarse dando una pareja válida."
   },
   "AMERICA_36_MEDIO": {
-    "question": "Duelo de cronología. A: ordená LDU 2008, Vélez 1994 y Boca 1977 del más antiguo al más reciente. B: ordená Once Caldas 2004, Olimpia 1990 y Argentinos Juniors 1985. Tenés 20 segundos por persona.",
-    "answer": "A: Boca 1977, Vélez 1994, LDU 2008. B: Argentinos Juniors 1985, Olimpia 1990, Once Caldas 2004. Gana quien complete primero."
+    "question": "Duelo de cronología. Jugador A: ordená por año de título a LDU Quito, Vélez y Boca. Jugador B: ordená por año de título a Once Caldas, Olimpia y Argentinos Juniors. Tienen 20 segundos por persona.",
+    "answer": "A: Boca 1977 → Vélez 1994 → LDU 2008. B: Argentinos Juniors 1985 → Olimpia 1990 → Once Caldas 2004. Gana quien acierte antes."
   },
   "AMERICA_37_MEDIO": {
     "question": "Verdadero o falso, tres por persona. A: 1) Santos venció a Boca en 1963; 2) Vélez venció a Palmeiras en la final de 1994; 3) Nacional venció a Internacional en 1980. B: 1) River venció a Tigres en 2015; 2) Independiente venció a Santos en 1984; 3) Once Caldas venció a Boca en 2004. Tenés 30 segundos cada uno.",
@@ -143,8 +143,8 @@
     "answer": "Se supera si elegís un enganche y explicás una decisión táctica relacionada con el empate. El grupo evalúa la propuesta."
   },
   "AMERICA_36_LEYENDA": {
-    "question": "Duelo de cronología. A: ordená los títulos de Peñarol 1966, Olimpia 1990, Boca 2000 y LDU 2008, mostrados así: 2008, 1966, 2000, 1990. B: ordená Cruzeiro 1976, Peñarol 1987, Vélez 1994 y Boca 2007, mostrados así: 1994, 2007, 1976, 1987. Tenés 25 segundos por jugador.",
-    "answer": "A: 1966, 1990, 2000, 2008. B: 1976, 1987, 1994, 2007. Gana quien ordene correctamente antes.",
+    "question": "Duelo de cronología. Ordená estas conquistas de más antigua a más reciente. A: Boca (tercera copa), LDU Quito (primera), Peñarol (tercera), Olimpia (segunda). B: Vélez (primera), Boca (sexta), Cruzeiro (primera), Peñarol (quinta). Tenés 25 segundos por jugador.",
+    "answer": "A: Peñarol 1966 → Olimpia 1990 → Boca 2000 → LDU 2008. B: Cruzeiro 1976 → Peñarol 1987 → Vélez 1994 → Boca 2007. Gana quien complete correctamente antes.",
     "timer": 25
   },
   "AMERICA_37_LEYENDA": {
@@ -187,6 +187,14 @@
         item.answer="No hay una única respuesta correcta. Completás la prueba si respondés a la situación, justificás tu decisión y el grupo acepta tu propuesta.";
         creative++;
       }
+    }
+    /* Tipografía adaptativa para duelos largos, sin modificar preguntas. */
+    const questionNode=document.getElementById("questionText");
+    if(questionNode&&!questionNode.dataset.taQaLength){
+      questionNode.dataset.taQaLength="1";
+      const adjust=()=>questionNode.classList.toggle("ta-question-long",questionNode.textContent.trim().length>205);
+      new MutationObserver(adjust).observe(questionNode,{childList:true,characterData:true,subtree:true});
+      adjust();
     }
     window.TA_EDITORIAL_QA={revision:REVISION,reviewed:DB.content.length,curated:targeted,creative,missing:misses};
     /* Si la partida se reanudó con el texto anterior, actualizar únicamente
