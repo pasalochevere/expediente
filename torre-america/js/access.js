@@ -6,7 +6,7 @@
  const allowedProducts=new Set(['FUT-AMERICA','FUT-AMERICA-PHY','FUT-AMERICA-DIG']);
  const deviceId=()=>{let v=localStorage.getItem(DEVICE_KEY);if(!v){v=crypto.randomUUID?crypto.randomUUID():'dev_'+Date.now()+'_'+Math.random().toString(36).slice(2);localStorage.setItem(DEVICE_KEY,v)}return v};
  const deviceLabel=()=>[navigator.platform||'',navigator.userAgent.includes('Mobile')?'Mobile':'Browser'].filter(Boolean).join(' · ').slice(0,150);
- const openGame=(note)=>{state.textContent=note||'✅ Acceso validado.';setTimeout(()=>{gate.classList.add('hidden');app.style.display='block';window.scrollTo(0,0)},180)};
+ const openGame=(note)=>{state.textContent='Verificando contenido del juego…';Promise.resolve(window.torreAmericaDataReady||false).then(ready=>{if(!ready){state.textContent='⚠️ No se pudo cargar el contenido del juego. Revisá tu conexión y recargá la página.';return}state.textContent=note||'✅ Acceso validado.';setTimeout(()=>{gate.classList.add('hidden');app.style.display='block';window.scrollTo(0,0)},180)}).catch(()=>{state.textContent='⚠️ No se pudo iniciar el juego. Volvé a cargar la página.'})};
  const storedCode=(localStorage.getItem(ACCESS_KEY)||'').trim().toUpperCase();
  const qs=new URLSearchParams(location.search);const incoming=(qs.get('access')||'').trim().toUpperCase();
  let code=incoming||storedCode;if(incoming)localStorage.setItem(ACCESS_KEY,incoming);
