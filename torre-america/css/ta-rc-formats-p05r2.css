@@ -1,0 +1,20 @@
+/* Torre de América RC1 · Ediciones comerciales. Solo v2-rc.html. */
+body[data-ta-rc-digital-only="1"] #formatOpts{
+ display:grid;grid-template-columns:minmax(0,1fr)!important;
+ max-width:690px;width:100%;margin-inline:auto;
+ gap:16px;
+}
+body[data-ta-rc-digital-only="1"] #formatOpts .visual-format-card{
+ width:100%;max-width:none;
+}
+body[data-ta-rc-digital-only="1"] #formatOpts .visual-format-card[hidden]{
+ display:none!important;
+}
+body[data-ta-rc-digital-only="1"] #format .section-head .subtitle{
+ color:#d6eee0;
+}
+@media(max-width:480px){
+ body[data-ta-rc-digital-only="1"] #formatOpts{
+  max-width:100%;
+ }
+}
