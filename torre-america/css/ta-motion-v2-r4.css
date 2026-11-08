@@ -1,0 +1,217 @@
+/* TA-UI V2.0-P0.3R4 · Cinematografía de interfaz (solo preview)
+   Movimientos locales y breves. Nunca desplaza ni sacude la cámara/página.
+   No bloquea botones ni timers. Respeta fx-off y prefers-reduced-motion.
+*/
+body.ta-v2-p02.ta-motion-r4{
+  --ta-r4-fast:220ms;
+  --ta-r4-normal:380ms;
+  --ta-r4-reveal:620ms;
+  --ta-r4-glow:rgba(248,211,119,.27);
+}
+@keyframes taR4Lift{
+  from{opacity:.16;transform:translate3d(0,10px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes taR4Bloom{
+  0%{opacity:.48;transform:scale(.93)}
+  48%{opacity:1;transform:scale(1.035)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes taR4Glimmer{
+  from{transform:translateX(-190%) skewX(-15deg)}
+  to{transform:translateX(250%) skewX(-15deg)}
+}
+@keyframes taR4Reveal{
+  0%{opacity:.3;transform:translateY(10px);filter:brightness(1.2)}
+  100%{opacity:1;transform:translateY(0);filter:brightness(1)}
+}
+@keyframes taR4Spark{
+  0%{opacity:0;transform:translate3d(0,8px,0) rotate(0) scale(.8)}
+  16%{opacity:.93}
+  68%{opacity:.8}
+  100%{opacity:0;transform:translate3d(var(--ta-dx),var(--ta-dy),0) rotate(var(--ta-rot)) scale(.55)}
+}
+@keyframes taR4Trophy{
+  0%{opacity:.4;transform:scale(.87);filter:brightness(.9)}
+  55%{opacity:1;transform:scale(1.055);filter:brightness(1.25)}
+  100%{opacity:1;transform:scale(1);filter:brightness(1)}
+}
+@keyframes taR4Ring{
+  0%{opacity:.54;transform:scale(.6)}
+  100%{opacity:0;transform:scale(1.24)}
+}
+@keyframes taR4Score{
+  0%{transform:scale(.84);filter:brightness(1.75)}
+  64%{transform:scale(1.16);filter:brightness(1.25)}
+  100%{transform:scale(1);filter:brightness(1)}
+}
+
+/* Pantallas de partida: solo cambia contenido local, nunca body, app o viewport */
+body.ta-v2-p02.ta-motion-r4 .screen.active:is(
+ #mode,#players,#difficulty,#summary,#turn,#blocks,#digitalblock,#challenge,
+ #answer,#result,#dice,#penalty,#power,#shootout,#scores,#gameover,#settings,#how
+) > :is(.section-head,.card,.hud,.shoot-score,.footer-actions,.block-grid,.settings-grid){
+  animation:taR4Lift var(--ta-r4-normal) cubic-bezier(.2,.75,.24,1) both;
+}
+body.ta-v2-p02.ta-motion-r4 :is(#turn,#challenge) .footer-actions .btn:focus-visible,
+body.ta-v2-p02.ta-motion-r4 :is(#result,#gameover,#digitalblock) .btn:focus-visible{
+  outline:3px solid #f8dc93;outline-offset:3px;
+}
+/* Entrada del turno: énfasis en nombre y siguiente acción */
+body.ta-v2-p02.ta-motion-r4 #turn.active .turn-name{
+  animation:taR4Lift 320ms cubic-bezier(.25,.8,.25,1) 55ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #turn.active .turn-icon{
+  animation:taR4Bloom 390ms cubic-bezier(.18,.79,.26,1) 115ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #turn.active #turnActions .btn:first-child{
+  animation:taR4Lift 300ms ease-out 130ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #challenge.active #catLabel{
+  animation:taR4Lift 260ms ease-out 25ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #challenge.active #questionText{
+  animation:taR4Reveal 360ms ease-out 90ms both;
+}
+
+/* Sorteo digital: bloque protagonista con reflejo único y número legible */
+body.ta-v2-p02.ta-motion-r4 #digitalblock .digital-block{
+  position:relative;isolation:isolate;overflow:hidden;
+}
+body.ta-v2-p02.ta-motion-r4 #digitalblock.active .digital-block{
+  animation:taR4Bloom 540ms cubic-bezier(.18,.75,.2,1) both;
+}
+body.ta-v2-p02.ta-motion-r4 #digitalblock .digital-block:after{
+  content:"";position:absolute;z-index:1;inset:-40% auto -40% 0;
+  width:34%;height:auto;left:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,230,.27),transparent);
+  transform:translateX(-190%) skewX(-15deg);
+  pointer-events:none;
+}
+body.ta-v2-p02.ta-motion-r4 #digitalblock.active .digital-block:after{
+  animation:taR4Glimmer 620ms ease-out 120ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #digitalblock.active .digital-block-number{
+  position:relative;z-index:2;
+  animation:taR4Bloom 420ms cubic-bezier(.19,.82,.28,1) 80ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #digitalblock.active #digitalBlockMeta{
+  animation:taR4Lift 260ms ease-out 180ms both;
+}
+
+/* Resultados: gol dorado / atajada roja, sin movimiento del fondo */
+body.ta-v2-p02.ta-motion-r4 #result.active #resultIcon{
+  position:relative;isolation:isolate;
+  animation:taR4Trophy 480ms cubic-bezier(.2,.75,.25,1) both;
+}
+body.ta-v2-p02.ta-motion-r4 #result.active #resultTitle{
+  animation:taR4Lift 300ms ease-out 90ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #result.active #resultText{
+  animation:taR4Lift 280ms ease-out 135ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #result.active.ta-outcome-goal #resultIcon{
+  box-shadow:0 0 0 1px rgba(253,216,128,.31),0 0 54px rgba(243,188,65,.19),0 18px 35px #0005;
+}
+body.ta-v2-p02.ta-motion-r4 #result.active.ta-outcome-fail #resultIcon{
+  box-shadow:0 0 0 1px rgba(234,123,131,.24),0 0 38px rgba(189,61,78,.17),0 18px 35px #0005;
+}
+/* Poderes: símbolo y regla ganan jerarquía, sin retardar decisiones */
+body.ta-v2-p02.ta-motion-r4 #power.active #powerIcon{
+  animation:taR4Trophy 420ms ease-out both;
+}
+body.ta-v2-p02.ta-motion-r4 #power.active #powerTitle{
+  animation:taR4Lift 310ms ease-out 70ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #power.active #powerText{
+  animation:taR4Lift 310ms ease-out 105ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #power.active #powerOptions .btn{
+  animation:taR4Lift 250ms ease-out 160ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #power.active #powerIcon:after{
+  content:"";position:absolute;inset:-9px;border:1px solid rgba(243,201,108,.42);
+  border-radius:inherit;opacity:0;pointer-events:none;
+  animation:taR4Ring 640ms ease-out 100ms both;
+}
+
+/* Penal: timer y marcador reciben efectos individuales */
+body.ta-v2-p02.ta-motion-r4 :is(#penalty,#shootout) :is(#penContent,#shootContent):not(.hidden) .question{
+  animation:taR4Lift 270ms ease-out both;
+}
+body.ta-v2-p02.ta-motion-r4 :is(#penalty,#shootout) .timer.ta-r4-low{
+  color:#ffb1a0;
+  border-color:rgba(255,133,123,.59);
+  box-shadow:0 0 26px rgba(240,101,94,.18);
+}
+body.ta-v2-p02.ta-motion-r4 #shootout.active .shoot-kicks .ta-icon-kick:last-child,
+body.ta-v2-p02.ta-motion-r4 #shootout.active .shoot-kicks.ta-r4-new-kick{
+  animation:taR4Score 330ms ease-out both;
+}
+body.ta-v2-p02.ta-motion-r4 #shootout.active .shoot-score{
+  animation:taR4Lift 280ms ease-out both;
+}
+
+/* Cierre: celebración local sobre la tarjeta, sin parallax ni vibración */
+body.ta-v2-p02.ta-motion-r4 #gameover.active .cup-mark{
+  animation:taR4Trophy 700ms cubic-bezier(.2,.8,.2,1) both;
+}
+body.ta-v2-p02.ta-motion-r4 #gameover.active #winnerName{
+  animation:taR4Lift 420ms ease-out 170ms both;
+}
+body.ta-v2-p02.ta-motion-r4 #gameover.active #winnerCopy{
+  animation:taR4Lift 350ms ease-out 210ms both;
+}
+
+/* Partículas puramente decorativas: 12 en gol, 14 en final. */
+body.ta-v2-p02.ta-motion-r4 .ta-r4-particles{
+  position:absolute;inset:0;z-index:1;overflow:hidden;border-radius:inherit;
+  pointer-events:none;contain:paint;
+}
+body.ta-v2-p02.ta-motion-r4 .ta-r4-particle{
+  position:absolute;left:var(--ta-x);top:var(--ta-y);
+  display:block;width:7px;height:13px;border-radius:2px;
+  background:var(--ta-c,#f3d187);opacity:0;
+  transform:translate3d(0,8px,0);
+  pointer-events:none;
+}
+body.ta-v2-p02.ta-motion-r4 #result.active.ta-outcome-goal .ta-r4-particle,
+body.ta-v2-p02.ta-motion-r4 #gameover.active .ta-r4-particle{
+  animation:taR4Spark var(--ta-duration,820ms) cubic-bezier(.13,.3,.25,1) var(--ta-delay,0ms) both;
+}
+body.ta-v2-p02.ta-motion-r4 #result.active.ta-outcome-fail .ta-r4-particle{
+  display:none;
+}
+body.ta-v2-p02.ta-motion-r4 :is(#result,#gameover) .card,
+body.ta-v2-p02.ta-motion-r4 #gameover .hero-stage{
+  position:relative;
+}
+/* No interferir con texto, CTA o foco */
+body.ta-v2-p02.ta-motion-r4 :is(#result,#gameover) :is(.result-medallion,#resultTitle,#resultText,.cup-mark,#winnerName,#winnerCopy){
+  position:relative;z-index:2;
+}
+
+/* Configuración de efectos y preferencias del sistema: todo apagado */
+body.ta-v2-p02.fx-off.ta-motion-r4 .screen *,
+body.ta-v2-p02.fx-off.ta-motion-r4 .screen *::before,
+body.ta-v2-p02.fx-off.ta-motion-r4 .screen *::after,
+body.ta-v2-p02.ta-r4-no-motion .screen *,
+body.ta-v2-p02.ta-r4-no-motion .screen *::before,
+body.ta-v2-p02.ta-r4-no-motion .screen *::after{
+  animation:none!important;transition:none!important;
+}
+body.ta-v2-p02.fx-off.ta-motion-r4 .ta-r4-particle,
+body.ta-v2-p02.ta-r4-no-motion .ta-r4-particle{display:none!important}
+@media(prefers-reduced-motion:reduce){
+  body.ta-v2-p02.ta-motion-r4 .screen *,
+  body.ta-v2-p02.ta-motion-r4 .screen *::before,
+  body.ta-v2-p02.ta-motion-r4 .screen *::after{
+    animation:none!important;transition:none!important;scroll-behavior:auto!important;
+  }
+  body.ta-v2-p02.ta-motion-r4 .ta-r4-particle{display:none!important}
+}
+@media(max-width:480px){
+  body.ta-v2-p02.ta-motion-r4 .ta-r4-particle{
+    width:5px;height:10px;
+  }
+}
