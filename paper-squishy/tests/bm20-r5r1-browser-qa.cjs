@@ -50,8 +50,13 @@ const expect=(v,msg)=>{if(!v)throw Error(msg)};
      for(let i=0;i<20;i++){
       const card=page.locator('#cards .card[data-index="'+i+'"]');
       await card.click({timeout:5000});
+      await page.waitForFunction(i=>{
+       const chosen=document.querySelector('#cards .card[aria-pressed="true"]');
+       const img=document.getElementById('focus-img');
+       return chosen&&Number(chosen.dataset.index)===i&&img?.naturalWidth>0;
+      },i,{timeout:5000});
       const d=await page.evaluate(()=>({selected:Number(document.querySelector('#cards .card[aria-pressed="true"]').dataset.index),name:document.getElementById('selected-name').textContent,src:document.getElementById('focus-img').naturalWidth,activeCards:document.querySelectorAll('#cards .card[aria-pressed="true"]').length}));
-      expect(d.selected===i&&d.activeCards===1&&d.src>0,'selección visual incorrecta '+i);
+      expect(d.selected===i&&d.activeCards===1&&d.src>0,'selección visual incorrecta '+i+': '+JSON.stringify(d));
       detail.push(d.name);
      }
      return {clicks:detail.length,uniqueNames:new Set(detail).size,first:detail[0],last:detail[19]};
