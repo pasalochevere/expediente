@@ -1,0 +1,2012 @@
+{
+  "id": "butter_mania",
+  "name": "Butter Mania",
+  "order": 7,
+  "status": "staging",
+  "character_count": 20,
+  "theme": "mantequitas, quesitos y cremitas kawaii",
+  "preview": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/hero.webp",
+  "route": "#/collection/butter_mania",
+  "characters": [
+    {
+      "id": "butter_mania_bm01",
+      "code": "BM01",
+      "slug": "bm01",
+      "name": "Mantequita clásica",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 1,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": true,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm01/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm02",
+      "code": "BM02",
+      "slug": "bm02",
+      "name": "Quesito triangular",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 2,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": true,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm02/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm02/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm02/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm02/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm02/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm02/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm02/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm02/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm02/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm03",
+      "code": "BM03",
+      "slug": "bm03",
+      "name": "Cremita frutilla",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 3,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": true,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm03/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm03/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm03/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm03/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm03/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm03/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm03/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm03/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm03/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm04",
+      "code": "BM04",
+      "slug": "bm04",
+      "name": "Manteca derretida",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 4,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm04/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm04/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm04/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm04/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm04/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm04/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm04/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm04/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm04/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm05",
+      "code": "BM05",
+      "slug": "bm05",
+      "name": "Manteca corazón",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 5,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm05/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm05/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm05/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm05/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm05/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm05/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm05/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm05/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm05/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm06",
+      "code": "BM06",
+      "slug": "bm06",
+      "name": "Manteca flor",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 6,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm06/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm06/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm06/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm06/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm06/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm06/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm06/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm06/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm06/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm07",
+      "code": "BM07",
+      "slug": "bm07",
+      "name": "Crema frutilla copete",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 7,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm07/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm07/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm07/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm07/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm07/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm07/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm07/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm07/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm07/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm08",
+      "code": "BM08",
+      "slug": "bm08",
+      "name": "Crema arándanos",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 8,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm08/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm08/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm08/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm08/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm08/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm08/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm08/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm08/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm08/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm09",
+      "code": "BM09",
+      "slug": "bm09",
+      "name": "Manteca vainilla",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 9,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm09/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm09/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm09/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm09/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm09/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm09/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm09/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm09/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm09/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm10",
+      "code": "BM10",
+      "slug": "bm10",
+      "name": "Manteca chocolate",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 10,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm10/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm10/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm10/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm10/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm10/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm10/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm10/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm10/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm10/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm11",
+      "code": "BM11",
+      "slug": "bm11",
+      "name": "Manteca matcha",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 11,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm11/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm11/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm11/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm11/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm11/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm11/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm11/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm11/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm11/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm12",
+      "code": "BM12",
+      "slug": "bm12",
+      "name": "Manteca miel",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 12,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm12/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm12/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm12/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm12/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm12/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm12/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm12/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm12/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm12/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm13",
+      "code": "BM13",
+      "slug": "bm13",
+      "name": "Quesito suizo",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 13,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm13/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm13/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm13/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm13/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm13/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm13/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm13/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm13/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm13/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm14",
+      "code": "BM14",
+      "slug": "bm14",
+      "name": "Quesito cheddar",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 14,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm14/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm14/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm14/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm14/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm14/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm14/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm14/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm14/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm14/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm15",
+      "code": "BM15",
+      "slug": "bm15",
+      "name": "Mozzarella con albahaca",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 15,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm15/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm15/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm15/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm15/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm15/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm15/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm15/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm15/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm15/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm16",
+      "code": "BM16",
+      "slug": "bm16",
+      "name": "Quesito con hierbas",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 16,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm16/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm16/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm16/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm16/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm16/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm16/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm16/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm16/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm16/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm17",
+      "code": "BM17",
+      "slug": "bm17",
+      "name": "Crema de vainilla",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 17,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm17/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm17/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm17/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm17/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm17/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm17/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm17/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm17/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm17/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm18",
+      "code": "BM18",
+      "slug": "bm18",
+      "name": "Untable frutilla",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 18,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm18/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm18/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm18/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm18/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm18/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm18/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm18/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm18/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm18/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm19",
+      "code": "BM19",
+      "slug": "bm19",
+      "name": "Untable arándanos",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 19,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm19/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm19/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm19/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm19/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm19/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm19/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm19/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm19/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm19/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    },
+    {
+      "id": "butter_mania_bm20",
+      "code": "BM20",
+      "slug": "bm20",
+      "name": "Crema corazones",
+      "collection_id": "butter_mania",
+      "collection": "Butter Mania",
+      "order": 20,
+      "category": "comiditas kawaii",
+      "difficulty": "fácil",
+      "suggested_size": "aprox. 12 cm según silueta",
+      "status": "staging",
+      "editor_ready": false,
+      "featured": false,
+      "assets": {
+        "hero": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm20/hero.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "front_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm20/front_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "back_print": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm20/back_print.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm20/coloring.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "coloring_back": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm20/coloring_back.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "editor_asset": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm20/editor_asset.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGBA",
+          "transparent": true,
+          "preview_only": false
+        },
+        "character_card": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm20/character_card.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        },
+        "tutorial": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm20/tutorial.webp",
+          "width": 1055,
+          "height": 1491,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": false
+        },
+        "mockup": {
+          "path": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.9/butter_mania/bm20/mockup.webp",
+          "width": 900,
+          "height": 900,
+          "mode": "RGB",
+          "transparent": false,
+          "preview_only": true
+        }
+      },
+      "actions": [
+        "view",
+        "print_front",
+        "print_back",
+        "color",
+        "color_back",
+        "tutorial",
+        "favorite"
+      ],
+      "missing": [],
+      "source_mode": "bm20_f9_approved_printable_source"
+    }
+  ]
+}
