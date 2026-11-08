@@ -47,6 +47,9 @@
    if(lic.expires_at)localStorage.setItem(VALID_KEY,lic.expires_at);
    localStorage.setItem(ACCESS_KEY,code);
    if(incoming)history.replaceState({},'',location.pathname+(qs.get('qa')==='1'?'?qa=1':''));
-   openGame('✅ Acceso validado · '+(lic.product_name||'Torre de América'));
+   const commercialName=entitlement.product_code==='FUT-AMERICA-DIG'?'Torre de América · Solo Digital':
+     entitlement.product_code==='FUT-AMERICA-PHY'?'Torre de América · Torre Física + Digital':
+     'Torre de América · Licencia clásica';
+   openGame('✅ Acceso validado · '+commercialName);
  }catch(e){state.textContent='⚠️ '+(e?.message||'Acceso no válido.')+' Volvé a tu biblioteca e iniciá sesión si hace falta.'}
 })();
