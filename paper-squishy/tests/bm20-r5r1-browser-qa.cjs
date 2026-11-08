@@ -43,6 +43,19 @@ const expect=(v,msg)=>{if(!v)throw Error(msg)};
      expect(results.reduce((n,x)=>n+x.count,0)-20===20,'conteos de familias no suman 20');
      return results;
     });
+
+    await check('20 selecciones reales de personajes en móvil',async()=>{
+     await page.locator('#filters [data-filter="Todos"]').click();
+     const detail=[];
+     for(let i=0;i<20;i++){
+      const card=page.locator('#cards .card[data-index="'+i+'"]');
+      await card.click({timeout:5000});
+      const d=await page.evaluate(()=>({selected:Number(document.querySelector('#cards .card[aria-pressed="true"]').dataset.index),name:document.getElementById('selected-name').textContent,src:document.getElementById('focus-img').naturalWidth,activeCards:document.querySelectorAll('#cards .card[aria-pressed="true"]').length}));
+      expect(d.selected===i&&d.activeCards===1&&d.src>0,'selección visual incorrecta '+i);
+      detail.push(d.name);
+     }
+     return {clicks:detail.length,uniqueNames:new Set(detail).size,first:detail[0],last:detail[19]};
+    });
     await check('80 imágenes básicas: frente y dorso color/B&N',async()=>{
      const diag=await page.evaluate(async()=>{
       const out=[];
