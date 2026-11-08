@@ -1,0 +1,25 @@
+name: BM20 R5R1 Butter Mania browser QA
+on:
+  push:
+    branches:
+      - audit/bm20-r5r1-20261108
+  workflow_dispatch:
+jobs:
+  butter-browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright Chromium
+        run: npm install --no-save playwright@1.56.1 && npx playwright install --with-deps chromium
+      - name: Check 20 Butter characters and nine views
+        run: node paper-squishy/tests/bm20-r5r1-browser-qa.cjs
+      - name: Save browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bm20-r5r1-browser-evidence
+          path: paper-squishy/tests/output/
