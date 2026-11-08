@@ -1,0 +1,16 @@
+/* TA-UI V2.0-P0.4 — visual-only small-screen and keyboard accessibility */
+.ta-mobile-p04 .option:focus-visible,
+.ta-mobile-p04 .visual-format-card:focus-visible,
+.ta-mobile-p04 button:focus-visible,
+.ta-mobile-p04 a:focus-visible,
+.ta-mobile-p04 input:focus-visible {outline:3px solid #f5d37e !important;outline-offset:3px}
+@media (pointer:coarse) {
+ .ta-mobile-p04 .option,.ta-mobile-p04 .footer-actions .btn,
+ .ta-mobile-p04 .topbar .navbtn,.ta-mobile-p04 .block {min-height:44px}
+}
+@media (max-width:430px) {
+ .ta-mobile-p04 .topbar,.ta-mobile-p04 .footer-actions,
+ .ta-mobile-p04 .screen,.ta-mobile-p04 .card {min-width:0}
+ .ta-mobile-p04 .question,.ta-mobile-p04 .subtitle,
+ .ta-mobile-p04 .option,.ta-mobile-p04 .score-row {overflow-wrap:anywhere}
+}
