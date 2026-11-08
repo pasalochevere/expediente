@@ -46,7 +46,7 @@ for(const width of [320,375,390,430,768]){
  for(let i=0;i<4;i++){if(await page.locator('#challenge').evaluate(e=>e.classList.contains('active')))break;if(await page.locator('#power').evaluate(e=>e.classList.contains('active'))){await page.locator('#powerOptions button').first().evaluate(el=>el.click())}else break}
  assert(await page.locator('#challenge').evaluate(e=>e.classList.contains('active')),'challenge not reached');
  assert((await page.locator('#questionText').innerText()).length>10,'blank challenge');
- await page.evaluate(()=>revealAnswer());
+ await page.evaluate(()=>{if(S.currentContent?.event==='DADO'&&!S.turnCtx?.diceResolved){diceResult('ATAJADA');continueToChallenge()}revealAnswer()});
  assert(await page.locator('#answer').evaluate(e=>e.classList.contains('active')),'digital answer did not open');
  await page.evaluate(()=>resolve(true));
  assert(await page.locator('#result').evaluate(e=>e.classList.contains('active')),'digital result did not open');
