@@ -4,7 +4,7 @@
 <script>
 (async function(){
   "use strict";
-  const BUILD="TA-V2.0-RC1-P05R1-20261108";
+  const BUILD="TA-V2.0-RC1-P05R2-20261108";
   window.TA_RELEASE_RC={build:BUILD,status:"loading",kind:"commercial-candidate",production:false};
   const essentialCSS=[...document.querySelectorAll('link[data-ta-rc-css="1"]')];
   const fatal=function(why){
@@ -67,7 +67,8 @@
       "./js/ta-icons-v2-r3.js?v=20261108-r3b",
       "./js/ta-motion-v2-r4.js?v=20261108-r4a",
       "./js/ta-qa-guards-p04.js?v=20261108-p04b",
-      "./js/ta-release-rc1.js?v=20261108-p05r1a"
+      "./js/ta-release-rc1.js?v=20261108-p05r2a",
+      "./js/ta-rc-formats-p05r2.js?v=20261108-p05r2a"
     ])await script(s);
     const ready=await Promise.resolve(window.torreAmericaDataReady);
     if(!ready||typeof DB==="undefined"||!Array.isArray(DB.content)||DB.content.length!==162||!Array.isArray(DB.penalties)||DB.penalties.length!==60){
@@ -94,8 +95,9 @@
       try{await script("./js/ta-qa-panel-p04.js?v=20261108-p04a")}
       catch(e){console.warn("[TA RC] Diagnóstico no disponible",e)}
     }
+    if(typeof window.TA_RC_SET_FORMATS!=="function")throw new Error("No está disponible el control de formatos por licencia.");
     window.TA_RELEASE_RC.status="ready-to-validate-access";
-    await script("./js/access.js?v=20260921-2");
+    await script("./js/access-rc1.js?v=20261108-p05r2a");
   }catch(error){fatal(error)}
 })();
 </script>
