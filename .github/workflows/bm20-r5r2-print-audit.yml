@@ -1,0 +1,25 @@
+name: BM20 R5R2 print preflight
+on:
+  push:
+    branches:
+      - audit/bm20-r5r2-20261108
+  workflow_dispatch:
+jobs:
+  print-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Pillow
+        run: python -m pip install Pillow==11.3.0
+      - name: Audit original WebP resource geometry and render visual proofs
+        run: python -u paper-squishy/tests/bm20-r5r2-print-audit.py
+      - name: Archive QA reports and contact sheets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bm20-r5r2-print-audit
+          path: paper-squishy/tests/output-r5r2/
