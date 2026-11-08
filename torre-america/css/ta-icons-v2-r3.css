@@ -1,0 +1,250 @@
+/* TA-UI V2.0-P0.3R3 · Sistema SVG local - Estadio Premium Broadcast.
+   Capa de presentación del preview; no afecta la V1 estable. */
+body.ta-icon-v2-r3{
+  --ta-ico-gold:#f4d38e;
+  --ta-ico-mint:#9ae7ce;
+  --ta-ico-red:#ff929b;
+  --ta-ico-blue:#a5d8ff;
+  --ta-ico-white:#f7f4ea;
+}
+body.ta-icon-v2-r3 .ta-icon{
+  display:inline-block;flex:0 0 auto;
+  width:22px;height:22px;
+  vertical-align:middle;overflow:visible;
+  color:currentColor;
+}
+body.ta-icon-v2-r3 .ta-icon-button{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:10px;text-align:center;max-width:100%;
+}
+body.ta-icon-v2-r3 .ta-icon-button .ta-icon-button-art{
+  width:22px;height:22px;flex-shrink:0;
+  color:currentColor;
+}
+body.ta-icon-v2-r3 .ta-icon-button.btn-primary .ta-icon{
+  color:#1b301e;
+}
+body.ta-icon-v2-r3 .ta-icon-button.btn-secondary .ta-icon,
+body.ta-icon-v2-r3 .ta-icon-button.btn-ghost .ta-icon{
+  color:var(--ta-ico-gold);
+}
+body.ta-icon-v2-r3 .ta-icon-button.btn-ok .ta-icon{color:#d8ffe8;}
+body.ta-icon-v2-r3 .ta-icon-button.btn-danger .ta-icon{color:#ffd5d8;}
+body.ta-icon-v2-r3 .ta-nav-svg{
+  display:inline-grid;place-items:center;
+  padding:0;
+  color:#f5dfae;
+}
+body.ta-icon-v2-r3 .ta-nav-svg .ta-icon-nav{width:23px;height:23px;}
+body.ta-icon-v2-r3 .ta-nav-svg:focus-visible{outline-offset:3px;}
+body.ta-icon-v2-r3 #home .ta-icon-button{gap:11px;}
+body.ta-icon-v2-r3 #home .btn:first-child .ta-icon{width:25px;height:25px;}
+body.ta-icon-v2-r3 #format .visual-format-ribbon{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:11px;
+}
+body.ta-icon-v2-r3 #format .ta-icon-ribbon{
+  width:18px;height:18px;color:#f8db9c;
+}
+body.ta-icon-v2-r3 #format .digital .ta-icon-ribbon{color:#a5f2e5;}
+
+/* Opciones: una misma escala de íconos y fondos en Modo y Dificultad. */
+body.ta-icon-v2-r3 :is(#mode,#difficulty) .option-icon{
+  display:grid;place-items:center;
+  color:#e8daab;
+  background:linear-gradient(160deg,#2c4e3d,#14291f);
+  border-color:rgba(247,208,128,.30);
+}
+body.ta-icon-v2-r3 :is(#mode,#difficulty) .option-icon .ta-icon{
+  width:33px;height:33px;
+}
+body.ta-icon-v2-r3 :is(#mode,#difficulty) .option.selected .option-icon{
+  color:#14241b;background:linear-gradient(150deg,#ffedab,#e0b45b);
+  border-color:#ffe9a9;
+  box-shadow:0 8px 22px rgba(240,190,76,.16);
+}
+body.ta-icon-v2-r3 :is(#mode,#difficulty) .option.selected .check{
+  color:#f3cf7b;font-size:24px;
+}
+
+/* Rótulos generados dinámicamente por el motor. */
+body.ta-icon-v2-r3 :is(#catLabel,#answerMeta,#digitalBlockMeta){
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:12px;font-weight:900;
+  line-height:1.4;
+  color:#ffe4a0;
+}
+body.ta-icon-v2-r3 :is(#catLabel,#answerMeta,#digitalBlockMeta) .ta-icon-label{
+  width:25px;height:25px;
+  color:#f0d393;
+}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="TRIVIA"]{
+  color:#bcecff;border-color:rgba(123,193,236,.48);
+  background:rgba(38,107,145,.15);
+}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="TRIVIA"] .ta-icon{color:#bcecff}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="HISTORIA"]{
+  color:#f7d6a6;border-color:rgba(236,186,115,.46);
+  background:rgba(144,93,43,.15);
+}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="HISTORIA"] .ta-icon{color:#f7d6a6}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="DUELO"]{
+  color:#ffb2b6;border-color:rgba(239,124,132,.44);
+  background:rgba(142,43,57,.16);
+}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="DUELO"] .ta-icon{color:#ffb2b6}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="LOCURA"]{
+  color:#ffdb9b;border-color:rgba(255,180,87,.48);
+  background:rgba(176,91,23,.14);
+}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="LOCURA"] .ta-icon{color:#ffdb9b}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="DESAFIO"]{
+  color:#a9eed0;border-color:rgba(122,233,162,.42);
+  background:rgba(34,119,82,.14);
+}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="DESAFIO"] .ta-icon{color:#a9eed0}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="QUIEN_SOY"]{
+  color:#d3c6ff;border-color:rgba(186,162,250,.48);
+  background:rgba(106,77,159,.17);
+}
+body.ta-icon-v2-r3 #catLabel[data-ta-category="QUIEN_SOY"] .ta-icon{color:#d3c6ff}
+body.ta-icon-v2-r3 #eventBox.ta-labeled-icon{
+  align-items:flex-start;gap:11px;
+  padding:15px 17px;font-size:13px;
+  line-height:1.45;color:#ffddab;
+}
+body.ta-icon-v2-r3 #eventBox .ta-icon-label{
+  width:24px;height:24px;color:#ffdb98;
+}
+body.ta-icon-v2-r3 #eventBox[data-ta-event="ROJA"]{
+  color:#ffd2d5;border-color:rgba(243,105,118,.49);
+  background:rgba(130,38,53,.23);
+}
+body.ta-icon-v2-r3 #eventBox[data-ta-event="ROJA"] .ta-icon{color:#ff949c;}
+
+/* HUD: chip con símbolo y etiqueta a tamaño de lectura real. */
+body.ta-icon-v2-r3 :is(#turn,#challenge) .hud .pill.ta-labeled-icon{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 12px;
+  border-radius:11px;
+  font-size:12px;
+  min-height:39px;
+}
+body.ta-icon-v2-r3 :is(#turn,#challenge) .hud .pill .ta-icon-label{
+  width:17px;height:17px;color:#d5d9c6;
+}
+body.ta-icon-v2-r3 :is(#turn,#challenge) .hud .pill.gold .ta-icon-label{
+  color:#f4d18b;
+}
+body.ta-icon-v2-r3 #turn .turn-icon.ta-svg-host{
+  font-size:initial;
+  display:grid;place-items:center;
+  border-color:rgba(250,211,123,.39);
+  background:radial-gradient(circle at 45% 18%,rgba(245,211,120,.22),rgba(15,36,25,.88));
+}
+body.ta-icon-v2-r3 #turn .turn-icon .ta-icon-emblem{
+  width:72px;height:72px;
+  color:#ffe1a0;
+  filter:drop-shadow(0 7px 7px rgba(0,0,0,.26));
+}
+body.ta-icon-v2-r3 #resultIcon.ta-svg-host{
+  display:grid;place-items:center;font-size:initial;
+}
+body.ta-icon-v2-r3 #resultIcon .ta-icon-emblem{
+  width:83px;height:83px;color:#f9da93;
+  filter:drop-shadow(0 9px 9px rgba(0,0,0,.20));
+}
+body.ta-icon-v2-r3 #result.ta-outcome-fail #resultIcon .ta-icon-emblem{
+  color:#ffc6c9;
+}
+body.ta-icon-v2-r3 #powerIcon.ta-svg-host{
+  display:grid;place-items:center;font-size:initial;
+}
+body.ta-icon-v2-r3 #powerIcon .ta-icon-emblem{
+  width:83px;height:83px;color:#ffe4a4;
+}
+body.ta-icon-v2-r3 #power.ta-power-red #powerIcon .ta-icon-emblem{
+  color:#ff9da4;
+}
+body.ta-icon-v2-r3 #gameover .cup-mark.ta-svg-host{
+  display:grid;place-items:center;font-size:initial;
+}
+body.ta-icon-v2-r3 #gameover .cup-mark .ta-icon-emblem{
+  width:91px;height:91px;color:#ffe6a4;
+}
+body.ta-icon-v2-r3 #settings .setting-icon.ta-svg-host{
+  display:grid;place-items:center;font-size:initial;
+  color:#f6d68c;
+}
+body.ta-icon-v2-r3 #settings .setting-icon .ta-icon-emblem{
+  width:29px;height:29px;
+}
+body.ta-icon-v2-r3 #powerOptions .ta-icon-button{
+  justify-content:flex-start;gap:11px;
+}
+body.ta-icon-v2-r3 #powerOptions .ta-icon-button > span:first-of-type{
+  margin-right:auto;
+  text-align:left;
+}
+body.ta-icon-v2-r3 #powerOptions .ta-icon-power-badge{
+  width:21px;height:21px;
+  color:#f2d387;margin-left:2px;
+}
+body.ta-icon-v2-r3 #shootout .shoot-kicks.ta-shoot-marks{
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:9px;
+}
+body.ta-icon-v2-r3 #shootout .ta-icon-kick{
+  width:24px;height:24px;
+  color:#b8f0cd;
+  padding:4px;background:rgba(70,153,102,.17);
+  border:1px solid rgba(109,213,150,.34);
+  border-radius:50%;
+}
+body.ta-icon-v2-r3 #shootout .ta-icon-glove.ta-icon-kick{
+  color:#ffd0d0;background:rgba(193,78,89,.17);
+  border-color:rgba(241,112,123,.38);
+}
+body.ta-icon-v2-r3 #scores .score-value.ta-labeled-icon{
+  display:inline-flex;align-items:center;justify-content:flex-end;gap:7px;
+}
+body.ta-icon-v2-r3 #scores .score-value .ta-icon{
+  width:17px;height:17px;color:#f4b5b5;
+}
+
+/* El SVG nunca absorbe el clic; el botón conserva sus eventos originales. */
+body.ta-icon-v2-r3 .ta-icon{
+  pointer-events:none;
+}
+@media(max-width:480px){
+  body.ta-icon-v2-r3 .ta-icon-button{
+    gap:8px;line-height:1.3;
+  }
+  body.ta-icon-v2-r3 .ta-icon-button .ta-icon-button-art{
+    width:20px;height:20px;
+  }
+  body.ta-icon-v2-r3 :is(#mode,#difficulty) .option-icon .ta-icon{
+    width:29px;height:29px;
+  }
+  body.ta-icon-v2-r3 #catLabel .ta-icon-label{
+    width:22px;height:22px;
+  }
+  body.ta-icon-v2-r3 #turn .turn-icon .ta-icon-emblem{
+    width:61px;height:61px;
+  }
+  body.ta-icon-v2-r3 #resultIcon .ta-icon-emblem,
+  body.ta-icon-v2-r3 #powerIcon .ta-icon-emblem{
+    width:72px;height:72px;
+  }
+  body.ta-icon-v2-r3 #shootout .ta-icon-kick{
+    width:22px;height:22px;
+  }
+  body.ta-icon-v2-r3 #powerOptions .ta-icon-button{
+    gap:8px;justify-content:flex-start;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.ta-icon-v2-r3 :is(.ta-icon,.ta-icon-button,.ta-svg-host){
+    transition:none!important;animation:none!important;
+  }
+}
