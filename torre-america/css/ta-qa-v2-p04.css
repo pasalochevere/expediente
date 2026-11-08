@@ -1,0 +1,27 @@
+/* Torre de América P0.4 · Ajustes visuales posteriores a auditoría.
+ * Preview protegido: señalización clara de cronómetro iniciado y controles. */
+body.ta-v2-p02 #challenge #timerWrap button[disabled]{
+  opacity:.82;cursor:not-allowed;
+  background:linear-gradient(155deg,#294236,#182b24);
+  border-color:rgba(190,219,187,.29);
+  color:#d6e8d8;
+  box-shadow:inset 0 1px rgba(255,255,255,.06);
+}
+body.ta-v2-p02 #challenge #timerWrap button[disabled] .ta-icon{
+  color:#b8d8c1;
+}
+body.ta-v2-p02 #challenge #timerWrap button[disabled]:focus-visible{
+  outline:2px solid #f4db98;outline-offset:3px;
+}
+body.ta-v2-p02 :is(#penalty,#shootout) :is(#penActions,#shootActions).hidden{
+  pointer-events:none!important;
+}
+body.ta-v2-p02 #challenge #timerWrap .btn{
+  line-height:1.45;
+}
+@media(max-width:480px){
+  body.ta-v2-p02 #challenge #timerWrap button[disabled]{
+    font-size:11px;
+    padding-inline:9px;
+  }
+}
