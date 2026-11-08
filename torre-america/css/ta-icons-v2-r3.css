@@ -212,6 +212,36 @@ body.ta-icon-v2-r3 #scores .score-value .ta-icon{
   width:17px;height:17px;color:#f4b5b5;
 }
 
+
+body.ta-icon-v2-r3 #home .hero-format-hint span.ta-labeled-icon{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;letter-spacing:.05em;color:#f4ead8;
+}
+body.ta-icon-v2-r3 #home .hero-format-hint .ta-icon-label{
+  width:19px;height:19px;color:#ffe0a0;
+}
+body.ta-icon-v2-r3 #how .help-dual h3.ta-labeled-icon{
+  display:flex;align-items:center;gap:11px;
+}
+body.ta-icon-v2-r3 #how .help-dual h3 .ta-icon-label{
+  width:28px;height:28px;color:#f5d58c;
+}
+body.ta-icon-v2-r3 #shootBrand.ta-labeled-icon{
+  display:inline-flex;justify-content:center;align-items:center;
+  gap:7px;
+}
+body.ta-icon-v2-r3 #shootBrand .ta-icon-label{
+  width:20px;height:20px;color:#f4d18b;
+}
+body.ta-icon-v2-r3 :is(#turnInstruction,#scoreBox) .ta-icon-inline{
+  width:16px;height:16px;margin:0 2px;
+  color:#f3ca86;
+  vertical-align:-.1em;
+}
+body.ta-icon-v2-r3 #scores .score-name{
+  display:inline-block;line-height:1.45;
+}
+
 /* El SVG nunca absorbe el clic; el botón conserva sus eventos originales. */
 body.ta-icon-v2-r3 .ta-icon{
   pointer-events:none;
