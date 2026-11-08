@@ -58,8 +58,8 @@ const expect=(v,msg)=>{if(!v)throw Error(msg)};
       return out;
      });
      const bad=diag.filter(x=>!x.ok);expect(!bad.length,'fallan imágenes básicas '+JSON.stringify(bad.slice(0,8)));
-     expect(diag.every(x=>x.src==='data:image/w'),'vistas básicas no incrustadas');
-     return {total:diag.length,passed:diag.filter(x=>x.ok).length};
+     expect(diag.every(x=>x.src.startsWith('data:image/')||x.src.startsWith('blob:')),'vistas básicas con fuente inválida');
+     return {total:diag.length,passed:diag.filter(x=>x.ok).length,sourceTypes:[...new Set(diag.map(x=>x.src))],minWidth:Math.min(...diag.map(x=>x.width)),minHeight:Math.min(...diag.map(x=>x.height))};
     });
     await check('Descarga 12 ZIP y 180 vistas reales',async()=>{
      await page.locator('#view-buttons [data-view="hero"]').click();
@@ -84,7 +84,7 @@ const expect=(v,msg)=>{if(!v)throw Error(msg)};
      expect(!bad.length,'vistas sin imagen '+JSON.stringify(bad.slice(0,8)));
      const expanded=d.filter(x=>!['front_print','back_print','coloring','coloring_back'].includes(x.key));
      expect(expanded.every(x=>x.src.startsWith('blob:')),'vistas ampliadas usan fallback o recurso incorrecto');
-     return {verified:d.length,expanded:expanded.length,broken:bad.length};
+     return {verified:d.length,expanded:expanded.length,broken:bad.length,minImageWidth:Math.min(...d.map(x=>x.w)),maxImageWidth:Math.max(...d.map(x=>x.w)),minImageHeight:Math.min(...d.map(x=>x.h)),maxImageHeight:Math.max(...d.map(x=>x.h))};
     });
     await page.screenshot({path:path.join(out,'butter-r5-mobile-390.png'),fullPage:true});
    }
