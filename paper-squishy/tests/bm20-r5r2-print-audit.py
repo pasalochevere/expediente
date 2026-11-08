@@ -64,6 +64,10 @@ for gi in range(4):
         code=ch['code']
         tiles.extend([(code+' FRONT',images[(code,'front_print')]),(code+' BACK',images[(code,'back_print')])])
     montage(tiles,f'bm20-front-back-{gi+1}.jpg',width=1120,cols=2)
+# Additional source comparison for identifying clean production candidates.
+for kind in ('hero','editor_asset','character_card'):
+    tiles=[(ch['code']+' '+kind.upper(),images[(ch['code'],kind)]) for ch in manifest['characters']]
+    montage(tiles,'bm20-'+kind+'-all.jpg',width=1120,cols=4)
 # A black/white contact sheet 20 = front-back for 10 at each panel
 for gi in range(2):
     batch=manifest['characters'][gi*10:(gi+1)*10]
@@ -92,3 +96,5 @@ report={'characters':len(manifest['characters']),'assets':len(ASSETS),'orientati
 (OUT/'bm20-r5r2-preflight.json').write_text(json.dumps(report,indent=2,ensure_ascii=False))
 print('SUMMARY',json.dumps({k:v for k,v in report.items() if k not in ('records','bn_color_leakage')},ensure_ascii=False))
 print('BN_LEAKAGE_TOP',sorted(bn_metrics,key=lambda r:r['chromatic_share'],reverse=True)[:10])
+
+print('PRODUCTION_SOURCE_MODES',json.dumps({k:sorted(set((r['width'],r['height'],r['mode'],r['alpha']) for r in records if r['view']==k)) for k in TYPES}))
