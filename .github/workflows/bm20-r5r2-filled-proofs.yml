@@ -1,0 +1,51 @@
+name: BM20 R5R2 filled A4 visual proofs
+on:
+  push:
+    branches:
+      - audit/bm20-r5r2-20261108
+    paths:
+      - paper-squishy/tests/bm20-r5r2-make-filled-proof.py
+      - .github/workflows/bm20-r5r2-filled-proofs.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build-proofs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF and image packages
+        run: python -m pip install Pillow==11.3.0 reportlab==4.4.4 pypdf==6.1.1
+      - name: Build 20 printable A4 character sheets in color and B&W
+        run: python paper-squishy/tests/bm20-r5r2-make-filled-proof.py
+      - name: Verify page counts, images, landscape dimensions
+        run: |
+          python - <<'PY'
+          from pypdf import PdfReader
+          from pathlib import Path
+          src=Path('paper-squishy/qa-exports')
+          for pdf in src.glob('BM20*.pdf'):
+            reader=PdfReader(pdf)
+            assert len(reader.pages)==20, (pdf,len(reader.pages))
+            for i,p in enumerate(reader.pages):
+              assert float(p.mediabox.width)>float(p.mediabox.height),(pdf,i)
+              resources=p['/Resources']['/XObject'].get_object()
+              assert len(resources)>=2,(pdf,i,'missing front or back')
+            print('PASS',pdf.name,len(reader.pages),'pages with two non-empty images each')
+          PY
+      - name: Commit PDFs only to isolated audit branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper-squishy/qa-exports/BM20_R5R2_20_Personajes_Color_Prueba_A4.pdf paper-squishy/qa-exports/BM20_R5R2_20_Personajes_BN_Prueba_A4.pdf
+          git diff --cached --quiet || (git commit -m 'BM20 R5R2: populated A4 visual proofs (20 characters) [skip ci]' && git push)
+      - name: Attach generated proofs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bm20-r5r2-20-personajes-pdf-reales
+          path: paper-squishy/qa-exports/*.pdf
