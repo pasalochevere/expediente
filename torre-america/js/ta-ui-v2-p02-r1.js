@@ -31,8 +31,8 @@
       art+
       '<span class="visual-format-content">'+
        '<span class="visual-format-ribbon">'+(physical?'CON TORRE DE MADERA':'SIN ELEMENTOS FÍSICOS')+'</span>'+
-       '<h3>'+(physical?'Torre física':'Solo digital')+'</h3>'+
-       '<p>'+(physical?'Sacá una pieza, ingresá su número y convertí cada bloque en una jugada.':'La aplicación sortea el bloque. Jugá todos los desafíos desde tu celular.')+'</p>'+
+       '<span class="ta-format-title">'+(physical?'Torre física':'Solo digital')+'</span>'+ 
+       '<span class="ta-format-description">'+(physical?'Sacá una pieza, ingresá su número y convertí cada bloque en una jugada.':'La aplicación sortea el bloque. Jugá todos los desafíos desde tu celular.')+'</span>'+ 
        '<span class="visual-format-cta">'+(selected?'✓ Formato seleccionado':'Elegir este formato →')+'</span>'+
       '</span>';
     button.addEventListener('click',function(){
