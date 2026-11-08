@@ -430,3 +430,18 @@ body.ta-v2-p02 #challenge #revealBtn{font-size:16px;}
 @media(prefers-reduced-motion:reduce){
   body.ta-v2-p02 #format .visual-format-card{transition:none!important;transform:none!important}
 }
+/* QA editorial: afirmaciones múltiples legibles en teléfono y escritorio. */
+body.ta-v2-p02 #challenge #questionText.ta-question-long{
+  font-size:clamp(19px,2.8vw,26px)!important;
+  line-height:1.48!important;
+  letter-spacing:-.018em!important;
+  font-weight:750!important;
+  min-height:0!important;
+  overflow-wrap:break-word;
+}
+@media(max-width:480px){
+  body.ta-v2-p02 #challenge #questionText.ta-question-long{
+    font-size:20px!important;
+    line-height:1.52!important;
+  }
+}
