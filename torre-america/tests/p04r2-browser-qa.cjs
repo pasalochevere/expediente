@@ -29,12 +29,12 @@ for(const width of [320,375,390,430,768]){
  assert(await page.locator('#mode').evaluate(e=>e.classList.contains('active')),'mode navigation failed');
  await page.locator('#mode .option').first().focus();
  await page.keyboard.press('Enter');
- assert(await page.locator('#mode .option').first().evaluate(e=>e===document.activeElement),'keyboard focus lost');
+ await page.waitForFunction(()=>document.querySelector('#mode .option')===document.activeElement,{timeout:1500}).catch(()=>{});assert(await page.locator('#mode .option').first().evaluate(e=>e===document.activeElement),'keyboard focus lost');
  await page.locator('#mode .btn-primary').click({force:true});
  await page.locator('#players .btn-primary').click({force:true});
  await page.locator('#difficulty .option').first().focus();
  await page.keyboard.press('Space');
- assert(await page.locator('#difficulty .option').first().evaluate(e=>e===document.activeElement),'difficulty focus lost');
+ await page.waitForFunction(()=>document.querySelector('#difficulty .option')===document.activeElement,{timeout:1500}).catch(()=>{});assert(await page.locator('#difficulty .option').first().evaluate(e=>e===document.activeElement),'difficulty focus lost');
  await page.locator('#difficulty .btn-primary').click({force:true});
  await page.locator('#summary .btn-primary').click({force:true});
  assert(await page.locator('#turn').evaluate(e=>e.classList.contains('active')),'game not started');
