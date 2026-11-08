@@ -1,0 +1,20 @@
+{
+  "name": "Torre de América V2 · Prueba",
+  "short_name": "Torre V2 QA",
+  "id": "./?pwa=1",
+  "start_url": "./?pwa=1",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07120d",
+  "theme_color": "#07120d",
+  "description": "Edición V2.0 de Torre de América en validación. Se requiere conexión para verificar la licencia.",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "../assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
