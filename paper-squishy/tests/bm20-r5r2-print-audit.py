@@ -100,3 +100,21 @@ print('BN_LEAKAGE_TOP',sorted(bn_metrics,key=lambda r:r['chromatic_share'],rever
 print('PRODUCTION_SOURCE_MODES',json.dumps({k:sorted(set((r['width'],r['height'],r['mode'],r['alpha']) for r in records if r['view']==k)) for k in TYPES}))
 
 print('EDITOR_ALPHA_BOUNDS',json.dumps([{'character':r['character'],'alpha_bbox':r['alpha_bbox']} for r in records if r['view']=='editor_asset']))
+
+# 1:1 geometry sanity: alpha silhouette proportions against declared cut envelopes.
+geometry=[]
+for ch in manifest['characters']:
+    rec=next(r for r in records if r['character']==ch['code'] and r['view']=='editor_asset')
+    l,t,r,b=rec['alpha_bbox']
+    pxw,pxh=r-l,b-t
+    mmw,mmh=ch['cut_mm']
+    ratio_err=abs((pxw/pxh)/(mmw/mmh)-1)*100
+    dpiw=pxw*25.4/mmw
+    dpih=pxh*25.4/mmh
+    geometry.append({'code':ch['code'],'cut_mm':ch['cut_mm'],'alpha_px':[pxw,pxh],
+                     'proportion_error_pct':round(ratio_err,3),'effective_source_dpi':[round(dpiw,1),round(dpih,1)]})
+(OUT/'bm20-r5r2-geometry.json').write_text(json.dumps(geometry,indent=2,ensure_ascii=False))
+print('PRINT_GEOMETRY',json.dumps(geometry))
+print('PRINT_GEOMETRY_SUMMARY',json.dumps({'max_ratio_error_pct':max(x['proportion_error_pct'] for x in geometry),
+ 'min_editor_dpi':min(min(x['effective_source_dpi']) for x in geometry),
+ 'max_editor_dpi':max(max(x['effective_source_dpi']) for x in geometry)}))
