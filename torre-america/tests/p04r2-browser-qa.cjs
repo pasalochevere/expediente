@@ -25,7 +25,7 @@ for(const width of [320,375,390,430,768]){
  // Start setup via native interface; do not alter game logic.
  console.log('home button labels',await page.locator('#home button').allTextContents());await page.evaluate(()=>go('format')); // direct setup navigation in isolated fixture; CTA will be audited separately
  console.log('after play',await page.evaluate(()=>({active:[...document.querySelectorAll('.screen.active')].map(x=>x.id),formatDisplay:getComputedStyle(document.querySelector('#format .visual-format-card')).display,formatVisible:getComputedStyle(document.querySelector('#format')).display,jsErrors:window.TA_PREVIEW_LOAD_WARNINGS})));await page.locator('#format .visual-format-card').last().click({force:true});
- await page.locator('#format .btn-primary').click({force:true});
+ console.log('format CTA',await page.locator('#format button').allTextContents());await page.locator('#format .btn-primary').click({force:true});console.log('after format continue',await page.evaluate(()=>({active:[...document.querySelectorAll('.screen.active')].map(e=>e.id),selected:S.playFormat,errors:window.TA_PREVIEW_LOAD_WARNINGS})));
  assert(await page.locator('#mode').evaluate(e=>e.classList.contains('active')),'mode navigation failed');
  await page.locator('#mode .option').first().focus();
  await page.keyboard.press('Enter');
