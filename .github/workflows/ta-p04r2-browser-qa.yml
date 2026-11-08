@@ -1,0 +1,25 @@
+name: TA P0.4R2 isolated browser QA
+on:
+  push:
+    branches:
+      - audit/ta-ui-v2-p04-20261108
+  workflow_dispatch:
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.56.1 && npx playwright install --with-deps chromium
+      - name: Run isolated QA (mock authentication, never production)
+        run: node torre-america/tests/p04r2-browser-qa.cjs
+      - name: Upload screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ta-p04r2-browser-evidence
+          path: torre-america/tests/output/
