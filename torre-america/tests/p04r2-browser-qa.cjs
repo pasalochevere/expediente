@@ -24,7 +24,7 @@ for(const width of [320,375,390,430,768]){
  console.log('viewport diagnostic',width,check,'home buttons',await page.locator('#home button').count(),'home active',await page.locator('#home').getAttribute('class'));assert(check.ready,'p04 did not initialize');assert(check.data===162,'content count '+check.data);assert(check.penalties===60,'penalty count '+check.penalties);
  // Start setup via native interface; do not alter game logic.
  await page.locator('#home .footer-actions button').first().click({force:true});
- await page.locator('#format .visual-format-card').last().click({force:true});
+ console.log('after play',await page.evaluate(()=>({active:[...document.querySelectorAll('.screen.active')].map(x=>x.id),formatDisplay:getComputedStyle(document.querySelector('#format .visual-format-card')).display,formatVisible:getComputedStyle(document.querySelector('#format')).display,jsErrors:window.TA_PREVIEW_LOAD_WARNINGS})));await page.locator('#format .visual-format-card').last().click({force:true});
  await page.locator('#format .btn-primary').click({force:true});
  assert(await page.locator('#mode').evaluate(e=>e.classList.contains('active')),'mode navigation failed');
  await page.locator('#mode .option').first().focus();
