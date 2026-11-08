@@ -46,6 +46,25 @@ for(const width of [320,375,390,430,768]){
  for(let i=0;i<4;i++){if(await page.locator('#challenge').evaluate(e=>e.classList.contains('active')))break;if(await page.locator('#power').evaluate(e=>e.classList.contains('active'))){await page.locator('#powerOptions button').first().evaluate(el=>el.click())}else break}
  assert(await page.locator('#challenge').evaluate(e=>e.classList.contains('active')),'challenge not reached');
  assert((await page.locator('#questionText').innerText()).length>10,'blank challenge');
+ await page.evaluate(()=>revealAnswer());
+ assert(await page.locator('#answer').evaluate(e=>e.classList.contains('active')),'digital answer did not open');
+ await page.evaluate(()=>resolve(true));
+ assert(await page.locator('#result').evaluate(e=>e.classList.contains('active')),'digital result did not open');
+ // Physical turn with a non-event card, preserving the real game engine.
+ await page.evaluate(()=>{
+   newGame();S.playFormat='FISICA';S.mode='CLASICO';S.difficulty='FACIL';
+   startGame();
+   const card=DB.content.find(x=>x.difficulty==='FACIL'&&!x.event);
+   if(!card)throw Error('No non-event physical content available');
+   selectPhysicalBlock(card.block);
+ });
+ assert(await page.locator('#challenge').evaluate(e=>e.classList.contains('active')),'physical challenge did not open');
+ assert((await page.locator('#questionText').innerText()).length>10,'blank physical challenge');
+ await page.evaluate(()=>revealAnswer());
+ assert(await page.locator('#answer').evaluate(e=>e.classList.contains('active')),'physical answer did not open');
+ await page.evaluate(()=>resolve(true));
+ assert(await page.locator('#result').evaluate(e=>e.classList.contains('active')),'physical result did not open');
+
  await page.screenshot({path:path.join(out,'mobile-'+width+'.png'),fullPage:true});
  report.push({width,check,errors,passed:true});
  await ctx.close();
