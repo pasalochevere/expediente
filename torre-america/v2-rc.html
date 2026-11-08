@@ -1,0 +1,102 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050807"><meta name="description" content="Torre de América de PasaloChévere: 222 desafíos de fútbol, con torre física o 100% digital."><meta name="application-name" content="Torre de América"><title>Torre de América · Torre de América V2.0 · Release Candidate Comercial</title><meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark"><link rel="icon" href="./assets/icon.svg" type="image/svg+xml"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-1.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-2.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-3.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-4.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/visual-sprint-1.css?v=20260921-3"><link data-ta-rc-css="1" rel="stylesheet" href="./css/cinema-v11.css?v=20260921-3"><link data-ta-rc-css="1" rel="stylesheet" href="./css/wallpaper-cinema.css?v=20260921-8"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-ui-v2-p02.css?v=20261108-2"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-ui-v2-p02-r1.css?v=20261108-qa3"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-ui-v2-p03.css?v=20261108-p03a"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-icons-v2-r3.css?v=20261108-r3b"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-motion-v2-r4.css?v=20261108-r4a"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-qa-v2-p04.css?v=20261108-p04a"></head>
+<body>
+<div style="min-height:100vh;display:grid;place-items:center;background:#050807;color:#e6c35a;font:800 15px system-ui">⚽ PREPARANDO TORRE DE AMÉRICA V2.0…</div>
+<script>
+(async function(){
+  "use strict";
+  const BUILD="TA-V2.0-RC1-P05-20261108";
+  window.TA_RELEASE_RC={build:BUILD,status:"loading",kind:"commercial-candidate",production:false};
+  const essentialCSS=[...document.querySelectorAll('link[data-ta-rc-css="1"]')];
+  const fatal=function(why){
+    console.error("[Torre de América RC]",why);
+    window.TA_RELEASE_RC.status="blocked";
+    const area=document.createElement("main");
+    area.style.cssText="min-height:100vh;display:grid;place-items:center;padding:24px;background:#07120d;color:#f8f4eb;font:16px/1.5 system-ui";
+    const card=document.createElement("section");
+    card.style.cssText="width:min(540px,100%);border:1px solid #c6a76a;background:#13281d;border-radius:20px;padding:30px;box-shadow:0 24px 65px #0007";
+    const t=document.createElement("h1");t.textContent="No pudimos completar la carga de V2.0";
+    t.style.cssText="font-size:26px;line-height:1.2;margin:0 0 12px";
+    const p=document.createElement("p");p.textContent="La versión comercial de prueba necesita todos sus componentes. No se modificó tu partida ni tu licencia.";
+    const details=document.createElement("code");details.textContent=String(why?.message||why||"Error desconocido");
+    details.style.cssText="display:block;padding:13px;border-radius:10px;background:#091810;color:#f6d697;overflow-wrap:anywhere;font-size:13px";
+    const actions=document.createElement("div");actions.style.cssText="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px";
+    const retry=document.createElement("button");retry.type="button";retry.textContent="Reintentar";
+    retry.style.cssText="border:0;border-radius:11px;background:#f3cf82;color:#19241a;font:800 15px system-ui;padding:12px 17px;cursor:pointer";
+    retry.onclick=()=>location.reload();
+    const back=document.createElement("a");back.href="./index.html";back.textContent="Versión estable";
+    back.style.cssText="border:1px solid #7e947d;color:white;text-decoration:none;border-radius:11px;padding:12px 17px;font-weight:750";
+    actions.append(retry,back);card.append(t,p,details,actions);area.append(card);document.body.replaceChildren(area);
+  };
+  const script=function(src){
+    return new Promise((resolve,reject)=>{
+      const element=document.createElement("script");
+      element.src=src;element.async=false;
+      element.onload=()=>resolve();
+      element.onerror=()=>reject(new Error("Archivo no disponible: "+src));
+      document.body.appendChild(element);
+    });
+  };
+  const getHTML=async function(path){
+    let response;
+    try{response=await fetch(path,{cache:"no-store"})}
+    catch(e){throw new Error("Error de red al cargar "+path+": "+e.message)}
+    if(!response.ok)throw new Error("HTTP "+response.status+" al cargar "+path);
+    const fragment=await response.text();
+    if(!fragment.includes('class="screen"')&&!fragment.includes('id="licenseGate"')){
+      throw new Error("El fragmento "+path+" no tiene contenido válido");
+    }
+    return fragment;
+  };
+  try{
+    // Si falla un estilo de esta edición no se autoriza una UI visualmente incompleta.
+    const cssFailures=essentialCSS.filter(x=>!x.sheet).map(x=>x.getAttribute("href"));
+    if(cssFailures.length)throw new Error("Estilos incompletos: "+cssFailures.join(", "));
+    const parts=await Promise.all(["body-1.html","body-2.html","body-3.html","body-4.html"].map(n=>getHTML("./fragments/"+n)));
+    document.body.innerHTML=parts.join("");
+    document.body.classList.add("ta-v2-p02");
+    document.body.dataset.taCommercialCandidate="RC1";
+    for(const n of [1,2,3,4,5,6,7,8])await script("./js/app-"+n+".js");
+    for(const s of [
+      "./js/visual-sprint-1.js?v=20260921-3",
+      "./js/wallpaper-cinema.js?v=20260921-9",
+      "./js/v1-freeze-hotfix.js?v=20260922-1",
+      "./js/ta-ui-v2-p02.js?v=20261108-2",
+      "./js/ta-ui-v2-p02-r1.js?v=20261108-r2",
+      "./js/ta-reto-qa-r2.js?v=20261108-qa3",
+      "./js/ta-ui-v2-p03.js?v=20261108-p03a",
+      "./js/ta-icons-v2-r3.js?v=20261108-r3b",
+      "./js/ta-motion-v2-r4.js?v=20261108-r4a",
+      "./js/ta-qa-guards-p04.js?v=20261108-p04b",
+      "./js/ta-release-rc1.js?v=20261108-p05a"
+    ])await script(s);
+    const ready=await Promise.resolve(window.torreAmericaDataReady);
+    if(!ready||typeof DB==="undefined"||!Array.isArray(DB.content)||DB.content.length!==162||!Array.isArray(DB.penalties)||DB.penalties.length!==60){
+      throw new Error("La biblioteca no está completa: se necesitan 162 retos y 60 penales");
+    }
+    if(window.TA_EDITORIAL_QA?.curated!==37||window.TA_EDITORIAL_QA?.creative!==23){
+      throw new Error("No se aplicó completamente la revisión editorial de consignas");
+    }
+    if(window.TA_QA_P04_GUARDS?.guards?.length!==3){
+      throw new Error("No están disponibles las protecciones del cronómetro y los penales");
+    }
+    if(window.TA_ICON_QA?.iconsLocal!==true||!window.TA_MOTION_QA?.version){
+      throw new Error("Faltan componentes visuales de V2.0");
+    }
+    // Dependencia de acceso: siempre se valida con el flujo original protegido.
+    try{
+      await script("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2");
+    }catch(e){
+      try{await script("https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js")}
+      catch(err){console.warn("[TA RC] Validador CDN no disponible: access.js gestionará la pantalla de acceso.");}
+    }
+    // El diagnóstico queda accesible solo si se solicita expresamente.
+    if(new URLSearchParams(location.search).get("qa")==="1"){
+      try{await script("./js/ta-qa-panel-p04.js?v=20261108-p04a")}
+      catch(e){console.warn("[TA RC] Diagnóstico no disponible",e)}
+    }
+    window.TA_RELEASE_RC.status="ready-to-validate-access";
+    await script("./js/access.js?v=20260921-2");
+  }catch(error){fatal(error)}
+})();
+</script>
+</body></html>
