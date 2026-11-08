@@ -137,6 +137,13 @@ body.ta-v2-p02 #home .ta-home-strip:before,
 body.ta-v2-p02 #home .ta-home-strip:after{
   content:"";height:1px;background:linear-gradient(90deg,transparent,rgba(216,169,75,.45),transparent);
 }
+body.ta-v2-p02 #home .ta-back-stable{
+  display:block;width:max-content;max-width:100%;margin:18px auto 4px;
+  color:#d9c88f;font-size:11px;letter-spacing:.10em;font-weight:900;
+  text-transform:uppercase;text-decoration:none;
+  border-bottom:1px solid rgba(220,179,86,.33);padding-bottom:5px;
+}
+body.ta-v2-p02 #home .ta-back-stable:focus-visible{outline:2px solid #f8d993;outline-offset:4px}
 body.ta-v2-p02 #home.visual-v2 .footer-actions{
   grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px;
 }
