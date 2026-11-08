@@ -62,8 +62,16 @@
     renderChallenge=function(){
       const key=currentQuestionKey();
       const changed=key!==timerKey;
+      const timer=document.getElementById("timer");
+      const currentRemaining=timer?.textContent;
       const result=original();
       if(changed)resetTimer(key);
+      else if(timerRunning&&timer&&currentRemaining!=null){
+        // El motor vuelve a dibujar el tiempo inicial al regresar a la
+        // misma pregunta: conservar el tiempo REAL que ya venía corriendo.
+        timer.textContent=currentRemaining;
+        timer.className="timer"+(Number(currentRemaining)<=0?" zero":Number(currentRemaining)<=5?" low":"");
+      }
       return result;
     };
     QA.guards.push("timer_por_intento");
