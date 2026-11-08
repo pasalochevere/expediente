@@ -33,6 +33,7 @@ const GLYPHS={
  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>',
  history:'<path d="M4 7A9 9 0 1 1 3 13"/><path d="M4 2v5h5M12 7v5l3.5 2"/>',
  duel:'<path d="m4 4 16 16M20 4 4 20"/><path d="m3 7 4-4M17 21l4-4M17 3l4 4M3 17l4 4"/>',
+ lightning:'<path d="m13.8 2-9 11h6.8L10.2 22l9-12h-6.8L13.8 2Z"/>',
  flame:'<path d="M13 2c.9 4-2.4 5.5-1.5 9.4-2-1.1-2.9-2.6-2.4-5.3C5.8 9.9 5.5 13 6.1 16a6.3 6.3 0 0 0 12.3.1c.7-3.8-1-6.2-2.6-8-1 3.3-2.7 3.3-2.8 4.2C12 10.1 15.1 6.7 13 2Z"/>',
  search:'<circle cx="10.5" cy="10.5" r="6.8"/><path d="m16 16 5 5"/>',
  trivia:'<path d="M9.1 8.2c.3-1.4 1.5-2.5 3.1-2.5 1.8 0 3.1 1 3.1 2.5 0 2-3.1 2.1-3.1 5"/><circle cx="12.2" cy="17.6" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="10" stroke-opacity=".45"/>',
