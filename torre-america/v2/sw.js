@@ -3,7 +3,7 @@
  * Navegación offline: solo pantalla explicativa, NUNCA abre juego sin validar.
  */
 const PREFIX="ta-v2-qa-";
-const CACHE=PREFIX+"20261108-p05r3";
+const CACHE=PREFIX+"20261108-p05r4";
 const ROOT=new URL("./",self.location.href).href;
 const SHELL=[
  new URL("./",ROOT).href,
@@ -47,7 +47,8 @@ self.addEventListener("fetch",event=>{
    }catch(_error){
     const cache=await caches.open(CACHE);
     return (await cache.match(new URL("offline.html",ROOT).href))||
-     new Response("Conectate para validar Torre de América V2.",{status:503,headers:{"Content-Type":"text/plain; charset=utf-8"}});
+     new Response('<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Torre de América V2 · Sin conexión</title></head><body style="background:#07120d;color:#f5f0db;font:16px/1.6 system-ui;min-height:100vh;display:grid;place-items:center;padding:24px"><main style="max-width:460px"><h1>Necesitás conexión para entrar a Torre de América V2</h1><p>Tu partida sigue guardada. Volvé a conectarte para verificar la licencia y continuar.</p></main></body></html>',
+       {status:503,headers:{"Content-Type":"text/html; charset=utf-8","Cache-Control":"no-store"}});
    }
   })());
   return;
