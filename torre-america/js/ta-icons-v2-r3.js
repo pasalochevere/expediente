@@ -262,14 +262,44 @@ function decorateMarks(id){
  const scored=tokens.filter(x=>x==="⚽").length;
  el.setAttribute("aria-label",scored+" goles y "+(tokens.length-scored)+" atajadas");
 }
+function decorateInlineTokens(el){
+ if(!el)return;
+ const RE=/(🏆|🛡️|🟥|❤️|⚽|🧤)/gu;
+ for(const node of Array.from(el.childNodes)){
+  if(node.nodeType!==3||!RE.test(node.textContent||""))continue;
+  RE.lastIndex=0;
+  const pieces=String(node.textContent).split(RE);
+  const frag=document.createDocumentFragment();
+  for(const p of pieces){
+   if(!p)continue;
+   const name=p==="🏆"?"trophy":p==="🛡️"?"shield":
+     p==="🟥"?"redCard":p==="❤️"?"heart":p==="⚽"?"ball":p==="🧤"?"glove":null;
+   if(name)frag.appendChild(icon(name,"ta-icon-inline"));
+   else frag.appendChild(document.createTextNode(p));
+  }
+  node.replaceWith(frag);
+ }
+}
 function decorateScoreChips(){
  const elem=document.getElementById("scoreBox");
  if(!elem)return;
- for(const chip of elem.querySelectorAll(".score-value")){
-  if(chip.querySelector(":scope > .ta-icon"))continue;
-  const text=chip.textContent;
-  if(text.includes("❤️"))leadingLabel(chip,"heart");
+ for(const node of elem.querySelectorAll(".score-name,.score-value")){
+  decorateInlineTokens(node);
  }
+}
+function decorateEditorialLabels(){
+ for(const el of document.querySelectorAll("#home .hero-format-hint span")){
+  if(!el.querySelector(":scope > .ta-icon"))leadingLabel(el,el.textContent.includes("DIGITAL")?"smartphone":"tower");
+ }
+ for(const el of document.querySelectorAll("#how .help-dual h3")){
+  if(!el.querySelector(":scope > .ta-icon"))leadingLabel(el,el.textContent.includes("Digital")?"smartphone":"tower");
+ }
+ const brand=document.getElementById("shootBrand");
+ if(brand&&brand.textContent.trim()&&!brand.querySelector(":scope > .ta-icon")){
+  const title=stripEmoji(brand.textContent).toUpperCase();
+  leadingLabel(brand,title.includes("FINAL")?"trophy":title.includes("DESEMPATE")?"scoreboard":"ball");
+ }
+ decorateInlineTokens(document.getElementById("turnInstruction"));
 }
 function decorateFormatRibbon(){
  for(const node of document.querySelectorAll("#formatOpts .visual-format-ribbon")){
@@ -310,6 +340,7 @@ function decorate(){
  decorateScoreChips();
  decorateFormatRibbon();
  decoratePowerOptionBadges();
+ decorateEditorialLabels();
  standalone(document.querySelector("#gameover .cup-mark"),"trophy");
 }
 function init(){
