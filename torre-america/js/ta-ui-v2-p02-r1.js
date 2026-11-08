@@ -68,6 +68,22 @@
     }
     renderFormatPremium();
   }
+  /* Mejora editorial P0.2R2: solo el texto del reto 45 / Medio.
+     Base de datos y motor publicados en V1.0 permanecen intactos.
+     Configuración original: timer=30s. */
+  function clarifyLockerRoomChallenge(){
+    try{
+      if(typeof DB==="undefined"||!DB||!Array.isArray(DB.content))return;
+      const item=DB.content.find(x=>x.id==="AMERICA_45_MEDIO");
+      if(!item)return;
+      item.question="Sos el DT. Tu equipo perdió 1–0 en la ida y ahora juega la revancha. Tenés 30 segundos para dar una charla motivadora. Debés incluir las palabras EQUIPO, HISTORIA y COPA.";
+      item.answer="Superás el reto si das una charla motivadora y usás las tres palabras antes de que termine el tiempo.";
+      /* Solo texto: conserva el timer=30, evento y resolución del motor. */
+    }catch(e){console.warn("No se pudo mejorar el texto del reto.",e);}
+  }
+  if(window.torreAmericaDataReady && typeof window.torreAmericaDataReady.then==="function"){
+    window.torreAmericaDataReady.then(ready=>{if(ready)clarifyLockerRoomChallenge();});
+  }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup,{once:true});
   else setup();
 })();
