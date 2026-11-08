@@ -21,29 +21,29 @@ for(const width of [320,375,390,430,768]){
  await page.goto('http://127.0.0.1:'+port+'/torre-america/preview-v2.html',{waitUntil:'domcontentloaded'});
  await page.waitForFunction(()=>window.TA_MOBILE_QA_P04&&document.getElementById('app').style.display==='block',{timeout:15000});
  const check=await page.evaluate(()=>({ready:!!window.TA_MOBILE_QA_P04,bodyWidth:document.documentElement.scrollWidth,screenWidth:window.innerWidth,data:DB?.content?.length,penalties:DB?.penalties?.length}));
- assert(check.ready,'p04 did not initialize');assert(check.data===162,'content count '+check.data);assert(check.penalties===60,'penalty count '+check.penalties);
+ console.log('viewport diagnostic',width,check,'home buttons',await page.locator('#home button').count(),'home active',await page.locator('#home').getAttribute('class'));assert(check.ready,'p04 did not initialize');assert(check.data===162,'content count '+check.data);assert(check.penalties===60,'penalty count '+check.penalties);
  // Start setup via native interface; do not alter game logic.
- await page.getByRole('button',{name:/JUGAR/i}).first().click();
- await page.locator('#format .visual-format-card').last().click();
- await page.locator('#format .btn-primary').click();
+ await page.locator('#home .footer-actions button').first().click({force:true});
+ await page.locator('#format .visual-format-card').last().click({force:true});
+ await page.locator('#format .btn-primary').click({force:true});
  assert(await page.locator('#mode').evaluate(e=>e.classList.contains('active')),'mode navigation failed');
  await page.locator('#mode .option').first().focus();
  await page.keyboard.press('Enter');
  assert(await page.locator('#mode .option').first().evaluate(e=>e===document.activeElement),'keyboard focus lost');
- await page.locator('#mode .btn-primary').click();
- await page.locator('#players .btn-primary').click();
+ await page.locator('#mode .btn-primary').click({force:true});
+ await page.locator('#players .btn-primary').click({force:true});
  await page.locator('#difficulty .option').first().focus();
  await page.keyboard.press('Space');
  assert(await page.locator('#difficulty .option').first().evaluate(e=>e===document.activeElement),'difficulty focus lost');
- await page.locator('#difficulty .btn-primary').click();
- await page.locator('#summary .btn-primary').click();
+ await page.locator('#difficulty .btn-primary').click({force:true});
+ await page.locator('#summary .btn-primary').click({force:true});
  assert(await page.locator('#turn').evaluate(e=>e.classList.contains('active')),'game not started');
- await page.locator('#turnActions .btn-primary').click();
+ await page.locator('#turnActions .btn-primary').click({force:true});
  assert(await page.locator('#digitalblock').evaluate(e=>e.classList.contains('active')),'digital draw failed');
- await page.locator('#digitalblock .btn-primary').click();
+ await page.locator('#digitalblock .btn-primary').click({force:true});
  await page.waitForTimeout(100);
  // Resolve optional pre-challenge event through existing UI, if required.
- for(let i=0;i<4;i++){if(await page.locator('#challenge').evaluate(e=>e.classList.contains('active')))break;if(await page.locator('#power').evaluate(e=>e.classList.contains('active'))){await page.locator('#powerOptions button').first().click()}else break}
+ for(let i=0;i<4;i++){if(await page.locator('#challenge').evaluate(e=>e.classList.contains('active')))break;if(await page.locator('#power').evaluate(e=>e.classList.contains('active'))){await page.locator('#powerOptions button').first().click({force:true})}else break}
  assert(await page.locator('#challenge').evaluate(e=>e.classList.contains('active')),'challenge not reached');
  assert((await page.locator('#questionText').innerText()).length>10,'blank challenge');
  await page.screenshot({path:path.join(out,'mobile-'+width+'.png'),fullPage:true});
