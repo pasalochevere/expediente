@@ -12,7 +12,7 @@
    const index=Array.from(root.querySelectorAll(".option")).indexOf(card);
    if(index<0)return;
    // P0.3 activates the option and reconstructs cards synchronously.
-   queueMicrotask(function(){
+   requestAnimationFrame(function(){
     const chosen=root.querySelectorAll(".option")[index];
     if(chosen&&document.activeElement!==chosen)chosen.focus({preventScroll:true});
    });
