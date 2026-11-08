@@ -30,7 +30,7 @@ for ch in manifest['characters']:
         raw=ASSETS[f'{c}_{v}.webp']
         im=Image.open(BytesIO(raw))
         im.load()
-        rgb=im.convert('RGB')
+        rgb=Image.alpha_composite(Image.new('RGBA',im.size,'white'),im.convert('RGBA')).convert('RGB') if 'A' in im.getbands() else im.convert('RGB')
         # Find bounding box of pixels visibly different from white.
         mask=ImageOps.grayscale(ImageOps.invert(rgb))
         # Ignore near-white pixels: not a contour detector, just a margin indicator.
@@ -38,7 +38,7 @@ for ch in manifest['characters']:
         ext=rgb.getextrema()
         stat=ImageStat.Stat(rgb)
         rec={'character':c,'view':v,'width':im.width,'height':im.height,'mode':im.mode,'alpha': 'A' in im.getbands(),
-             'content_box':box,'sha256':hashlib.sha256(raw).hexdigest(),
+             'content_box':box,'alpha_bbox': im.getchannel('A').getbbox() if 'A' in im.getbands() else None,'sha256':hashlib.sha256(raw).hexdigest(),
              'rgb_mean':[round(x,1) for x in stat.mean],'rgb_stddev':[round(x,1) for x in stat.stddev]}
         records.append(rec)
         images[(c,v)]=rgb
@@ -98,3 +98,5 @@ print('SUMMARY',json.dumps({k:v for k,v in report.items() if k not in ('records'
 print('BN_LEAKAGE_TOP',sorted(bn_metrics,key=lambda r:r['chromatic_share'],reverse=True)[:10])
 
 print('PRODUCTION_SOURCE_MODES',json.dumps({k:sorted(set((r['width'],r['height'],r['mode'],r['alpha']) for r in records if r['view']==k)) for k in TYPES}))
+
+print('EDITOR_ALPHA_BOUNDS',json.dumps([{'character':r['character'],'alpha_bbox':r['alpha_bbox']} for r in records if r['view']=='editor_asset']))
