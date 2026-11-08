@@ -238,7 +238,8 @@ body.ta-v2-p02 #format .visual-format-card.digital .visual-format-ribbon{
   color:#a5eee2;background:rgba(85,205,191,.09);
   border-color:rgba(113,229,203,.32);
 }
-body.ta-v2-p02 #format .visual-format-card h3{
+body.ta-v2-p02 #format .visual-format-card .ta-format-title{
+  display:block;
   font-family:var(--ta-r1-font)!important;
   font-size:clamp(28px,3.5vw,36px)!important;
   letter-spacing:-.045em!important;
@@ -248,7 +249,8 @@ body.ta-v2-p02 #format .visual-format-card h3{
   color:#fff9ee;
   margin:14px 0 10px!important;
 }
-body.ta-v2-p02 #format .visual-format-card p{
+body.ta-v2-p02 #format .visual-format-card .ta-format-description{
+  display:block;
   font-family:var(--ta-r1-font);
   font-size:15px!important;font-weight:500;
   line-height:1.5!important;color:#cfddd4!important;
@@ -396,10 +398,10 @@ body.ta-v2-p02 #challenge #revealBtn{font-size:16px;}
     padding:22px 14px 22px 23px!important;
     background:linear-gradient(90deg,rgba(4,15,16,.55),transparent);
   }
-  body.ta-v2-p02 #format .visual-format-card h3{
+  body.ta-v2-p02 #format .visual-format-card .ta-format-title{
     font-size:clamp(24px,5vw,33px)!important;
   }
-  body.ta-v2-p02 #format .visual-format-card p{
+  body.ta-v2-p02 #format .visual-format-card .ta-format-description{
     font-size:14px!important;line-height:1.43!important;
   }
   body.ta-v2-p02 #format .visual-format-cta{
@@ -412,8 +414,8 @@ body.ta-v2-p02 #challenge #revealBtn{font-size:16px;}
   body.ta-v2-p02 #format.visual-v2 .section-head .subtitle{font-size:14px}
   body.ta-v2-p02 #format .visual-format-card{min-height:285px}
   body.ta-v2-p02 #format .visual-format-content{min-height:285px;padding:18px 12px 18px 17px!important;width:70%}
-  body.ta-v2-p02 #format .visual-format-card h3{font-size:26px!important;margin:11px 0 7px!important}
-  body.ta-v2-p02 #format .visual-format-card p{font-size:12px!important}
+  body.ta-v2-p02 #format .visual-format-card .ta-format-title{font-size:26px!important;margin:11px 0 7px!important}
+  body.ta-v2-p02 #format .visual-format-card .ta-format-description{font-size:12px!important}
   body.ta-v2-p02 #format .visual-format-ribbon{font-size:9px;padding:6px 8px}
   body.ta-v2-p02 #format .ta-art-stage{width:38%}
   body.ta-v2-p02 #format .ta-tower-visual{transform:scale(.62) rotateZ(-3deg)}
