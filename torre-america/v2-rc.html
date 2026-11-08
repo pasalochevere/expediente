@@ -1,4 +1,4 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050807"><meta name="description" content="Torre de América de PasaloChévere: 222 desafíos de fútbol, con torre física o 100% digital."><meta name="application-name" content="Torre de América"><title>Torre de América · Torre de América V2.0 · Release Candidate Comercial</title><meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark"><link rel="icon" href="./assets/icon.svg" type="image/svg+xml"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-1.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-2.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-3.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-4.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/visual-sprint-1.css?v=20260921-3"><link data-ta-rc-css="1" rel="stylesheet" href="./css/cinema-v11.css?v=20260921-3"><link data-ta-rc-css="1" rel="stylesheet" href="./css/wallpaper-cinema.css?v=20260921-8"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-ui-v2-p02.css?v=20261108-2"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-ui-v2-p02-r1.css?v=20261108-qa3"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-ui-v2-p03.css?v=20261108-p03a"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-icons-v2-r3.css?v=20261108-r3b"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-motion-v2-r4.css?v=20261108-r4a"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-qa-v2-p04.css?v=20261108-p04a"></head>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050807"><meta name="description" content="Torre de América de PasaloChévere: 222 desafíos de fútbol, con torre física o 100% digital."><meta name="application-name" content="Torre de América"><title>Torre de América · Torre de América V2.0 · Release Candidate Comercial</title><meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark"><link rel="icon" href="./assets/icon.svg" type="image/svg+xml"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-1.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-2.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-3.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/app-4.css"><link data-ta-rc-css="1" rel="stylesheet" href="./css/visual-sprint-1.css?v=20260921-3"><link data-ta-rc-css="1" rel="stylesheet" href="./css/cinema-v11.css?v=20260921-3"><link data-ta-rc-css="1" rel="stylesheet" href="./css/wallpaper-cinema.css?v=20260921-8"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-ui-v2-p02.css?v=20261108-2"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-ui-v2-p02-r1.css?v=20261108-qa3"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-ui-v2-p03.css?v=20261108-p03a"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-icons-v2-r3.css?v=20261108-r3b"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-motion-v2-r4.css?v=20261108-r4a"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-qa-v2-p04.css?v=20261108-p04a"><link data-ta-rc-css="1" rel="stylesheet" href="./css/ta-rc-formats-p05r2.css?v=20261108-p05r2b"></head>
 <body>
 <div style="min-height:100vh;display:grid;place-items:center;background:#050807;color:#e6c35a;font:800 15px system-ui">⚽ PREPARANDO TORRE DE AMÉRICA V2.0…</div>
 <script>
@@ -68,7 +68,7 @@
       "./js/ta-motion-v2-r4.js?v=20261108-r4a",
       "./js/ta-qa-guards-p04.js?v=20261108-p04b",
       "./js/ta-release-rc1.js?v=20261108-p05r2a",
-      "./js/ta-rc-formats-p05r2.js?v=20261108-p05r2a"
+      "./js/ta-rc-formats-p05r2.js?v=20261108-p05r2b"
     ])await script(s);
     const ready=await Promise.resolve(window.torreAmericaDataReady);
     if(!ready||typeof DB==="undefined"||!Array.isArray(DB.content)||DB.content.length!==162||!Array.isArray(DB.penalties)||DB.penalties.length!==60){
@@ -97,7 +97,7 @@
     }
     if(typeof window.TA_RC_SET_FORMATS!=="function")throw new Error("No está disponible el control de formatos por licencia.");
     window.TA_RELEASE_RC.status="ready-to-validate-access";
-    await script("./js/access-rc1.js?v=20261108-p05r2a");
+    await script("./js/access-rc1.js?v=20261108-p05r2b");
   }catch(error){fatal(error)}
 })();
 </script>
