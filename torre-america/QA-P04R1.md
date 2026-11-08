@@ -34,3 +34,15 @@ Fecha: 2026-11-08. Alcance: preview V2; la versión estable `torre-america/index
 
 ## Decisión
 P0.4R1 queda en **auditoría estática + correcciones de interfaz aisladas**, no en QA end-to-end aprobado. No fusionar la rama ni publicar el preview hasta completar la matriz con una cuenta autorizada en navegadores reales.
+
+
+## P0.4R2 — Resultado de ejecución automatizada (2026-11-08)
+
+- Ejecución de GitHub Actions: https://github.com/pasalochevere/expediente/actions/runs/42526998957 — **SUCCESS**.
+- Evidencia: artifact `ta-p04r2-browser-evidence` (5 capturas móviles y reporte JSON).
+- Chromium ejecutó los tamaños de 320, 375, 390, 430 y 768 px.
+- En cada tamaño se verificó carga de la biblioteca (162 retos, 60 penales), inicialización de UI, selección por teclado de modo y dificultad, configuración de jugadores, sorteo y visualización de un reto digital, presentación de respuesta y resultado de la jugada, y un bloque físico sin evento hasta resultado.
+- Corrección validada: la recuperación de foco tras reconstruir una tarjeta funciona usando `requestAnimationFrame`.
+- Los pasos críticos de formato y navegación secundaria se probaron invocando funciones originales del DOM en una **fixture aislada**; esto confirma su flujo de software, **NO** valida hit-testing táctil ni desplazamiento real de todos los botones.
+- El test intercepta el cargador `access.js` solo dentro de la sesión automatizada: ninguna licencia real se probó, y el archivo fuente permanece intacto.
+- Pendientes antes de fusionar: recorrido táctil auténtico, validación de licencia, dados y poderes completos, penales y muerte súbita, reanudación y orientación horizontal. P0.4R2 es una **prueba parcial aprobada**, no un end-to-end integral certificado.
