@@ -25,7 +25,7 @@ const server=http.createServer((req,res)=>{
   await page.route('https://cdn.jsdelivr.net/**',r=>r.abort());
   await page.route('https://unpkg.com/**',r=>r.abort());
   await page.goto(origin+'/torre-america/preview-v2.html',{waitUntil:'domcontentloaded'});
-  await page.waitForFunction(()=>window.TA_MOBILE_QA_P04&&document.getElementById('app').style.display==='block',{timeout:15000});
+  await page.waitForFunction(()=>window.TA_MOBILE_QA_P04&&document.getElementById('app')?.style.display==='block',{timeout:15000});
  }
  const reset=()=>page.evaluate(()=>{newGame();S.mode='PUNTOS';S.playFormat='DIGITAL';S.difficulty='FACIL';startGame()});
  try{
@@ -95,7 +95,7 @@ const server=http.createServer((req,res)=>{
  });
  await check('Recuperar partida desde reto',async()=>{
   await reset();await page.evaluate(()=>{const c=DB.content.find(x=>x.difficulty==='FACIL'&&!x.event);prepareContent(c.block);continueToChallenge();save();goHome()});
-  await page.reload();await page.waitForFunction(()=>document.getElementById('app').style.display==='block');
+  await page.reload();await page.waitForFunction(()=>document.getElementById('app')?.style.display==='block');
   const r=await page.evaluate(()=>{resumeGame();return {screen:[...document.querySelectorAll('.screen.active')].map(x=>x.id),question:document.getElementById('questionText').textContent}});
   ok(r.screen.includes('challenge')&&r.question.length>5,'challenge not recovered');return r;
  });
@@ -103,19 +103,19 @@ const server=http.createServer((req,res)=>{
   await reset();await page.evaluate(()=>{
    const c=DB.content.find(x=>x.difficulty==='FACIL'&&x.event==='DADO');prepareContent(c.block);diceResult('PENAL');save();goHome();
   });
-  await page.reload();await page.waitForFunction(()=>document.getElementById('app').style.display==='block');
+  await page.reload();await page.waitForFunction(()=>document.getElementById('app')?.style.display==='block');
   const r=await page.evaluate(()=>{resumeGame();return {screen:[...document.querySelectorAll('.screen.active')].map(x=>x.id),ready:!document.getElementById('penReady').classList.contains('hidden'),question:!!S.activePenalty}});
   ok(r.screen.includes('penalty')&&r.ready&&r.question,'penalty not recovered');return r;
  });
  await check('Recuperar tanda y marcador',async()=>{
   await reset();await page.evaluate(()=>{beginShootout('PENALES',1);finishShootoutKick(true);save();goHome()});
-  await page.reload();await page.waitForFunction(()=>document.getElementById('app').style.display==='block');
+  await page.reload();await page.waitForFunction(()=>document.getElementById('app')?.style.display==='block');
   const r=await page.evaluate(()=>{resumeGame();return {screen:[...document.querySelectorAll('.screen.active')].map(x=>x.id),sh:S.shootout&&{side:S.shootout.side,a:S.shootout.kicksA.length,b:S.shootout.kicksB.length},ready:!document.getElementById('shootReady').classList.contains('hidden')}});
   ok(r.screen.includes('shootout')&&r.sh?.a===1&&r.sh?.side==='B'&&r.ready,'shootout not recovered');return r;
  });
  await check('Estado después de resultado',async()=>{
   await reset();await page.evaluate(()=>{const c=DB.content.find(x=>x.difficulty==='FACIL'&&!x.event);prepareContent(c.block);continueToChallenge();revealAnswer();resolve(true);goHome()});
-  await page.reload();await page.waitForFunction(()=>document.getElementById('app').style.display==='block');
+  await page.reload();await page.waitForFunction(()=>document.getElementById('app')?.style.display==='block');
   const r=await page.evaluate(()=>{resumeGame();return {screen:[...document.querySelectorAll('.screen.active')].map(x=>x.id),result:document.getElementById('resultTitle').textContent}});
   ok(r.screen.includes('result'),'result not recovered');return r;
  });
