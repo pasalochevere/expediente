@@ -65,7 +65,10 @@
       const timer=document.getElementById("timer");
       const currentRemaining=timer?.textContent;
       const result=original();
-      if(changed)resetTimer(key);
+      if(changed){
+        if(typeof timerHandle!=="undefined")clearInterval(timerHandle);
+        resetTimer(key);
+      }
       else if(timerRunning&&timer&&currentRemaining!=null){
         // El motor vuelve a dibujar el tiempo inicial al regresar a la
         // misma pregunta: conservar el tiempo REAL que ya venía corriendo.
