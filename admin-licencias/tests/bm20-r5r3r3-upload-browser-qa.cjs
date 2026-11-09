@@ -1,6 +1,6 @@
 const {chromium}=require('playwright');
 const fs=require('fs'),http=require('http'),path=require('path');
-const root=path.resolve(__dirname,'../../..');
+const root=path.resolve(__dirname,'../..');
 const html=fs.readFileSync(path.join(root,'admin-licencias/butter-mania-bn-r5r3r3.html'),'utf8');
 const assert=(x,m)=>{if(!x)throw new Error(m)};
 const server=http.createServer((_req,res)=>{res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(html)});
