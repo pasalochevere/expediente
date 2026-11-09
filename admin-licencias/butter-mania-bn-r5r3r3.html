@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#fffbf6">
+<title>Butter Mania · B/N R5R3R3 · Carga protegida</title>
+<style>
+:root{--ink:#26232b;--muted:#67616c;--pink:#ef3e8e;--line:#e7dce6;--bg:#fffbf6;--green:#1e7551;--amber:#815b1b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
+main{max-width:810px;margin:auto;padding:32px 18px 70px}h1{font-size:clamp(28px,5vw,40px);line-height:1.12;margin:8px 0 16px}h2{font-size:19px;line-height:1.3;margin:0 0 12px}
+.brand{font-size:12px;letter-spacing:.12em;color:#a52d67;font-weight:900}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 10px 20px #7f44670d}
+.note{color:var(--muted);font-size:14px}small{font-size:13px;color:var(--muted)}.state{background:#f3eff2;padding:12px 14px;border-radius:12px;margin:12px 0;word-break:break-word}.state.ok{color:var(--green);background:#e7f5ec}.state.bad{color:#a43043;background:#fff0ee}.state.warn{color:var(--amber);background:#fff2d9}
+button,.btn{display:inline-flex;border:1.5px solid var(--ink);border-radius:12px;background:#fff;color:var(--ink);font:inherit;font-weight:700;padding:11px 16px;cursor:pointer;text-decoration:none}button.primary{background:#ffdf93}button:disabled{opacity:.43;cursor:not-allowed}.buttons{display:flex;gap:10px;flex-wrap:wrap}
+input[type=file]{display:block;padding:14px;background:#fff8fb;border:1px dashed #cf9bb6;width:100%;border-radius:12px;margin:12px 0}
+pre{max-height:340px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#252026;color:#fff5ef;border-radius:14px;padding:14px;font:12px/1.55 ui-monospace,Consolas,monospace}
+strong{font-weight:800}code{font-size:.87em}ol{padding-left:24px}li{margin-bottom:7px}
+</style></head>
+<body><main>
+<div class="brand">PASALOCHÉVERE · ADMINISTRACIÓN PRIVADA</div>
+<h1>Butter Mania · Reemplazo B/N protegido</h1>
+<p class="note">BM20-R5R3R3. Esta herramienta <strong>solo incorpora la corrección como un nuevo archivo privado deshabilitado</strong>. No elimina el original, no modifica la versión color y no activa la colección.</p>
+<section class="card"><h2>1 · Sesión administrativa</h2><div class="state" id="auth">Comprobando acceso...</div><div class="buttons"><button id="refresh" type="button">Revalidar sesión y catálogo</button><a class="btn" href="./v2.html" target="_blank" rel="noopener">Abrir Admin Maestro</a></div></section>
+<section class="card"><h2>2 · PDF B/N corregido</h2><p class="note">Seleccioná el archivo <strong>Butter_BN_Corregido.pdf</strong> o el original <strong>BM20_R5R3R1_BN_Dorsos_Corregidos_A4.pdf</strong>. El nombre no importa: se valida su contenido byte por byte.</p><input id="file" type="file" accept="application/pdf,.pdf"><div class="state" id="check">Sin archivo seleccionado.</div><small>20 páginas A4 apaisadas · 8.219.759 bytes · SHA-256: <code>c2adde75...ef39546</code></small></section>
+<section class="card"><h2>3 · Registrar nueva versión suspendida</h2><div class="state warn">Debe permanecer en prueba hasta confirmar el armado físico. El archivo B/N anterior se mantiene como respaldo. No habilites la venta desde esta herramienta.</div><div class="buttons"><button class="primary" id="stage" type="button" disabled>Verificar hash y subir versión protegida</button></div><pre id="log" aria-live="polite">La operación no se inicia automáticamente.</pre><div class="state" id="status">Pendiente.</div></section>
+<p class="note">Si aparece un error, no subas repetidamente el mismo archivo: usá «Revalidar sesión y catálogo» para revisar el estado y evitar duplicados. Este sistema no pide contraseñas ni códigos de licencia.</p>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(()=>{'use strict';
+const URL='https://fzbndgfnqxcacsvlitui.supabase.co';
+const KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo';
+const ADMIN='pasalochevere@gmail.com',CODE='PSQ-BUTTER-20';
+const FILE={size:8219759,sha:'c2adde75329c492325ed4f6d9aa7694e7227050ab2cedba2c8a58e45cef39546',name:'BM20_20_A4_APAISADO_BN_FRENTE_DORSO_R5R3R1.pdf'};
+const ORIGINAL={size:8240058,name:'BM20_20_A4_APAISADO_BN_FRENTE_DORSO.pdf'};
+const COLOR={size:24850286,name:'BM20_20_A4_APAISADO_COLOR_FRENTE_DORSO.pdf'};
+const el=id=>document.getElementById(id);let sb=null,ready=false,busy=false,overview=null,stagedId=null;
+function log(t){el('log').textContent+='\n'+t;el('log').scrollTop=el('log').scrollHeight}
+function state(id,text,kind=''){el(id).textContent=text;el(id).className='state '+kind}
+function errstr(e){if(typeof e==='string')return e;return String(e?.message||e?.error||e?.error_description||e?.code||e)}
+async function api(body){let {data,error}=await sb.functions.invoke('pasalochevere-digital-delivery',{body});if(error){try{const details=await error.context?.json();throw Error(errstr(details?.error||details))}catch(e){throw Error(errstr(e.message||error))}}if(!data?.ok)throw Error(errstr(data?.error||data));return data}
+function asset(ov,name,size){return (ov.assets||[]).filter(x=>x.product_code===CODE&&x.file_name===name&&Number(x.file_size)===size)}
+function lock(){el('stage').disabled=busy||!ready||!el('file').files[0]}
+async function checkServer(){ready=false;lock();try{
+ if(!window.supabase?.createClient)throw Error('Falta el módulo de sesión; actualizá la página.');
+ if(!sb)sb=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+ const {data:{user},error}=await sb.auth.getUser();if(error||!user||user.email?.toLowerCase()!==ADMIN)throw Error('Iniciá sesión administradora desde el Admin Maestro.');
+ const ov=await api({action:'admin_overview'});const product=ov.catalog?.find(x=>x.product_code===CODE);
+ if(!product||product.delivery_type!=='download'||product.enabled!==false)throw Error('El producto debe existir y permanecer deshabilitado antes de cargar.');
+ const old=asset(ov,ORIGINAL.name,ORIGINAL.size),color=asset(ov,COLOR.name,COLOR.size);
+ if(old.length!==1||color.length!==1||old[0].enabled||color[0].enabled)throw Error('Los dos originales deben existir y estar suspendidos. No se hizo ningún cambio.');
+ const versions=asset(ov,FILE.name,FILE.size);
+ if(versions.length>1)throw Error('Hay más de un registro con el nombre de la corrección; revisá manualmente.');
+ overview=ov;
+ if(versions.length===1){stagedId=versions[0].id;
+ if(versions[0].enabled)throw Error('La nueva versión ya figura registrada pero habilitada. Deshabilitala desde Admin Maestro antes de continuar.');
+ state('auth','Sesión correcta. Corrección ya registrada y deshabilitada; originales intactos.','ok');log('Versión corregida detectada en el catálogo. No volver a cargar.');ready=false;
+ }else{state('auth','Sesión correcta. Producto y PDFs originales siguen deshabilitados; apto para carga privada.','ok');ready=true;}
+ lock();return ready;
+ }catch(e){state('auth',errstr(e),'bad');ready=false;lock();return false}}
+async function verifyLocal(){const f=el('file').files[0];if(!f)throw Error('Seleccioná el PDF corregido');
+ if(!f.name.toLowerCase().endsWith('.pdf')||f.size!==FILE.size)throw Error('Tamaño o extensión incorrectos. No uses el PDF B/N original sin corregir.');
+ const sum=[...new Uint8Array(await crypto.subtle.digest('SHA-256',await f.arrayBuffer()))].map(b=>b.toString(16).padStart(2,'0')).join('');
+ if(sum!==FILE.sha)throw Error('La huella SHA-256 no coincide con la corrección R5R3R1; no se subió nada.');
+ state('check','✓ Hash verificado: PDF B/N corregido auténtico, '+f.size+' bytes.','ok');return f;}
+async function stage(){if(busy)return;busy=true;lock();stagedId=null;el('log').textContent='Comprobando protección y firma del archivo…';
+ try{
+ const ok=await checkServer();if(!ok)throw Error('La sesión, el catálogo o el estado de los archivos no admiten una carga nueva.');
+ const f=await verifyLocal();log('✓ Integridad local aprobada.');
+ const pre=await api({action:'admin_prepare_upload',product_code:CODE,file_name:FILE.name,file_size:FILE.size});
+ if(pre.product_code!==CODE||pre.bucket!=='pc-digital-private'||!pre.path?.startsWith(CODE+'/')||!pre.token)throw Error('El servidor devolvió un destino imprevisto.');
+ const {error}=await sb.storage.from(pre.bucket).uploadToSignedUrl(pre.path,pre.token,f,{contentType:'application/pdf'});
+ if(error)throw Error('Error de carga privada: '+errstr(error));log('✓ Archivo cargado al bucket privado.');
+ const fin=await api({action:'admin_finish_upload',product_code:CODE,path:pre.path,file_name:FILE.name});
+ if(!fin.asset?.id||Number(fin.asset.file_size)!==FILE.size)throw Error('La carga quedó sin confirmar en el catálogo; revisá antes de repetir.');
+ stagedId=fin.asset.id;
+ await api({action:'admin_toggle_asset',asset_id:stagedId,enabled:false});log('✓ Nueva versión registrada y suspendida.');
+ const ov=await api({action:'admin_overview'});const product=ov.catalog.find(x=>x.product_code===CODE);
+ const original=asset(ov,ORIGINAL.name,ORIGINAL.size),colors=asset(ov,COLOR.name,COLOR.size),staged=asset(ov,FILE.name,FILE.size);
+ if(product?.enabled!==false||original.length!==1||colors.length!==1||staged.length!==1||original[0].enabled||colors[0].enabled||staged[0].enabled)throw Error('La verificación final de suspensión falló. Revisar Admin Maestro.');
+ state('status','✓ Versión B/N corregida guardada en privado y deshabilitada. Original y Color intactos. Venta deshabilitada.','ok');log('✓ VERIFICADO: sin publicación ni sustitución activa.');
+ }catch(e){state('status','La carga protegida NO quedó aprobada: '+errstr(e),'bad');log('ERROR: '+errstr(e));
+ if(stagedId){try{await api({action:'admin_toggle_asset',asset_id:stagedId,enabled:false});log('Se ha suspendido la nueva versión tras el error.')}catch(e2){log('ATENCIÓN: Revisar la suspensión manualmente en Admin Maestro: '+errstr(e2))}}
+ }finally{busy=false;lock()}}
+el('file').addEventListener('change',()=>{state('check',el('file').files[0]?'Archivo seleccionado; se comprobará la huella antes de cargar.':'Sin archivo.');lock()});
+el('refresh').addEventListener('click',checkServer);el('stage').addEventListener('click',stage);checkServer();
+})();
+</script></main></body></html>
