@@ -238,7 +238,7 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
   <div class="categoryHubTitle"><div><div class="eyebrow">ELEGÍ TU EXPERIENCIA</div><h2>Entrá por categoría</h2></div><span>Los juegos viven adentro de cada familia. Abrí sólo la que te interesa.</span></div>
   <div class="categoryStrip">
     <button class="catChip adult" type="button" data-category="adult" onclick="openCategory('adult')"><i>♥</i><b>PAREJA & ADULTOS</b><span>Pareja, amigos y previas +18.</span><small class="catCount">2 juegos</small></button>
-    <button class="catChip family" type="button" data-category="family" onclick="openCategory('family')"><i>★</i><b>FAMILIA & KIDS</b><span>Jugar, aprender y compartir.</span><small class="catCount">3 juegos</small></button>
+    <button class="catChip family" type="button" data-category="family" onclick="openCategory('family')"><i>★</i><b>FAMILIA & KIDS</b><span>Jugar, aprender y compartir.</span><small class="catCount">5 experiencias</small></button>
     <button class="catChip mystery" type="button" data-category="mystery" onclick="openCategory('mystery')"><i>⌕</i><b>MISTERIO & GRUPO</b><span>Casos, pistas y roles.</span><small class="catCount">2 casos</small></button>
     <button class="catChip wellbeing" type="button" data-category="wellbeing" onclick="openCategory('wellbeing')"><i>✦</i><b>BIENESTAR & VÍNCULOS</b><span>Explorar relaciones y emociones.</span><small class="catCount">1 herramienta</small></button>
     <button class="catChip creative" type="button" data-category="creative" onclick="openCategory('creative')"><i>✂</i><b>CREATIVOS & DIDÁCTICOS</b><span>Construir, crear y descubrir.</span><small class="catCount">1 piloto + próximos</small></button>
@@ -278,6 +278,8 @@ button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:20px 20px 4
       <div class="drawerGrid">
         <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>CHÉVERE KIDS · MATEMÁTICA</h3><div class="accent">JUGANDO Y APRENDIENDO · 7–9 AÑOS · FÍSICO + DIGITAL</div><p>Aprendé matemática jugando con 54 piezas, dados, niveles, estrellas, desafíos y material imprimible.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
         <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>CHÉVERE KIDS · MATEMÁTICA</h3><div class="accent">JUGANDO Y APRENDIENDO · 7–9 AÑOS · SOLO DIGITAL</div><p>Desafíos, niveles y estrellas para aprender matemática jugando desde el celular.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
+        <article class="card" data-cat="family" data-product="FUT-AMERICA-DIG"><span class="status">● EN PRUEBAS · SIN VENTA</span><h3>TORRE DE AMÉRICA V2 · SOLO DIGITAL</h3><div class="accent">FÚTBOL · 222 DESAFÍOS · 3 NIVELES</div><p>Jugá desde el celular con sorteos, consignas, penales y marcador. Edición de prueba disponible únicamente para cuentas con licencia QA asignada.</p><div class="actions"><button class="btn" type="button" onclick="goToTorreAmericaAccess()">VER MI ACCESO DE PRUEBA</button></div></article>
+        <article class="card" data-cat="family" data-product="FUT-AMERICA-PHY"><span class="status">● EN PRUEBAS · SIN VENTA</span><h3>TORRE DE AMÉRICA V2 · FÍSICA + DIGITAL</h3><div class="accent">TORRE DE MADERA + WEBAPP · 222 DESAFÍOS</div><p>Combiná la torre con el juego digital, los poderes y las definiciones por penales. Edición de prueba disponible únicamente para cuentas con licencia QA asignada.</p><div class="actions"><button class="btn" type="button" onclick="goToTorreAmericaAccess()">VER MI ACCESO DE PRUEBA</button></div></article>
         <article class="card" data-cat="family"><span class="status live">● DISPONIBLE</span><h3>MEGA PACK VERDAD O RETO +800</h3><div class="accent">KIDS · GENERAL · FIESTA 18+ · SIN FILTRO 18+</div><p>Anexo digital con 4 versiones y 832 contenidos. Jugá con una torre física numerada o en modo Solo Digital.</p><div class="actions"><button class="btn" onclick="scrollToActivation()">ACTIVAR COMPRA</button></div></article>
       </div>
     </section>
@@ -623,6 +625,14 @@ async function activateOwned(productCode){
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 async function copyCode(v){try{await navigator.clipboard.writeText(v);alert('Código copiado.')}catch{prompt('Copiá tu código:',v)}}
 async function logout(){await sb.auth.signOut();location.replace(location.pathname)}
+function goToTorreAmericaAccess(){
+ const library=document.getElementById('myGames');
+ const account=document.getElementById('accountBox');
+ const login=document.getElementById('loginBox');
+ const visible=el=>el&&!el.classList.contains('hidden');
+ const target=visible(library)?library:visible(account)?account:login;
+ if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+}
 function scrollToActivation(){document.getElementById(document.getElementById('accountBox').classList.contains('hidden')?'loginBox':'accountBox').scrollIntoView({behavior:'smooth'})}
 let publicCatalog={};
 async function loadCatalog(){
