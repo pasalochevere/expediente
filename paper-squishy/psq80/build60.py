@@ -85,7 +85,11 @@ def draw_pdf(variant):
             factor=min(maxw/im.width,maxh/im.height)
             dw,dh=im.width*factor,im.height*factor
             cx=(W/4 if side==0 else W*.75);cy=102*mm
-            buf=io.BytesIO()\n            if variant=='bn': im=im.convert('L')\n            im.save(buf,format='JPEG',quality=91 if variant=='color' else 90,optimize=True,subsampling=0)\n            buf.seek(0)\n            cv.drawImage(ImageReader(buf),cx-dw/2,cy-dh/2,width=dw,height=dh,mask='auto')
+            buf=io.BytesIO()
+            if variant=='bn': im=im.convert('L')
+            im.save(buf,format='JPEG',quality=91 if variant=='color' else 90,optimize=True,subsampling=0)
+            buf.seek(0)
+            cv.drawImage(ImageReader(buf),cx-dw/2,cy-dh/2,width=dw,height=dh,mask='auto')
         cv.setFillColor(HexColor('#666666'));cv.setFont('Helvetica',8)
         cv.drawString(12*mm,17*mm,'A4 horizontal - imprimir al 100 % sin ajustar - recortar por la linea exterior.')
         cv.drawRightString(W-12*mm,17*mm,'PSQ80 | Base historica intacta')
