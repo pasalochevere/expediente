@@ -1,0 +1,498 @@
+{
+  "version": "PSQ80-STAGING-1",
+  "base_release": "PSQ 2.5 / 60",
+  "collections": {
+    "sweet_squishies": "Sweet Squishies",
+    "animal_cuties": "Animal Cuties",
+    "food_squad": "Food Squad",
+    "cosmic_friends": "Cosmic Friends",
+    "magic_objects": "Magic Objects",
+    "ocean_buddies": "Ocean Buddies",
+    "butter_mania": "Butter Mania"
+  },
+  "original60": [
+    {
+      "code": "PSQ01",
+      "slug": "carami",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/carami"
+    },
+    {
+      "code": "PSQ02",
+      "slug": "cuppy",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/cuppy"
+    },
+    {
+      "code": "PSQ03",
+      "slug": "donita",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/donita"
+    },
+    {
+      "code": "PSQ04",
+      "slug": "galleti",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/galleti"
+    },
+    {
+      "code": "PSQ05",
+      "slug": "heladin",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/heladin"
+    },
+    {
+      "code": "PSQ06",
+      "slug": "maca",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/maca"
+    },
+    {
+      "code": "PSQ07",
+      "slug": "paleti",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/paleti"
+    },
+    {
+      "code": "PSQ08",
+      "slug": "shaky",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/shaky"
+    },
+    {
+      "code": "PSQ09",
+      "slug": "torti",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/torti"
+    },
+    {
+      "code": "PSQ10",
+      "slug": "waffy",
+      "collection": "sweet_squishies",
+      "source_prefix": "v2.7/sweet_squishies/waffy"
+    },
+    {
+      "code": "PSQ11",
+      "slug": "conejita_luli",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/conejita_luli"
+    },
+    {
+      "code": "PSQ12",
+      "slug": "gatito_mishi",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/gatito_mishi"
+    },
+    {
+      "code": "PSQ13",
+      "slug": "koala_nube",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/koala_nube"
+    },
+    {
+      "code": "PSQ14",
+      "slug": "oso_teddy",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/oso_teddy"
+    },
+    {
+      "code": "PSQ15",
+      "slug": "panda_kumo",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/panda_kumo"
+    },
+    {
+      "code": "PSQ16",
+      "slug": "perrito_rocko",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/perrito_rocko"
+    },
+    {
+      "code": "PSQ17",
+      "slug": "pollito_pio",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/pollito_pio"
+    },
+    {
+      "code": "PSQ18",
+      "slug": "ranita_pipo",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/ranita_pipo"
+    },
+    {
+      "code": "PSQ19",
+      "slug": "unicornio_sunny",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/unicornio_sunny"
+    },
+    {
+      "code": "PSQ20",
+      "slug": "zorrito_kuma",
+      "collection": "animal_cuties",
+      "source_prefix": "v2.7/animal_cuties/zorrito_kuma"
+    },
+    {
+      "code": "PSQ21",
+      "slug": "burgui",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/burgui"
+    },
+    {
+      "code": "PSQ22",
+      "slug": "eggi",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/eggi"
+    },
+    {
+      "code": "PSQ23",
+      "slug": "frydi",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/frydi"
+    },
+    {
+      "code": "PSQ24",
+      "slug": "hotty",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/hotty"
+    },
+    {
+      "code": "PSQ25",
+      "slug": "noodi",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/noodi"
+    },
+    {
+      "code": "PSQ26",
+      "slug": "pizzi",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/pizzi"
+    },
+    {
+      "code": "PSQ27",
+      "slug": "poppi",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/poppi"
+    },
+    {
+      "code": "PSQ28",
+      "slug": "sandwi",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/sandwi"
+    },
+    {
+      "code": "PSQ29",
+      "slug": "sushi",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/sushi"
+    },
+    {
+      "code": "PSQ30",
+      "slug": "tacci",
+      "collection": "food_squad",
+      "source_prefix": "v2.7/food_squad/tacci"
+    },
+    {
+      "code": "PSQ31",
+      "slug": "astri",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/astri"
+    },
+    {
+      "code": "PSQ32",
+      "slug": "coheti",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/coheti"
+    },
+    {
+      "code": "PSQ33",
+      "slug": "cometi",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/cometi"
+    },
+    {
+      "code": "PSQ34",
+      "slug": "esteli",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/esteli"
+    },
+    {
+      "code": "PSQ35",
+      "slug": "lumo",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/lumo"
+    },
+    {
+      "code": "PSQ36",
+      "slug": "luni",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/luni"
+    },
+    {
+      "code": "PSQ37",
+      "slug": "nebuli",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/nebuli"
+    },
+    {
+      "code": "PSQ38",
+      "slug": "ovni_pop",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/ovni_pop"
+    },
+    {
+      "code": "PSQ39",
+      "slug": "saturni",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/saturni"
+    },
+    {
+      "code": "PSQ40",
+      "slug": "soli",
+      "collection": "cosmic_friends",
+      "source_prefix": "v2.7/cosmic_friends/soli"
+    },
+    {
+      "code": "PSQ41",
+      "slug": "areni",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/areni"
+    },
+    {
+      "code": "PSQ42",
+      "slug": "calderi",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/calderi"
+    },
+    {
+      "code": "PSQ43",
+      "slug": "cofri",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/cofri"
+    },
+    {
+      "code": "PSQ44",
+      "slug": "cristali",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/cristali"
+    },
+    {
+      "code": "PSQ45",
+      "slug": "libri",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/libri"
+    },
+    {
+      "code": "PSQ46",
+      "slug": "llavi",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/llavi"
+    },
+    {
+      "code": "PSQ47",
+      "slug": "orbi",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/orbi"
+    },
+    {
+      "code": "PSQ48",
+      "slug": "poci",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/poci"
+    },
+    {
+      "code": "PSQ49",
+      "slug": "sombreri",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/sombreri"
+    },
+    {
+      "code": "PSQ50",
+      "slug": "variti",
+      "collection": "magic_objects",
+      "source_prefix": "v2.7/magic_objects/variti"
+    },
+    {
+      "code": "PSQ51",
+      "slug": "bibi",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/bibi"
+    },
+    {
+      "code": "PSQ52",
+      "slug": "cora",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/cora"
+    },
+    {
+      "code": "PSQ53",
+      "slug": "kiko",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/kiko"
+    },
+    {
+      "code": "PSQ54",
+      "slug": "lumi",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/lumi"
+    },
+    {
+      "code": "PSQ55",
+      "slug": "mimi",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/mimi"
+    },
+    {
+      "code": "PSQ56",
+      "slug": "nori",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/nori"
+    },
+    {
+      "code": "PSQ57",
+      "slug": "ollie",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/ollie"
+    },
+    {
+      "code": "PSQ58",
+      "slug": "pufi",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/pufi"
+    },
+    {
+      "code": "PSQ59",
+      "slug": "timo",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/timo"
+    },
+    {
+      "code": "PSQ60",
+      "slug": "tuki",
+      "collection": "ocean_buddies",
+      "source_prefix": "v2.7/ocean_buddies/tuki"
+    }
+  ],
+  "butter20": [
+    {
+      "code": "BM01",
+      "collection": "butter_mania",
+      "slug": "bm01",
+      "display_index": 61
+    },
+    {
+      "code": "BM02",
+      "collection": "butter_mania",
+      "slug": "bm02",
+      "display_index": 62
+    },
+    {
+      "code": "BM03",
+      "collection": "butter_mania",
+      "slug": "bm03",
+      "display_index": 63
+    },
+    {
+      "code": "BM04",
+      "collection": "butter_mania",
+      "slug": "bm04",
+      "display_index": 64
+    },
+    {
+      "code": "BM05",
+      "collection": "butter_mania",
+      "slug": "bm05",
+      "display_index": 65
+    },
+    {
+      "code": "BM06",
+      "collection": "butter_mania",
+      "slug": "bm06",
+      "display_index": 66
+    },
+    {
+      "code": "BM07",
+      "collection": "butter_mania",
+      "slug": "bm07",
+      "display_index": 67
+    },
+    {
+      "code": "BM08",
+      "collection": "butter_mania",
+      "slug": "bm08",
+      "display_index": 68
+    },
+    {
+      "code": "BM09",
+      "collection": "butter_mania",
+      "slug": "bm09",
+      "display_index": 69
+    },
+    {
+      "code": "BM10",
+      "collection": "butter_mania",
+      "slug": "bm10",
+      "display_index": 70
+    },
+    {
+      "code": "BM11",
+      "collection": "butter_mania",
+      "slug": "bm11",
+      "display_index": 71
+    },
+    {
+      "code": "BM12",
+      "collection": "butter_mania",
+      "slug": "bm12",
+      "display_index": 72
+    },
+    {
+      "code": "BM13",
+      "collection": "butter_mania",
+      "slug": "bm13",
+      "display_index": 73
+    },
+    {
+      "code": "BM14",
+      "collection": "butter_mania",
+      "slug": "bm14",
+      "display_index": 74
+    },
+    {
+      "code": "BM15",
+      "collection": "butter_mania",
+      "slug": "bm15",
+      "display_index": 75
+    },
+    {
+      "code": "BM16",
+      "collection": "butter_mania",
+      "slug": "bm16",
+      "display_index": 76
+    },
+    {
+      "code": "BM17",
+      "collection": "butter_mania",
+      "slug": "bm17",
+      "display_index": 77
+    },
+    {
+      "code": "BM18",
+      "collection": "butter_mania",
+      "slug": "bm18",
+      "display_index": 78
+    },
+    {
+      "code": "BM19",
+      "collection": "butter_mania",
+      "slug": "bm19",
+      "display_index": 79
+    },
+    {
+      "code": "BM20",
+      "collection": "butter_mania",
+      "slug": "bm20",
+      "display_index": 80
+    }
+  ],
+  "originals_preserved": true
+}
