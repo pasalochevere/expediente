@@ -7,6 +7,7 @@
   html=html.replace("let html=new TextDecoder().decode(ab);","let html=new TextDecoder().decode(ab);html=html.replaceAll('Mini · 8 cm','Mini').replaceAll('Normal · 12 cm','Normal').replaceAll('XL · 17 cm','XL');");
   html=html.replaceAll('XL · 17 cm: frente y dorso se imprimen en 2 hojas A4, una por hoja.','XL: frente y dorso se imprimen en 2 hojas A4, una por hoja.');
   html=html.replace('psq-catalog-v27.js?v=2711','psq-catalog-v27.js?v=3424');
+  html=html.replace('</head>','<script>var __psqLang = "es";<\/script></head>');
   html=html.replace("document.open();document.write(html);document.close();","html=html.replace('</body>','<div id=\"psq80-notice\" style=\"position:fixed;bottom:12px;left:12px;right:12px;z-index:9999;background:#f4fff6;color:#216b51;border:1px solid #b8e1bf;border-radius:12px;padding:9px 14px;font:600 12px system-ui;text-align:center;pointer-events:none\">Cargando 20 Butter Mania en la fábrica de 60…</div><script src=\"./psq-baseline-v298.js?v=2981\"><\\/script><script src=\"./psq80-butter-extension.js?v=80r1\"><\\/script></body>');document.open();document.write(html);document.close();");
   document.open();document.write(html);document.close();
  }catch(e){document.querySelector('.spin').style.display='none';document.getElementById('msg').textContent='No pude abrir la fábrica: '+String(e.message||e);}
