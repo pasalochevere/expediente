@@ -1,0 +1,44 @@
+{
+  "version": "PSQ80-R1",
+  "date": "2026-11-10",
+  "status": "STAGING_INTEGRATED",
+  "stable_core": "P2.9.8-60",
+  "stable_core_untouched": true,
+  "totals": {
+    "characters": 80,
+    "collections": 7,
+    "stable_characters": 60,
+    "butter_characters": 20,
+    "butter_native_assets": 180,
+    "views_per_butter": 9
+  },
+  "factory_preview": "paper-squishy/factory-80-preview.html",
+  "private_pdf_upload": "paper-squishy/admin-psq80-upload.html",
+  "pdfs": [
+    {
+      "variant": "COLOR",
+      "file": "PASALOCHEVERE_SQUISHIES_80_COLOR_A4_APAISADO.pdf",
+      "pages": 80,
+      "bytes": 41571019,
+      "sha256": "789c459ae5e38f8ecfbf572a1f0338cbdd5d5e797c5e52152adfb660722d341a",
+      "storage": "paper-squishy-downloads/P3.0/PSQ80/PASALOCHEVERE_SQUISHIES_80_COLOR_A4_APAISADO.pdf",
+      "uploaded": false
+    },
+    {
+      "variant": "BN",
+      "file": "PASALOCHEVERE_SQUISHIES_80_BN_A4_APAISADO.pdf",
+      "pages": 80,
+      "bytes": 27922834,
+      "sha256": "3fdf063c4ef6f455859acb144c4fdf394e4e8cd59a3ef49d2ac74af0b42fd83c",
+      "storage": "paper-squishy-downloads/P3.0/PSQ80/PASALOCHEVERE_SQUISHIES_80_BN_A4_APAISADO.pdf",
+      "uploaded": false
+    }
+  ],
+  "constraints": [
+    "Do not modify 60 existing characters or 6 existing collections",
+    "Do not replace stable factory.html",
+    "Butter images loaded in isolated preview from 12 existing ZIP files",
+    "Do not activate PDF download until uploaded and authorized license QA",
+    "Butter single-image print preview can be watermarked; commercial prints must use 80 PDFs"
+  ]
+}
