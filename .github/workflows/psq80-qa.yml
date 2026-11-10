@@ -1,0 +1,23 @@
+name: PSQ80 Probe asset fidelity
+on:
+  push:
+    branches: [feat/psq80-staging-20261110]
+    paths:
+      - paper-squishy/psq80/probe_assets.py
+      - .github/workflows/psq80-qa.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies
+        run: python -m pip install requests Pillow
+      - name: Probe live 60-character print resources
+        run: python -u paper-squishy/psq80/probe_assets.py
