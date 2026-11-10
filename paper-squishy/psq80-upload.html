@@ -1,0 +1,68 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>PSQ80 · Subida privada protegida</title><style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#fff9f3;color:#2b252b}*{box-sizing:border-box}body{margin:0}main{max-width:810px;margin:30px auto;padding:20px}h1{font-size:clamp(29px,4vw,43px)}section{border:1px solid #ead9d5;background:#fff;border-radius:20px;padding:22px;margin:15px 0}label{display:block;margin:14px 0 5px;font-weight:800}input{display:block;width:100%;border:1px dashed #d2bac2;padding:15px;border-radius:12px;font:inherit}button,a.button{background:#ffda88;color:#251c2b;border:2px solid #2e2429;border-radius:13px;padding:12px 18px;font:inherit;font-weight:900;text-decoration:none;cursor:pointer;display:inline-block}button:disabled{opacity:.42;cursor:not-allowed}.small{font-size:13px;color:#6f636c}#status{background:#f6ebee;padding:13px;border-radius:12px}pre{background:#22202b;color:#faf3ec;padding:16px;white-space:pre-wrap;overflow-wrap:anywhere;border-radius:12px;min-height:90px}.mark{font-size:12px;font-weight:850;letter-spacing:.11em;color:#a42c67}.badge{color:#187047;background:#e7f7ee;padding:5px 10px;border-radius:15px;font-weight:850;font-size:12px}
+</style></head><body><main><div class="mark">PASALOCHEVERE · PAPER SQUISHY FACTORY</div><h1>PSQ80 · Carga protegida de PDFs</h1><p class="small"><span class="badge">STAGING · NO PUBLICA VENTAS</span></p>
+<p>Esta herramienta registra dos PDFs A4 apaisados de 80 páginas en una ruta privada nueva. **No reemplaza** el maestro histórico ni modifica el motor estable. Se requiere sesión administradora autorizada.</p>
+<section><h2>1 · Sesión</h2><div id="auth">Comprobando cuenta…</div><button id="refresh">Verificar sesión</button></section>
+<section><h2>2 · Dos PDFs de 80</h2><label for="color">Color, 80 personajes</label><input id="color" type="file" accept=".pdf,application/pdf"><label for="bn">Blanco y negro, 80 personajes</label><input id="bn" type="file" accept=".pdf,application/pdf">
+<p class="small">Los archivos deben proceder del ensamblador PSQ80 y tener 80 páginas A4 horizontales, con 60 originales y 20 Butter Mania. Los nuevos archivos se guardan en <code>P2.6/PSQ80/</code>, sin sobrescribir ninguno anterior.</p></section>
+<section><h2>3 · Validar y subir a zona de prueba</h2><button id="submit" disabled>Verificar 80 + 80 y subir ambos PDFs</button><p id="status">Pendiente: no se inicia ninguna operación automáticamente.</p><pre id="log"></pre></section>
+<p><a href="./psq80-builder.html">Volver al generador</a> · <a href="./factory-80-staging.html">Catálogo de 80</a> · <a href="./factory.html">Fábrica estable</a></p>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script><script>
+(()=>{'use strict';
+const URL='https://fzbndgfnqxcacsvlitui.supabase.co',KEY='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo',BUCKET='paper-squishy-downloads';
+const $=id=>document.getElementById(id);let sb,admin=false,busy=false;
+const log=s=>{$('log').textContent+='\n'+s;$('log').scrollTop=$('log').scrollHeight};
+const status=s=>$('status').textContent=s;
+const update=()=>{$('submit').disabled=busy||!admin||!$('color').files[0]||!$('bn').files[0]};
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+async function login(){
+try{
+ if(!window.supabase||!window.PDFLib)throw Error('No cargaron los módulos de autenticación y PDF.');
+ if(!sb)sb=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+ const{data:{user},error}=await sb.auth.getUser();
+ if(error||String(user?.email||'').toLowerCase()!=='pasalochevere@gmail.com')throw Error('Iniciá sesión en el Admin Maestro con tu cuenta administradora.');
+ admin=true;$('auth').textContent='✓ Administrador reconocido. La producción permanece inalterada.';
+ }catch(e){admin=false;$('auth').textContent='Acceso pendiente: '+String(e.message||e)}update();
+}
+const hash=async buf=>hex(await crypto.subtle.digest('SHA-256',buf));
+async function validate(id,k){
+ const f=$(id).files[0];if(!f||!f.name.toLowerCase().endsWith('.pdf')||f.size<100000)throw Error(k+': PDF inválido.');
+ if(f.size>52428800)throw Error(k+': supera 50 MiB por archivo; es necesario optimizarlo antes de cargar.');
+ const raw=await f.arrayBuffer(),sha=await hash(raw);
+ const doc=await PDFLib.PDFDocument.load(raw);
+ if(doc.getPageCount()!==80)throw Error(k+': se esperaban 80 páginas, hay '+doc.getPageCount()+'.');
+ for(let i=0;i<80;i++){const p=doc.getPage(i);if(Math.abs(p.getWidth()-842)>2||Math.abs(p.getHeight()-595)>2)throw Error(k+': hoja '+(i+1)+' no es A4 apaisado.')}
+ if(!String(doc.getTitle()||'').includes('80 personajes | '+k.toUpperCase()))throw Error(k+': título o variante de PDF inesperada. Volvé a generar desde PSQ80.');
+ log('✓ '+k+' · 80 páginas A4 · '+f.size+' bytes · SHA-256 '+sha.slice(0,15)+'…');
+ return {file:f,sha,path:'P2.6/PSQ80/PSQ80_80_PERSONAJES_'+k.toUpperCase()+'_A4_APAISADO_'+sha.slice(0,12)+'.pdf'};
+}
+async function upload(entry){
+ const {data:found,error:fe}=await sb.storage.from(BUCKET).list('P2.6/PSQ80',{limit:100});
+ if(fe)throw fe;
+ const name=entry.path.split('/').pop();
+ if((found||[]).some(x=>x.name===name)){log('✓ Ya existe versión idéntica '+name);return}
+ const {error}=await sb.storage.from(BUCKET).upload(entry.path,entry.file,{upsert:false,contentType:'application/pdf',cacheControl:'3600'});
+ if(error)throw Error(entry.path+': '+error.message);
+ const {data, error:le}=await sb.storage.from(BUCKET).list('P2.6/PSQ80',{limit:100});
+ if(le||!(data||[]).some(x=>x.name===name))throw Error('No pude verificar el archivo subido '+name);
+ log('✓ Archivo privado registrado '+name);
+}
+$('refresh').onclick=login;for(const k of ['color','bn'])$(k).onchange=update;
+$('submit').onclick=async()=>{
+ if(busy)return;busy=true;update();$('log').textContent='Inicio de carga privada PSQ80…';status('Verificando…');
+ try{
+ await login();if(!admin)throw Error('No hay sesión administradora válida.');
+ const[one,two]=await Promise.all([validate('color','color'),validate('bn','bn')]);
+ // Critical: both must validate BEFORE the first mutation.
+ const {data:old,error:le}=await sb.storage.from(BUCKET).list('P2.5',{limit:100});
+ if(le)throw Error('No pude comprobar la existencia del maestro histórico.');
+ if(!(old||[]).some(x=>x.name==='02_PAPER_SQUISHY_50_PERSONAJES.pdf'))throw Error('No encuentro el master 60 original. Carga bloqueada para proteger versión estable.');
+ await upload(one);await upload(two);
+ status('✓ Dos PDFs PSQ80 guardados en staging privado. NO están publicados comercialmente.');
+ log('Los originales anteriores permanecen intactos. Verificar en el chat antes de integrar catálogo y descargas.');
+ }catch(e){status('La carga no finalizó: '+String(e.message||e));log('ERROR: '+String(e.message||e))}
+ finally{busy=false;update()}
+};
+login();
+})();
+</script></main></body></html>
