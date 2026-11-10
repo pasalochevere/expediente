@@ -12,7 +12,7 @@ const {chromium}=require('playwright');
    try{await page.waitForFunction(()=>window.PSQ80_EXTENSION?.ready===true||window.PSQ80_EXTENSION?.errors?.length>0,null,{timeout:85000});}
    catch(e){const x=await page.evaluate(()=>({title:document.title,extension:window.PSQ80_EXTENSION||null,library:window.PS_LIBRARY?.characters?.length,content:document.body?.textContent?.slice(0,900)}));throw Error('Timed out '+width+'px '+JSON.stringify(x));}
    const data=await page.evaluate(()=>({title:document.title,extension:window.PSQ80_EXTENSION,characters:window.PS_LIBRARY?.characters?.length,collections:window.PS_LIBRARY?.collections?.length,stable:window.PSQ_V27?.active}));
-   if(!data.extension.ready||data.characters!==80||data.collections!==7||data.extension.assets!==180)throw Error('Bad preview '+JSON.stringify(data).slice(0,3000));
+   if(pageErrors.length||!data.extension.ready||data.characters!==80||data.collections!==7||data.extension.assets!==180)throw Error('Bad preview '+JSON.stringify(data).slice(0,3000));
    results.push({width,status:'PASS',characters:data.characters,collections:data.collections,views:data.extension.assets,pageErrors:pageErrors.slice(0,10)});
    await page.close();
   }
