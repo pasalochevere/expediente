@@ -1,83 +1,6 @@
 {
   "sources": [
     {
-      "code": "PSQ01",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 97254,
-      "sha256": "044d05abb3dd20ed3fa6b97a2191cd8c1c600ab045b66af6495a0c89765c5ffd",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/carami/coloring_back.webp"
-    },
-    {
-      "code": "PSQ03",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 85806,
-      "sha256": "2a1f6044c9e3be25d515e55246c2fd5ed7a68ebd8f428c3a0641254491ad7d10",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/donita/coloring_back.webp"
-    },
-    {
-      "code": "PSQ02",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 138148,
-      "sha256": "10ba760f2231634e555547beb8c1aba93a2590af85863410a180ecbd25e7593c",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/cuppy/coloring.webp"
-    },
-    {
-      "code": "PSQ01",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 76208,
-      "sha256": "05731212e72bf06104d01e00d722953b29a7465f8faa43863601fbdac24150bc",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/carami/front_print.webp"
-    },
-    {
-      "code": "PSQ03",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 135458,
-      "sha256": "076eb4db48406e77856063999cfe44591a99f60c9c1f755d19e0f09be57b49e1",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/donita/coloring.webp"
-    },
-    {
-      "code": "PSQ01",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 167066,
-      "sha256": "7a0d5e22aab0f5463caffd778e3d840860847c67ad1580b0b57b0d98af556e78",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/carami/coloring.webp"
-    },
-    {
-      "code": "PSQ02",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 74640,
-      "sha256": "e92026a6893a5ba37848560d7358dd0f1ea4ebce00e9b31331d0c10ab2260874",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/cuppy/front_print.webp"
-    },
-    {
       "code": "PSQ02",
       "view": "back_print",
       "pixels": [
@@ -101,14 +24,14 @@
     },
     {
       "code": "PSQ03",
-      "view": "back_print",
+      "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 99600,
-      "sha256": "5f486198c3a67e4958522425a2312ae90ce80aa59785f62426981e7ea431fa74",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/donita/back_print.webp"
+      "bytes": 85806,
+      "sha256": "2a1f6044c9e3be25d515e55246c2fd5ed7a68ebd8f428c3a0641254491ad7d10",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/donita/coloring_back.webp"
     },
     {
       "code": "PSQ02",
@@ -122,26 +45,37 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/cuppy/coloring_back.webp"
     },
     {
-      "code": "PSQ03",
+      "code": "PSQ01",
       "view": "front_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 97824,
-      "sha256": "c11b84f9e9e5189a69106ebdf863bea6799b8b75fa6fe5740cb4f401e96338e1",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/donita/front_print.webp"
+      "bytes": 76208,
+      "sha256": "05731212e72bf06104d01e00d722953b29a7465f8faa43863601fbdac24150bc",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/carami/front_print.webp"
     },
     {
-      "code": "PSQ05",
-      "view": "back_print",
+      "code": "PSQ02",
+      "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 57512,
-      "sha256": "ac4f921865377d25be4e6fa49e93696e0a2a0d9ea9ccbd1e76945e70cf426311",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/heladin/back_print.webp"
+      "bytes": 138148,
+      "sha256": "10ba760f2231634e555547beb8c1aba93a2590af85863410a180ecbd25e7593c",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/cuppy/coloring.webp"
+    },
+    {
+      "code": "PSQ01",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 97254,
+      "sha256": "044d05abb3dd20ed3fa6b97a2191cd8c1c600ab045b66af6495a0c89765c5ffd",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/carami/coloring_back.webp"
     },
     {
       "code": "PSQ04",
@@ -153,6 +87,72 @@
       "bytes": 78682,
       "sha256": "ec5b213441ea264be1fe48b289809a787bb4e4b7f952d5cb5379896ca2bd7f56",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/galleti/front_print.webp"
+    },
+    {
+      "code": "PSQ05",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 182720,
+      "sha256": "93154862284df1df5caaf774ee3d1346c4843e36c9ea681fd471879db046731d",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/heladin/coloring.webp"
+    },
+    {
+      "code": "PSQ03",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 99600,
+      "sha256": "5f486198c3a67e4958522425a2312ae90ce80aa59785f62426981e7ea431fa74",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/donita/back_print.webp"
+    },
+    {
+      "code": "PSQ04",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 70100,
+      "sha256": "0b2794e36fb2b0cd6102a4437fb5daea822d9563311d1f4d45cbdc1c7ba15538",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/galleti/back_print.webp"
+    },
+    {
+      "code": "PSQ04",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 119268,
+      "sha256": "137268378bdb39139a2fc9c87d1556335c48186c247089592a4ec020368252b4",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/galleti/coloring_back.webp"
+    },
+    {
+      "code": "PSQ01",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 167066,
+      "sha256": "7a0d5e22aab0f5463caffd778e3d840860847c67ad1580b0b57b0d98af556e78",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/carami/coloring.webp"
+    },
+    {
+      "code": "PSQ03",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 97824,
+      "sha256": "c11b84f9e9e5189a69106ebdf863bea6799b8b75fa6fe5740cb4f401e96338e1",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/donita/front_print.webp"
     },
     {
       "code": "PSQ04",
@@ -167,14 +167,14 @@
     },
     {
       "code": "PSQ05",
-      "view": "coloring_back",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 66350,
-      "sha256": "4168b7b50b6ed3471b304fc8d3262ded07064ef2c54c36dbf29e6a99cea978c0",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/heladin/coloring_back.webp"
+      "bytes": 57512,
+      "sha256": "ac4f921865377d25be4e6fa49e93696e0a2a0d9ea9ccbd1e76945e70cf426311",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/heladin/back_print.webp"
     },
     {
       "code": "PSQ05",
@@ -188,15 +188,37 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/heladin/front_print.webp"
     },
     {
-      "code": "PSQ04",
-      "view": "back_print",
+      "code": "PSQ03",
+      "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 70100,
-      "sha256": "0b2794e36fb2b0cd6102a4437fb5daea822d9563311d1f4d45cbdc1c7ba15538",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/galleti/back_print.webp"
+      "bytes": 135458,
+      "sha256": "076eb4db48406e77856063999cfe44591a99f60c9c1f755d19e0f09be57b49e1",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/donita/coloring.webp"
+    },
+    {
+      "code": "PSQ02",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 74640,
+      "sha256": "e92026a6893a5ba37848560d7358dd0f1ea4ebce00e9b31331d0c10ab2260874",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/cuppy/front_print.webp"
+    },
+    {
+      "code": "PSQ05",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 66350,
+      "sha256": "4168b7b50b6ed3471b304fc8d3262ded07064ef2c54c36dbf29e6a99cea978c0",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/heladin/coloring_back.webp"
     },
     {
       "code": "PSQ06",
@@ -208,17 +230,6 @@
       "bytes": 87012,
       "sha256": "a8aa4b7796a41f8c2832b7fb61feddad301a80e7fccb1f7069c1f57acb21de0b",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/maca/front_print.webp"
-    },
-    {
-      "code": "PSQ05",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 182720,
-      "sha256": "93154862284df1df5caaf774ee3d1346c4843e36c9ea681fd471879db046731d",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/heladin/coloring.webp"
     },
     {
       "code": "PSQ06",
@@ -233,25 +244,14 @@
     },
     {
       "code": "PSQ06",
-      "view": "coloring_back",
+      "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 91596,
-      "sha256": "c9270da91efabe5d98fe90dbca8613a84e49e5925c66edc5b8fdee291c4087a8",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/maca/coloring_back.webp"
-    },
-    {
-      "code": "PSQ04",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 119268,
-      "sha256": "137268378bdb39139a2fc9c87d1556335c48186c247089592a4ec020368252b4",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/galleti/coloring_back.webp"
+      "bytes": 165552,
+      "sha256": "f785201ff9acc7bbc0075af8ab2b4eb5d89ea798fdc7bdb18a45f3aa29f0f16e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/maca/coloring.webp"
     },
     {
       "code": "PSQ07",
@@ -266,6 +266,17 @@
     },
     {
       "code": "PSQ07",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 86322,
+      "sha256": "21d030463c3fa794535aead4b632b5c302954aa2cdc7dc599bbf8e71306919c9",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/paleti/coloring_back.webp"
+    },
+    {
+      "code": "PSQ07",
       "view": "back_print",
       "pixels": [
         1055,
@@ -274,6 +285,17 @@
       "bytes": 63652,
       "sha256": "e7b2bda845f42ed8c1ccbd65cf9b37af7c4b2eb6cbd01865e1990ea6947b1782",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/paleti/back_print.webp"
+    },
+    {
+      "code": "PSQ06",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 91596,
+      "sha256": "c9270da91efabe5d98fe90dbca8613a84e49e5925c66edc5b8fdee291c4087a8",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/maca/coloring_back.webp"
     },
     {
       "code": "PSQ08",
@@ -285,17 +307,6 @@
       "bytes": 64646,
       "sha256": "d8194ee94a04b75c20adf51dc017459ec817e1f8c107fd393318db01d71d824f",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/shaky/back_print.webp"
-    },
-    {
-      "code": "PSQ07",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 137640,
-      "sha256": "f040c9fc6540d6894940b5eb04d6db12f23f760dd303a1bc68ebfd0a141035e8",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/paleti/coloring.webp"
     },
     {
       "code": "PSQ08",
@@ -310,14 +321,25 @@
     },
     {
       "code": "PSQ07",
-      "view": "coloring_back",
+      "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 86322,
-      "sha256": "21d030463c3fa794535aead4b632b5c302954aa2cdc7dc599bbf8e71306919c9",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/paleti/coloring_back.webp"
+      "bytes": 137640,
+      "sha256": "f040c9fc6540d6894940b5eb04d6db12f23f760dd303a1bc68ebfd0a141035e8",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/paleti/coloring.webp"
+    },
+    {
+      "code": "PSQ09",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 110704,
+      "sha256": "1ad2f3df114cf2de22f4e222a2d8cbc226373657d16f5e16bcbcb17906b546b5",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/torti/back_print.webp"
     },
     {
       "code": "PSQ08",
@@ -343,14 +365,14 @@
     },
     {
       "code": "PSQ09",
-      "view": "back_print",
+      "view": "front_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 110704,
-      "sha256": "1ad2f3df114cf2de22f4e222a2d8cbc226373657d16f5e16bcbcb17906b546b5",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/torti/back_print.webp"
+      "bytes": 113034,
+      "sha256": "ea6db7da0eb5af0eb26ee86563819673072d311a50b4ffb5aa12b8ac72f3a2f9",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/torti/front_print.webp"
     },
     {
       "code": "PSQ09",
@@ -375,17 +397,6 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/torti/coloring_back.webp"
     },
     {
-      "code": "PSQ09",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 113034,
-      "sha256": "ea6db7da0eb5af0eb26ee86563819673072d311a50b4ffb5aa12b8ac72f3a2f9",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/torti/front_print.webp"
-    },
-    {
       "code": "PSQ10",
       "view": "front_print",
       "pixels": [
@@ -395,6 +406,39 @@
       "bytes": 87940,
       "sha256": "1ca0ac488e7773ce725cf12571d29aad6e2c301e96718035fe0952bfbc6c4ae0",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/waffy/front_print.webp"
+    },
+    {
+      "code": "PSQ11",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 42172,
+      "sha256": "6d7a1e446cea6e2e97a4ae83e55e59aee348c6edd05ab31a6ff618e9f32ab771",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/conejita_luli/front_print.webp"
+    },
+    {
+      "code": "PSQ11",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 37608,
+      "sha256": "ca7cdf81bc2c07d47cb3f8af81988204ae9cac0e42903b1db4b910279b1ac543",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/conejita_luli/back_print.webp"
+    },
+    {
+      "code": "PSQ10",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 81286,
+      "sha256": "286d21f29d98b7586747e2aa9b74c2127d8b1f4a53c9d3095e8e10b390ca872b",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/waffy/coloring_back.webp"
     },
     {
       "code": "PSQ10",
@@ -409,36 +453,14 @@
     },
     {
       "code": "PSQ11",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 37608,
-      "sha256": "ca7cdf81bc2c07d47cb3f8af81988204ae9cac0e42903b1db4b910279b1ac543",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/conejita_luli/back_print.webp"
-    },
-    {
-      "code": "PSQ11",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 42172,
-      "sha256": "6d7a1e446cea6e2e97a4ae83e55e59aee348c6edd05ab31a6ff618e9f32ab771",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/conejita_luli/front_print.webp"
-    },
-    {
-      "code": "PSQ10",
       "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 81286,
-      "sha256": "286d21f29d98b7586747e2aa9b74c2127d8b1f4a53c9d3095e8e10b390ca872b",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/waffy/coloring_back.webp"
+      "bytes": 45676,
+      "sha256": "111ca06b158ac656f532adf766c817ce48fc295a556f2996e11ee29bf0989dd9",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/conejita_luli/coloring_back.webp"
     },
     {
       "code": "PSQ11",
@@ -452,17 +474,6 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/conejita_luli/coloring.webp"
     },
     {
-      "code": "PSQ12",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 80306,
-      "sha256": "bee53119b31145904a1f14f03a228269d272df7d65c7d03b7f8df4809f148f99",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/gatito_mishi/front_print.webp"
-    },
-    {
       "code": "PSQ10",
       "view": "back_print",
       "pixels": [
@@ -474,15 +485,26 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/waffy/back_print.webp"
     },
     {
-      "code": "PSQ11",
-      "view": "coloring_back",
+      "code": "PSQ12",
+      "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 45676,
-      "sha256": "111ca06b158ac656f532adf766c817ce48fc295a556f2996e11ee29bf0989dd9",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/conejita_luli/coloring_back.webp"
+      "bytes": 141062,
+      "sha256": "277cd01d2e8d9331cf9a3c680cf417388aaabfa23d1576681b99784d810b4e4c",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/gatito_mishi/coloring.webp"
+    },
+    {
+      "code": "PSQ12",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 80306,
+      "sha256": "bee53119b31145904a1f14f03a228269d272df7d65c7d03b7f8df4809f148f99",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/gatito_mishi/front_print.webp"
     },
     {
       "code": "PSQ12",
@@ -494,17 +516,6 @@
       "bytes": 66890,
       "sha256": "aac45c956f2cc09f3041d75066caead8a1f2c4f79b1d4cf36ee4f2bb6cc55c4b",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/gatito_mishi/back_print.webp"
-    },
-    {
-      "code": "PSQ13",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 60232,
-      "sha256": "cfc6ad4f1c0b2eb37f20d46e015e22c2e609272be1c6f2c110c9f069b34e469b",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/koala_nube/front_print.webp"
     },
     {
       "code": "PSQ12",
@@ -519,6 +530,17 @@
     },
     {
       "code": "PSQ13",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 60232,
+      "sha256": "cfc6ad4f1c0b2eb37f20d46e015e22c2e609272be1c6f2c110c9f069b34e469b",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/koala_nube/front_print.webp"
+    },
+    {
+      "code": "PSQ13",
       "view": "back_print",
       "pixels": [
         1055,
@@ -527,61 +549,6 @@
       "bytes": 37646,
       "sha256": "a1484698d66bde4e882b57bf67e55a238a1dc6ef35f582fbb4a6982db3ead40c",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/koala_nube/back_print.webp"
-    },
-    {
-      "code": "PSQ12",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 141062,
-      "sha256": "277cd01d2e8d9331cf9a3c680cf417388aaabfa23d1576681b99784d810b4e4c",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/gatito_mishi/coloring.webp"
-    },
-    {
-      "code": "PSQ13",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 77542,
-      "sha256": "c39f0d181d92919176b9f4e4594d55eff883c0756bf56ef7114d480d55f8802a",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/koala_nube/coloring.webp"
-    },
-    {
-      "code": "PSQ14",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 57410,
-      "sha256": "742259ffa393215b4db82b70a55f02adde58d8c8e456df4ae1f7006bd6b1640c",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/oso_teddy/front_print.webp"
-    },
-    {
-      "code": "PSQ14",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 39782,
-      "sha256": "1d40eb70fb8b4b056116f08aa94fcef50a6f04be7ca71c26daadd93d8958402c",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/oso_teddy/back_print.webp"
-    },
-    {
-      "code": "PSQ14",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 40726,
-      "sha256": "ef19e1a8e32a837e93d19565505b05513a71fba871677438ad0cce8cf6640d33",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/oso_teddy/coloring_back.webp"
     },
     {
       "code": "PSQ13",
@@ -596,6 +563,39 @@
     },
     {
       "code": "PSQ14",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 57410,
+      "sha256": "742259ffa393215b4db82b70a55f02adde58d8c8e456df4ae1f7006bd6b1640c",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/oso_teddy/front_print.webp"
+    },
+    {
+      "code": "PSQ13",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 77542,
+      "sha256": "c39f0d181d92919176b9f4e4594d55eff883c0756bf56ef7114d480d55f8802a",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/koala_nube/coloring.webp"
+    },
+    {
+      "code": "PSQ14",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 39782,
+      "sha256": "1d40eb70fb8b4b056116f08aa94fcef50a6f04be7ca71c26daadd93d8958402c",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/oso_teddy/back_print.webp"
+    },
+    {
+      "code": "PSQ14",
       "view": "coloring",
       "pixels": [
         1055,
@@ -606,15 +606,37 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/oso_teddy/coloring.webp"
     },
     {
-      "code": "PSQ06",
+      "code": "PSQ14",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 40726,
+      "sha256": "ef19e1a8e32a837e93d19565505b05513a71fba871677438ad0cce8cf6640d33",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/oso_teddy/coloring_back.webp"
+    },
+    {
+      "code": "PSQ15",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 48418,
+      "sha256": "a72905eac9bb32f30f9b49cca0ce4047652b07e116ca75ce1614591f77bc4ad4",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/panda_kumo/coloring_back.webp"
+    },
+    {
+      "code": "PSQ15",
       "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 165552,
-      "sha256": "f785201ff9acc7bbc0075af8ab2b4eb5d89ea798fdc7bdb18a45f3aa29f0f16e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/sweet_squishies/maca/coloring.webp"
+      "bytes": 119348,
+      "sha256": "46470f185f922520a3e3f11c21dbb6807f9f81d96473b353e5ac9053afa75e14",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/panda_kumo/coloring.webp"
     },
     {
       "code": "PSQ15",
@@ -639,15 +661,26 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/panda_kumo/back_print.webp"
     },
     {
-      "code": "PSQ15",
-      "view": "coloring",
+      "code": "PSQ16",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 119348,
-      "sha256": "46470f185f922520a3e3f11c21dbb6807f9f81d96473b353e5ac9053afa75e14",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/panda_kumo/coloring.webp"
+      "bytes": 81380,
+      "sha256": "77dfa7cb75dd1d9c0d39e76b1d8c62fcab519bb7c2b8fa3778ba570c48951aa2",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/perrito_rocko/back_print.webp"
+    },
+    {
+      "code": "PSQ17",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 33644,
+      "sha256": "2a4665ab48c16061de9ccf14ed57bd8b17ec85e81b401eb878b7a88cb4147206",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/pollito_pio/front_print.webp"
     },
     {
       "code": "PSQ16",
@@ -661,28 +694,6 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/perrito_rocko/front_print.webp"
     },
     {
-      "code": "PSQ15",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 48418,
-      "sha256": "a72905eac9bb32f30f9b49cca0ce4047652b07e116ca75ce1614591f77bc4ad4",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/panda_kumo/coloring_back.webp"
-    },
-    {
-      "code": "PSQ16",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 81380,
-      "sha256": "77dfa7cb75dd1d9c0d39e76b1d8c62fcab519bb7c2b8fa3778ba570c48951aa2",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/perrito_rocko/back_print.webp"
-    },
-    {
       "code": "PSQ16",
       "view": "coloring",
       "pixels": [
@@ -692,6 +703,17 @@
       "bytes": 135090,
       "sha256": "67f17b425fc947ea49065fa55eb89993ac4a5a357aca7d92d6e0e71ee818de72",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/perrito_rocko/coloring.webp"
+    },
+    {
+      "code": "PSQ17",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 37800,
+      "sha256": "d092ceae4acebe32c288421151d5d0508c3ab2fc1a3f386211e38461a443a5cd",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/pollito_pio/coloring_back.webp"
     },
     {
       "code": "PSQ16",
@@ -706,17 +728,6 @@
     },
     {
       "code": "PSQ17",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 33644,
-      "sha256": "2a4665ab48c16061de9ccf14ed57bd8b17ec85e81b401eb878b7a88cb4147206",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/pollito_pio/front_print.webp"
-    },
-    {
-      "code": "PSQ17",
       "view": "back_print",
       "pixels": [
         1055,
@@ -725,28 +736,6 @@
       "bytes": 34546,
       "sha256": "2d3d803d7e282fbd9c957414ea4c37035d7d1efa23495f29885b6238a95f8a27",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/pollito_pio/back_print.webp"
-    },
-    {
-      "code": "PSQ17",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 37800,
-      "sha256": "d092ceae4acebe32c288421151d5d0508c3ab2fc1a3f386211e38461a443a5cd",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/pollito_pio/coloring_back.webp"
-    },
-    {
-      "code": "PSQ18",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 51788,
-      "sha256": "1efaa2c7428423066ef435fa02ca7153d924c8f90ac0fe4dc4f62b5ea366a23e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/ranita_pipo/front_print.webp"
     },
     {
       "code": "PSQ17",
@@ -761,6 +750,17 @@
     },
     {
       "code": "PSQ18",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 56648,
+      "sha256": "134640132f185bf7974af9ee7f4a43a40f6623fcd07ac63e17055bb325e01d9a",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/ranita_pipo/back_print.webp"
+    },
+    {
+      "code": "PSQ18",
       "view": "coloring",
       "pixels": [
         1055,
@@ -769,28 +769,6 @@
       "bytes": 104090,
       "sha256": "7c8e465714aa367ab2760dae8104e8521a7882390e81a2499d076bbdf283733b",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/ranita_pipo/coloring.webp"
-    },
-    {
-      "code": "PSQ19",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 43398,
-      "sha256": "7d1d4a48ad69cc1c1bcdadfe40b18bdf2c11b90ef8c45daea51b349b849c0c85",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/unicornio_sunny/back_print.webp"
-    },
-    {
-      "code": "PSQ19",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 51194,
-      "sha256": "44496c9a235ef71c52598ed9199a3ad4e629c998eabe27693d962615b1da5d9e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/unicornio_sunny/front_print.webp"
     },
     {
       "code": "PSQ18",
@@ -804,15 +782,70 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/ranita_pipo/coloring_back.webp"
     },
     {
+      "code": "PSQ20",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 116258,
+      "sha256": "6465b43e6d0d89d4a8c233c27c18b8174af244299ade8af91995cccea904ed7a",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/zorrito_kuma/coloring.webp"
+    },
+    {
       "code": "PSQ18",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 51788,
+      "sha256": "1efaa2c7428423066ef435fa02ca7153d924c8f90ac0fe4dc4f62b5ea366a23e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/ranita_pipo/front_print.webp"
+    },
+    {
+      "code": "PSQ19",
       "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 56648,
-      "sha256": "134640132f185bf7974af9ee7f4a43a40f6623fcd07ac63e17055bb325e01d9a",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/ranita_pipo/back_print.webp"
+      "bytes": 43398,
+      "sha256": "7d1d4a48ad69cc1c1bcdadfe40b18bdf2c11b90ef8c45daea51b349b849c0c85",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/unicornio_sunny/back_print.webp"
+    },
+    {
+      "code": "PSQ20",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 47626,
+      "sha256": "782bac500cc5fc4b721072532074ec0729d7d3aed288a40ed793142cada434a9",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/zorrito_kuma/coloring_back.webp"
+    },
+    {
+      "code": "PSQ19",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 51194,
+      "sha256": "44496c9a235ef71c52598ed9199a3ad4e629c998eabe27693d962615b1da5d9e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/unicornio_sunny/front_print.webp"
+    },
+    {
+      "code": "PSQ20",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 40656,
+      "sha256": "a6fc953dde68c4a73a5744fb04f696759c28e8fc2aefdc94035089f5beca428e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/zorrito_kuma/back_print.webp"
     },
     {
       "code": "PSQ19",
@@ -848,48 +881,26 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/zorrito_kuma/front_print.webp"
     },
     {
-      "code": "PSQ20",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 40656,
-      "sha256": "a6fc953dde68c4a73a5744fb04f696759c28e8fc2aefdc94035089f5beca428e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/zorrito_kuma/back_print.webp"
-    },
-    {
-      "code": "PSQ20",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 116258,
-      "sha256": "6465b43e6d0d89d4a8c233c27c18b8174af244299ade8af91995cccea904ed7a",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/zorrito_kuma/coloring.webp"
-    },
-    {
       "code": "PSQ21",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 114508,
-      "sha256": "d9e939d4776310d23639d2d4f3b0ac3da222717eea00193af38daaf98793738b",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/burgui/back_print.webp"
-    },
-    {
-      "code": "PSQ20",
       "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 47626,
-      "sha256": "782bac500cc5fc4b721072532074ec0729d7d3aed288a40ed793142cada434a9",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/animal_cuties/zorrito_kuma/coloring_back.webp"
+      "bytes": 91614,
+      "sha256": "e66910f84c7552e60b5be0fe0d4298d401dbb51ec664eb56c95ac3001f2d5f38",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/burgui/coloring_back.webp"
+    },
+    {
+      "code": "PSQ22",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 98246,
+      "sha256": "60c42e392cf2480533a85a41e73813482d5dc09681143060c088dc1a38fd1ba5",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/eggi/coloring.webp"
     },
     {
       "code": "PSQ21",
@@ -903,48 +914,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/burgui/front_print.webp"
     },
     {
-      "code": "PSQ22",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 100370,
-      "sha256": "8c9fcb178244ad9243e6880cc23d2c0045d9c58a52b64d9693324937a1652cc4",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/eggi/front_print.webp"
-    },
-    {
       "code": "PSQ21",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 91614,
-      "sha256": "e66910f84c7552e60b5be0fe0d4298d401dbb51ec664eb56c95ac3001f2d5f38",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/burgui/coloring_back.webp"
-    },
-    {
-      "code": "PSQ22",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 92456,
-      "sha256": "6e6914230d7e1d6a2faea893aae042d53ba9d112b6b8b2c04786d35b0d089d55",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/eggi/coloring_back.webp"
-    },
-    {
-      "code": "PSQ22",
       "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 92826,
-      "sha256": "7d38200c4e6bd99906ac7d55d4cacfae4d6133f0a36f17df2b9aff3b9bfe9ced",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/eggi/back_print.webp"
+      "bytes": 114508,
+      "sha256": "d9e939d4776310d23639d2d4f3b0ac3da222717eea00193af38daaf98793738b",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/burgui/back_print.webp"
     },
     {
       "code": "PSQ21",
@@ -959,25 +937,36 @@
     },
     {
       "code": "PSQ22",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 98246,
-      "sha256": "60c42e392cf2480533a85a41e73813482d5dc09681143060c088dc1a38fd1ba5",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/eggi/coloring.webp"
-    },
-    {
-      "code": "PSQ23",
       "view": "front_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 113478,
-      "sha256": "bffdc69a0f278c0cc1c799cefd5ed1c794b320da9e2f7a4da70767e038833821",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/frydi/front_print.webp"
+      "bytes": 100370,
+      "sha256": "8c9fcb178244ad9243e6880cc23d2c0045d9c58a52b64d9693324937a1652cc4",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/eggi/front_print.webp"
+    },
+    {
+      "code": "PSQ22",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 92826,
+      "sha256": "7d38200c4e6bd99906ac7d55d4cacfae4d6133f0a36f17df2b9aff3b9bfe9ced",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/eggi/back_print.webp"
+    },
+    {
+      "code": "PSQ23",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 107360,
+      "sha256": "6aac62250a27ba02f58c9f699d5e8e486e0aed2d8168b072793fb49570418bda",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/frydi/coloring_back.webp"
     },
     {
       "code": "PSQ23",
@@ -992,14 +981,25 @@
     },
     {
       "code": "PSQ23",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 113478,
+      "sha256": "bffdc69a0f278c0cc1c799cefd5ed1c794b320da9e2f7a4da70767e038833821",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/frydi/front_print.webp"
+    },
+    {
+      "code": "PSQ22",
       "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 107360,
-      "sha256": "6aac62250a27ba02f58c9f699d5e8e486e0aed2d8168b072793fb49570418bda",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/frydi/coloring_back.webp"
+      "bytes": 92456,
+      "sha256": "6e6914230d7e1d6a2faea893aae042d53ba9d112b6b8b2c04786d35b0d089d55",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/eggi/coloring_back.webp"
     },
     {
       "code": "PSQ24",
@@ -1025,14 +1025,14 @@
     },
     {
       "code": "PSQ24",
-      "view": "coloring_back",
+      "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 82884,
-      "sha256": "4f5728765e27dcf6eb72e6ab6f2074715f56523098ad8de5a2e21f63557e3bf0",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/hotty/coloring_back.webp"
+      "bytes": 92844,
+      "sha256": "f8841e73bd702770ac80d8b329dd6d6dca3f1c9711b52d0dfe63992f9867e31b",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/hotty/coloring.webp"
     },
     {
       "code": "PSQ24",
@@ -1047,14 +1047,14 @@
     },
     {
       "code": "PSQ24",
-      "view": "coloring",
+      "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 92844,
-      "sha256": "f8841e73bd702770ac80d8b329dd6d6dca3f1c9711b52d0dfe63992f9867e31b",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/hotty/coloring.webp"
+      "bytes": 82884,
+      "sha256": "4f5728765e27dcf6eb72e6ab6f2074715f56523098ad8de5a2e21f63557e3bf0",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/hotty/coloring_back.webp"
     },
     {
       "code": "PSQ25",
@@ -1069,17 +1069,6 @@
     },
     {
       "code": "PSQ25",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 125030,
-      "sha256": "37ae066cbf05103424093b36110f7c22d11881774e766f581346a83a46b41d72",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/noodi/coloring.webp"
-    },
-    {
-      "code": "PSQ25",
       "view": "front_print",
       "pixels": [
         1055,
@@ -1090,15 +1079,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/noodi/front_print.webp"
     },
     {
-      "code": "PSQ26",
+      "code": "PSQ27",
       "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 54070,
-      "sha256": "ce367ff4ddfab7dd1ca33c454f0d0a292eb9158d2bc524f32c910fa60736cff5",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/pizzi/back_print.webp"
+      "bytes": 60290,
+      "sha256": "1f543c0165747c326b1acf63dae45a26b233a883c5b334026367cda30379ea73",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/poppi/back_print.webp"
     },
     {
       "code": "PSQ25",
@@ -1113,6 +1102,17 @@
     },
     {
       "code": "PSQ26",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 119464,
+      "sha256": "788c21da9106f4987a1b3e115a97b8c2b2c9cbf387c9886bb825bd118a6fd13c",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/pizzi/coloring.webp"
+    },
+    {
+      "code": "PSQ26",
       "view": "front_print",
       "pixels": [
         1055,
@@ -1121,6 +1121,28 @@
       "bytes": 93774,
       "sha256": "d5dbacbb404a1a287aa71447d3f64a859f8edabf2a965fb6fd964295c479a8f8",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/pizzi/front_print.webp"
+    },
+    {
+      "code": "PSQ26",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 54070,
+      "sha256": "ce367ff4ddfab7dd1ca33c454f0d0a292eb9158d2bc524f32c910fa60736cff5",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/pizzi/back_print.webp"
+    },
+    {
+      "code": "PSQ25",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 125030,
+      "sha256": "37ae066cbf05103424093b36110f7c22d11881774e766f581346a83a46b41d72",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/noodi/coloring.webp"
     },
     {
       "code": "PSQ26",
@@ -1134,17 +1156,6 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/pizzi/coloring_back.webp"
     },
     {
-      "code": "PSQ26",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 119464,
-      "sha256": "788c21da9106f4987a1b3e115a97b8c2b2c9cbf387c9886bb825bd118a6fd13c",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/pizzi/coloring.webp"
-    },
-    {
       "code": "PSQ27",
       "view": "front_print",
       "pixels": [
@@ -1154,17 +1165,6 @@
       "bytes": 82370,
       "sha256": "2c4f8b49f56aaeedd09b35830005f03a13417fc299f5ae9e1de7a4089a22000c",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/poppi/front_print.webp"
-    },
-    {
-      "code": "PSQ27",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 60290,
-      "sha256": "1f543c0165747c326b1acf63dae45a26b233a883c5b334026367cda30379ea73",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/poppi/back_print.webp"
     },
     {
       "code": "PSQ27",
@@ -1200,17 +1200,6 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sandwi/front_print.webp"
     },
     {
-      "code": "PSQ29",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 105714,
-      "sha256": "b22efe0c4df484e013b1031d68306d56a45b68a86d73271c80f63da4a62b5cab",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sushi/front_print.webp"
-    },
-    {
       "code": "PSQ28",
       "view": "back_print",
       "pixels": [
@@ -1220,17 +1209,6 @@
       "bytes": 82086,
       "sha256": "6b727454d2bea0c584b4996c797b999b4afbd13316e5f37a83385676dfedd496",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sandwi/back_print.webp"
-    },
-    {
-      "code": "PSQ28",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 106918,
-      "sha256": "c16cd406fe142b209fd9d472b6940e25df3a3e20c40b4ef680c9f37c51484bb8",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sandwi/coloring_back.webp"
     },
     {
       "code": "PSQ28",
@@ -1244,6 +1222,39 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sandwi/coloring.webp"
     },
     {
+      "code": "PSQ30",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 120902,
+      "sha256": "a2d40b5fe1727dc094779230a1104a17e69048e11a2867cc76d1ab74bdddb625",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/tacci/front_print.webp"
+    },
+    {
+      "code": "PSQ28",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 106918,
+      "sha256": "c16cd406fe142b209fd9d472b6940e25df3a3e20c40b4ef680c9f37c51484bb8",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sandwi/coloring_back.webp"
+    },
+    {
+      "code": "PSQ29",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 105714,
+      "sha256": "b22efe0c4df484e013b1031d68306d56a45b68a86d73271c80f63da4a62b5cab",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sushi/front_print.webp"
+    },
+    {
       "code": "PSQ29",
       "view": "coloring",
       "pixels": [
@@ -1255,15 +1266,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sushi/coloring.webp"
     },
     {
-      "code": "PSQ30",
-      "view": "front_print",
+      "code": "PSQ29",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 120902,
-      "sha256": "a2d40b5fe1727dc094779230a1104a17e69048e11a2867cc76d1ab74bdddb625",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/tacci/front_print.webp"
+      "bytes": 77268,
+      "sha256": "8847e732f77aa78a248d2f15d2828d884ff221f4db72bf7faae4e7ab1049cdd1",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sushi/back_print.webp"
     },
     {
       "code": "PSQ29",
@@ -1288,26 +1299,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/tacci/back_print.webp"
     },
     {
-      "code": "PSQ29",
-      "view": "back_print",
+      "code": "PSQ31",
+      "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 77268,
-      "sha256": "8847e732f77aa78a248d2f15d2828d884ff221f4db72bf7faae4e7ab1049cdd1",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/sushi/back_print.webp"
-    },
-    {
-      "code": "PSQ30",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 102458,
-      "sha256": "0e77a3f70aa0e642d552e127791bd3c7bb46664595828bc7bf0dac31c3a249d5",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/tacci/coloring.webp"
+      "bytes": 70192,
+      "sha256": "09ee990e8087271f0c18f4fbe4b72b72f8591c8813fdb13c33630aa9fc0408d7",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/astri/coloring_back.webp"
     },
     {
       "code": "PSQ30",
@@ -1319,6 +1319,17 @@
       "bytes": 101182,
       "sha256": "6512e48d5befc2274a68994a5e51eaa5862b1eff67ccad6ff1d033696d2892d3",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/tacci/coloring_back.webp"
+    },
+    {
+      "code": "PSQ30",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 102458,
+      "sha256": "0e77a3f70aa0e642d552e127791bd3c7bb46664595828bc7bf0dac31c3a249d5",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/food_squad/tacci/coloring.webp"
     },
     {
       "code": "PSQ31",
@@ -1333,6 +1344,17 @@
     },
     {
       "code": "PSQ31",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 89454,
+      "sha256": "65dbdf438cd0008338a38dd35cbc20e8840155f8e5d5128390643f21633a5df5",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/astri/back_print.webp"
+    },
+    {
+      "code": "PSQ31",
       "view": "coloring",
       "pixels": [
         1055,
@@ -1344,36 +1366,25 @@
     },
     {
       "code": "PSQ32",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 73306,
-      "sha256": "0e4a0926ba6a220743caaee4e474ad791b6e12c883497dd6c32aa7fbe3775ff9",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/coheti/front_print.webp"
-    },
-    {
-      "code": "PSQ31",
       "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 70192,
-      "sha256": "09ee990e8087271f0c18f4fbe4b72b72f8591c8813fdb13c33630aa9fc0408d7",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/astri/coloring_back.webp"
+      "bytes": 49212,
+      "sha256": "f98fb349d0ebe0893d66dee7399be27555c00c7383cc31d27bd5aa2ed84e4408",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/coheti/coloring_back.webp"
     },
     {
-      "code": "PSQ31",
+      "code": "PSQ32",
       "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 89454,
-      "sha256": "65dbdf438cd0008338a38dd35cbc20e8840155f8e5d5128390643f21633a5df5",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/astri/back_print.webp"
+      "bytes": 61662,
+      "sha256": "05f67e890122c6300bff086c86be208cbfc59f3a147f549fff89f67d33d1d51f",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/coheti/back_print.webp"
     },
     {
       "code": "PSQ33",
@@ -1388,6 +1399,17 @@
     },
     {
       "code": "PSQ32",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 73306,
+      "sha256": "0e4a0926ba6a220743caaee4e474ad791b6e12c883497dd6c32aa7fbe3775ff9",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/coheti/front_print.webp"
+    },
+    {
+      "code": "PSQ32",
       "view": "coloring",
       "pixels": [
         1055,
@@ -1398,37 +1420,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/coheti/coloring.webp"
     },
     {
-      "code": "PSQ32",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 61662,
-      "sha256": "05f67e890122c6300bff086c86be208cbfc59f3a147f549fff89f67d33d1d51f",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/coheti/back_print.webp"
-    },
-    {
-      "code": "PSQ32",
+      "code": "PSQ33",
       "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 49212,
-      "sha256": "f98fb349d0ebe0893d66dee7399be27555c00c7383cc31d27bd5aa2ed84e4408",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/coheti/coloring_back.webp"
-    },
-    {
-      "code": "PSQ33",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 63900,
-      "sha256": "afae32f8359d9d0a3bce4ca172fcde5974a92fdda5746d8cfa81b5a3e3666cff",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/cometi/back_print.webp"
+      "bytes": 79130,
+      "sha256": "b762c3aaaad56e96b0ad9e9f09a257f72ced1a67993f5eb1b10677a9c1ca0635",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/cometi/coloring_back.webp"
     },
     {
       "code": "PSQ33",
@@ -1443,14 +1443,14 @@
     },
     {
       "code": "PSQ33",
-      "view": "coloring_back",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 79130,
-      "sha256": "b762c3aaaad56e96b0ad9e9f09a257f72ced1a67993f5eb1b10677a9c1ca0635",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/cometi/coloring_back.webp"
+      "bytes": 63900,
+      "sha256": "afae32f8359d9d0a3bce4ca172fcde5974a92fdda5746d8cfa81b5a3e3666cff",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/cometi/back_print.webp"
     },
     {
       "code": "PSQ34",
@@ -1465,6 +1465,17 @@
     },
     {
       "code": "PSQ34",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 31072,
+      "sha256": "3bd99e38489a5e8560d29aa55e29ef67389df64e5a1207ed06b6d2ac5bb52cef",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/esteli/back_print.webp"
+    },
+    {
+      "code": "PSQ34",
       "view": "coloring",
       "pixels": [
         1055,
@@ -1476,6 +1487,17 @@
     },
     {
       "code": "PSQ35",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 138658,
+      "sha256": "eb3f12c54aeb156665672f9722e70ee9e4d696c164d2df75ca25c36bd8e39880",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/lumo/coloring.webp"
+    },
+    {
+      "code": "PSQ35",
       "view": "front_print",
       "pixels": [
         1055,
@@ -1484,6 +1506,17 @@
       "bytes": 123018,
       "sha256": "74e4feb2a55eed50cc535b72e26be339f6c3b739603d5ee34622ec9390bc95cf",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/lumo/front_print.webp"
+    },
+    {
+      "code": "PSQ35",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 74782,
+      "sha256": "4f3775b6f0f2a814688141e010a41b159c1c60508c12640375eeb5700e7ca829",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/lumo/coloring_back.webp"
     },
     {
       "code": "PSQ34",
@@ -1508,15 +1541,37 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/lumo/back_print.webp"
     },
     {
-      "code": "PSQ35",
-      "view": "coloring",
+      "code": "PSQ37",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 138658,
-      "sha256": "eb3f12c54aeb156665672f9722e70ee9e4d696c164d2df75ca25c36bd8e39880",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/lumo/coloring.webp"
+      "bytes": 92380,
+      "sha256": "b6a04e60d71835582f814a8af1ce104c8a1f67d37757394c1e8e156772a82c25",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/nebuli/back_print.webp"
+    },
+    {
+      "code": "PSQ36",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 60600,
+      "sha256": "27824412f6c60593c0b58b9d471aa4e1113b4f6786b5ad7905cc06fc21361cf1",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/luni/front_print.webp"
+    },
+    {
+      "code": "PSQ36",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 35376,
+      "sha256": "354ed15c3f0ebe3bdcc8119003c534e4e35d84aa95c1b1b2282980e6d3dd2231",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/luni/back_print.webp"
     },
     {
       "code": "PSQ36",
@@ -1528,17 +1583,6 @@
       "bytes": 38842,
       "sha256": "cf9cee6e9ed12f1069229a912b91fea87e101e9c200c6a936f559d7d4d6ac486",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/luni/coloring_back.webp"
-    },
-    {
-      "code": "PSQ35",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 74782,
-      "sha256": "4f3775b6f0f2a814688141e010a41b159c1c60508c12640375eeb5700e7ca829",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/lumo/coloring_back.webp"
     },
     {
       "code": "PSQ36",
@@ -1563,17 +1607,6 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/nebuli/front_print.webp"
     },
     {
-      "code": "PSQ36",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 60600,
-      "sha256": "27824412f6c60593c0b58b9d471aa4e1113b4f6786b5ad7905cc06fc21361cf1",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/luni/front_print.webp"
-    },
-    {
       "code": "PSQ37",
       "view": "coloring",
       "pixels": [
@@ -1583,39 +1616,6 @@
       "bytes": 77728,
       "sha256": "260ef776dc2d65718f8bff13f07b4de29ba4a8f4993b91cb357d16d25024232f",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/nebuli/coloring.webp"
-    },
-    {
-      "code": "PSQ36",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 35376,
-      "sha256": "354ed15c3f0ebe3bdcc8119003c534e4e35d84aa95c1b1b2282980e6d3dd2231",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/luni/back_print.webp"
-    },
-    {
-      "code": "PSQ34",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 31072,
-      "sha256": "3bd99e38489a5e8560d29aa55e29ef67389df64e5a1207ed06b6d2ac5bb52cef",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/esteli/back_print.webp"
-    },
-    {
-      "code": "PSQ37",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 92380,
-      "sha256": "b6a04e60d71835582f814a8af1ce104c8a1f67d37757394c1e8e156772a82c25",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/nebuli/back_print.webp"
     },
     {
       "code": "PSQ37",
@@ -1641,14 +1641,25 @@
     },
     {
       "code": "PSQ38",
-      "view": "front_print",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 115244,
-      "sha256": "f157200f2f4255efb1ce8301030a308d9258c18caf2a30d35df295ea16b324cb",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/ovni_pop/front_print.webp"
+      "bytes": 115418,
+      "sha256": "833487225647edaf73d3eb49adf34b5a11239fcad25e937d8056c0725492d0ca",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/ovni_pop/back_print.webp"
+    },
+    {
+      "code": "PSQ39",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 53822,
+      "sha256": "82e2417ed98af116186c85f1debefe47425b4bc124108764bc58ca154c2506fd",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/saturni/back_print.webp"
     },
     {
       "code": "PSQ39",
@@ -1663,14 +1674,14 @@
     },
     {
       "code": "PSQ38",
-      "view": "back_print",
+      "view": "front_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 115418,
-      "sha256": "833487225647edaf73d3eb49adf34b5a11239fcad25e937d8056c0725492d0ca",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/ovni_pop/back_print.webp"
+      "bytes": 115244,
+      "sha256": "f157200f2f4255efb1ce8301030a308d9258c18caf2a30d35df295ea16b324cb",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/ovni_pop/front_print.webp"
     },
     {
       "code": "PSQ38",
@@ -1682,17 +1693,6 @@
       "bytes": 74486,
       "sha256": "38f745f4e728efac926989289abb554611c11bc8185e26c32361a4a71a2553e1",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/ovni_pop/coloring_back.webp"
-    },
-    {
-      "code": "PSQ39",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 90976,
-      "sha256": "0f1a9deb469e193c3d47669c3f0f635db463d9f831ad010ec0b50f24e0f70b49",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/saturni/coloring.webp"
     },
     {
       "code": "PSQ39",
@@ -1718,39 +1718,6 @@
     },
     {
       "code": "PSQ40",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 67476,
-      "sha256": "36ecb39c650b48cb56647307c1190977a3da9a9d69bbd0c06e925f0ea6ecacc7",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/soli/front_print.webp"
-    },
-    {
-      "code": "PSQ39",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 53822,
-      "sha256": "82e2417ed98af116186c85f1debefe47425b4bc124108764bc58ca154c2506fd",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/saturni/back_print.webp"
-    },
-    {
-      "code": "PSQ40",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 44260,
-      "sha256": "c956492d425f9df650a75f41131a58cbd6ff43b8de21e4ffe18c5e5f54b78597",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/soli/coloring_back.webp"
-    },
-    {
-      "code": "PSQ40",
       "view": "coloring",
       "pixels": [
         1055,
@@ -1759,17 +1726,6 @@
       "bytes": 114810,
       "sha256": "5f745a8abf20b97fe80278f3acd1be4e0793ee4d6eb44b77372e49cb235e8f51",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/soli/coloring.webp"
-    },
-    {
-      "code": "PSQ41",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 118376,
-      "sha256": "26bea07f96d1ac25e34334245fb215b1ba8d426a489beaf9a40358831ecdfe6a",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/areni/coloring.webp"
     },
     {
       "code": "PSQ41",
@@ -1784,14 +1740,25 @@
     },
     {
       "code": "PSQ41",
-      "view": "front_print",
+      "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 114040,
-      "sha256": "7af0ad6609c6b0b28a151402ad6a00437016a740d38e2ee4feec47cd954d814e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/areni/front_print.webp"
+      "bytes": 118376,
+      "sha256": "26bea07f96d1ac25e34334245fb215b1ba8d426a489beaf9a40358831ecdfe6a",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/areni/coloring.webp"
+    },
+    {
+      "code": "PSQ40",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 44260,
+      "sha256": "c956492d425f9df650a75f41131a58cbd6ff43b8de21e4ffe18c5e5f54b78597",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/soli/coloring_back.webp"
     },
     {
       "code": "PSQ41",
@@ -1806,28 +1773,6 @@
     },
     {
       "code": "PSQ42",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 104088,
-      "sha256": "6d86a51ea731c938a51f37ed891b9440ce11ec41dc9c10d75255fe0fd63d5be3",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/calderi/front_print.webp"
-    },
-    {
-      "code": "PSQ42",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 137516,
-      "sha256": "722ff13fdcf2072029cc84f1f2c5c34608a1ecc4b039812959e2bc2cdbdcded5",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/calderi/coloring.webp"
-    },
-    {
-      "code": "PSQ42",
       "view": "back_print",
       "pixels": [
         1055,
@@ -1838,15 +1783,26 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/calderi/back_print.webp"
     },
     {
-      "code": "PSQ43",
-      "view": "back_print",
+      "code": "PSQ42",
+      "view": "front_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 83688,
-      "sha256": "e01265415c9599aa53b3597d3c8e639041c408c5f0a8aad02466dc04e38da4ce",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cofri/back_print.webp"
+      "bytes": 104088,
+      "sha256": "6d86a51ea731c938a51f37ed891b9440ce11ec41dc9c10d75255fe0fd63d5be3",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/calderi/front_print.webp"
+    },
+    {
+      "code": "PSQ41",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 114040,
+      "sha256": "7af0ad6609c6b0b28a151402ad6a00437016a740d38e2ee4feec47cd954d814e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/areni/front_print.webp"
     },
     {
       "code": "PSQ43",
@@ -1860,15 +1816,26 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cofri/front_print.webp"
     },
     {
-      "code": "PSQ42",
-      "view": "coloring_back",
+      "code": "PSQ44",
+      "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 77246,
-      "sha256": "24739e9ca708e77407ac38e37b7ef02d4a23c748271cb3aaaf4c931fd739e551",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/calderi/coloring_back.webp"
+      "bytes": 129718,
+      "sha256": "f12d94afd20a10cfebd6b6b883b1ef7584bc69c3305c0379901a43751c6e0818",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cristali/coloring.webp"
+    },
+    {
+      "code": "PSQ42",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 137516,
+      "sha256": "722ff13fdcf2072029cc84f1f2c5c34608a1ecc4b039812959e2bc2cdbdcded5",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/calderi/coloring.webp"
     },
     {
       "code": "PSQ43",
@@ -1882,17 +1849,6 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cofri/coloring_back.webp"
     },
     {
-      "code": "PSQ44",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 59550,
-      "sha256": "3888874cbd3db6ed9498ab075f2e2b0a2b34074fbd8360a4da42fb61d6aa9be6",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cristali/back_print.webp"
-    },
-    {
       "code": "PSQ43",
       "view": "coloring",
       "pixels": [
@@ -1904,26 +1860,26 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cofri/coloring.webp"
     },
     {
-      "code": "PSQ44",
-      "view": "front_print",
+      "code": "PSQ42",
+      "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 113608,
-      "sha256": "f6175777ef45b0b1a18ab994fd8e26d2c8609481d50913a1806d9cf95c911748",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cristali/front_print.webp"
+      "bytes": 77246,
+      "sha256": "24739e9ca708e77407ac38e37b7ef02d4a23c748271cb3aaaf4c931fd739e551",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/calderi/coloring_back.webp"
     },
     {
       "code": "PSQ44",
-      "view": "coloring",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 129718,
-      "sha256": "f12d94afd20a10cfebd6b6b883b1ef7584bc69c3305c0379901a43751c6e0818",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cristali/coloring.webp"
+      "bytes": 59550,
+      "sha256": "3888874cbd3db6ed9498ab075f2e2b0a2b34074fbd8360a4da42fb61d6aa9be6",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cristali/back_print.webp"
     },
     {
       "code": "PSQ44",
@@ -1937,6 +1893,28 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cristali/coloring_back.webp"
     },
     {
+      "code": "PSQ39",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 90976,
+      "sha256": "0f1a9deb469e193c3d47669c3f0f635db463d9f831ad010ec0b50f24e0f70b49",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/saturni/coloring.webp"
+    },
+    {
+      "code": "PSQ45",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 87892,
+      "sha256": "8d7d783a54f7214d93415aa76b25bca960bafdfbfeebba0050a7559e35cc8901",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/libri/coloring_back.webp"
+    },
+    {
       "code": "PSQ45",
       "view": "front_print",
       "pixels": [
@@ -1946,17 +1924,6 @@
       "bytes": 141168,
       "sha256": "60de8a3b97e0121aa43e3dc3c90c980c3340f2c8d0c818d23fba7d49d1a2139f",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/libri/front_print.webp"
-    },
-    {
-      "code": "PSQ46",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 80854,
-      "sha256": "e6c197e202b2d0f058050ca077f76ddbf8e5a238927454bd5b33d4af2b7fc48e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/llavi/front_print.webp"
     },
     {
       "code": "PSQ45",
@@ -1970,15 +1937,37 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/libri/coloring.webp"
     },
     {
-      "code": "PSQ45",
-      "view": "coloring_back",
+      "code": "PSQ43",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 87892,
-      "sha256": "8d7d783a54f7214d93415aa76b25bca960bafdfbfeebba0050a7559e35cc8901",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/libri/coloring_back.webp"
+      "bytes": 83688,
+      "sha256": "e01265415c9599aa53b3597d3c8e639041c408c5f0a8aad02466dc04e38da4ce",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cofri/back_print.webp"
+    },
+    {
+      "code": "PSQ46",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 80854,
+      "sha256": "e6c197e202b2d0f058050ca077f76ddbf8e5a238927454bd5b33d4af2b7fc48e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/llavi/front_print.webp"
+    },
+    {
+      "code": "PSQ46",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 70154,
+      "sha256": "72a7341045b08e876b92c1759f62802aece344e94150da9f856534b0ffdd030e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/llavi/back_print.webp"
     },
     {
       "code": "PSQ46",
@@ -1993,28 +1982,6 @@
     },
     {
       "code": "PSQ46",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 70154,
-      "sha256": "72a7341045b08e876b92c1759f62802aece344e94150da9f856534b0ffdd030e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/llavi/back_print.webp"
-    },
-    {
-      "code": "PSQ45",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 81352,
-      "sha256": "1f1437a08fee53a09d18f9521055227a6abd565cf9a114525e75aaf89acee13e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/libri/back_print.webp"
-    },
-    {
-      "code": "PSQ46",
       "view": "coloring_back",
       "pixels": [
         1055,
@@ -2025,15 +1992,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/llavi/coloring_back.webp"
     },
     {
-      "code": "PSQ47",
-      "view": "back_print",
+      "code": "PSQ44",
+      "view": "front_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 95462,
-      "sha256": "4bb99247500e648af8e7a097a20375a288b7aaa1be3e694815f8eb38bbc7822e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/orbi/back_print.webp"
+      "bytes": 113608,
+      "sha256": "f6175777ef45b0b1a18ab994fd8e26d2c8609481d50913a1806d9cf95c911748",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/cristali/front_print.webp"
     },
     {
       "code": "PSQ47",
@@ -2047,37 +2014,37 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/orbi/front_print.webp"
     },
     {
-      "code": "PSQ47",
-      "view": "coloring",
+      "code": "PSQ40",
+      "view": "front_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 114576,
-      "sha256": "d449a4fe2abed23dd6eb87cb9cc17352b42b68a72858b8e30ac34ee763db811e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/orbi/coloring.webp"
+      "bytes": 67476,
+      "sha256": "36ecb39c650b48cb56647307c1190977a3da9a9d69bbd0c06e925f0ea6ecacc7",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/cosmic_friends/soli/front_print.webp"
+    },
+    {
+      "code": "PSQ45",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 81352,
+      "sha256": "1f1437a08fee53a09d18f9521055227a6abd565cf9a114525e75aaf89acee13e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/libri/back_print.webp"
     },
     {
       "code": "PSQ47",
-      "view": "coloring_back",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 42672,
-      "sha256": "1115222c143529c7e12e3037c2a8a8f091ec667060fde8ccfab1aff8a23e45c5",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/orbi/coloring_back.webp"
-    },
-    {
-      "code": "PSQ48",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 123124,
-      "sha256": "10296acc5e2cfca5a1ce598e6210955ca0501586c17a0e28feb8294dc3342ece",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/poci/coloring.webp"
+      "bytes": 95462,
+      "sha256": "4bb99247500e648af8e7a097a20375a288b7aaa1be3e694815f8eb38bbc7822e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/orbi/back_print.webp"
     },
     {
       "code": "PSQ48",
@@ -2091,26 +2058,37 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/poci/front_print.webp"
     },
     {
-      "code": "PSQ49",
+      "code": "PSQ47",
       "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 104216,
-      "sha256": "60294d83f303e53672b1ef6138c69bd27ce4359ef19dcda58818f6b23b018a55",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/sombreri/coloring.webp"
+      "bytes": 114576,
+      "sha256": "d449a4fe2abed23dd6eb87cb9cc17352b42b68a72858b8e30ac34ee763db811e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/orbi/coloring.webp"
     },
     {
       "code": "PSQ48",
-      "view": "coloring_back",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 73240,
-      "sha256": "081909b13ad3a9d36c03202521b18c9e4fa58f660ae51f49dfccbf8aac22fa23",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/poci/coloring_back.webp"
+      "bytes": 111192,
+      "sha256": "37df9aad1e188be4aeaca2c2f55f3a97ef187ed23eb37ee41f719d3257a3e484",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/poci/back_print.webp"
+    },
+    {
+      "code": "PSQ48",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 123124,
+      "sha256": "10296acc5e2cfca5a1ce598e6210955ca0501586c17a0e28feb8294dc3342ece",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/poci/coloring.webp"
     },
     {
       "code": "PSQ49",
@@ -2125,14 +2103,14 @@
     },
     {
       "code": "PSQ48",
-      "view": "back_print",
+      "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 111192,
-      "sha256": "37df9aad1e188be4aeaca2c2f55f3a97ef187ed23eb37ee41f719d3257a3e484",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/poci/back_print.webp"
+      "bytes": 73240,
+      "sha256": "081909b13ad3a9d36c03202521b18c9e4fa58f660ae51f49dfccbf8aac22fa23",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/poci/coloring_back.webp"
     },
     {
       "code": "PSQ50",
@@ -2144,6 +2122,28 @@
       "bytes": 57404,
       "sha256": "61f822252f4764e4fbacc217ce606049223fa2d0c50a3e8c85caaee6a1fe7375",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/variti/front_print.webp"
+    },
+    {
+      "code": "PSQ47",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 42672,
+      "sha256": "1115222c143529c7e12e3037c2a8a8f091ec667060fde8ccfab1aff8a23e45c5",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/orbi/coloring_back.webp"
+    },
+    {
+      "code": "PSQ49",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 78424,
+      "sha256": "0fc105ca858f1aee90755e51edb8e2f2b8a266ffb320ba8a9a2c589acab2560a",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/sombreri/back_print.webp"
     },
     {
       "code": "PSQ49",
@@ -2168,15 +2168,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/variti/coloring.webp"
     },
     {
-      "code": "PSQ51",
-      "view": "back_print",
+      "code": "PSQ49",
+      "view": "coloring",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 51588,
-      "sha256": "eb6c9307843c823f4b5fcb111cbd2cfcd8fedc0db48ff8ccada71adec2e7a9fe",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/bibi/back_print.webp"
+      "bytes": 104216,
+      "sha256": "60294d83f303e53672b1ef6138c69bd27ce4359ef19dcda58818f6b23b018a55",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/sombreri/coloring.webp"
     },
     {
       "code": "PSQ50",
@@ -2190,26 +2190,37 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/variti/coloring_back.webp"
     },
     {
-      "code": "PSQ50",
-      "view": "back_print",
+      "code": "PSQ51",
+      "view": "front_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 58752,
-      "sha256": "a881580baa825e0598e4483503bf7cf77619184757090a129d7ef544bbbae3e3",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/variti/back_print.webp"
+      "bytes": 59780,
+      "sha256": "1ea0164551bf0d2e84ad99fd43baaaef180204148332f99a1e3ced2ec02b6310",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/bibi/front_print.webp"
     },
     {
-      "code": "PSQ49",
+      "code": "PSQ51",
       "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 78424,
-      "sha256": "0fc105ca858f1aee90755e51edb8e2f2b8a266ffb320ba8a9a2c589acab2560a",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/sombreri/back_print.webp"
+      "bytes": 51588,
+      "sha256": "eb6c9307843c823f4b5fcb111cbd2cfcd8fedc0db48ff8ccada71adec2e7a9fe",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/bibi/back_print.webp"
+    },
+    {
+      "code": "PSQ52",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 73664,
+      "sha256": "c48cb8cadeeb69d8142bb07dc65dc76c0f1f6cdb171f2c86b3a0e42992acc549",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/cora/front_print.webp"
     },
     {
       "code": "PSQ51",
@@ -2234,6 +2245,17 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/cora/back_print.webp"
     },
     {
+      "code": "PSQ52",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 82524,
+      "sha256": "833c87d884828b0a94792f95f4b584969f5b4907647c09f7ad89e045197099c1",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/cora/coloring.webp"
+    },
+    {
       "code": "PSQ51",
       "view": "coloring",
       "pixels": [
@@ -2245,37 +2267,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/bibi/coloring.webp"
     },
     {
-      "code": "PSQ52",
-      "view": "front_print",
+      "code": "PSQ50",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 73664,
-      "sha256": "c48cb8cadeeb69d8142bb07dc65dc76c0f1f6cdb171f2c86b3a0e42992acc549",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/cora/front_print.webp"
-    },
-    {
-      "code": "PSQ51",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 59780,
-      "sha256": "1ea0164551bf0d2e84ad99fd43baaaef180204148332f99a1e3ced2ec02b6310",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/bibi/front_print.webp"
-    },
-    {
-      "code": "PSQ52",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 82524,
-      "sha256": "833c87d884828b0a94792f95f4b584969f5b4907647c09f7ad89e045197099c1",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/cora/coloring.webp"
+      "bytes": 58752,
+      "sha256": "a881580baa825e0598e4483503bf7cf77619184757090a129d7ef544bbbae3e3",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/magic_objects/variti/back_print.webp"
     },
     {
       "code": "PSQ52",
@@ -2290,6 +2290,17 @@
     },
     {
       "code": "PSQ53",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 83564,
+      "sha256": "d81fe823d9d0d82adfbc7c02e6759878cb662321237aae45eb33286f5df568a5",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/kiko/back_print.webp"
+    },
+    {
+      "code": "PSQ53",
       "view": "front_print",
       "pixels": [
         1055,
@@ -2298,6 +2309,17 @@
       "bytes": 87508,
       "sha256": "0c82418bbd33ee2d46aa1d99d351bb9c138213fd330dd90e898f66d10765346d",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/kiko/front_print.webp"
+    },
+    {
+      "code": "PSQ55",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 100538,
+      "sha256": "85e02ac2384adc93b2628fde430a3e4524a29468dc00e92950c787d7ff27739b",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/mimi/coloring.webp"
     },
     {
       "code": "PSQ53",
@@ -2312,17 +2334,6 @@
     },
     {
       "code": "PSQ53",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 83564,
-      "sha256": "d81fe823d9d0d82adfbc7c02e6759878cb662321237aae45eb33286f5df568a5",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/kiko/back_print.webp"
-    },
-    {
-      "code": "PSQ53",
       "view": "coloring_back",
       "pixels": [
         1055,
@@ -2333,15 +2344,26 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/kiko/coloring_back.webp"
     },
     {
-      "code": "PSQ55",
+      "code": "PSQ54",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 78088,
+      "sha256": "81dccfd11493368ee985cd110463f38ff286f87db69fab0ece5950dce9d3bc07",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/lumi/front_print.webp"
+    },
+    {
+      "code": "PSQ54",
       "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 88122,
-      "sha256": "0c6ba0df09ccf5708820ddecae9b51f97826d90c6a3314c9537168b7a2d84504",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/mimi/back_print.webp"
+      "bytes": 83020,
+      "sha256": "69d071e1b037c4f47aef9fe52e45f1cf157f3640b9f1a991d6fb627c8c97cf67",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/lumi/back_print.webp"
     },
     {
       "code": "PSQ54",
@@ -2353,28 +2375,6 @@
       "bytes": 76754,
       "sha256": "2f1b3ff649cfc456885b792c89b679102b9d5f890cc5c8abe4f90f2e63ac112e",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/lumi/coloring_back.webp"
-    },
-    {
-      "code": "PSQ56",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 60552,
-      "sha256": "cea68a8075476f3ee57d45a180454a24315ea52354f3c995a8897f8227cc9529",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/nori/back_print.webp"
-    },
-    {
-      "code": "PSQ55",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 88712,
-      "sha256": "98fbb29f92cb3501ae35a4614968920fe45eec045ebd6395d33fadcabfdce533",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/mimi/front_print.webp"
     },
     {
       "code": "PSQ54",
@@ -2389,6 +2389,28 @@
     },
     {
       "code": "PSQ55",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 88712,
+      "sha256": "98fbb29f92cb3501ae35a4614968920fe45eec045ebd6395d33fadcabfdce533",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/mimi/front_print.webp"
+    },
+    {
+      "code": "PSQ55",
+      "view": "back_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 88122,
+      "sha256": "0c6ba0df09ccf5708820ddecae9b51f97826d90c6a3314c9537168b7a2d84504",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/mimi/back_print.webp"
+    },
+    {
+      "code": "PSQ55",
       "view": "coloring_back",
       "pixels": [
         1055,
@@ -2399,15 +2421,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/mimi/coloring_back.webp"
     },
     {
-      "code": "PSQ54",
-      "view": "front_print",
+      "code": "PSQ57",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 78088,
-      "sha256": "81dccfd11493368ee985cd110463f38ff286f87db69fab0ece5950dce9d3bc07",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/lumi/front_print.webp"
+      "bytes": 63306,
+      "sha256": "3fab1867f14a3611ab569c5e20a9625f432b82d553470d20203f54989d6d64d5",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/ollie/back_print.webp"
     },
     {
       "code": "PSQ56",
@@ -2421,17 +2443,6 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/nori/front_print.webp"
     },
     {
-      "code": "PSQ54",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 83020,
-      "sha256": "69d071e1b037c4f47aef9fe52e45f1cf157f3640b9f1a991d6fb627c8c97cf67",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/lumi/back_print.webp"
-    },
-    {
       "code": "PSQ56",
       "view": "coloring",
       "pixels": [
@@ -2441,17 +2452,6 @@
       "bytes": 79168,
       "sha256": "f87fe4a3816dad17fefb46c2e672cc9255b6806574f9e778b500846b9bfd6a42",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/nori/coloring.webp"
-    },
-    {
-      "code": "PSQ55",
-      "view": "coloring",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 100538,
-      "sha256": "85e02ac2384adc93b2628fde430a3e4524a29468dc00e92950c787d7ff27739b",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/mimi/coloring.webp"
     },
     {
       "code": "PSQ56",
@@ -2477,25 +2477,25 @@
     },
     {
       "code": "PSQ57",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 77484,
+      "sha256": "f3fc1f6126edd9e2344910d54636326af4fc8079721b3535da06adc432cbf0d9",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/ollie/coloring.webp"
+    },
+    {
+      "code": "PSQ56",
       "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 63306,
-      "sha256": "3fab1867f14a3611ab569c5e20a9625f432b82d553470d20203f54989d6d64d5",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/ollie/back_print.webp"
-    },
-    {
-      "code": "PSQ58",
-      "view": "front_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 71148,
-      "sha256": "aafe27432c8e52c266bf57b7a48522d9fdcb471b9f6dac8a48825efb31a4fb1b",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/pufi/front_print.webp"
+      "bytes": 60552,
+      "sha256": "cea68a8075476f3ee57d45a180454a24315ea52354f3c995a8897f8227cc9529",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/nori/back_print.webp"
     },
     {
       "code": "PSQ57",
@@ -2509,15 +2509,26 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/ollie/coloring_back.webp"
     },
     {
-      "code": "PSQ57",
-      "view": "coloring",
+      "code": "PSQ58",
+      "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 77484,
-      "sha256": "f3fc1f6126edd9e2344910d54636326af4fc8079721b3535da06adc432cbf0d9",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/ollie/coloring.webp"
+      "bytes": 73278,
+      "sha256": "ecfdde17038403ecd0c80c925791a80e7708aed03951bf286e13fe1890adbeef",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/pufi/back_print.webp"
+    },
+    {
+      "code": "PSQ58",
+      "view": "front_print",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 71148,
+      "sha256": "aafe27432c8e52c266bf57b7a48522d9fdcb471b9f6dac8a48825efb31a4fb1b",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/pufi/front_print.webp"
     },
     {
       "code": "PSQ58",
@@ -2529,39 +2540,6 @@
       "bytes": 75976,
       "sha256": "16adcb20e1c801572dfdfb1df3cc781e9c6be9a762211f4a328c66e7f50fca82",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/pufi/coloring.webp"
-    },
-    {
-      "code": "PSQ58",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 74358,
-      "sha256": "b6e8234d1709e886d6bc4a9e4b799fbb7c524cd9c2dcb89e07f6aa95e3c52d94",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/pufi/coloring_back.webp"
-    },
-    {
-      "code": "PSQ59",
-      "view": "coloring_back",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 59980,
-      "sha256": "4d0b0c60689342b81571fd13743c60ac2aae832105ddfc5198fb0004c9af9c2e",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/timo/coloring_back.webp"
-    },
-    {
-      "code": "PSQ59",
-      "view": "back_print",
-      "pixels": [
-        1055,
-        1491
-      ],
-      "bytes": 58496,
-      "sha256": "e2f433013bc1d02c9cbc453febed2b15b504cd1a92072f90f1cc4d2840db7afb",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/timo/back_print.webp"
     },
     {
       "code": "PSQ59",
@@ -2576,14 +2554,25 @@
     },
     {
       "code": "PSQ58",
+      "view": "coloring_back",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 74358,
+      "sha256": "b6e8234d1709e886d6bc4a9e4b799fbb7c524cd9c2dcb89e07f6aa95e3c52d94",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/pufi/coloring_back.webp"
+    },
+    {
+      "code": "PSQ59",
       "view": "back_print",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 73278,
-      "sha256": "ecfdde17038403ecd0c80c925791a80e7708aed03951bf286e13fe1890adbeef",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/pufi/back_print.webp"
+      "bytes": 58496,
+      "sha256": "e2f433013bc1d02c9cbc453febed2b15b504cd1a92072f90f1cc4d2840db7afb",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/timo/back_print.webp"
     },
     {
       "code": "PSQ59",
@@ -2595,6 +2584,17 @@
       "bytes": 67124,
       "sha256": "b28c4e54c016864fec6a50c480c5366a0f6c52df9447d3a523cff810273aaafd",
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/timo/coloring.webp"
+    },
+    {
+      "code": "PSQ60",
+      "view": "coloring",
+      "pixels": [
+        1055,
+        1491
+      ],
+      "bytes": 85624,
+      "sha256": "8957fc491d4e1ead43ea314aea04cfbabd756901d65eed29ce5e47508a38d76a",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/tuki/coloring.webp"
     },
     {
       "code": "PSQ60",
@@ -2619,15 +2619,15 @@
       "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/tuki/front_print.webp"
     },
     {
-      "code": "PSQ60",
-      "view": "coloring",
+      "code": "PSQ59",
+      "view": "coloring_back",
       "pixels": [
         1055,
         1491
       ],
-      "bytes": 85624,
-      "sha256": "8957fc491d4e1ead43ea314aea04cfbabd756901d65eed29ce5e47508a38d76a",
-      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/tuki/coloring.webp"
+      "bytes": 59980,
+      "sha256": "4d0b0c60689342b81571fd13743c60ac2aae832105ddfc5198fb0004c9af9c2e",
+      "source_url": "https://fzbndgfnqxcacsvlitui.supabase.co/storage/v1/object/public/paper-squishy-assets/v2.7/ocean_buddies/timo/coloring_back.webp"
     },
     {
       "code": "PSQ60",
@@ -2644,14 +2644,14 @@
   "pdfs": [
     {
       "filename": "PSQ60_A4_APAISADO_COLOR_FRENTE_DORSO.pdf",
-      "bytes": 27160073,
-      "sha256": "3878cc41aa1456c275844941abe6c23505db9a15eab0c2b189ebac9de11f7a9f",
+      "bytes": 19745657,
+      "sha256": "3edc70a3602e20c33d13fe4831f0d8d29a7bee283dd0840fc39eda9ba9800d4e",
       "pages": 60
     },
     {
       "filename": "PSQ60_A4_APAISADO_BN_FRENTE_DORSO.pdf",
       "bytes": 21561332,
-      "sha256": "0719fcbbfbd050e06359c6dacfe10660fbe84d87e761dada5220d269d9e49f41",
+      "sha256": "2d2662fed0ac8ca4805edb8200a1fd7cf205356ec06aeba019f398cb2c722f76",
       "pages": 60
     }
   ]
