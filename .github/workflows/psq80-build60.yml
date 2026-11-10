@@ -1,0 +1,34 @@
+name: PSQ80 Build protected 60 print sources
+on:
+  push:
+    branches: [feat/psq80-staging-20261110]
+    paths:
+      - paper-squishy/psq80/build60.py
+      - .github/workflows/psq80-build60.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF/image dependencies
+        run: pip install requests Pillow reportlab pymupdf
+      - name: Build and verify two landscape 60-page PDFs
+        run: python -u paper-squishy/psq80/build60.py
+      - name: Store finished 60-page sheets only in isolated branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper-squishy/psq80/generated/*.pdf paper-squishy/psq80/generated/*-QA.jpg paper-squishy/psq80/generated/*.json
+          git diff --cached --quiet || (git commit -m "PSQ80: built 60 original two-up sheets [skip ci]" && git push)
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: psq80-60-originales-apaisados
+          path: paper-squishy/psq80/generated/
