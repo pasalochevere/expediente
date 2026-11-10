@@ -1,0 +1,81 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>PSQ80 — Carga privada protegida</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#34251f;background:#fffaf2}
+*{box-sizing:border-box}body{margin:0}main{max-width:870px;margin:auto;padding:25px 16px 70px}
+h1{font-size:clamp(30px,5vw,42px);margin:.2em 0}.sub{color:#735d54}.card{background:white;border:1px solid #e9d9ce;padding:22px;border-radius:18px;margin:14px 0;box-shadow:0 5px 23px #603b230d}
+label{display:block;font-weight:800;margin:16px 0 6px}.button,button{display:inline-block;border:2px solid #3b2b25;background:#ffdf8a;padding:12px 16px;border-radius:12px;font:700 15px system-ui;cursor:pointer;color:#34251f;text-decoration:none}
+button:disabled{opacity:.4;cursor:not-allowed}.button.secondary{background:#fff}input{width:100%;padding:12px;border:1px solid #cbbab0;border-radius:10px}small,.muted{color:#78675e}pre{background:#2b2224;color:#f9f7f4;border-radius:10px;padding:13px;white-space:pre-wrap;word-break:break-word;font-size:13px}#status{padding:10px;border-radius:10px;background:#f0f0eb}.good{color:#0f6946!important}.bad{color:#ae234a!important}.hint{background:#fff4d8;border-radius:12px;padding:11px;font-size:13px}
+</style></head><body><main>
+<small>PasaloChévere · PAPER SQUISHY FACTORY · PSQ80</small>
+<h1>Carga privada de los 80 personajes</h1><p class="sub">Nueva versión: 60 personajes existentes + 20 Butter Mania. No reemplaza los 60 ni habilita automáticamente el pack a compradores.</p>
+<section class="card"><h2>1. Sesión administradora</h2><div id="auth">Verificando sesión…</div><p><button type="button" id="retry" class="button secondary">Revalidar sesión</button> <a class="button secondary" href="../portal-v2/">Abrir portal</a></p><p class="hint">Se requiere sesión con correo administrador. El bucket es privado y verifica la autorización en el servidor.</p></section>
+<section class="card"><h2>2. Elegí los dos PDFs definitivos</h2><label for="color">Color · 80 personajes · 41,6 MB</label><input id="color" type="file" accept=".pdf,application/pdf"><div id="colorState" class="muted">Pendiente</div>
+<label for="bn">Blanco y negro · 80 personajes · 27,9 MB</label><input id="bn" type="file" accept=".pdf,application/pdf"><div id="bnState" class="muted">Pendiente</div>
+<p class="hint">Las dos versiones incluyen frente y dorso en la misma hoja A4 apaisada. Validaremos tamaño y SHA-256 antes de subir, no solo el nombre.</p></section>
+<section class="card"><h2>3. Incorporar como versión nueva</h2><p class="sub">Se guardarán en <code>paper-squishy-downloads/P3.0/PSQ80/</code>, manteniendo intactos los masters de 60.</p>
+<button id="upload" disabled type="button">Verificar y subir los 2 PDFs de 80</button><div id="status">Sin operación iniciada.</div><pre id="log">Esperando archivos y sesión.</pre></section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(()=>{'use strict';
+const BASE='https://fzbndgfnqxcacsvlitui.supabase.co',PUB='sb_publishable_bJ91vnQUWHfFqWRO99fFkQ_dh0icDxo',BUCKET='paper-squishy-downloads',ADMIN='pasalochevere@gmail.com';
+const FILES={
+color:{size:41571019,sha:'789c459ae5e38f8ecfbf572a1f0338cbdd5d5e797c5e52152adfb660722d341a',name:'PASALOCHEVERE_SQUISHIES_80_COLOR_A4_APAISADO.pdf'},
+bn:{size:27922834,sha:'3fdf063c4ef6f455859acb144c4fdf394e4e8cd59a3ef49d2ac74af0b42fd83c',name:'PASALOCHEVERE_SQUISHIES_80_BN_A4_APAISADO.pdf'}
+};
+const $=id=>document.getElementById(id);let sb=null,admin=false,busy=false;
+function message(s,kind=''){const el=$('status');el.textContent=s;el.className=kind}
+function log(s){$('log').textContent+='\n'+s}
+function toggle(){$('upload').disabled=!admin||busy||!$('color').files.length||!$('bn').files.length}
+async function session(){
+ try{
+  if(!window.supabase?.createClient)throw Error('No se cargó Supabase.');
+  sb ||=window.supabase.createClient(BASE,PUB,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
+  const {data:{user},error}=await sb.auth.getUser();
+  admin=!error&&user?.email?.toLowerCase()===ADMIN;
+  $('auth').textContent=admin?'✓ Administrador autorizado.':'Entrá al Portal con la cuenta administradora y regresá acá.';
+  $('auth').className=admin?'good':'bad';
+ }catch(e){admin=false;$('auth').textContent=String(e.message||e);$('auth').className='bad'}
+ toggle();return admin;
+}
+async function readHash(file){const bytes=await file.arrayBuffer();return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(v=>v.toString(16).padStart(2,'0')).join('')}
+async function verify(key){
+ const file=$(key).files[0],expected=FILES[key];if(!file)throw Error('Falta '+key);
+ if(file.size!==expected.size)throw Error(key+': tamaño incorrecto ('+file.size+' ≠ '+expected.size+')');
+ if(!/\.pdf$/i.test(file.name))throw Error('Formato PDF obligatorio');
+ const hash=await readHash(file);if(hash!==expected.sha)throw Error(key+': SHA-256 distinto al master aprobado');
+ $(key+'State').textContent='✓ SHA-256 y tamaño correctos';$(key+'State').className='good';return file;
+}
+async function list(){const {data,error}=await sb.storage.from(BUCKET).list('P3.0/PSQ80',{limit:20});if(error)throw error;return data||[]}
+async function run(){
+ if(busy)return;busy=true;toggle();$('log').textContent='Inicio de verificación (sin modificar los 60 actuales)…';message('Verificando...');
+ try{
+  if(!await session())throw Error('Se requiere cuenta administradora');
+  const data={color:await verify('color'),bn:await verify('bn')};
+  const existing=await list();
+  for(const key of ['color','bn']){
+   const f=data[key],expected=FILES[key],already=existing.find(x=>x.name===expected.name);
+   if(already){
+    const size=Number(already.metadata?.size||0);
+    if(size!==expected.size)throw Error('Ya existe '+expected.name+' con tamaño diferente. No se reemplaza.');
+    log('✓ Ya estaba subido '+expected.name+' con tamaño coincidente. Verificar hash local del objeto antes de venta.');continue;
+   }
+   const dest='P3.0/PSQ80/'+expected.name;
+   log('Subiendo '+dest+'…');
+   const {error}=await sb.storage.from(BUCKET).upload(dest,f,{upsert:false,contentType:'application/pdf',cacheControl:'3600'});
+   if(error)throw error;
+   log('✓ Subida finalizada '+expected.name);
+  }
+  const after=await list();
+  for(const key of ['color','bn']){
+   const obj=after.find(o=>o.name===FILES[key].name);
+   if(!obj||Number(obj.metadata?.size||0)!==FILES[key].size)throw Error('La verificación posterior no encontró '+key+' correcto');
+  }
+  message('✓ Ambos PDF80 están guardados en privado. La fábrica estable no se modificó.','good');
+  log('✓ 2 de 2 verificados. Sin activación comercial.');
+ }catch(e){message('La carga no pudo certificarse: '+String(e.message||e),'bad');log('ERROR: '+String(e.message||e))}
+ finally{busy=false;toggle()}
+}
+['color','bn'].forEach(key=>$(key).addEventListener('change',()=>{$(key+'State').textContent=$(key).files[0]?.name||'Pendiente';toggle()}));
+$('retry').onclick=session;$('upload').onclick=run;session();
+})();
+</script></body></html>
