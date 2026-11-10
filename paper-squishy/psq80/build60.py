@@ -87,7 +87,7 @@ def draw_pdf(variant):
             cx=(W/4 if side==0 else W*.75);cy=102*mm
             buf=io.BytesIO()
             if variant=='bn': im=im.convert('L')
-            im.save(buf,format='JPEG',quality=91 if variant=='color' else 90,optimize=True,subsampling=0)
+            im.save(buf,format='JPEG',quality=87 if variant=='color' else 90,optimize=True,subsampling=1 if variant=='color' else 0)
             buf.seek(0)
             cv.drawImage(ImageReader(buf),cx-dw/2,cy-dh/2,width=dw,height=dh,mask='auto')
         cv.setFillColor(HexColor('#666666'));cv.setFont('Helvetica',8)
