@@ -105,7 +105,8 @@ async function attach(){
  // Prevent a misleading one-character print from this staging preview.
  document.addEventListener('click',e=>{
   if(!document.getElementById('viewerPrint')?.contains(e.target))return;
-  const c=LIB.characters.find(ch=>ch.id===window.activeCharacter||ch.id===activeCharacter);
+  const current=typeof activeCharacter==='string'?activeCharacter:window.activeCharacter;
+  const c=LIB.characters.find(ch=>ch.id===current);
   if(c?.collection_id===COLLECTION){
    e.preventDefault();e.stopImmediatePropagation();
    alert('Las vistas individuales de Butter Mania son previsualizaciones. Para imprimir usá los PDFs completos de 80 personajes certificados por separado.');
