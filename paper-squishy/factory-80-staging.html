@@ -39,7 +39,7 @@ try{
 const [resp,bm]=await Promise.all([fetch('./psq80/manifest.json'),fetch('./factory-butter-native-r5.html')]);
 if(!resp.ok||!bm.ok)throw Error('No se pudo obtener el catálogo fuente.');
 const m=await resp.json();const source=await bm.text();
-const hit=source.match(/const CHARACTERS=(\[.*?\]);\s*const VIEWS=/s);
+const hit=source.match(/const CHARACTERS=(\[.*?\]);/s);
 if(!hit)throw Error('No se encontraron los 20 Butter auténticos.');
 const chars=JSON.parse(hit[1]);
 data=m.original60.map((x,i)=>({id:'PSQ'+(i+1),type:'original',collection:x.collection,slug:x.slug,name:friendly(x.slug),prefix:x.source_prefix}));
