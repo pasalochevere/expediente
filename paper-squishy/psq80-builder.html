@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>PSQ80 | Generar 80 personajes A4 apaisado</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#272329;background:#fffaf5}*{box-sizing:border-box}
+body{margin:0}main{max-width:980px;padding:36px 18px 80px;margin:auto}.brand{font-size:12px;letter-spacing:.14em;font-weight:900;color:#b74878}
+h1{font-size:clamp(28px,4vw,47px);line-height:1.1;margin:12px 0}p{line-height:1.56}.card{background:#fff;border:1px solid #eadad9;border-radius:20px;padding:22px;margin:18px 0;box-shadow:0 10px 28px #4433220d}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:15px}label{display:block;font-weight:750;margin:12px 0 8px}input{display:block;width:100%;font:inherit;padding:11px;border:1px solid #d8c8c9;border-radius:12px}
+button,.button{font:inherit;border:2px solid #29232e;background:#ffde8e;border-radius:13px;padding:13px 20px;font-weight:900;cursor:pointer;color:#29232e}
+button:disabled{opacity:.4;cursor:not-allowed}.buttons{display:flex;gap:12px;flex-wrap:wrap}.meta{font-size:13px;color:#655962}.ok{color:#18764f}.err{color:#a72341}#log{background:#211e24;color:#f9f2ef;padding:15px;border-radius:14px;min-height:72px;white-space:pre-wrap;overflow-wrap:anywhere}
+a{color:#b44578}.pill{display:inline-block;background:#e9f9ed;border:1px solid #b4dbc4;color:#1a704c;border-radius:20px;padding:4px 10px;font-size:13px;font-weight:800}
+@media(max-width:650px){.cols{grid-template-columns:1fr}}
+</style></head>
+<body><main>
+<div class="brand">PASALOCHEVERE · PAPER SQUISHY FACTORY · PSQ80</div>
+<h1>80 personajes, frente + dorso</h1>
+<p><span class="pill">Versión protegida en preparación</span></p>
+<p>Consolidá los 60 personajes validados de la fábrica y los 20 Butter Mania en <b>dos PDFs A4 apaisados de 80 páginas</b>, uno en color y otro en blanco y negro. No cambia ni reemplaza las versiones anteriores.</p>
+<section class="card"><h2>1. Comprobar las 60 láminas de la fábrica</h2>
+<p class="meta">Cada PDF de 60 hojas se descarga de la rama aislada y se comprueba antes de incorporarlo. Los archivos fuente de los 60 personajes originales permanecen intactos.</p>
+<div class="buttons"><button id="verify">Verificar origen 60 + 60</button></div><div id="sources" class="meta" aria-live="polite">Todavía no se verificaron las láminas.</div>
+</section>
+<section class="card"><h2>2. Seleccionar los 20 Butter Mania originales</h2>
+<div class="cols">
+<div><label for="butterColor">Butter Mania · PDF COLOR original</label><input type="file" id="butterColor" accept=".pdf,application/pdf">
+<p class="meta">Original certificado: 20 páginas; 24.850.286 bytes.</p></div>
+<div><label for="butterBN">Butter Mania · PDF B/N corregido R5R3R1</label><input type="file" id="butterBN" accept=".pdf,application/pdf">
+<p class="meta">Versión corregida: 20 páginas; 8.219.759 bytes.</p></div>
+</div>
+<p class="meta">Se leen exclusivamente en tu navegador para generar los PDFs finales. Ninguno de estos dos archivos se envía al servidor.</p>
+</section>
+<section class="card"><h2>3. Generar los dos PDFs de 80 personajes</h2>
+<div class="buttons"><button id="build" disabled>Crear PDFs A4 de 80 personajes</button></div>
+<p class="meta">La generación puede utilizar bastante memoria; no cierres esta pestaña hasta que aparezcan los dos enlaces.</p>
+<div id="downloads" class="buttons"></div>
+<pre id="log" aria-live="polite">Esperando originales y fuentes verificadas…</pre>
+</section>
+<p class="meta">Etapa de QA: hasta aprobar la impresión física, no incorpora automáticamente el pack al catálogo comercial ni activa ventas. <a href="./factory-80-staging.html">Ver catálogo experimental de los 80 personajes</a>.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script>
+(()=>{'use strict';
+const branch='feat/psq80-staging-20261110';
+const root='https://raw.githubusercontent.com/pasalochevere/expediente/'+branch+'/paper-squishy/psq80/generated/';
+const files={color:'PSQ60_A4_APAISADO_COLOR_FRENTE_DORSO.pdf',bn:'PSQ60_A4_APAISADO_BN_FRENTE_DORSO.pdf'};
+const expected={
+ color:{size:24850286,sha:'324535beb709db44689f3193516212744c700fc74362acba7621a3802abf636c'},
+ bn:{size:8219759,sha:'c2adde75329c492325ed4f6d9aa7694e7227050ab2cedba2c8a58e45cef39546'}};
+const $=id=>document.getElementById(id);
+let source=null;let busy=false;const logs=[];
+const log=s=>{$('log').textContent+=('\n'+s);$('log').scrollTop=$('log').scrollHeight};
+const update=()=>{$('build').disabled=busy||!source||!$('butterColor').files[0]||!$('butterBN').files[0]};
+const hash=async bytes=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');
+const checkSize=(page,code)=>{const w=Number(page.getWidth()),h=Number(page.getHeight());if(Math.abs(w-842)>2||Math.abs(h-595)>2)throw Error(code+': página distinta de A4 apaisado')};
+async function fetchMaster(k){
+ const r=await fetch(root+files[k],{cache:'no-store'});if(!r.ok)throw Error('No pude descargar los 60 '+k+' ('+r.status+').');
+ const raw=await r.arrayBuffer();
+ const doc=await PDFLib.PDFDocument.load(raw);
+ if(doc.getPageCount()!==60)throw Error('El master de '+k+' contiene '+doc.getPageCount()+' páginas, no 60.');
+ for(const p of doc.getPages())checkSize(p,k);
+ return raw;
+}
+$('verify').onclick=async()=>{
+ if(busy)return;busy=true;source=null;update();$('sources').textContent='Verificando los originales de la fábrica…';
+ try{
+  if(!window.PDFLib)throw Error('No cargó la librería PDF. Revisá la conexión.');
+  const [color,bn]=await Promise.all([fetchMaster('color'),fetchMaster('bn')]);
+  source={color,bn};$('sources').innerHTML='<strong class="ok">✓ 60 páginas color + 60 B/N certificadas digitalmente. Listo para ensamblar.</strong>';
+ }catch(e){$('sources').textContent='ERROR: '+String(e.message||e);$('sources').className='err';}
+ finally{busy=false;update()}
+};
+for(const id of ['butterColor','butterBN'])$(id).addEventListener('change',update);
+async function checkButter(id,k){
+ const f=$(id).files[0];if(!f||f.size!==expected[k].size)throw Error('Butter '+k+': tamaño incorrecto. Elegí el original certificado.');
+ const bytes=await f.arrayBuffer();const sha=await hash(bytes);
+ if(sha!==expected[k].sha)throw Error('Butter '+k+': SHA-256 diferente; no voy a unir otra versión.');
+ const d=await PDFLib.PDFDocument.load(bytes);if(d.getPageCount()!==20)throw Error('Butter '+k+' no contiene 20 páginas.');
+ for(const pg of d.getPages())checkSize(pg,'Butter '+k);
+ return bytes;
+}
+async function combine(base,extra,k){
+ const out=await PDFLib.PDFDocument.create();
+ const originals=await PDFLib.PDFDocument.load(base);
+ const butter=await PDFLib.PDFDocument.load(extra);
+ let pages=await out.copyPages(originals,Array.from({length:60},(_,i)=>i));
+ pages.forEach(p=>out.addPage(p));
+ pages=await out.copyPages(butter,Array.from({length:20},(_,i)=>i));
+ pages.forEach(p=>out.addPage(p));
+ out.setTitle('PasaloChevere | Paper Squishy Factory | 80 personajes | '+k);
+ out.setSubject('60 personajes originales + Butter Mania 20, A4 apaisado frente y dorso');
+ out.setProducer('PSQ80 Proceso de consolidación aislado');
+ if(out.getPageCount()!==80)throw Error('Error: salida incompleta.');
+ const bytes=await out.save({useObjectStreams:true});
+ return bytes;
+}
+const dl=(bytes,name)=>{
+ const url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+ const a=document.createElement('a');a.href=url;a.download=name;a.className='button';a.textContent='Descargar '+(name.includes('_BN_')?'B/N':'Color')+' — 80 páginas';
+ a.onclick=()=>setTimeout(()=>URL.revokeObjectURL(url),60000);
+ $('downloads').appendChild(a);
+};
+$('build').onclick=async()=>{
+ if(busy||!source)return;busy=true;update();$('downloads').innerHTML='';$('log').textContent='PSQ80: comenzando ensamblado sin publicar ningún archivo…';
+ try{
+ const color=await checkButter('butterColor','color');log('✓ Butter Color auténtico (20 páginas).');
+ const bn=await checkButter('butterBN','bn');log('✓ Butter B/N corregido auténtico (20 páginas).');
+ const c=await combine(source.color,color,'COLOR');dl(c,'PSQ80_80_PERSONAJES_COLOR_A4_APAISADO.pdf');log('✓ Color: 80/80 páginas.');
+ const b=await combine(source.bn,bn,'BN');dl(b,'PSQ80_80_PERSONAJES_BN_A4_APAISADO.pdf');log('✓ B/N: 80/80 páginas.');
+ log('Completado. Descargá ambos PDFs; no se modificó la fábrica estable.');
+ }catch(e){log('ERROR: '+String(e.message||e));}
+ finally{busy=false;update()}
+};
+})();
+</script></body></html>
