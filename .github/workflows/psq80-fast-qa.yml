@@ -1,0 +1,22 @@
+name: PSQ80 fast asset integrity QA
+on:
+  push:
+    branches: [audit/psq80-butter-integration-20261110]
+    paths:
+      - paper-squishy/psq80-butter-extension.js
+      - paper-squishy/tests/psq80-node-qa.cjs
+      - .github/workflows/psq80-fast-qa.yml
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install ZIP decoder
+        run: npm install --no-save jszip@3.10.1
+      - name: Test unchanged stable catalog and all 180 WebP Butter assets
+        run: node paper-squishy/tests/psq80-node-qa.cjs
