@@ -1,0 +1,25 @@
+name: PSQ80 protected integration QA
+on:
+  push:
+    branches: [audit/psq80-butter-integration-20261110]
+    paths:
+      - paper-squishy/psq80-butter-extension.js
+      - paper-squishy/psq80-test.html
+      - paper-squishy/factory-80-preview.html
+      - paper-squishy/tests/psq80-browser-qa.cjs
+      - .github/workflows/psq80-browser-qa.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Install test browser and ZIP decoder
+        run: npm install --no-save playwright@1.56.1 jszip@3.10.1 && npx playwright install --with-deps chromium
+      - name: Validate Butter character integration without touching stable core
+        run: node paper-squishy/tests/psq80-browser-qa.cjs
