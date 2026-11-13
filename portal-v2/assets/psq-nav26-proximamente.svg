@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img" aria-label="Christmas Squishy Factory, colección navideña de veinte personajes para imprimir">
+<defs><linearGradient id="b" x2="1" y2="1"><stop stop-color="#0A543D"/><stop offset="1" stop-color="#083B2C"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="9" stdDeviation="11" flood-color="#03241B" flood-opacity=".36"/></filter></defs>
+<rect width="1200" height="780" fill="url(#b)"/><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M37 45H47 M42 40V50"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M206 152H224 M215 143V161"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M375 259H401 M388 246V272"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M556 366H566 M561 361V371"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M725 473H743 M734 464V482"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M894 580H920 M907 567V593"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M1075 62H1085 M1080 57V67"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M130 169H148 M139 160V178"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M299 276H325 M312 263V289"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M480 383H490 M485 378V388"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M649 490H667 M658 481V499"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M818 597H844 M831 584V610"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M999 79H1009 M1004 74V84"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M54 186H72 M63 177V195"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M223 293H249 M236 280V306"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M404 400H414 M409 395V405"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M573 507H591 M582 498V516"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M742 614H768 M755 601V627"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M923 96H933 M928 91V101"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M1092 203H1110 M1101 194V212"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M147 310H173 M160 297V323"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M328 417H338 M333 412V422"/></g><g stroke="#FFFFFF" stroke-width="2" opacity=".34"><path d="M497 524H515 M506 515V533"/></g>
+<rect x="45" y="39" width="344" height="56" rx="28" fill="#F7BD44"/><text x="217" y="76" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="bold" fill="#063C30">NAVIDAD 2026</text>
+<text x="57" y="191" font-family="Arial,sans-serif" font-size="87" font-weight="bold" fill="#FFFFFF" letter-spacing="2">CHRISTMAS</text>
+<text x="57" y="292" font-family="Arial,sans-serif" font-size="102" font-weight="bold" fill="#F7BD44">SQUISHY</text>
+<text x="57" y="386" font-family="Arial,sans-serif" font-size="93" font-weight="bold" fill="#FFFFFF">FACTORY</text>
+<rect x="47" y="425" width="1105" height="287" rx="49" fill="#FFF9F0"/>
+<!-- gingerbread -->
+<g transform="translate(155 443) scale(.82)" filter="url(#s)" stroke="#633122" stroke-width="12" stroke-linejoin="round">
+<path d="M130 122Q57 65 20 140Q3 181 58 205L85 191L85 295L34 366Q16 403 55 426Q86 449 126 406L146 366L170 405Q211 456 250 412Q271 391 245 361L211 296L213 194L244 209Q292 180 272 140Q240 72 194 117Z" fill="#E7A352"/>
+<circle cx="150" cy="115" r="71" fill="#E7A352"/><path d="M90 78Q145 50 207 79" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+<circle cx="128" cy="117" r="12" fill="#46241F" stroke="none"/><circle cx="171" cy="117" r="12" fill="#46241F" stroke="none"/><path d="M131 151Q153 170 174 151" fill="none" stroke="#46241F" stroke-width="9" stroke-linecap="round"/>
+<circle cx="147" cy="229" r="16" fill="#E82C42" stroke="#FFFFFF" stroke-width="5"/><circle cx="147" cy="273" r="16" fill="#258648" stroke="#FFFFFF" stroke-width="5"/>
+</g>
+<!-- santa -->
+<g transform="translate(478 441)" filter="url(#s)">
+<rect x="31" y="138" width="230" height="229" rx="65" stroke="#66332A" stroke-width="11" fill="#E82C42"/>
+<circle cx="144" cy="137" r="103" fill="#FAD2B2" stroke="#66332A" stroke-width="11"/>
+<path d="M45 146Q90 245 145 234Q203 250 243 145Q247 264 144 278Q34 268 45 146Z" fill="#FFFDF7" stroke="#66332A" stroke-width="10"/>
+<path d="M50 56Q84 -45 203 4Q242 40 263 66L211 97Q138 41 73 103Z" fill="#E82C42" stroke="#66332A" stroke-width="10"/>
+<rect x="48" y="86" width="205" height="37" rx="20" fill="#FFFFFF" stroke="#66332A" stroke-width="7"/>
+<circle cx="260" cy="63" r="30" fill="#FFFFFF" stroke="#66332A" stroke-width="8"/>
+<circle cx="112" cy="157" r="15" fill="#442522"/><circle cx="173" cy="157" r="15" fill="#442522"/>
+<circle cx="84" cy="179" r="19" fill="#F79CA3"/><circle cx="200" cy="179" r="19" fill="#F79CA3"/>
+<path d="M126 203Q146 219 165 203" fill="none" stroke="#5C322C" stroke-width="9" stroke-linecap="round"/>
+<rect x="30" y="290" width="236" height="30" rx="12" fill="#5B3229"/><rect x="123" y="286" width="55" height="38" rx="9" fill="#F7BD44"/>
+<circle cx="104" cy="339" r="14" fill="#F7BD44"/><circle cx="181" cy="339" r="14" fill="#F7BD44"/>
+</g>
+<!-- tree -->
+<g transform="translate(831 426)" filter="url(#s)" stroke="#164C32" stroke-width="10" stroke-linejoin="round">
+<path d="M139 15L165 69L209 121L189 121L241 206L207 204L264 316L36 316L92 205L57 207L108 120L85 122Z" fill="#43A84C"/>
+<path d="M139 4L154 41L194 44L166 69L176 106L139 87L103 106L112 69L85 44L123 41Z" fill="#FFD754" stroke="#8A5B1A"/>
+<rect x="111" y="315" width="59" height="56" rx="12" fill="#A56C42"/>
+<circle cx="112" cy="187" r="19" fill="#F7BD44"/><circle cx="191" cy="239" r="19" fill="#DC2D42"/><circle cx="135" cy="277" r="19" fill="#F7BD44"/>
+<circle cx="114" cy="237" r="15" fill="#271A15" stroke="none"/><circle cx="162" cy="237" r="15" fill="#271A15" stroke="none"/>
+<path d="M115 261Q138 276 160 261" stroke="#271A15" stroke-width="8" stroke-linecap="round" fill="none"/>
+</g>
+<rect x="50" y="715" width="1100" height="48" rx="24" fill="#F7BD44"/><text x="600" y="747" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="bold" fill="#083D2C">20 PERSONAJES  ·  FRENTE + DORSO  ·  COLOR + B/N</text>
+</svg>
