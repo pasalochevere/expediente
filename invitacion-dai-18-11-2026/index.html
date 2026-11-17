@@ -43,6 +43,42 @@ header{text-align:center;position:relative;z-index:2;padding-top:14px}
 .flourish{text-align:center;font-size:32px;color:var(--gold);margin:9px auto 0}
 .footer{text-align:center;font-size:15px;letter-spacing:2px;color:#986f3a;margin:10px 0 0}
 @media(max-width:740px){body{padding:12px}.invite{padding:30px 16px 24px}.invite:before{inset:8px}.invite:after{inset:14px}.seal{position:relative;margin:0 auto 5px;width:106px;height:106px;font-size:16px}.seal span{font-size:19px}.kicker{font-size:76px}.ribbon{top:14px;left:-85px}.announce{margin:12px 5px 0;padding:13px 8px}.announce h1{font-size:38px}.middle{display:flex;flex-direction:column;gap:0}.details{order:1;padding:17px 0 0;font-size:clamp(26px,5.8vw,36px)}.detail{gap:8px}.ico{font-size:24px;width:28px}.art{min-height:0;order:2;width:80%;margin-top:0}.art svg{max-height:300px}.bottom{margin:4px 8px;font-size:30px}.c1,.c2,.c3,.c4{font-size:18px}.c1{top:15px;left:18px}.c2{top:15px;right:18px}.c3{bottom:15px;left:18px}.c4{bottom:15px;right:18px}}
+
+/* Pulido visual premium — edición RSVP */
+body{background:radial-gradient(ellipse at 50% 16%,#a15e61 0%,#5c2a35 42%,#21131c 100%);background-attachment:fixed}
+.invite{border:3px solid #bc8d40;max-width:1120px;background:
+ radial-gradient(circle at 82% 68%,#f1c78c77 0%,transparent 26%),
+ radial-gradient(ellipse at 30% 26%,#fff9ee 0%,#fbebd6 65%,#ecd0ae 100%);
+ box-shadow:0 25px 100px #0f060ad9,0 0 0 6px #e2af6245,inset 0 0 70px #c2925940}
+.invite:before{border-color:#8f2734;inset:9px;box-shadow:inset 0 0 0 1px #c3934a}
+.announce{border-color:#b88942;box-shadow:0 8px 22px #79502c1d,inset 0 0 24px #fff9ea}
+.announce h1{text-shadow:0 1px 0 #fff0d4}
+.kicker{filter:drop-shadow(0 2px 2px #a5724b22)}
+.art::before{content:"";position:absolute;inset:15% 8% 3%;border-radius:50%;background:radial-gradient(ellipse,#f2bb65aa,transparent 66%);filter:blur(19px);z-index:-1}
+.art svg{filter:drop-shadow(0 13px 9px #754c363d)}
+.bottom{max-width:880px;margin-top:4px}
+.bookwrap{position:relative;z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px;margin:22px auto 4px}
+.bookbutton{position:relative;display:inline-flex;gap:16px;align-items:center;justify-content:center;min-width:min(360px,90%);padding:12px 35px;color:#fff0d2;font:italic 700 clamp(28px,3.7vw,42px)/1.15 'Cormorant Garamond',Georgia,serif;cursor:pointer;
+border:3px double #d9ae65;border-radius:999px;background:linear-gradient(180deg,#ad3241 0%,#7b172b 47%,#4b0918 100%);box-shadow:0 5px 0 #5d1020,0 9px 22px #8b543e66,inset 0 2px 2px #fff4dc5c;transition:transform .15s ease,filter .15s ease}
+.bookbutton:hover{transform:translateY(-2px);filter:brightness(1.09)}
+.bookbutton:active{transform:translateY(2px)}
+.bookbutton:focus-visible,.modal a:focus-visible,.modal button:focus-visible{outline:3px solid #c99b45;outline-offset:4px}
+.bookhelper{font-size:17px;letter-spacing:.07em;color:#825c43;text-align:center;margin:0}
+.footer{margin-top:7px}
+.modalback{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:18px;background:#1b0c15cc;backdrop-filter:blur(8px)}
+.modalback.visible{display:flex}
+.modal{position:relative;width:min(470px,100%);padding:38px 28px 31px;text-align:center;background:#fff4e7;border:3px double #bb8d44;border-radius:16px;box-shadow:0 22px 90px #0d050dcc;color:#5c1825;font-size:22px}
+.modal h2{font-family:'Great Vibes','Brush Script MT',cursive;font-weight:400;font-size:clamp(46px,8vw,64px);margin:0 0 6px}
+.modal p{margin:4px auto 12px;max-width:340px;line-height:1.3}
+.modal strong{color:#7b1830}
+.modal .send{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 18px;margin:17px 0 12px;width:100%;border-radius:999px;background:#751829;border:2px solid #c69b5a;color:#fff6e5;text-decoration:none;font-size:23px;font-weight:700}
+.modal .send:hover{background:#92233b}
+.modal .copy{border:1px solid #ac8149;border-radius:999px;padding:10px 24px;background:transparent;color:#6e1c2d;font:600 20px 'Cormorant Garamond',serif;cursor:pointer}
+.modal .close{position:absolute;right:13px;top:10px;border:0;background:transparent;color:#6b2530;font-size:32px;cursor:pointer}
+.modal .hint{font-size:16px;line-height:1.2;opacity:.76;margin:14px auto 0}
+@media(max-width:740px){.invite{padding-bottom:25px}.bookwrap{margin:14px auto 3px}.bookbutton{font-size:32px;width:88%;padding:11px 18px}.bookhelper{font-size:14px}.modal{font-size:21px}.footer{margin-top:8px}.art{width:84%}}
+@media(prefers-reduced-motion:reduce){.bookbutton{transition:none}}
+
 </style>
 </head>
 <body>
@@ -99,7 +135,43 @@ header{text-align:center;position:relative;z-index:2;padding-top:14px}
 </div>
 </section>
 <p class="bottom">Canjeable por una noche linda, rica comida<br>y una copa compartida.</p>
+
+<section class="bookwrap" aria-label="Confirmación de la invitación">
+  <button type="button" id="reservarBtn" class="bookbutton" aria-haspopup="dialog" aria-controls="reservaModal">♡ &nbsp; Reservar &nbsp; ♡</button>
+  <p class="bookhelper">Un clic para confirmar esta cita especial</p>
+</section>
 <div class="flourish">❦</div>
 <div class="footer">MIÉRCOLES · 18 DE NOVIEMBRE · 21 HS</div>
 </main>
+
+<div class="modalback" id="reservaModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="close" type="button" id="closeModal" aria-label="Cerrar">×</button>
+    <div aria-hidden="true" style="font-size:27px;color:#b18a42">♡</div>
+    <h2 id="modalTitle">¡Qué lindo, Dai!</h2>
+    <p>Tu invitación es para el <strong>miércoles 18 de noviembre a las 21 hs</strong>, en <strong>Cuba 3615</strong>.</p>
+    <p>¿Confirmamos la cena y el vino blanco Santa Julia?</p>
+    <a class="send" id="sendWhatsapp" href="#" target="_blank" rel="noopener noreferrer">♡ Confirmar por WhatsApp</a>
+    <button class="copy" type="button" id="copyConfirm">Copiar confirmación</button>
+    <p class="hint">La reserva se confirma al enviar el mensaje por WhatsApp. Elegí el chat del anfitrión.</p>
+  </div>
+</div>
+<script>
+(function(){
+  const modal=document.getElementById('reservaModal'), open=document.getElementById('reservarBtn');
+  const close=document.getElementById('closeModal'), share=document.getElementById('sendWhatsapp'), copy=document.getElementById('copyConfirm');
+  const message='¡Confirmo mi reserva! 💛🥂 Nos vemos el miércoles 18 de noviembre a las 21 hs, en Cuba 3615. Llevo ganas de compartir una linda noche. ✨';
+  share.href='https://api.whatsapp.com/send?text='+encodeURIComponent(message);
+  const show=()=>{modal.classList.add('visible');modal.setAttribute('aria-hidden','false');close.focus();document.body.style.overflow='hidden';};
+  const hide=()=>{modal.classList.remove('visible');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';open.focus();};
+  open.addEventListener('click',show);
+  close.addEventListener('click',hide);
+  modal.addEventListener('click',ev=>{if(ev.target===modal)hide()});
+  document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&modal.classList.contains('visible'))hide()});
+  copy.addEventListener('click',async()=>{
+    try{await navigator.clipboard.writeText(message);copy.textContent='✓ Mensaje copiado'}
+    catch(e){const t=document.createElement('textarea');t.value=message;t.style.position='fixed';t.style.left='-9999px';document.body.appendChild(t);t.select();try{document.execCommand('copy');copy.textContent='✓ Mensaje copiado'}catch(e){copy.textContent='No se pudo copiar'}t.remove()}
+  });
+})();
+</script>
 </body></html>
